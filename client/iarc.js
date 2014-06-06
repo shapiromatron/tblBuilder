@@ -8,7 +8,6 @@ var listsHandle = Meteor.subscribe('refs', function (){});
 // ID of currently selected list
 Session.setDefault('editing_ref', null);
 
-
 ////////// Helpers for in-place editing //////////
 
 // Returns an event map that handles the "escape" and "return" keys and
@@ -45,7 +44,6 @@ var activateInput = function (input) {
 /*
   Reference tbody template event settings
 */
-
 Template.refs_tbody.references = function(){
   return Refs.find({}, {sort: {timestamp: 1}});
 }
@@ -55,24 +53,26 @@ Template.refs_tbody.editing = function () {
 };
 
 Template.refs_tbody.events({
-    'dblclick #citation-display': function (evt, tmpl){
+    'click #citation-select-edit': function (evt, tmpl){
         Session.set('editing_ref', this._id);
         Deps.flush(); // update DOM before focus
-        activateInput(tmpl.find("#citation-editor"));
-    }
-});
-
-Template.refs_tbody.events(okCancelEvents(
-  '#citation-editor',
-  {
-    ok: function (value) {
-      console.log('ok called');
-      Refs.update(this._id, {$set: {citation: value}});
+        activateInput(tmpl.find("input[name=test_system]"));
+    },
+    'click #save-settings': function (evt, tmpl){
+      var vals = update_values(tmpl, this);
+      Refs.update(this._id, {$set: vals});
       Session.set('editing_ref', null);
     },
-    cancel: function () {
-      console.log('cancel called');
-      console.log(this);
+    'click #cancel-save': function (evt, tmpl){
       Session.set('editing_ref', null);
-    }
-  }));
+    },
+});
+
+var update_values = function(tmpl, obj){
+  updates = {}
+  for (var key in obj){
+    var inp = tmpl.find('input[name="' + key + '"]');
+    if (inp && obj[key] !== inp.value) updates[key] = inp.value;
+  }
+  return updates;
+}

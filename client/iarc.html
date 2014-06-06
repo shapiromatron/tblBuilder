@@ -17,6 +17,7 @@
             <th colspan="2">Results</th>
             <th rowspan="2">Reference</th>
             <th rowspan="2">Comment</th>
+            <th rowspan="2">Settings</th>
         </tr>
         <tr>
             <th>Without exogenous<br>metabolic activation</th>
@@ -29,14 +30,30 @@
     <tbody>
         {{#each references}}
             <tr>
-                <td>
-                    {{#if editing}}
-                        <input id="citation-editor" type="text" value="{{citation}}"/>
-                    {{else}}
-                        <span id="citation-display">{{citation}}</span>
-                    {{/if}}
-                </td>
-                <td>{{timestamp}}</td>
+                {{#if editing}}
+                    <td colspan="100">
+                        <label>Test System<input name='test_system' type="text" value="{{test_system}}"/></label><br>
+                        <label>Substance Tested<input  name='substance_tested' type="text" value="{{substance_tested}}"/></label><br>
+                        <label>Result Without<input  name='result_without' type="text" value="{{result_without}}"/></label><br>
+                        <label>Result With<input  name='result_with' type="text" value="{{result_with}}"/></label><br>
+                        <label>Comment<input  name='comment' type="text" value="{{comment}}"/></label><br>
+                        <label>Reference<input  name='reference' type="text" value="{{reference}}"/></label><br>
+                        <span id="save-settings">Save</span>
+                        <span id="cancel-save">Cancel</span>
+                    </td>
+                {{else}}
+                    <td>{{test_system}}</td>
+                    <td>{{substance_tested}}</td>
+                    <td>{{result_without}}</td>
+                    <td>{{result_with}}</td>
+                    <td>{{comment}}</td>
+                    <td>{{reference}}</td>
+                    <td>
+                        <span id="citation-select-edit">Edit</span>
+                        <span id="citation-move-up">Up</span>
+                        <span id="citation-move-down">Down</span>
+                    </td>
+                {{/if}}
             </tr>
         {{/each}}
     </tbody>
