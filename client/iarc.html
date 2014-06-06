@@ -1,0 +1,44 @@
+<head>
+  <title>iarc</title>
+</head>
+
+<body>
+  <table>
+    {{> refs_thead}}
+    {{> refs_tbody}}
+  </table>
+</body>
+
+<template name="refs_thead">
+    <thead>
+        <tr>
+            <th rowspan="2">Test system</th>
+            <th rowspan="2">Substance tested</th>
+            <th colspan="2">Results</th>
+            <th rowspan="2">Reference</th>
+            <th rowspan="2">Comment</th>
+        </tr>
+        <tr>
+            <th>Without exogenous<br>metabolic activation</th>
+            <th>With exogenous<br>metabolic activation</th>
+        </tr>
+    </thead>
+</template>
+
+<template name="refs_tbody">
+    <tbody>
+        {{#each references}}
+            <tr>
+                <td>
+                    {{#if editing}}
+                        <input id="citation-editor" type="text" value="{{citation}}"/>
+                    {{else}}
+                        <span id="citation-display">{{citation}}</span>
+                    {{/if}}
+                </td>
+                <td>{{timestamp}}</td>
+            </tr>
+        {{/each}}
+    </tbody>
+</template>
+
