@@ -54,18 +54,26 @@ Template.refs_tbody.editing = function () {
 
 Template.refs_tbody.events({
     'click #citation-select-edit': function (evt, tmpl){
+        console.log('edit select');
         Session.set('editing_ref', this._id);
         Deps.flush(); // update DOM before focus
         activateInput(tmpl.find("input[name=test_system]"));
     },
     'click #save-settings': function (evt, tmpl){
+      console.log('save select');
       var vals = update_values(tmpl, this);
       Refs.update(this._id, {$set: vals});
       Session.set('editing_ref', null);
     },
     'click #cancel-save': function (evt, tmpl){
+      console.log('cancel select');
       Session.set('editing_ref', null);
     },
+    'click #delete': function (evt, tmpl){
+      console.log('delete select');
+      Refs.remove(this._id);
+      Session.set('editing_ref', null);
+    }
 });
 
 var update_values = function(tmpl, obj){
@@ -76,3 +84,13 @@ var update_values = function(tmpl, obj){
   }
   return updates;
 }
+
+
+// Template.refs_form.events({
+//   'click #create-new': function (evt, tmpl){
+//       console.log('create new');
+//     },
+//   'click #cancel-new': function (evt, tmpl){
+//       console.log('cancel new');
+//     },
+// })
