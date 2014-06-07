@@ -8,8 +8,7 @@
             {{> refs_thead}}
             {{> refs_tbody}}
         </table>
-<!--         <button class="btn btn-small btn-primary">Add</button>
-        {{> refs_form}} -->
+        {{> refs_newform}}
     </div>
 </body>
 
@@ -36,40 +35,7 @@
             <tr>
                 {{#if editing}}
                     <td colspan="100">
-                        <form role="form">
-                            <div class="form-group">
-                                <label>Test System</label>
-                                <input class="form-control" name='test_system' type="text" value="{{test_system}}"/>
-                            </div>
-                            <div class="form-group">
-                                <label>Substance Tested</label>
-                                <input class="form-control" name='substance_tested' type="text" value="{{substance_tested}}"/>
-                            </div>
-                            <div class="form-group">
-                                <label>Result Without</label>
-                                <input class="form-control" name='result_without' type="text" value="{{result_without}}" placeholder='Should be one of the following: +, -, NT'/>
-                            </div>
-                            <div class="form-group">
-                                <label>Result With</label>
-                                <input class="form-control" name='result_with' type="text" value="{{result_with}}" placeholder='Should be one of the following: +, -, NT'/>
-                            </div>
-                            <div class="form-group">
-                                <label>Comment</label>
-                                <input class="form-control" name='comment' type="text" value="{{comment}}"/>
-                            </div>
-                            <div class="form-group">
-                                <label>Reference</label>
-                                <input class="form-control" name='reference' type="text" value="{{reference}}"/>
-                            </div>
-                            <button type="button" class="btn btn-sm btn-primary" id="save-settings" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
-                            <button type="button" class="btn btn-sm btn-default" id="cancel-save" title="Cancel changes">Cancel</button>
-                            <button type="button" class="btn btn-sm btn-danger"  id="delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
-                            <!-- {{#if _id}}
-                            {{else}}
-                                <button type="button" class="btn btn-sm btn-primary" id="create-new" title="Save new"><span class="glyphicon glyphicon-ok"> Save</span></button>
-                                <button type="button" class="btn btn-sm btn-default" id="cancel-new" title="Cancel">Cancel</button>
-                            {{/if}} -->
-                        </form>
+                        {{> refs_form}}
                     </td>
                 {{else}}
                     <td>{{test_system}}</td>
@@ -87,4 +53,49 @@
             </tr>
         {{/each}}
     </tbody>
+</template>
+
+<template name="refs_form">
+    <form role="form">
+        <div class="form-group">
+            <label>Test System</label>
+            <input class="form-control" name='test_system' type="text" value="{{test_system}}"/>
+        </div>
+        <div class="form-group">
+            <label>Substance Tested</label>
+            <input class="form-control" name='substance_tested' type="text" value="{{substance_tested}}"/>
+        </div>
+        <div class="form-group">
+            <label>Result Without</label>
+            <input class="form-control" name='result_without' type="text" value="{{result_without}}" placeholder='Should be one of the following: +, -, NT'/>
+        </div>
+        <div class="form-group">
+            <label>Result With</label>
+            <input class="form-control" name='result_with' type="text" value="{{result_with}}" placeholder='Should be one of the following: +, -, NT'/>
+        </div>
+        <div class="form-group">
+            <label>Comment</label>
+            <input class="form-control" name='comment' type="text" value="{{comment}}"/>
+        </div>
+        <div class="form-group">
+            <label>Reference</label>
+            <input class="form-control" name='reference' type="text" value="{{reference}}"/>
+        </div>
+        {{#if _id}}
+            <button type="button" class="btn btn-sm btn-primary" id="save-settings" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
+            <button type="button" class="btn btn-sm btn-default" id="cancel-save" title="Cancel changes">Cancel</button>
+            <button type="button" class="btn btn-sm btn-danger"  id="delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+        {{else}}
+            <button type="button" class="btn btn-sm btn-primary" id="create-new" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
+            <button type="button" class="btn btn-sm btn-default" id="cancel-new" title="Cancel">Cancel</button>
+        {{/if}}
+    </form>
+</template>
+
+<template name="refs_newform">
+    {{#if show_new}}
+        {{>refs_form}}
+    {{else}}
+        <button id="display_form" class="btn btn-small btn-primary">Add</button>
+    {{/if}}
 </template>

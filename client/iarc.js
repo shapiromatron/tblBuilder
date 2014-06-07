@@ -7,13 +7,14 @@ var listsHandle = Meteor.subscribe('refs', function (){});
 
 // ID of currently selected list
 Session.setDefault('editing_ref', null);
+Session.setDefault('ref_shownew', false);
 
 ////////// Helpers for in-place editing //////////
 
-// Returns an event map that handles the "escape" and "return" keys and
-// "blur" events on a text input (given by selector) and interprets them
-// as "ok" or "cancel".
 var okCancelEvents = function (selector, callbacks) {
+  // Returns an event map that handles the "escape" and "return" keys and
+  // "blur" events on a text input (given by selector) and interprets them
+  // as "ok" or "cancel".
   var ok = callbacks.ok || function () {},
       cancel = callbacks.cancel || function () {},
       events = {};
@@ -34,19 +35,30 @@ var okCancelEvents = function (selector, callbacks) {
     };
 
   return events;
-};
-
-var activateInput = function (input) {
+}, activateInput = function (input) {
   input.focus();
   input.select();
+}, update_values = function(tmpl, obj){
+  updates = {};
+  for (var key in obj){
+    var inp = tmpl.find('input[name="' + key + '"]');
+    if (inp && obj[key] !== inp.value) updates[key] = inp.value;
+  }
+  return updates;
+}, new_values = function(tmpl){
+  var obj = {};
+  tmpl.findAll("input").each(function(idx, inp){
+    obj[inp.name] = inp.value;
+  });
+  return obj;
 };
 
 /*
-  Reference tbody template event settings
+  Reference tbody template settings
 */
 Template.refs_tbody.references = function(){
   return Refs.find({}, {sort: {timestamp: 1}});
-}
+};
 
 Template.refs_tbody.editing = function () {
   return Session.equals('editing_ref', this._id);
@@ -54,43 +66,63 @@ Template.refs_tbody.editing = function () {
 
 Template.refs_tbody.events({
     'click #citation-select-edit': function (evt, tmpl){
-        console.log('edit select');
         Session.set('editing_ref', this._id);
         Deps.flush(); // update DOM before focus
         activateInput(tmpl.find("input[name=test_system]"));
-    },
+    }
+});
+
+/*
+  Reference new form settings
+*/
+
+Template.refs_newform.show_new = function(){
+  return Session.get('ref_shownew');
+};
+
+Template.refs_newform.events({
+  'click #display_form' : function (evt, tmpl) {
+    Session.set("ref_shownew", true);
+    Deps.flush(); // update DOM before focus
+    activateInput(tmpl.find("input[name=test_system]"));
+  }
+});
+
+/*
+  Reference form template settings - from is used in create/update settings
+*/
+Template.refs_form.events({
     'click #save-settings': function (evt, tmpl){
-      console.log('save select');
       var vals = update_values(tmpl, this);
       Refs.update(this._id, {$set: vals});
       Session.set('editing_ref', null);
     },
     'click #cancel-save': function (evt, tmpl){
-      console.log('cancel select');
       Session.set('editing_ref', null);
     },
+    'click #cancel-new': function (evt, tmpl){
+      console.log('here', Session.get('ref_shownew'));
+      Session.set('ref_shownew', false);
+      console.log('here', Session.get('ref_shownew'));
+    },
     'click #delete': function (evt, tmpl){
-      console.log('delete select');
       Refs.remove(this._id);
       Session.set('editing_ref', null);
+    },
+    'click #create-new' : function (evt, tmpl){
+      var obj = new_values(tmpl);
+      obj['timestamp'] = (new Date()).getTime();
+      Session.set('ref_shownew', false);
+      Refs.insert(obj);
     }
 });
 
-var update_values = function(tmpl, obj){
-  updates = {}
-  for (var key in obj){
-    var inp = tmpl.find('input[name="' + key + '"]');
-    if (inp && obj[key] !== inp.value) updates[key] = inp.value;
-  }
-  return updates;
-}
-
-
-// Template.refs_form.events({
-//   'click #create-new': function (evt, tmpl){
-//       console.log('create new');
-//     },
-//   'click #cancel-new': function (evt, tmpl){
-//       console.log('cancel new');
-//     },
-// })
+Template.refs_form.events(okCancelEvents(
+  'input',
+  {
+    ok: function (value) {},
+    cancel: function () {
+      Session.set('editing_ref', null);
+      Session.set('ref_shownew', false);
+    }
+  }));
