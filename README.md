@@ -16,4 +16,4 @@ This application is written using the Meteor javascript framework. The
 atmosphere.js package was also used to add additional packages which were not
 available in the core meteor package.
 
-To deploy, instructions can be followed from (meteor)[http://docs.meteor.com].
+To deploy, instructions can be followed from [meteor](http://docs.meteor.com).
