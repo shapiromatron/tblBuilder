@@ -32,25 +32,27 @@
 <template name="refs_tbody">
     <tbody>
         {{#each references}}
-            <tr>
-                {{#if editing}}
-                    <td colspan="100">
-                        {{> refs_form}}
-                    </td>
-                {{else}}
-                    <td>{{test_system}}</td>
-                    <td>{{substance_tested}}</td>
-                    <td>{{result_without}}</td>
-                    <td>{{result_with}}</td>
-                    <td>{{comment}}</td>
-                    <td>{{reference}}</td>
-                    <td>
-                        <button title="Edit text" class="btn btn-sm btn-default" id="citation-select-edit"><span class="glyphicon glyphicon-edit"></span></button>
-                        <button title="Move up" class="btn btn-sm btn-default" id="citation-move-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button title="Move down" class="btn btn-sm btn-default" id="citation-move-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                    </td>
-                {{/if}}
-            </tr>
+            {{#if show_row }}
+                <tr class="{{isDisplayClass}}">
+                    {{#if editing}}
+                        <td colspan="100">
+                            {{> refs_form}}
+                        </td>
+                    {{else}}
+                        <td>{{test_system}}</td>
+                        <td>{{substance_tested}}</td>
+                        <td>{{result_without}}</td>
+                        <td>{{result_with}}</td>
+                        <td>{{comment}}</td>
+                        <td>{{reference}}</td>
+                        <td>
+                            <button title="Edit text" class="btn btn-sm btn-default" id="citation-select-edit"><span class="glyphicon glyphicon-edit"></span></button>
+                            <button title="Move up" class="btn btn-sm btn-default" id="citation-move-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                            <button title="Move down" class="btn btn-sm btn-default" id="citation-move-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        </td>
+                    {{/if}}
+                </tr>
+            {{/if}}
         {{/each}}
     </tbody>
 </template>
@@ -81,6 +83,10 @@
             <label>Reference</label>
             <input class="form-control" name='reference' type="text" value="{{reference}}"/>
         </div>
+        <div class="checkbox">
+            <label>Display</label>
+            <input name='_display' type="checkbox" {{isDisplay}} />
+        </div>
         {{#if _id}}
             <button type="button" class="btn btn-sm btn-primary" id="save-settings" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
             <button type="button" class="btn btn-sm btn-default" id="cancel-save" title="Cancel changes">Cancel</button>
@@ -93,6 +99,15 @@
 </template>
 
 <template name="refs_newform">
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#" id="show-all-rows">Toggle show all rows</a></li>
+      </ul>
+    </div>
+
     {{#if show_new}}
         {{>refs_form}}
     {{else}}

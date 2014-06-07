@@ -8,8 +8,11 @@ var listsHandle = Meteor.subscribe('refs', function (){});
 // ID of currently selected list
 Session.setDefault('editing_ref', null);
 Session.setDefault('ref_shownew', false);
+Session.setDefault('show_nondisplay', false);
 
-////////// Helpers for in-place editing //////////
+/*
+  Helper-functions
+*/
 
 var okCancelEvents = function (selector, callbacks) {
   // Returns an event map that handles the "escape" and "return" keys and
@@ -41,16 +44,28 @@ var okCancelEvents = function (selector, callbacks) {
 }, update_values = function(tmpl, obj){
   updates = {};
   for (var key in obj){
-    var inp = tmpl.find('input[name="' + key + '"]');
-    if (inp && obj[key] !== inp.value) updates[key] = inp.value;
+    var inp = tmpl.find('input[name="' + key + '"]'),
+        val = get_value(inp);
+    if (inp && obj[key] !== val) updates[key] = val;
   }
   return updates;
 }, new_values = function(tmpl){
   var obj = {};
   tmpl.findAll("input").each(function(idx, inp){
-    obj[inp.name] = inp.value;
+    obj[inp.name] = get_value(inp);
   });
   return obj;
+}, get_value = function(inp){
+  var val;
+  switch (inp.type) {
+    case "text":
+      val = inp.value;
+      break;
+    case "checkbox":
+      val = inp.checked;
+      break;
+  }
+  return val;
 };
 
 /*
@@ -62,6 +77,14 @@ Template.refs_tbody.references = function(){
 
 Template.refs_tbody.editing = function () {
   return Session.equals('editing_ref', this._id);
+};
+
+Template.refs_tbody.show_row = function () {
+  return Session.get('show_nondisplay') || this._display;
+};
+
+Template.refs_tbody.isDisplayClass = function() {
+    return this._display ? "" : "nondisplay";
 };
 
 Template.refs_tbody.events({
@@ -85,6 +108,9 @@ Template.refs_newform.events({
     Session.set("ref_shownew", true);
     Deps.flush(); // update DOM before focus
     activateInput(tmpl.find("input[name=test_system]"));
+  },
+  'click #show-all-rows' : function (evt, tmpl) {
+    Session.set("show_nondisplay", !Session.get("show_nondisplay"));
   }
 });
 
@@ -116,6 +142,12 @@ Template.refs_form.events({
       Refs.insert(obj);
     }
 });
+
+Template.refs_form.isDisplay = function() {
+  var display = this._display;
+  if (display===undefined) display = true;
+  return display ? "checked" : "";
+};
 
 Template.refs_form.events(okCancelEvents(
   'input',
