@@ -33,7 +33,7 @@
     <tbody>
         {{#each references}}
             {{#if show_row }}
-                <tr class="{{isDisplayClass}}">
+                <tr data-idx="{{_idx}}" data-id="{{_id}}" class="{{isDisplayClass}}">
                     {{#if editing}}
                         <td colspan="100">
                             {{> refs_form}}
@@ -47,8 +47,8 @@
                         <td>{{reference}}</td>
                         <td>
                             <button title="Edit text" class="btn btn-sm btn-default" id="citation-select-edit"><span class="glyphicon glyphicon-edit"></span></button>
-                            <button title="Move up" class="btn btn-sm btn-default" id="citation-move-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                            <button title="Move down" class="btn btn-sm btn-default" id="citation-move-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                            <button title="Move up" class="btn btn-sm btn-default" id="ref-move-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                            <button title="Move down" class="btn btn-sm btn-default" id="ref-move-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                         </td>
                     {{/if}}
                 </tr>

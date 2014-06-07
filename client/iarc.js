@@ -13,7 +13,6 @@ Session.setDefault('show_nondisplay', false);
 /*
   Helper-functions
 */
-
 var okCancelEvents = function (selector, callbacks) {
   // Returns an event map that handles the "escape" and "return" keys and
   // "blur" events on a text input (given by selector) and interprets them
@@ -72,7 +71,7 @@ var okCancelEvents = function (selector, callbacks) {
   Reference tbody template settings
 */
 Template.refs_tbody.references = function(){
-  return Refs.find({}, {sort: {timestamp: 1}});
+  return Refs.find({}, {sort: {_idx: 1}});
 };
 
 Template.refs_tbody.editing = function () {
@@ -92,6 +91,26 @@ Template.refs_tbody.events({
         Session.set('editing_ref', this._id);
         Deps.flush(); // update DOM before focus
         activateInput(tmpl.find("input[name=test_system]"));
+    },
+    'click #ref-move-up': function (evt, tmpl){
+      var tr = $(tmpl.find('tr[data-idx=' + this._idx + ']')),
+          prev = tr.prev();
+      if (prev.length===1){
+        Refs.update(this._id,
+                    {$set: {'_idx': parseInt(prev.attr('data-idx'), 10) }});
+        Refs.update(prev.attr('data-id'),
+                    {$set: {'_idx': this._idx }});
+      }
+    },
+    'click #ref-move-down': function (evt, tmpl){
+      var tr = $(tmpl.find('tr[data-idx=' + this._idx + ']')),
+          next = tr.next();
+      if (next.length===1){
+        Refs.update(this._id,
+                    {$set: {'_idx': parseInt(next.attr('data-idx'), 10) }});
+        Refs.update(next.attr('data-id'),
+                    {$set: {'_idx': this._idx }});
+      }
     }
 });
 
@@ -127,9 +146,7 @@ Template.refs_form.events({
       Session.set('editing_ref', null);
     },
     'click #cancel-new': function (evt, tmpl){
-      console.log('here', Session.get('ref_shownew'));
       Session.set('ref_shownew', false);
-      console.log('here', Session.get('ref_shownew'));
     },
     'click #delete': function (evt, tmpl){
       Refs.remove(this._id);
