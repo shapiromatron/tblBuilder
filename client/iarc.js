@@ -42,11 +42,11 @@ var okCancelEvents = function (selector, callbacks) {
   input.select();
 }, update_values = function(tmpl, obj){
   updates = {};
-  for (var key in obj){
-    var inp = tmpl.find('input[name="' + key + '"]'),
-        val = get_value(inp);
-    if (inp && obj[key] !== val) updates[key] = val;
-  }
+  tmpl.findAll("input").each(function(idx, inp){
+    var val = get_value(inp),
+        key = inp.name;
+    if (obj[key] !== val) updates[key] = val;
+  });
   return updates;
 }, new_values = function(tmpl){
   var obj = {};
