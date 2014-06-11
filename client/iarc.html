@@ -46,9 +46,15 @@
                         <td>{{comment}}</td>
                         <td>{{reference}}</td>
                         <td>
-                            <button title="Edit text" class="btn btn-sm btn-default" id="citation-select-edit"><span class="glyphicon glyphicon-edit"></span></button>
-                            <button title="Move up" class="btn btn-sm btn-default" id="ref-move-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                            <button title="Move down" class="btn btn-sm btn-default" id="ref-move-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" id="citation-select-edit"><span class="glyphicon glyphicon-edit"></span> Edit text</a></li>
+                                <li><a href="#" id="ref-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
+                                <li><a href="#" id="ref-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
+                              </ul>
+                            </div>
                         </td>
                     {{/if}}
                 </tr>
