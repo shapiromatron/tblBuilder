@@ -6,7 +6,7 @@ Meteor.startup(function () {
              "substance_tested": "Petroleum-bitumen paints (n = 4): ",
              "result_without": "-",
              "comment": "No toxicity. Some of these paints were mouse-skin carcinogens",
-             "reference": "Guyton 2010",
+             "reference": "Rusyn 2010",
              "result_with": "-",
              "_display": true},
             {"test_system": "S. typhimurium, TA98, TA100, TA1535, TA1537, TA1538",
@@ -21,14 +21,14 @@ Meteor.startup(function () {
              "result_without": "-",
              "result_with": "-",
              "comment": "No toxicity. Some of these paints were mouse-skin carcinogens",
-             "reference": "Guyton 2012",
+             "reference": "Shapiro 2012",
              "_display": true},
             {"test_system": "S. typhimurium, TA98, TA100, TA1535, TA1537, TA1538",
              "substance_tested": "Petroleum-bitumen paints (n = 4): ",
              "result_without": "-",
              "result_with": "-",
              "comment": "No toxicity. Some of these paints were mouse-skin carcinogens",
-             "reference": "Guyton 2013",
+             "reference": "Guha 2013",
              "_display": true}
         ];
 
