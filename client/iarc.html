@@ -2,7 +2,7 @@
   <title>iarc</title>
 </head>
 
-<body>    {{> loginButtons}}</body>
+<body>{{> loginButtons}}</body>
 
 <template name="404">
     <h1>Error 404.</h1>
@@ -10,11 +10,11 @@
 </template>
 
 <template name="my_lists">
-    <h1>My available lists.</h1>
-
-    {{> myTbl }}
-
-    <a href="{{pathFor 'in_vitro'}}">In vitro!</a>
+    <div class="container">
+        <h1>My available lists.</h1>
+        {{> myTbl }}
+        <a href="{{pathFor 'in_vitro'}}">In vitro!</a>
+    </div>
 </template>
 
 <template name="in_vitro">

@@ -6,15 +6,23 @@
                 <th>Table Type</th>
                 <th>Secret Password</th>
                 <th>Created</th>
+                <th>Settings</th>
             </tr>
         </thead>
         <tbody>
             {{#each getMyTbls}}
             <tr>
-                <td>{{name}}</td>
-                <td>{{tblType}}</td>
-                <td>{{passwd}}</td>
-                <td>{{formatDate timestamp "long"}}</td>
+                {{#if isEditing}}
+                    <td colspan="100">
+                        {{> myTblForm}}
+                    </td>
+                {{else}}
+                    <td>{{name}}</td>
+                    <td>{{tblType}}</td>
+                    <td>{{passwd}}</td>
+                    <td>{{formatDate timestamp "long"}}</td>
+                    <td><a class="btn btn-default" href="#" id="myTbl-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
+                {{/if}}
             </tr>
             {{/each}}
         </tbody>
@@ -30,15 +38,15 @@
 <template name="myTblForm">
     <form role="form">
         <div class="form-group">
+            <label>Table Name</label>
+            <input class="form-control" name='name' type="text" value="{{name}}"/>
+        </div>
+        <div class="form-group">
             <label>Table Type</label>
             <select class="form-control" name='tblType' type="text">
                 <option selected={{TblTypeSelected prev=tblType opt="In Vitro"}} >In Vitro</option>
                 <option selected={{TblTypeSelected prev=tblType opt="In Vitro2"}} >In Vitro2</option>
             </select>
-        </div>
-        <div class="form-group">
-            <label>Table Name</label>
-            <input class="form-control" name='name' type="text" value="{{name}}"/>
         </div>
         <div class="form-group">
             <label>Secret password</label>

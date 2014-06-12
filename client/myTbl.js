@@ -29,9 +29,18 @@ Template.myTbl.showNew = function(){
     return Session.get("myTblShowNew");
 };
 
+Template.myTbl.isEditing = function(){
+  return Session.get('myTblEditingId') === this._id;
+};
+
 Template.myTbl.events({
-    'click #myTbl-show-create': function(){
+    'click #myTbl-show-create': function(evt, tmpl){
         Session.set("myTblShowNew", true);
+    },
+    'click #myTbl-show-edit': function(evt, tmpl){
+        Session.set("myTblEditingId", this._id);
+        Deps.flush(); // update DOM before focus
+        activateInput(tmpl.find("input[name=name]"));
     }
 });
 
@@ -49,18 +58,17 @@ Template.myTblForm.events({
     },
     'click #myTbl-create-cancel': function (evt, tmpl){
       Session.set("myTblShowNew", false);
+    },
+    'click #myTbl-update': function (evt, tmpl){
+      var vals = update_values(tmpl, this);
+      MyTbls.update(this._id, {$set: vals});
+      Session.set("myTblEditingId", null);
+    },
+    'click #myTbl-update-cancel': function (evt, tmpl){
+      Session.set("myTblEditingId", null);
+    },
+    'click #myTbl-delete': function (evt, tmpl){
+      MyTbls.remove(this._id);
+      Session.set("myTblEditingId", null);
     }
-    // },
-    // 'click #rr-update': function (evt, tmpl){
-    //   var vals = update_values(tmpl, this);
-    //   RelRisks.update(this._id, {$set: vals});
-    //   Session.set("rr_editing_id", null);
-    // },
-    // 'click #rr-update-cancel': function (evt, tmpl){
-    //   Session.set("rr_editing_id", null);
-    // },
-    // 'click #rr-delete': function (evt, tmpl){
-    //   RelRisks.remove(this._id);
-    //   Session.set("rr_editing_id", null);
-    // }
 });
