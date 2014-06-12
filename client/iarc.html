@@ -12,6 +12,8 @@
     </div>
 </body>
 
+<!-- START REFERENCE TEMPLATES -->
+
 <template name="refs_thead">
     <colgroup>
         <col style="width:15%">
@@ -48,28 +50,33 @@
                             {{> refs_form}}
                         </td>
                     {{else}}
-                        <td>{{test_system}}</td>
-                        <td>{{substance_tested}}</td>
-                        <td>{{result_without}}</td>
-                        <td>{{result_with}}</td>
-                        <td>{{comment}}</td>
-                        <td>{{reference}}</td>
-                        <td>
-                            <div class="btn-group">
-                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span>
-                              </button>
-                              <ul class="dropdown-menu" role="menu">
-                                <li><a href="#" id="citation-select-edit"><span class="glyphicon glyphicon-edit"></span> Edit text</a></li>
-                                <li><a href="#" id="ref-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
-                                <li><a href="#" id="ref-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
-                              </ul>
-                            </div>
-                        </td>
+                        {{> refs_display}}
                     {{/if}}
                 </tr>
             {{/if}}
         {{/each}}
     </tbody>
+</template>
+
+<template name="refs_display">
+    <td>{{test_system}}</td>
+    <td>{{substance_tested}}</td>
+    <td>{{result_without}}</td>
+    <td>{{result_with}}</td>
+    <td>{{comment}}</td>
+    <td>{{> rr_tbl editable="F" ref_id=_id}}</td>
+    <td>{{reference}}</td>
+    <td>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#" id="citation-select-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+            <li><a href="#" id="ref-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
+            <li><a href="#" id="ref-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
+          </ul>
+        </div>
+    </td>
 </template>
 
 <template name="refs_form">
@@ -102,15 +109,16 @@
             <label>Display</label>
             <input name='_display' type="checkbox" {{isDisplay}} />
         </div>
-        {{#if _id}}
-            <button type="button" class="btn btn-sm btn-primary" id="save-settings" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
-            <button type="button" class="btn btn-sm btn-default" id="cancel-save" title="Cancel changes">Cancel</button>
-            <button type="button" class="btn btn-sm btn-danger"  id="delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
-        {{else}}
-            <button type="button" class="btn btn-sm btn-primary" id="create-new" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
-            <button type="button" class="btn btn-sm btn-default" id="cancel-new" title="Cancel">Cancel</button>
-        {{/if}}
     </form>
+    {{#if _id}}
+        {{> rr_tbl editable="T" ref_id=_id }}
+        <button type="button" class="btn btn-sm btn-primary" id="save-settings" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="cancel-save" title="Cancel changes">Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger"  id="delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+    {{else}}
+        <button type="button" class="btn btn-sm btn-primary" id="create-new" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="cancel-new" title="Cancel">Cancel</button>
+    {{/if}}
 </template>
 
 <template name="refs_newform">
@@ -124,8 +132,74 @@
     </div>
 
     {{#if show_new}}
-        {{>refs_form}}
+        {{> refs_form}}
     {{else}}
         <button id="display_form" class="btn btn-small btn-primary">Add</button>
     {{/if}}
+</template>
+
+<!-- START RR TEMPLATES -->
+
+<template name="rr_tbl">
+    <table class="table table-striped table-condensed">
+        <thead>
+            <th>Name</th>
+            <th>Estimate</th>
+        </thead>
+        <tbody>
+            {{#each relRisks }}
+                <tr>
+                    {{#if isEditing}}
+                        <td colspan="100">{{> rr_form}}</td>
+                    {{else}}
+                        <!-- Display view -->
+                        <td>{{name}}</td>
+                        <td>{{mid}} ({{low}}, {{high}})</td>
+                        {{#if showEdit ../editable }}
+                            <td>
+                                <a href="#" id="rr-toggle-edit">Edit</a>
+                            </td>
+                        {{/if}}
+                    {{/if}}
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{#if showEdit editable }}
+        {{#if rr_shownew}}
+            {{> rr_form }}
+        {{else}}
+            <button id="rr-new-form" class="btn btn-small btn-primary">Add</button><br>
+        {{/if}}
+    {{/if}}
+</template>
+
+<template name="rr_form">
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <input name="ref_id" type="hidden" value="{{ref_id}}" />
+            <label>Name</label>
+            <input class="form-control" name='name' type="text" value="{{name}}"/>
+        </div>
+        <div class="form-group">
+            <label>Low</label>
+            <input class="form-control" name='low' type="text" value="{{low}}"/>
+        </div>
+        <div class="form-group">
+            <label>Mid</label>
+            <input class="form-control" name='mid' type="text" value="{{mid}}"/>
+        </div>
+        <div class="form-group">
+            <label>High</label>
+            <input class="form-control" name='high' type="text" value="{{high}}"/>
+        </div>
+        {{#if _id}}
+            <button type="button" class="btn btn-sm btn-primary" id="rr-update"><span class="glyphicon glyphicon-ok"> Update</span></button>
+            <button type="button" class="btn btn-sm btn-default" id="rr-update-cancel">Cancel</button>
+            <button type="button" class="btn btn-sm btn-danger"  id="rr-delete"><span class="glyphicon glyphicon-trash"></span></button>
+        {{else}}
+            <button type="button" class="btn btn-sm btn-primary" id="rr-create">Create</button>
+            <button type="button" class="btn btn-sm btn-default" id="rr-create-cancel">Cancel</button>
+        {{/if}}
+    </form>
 </template>

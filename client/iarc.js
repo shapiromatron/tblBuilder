@@ -1,14 +1,19 @@
 // Define Minimongo collections to match server/publish.js.
 Refs = new Meteor.Collection("refs");
+RelRisks = new Meteor.Collection("relRisks");
 
 // Subscribe to 'lists' collection on startup.
 // Select a list once data has arrived.
-var listsHandle = Meteor.subscribe('refs', function (){});
+var listsHandle = Meteor.subscribe('refs', function (){}), // grabs all from server
+    listsHandle2 = Meteor.subscribe('relRisks', function (){}); // grabs all from server
 
 // ID of currently selected list
 Session.setDefault('editing_ref', null);
 Session.setDefault('ref_shownew', false);
 Session.setDefault('show_nondisplay', false);
+
+Session.setDefault('rr_editing_id', null);
+Session.set("rr_shownew", false);
 
 /*
   Helper-functions
@@ -58,6 +63,7 @@ var okCancelEvents = function (selector, callbacks) {
   var val;
   switch (inp.type) {
     case "text":
+    case "hidden":
       val = inp.value;
       break;
     case "checkbox":
@@ -175,3 +181,58 @@ Template.refs_form.events(okCancelEvents(
       Session.set('ref_shownew', false);
     }
   }));
+
+
+// RR Templates
+Template.rr_form.events({
+  'click #rr-create': function (evt, tmpl){
+      var obj = new_values(tmpl);
+      obj['timestamp'] = (new Date()).getTime();
+      RelRisks.insert(obj);
+      Session.set("rr_shownew", false);
+    },
+    'click #rr-create-cancel': function (evt, tmpl){
+      Session.set("rr_shownew", false);
+    },
+    'click #rr-update': function (evt, tmpl){
+      var vals = update_values(tmpl, this);
+      RelRisks.update(this._id, {$set: vals});
+      Session.set("rr_editing_id", null);
+    },
+    'click #rr-update-cancel': function (evt, tmpl){
+      Session.set("rr_editing_id", null);
+    },
+    'click #rr-delete': function (evt, tmpl){
+      RelRisks.remove(this._id);
+      Session.set("rr_editing_id", null);
+    }
+});
+
+Template.rr_tbl.rr_shownew = function(){
+  return Session.get('rr_shownew');
+};
+Template.rr_tbl.isEditing = function(){
+  return Session.equals('rr_editing_id', this._id);
+};
+
+Template.rr_tbl.helpers({
+  "relRisks": function(){
+    return RelRisks.find({ref_id: this.ref_id});
+  },
+  "showEdit": function(val){
+    return (val==="T");
+  }
+});
+
+Template.rr_tbl.events({
+  'click #rr-new-form' : function (evt, tmpl) {
+    Session.set("rr_shownew", true);
+    Deps.flush(); // update DOM before focus
+    activateInput(tmpl.find("input[name=name]"));
+  },
+  'click #rr-toggle-edit' : function (evt, tmpl){
+    Session.set("rr_editing_id", this._id);
+    Deps.flush(); // update DOM before focus
+    activateInput(tmpl.find("input[name=name]"));
+  }
+});
