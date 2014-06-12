@@ -1,14 +1,3 @@
-<head>
-  <title>iarc</title>
-</head>
-
-<body>{{> loginButtons}}</body>
-
-<template name="404">
-    <h1>Error 404.</h1>
-    <p>Page not found.</p>
-</template>
-
 <template name="my_lists">
     <div class="container">
         <h1>My available lists.</h1>
@@ -19,7 +8,7 @@
 
 <template name="in_vitro">
     <div class="container">
-        <table class="table table-striped table-condensed">
+        <table id="iv_tbl" class="table table-striped table-condensed">
             {{> refs_thead}}
             {{> refs_tbody}}
         </table>

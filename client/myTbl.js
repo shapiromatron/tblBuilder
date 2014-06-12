@@ -2,22 +2,6 @@ MyTbls = new Meteor.Collection('myTbls');
 
 var myTblsHandle = Meteor.subscribe('myTbls', Meteor.userId());
 
-
-UI.registerHelper("formatDate", function(datetime, format) {
-    var DateFormats = {
-        short: "DD MMMM - YYYY",
-        long: "dddd DD.MM.YYYY HH:mm"
-    };
-    if (moment) {
-        f = DateFormats[format];
-        return moment(datetime).format(f);
-    }
-    else {
-        return datetime;
-    }
-});
-
-
 Session.setDefault("myTblShowNew", false);
 Session.setDefault('myTblEditingId', null);
 
