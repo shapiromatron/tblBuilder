@@ -6,3 +6,5 @@
 standard-app-packages
 insecure
 bootstrap-3
+npm
+filesaver

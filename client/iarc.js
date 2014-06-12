@@ -136,6 +136,17 @@ Template.refs_newform.events({
   },
   'click #show-all-rows' : function (evt, tmpl) {
     Session.set("show_nondisplay", !Session.get("show_nondisplay"));
+  },
+  'click #download-excel' : function (evt, tmpl){
+    Meteor.call('publish_workbook', 'foo', function(err, response) {
+      var s2ab = function(s) {
+          var buf = new ArrayBuffer(s.length);
+          var view = new Uint8Array(buf);
+          for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+          return buf;
+      }, blob = new Blob([s2ab(response)], {type: "application/octet-stream"});
+      saveAs(blob, "test.xlsx");
+    });
   }
 });
 
