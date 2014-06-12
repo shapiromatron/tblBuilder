@@ -1,3 +1,17 @@
+// References -- {_id: String,
+//                user_id: String,
+//                tblType: String,
+//                name: String,
+//                passwd: String,
+//                timestamp: Number}
+MyTbls = new Meteor.Collection('myTbls');
+
+// Publish all items for requested list_id.
+Meteor.publish('myTbls', function (user_id) {
+    check(user_id, String);
+    return MyTbls.find({user_id: user_id});
+});
+
 
 // References -- {citation: String,
 //                timestamp: Number}
@@ -13,7 +27,7 @@ Meteor.publish('refs', function () {
 //                low: String,
 //                mid: Number,
 //                high: Number,
-//                timestamp: Number
+//                timestamp: Number}
 RelRisks = new Meteor.Collection("relRisks");
 
 // Publish all items for requested list_id.

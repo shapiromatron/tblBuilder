@@ -1,0 +1,56 @@
+<template name="myTbl">
+    <table class="table table-compressed table-striped">
+        <thead>
+            <tr>
+                <th>Name and Hyperlink</th>
+                <th>Table Type</th>
+                <th>Secret Password</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each getMyTbls}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{tblType}}</td>
+                <td>{{passwd}}</td>
+                <td>{{formatDate timestamp "long"}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    {{#if showNew}}
+        {{> myTblForm}}
+    {{else}}
+        <button class="btn btn-primary" id='myTbl-show-create'><i class="glyphicon glyphicon-plus"></i> New</button>
+    {{/if}}
+</template>
+
+<template name="myTblForm">
+    <form role="form">
+        <div class="form-group">
+            <label>Table Type</label>
+            <select class="form-control" name='tblType' type="text">
+                <option selected={{TblTypeSelected prev=tblType opt="In Vitro"}} >In Vitro</option>
+                <option selected={{TblTypeSelected prev=tblType opt="In Vitro2"}} >In Vitro2</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Table Name</label>
+            <input class="form-control" name='name' type="text" value="{{name}}"/>
+        </div>
+        <div class="form-group">
+            <label>Secret password</label>
+            <input class="form-control" name='passwd' type="text" value="{{passwd}}"/>
+        </div>
+    </form>
+    {{#if _id}}
+        <button type="button" class="btn btn-sm btn-primary" id="myTbl-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="myTbl-update-cancel" title="Cancel changes">Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger"  id="myTbl-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+    {{else}}
+        <button type="button" class="btn btn-sm btn-primary" id="myTbl-create" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="myTbl-create-cancel" title="Cancel">Cancel</button>
+    {{/if}}
+</template>

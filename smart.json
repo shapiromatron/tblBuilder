@@ -3,6 +3,7 @@
     "bootstrap-3": {},
     "npm": {},
     "filesaver": {},
-    "iron-router": {}
+    "iron-router": {},
+    "moment": {}
   }
 }

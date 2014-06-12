@@ -5,7 +5,7 @@ RelRisks = new Meteor.Collection("relRisks");
 // Subscribe to 'lists' collection on startup.
 // Select a list once data has arrived.
 var listsHandle = Meteor.subscribe('refs', function (){}), // grabs all from server
-    listsHandle2 = Meteor.subscribe('relRisks', function (){}); // grabs all from server
+    listsHandle2 = Meteor.subscribe('relRisks', function (){});
 
 // ID of currently selected list
 Session.setDefault('editing_ref', null);
@@ -16,9 +16,9 @@ Session.setDefault('rr_editing_id', null);
 Session.set("rr_shownew", false);
 
 /*
-  Helper-functions
+  Helper-functions, module-level namespace
 */
-var okCancelEvents = function (selector, callbacks) {
+okCancelEvents = function (selector, callbacks) {
   // Returns an event map that handles the "escape" and "return" keys and
   // "blur" events on a text input (given by selector) and interprets them
   // as "ok" or "cancel".
@@ -55,7 +55,7 @@ var okCancelEvents = function (selector, callbacks) {
   return updates;
 }, new_values = function(tmpl){
   var obj = {};
-  tmpl.findAll("input").each(function(idx, inp){
+  tmpl.findAll("select,input").each(function(idx, inp){
     obj[inp.name] = get_value(inp);
   });
   return obj;
@@ -68,6 +68,9 @@ var okCancelEvents = function (selector, callbacks) {
       break;
     case "checkbox":
       val = inp.checked;
+      break;
+    case "select-one":
+      val = $(inp).find('option:selected').val();
       break;
   }
   return val;
