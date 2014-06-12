@@ -247,3 +247,9 @@ Template.rr_tbl.events({
     activateInput(tmpl.find("input[name=name]"));
   }
 });
+
+Router.map(function () {
+    this.route('my_lists', {path: '/'});
+    this.route('in_vitro', {path: '/in_vitro'});
+    this.route('404', {path: '*'});
+});

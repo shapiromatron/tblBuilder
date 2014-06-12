@@ -4,7 +4,8 @@
     "basePackages": {
       "bootstrap-3": {},
       "npm": {},
-      "filesaver": {}
+      "filesaver": {},
+      "iron-router": {}
     },
     "packages": {
       "bootstrap-3": {
@@ -21,6 +22,16 @@
         "git": "https://github.com/Meloncon/meteor-filesaver.git",
         "tag": "v0.0.3",
         "commit": "a8dffab43edc88722138e6416b024fbf6b8fa44a"
+      },
+      "iron-router": {
+        "git": "https://github.com/EventedMind/iron-router.git",
+        "tag": "v0.7.1",
+        "commit": "d1ffb3f06ea4c112132b030f2eb1a70b81675ecb"
+      },
+      "blaze-layout": {
+        "git": "https://github.com/EventedMind/blaze-layout.git",
+        "tag": "v0.2.4",
+        "commit": "b40e9b0612329288d75cf52ad14a7da64bb8618f"
       }
     }
   }

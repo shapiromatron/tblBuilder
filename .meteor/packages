@@ -11,3 +11,4 @@ filesaver
 accounts-base
 accounts-ui
 accounts-password
+iron-router
