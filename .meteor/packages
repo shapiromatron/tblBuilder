@@ -8,3 +8,6 @@ insecure
 bootstrap-3
 npm
 filesaver
+accounts-base
+accounts-ui
+accounts-password
