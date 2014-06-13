@@ -1,6 +1,14 @@
 EpiCohort = new Meteor.Collection('epiCohort');
 
-var epiCohortHandle = Meteor.subscribe('epiCohort', Session.get('epiCohort_myTbl'));
+var epiCohortHandle = null;
+
+Deps.autorun(function () {
+  var myTbl_id = Session.get('epiCohort_myTbl');
+  if (myTbl_id)
+    epiCohortHandle = Meteor.subscribe('epiCohort', myTbl_id);
+  else
+    epiCohortHandle = null;
+});
 
 Session.setDefault('epiCohort_myTbl', null);
 Session.setDefault('epiCohortShowNew', false);
@@ -36,7 +44,6 @@ Template.epiCohortForm.events({
       obj['timestamp'] = (new Date()).getTime();
       obj['user_id'] = Meteor.userId();
       obj['myTbl_id'] = Session.get('epiCohort_myTbl');
-      console.log(obj);
       EpiCohort.insert(obj);
       Session.set("epiCohortShowNew", false);
     },
