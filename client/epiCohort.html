@@ -1,0 +1,120 @@
+<template name="epiCohortMain">
+    <div class="container">
+        <h1 data-mytbl-id={{_id}}>{{name}}.</h1>
+        {{> epiCohortTbl}}
+        <a href="{{pathFor 'my_lists'}}">Home</a>
+        <a href="{{pathFor 'in_vitro'}}">In vitro!</a>
+    </div>
+</template>
+
+<template name="epiCohortTbl">
+    <table class="table table-compressed table-striped">
+        <colgroup>
+            <col style="width:15%">
+            <col style="width:10%">
+            <col style="width:20%">
+            <col style="width:15%">
+            <col style="width:10%">
+            <col style="width:10%">
+            <col style="width:20%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Reference, <br>location, <br>follow-up period</th>
+                <th>Total No. of subjects</th>
+                <th>Exposure Assessment</th>
+                <th>Organ site <br> (ICD Code)</th>
+                <th>Exposure categories</th>
+                <th>Exposed cases</th>
+                <th>Covariates &amp; <br>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each getEpiCohorts}}
+            <tr>
+                {{#if isEditing}}
+                    <td colspan="100">
+                        {{> epiCohortForm isNew="F"}}
+                    </td>
+                {{else}}
+                    <td>{{reference}}<br>{{location}}<br>{{followUpPeriod}}</td>
+                    <td>{{numSubjects}} {{numSubjectsText}}</td>
+                    <td>{{exposureAssessment}}</td>
+                    <td>(to add)<br>(to add)<br>(to add)<br>(to add)</td>
+                    <td>(to add)<br>(to add)<br>(to add)<br>(to add)</td>
+                    <td>(to add)<br>(to add)<br>(to add)<br>(to add)</td>
+                    <td>{{covariates}}<br>{{comments}}</td>
+                {{/if}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    {{#if showNew}}
+        {{> epiCohortForm isNew="T"}}
+    {{else}}
+        <button class="btn btn-primary" id='epiCohort-show-create'><i class="glyphicon glyphicon-plus"></i> New</button>
+    {{/if}}
+</template>
+
+<template name="epiCohortForm">
+    <form role="form">
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label>Reference</label>
+                <input class="form-control" name='reference' type="text" value="{{reference}}"/>
+            </div>
+            <div class="col-xs-4">
+                <label>Location</label>
+                <input class="form-control" name='location' type="text" value="{{location}}"/>
+            </div>
+            <div class="col-xs-4">
+                <label>Follow-up period</label>
+                <input class="form-control" name='followUpPeriod' type="text" value="{{followUpPeriod}}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label>Number of Subjects (numeric)</label>
+                <input class="form-control" name='numSubjects' type="number" value="{{numSubjects}}"/>
+            </div>
+            <div class="col-xs-8">
+                <label>Number of Subjects (text-details)</label>
+                <input class="form-control" name='numSubjectsText' type="text" value="{{numSubjectsText}}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label>Exposure assessment details</label>
+                <textarea class="form-control" name='exposureAssessment' rows="3">{{exposureAssessment}}</textarea>
+            </div>
+            <div class="col-xs-4">
+                <label>Covariates</label>
+                <textarea class="form-control" name='covariates' rows="3">{{covariates}}</textarea>
+            </div>
+            <div class="col-xs-4">
+                <label>Comments</label>
+                <textarea class="form-control" name='comments' rows="3">{{comments}}</textarea>
+            </div>
+        </div>
+    </form>
+    {{#if isNew="T"}}
+        <button type="button" class="btn btn-sm btn-primary" id="epiCohort-create" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="epiCohort-create-cancel" title="Cancel">Cancel</button>
+    {{else}}
+        <button type="button" class="btn btn-sm btn-primary" id="epiCohort-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="epiCohort-update-cancel" title="Cancel changes">Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger"  id="epiCohort-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+    {{/if}}
+</template>
+<!--
+
+
+                    <td>{{reference}}<br>{{location}}{{followUpPeriod}}</td>
+                    <td>{{numSubjects}} {{numSubjectsText}}</td>
+                    <td>{{exposureAssessment}}</td>
+                    <td>(to add)<br>(to add)<br>(to add)<br>(to add)</td>
+                    <td>(to add)<br>(to add)<br>(to add)<br>(to add)</td>
+                    <td>(to add)<br>(to add)<br>(to add)<br>(to add)</td>
+                    <td>{{covariates}}<br>{{comments}}</td>
+ -->

@@ -38,7 +38,7 @@ okCancelEvents = function (selector, callbacks) {
   return updates;
 }, new_values = function(tmpl){
   var obj = {};
-  tmpl.findAll("select,input").each(function(idx, inp){
+  tmpl.findAll("select,input,textarea").each(function(idx, inp){
     obj[inp.name] = get_value(inp);
   });
   return obj;
@@ -47,7 +47,11 @@ okCancelEvents = function (selector, callbacks) {
   switch (inp.type) {
     case "text":
     case "hidden":
+    case "textarea":
       val = inp.value;
+      break;
+    case "number":
+      val = parseFloat(inp.value, 10);
       break;
     case "checkbox":
       val = inp.checked;

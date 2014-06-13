@@ -14,7 +14,7 @@ Template.myTbl.showNew = function(){
 };
 
 Template.myTbl.isEditing = function(){
-  return Session.get('myTblEditingId') === this._id;
+  return Session.equals('myTblEditingId', this._id);
 };
 
 Template.myTbl.events({

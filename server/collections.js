@@ -39,3 +39,16 @@ Meteor.publish('relRisksRef', function (ref_id) {
     check(ref_id, String);
     return RelRisks.find({ref_id: ref_id});
 });
+
+
+/* EpiCohort:
+
+    myTbl_id: String
+
+*/
+EpiCohort = new Meteor.Collection("epiCohort");
+
+Meteor.publish('epiCohort', function (myTbl_id) {
+    check(myTbl_id, String);
+    return EpiCohort.find({myTbl_id: myTbl_id});
+});
