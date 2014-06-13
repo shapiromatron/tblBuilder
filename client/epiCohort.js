@@ -38,6 +38,10 @@ Template.epiCohortTbl.events({
     }
 });
 
+Template.epiCohortForm.checkIsNew = function(isNew){
+    return (isNew==="T");
+};
+
 Template.epiCohortForm.events({
   'click #epiCohort-create': function (evt, tmpl){
       var obj = new_values(tmpl);

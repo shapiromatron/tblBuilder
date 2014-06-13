@@ -48,6 +48,7 @@ okCancelEvents = function (selector, callbacks) {
     case "text":
     case "hidden":
     case "textarea":
+    case "url":
       val = inp.value;
       break;
     case "number":
@@ -84,4 +85,14 @@ UI.registerHelper("formatDate", function(datetime, format) {
     else {
         return datetime;
     }
+});
+
+UI.registerHelper("referenceFormat", function(name, url){
+  var txt;
+  if(url){
+    txt = '<a href="' + url + ' "target="_blank" >' + name + "</a>";
+  } else {
+    txt = name;
+  }
+  return Spacebars.SafeString(txt);
 });

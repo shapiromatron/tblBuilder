@@ -43,7 +43,22 @@ Meteor.publish('relRisksRef', function (ref_id) {
 
 /* EpiCohort:
 
-    myTbl_id: String
+
+{
+    "_id" : String (id),
+    "comments" : String,
+    "covariates" : String,
+    "exposureAssessment" : String,
+    "followUpPeriod" : String,
+    "location" : String,
+    "myTbl_id" : String (id),
+    "numSubjects" : Number,
+    "numSubjectsText" : String,
+    "reference" : String,
+    "reference_url" : String (URL),
+    "timestamp" : Date
+    "user_id" :  String (id)
+}
 
 */
 EpiCohort = new Meteor.Collection("epiCohort");
