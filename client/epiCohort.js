@@ -19,32 +19,34 @@ Session.setDefault('epiCohort_myTbl', null);
 Session.setDefault('epiCohortShowNew', false);
 Session.setDefault('epiCohortEditingId', null);
 
-Template.epiCohortTbl.getEpiCohorts = function(){
+Template.epiCohortTbl.helpers({
+  "getEpiCohorts" : function(){
     return EpiCohort.find();
-};
-
-Template.epiCohortTbl.showNew = function(){
+  },
+  "showNew" : function(){
     return Session.get("epiCohortShowNew");
-};
-
-Template.epiCohortTbl.isEditing = function(){
-  return Session.equals('epiCohortEditingId', this._id);
-};
-
-Template.epiCohortTbl.events({
-    'click #epiCohort-show-create': function(evt, tmpl){
-        Session.set("epiCohortShowNew", true);
-    },
-    'click #epiCohort-show-edit': function(evt, tmpl){
-        Session.set("epiCohortEditingId", this._id);
-        Deps.flush(); // update DOM before focus
-        activateInput(tmpl.find("input[name=reference]"));
-    }
+  },
+  "isEditing" : function(){
+    return Session.equals('epiCohortEditingId', this._id);
+  }
 });
 
-Template.epiCohortForm.checkIsNew = function(isNew){
+Template.epiCohortTbl.events({
+  'click #epiCohort-show-create': function(evt, tmpl){
+      Session.set("epiCohortShowNew", true);
+  },
+  'click #epiCohort-show-edit': function(evt, tmpl){
+      Session.set("epiCohortEditingId", this._id);
+      Deps.flush(); // update DOM before focus
+      activateInput(tmpl.find("input[name=reference]"));
+  }
+});
+
+Template.epiCohortForm.helpers({
+  "checkIsNew" : function(isNew){
     return (isNew==="T");
-};
+  }
+});
 
 Template.epiCohortForm.events({
   'click #epiCohort-create': function (evt, tmpl){
@@ -72,68 +74,65 @@ Template.epiCohortForm.events({
     }
 });
 
-Session.setDefault('epiCohortExposure_epiCohort', null);
 Session.setDefault('epiCohortExposureShowNew', false);
 Session.setDefault('epiCohortExposureEditingId', null);
 
 
 Template.epiCohortExposureTbl.helpers({
   "getEpiCohortExposures": function(){
-    return EpiCohortExposure.find({epiCohort_id: this._id}); //
+    return EpiCohortExposure.find({epiCohort_id: this.epiCohort._id}); //
+  },
+  "epiCohortExposureShowNew": function(){
+    return Session.get("epiCohortExposureShowNew");
+  },
+  "epiCohortExposureIsEditable" : function(editable){
+    return (editable==="T");
+  },
+  "epiCohortExposureIsEditing": function(){
+    return Session.equals('epiCohortExposureEditingId', this._id);
   }
 });
 
-Template.epiCohortExposureTbl.showNew = function(){
-    return Session.get("epiCohortShowNew");
-};
-
-Template.epiCohortExposureTbl.isEditable = function(editable){
-  // console.log(this, editable)
-  return (editable==="T");
-};
-
-Template.epiCohortExposureTbl.isEditing = function(){
-  return Session.equals('epiCohortEditingId', this._id);
-};
-
 Template.epiCohortExposureTbl.events({
     'click #epiCohortExposure-show-create': function(evt, tmpl){
-        Session.set("epiCohortShowNew", true);
+        Session.set("epiCohortExposureShowNew", true);
     },
     'click #epiCohortExposure-show-edit': function(evt, tmpl){
-        Session.set("epiCohortEditingId", this._id);
+        Session.set("epiCohortExposureEditingId", this._id);
         Deps.flush(); // update DOM before focus
         activateInput(tmpl.find("input[name=organSite]"));
     }
 });
 
-Template.epiCohortExposureForm.checkIsNew = function(isNew){
+Template.epiCohortExposureForm.helpers({
+  "epiCohortExposureCheckIsNew" : function(isNew){
     return (isNew==="T");
-};
+  }
+});
 
 Template.epiCohortExposureForm.events({
   'click #epiCohortExposure-create': function (evt, tmpl){
       var obj = new_values(tmpl);
       obj['timestamp'] = (new Date()).getTime();
       obj['user_id'] = Meteor.userId();
-      obj['epiCohort_id'] = tmpl.data.epiCohort_id;
+      obj['epiCohort_id'] = tmpl.data.epiCohort._id;
       obj['myTbl_id'] = Session.get('epiCohort_myTbl');
       EpiCohortExposure.insert(obj);
-      Session.set("epiCohortShowNew", false);
+      Session.set("epiCohortExposureShowNew", false);
     },
     'click #epiCohortExposure-create-cancel': function (evt, tmpl){
-      Session.set("epiCohortShowNew", false);
+      Session.set("epiCohortExposureShowNew", false);
     },
     'click #epiCohortExposure-update': function (evt, tmpl){
       var vals = update_values(tmpl, this);
       EpiCohort.update(this._id, {$set: vals});
-      Session.set("epiCohortEditingId", null);
+      Session.set("epiCohortExposureEditingId", null);
     },
     'click #epiCohortExposure-update-cancel': function (evt, tmpl){
-      Session.set("epiCohortEditingId", null);
+      Session.set("epiCohortExposureEditingId", null);
     },
     'click #epiCohortExposure-delete': function (evt, tmpl){
       EpiCohort.remove(this._id);
-      Session.set("epiCohortEditingId", null);
+      Session.set("epiCohortExposureEditingId", null);
     }
 });
