@@ -1,5 +1,5 @@
 <template name="epiCohortExposureTbl">
-    {{ #if epiCohortExposureEditable }}
+    {{ #if epiCohortExposureIsEditable epiCohortExposureEditable }}
         <h2>{{epiCohort.reference}} exposure groups</h2>
     {{ /if }}
     <table class="table table-compressed">
@@ -9,7 +9,7 @@
             <col style="width:25%">
             <col style="width:25%">
         </colgroup>
-        {{#if epiCohortExposureEditable}}
+        {{#if epiCohortExposureIsEditable epiCohortExposureEditable}}
             <thead>
                 <tr>
                     <th>Organ site<br>(ICD Code)</th>
@@ -24,7 +24,7 @@
             <tr class="menu-autohide">
                 {{#if epiCohortExposureIsEditing}}
                     <td colspan="100">
-                        {{> epiCohortExposureForm epiCohort=.. epiCohortExposureIsNew=false}}
+                        {{> epiCohortExposureForm this epiCohort=.. epiCohortExposureIsNew=false}}
                     </td>
                 {{else}}
                     <td>
@@ -47,7 +47,7 @@
         </tbody>
     </table>
 
-    {{#if epiCohortExposureEditable}}
+    {{#if epiCohortExposureIsEditable epiCohortExposureEditable}}
         {{#if epiCohortExposureShowNew}}
             {{> epiCohortExposureForm epiCohort=.. epiCohortExposureIsNew=true}}
         {{else}}
@@ -57,7 +57,7 @@
 </template>
 
 <template name="epiCohortExposureForm">
-    <form role="form" class="editForm">
+    <form id="epiCohortExposureForm" role="form" class="editForm">
         <div class="form-group row">
             <div class="col-xs-4">
                 <label>Organ site<br>(ICD code)</label>

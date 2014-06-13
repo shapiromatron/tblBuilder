@@ -60,15 +60,15 @@ Template.epiCohortExposureForm.events({
       Session.set("epiCohortExposureShowNew", false);
     },
     'click #epiCohortExposure-update': function (evt, tmpl){
-      var vals = update_values(tmpl, this);
-      EpiCohort.update(this._id, {$set: vals});
+      var vals = update_values(tmpl.find('#epiCohortExposureForm'), this);
+      EpiCohortExposure.update(this._id, {$set: vals});
       Session.set("epiCohortExposureEditingId", null);
     },
     'click #epiCohortExposure-update-cancel': function (evt, tmpl){
       Session.set("epiCohortExposureEditingId", null);
     },
     'click #epiCohortExposure-delete': function (evt, tmpl){
-      EpiCohort.remove(this._id);
+      EpiCohortExposure.remove(this._id);
       Session.set("epiCohortExposureEditingId", null);
     }
 });

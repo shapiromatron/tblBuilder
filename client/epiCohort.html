@@ -53,7 +53,7 @@
                     <td>{{numSubjects}} {{numSubjectsText}}</td>
                     <td>{{exposureAssessment}}</td>
                     <td colspan="4">
-                        <!-- {{> epiCohortExposureTbl epiCohort=this epiCohortExposureEditable=false }} -->
+                        {{> epiCohortExposureTbl epiCohort=this epiCohortExposureEditable="F" }}
                     </td>
                     <td>{{covariates}}<br>{{comments}}</td>
                 {{/if}}
@@ -124,6 +124,6 @@
     </form>
 
     {{#unless epiCohortIsNew epiCohortNew }}
-        {{> epiCohortExposureTbl epiCohort=this epiCohortExposureEditable=update}}
+        {{> epiCohortExposureTbl epiCohort=this epiCohortExposureEditable="T"}}
     {{/unless}}
 </template>
