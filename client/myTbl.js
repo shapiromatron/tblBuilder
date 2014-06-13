@@ -1,6 +1,15 @@
 MyTbls = new Meteor.Collection('myTbls');
 
-var myTblsHandle = Meteor.subscribe('myTbls', Meteor.userId());
+var myTblsHandle = null;
+Deps.autorun(function () {
+  var userId = Meteor.userId();
+  if (userId){
+    myTblsHandle = Meteor.subscribe('myTbls', userId);
+    } else{
+    myTblsHandle = null;
+  }
+});
+
 
 Session.setDefault("myTblShowNew", false);
 Session.setDefault('myTblEditingId', null);
@@ -44,7 +53,7 @@ Template.myTblForm.events({
       Session.set("myTblShowNew", false);
     },
     'click #myTbl-update': function (evt, tmpl){
-      var vals = update_values(tmpl, this);
+      var vals = update_values(tmpl.find("#myTblForm"), this);
       MyTbls.update(this._id, {$set: vals});
       Session.set("myTblEditingId", null);
     },
