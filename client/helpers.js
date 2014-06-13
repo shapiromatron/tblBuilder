@@ -36,9 +36,9 @@ okCancelEvents = function (selector, callbacks) {
 }, activateInput = function (input) {
   input.focus();
   input.select();
-}, update_values = function(tmpl, obj){
+}, update_values = function(form, obj){
   updates = {};
-  tmpl.findAll("select,input,textarea").each(function(idx, inp){
+  $(form).find("select,input,textarea").each(function(idx, inp){
     var val = get_value(inp),
         key = inp.name;
     if (obj[key] !== val) updates[key] = val;
