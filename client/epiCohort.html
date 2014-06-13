@@ -10,11 +10,12 @@
 <template name="epiCohortTbl">
     <table class="table table-compressed table-striped">
         <colgroup>
+            <col style="width:18%">
+            <col style="width:10%">
             <col style="width:15%">
             <col style="width:10%">
-            <col style="width:20%">
-            <col style="width:15%">
             <col style="width:10%">
+            <col style="width:7%">
             <col style="width:10%">
             <col style="width:20%">
         </colgroup>
@@ -23,9 +24,10 @@
                 <th>Reference, <br>location, <br>follow-up period</th>
                 <th>Total No. of subjects</th>
                 <th>Exposure Assessment</th>
-                <th>Organ site <br> (ICD Code)</th>
-                <th>Exposure categories</th>
-                <th>Exposed cases</th>
+                <th>Organ site<br>(ICD Code)</th>
+                <th>Exposure<br>categories</th>
+                <th>Exposed<br>cases</th>
+                <th>Relative risk<br>(95% CI)</th>
                 <th>Covariates &amp; <br>Comments</th>
             </tr>
         </thead>
@@ -37,12 +39,6 @@
                         {{> epiCohortForm this isNew="F"}}
                     </td>
                 {{else}}
-                    <td>{{{referenceFormat reference reference_url}}}<br>{{location}}<br>{{followUpPeriod}}</td>
-                    <td>{{numSubjects}} {{numSubjectsText}}</td>
-                    <td>{{exposureAssessment}}</td>
-                    <td>(to add)<br>(to add)<br>(to add)<br>(to add)</td>
-                    <td>(to add)<br>(to add)<br>(to add)<br>(to add)</td>
-                    <td>(to add)<br>(to add)<br>(to add)<br>(to add)</td>
                     <td>
                         <div class="rowOptions btn-group pull-right">
                           <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -53,7 +49,13 @@
                             <!-- <li><a href="#" id="ref-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
                             <li><a href="#" id="ref-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li> -->
                           </ul>
-                        </div>{{covariates}}<br>{{comments}}</td>
+                        </div>{{{referenceFormat reference reference_url}}}<br>{{location}}<br>{{followUpPeriod}}</td>
+                    <td>{{numSubjects}} {{numSubjectsText}}</td>
+                    <td>{{exposureAssessment}}</td>
+                    <td colspan="4">
+                        {{> epiCohortExposureTbl this editable="F" }}
+                    </td>
+                    <td>{{covariates}}<br>{{comments}}</td>
                 {{/if}}
             </tr>
             {{/each}}
@@ -71,12 +73,12 @@
     <form role="form" class="editForm">
         <div class="form-group row">
             <div class="col-xs-4">
-                <label>Reference</label>
+                <label>Reference and Reference URL</label>
                 <input class="form-control" name='reference' type="text" value="{{reference}}" placeholder='Enter the reference, such as "Smith et al. (2005)"' /><br>
                 <input class="form-control" name='reference_url' type="url" value="{{reference_url}}" placeholder='Enter the reference URL, if available' />
             </div>
             <div class="col-xs-4">
-                <label>Location</label>
+                <label>Cohort Location</label>
                 <input class="form-control" name='location' type="text" value="{{location}}"/>
             </div>
             <div class="col-xs-4">
@@ -86,8 +88,8 @@
         </div>
         <div class="form-group row">
             <div class="col-xs-4">
-                <label>Number of Subjects (numeric)</label>
-                <input class="form-control" name='numSubjects' type="number" value="{{numSubjects}}" required />
+                <label>Number of Subjects</label>
+                <input class="form-control" name='numSubjects' type="number" value="{{numSubjects}}" placeholder="Numeric" />
             </div>
             <div class="col-xs-8">
                 <label>Number of Subjects (text-details)</label>
@@ -117,6 +119,113 @@
             <button type="button" class="btn btn-sm btn-primary" id="epiCohort-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
             <button type="button" class="btn btn-sm btn-default" id="epiCohort-update-cancel" title="Cancel changes">Cancel</button>
             <button type="button" class="btn btn-sm btn-danger"  id="epiCohort-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+        {{/if}}
+        </div>
+
+    </form>
+
+    {{> epiCohortExposureTbl this editable="T"}}
+
+</template>
+
+<template name="epiCohortExposureTbl">
+    abc{{editable}}abc
+    {{ #if isEditable editable }}
+        <h2>{{reference}} exposure groups</h2>
+    {{ /if }}
+    <table class="table table-compressed">
+        <colgroup>
+            <col style="width:25%">
+            <col style="width:25%">
+            <col style="width:25%">
+            <col style="width:25%">
+        </colgroup>
+        {{#if isEditable editable}}
+            <thead>
+                <tr>
+                    <th>Organ site<br>(ICD Code)</th>
+                    <th>Exposure<br>categories</th>
+                    <th>Exposed<br>cases</th>
+                    <th>Relative risk<br>(95% CI)</th>
+                </tr>
+            </thead>
+        {{/if}}
+        <tbody>
+            {{#each getEpiCohortExposures}}
+            <tr class="menu-autohide">
+                {{#if isEditing}}
+                    <td colspan="100">
+                        {{> epiCohortExposureForm this isNew="F"}}
+                    </td>
+                {{else}}
+                    <td>{{organSite}}</td>
+                    <td>{{exposureCategories}}</td>
+                    <td>{{exposedCases}}</td>
+                    <td>{{{riskFormat this}}}</td>
+                {{/if}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    {{#if isEditable editable}}
+        {{#if showNew}}
+            {{> epiCohortExposureForm epiCohort_id=this._id isNew="T"}}
+        {{else}}
+            <button class="btn btn-primary" id='epiCohortExposure-show-create'><i class="glyphicon glyphicon-plus"></i> New</button>
+        {{/if}}
+    {{/if}}
+</template>
+
+<template name="epiCohortExposureForm">
+    <form role="form" class="editForm">
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label>Organ site<br>(ICD code)</label>
+                <input class="form-control" name='organSite' type="text" value="{{organSite}}" />
+            </div>
+            <div class="col-xs-4">
+                <label>Exposure<br>categories</label>
+                <input class="form-control" name='exposureCategories' type="text" value="{{exposureCategories}}" placeholder='blank if N/A'/>
+            </div>
+            <div class="col-xs-4">
+                <label>Exposed<br>cases</label>
+                <input class="form-control" name='exposedCases' type="text" value="{{exposedCases}}" placeholder='"ND" if non-numeric'/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-xs-3">
+                <label>Risk estimate - mid</label>
+                <input type="number" class="form-control" name='riskMid' value="{{riskMid}}"/>
+            </div>
+            <div class="col-xs-3">
+                <label>Risk estimate - 95% lower CI</label>
+                <input type="number" class="form-control" name='riskLow' value="{{riskLow}}"/>
+            </div>
+            <div class="col-xs-3">
+                <label>Risk estimate - 95% upper CI </label>
+                <input type="number" class="form-control" name='riskHigh' value="{{riskHigh}}"/>
+            </div>
+            <div class="col-xs-3">
+                <label>Estimated</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name='estimated' checked="{{estimated}}"/>
+                        (check if estimate not in reference)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="well well-sm pager">
+        {{#if checkIsNew isNew }}
+            <button type="button" class="btn btn-sm btn-primary" id="epiCohortExposure-create" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
+            <button type="button" class="btn btn-sm btn-default" id="epiCohortExposure-create-cancel" title="Cancel">Cancel</button>
+        {{else}}
+            <button type="button" class="btn btn-sm btn-primary" id="epiCohortExposure-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
+            <button type="button" class="btn btn-sm btn-default" id="epiCohortExposure-update-cancel" title="Cancel changes">Cancel</button>
+            <button type="button" class="btn btn-sm btn-danger"  id="epiCohortExposure-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
         {{/if}}
         </div>
 

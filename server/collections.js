@@ -42,8 +42,6 @@ Meteor.publish('relRisksRef', function (ref_id) {
 
 
 /* EpiCohort:
-
-
 {
     "_id" : String (id),
     "comments" : String,
@@ -56,10 +54,9 @@ Meteor.publish('relRisksRef', function (ref_id) {
     "numSubjectsText" : String,
     "reference" : String,
     "reference_url" : String (URL),
-    "timestamp" : Date
+    "timestamp" : Date,
     "user_id" :  String (id)
 }
-
 */
 EpiCohort = new Meteor.Collection("epiCohort");
 
@@ -67,3 +64,28 @@ Meteor.publish('epiCohort', function (myTbl_id) {
     check(myTbl_id, String);
     return EpiCohort.find({myTbl_id: myTbl_id});
 });
+
+/* EpiCohortExposure:
+{
+    "organSite" : String,
+    "exposureCategories" : String,
+    "exposedCases" : String,
+    "riskMid" : Number,
+    "riskLow" : Number,
+    "riskHigh" : Number,
+    "estimated" : Boolean,
+    "timestamp" : Date,
+    "user_id" : String (id),
+    "epiCohort_id" : String (id),
+    "myTbl_id" : String (id),
+    "_id" : String (id),
+}
+*/
+
+EpiCohortExposure = new Meteor.Collection("epiCohortExposure");
+
+Meteor.publish('epiCohortExposure', function (myTbl_id) {
+    check(myTbl_id, String);
+    return EpiCohortExposure.find({myTbl_id: myTbl_id});
+});
+

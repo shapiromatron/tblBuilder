@@ -1,19 +1,23 @@
 EpiCohort = new Meteor.Collection('epiCohort');
+EpiCohortExposure = new Meteor.Collection('epiCohortExposure');
 
-var epiCohortHandle = null;
+var epiCohortHandle = null,
+    epiCohortExposure = null;
 
 Deps.autorun(function () {
   var myTbl_id = Session.get('epiCohort_myTbl');
-  if (myTbl_id)
+  if (myTbl_id){
     epiCohortHandle = Meteor.subscribe('epiCohort', myTbl_id);
-  else
+    epiCohortExposure = Meteor.subscribe('epiCohortExposure', myTbl_id);
+  } else{
     epiCohortHandle = null;
+    epiCohortExposure = null;
+  }
 });
 
 Session.setDefault('epiCohort_myTbl', null);
 Session.setDefault('epiCohortShowNew', false);
 Session.setDefault('epiCohortEditingId', null);
-
 
 Template.epiCohortTbl.getEpiCohorts = function(){
     return EpiCohort.find();
@@ -63,6 +67,72 @@ Template.epiCohortForm.events({
       Session.set("epiCohortEditingId", null);
     },
     'click #epiCohort-delete': function (evt, tmpl){
+      EpiCohort.remove(this._id);
+      Session.set("epiCohortEditingId", null);
+    }
+});
+
+Session.setDefault('epiCohortExposure_epiCohort', null);
+Session.setDefault('epiCohortExposureShowNew', false);
+Session.setDefault('epiCohortExposureEditingId', null);
+
+
+Template.epiCohortExposureTbl.helpers({
+  "getEpiCohortExposures": function(){
+    return EpiCohortExposure.find({epiCohort_id: this._id}); //
+  }
+});
+
+Template.epiCohortExposureTbl.showNew = function(){
+    return Session.get("epiCohortShowNew");
+};
+
+Template.epiCohortExposureTbl.isEditable = function(editable){
+  // console.log(this, editable)
+  return (editable==="T");
+};
+
+Template.epiCohortExposureTbl.isEditing = function(){
+  return Session.equals('epiCohortEditingId', this._id);
+};
+
+Template.epiCohortExposureTbl.events({
+    'click #epiCohortExposure-show-create': function(evt, tmpl){
+        Session.set("epiCohortShowNew", true);
+    },
+    'click #epiCohortExposure-show-edit': function(evt, tmpl){
+        Session.set("epiCohortEditingId", this._id);
+        Deps.flush(); // update DOM before focus
+        activateInput(tmpl.find("input[name=organSite]"));
+    }
+});
+
+Template.epiCohortExposureForm.checkIsNew = function(isNew){
+    return (isNew==="T");
+};
+
+Template.epiCohortExposureForm.events({
+  'click #epiCohortExposure-create': function (evt, tmpl){
+      var obj = new_values(tmpl);
+      obj['timestamp'] = (new Date()).getTime();
+      obj['user_id'] = Meteor.userId();
+      obj['epiCohort_id'] = tmpl.data.epiCohort_id;
+      obj['myTbl_id'] = Session.get('epiCohort_myTbl');
+      EpiCohortExposure.insert(obj);
+      Session.set("epiCohortShowNew", false);
+    },
+    'click #epiCohortExposure-create-cancel': function (evt, tmpl){
+      Session.set("epiCohortShowNew", false);
+    },
+    'click #epiCohortExposure-update': function (evt, tmpl){
+      var vals = update_values(tmpl, this);
+      EpiCohort.update(this._id, {$set: vals});
+      Session.set("epiCohortEditingId", null);
+    },
+    'click #epiCohortExposure-update-cancel': function (evt, tmpl){
+      Session.set("epiCohortEditingId", null);
+    },
+    'click #epiCohortExposure-delete': function (evt, tmpl){
       EpiCohort.remove(this._id);
       Session.set("epiCohortEditingId", null);
     }

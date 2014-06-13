@@ -1,6 +1,14 @@
 /*
   Helper-functions, module-level namespace
 */
+String.prototype.printf = function(){
+    //http://stackoverflow.com/questions/610406/
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number){
+        return typeof args[number] !== 'undefined' ? args[number] : match;
+    });
+};
+
 okCancelEvents = function (selector, callbacks) {
   // Returns an event map that handles the "escape" and "return" keys and
   // "blur" events on a text input (given by selector) and interprets them
@@ -30,7 +38,7 @@ okCancelEvents = function (selector, callbacks) {
   input.select();
 }, update_values = function(tmpl, obj){
   updates = {};
-  tmpl.findAll("input").each(function(idx, inp){
+  tmpl.findAll("select,input,textarea").each(function(idx, inp){
     var val = get_value(inp),
         key = inp.name;
     if (obj[key] !== val) updates[key] = val;
@@ -95,4 +103,12 @@ UI.registerHelper("referenceFormat", function(name, url){
     txt = name;
   }
   return Spacebars.SafeString(txt);
+});
+
+UI.registerHelper("riskFormat", function(obj){
+  var txt = obj.riskMid.toString();
+  if(obj.riskLow && obj.riskHigh)
+    txt = txt + " ({0}-{1})".printf(obj.riskLow, obj.riskHigh);
+  if (obj.estimated) txt = "[" + txt + "]";
+  return txt;
 });
