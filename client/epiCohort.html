@@ -28,12 +28,12 @@
                 <th>Exposure<br>categories</th>
                 <th>Exposed<br>cases</th>
                 <th>Relative risk<br>(95% CI)</th>
-                <th>Covariates &amp; <br>Comments</th>
+                <th>Covariates &amp;<br>Comments</th>
             </tr>
         </thead>
         <tbody>
             {{#each getEpiCohorts}}
-            <tr class="menu-autohide">
+            <tr class="menu-autohide" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
                 {{#if epiCohortIsEditing}}
                     <td colspan="100">
                         {{> epiCohortForm this epiCohortNew="F"}}
@@ -46,6 +46,8 @@
                           </button>
                           <ul class="dropdown-menu">
                             <li><a href="#" id="epiCohort-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                            <li><a href="#" id="epiCohort-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
+                            <li><a href="#" id="epiCohort-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
                           </ul>
                         </div>
                         {{{referenceFormat reference reference_url}}}<br>{{location}}<br>{{followUpPeriod}}

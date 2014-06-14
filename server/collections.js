@@ -55,7 +55,8 @@ Meteor.publish('relRisksRef', function (ref_id) {
     "reference" : String,
     "reference_url" : String (URL),
     "timestamp" : Date,
-    "user_id" :  String (id)
+    "user_id" :  String (id),
+    "sortIdx" : Integer
 }
 */
 EpiCohort = new Meteor.Collection("epiCohort");
@@ -79,6 +80,7 @@ Meteor.publish('epiCohort', function (myTbl_id) {
     "epiCohort_id" : String (id),
     "myTbl_id" : String (id),
     "_id" : String (id),
+    "sortIdx" : Integer
 }
 */
 

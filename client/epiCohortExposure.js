@@ -16,7 +16,8 @@ Session.setDefault('epiCohortExposureEditingId', null);
 
 Template.epiCohortExposureTbl.helpers({
   "getEpiCohortExposures": function(){
-    return EpiCohortExposure.find({epiCohort_id: this.epiCohort._id}); //
+    return EpiCohortExposure.find({epiCohort_id: this.epiCohort._id},
+                                   {sort:  {"sortIdx":1}});
   },
   "epiCohortExposureShowNew": function(){
     return Session.get("epiCohortExposureShowNew");
@@ -37,6 +38,14 @@ Template.epiCohortExposureTbl.events({
         Session.set("epiCohortExposureEditingId", this._id);
         Deps.flush(); // update DOM before focus
         activateInput(tmpl.find("input[name=organSite]"));
+    },
+    'click #epiCohortExposure-move-up': function (evt, tmpl){
+      var tr = $(tmpl.find('tr[data-id=' + this._id + ']'));
+          moveUp(this, tr, EpiCohortExposure);
+    },
+    'click #epiCohortExposure-move-down': function (evt, tmpl){
+      var tr = $(tmpl.find('tr[data-id=' + this._id + ']'));
+          moveDown(this, tr, EpiCohortExposure);
     }
 });
 
@@ -51,10 +60,13 @@ Template.epiCohortExposureForm.events({
       var obj = new_values(tmpl);
       obj['timestamp'] = (new Date()).getTime();
       obj['user_id'] = Meteor.userId();
-      obj['epiCohort_id'] = tmpl.data.epiCohort._id;
       obj['myTbl_id'] = Session.get('epiCohort_myTbl');
-      EpiCohortExposure.insert(obj);
-      Session.set("epiCohortExposureShowNew", false);
+      obj['epiCohort_id'] = tmpl.data.epiCohort._id;
+      Meteor.call('epiCohortExposureNewIdx', obj['epiCohort_id'], function(err, response) {
+        obj['sortIdx'] = response;
+        EpiCohortExposure.insert(obj);
+        Session.set("epiCohortExposureShowNew", false);
+      });
     },
     'click #epiCohortExposure-create-cancel': function (evt, tmpl){
       Session.set("epiCohortExposureShowNew", false);

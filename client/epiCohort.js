@@ -17,7 +17,7 @@ Session.setDefault('epiCohortEditingId', null);
 
 Template.epiCohortTbl.helpers({
   "getEpiCohorts" : function(){
-    return EpiCohort.find();
+    return EpiCohort.find({}, {sort: {sortIdx: 1}});
   },
   "epiCohortShowNew" : function(){
     return Session.get("epiCohortShowNew");
@@ -35,6 +35,14 @@ Template.epiCohortTbl.events({
       Session.set("epiCohortEditingId", this._id);
       Deps.flush(); // update DOM before focus
       activateInput(tmpl.find("input[name=reference]"));
+  },
+  'click #epiCohort-move-up': function (evt, tmpl){
+    var tr = $(tmpl.find('tr[data-id=' + this._id + ']'));
+        moveUp(this, tr, EpiCohort);
+  },
+  'click #epiCohort-move-down': function (evt, tmpl){
+    var tr = $(tmpl.find('tr[data-id=' + this._id + ']'));
+        moveDown(this, tr, EpiCohort);
   }
 });
 
@@ -48,8 +56,11 @@ Template.epiCohortForm.events({
       obj['timestamp'] = (new Date()).getTime();
       obj['user_id'] = Meteor.userId();
       obj['myTbl_id'] = Session.get('epiCohort_myTbl');
-      EpiCohort.insert(obj);
-      Session.set("epiCohortShowNew", false);
+      Meteor.call('epiCohortNewIdx', obj['myTbl_id'], function(err, response) {
+        obj['sortIdx'] = response;
+        EpiCohort.insert(obj);
+        Session.set("epiCohortShowNew", false);
+      });
     },
     'click #epiCohort-create-cancel': function (evt, tmpl){
       Session.set("epiCohortShowNew", false);

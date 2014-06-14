@@ -79,6 +79,25 @@ okCancelEvents = function (selector, callbacks) {
       return buf;
   }, blob = new Blob([s2ab(raw_data)], {type: "application/octet-stream"});
   saveAs(blob, fn);
+}, moveUp = function(self, tr, Cls){
+  var prev = tr.prev();
+  if (prev.length===1){
+    var sortIdx = self.sortIdx;
+    Cls.update(self._id,
+                {$set: {'sortIdx': parseInt(prev.attr('data-sortIdx'), 10) }});
+    Cls.update(prev.attr('data-id'),
+                {$set: {'sortIdx': sortIdx }});
+  }
+
+}, moveDown = function(self, tr, Cls){
+  var next = tr.next();
+  if (next.length===1){
+    var sortIdx = self.sortIdx;
+    Cls.update(self._id,
+                {$set: {'sortIdx': parseInt(next.attr('data-sortIdx'), 10) }});
+    Cls.update(next.attr('data-id'),
+                {$set: {'sortIdx': sortIdx}});
+  }
 };
 
 UI.registerHelper("formatDate", function(datetime, format) {

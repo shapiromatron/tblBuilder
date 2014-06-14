@@ -57,6 +57,23 @@ Meteor.startup(function () {
       var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
 
       return wbout;
+    },
+    epiCohortNewIdx: function (myTbl_id) {
+      check(myTbl_id, String);
+      return getNewIdx(EpiCohort, {"myTbl_id": myTbl_id});
+    },
+    epiCohortExposureNewIdx: function (epiCohort_id) {
+      check(epiCohort_id, String);
+      return getNewIdx(EpiCohortExposure, {"epiCohort_id": epiCohort_id});
     }
   });
 });
+
+var getNewIdx = function(Cls, filter){
+  var max = -1,
+      val = Cls.findOne(filter,
+                        {fields: {"sortIdx":1, "_id":0},
+                         sort:  {"sortIdx":-1}});
+  if (val && isFinite(val.sortIdx)) max = val.sortIdx;
+  return max+1;
+};
