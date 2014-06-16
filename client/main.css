@@ -24,3 +24,20 @@
 .well-sm {
     background-color: #6A7487;
 }
+
+.table .nestedTbl {
+    margin-bottom: 0px;
+    background-color: inherit;
+}
+
+.table .nestedTbl td {
+    border-top: none;
+}
+
+.table > tbody > tr:hover {
+    background-color: #E6E6FA;
+}
+
+.nestedTbl > tbody > tr:hover {
+    background-color: #CFCFE1;
+}
