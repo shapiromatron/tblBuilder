@@ -2,11 +2,11 @@
   Helper-functions, module-level namespace
 */
 String.prototype.printf = function(){
-    //http://stackoverflow.com/questions/610406/
-    var args = arguments;
-    return this.replace(/{(\d+)}/g, function(match, number){
-        return typeof args[number] !== 'undefined' ? args[number] : match;
-    });
+  //http://stackoverflow.com/questions/610406/
+  var args = arguments;
+  return this.replace(/{(\d+)}/g, function(match, number){
+    return typeof args[number] !== 'undefined' ? args[number] : match;
+  });
 };
 
 okCancelEvents = function (selector, callbacks) {
@@ -17,20 +17,19 @@ okCancelEvents = function (selector, callbacks) {
       cancel = callbacks.cancel || function () {},
       events = {};
 
-  events['keyup '+selector+', keydown '+selector] =
-    function (evt) {
-      if (evt.type === "keydown" && evt.which === 27) {
-        // escape = cancel
+  events['keyup '+selector+', keydown '+selector] = function (evt) {
+    if (evt.type === "keydown" && evt.which === 27) {
+      // escape = cancel
+      cancel.call(this, evt);
+    } else if (evt.type === "keyup" && evt.which === 13) {
+      // return/enter = ok/submit if non-empty
+      var value = String(evt.target.value || "");
+      if (value)
+        ok.call(this, value, evt);
+      else
         cancel.call(this, evt);
-      } else if (evt.type === "keyup" && evt.which === 13) {
-        // return/enter = ok/submit if non-empty
-        var value = String(evt.target.value || "");
-        if (value)
-          ok.call(this, value, evt);
-        else
-          cancel.call(this, evt);
-      }
-    };
+    }
+  };
 
   return events;
 }, activateInput = function (input) {
@@ -88,7 +87,6 @@ okCancelEvents = function (selector, callbacks) {
     Cls.update(prev.attr('data-id'),
                 {$set: {'sortIdx': sortIdx }});
   }
-
 }, moveDown = function(self, tr, Cls){
   var next = tr.next();
   if (next.length===1){
@@ -101,17 +99,16 @@ okCancelEvents = function (selector, callbacks) {
 };
 
 UI.registerHelper("formatDate", function(datetime, format) {
-    var DateFormats = {
-        short: "DD MMMM - YYYY",
-        long: "dddd DD.MM.YYYY HH:mm"
-    };
-    if (moment) {
-        f = DateFormats[format];
-        return moment(datetime).format(f);
-    }
-    else {
-        return datetime;
-    }
+  var DateFormats = {
+    short: "DD MMMM - YYYY",
+    long: "dddd DD.MM.YYYY HH:mm"
+  };
+  if (moment) {
+    f = DateFormats[format];
+    return moment(datetime).format(f);
+  } else {
+    return datetime;
+  }
 });
 
 UI.registerHelper("referenceFormat", function(name, url){

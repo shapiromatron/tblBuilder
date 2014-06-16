@@ -1,143 +1,151 @@
 <template name="epiCohortMain">
-    <div class="container">
-        {{> epiCohortTbl}}
-        <a href="{{pathFor 'my_lists'}}">Home</a>
-        <a href="{{pathFor 'in_vitro'}}">In vitro!</a>
-    </div>
+  <div class="container">
+    {{> epiCohortTbl}}
+    <a href="{{pathFor 'my_lists'}}">Home</a>
+    <a href="{{pathFor 'in_vitro'}}">In vitro!</a>
+  </div>
 </template>
 
 <template name="epiCohortTbl">
-    <h1>{{name}}
-        <div class="btn-group pull-right">
-          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-            <span class="caret" title="Editing options"></span>
-          </button>
-          <ul class="dropdown-menu">
-            {{#unless epiCohortShowNew}}
-                <li><a href="#" id="epiCohort-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
+  <h1>{{name}}
+    <div class="btn-group pull-right">
+      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+        <span class="caret" title="Editing options"></span>
+      </button>
+      <ul class="dropdown-menu">
+        {{#unless epiCohortShowNew}}
+        <li><a href="#" id="epiCohort-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
+        {{/unless}}
+        <li><a href="#" id="epiCohort-downloadExcel"><span class="glyphicon glyphicon-save"></span> Download Excel</a></li>
+        <li><a href="#" id="epiCohort-toggleShowAllRows"><span class="glyphicon glyphicon-resize-full"></span> Hide/show all rows</a></li>
+      </ul>
+    </div>
+  </h1>
+
+  <table class="table table-compressed">
+    <colgroup>
+      <col width="15%">
+      <col width="10%">
+      <col width="15%">
+      <col width="10%">
+      <col width="10%">
+      <col width="10%">
+      <col width="10%">
+      <col width="20%">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Reference,<br>location,<br>follow-up period</th>
+        <th>Total No.<br>of subjects</th>
+        <th>Exposure<br>Assessment</th>
+        <th>Organ site<br>(ICD Code)</th>
+        <th>Exposure<br>categories</th>
+        <th>Exposed<br>cases</th>
+        <th>Relative risk<br>(95% CI)</th>
+        <th>Covariates &amp;<br>Comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each getEpiCohorts}}
+        <tr class="menu-autohide" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
+          {{#if epiCohortIsEditing}}
+            <td id="editingRow" colspan="100">
+              {{> epiCohortForm this epiCohortNew="F"}}
+            </td>
+          {{else}}
+            <td>
+              <div class="rowOptions btn-group pull-right">
+                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                  <span class="caret" title="Editing options"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" id="epiCohort-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                  <li><a href="#" id="epiCohort-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
+                  <li><a href="#" id="epiCohort-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
+                </ul>
+              </div>
+              {{{referenceFormat reference reference_url}}}<br>{{location}}<br>{{followUpPeriod}}
+            </td>
+            <td>{{numSubjects}} {{numSubjectsText}}</td>
+            <td>{{exposureAssessment}}</td>
+            <td colspan="4">
+              {{> epiCohortExposureTbl epiCohort=this epiCohortExposureEditable="F" }}
+            </td>
+            <td>{{covariates}}<br>{{comments}}</td>
+          {{/if}}
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan="100">No cohorts have been created.
+            {{#unless epiCohortShowNew}}<br><br>
+              <a href="#" class="btn btn-primary btn-sm" id="epiCohort-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a>
             {{/unless}}
-            <li><a href="#" id="epiCohort-downloadExcel"><span class="glyphicon glyphicon-save"></span> Download Excel</a></li>
-            <li><a href="#" id="epiCohort-toggleShowAllRows"><span class="glyphicon glyphicon-resize-full"></span> Hide/show all rows</a></li>
-          </ul>
-        </div>
-    </h1>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 
-    <table class="table table-compressed">
-        <colgroup>
-            <col width="15%">
-            <col width="10%">
-            <col width="15%">
-            <col width="10%">
-            <col width="10%">
-            <col width="10%">
-            <col width="10%">
-            <col width="20%">
-        </colgroup>
-        <thead>
-            <tr>
-                <th>Reference,<br>location,<br>follow-up period</th>
-                <th>Total No.<br>of subjects</th>
-                <th>Exposure<br>Assessment</th>
-                <th>Organ site<br>(ICD Code)</th>
-                <th>Exposure<br>categories</th>
-                <th>Exposed<br>cases</th>
-                <th>Relative risk<br>(95% CI)</th>
-                <th>Covariates &amp;<br>Comments</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each getEpiCohorts}}
-            <tr class="menu-autohide" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
-                {{#if epiCohortIsEditing}}
-                    <td id="editingRow" colspan="100">
-                        {{> epiCohortForm this epiCohortNew="F"}}
-                    </td>
-                {{else}}
-                    <td>
-                        <div class="rowOptions btn-group pull-right">
-                          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                            <span class="caret" title="Editing options"></span>
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a href="#" id="epiCohort-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                            <li><a href="#" id="epiCohort-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
-                            <li><a href="#" id="epiCohort-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
-                          </ul>
-                        </div>
-                        {{{referenceFormat reference reference_url}}}<br>{{location}}<br>{{followUpPeriod}}
-                    </td>
-                    <td>{{numSubjects}} {{numSubjectsText}}</td>
-                    <td>{{exposureAssessment}}</td>
-                    <td colspan="4">
-                        {{> epiCohortExposureTbl epiCohort=this epiCohortExposureEditable="F" }}
-                    </td>
-                    <td>{{covariates}}<br>{{comments}}</td>
-                {{/if}}
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-
-    {{#if epiCohortShowNew}}
-        {{> epiCohortForm epiCohortNew="T"}}
-    {{/if}}
+  {{#if epiCohortShowNew}}
+    {{> epiCohortForm epiCohortNew="T"}}
+  {{/if}}
 </template>
 
 <template name="epiCohortForm">
-    <form id="epiCohortForm" role="form" class="editForm">
-        <div class="form-group row">
-            <div class="col-xs-4">
-                <label>Reference and Reference URL</label>
-                <input class="form-control" name='reference' type="text" value="{{reference}}" placeholder='Enter the reference, such as "Smith et al. (2005)"' /><br>
-                <input class="form-control" name='reference_url' type="url" value="{{reference_url}}" placeholder='Enter the reference URL, if available' />
-            </div>
-            <div class="col-xs-4">
-                <label>Cohort Location</label>
-                <input class="form-control" name='location' type="text" value="{{location}}"/>
-            </div>
-            <div class="col-xs-4">
-                <label>Follow-up period</label>
-                <input class="form-control" name='followUpPeriod' type="text" value="{{followUpPeriod}}"/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-xs-4">
-                <label>Number of Subjects</label>
-                <input class="form-control" name='numSubjects' type="number" value="{{numSubjects}}" placeholder="Numeric" />
-            </div>
-            <div class="col-xs-8">
-                <label>Number of Subjects (text-details)</label>
-                <input class="form-control" name='numSubjectsText' type="text" value="{{numSubjectsText}}"/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-xs-4">
-                <label>Exposure assessment details</label>
-                <textarea class="form-control" name='exposureAssessment' rows="3">{{exposureAssessment}}</textarea>
-            </div>
-            <div class="col-xs-4">
-                <label>Covariates</label>
-                <textarea class="form-control" name='covariates' rows="3">{{covariates}}</textarea>
-            </div>
-            <div class="col-xs-4">
-                <label>Comments</label>
-                <textarea class="form-control" name='comments' rows="3">{{comments}}</textarea>
-            </div>
-        </div>
+  <form id="epiCohortForm" role="form" class="editForm">
+    <div class="form-group row">
+      <div class="col-xs-4">
+        <label>Reference and Reference URL</label>
+        <input class="form-control" name='reference' type="text" value="{{reference}}" placeholder='Enter the reference, such as "Smith et al. (2005)"' /><br>
+        <input class="form-control" name='reference_url' type="url" value="{{reference_url}}" placeholder='Enter the reference URL, if available' />
+      </div>
+      <div class="col-xs-4">
+        <label>Cohort Location</label>
+        <input class="form-control" name='location' type="text" value="{{location}}"/>
+      </div>
+      <div class="col-xs-4">
+        <label>Follow-up period</label>
+        <input class="form-control" name='followUpPeriod' type="text" value="{{followUpPeriod}}"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-4">
+        <label>Number of Subjects</label>
+        <input class="form-control" name='numSubjects' type="number" value="{{numSubjects}}" placeholder="Numeric" />
+      </div>
+      <div class="col-xs-8">
+        <label>Number of Subjects (text-details)</label>
+        <input class="form-control" name='numSubjectsText' type="text" value="{{numSubjectsText}}"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-4">
+        <label>Exposure assessment details</label>
+        <textarea class="form-control" name='exposureAssessment' rows="3">{{exposureAssessment}}</textarea>
+      </div>
+      <div class="col-xs-4">
+        <label>Covariates</label>
+        <textarea class="form-control" name='covariates' rows="3">{{covariates}}</textarea>
+      </div>
+      <div class="col-xs-4">
+        <label>Comments</label>
+        <textarea class="form-control" name='comments' rows="3">{{comments}}</textarea>
+      </div>
+    </div>
 
-        <div class="well well-sm pager">
-        {{#if epiCohortIsNew epiCohortNew }}
-            <button type="button" class="btn btn-sm btn-primary" id="epiCohort-create" title="Create new"><span class="glyphicon glyphicon-ok"></span> Create</button>
-            <button type="button" class="btn btn-sm btn-default" id="epiCohort-create-cancel" title="Cancel">Cancel</button>
-        {{else}}
-            <button type="button" class="btn btn-sm btn-primary" id="epiCohort-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
-            <button type="button" class="btn btn-sm btn-default" id="epiCohort-update-cancel" title="Cancel changes">Cancel</button>
-            <button type="button" class="btn btn-sm btn-danger"  id="epiCohort-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
-        {{/if}}
-        </div>
-    </form>
+    <div class="well well-sm pager">
+      {{#if epiCohortIsNew epiCohortNew }}
+        <button type="button" class="btn btn-sm btn-primary" id="epiCohort-create" title="Create new"><span class="glyphicon glyphicon-ok"></span> Create</button>
+        <button type="button" class="btn btn-sm btn-default" id="epiCohort-create-cancel" title="Cancel">Cancel</button>
+      {{else}}
+        <button type="button" class="btn btn-sm btn-primary" id="epiCohort-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="epiCohort-update-cancel" title="Cancel changes">Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger"  id="epiCohort-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+      {{/if}}
+    </div>
+  </form>
 
-    {{#unless epiCohortIsNew epiCohortNew }}
-        {{> epiCohortExposureTbl epiCohort=this epiCohortExposureEditable="T"}}
-    {{/unless}}
+  {{#unless epiCohortIsNew epiCohortNew }}
+    {{> epiCohortExposureTbl epiCohort=this epiCohortExposureEditable="T"}}
+  {{/unless}}
 </template>

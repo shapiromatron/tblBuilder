@@ -1,124 +1,136 @@
 <template name="epiCohortExposureTbl">
-    {{ #if epiCohortExposureIsEditable epiCohortExposureEditable }}
-        <h2>{{epiCohort.reference}} exposure groups
+  {{ #if epiCohortExposureIsEditable epiCohortExposureEditable }}
+    <h2>{{epiCohort.reference}} exposure groups
+      <div class="btn-group pull-right">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+          <span class="caret" title="Editing options"></span>
+        </button>
+        <ul class="dropdown-menu">
+          {{#unless epiCohortExposureShowNew}}
+            <li><a href="#" id="epiCohortExposure-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
+          {{/unless}}
+          <li><a href="#" id="epiCohortExposure-toggleShowAllRows"><span class="glyphicon glyphicon-resize-full"></span> Hide/show all rows</a></li>
+        </ul>
+      </div>
+    </h2>
+  {{ /if }}
 
-            <div class="btn-group pull-right">
-              <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                <span class="caret" title="Editing options"></span>
-              </button>
-              <ul class="dropdown-menu">
-                {{#unless epiCohortExposureShowNew}}
-                    <li><a href="#" id="epiCohortExposure-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
-                {{/unless}}
-                <li><a href="#" id="epiCohortExposure-toggleShowAllRows"><span class="glyphicon glyphicon-resize-full"></span> Hide/show all rows</a></li>
-              </ul>
-            </div>
-        </h2>
-    {{ /if }}
-    <table class="table table-condensed nestedTbl">
-        <colgroup>
-            <col width="25%">
-            <col width="25%">
-            <col width="25%">
-            <col width="25%">
-        </colgroup>
-        {{#if epiCohortExposureIsEditable epiCohortExposureEditable}}
-            <thead>
-                <tr>
-                    <th>Organ site<br>(ICD Code)</th>
-                    <th>Exposure<br>categories</th>
-                    <th>Exposed<br>cases</th>
-                    <th>Relative risk<br>(95% CI)</th>
-                </tr>
-            </thead>
-        {{/if}}
-        <tbody>
-            {{#each getEpiCohortExposures}}
-            <tr class="menu-autohide" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
-                {{#if epiCohortExposureIsEditing}}
-                    <td id="editingRow" colspan="100">
-                        {{> epiCohortExposureForm this epiCohort=.. epiCohortExposureIsNew=false}}
-                    </td>
-                {{else}}
-                    <td>
-                        <div class="rowOptions btn-group pull-right">
-                          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                            <span class="caret" title="Editing options"></span>
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a href="#" id="epiCohortExposure-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                            <li><a href="#" id="epiCohortExposure-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
-                            <li><a href="#" id="epiCohortExposure-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
-                          </ul>
-                        </div>
-                        {{organSite}}
-                    </td>
-                    <td>{{exposureCategories}}</td>
-                    <td>{{exposedCases}}</td>
-                    <td>{{{riskFormat this}}}</td>
-                {{/if}}
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+  <table class="table table-condensed nestedTbl">
+    <colgroup>
+      <col width="25%">
+      <col width="25%">
+      <col width="25%">
+      <col width="25%">
+    </colgroup>
 
     {{#if epiCohortExposureIsEditable epiCohortExposureEditable}}
-        {{#if epiCohortExposureShowNew}}
-            {{> epiCohortExposureForm epiCohort=.. epiCohortExposureIsNew=true}}
-        {{/if}}
+      <thead>
+        <tr>
+          <th>Organ site<br>(ICD Code)</th>
+          <th>Exposure<br>categories</th>
+          <th>Exposed<br>cases</th>
+          <th>Relative risk<br>(95% CI)</th>
+        </tr>
+      </thead>
     {{/if}}
+
+    <tbody>
+      {{#each getEpiCohortExposures}}
+        <tr class="menu-autohide" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
+          {{#if epiCohortExposureIsEditing}}
+            <td id="editingRow" colspan="100">
+              {{> epiCohortExposureForm this epiCohort=.. epiCohortExposureIsNew=false}}
+            </td>
+          {{else}}
+            <td>
+              <div class="rowOptions btn-group pull-right">
+                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                  <span class="caret" title="Editing options"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" id="epiCohortExposure-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                  <li><a href="#" id="epiCohortExposure-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
+                  <li><a href="#" id="epiCohortExposure-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
+                </ul>
+              </div>
+              {{organSite}}
+            </td>
+            <td>{{exposureCategories}}</td>
+            <td>{{exposedCases}}</td>
+            <td>{{{riskFormat this}}}</td>
+          {{/if}}
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan="100">No exposure cohorts have been created.
+            {{#if epiCohortExposureIsEditable epiCohortExposureEditable}}
+              {{#unless epiCohortExposureShowNew}}<br><br>
+                <a href="#" class="btn btn-primary btn-sm" id="epiCohortExposure-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a>
+              {{/unless}}
+            {{/if}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  {{#if epiCohortExposureIsEditable epiCohortExposureEditable}}
+    {{#if epiCohortExposureShowNew}}
+      {{> epiCohortExposureForm epiCohort=.. epiCohortExposureIsNew=true}}
+    {{/if}}
+  {{/if}}
 </template>
 
 <template name="epiCohortExposureForm">
-    <form id="epiCohortExposureForm" role="form" class="editForm">
-        <div class="form-group row">
-            <div class="col-xs-4">
-                <label>Organ site<br>(ICD code)</label>
-                <input class="form-control" name='organSite' type="text" value="{{organSite}}" />
-            </div>
-            <div class="col-xs-4">
-                <label>Exposure<br>categories</label>
-                <input class="form-control" name='exposureCategories' type="text" value="{{exposureCategories}}" placeholder='blank if N/A'/>
-            </div>
-            <div class="col-xs-4">
-                <label>Exposed<br>cases</label>
-                <input class="form-control" name='exposedCases' type="text" value="{{exposedCases}}" placeholder='"ND" if non-numeric'/>
-            </div>
-        </div>
+  <form id="epiCohortExposureForm" role="form" class="editForm">
+    <div class="form-group row">
+      <div class="col-xs-4">
+        <label>Organ site<br>(ICD code)</label>
+        <input class="form-control" name='organSite' type="text" value="{{organSite}}" />
+      </div>
+      <div class="col-xs-4">
+        <label>Exposure<br>categories</label>
+        <input class="form-control" name='exposureCategories' type="text" value="{{exposureCategories}}" placeholder='blank if N/A'/>
+      </div>
+      <div class="col-xs-4">
+        <label>Exposed<br>cases</label>
+        <input class="form-control" name='exposedCases' type="text" value="{{exposedCases}}" placeholder='"ND" if non-numeric'/>
+      </div>
+    </div>
 
-        <div class="form-group row">
-            <div class="col-xs-3">
-                <label>Risk estimate - mid</label>
-                <input type="number" class="form-control" name='riskMid' value="{{riskMid}}"/>
-            </div>
-            <div class="col-xs-3">
-                <label>Risk estimate - 95% lower CI</label>
-                <input type="number" class="form-control" name='riskLow' value="{{riskLow}}"/>
-            </div>
-            <div class="col-xs-3">
-                <label>Risk estimate - 95% upper CI </label>
-                <input type="number" class="form-control" name='riskHigh' value="{{riskHigh}}"/>
-            </div>
-            <div class="col-xs-3">
-                <label>Estimated</label>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name='estimated' checked="{{estimated}}"/>
-                        (check if estimate not in reference)
-                    </label>
-                </div>
-            </div>
+    <div class="form-group row">
+      <div class="col-xs-3">
+        <label>Risk estimate - mid</label>
+        <input type="number" class="form-control" name='riskMid' value="{{riskMid}}"/>
+      </div>
+      <div class="col-xs-3">
+        <label>Risk estimate - 95% lower CI</label>
+        <input type="number" class="form-control" name='riskLow' value="{{riskLow}}"/>
+      </div>
+      <div class="col-xs-3">
+        <label>Risk estimate - 95% upper CI </label>
+        <input type="number" class="form-control" name='riskHigh' value="{{riskHigh}}"/>
+      </div>
+      <div class="col-xs-3">
+        <label>Estimated</label>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name='estimated' checked="{{estimated}}"/>
+            (check if estimate not in reference)
+          </label>
         </div>
+      </div>
+    </div>
 
-        <div class="well well-sm pager">
-        {{#if epiCohortExposureIsNew }}
-            <button type="button" class="btn btn-sm btn-primary" id="epiCohortExposure-create" title="Save new"><span class="glyphicon glyphicon-ok"></span> Create</button>
-            <button type="button" class="btn btn-sm btn-default" id="epiCohortExposure-create-cancel" title="Cancel">Cancel</button>
-        {{else}}
-            <button type="button" class="btn btn-sm btn-primary" id="epiCohortExposure-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
-            <button type="button" class="btn btn-sm btn-default" id="epiCohortExposure-update-cancel" title="Cancel changes"> Cancel</button>
-            <button type="button" class="btn btn-sm btn-danger"  id="epiCohortExposure-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
-        {{/if}}
-        </div>
-    </form>
+    <div class="well well-sm pager">
+      {{#if epiCohortExposureIsNew }}
+        <button type="button" class="btn btn-sm btn-primary" id="epiCohortExposure-create" title="Save new"><span class="glyphicon glyphicon-ok"></span> Create</button>
+        <button type="button" class="btn btn-sm btn-default" id="epiCohortExposure-create-cancel" title="Cancel">Cancel</button>
+      {{else}}
+        <button type="button" class="btn btn-sm btn-primary" id="epiCohortExposure-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="epiCohortExposure-update-cancel" title="Cancel changes"> Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger"  id="epiCohortExposure-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+      {{/if}}
+    </div>
+  </form>
 </template>

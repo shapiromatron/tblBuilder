@@ -6,7 +6,7 @@ Deps.autorun(function () {
   var myTbl_id = Session.get('epiCohort_myTbl');
   if (myTbl_id){
     epiCohortHandle = Meteor.subscribe('epiCohort', myTbl_id);
-    } else{
+  }else{
     epiCohortExposure = null;
   }
 });
@@ -29,14 +29,14 @@ Template.epiCohortTbl.helpers({
 
 Template.epiCohortTbl.events({
   'click #epiCohort-show-create': function(evt, tmpl){
-      Session.set("epiCohortShowNew", true);
-      Deps.flush(); // update DOM before focus
-      activateInput(tmpl.find("input[name=reference]"));
+    Session.set("epiCohortShowNew", true);
+    Deps.flush(); // update DOM before focus
+    activateInput(tmpl.find("input[name=reference]"));
   },
   'click #epiCohort-show-edit': function(evt, tmpl){
-      Session.set("epiCohortEditingId", this._id);
-      Deps.flush(); // update DOM before focus
-      activateInput(tmpl.find("input[name=reference]"));
+    Session.set("epiCohortEditingId", this._id);
+    Deps.flush(); // update DOM before focus
+    activateInput(tmpl.find("input[name=reference]"));
   },
   'click #epiCohort-move-up': function (evt, tmpl){
     var tr = $(tmpl.find('tr[data-id=' + this._id + ']'));
@@ -60,29 +60,29 @@ Template.epiCohortForm.helpers({
 
 Template.epiCohortForm.events({
   'click #epiCohort-create': function (evt, tmpl){
-      var obj = new_values(tmpl);
-      obj['timestamp'] = (new Date()).getTime();
-      obj['user_id'] = Meteor.userId();
-      obj['myTbl_id'] = Session.get('epiCohort_myTbl');
-      Meteor.call('epiCohortNewIdx', obj['myTbl_id'], function(err, response) {
-        obj['sortIdx'] = response;
-        EpiCohort.insert(obj);
-        Session.set("epiCohortShowNew", false);
-      });
-    },
-    'click #epiCohort-create-cancel': function (evt, tmpl){
+    var obj = new_values(tmpl);
+    obj['timestamp'] = (new Date()).getTime();
+    obj['user_id'] = Meteor.userId();
+    obj['myTbl_id'] = Session.get('epiCohort_myTbl');
+    Meteor.call('epiCohortNewIdx', obj['myTbl_id'], function(err, response) {
+      obj['sortIdx'] = response;
+      EpiCohort.insert(obj);
       Session.set("epiCohortShowNew", false);
-    },
-    'click #epiCohort-update': function (evt, tmpl){
-      var vals = update_values(tmpl.find('#epiCohortForm'), this);
-      EpiCohort.update(this._id, {$set: vals});
-      Session.set("epiCohortEditingId", null);
-    },
-    'click #epiCohort-update-cancel': function (evt, tmpl){
-      Session.set("epiCohortEditingId", null);
-    },
-    'click #epiCohort-delete': function (evt, tmpl){
-      EpiCohort.remove(this._id);
-      Session.set("epiCohortEditingId", null);
-    }
+    });
+  },
+  'click #epiCohort-create-cancel': function (evt, tmpl){
+    Session.set("epiCohortShowNew", false);
+  },
+  'click #epiCohort-update': function (evt, tmpl){
+    var vals = update_values(tmpl.find('#epiCohortForm'), this);
+    EpiCohort.update(this._id, {$set: vals});
+    Session.set("epiCohortEditingId", null);
+  },
+  'click #epiCohort-update-cancel': function (evt, tmpl){
+    Session.set("epiCohortEditingId", null);
+  },
+  'click #epiCohort-delete': function (evt, tmpl){
+    EpiCohort.remove(this._id);
+    Session.set("epiCohortEditingId", null);
+  }
 });
