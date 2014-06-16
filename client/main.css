@@ -46,3 +46,8 @@
     border: 5px solid #6A7487;
     background-color: #E6E6FA;
 }
+
+.hiddenRow {
+    color: gray;
+    background-color: #eee;
+}

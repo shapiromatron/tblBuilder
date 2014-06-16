@@ -44,13 +44,13 @@ Meteor.startup(function () {
           cohorts = EpiCohort.find({myTbl_id: myTbl_id}, {sort: {sortIdx: 1}});
           var data = [['reference', 'location', 'followUpPeriod',
                        'numSubjects', 'numSubjectsDetails', 'covariates',
-                       'comments', 'organSite', 'exposureCategories',
-                       'exposedCases', 'riskMid', 'riskLow', 'riskHigh',
-                       'riskEstimated']];
+                       'comments', 'isHidden', 'organSite',
+                       'exposureCategories', 'exposedCases', 'riskMid',
+                       'riskLow', 'riskHigh', 'riskEstimated']];
           cohorts.forEach(function(v){
             var row = [v.reference, v.location, v.followUpPeriod,
                        v.numSubjects, v.numSubjectsText, v.covariates,
-                       v.comments],
+                       v.comments, v.isHidden],
                 rows = getEpiCohortExposureData(v._id, row);
                 console.log(v._id);
             data.push.apply(data, rows);

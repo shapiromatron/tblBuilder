@@ -14,6 +14,7 @@ Deps.autorun(function () {
 Session.setDefault('epiCohort_myTbl', null);
 Session.setDefault('epiCohortShowNew', false);
 Session.setDefault('epiCohortEditingId', null);
+Session.setDefault('epiCohortShowAll', false);
 
 Template.epiCohortTbl.helpers({
   "getEpiCohorts" : function(){
@@ -24,6 +25,12 @@ Template.epiCohortTbl.helpers({
   },
   "epiCohortIsEditing" : function(){
     return Session.equals('epiCohortEditingId', this._id);
+  },
+  "showRow": function(isHidden){
+    return Session.get('epiCohortShowAll') || !isHidden;
+  },
+  "isShowAll": function(){
+    return Session.get('epiCohortShowAll');
   }
 });
 
@@ -53,7 +60,10 @@ Template.epiCohortTbl.events({
     });
   },
   'click #epiCohort-toggleShowAllRows': function(evt, tmpl){
-    console.log('toggleShowAllRows clicked');
+    Session.set('epiCohortShowAll', !Session.get('epiCohortShowAll'));
+  },
+  'click #epiCohort-toggle-hidden': function(evt, tmpl){
+    EpiCohort.update(this._id, {$set: {isHidden: !this.isHidden}});
   }
 });
 
@@ -67,6 +77,7 @@ Template.epiCohortForm.events({
     obj['timestamp'] = (new Date()).getTime();
     obj['user_id'] = Meteor.userId();
     obj['myTbl_id'] = Session.get('epiCohort_myTbl');
+    obj['isHidden'] = false;
     Meteor.call('epiCohortNewIdx', obj['myTbl_id'], function(err, response) {
       obj['sortIdx'] = response;
       EpiCohort.insert(obj);

@@ -15,7 +15,11 @@
           <li><a href="#" id="epiCohort-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
         {{/unless}}
         <li><a href="#" id="epiCohort-downloadExcel"><span class="glyphicon glyphicon-save"></span> Download Excel</a></li>
-        <li><a href="#" id="epiCohort-toggleShowAllRows"><span class="glyphicon glyphicon-resize-full"></span> Hide/show all rows</a></li>
+        <li><a href="#" id="epiCohort-toggleShowAllRows">
+          {{#if isShowAll}}<span class="glyphicon glyphicon-resize-small"></span> Hide rows
+          {{else}}<span class="glyphicon glyphicon-resize-full"></span> Show all rows
+          {{/if}}</a>
+        </li>
       </ul>
     </div>
   </h1>
@@ -45,33 +49,40 @@
     </thead>
     <tbody>
       {{#each getEpiCohorts}}
-        <tr class="menu-autohide" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
-          {{#if epiCohortIsEditing}}
-            <td id="editingRow" colspan="100">
-              {{> epiCohortForm this epiCohortNew="F"}}
-            </td>
-          {{else}}
-            <td>
-              <div class="rowOptions btn-group pull-right">
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                  <span class="caret" title="Editing options"></span>
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a href="#" id="epiCohort-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                  <li><a href="#" id="epiCohort-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
-                  <li><a href="#" id="epiCohort-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
-                </ul>
-              </div>
-              {{{referenceFormat reference reference_url}}}<br>{{location}}<br>{{followUpPeriod}}
-            </td>
-            <td>{{numSubjects}} {{numSubjectsText}}</td>
-            <td>{{exposureAssessment}}</td>
-            <td colspan="4">
-              {{> epiCohortExposureTbl epiCohort=this epiCohortExposureEditable="F" }}
-            </td>
-            <td>{{covariates}}<br>{{comments}}</td>
-          {{/if}}
-        </tr>
+        {{#if showRow isHidden}}
+          <tr class="menu-autohide  {{#if isHidden}}hiddenRow{{/if}}" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
+            {{#if epiCohortIsEditing}}
+              <td id="editingRow" colspan="100">
+                {{> epiCohortForm this epiCohortNew="F"}}
+              </td>
+            {{else}}
+              <td>
+                <div class="rowOptions btn-group pull-right">
+                  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                    <span class="caret" title="Editing options"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" id="epiCohort-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                    <li><a href="#" id="epiCohort-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
+                    <li><a href="#" id="epiCohort-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
+                    <li><a href="#" id="epiCohort-toggle-hidden">{{#if isHidden}}
+                      <span class="glyphicon glyphicon-plus"></span> Show row
+                      {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+                      {{/if}}</a>
+                    </li>
+                  </ul>
+                </div>
+                {{{referenceFormat reference reference_url}}}<br>{{location}}<br>{{followUpPeriod}}
+              </td>
+              <td>{{numSubjects}} {{numSubjectsText}}</td>
+              <td>{{exposureAssessment}}</td>
+              <td colspan="4">
+                {{> epiCohortExposureTbl epiCohort=this epiCohortExposureEditable="F" }}
+              </td>
+              <td>{{covariates}}<br>{{comments}}</td>
+            {{/if}}
+          </tr>
+        {{/if}}
       {{else}}
         <tr>
           <td colspan="100">No cohorts have been created.
