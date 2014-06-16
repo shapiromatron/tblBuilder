@@ -14,6 +14,12 @@ Deps.autorun(function () {
 Session.setDefault('epiCohortExposureShowNew', false);
 Session.setDefault('epiCohortExposureEditingId', null);
 
+var getEpiCohortExposureShowAllSessionKey = function (_id){
+  var key = "showAll_" + _id;
+  if(Session.get(key) === undefined) Session.setDefault(key, false);
+  return key;
+};
+
 Template.epiCohortExposureTbl.helpers({
   "getEpiCohortExposures": function(){
     return EpiCohortExposure.find({epiCohort_id: this.epiCohort._id},
@@ -27,6 +33,14 @@ Template.epiCohortExposureTbl.helpers({
   },
   "epiCohortExposureIsEditing": function(){
     return Session.equals('epiCohortExposureEditingId', this._id);
+  },
+  "showRow": function(isHidden){
+    var key = getEpiCohortExposureShowAllSessionKey(this.epiCohort_id);
+    return Session.get(key) || !isHidden;
+  },
+  "isShowAll": function(){
+    var key = getEpiCohortExposureShowAllSessionKey(this.epiCohort._id);
+    return Session.get(key);
   }
 });
 
@@ -50,7 +64,11 @@ Template.epiCohortExposureTbl.events({
         moveDown(this, tr, EpiCohortExposure);
   },
   'click #epiCohortExposure-toggleShowAllRows' : function(evt, tmpl){
-    console.log('toggleShowAllRows clicked');
+    var key = getEpiCohortExposureShowAllSessionKey(this.epiCohort._id);
+    Session.set(key, !Session.get(key));
+  },
+  'click #epiCohortExposure-toggle-hidden': function(evt, tmpl){
+    EpiCohortExposure.update(this._id, {$set: {isHidden: !this.isHidden}});
   }
 });
 
@@ -67,6 +85,7 @@ Template.epiCohortExposureForm.events({
     obj['user_id'] = Meteor.userId();
     obj['myTbl_id'] = Session.get('epiCohort_myTbl');
     obj['epiCohort_id'] = tmpl.data.epiCohort._id;
+    obj['isHidden'] = false;
     Meteor.call('epiCohortExposureNewIdx', obj['epiCohort_id'], function(err, response) {
       obj['sortIdx'] = response;
       EpiCohortExposure.insert(obj);

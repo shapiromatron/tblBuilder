@@ -50,7 +50,7 @@
     <tbody>
       {{#each getEpiCohorts}}
         {{#if showRow isHidden}}
-          <tr class="menu-autohide  {{#if isHidden}}hiddenRow{{/if}}" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
+          <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
             {{#if epiCohortIsEditing}}
               <td id="editingRow" colspan="100">
                 {{> epiCohortForm this epiCohortNew="F"}}

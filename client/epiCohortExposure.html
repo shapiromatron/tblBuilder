@@ -9,7 +9,11 @@
           {{#unless epiCohortExposureShowNew}}
             <li><a href="#" id="epiCohortExposure-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
           {{/unless}}
-          <li><a href="#" id="epiCohortExposure-toggleShowAllRows"><span class="glyphicon glyphicon-resize-full"></span> Hide/show all rows</a></li>
+          <li><a href="#" id="epiCohortExposure-toggleShowAllRows">
+            {{#if isShowAll}}<span class="glyphicon glyphicon-resize-small"></span> Hide rows
+            {{else}}<span class="glyphicon glyphicon-resize-full"></span> Show all rows
+            {{/if}}</a>
+          </li>
         </ul>
       </div>
     </h2>
@@ -36,30 +40,37 @@
 
     <tbody>
       {{#each getEpiCohortExposures}}
-        <tr class="menu-autohide" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
-          {{#if epiCohortExposureIsEditing}}
-            <td id="editingRow" colspan="100">
-              {{> epiCohortExposureForm this epiCohort=.. epiCohortExposureIsNew=false}}
-            </td>
-          {{else}}
-            <td>
-              <div class="rowOptions btn-group pull-right">
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                  <span class="caret" title="Editing options"></span>
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a href="#" id="epiCohortExposure-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                  <li><a href="#" id="epiCohortExposure-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
-                  <li><a href="#" id="epiCohortExposure-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
-                </ul>
-              </div>
-              {{organSite}}
-            </td>
-            <td>{{exposureCategories}}</td>
-            <td>{{exposedCases}}</td>
-            <td>{{{riskFormat this}}}</td>
-          {{/if}}
-        </tr>
+        {{#if showRow isHidden}}
+          <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
+            {{#if epiCohortExposureIsEditing}}
+              <td id="editingRow" colspan="100">
+                {{> epiCohortExposureForm this epiCohort=.. epiCohortExposureIsNew=false}}
+              </td>
+            {{else}}
+              <td>
+                <div class="rowOptions btn-group pull-right">
+                  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                    <span class="caret" title="Editing options"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" id="epiCohortExposure-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                    <li><a href="#" id="epiCohortExposure-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
+                    <li><a href="#" id="epiCohortExposure-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
+                    <li><a href="#" id="epiCohortExposure-toggle-hidden">{{#if isHidden}}
+                      <span class="glyphicon glyphicon-plus"></span> Show row
+                      {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+                      {{/if}}</a>
+                    </li>
+                  </ul>
+                </div>
+                {{organSite}}
+              </td>
+              <td>{{exposureCategories}}</td>
+              <td>{{exposedCases}}</td>
+              <td>{{{riskFormat this}}}</td>
+            {{/if}}
+          </tr>
+        {{/if}}
       {{else}}
         <tr>
           <td colspan="100">No exposure cohorts have been created.
