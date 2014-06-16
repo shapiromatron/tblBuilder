@@ -4,6 +4,7 @@
     "npm": {},
     "filesaver": {},
     "iron-router": {},
-    "moment": {}
+    "moment": {},
+    "accounts-ui-bootstrap-3": {}
   }
 }

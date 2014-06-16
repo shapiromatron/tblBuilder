@@ -9,8 +9,8 @@ bootstrap-3
 npm
 filesaver
 accounts-base
-accounts-ui
 accounts-password
 iron-router
 moment
 coffeescript
+accounts-ui-bootstrap-3
