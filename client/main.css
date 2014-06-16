@@ -26,7 +26,7 @@
 }
 
 .table .nestedTbl {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     background-color: inherit;
 }
 
@@ -40,4 +40,9 @@
 
 .nestedTbl > tbody > tr:hover {
     background-color: #CFCFE1;
+}
+
+#editingRow {
+    border: 5px solid #6A7487;
+    background-color: #E6E6FA;
 }

@@ -30,6 +30,8 @@ Template.epiCohortTbl.helpers({
 Template.epiCohortTbl.events({
   'click #epiCohort-show-create': function(evt, tmpl){
       Session.set("epiCohortShowNew", true);
+      Deps.flush(); // update DOM before focus
+      activateInput(tmpl.find("input[name=reference]"));
   },
   'click #epiCohort-show-edit': function(evt, tmpl){
       Session.set("epiCohortEditingId", this._id);
@@ -43,6 +45,12 @@ Template.epiCohortTbl.events({
   'click #epiCohort-move-down': function (evt, tmpl){
     var tr = $(tmpl.find('tr[data-id=' + this._id + ']'));
         moveDown(this, tr, EpiCohort);
+  },
+  'click #epiCohort-downloadExcel': function(evt, tmpl){
+    console.log('downloadExcel clicked');
+  },
+  'click #epiCohort-toggleShowAllRows': function(evt, tmpl){
+    console.log('toggleShowAllRows clicked');
   }
 });
 

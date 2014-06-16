@@ -33,6 +33,8 @@ Template.epiCohortExposureTbl.helpers({
 Template.epiCohortExposureTbl.events({
     'click #epiCohortExposure-show-create': function(evt, tmpl){
         Session.set("epiCohortExposureShowNew", true);
+        Deps.flush(); // update DOM before focus
+        activateInput(tmpl.find("input[name=organSite]"));
     },
     'click #epiCohortExposure-show-edit': function(evt, tmpl){
         Session.set("epiCohortExposureEditingId", this._id);
@@ -46,6 +48,9 @@ Template.epiCohortExposureTbl.events({
     'click #epiCohortExposure-move-down': function (evt, tmpl){
       var tr = $(tmpl.find('tr[data-id=' + this._id + ']'));
           moveDown(this, tr, EpiCohortExposure);
+    },
+    'click #epiCohortExposure-toggleShowAllRows' : function(evt, tmpl){
+      console.log('toggleShowAllRows clicked');
     }
 });
 

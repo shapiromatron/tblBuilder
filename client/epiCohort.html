@@ -1,6 +1,5 @@
 <template name="epiCohortMain">
     <div class="container">
-        <h1>{{name}}.</h1>
         {{> epiCohortTbl}}
         <a href="{{pathFor 'my_lists'}}">Home</a>
         <a href="{{pathFor 'in_vitro'}}">In vitro!</a>
@@ -8,6 +7,21 @@
 </template>
 
 <template name="epiCohortTbl">
+    <h1>{{name}}
+        <div class="btn-group pull-right">
+          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+            <span class="caret" title="Editing options"></span>
+          </button>
+          <ul class="dropdown-menu">
+            {{#unless epiCohortShowNew}}
+                <li><a href="#" id="epiCohort-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
+            {{/unless}}
+            <li><a href="#" id="epiCohort-downloadExcel"><span class="glyphicon glyphicon-save"></span> Download Excel</a></li>
+            <li><a href="#" id="epiCohort-toggleShowAllRows"><span class="glyphicon glyphicon-resize-full"></span> Hide/show all rows</a></li>
+          </ul>
+        </div>
+    </h1>
+
     <table class="table table-compressed">
         <colgroup>
             <col width="15%">
@@ -35,7 +49,7 @@
             {{#each getEpiCohorts}}
             <tr class="menu-autohide" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
                 {{#if epiCohortIsEditing}}
-                    <td colspan="100">
+                    <td id="editingRow" colspan="100">
                         {{> epiCohortForm this epiCohortNew="F"}}
                     </td>
                 {{else}}
@@ -66,8 +80,6 @@
 
     {{#if epiCohortShowNew}}
         {{> epiCohortForm epiCohortNew="T"}}
-    {{else}}
-        <button class="btn btn-primary" id='epiCohort-show-create'><i class="glyphicon glyphicon-plus"></i> New</button>
     {{/if}}
 </template>
 
@@ -115,7 +127,7 @@
 
         <div class="well well-sm pager">
         {{#if epiCohortIsNew epiCohortNew }}
-            <button type="button" class="btn btn-sm btn-primary" id="epiCohort-create" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
+            <button type="button" class="btn btn-sm btn-primary" id="epiCohort-create" title="Create new"><span class="glyphicon glyphicon-ok"></span> Create</button>
             <button type="button" class="btn btn-sm btn-default" id="epiCohort-create-cancel" title="Cancel">Cancel</button>
         {{else}}
             <button type="button" class="btn btn-sm btn-primary" id="epiCohort-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
