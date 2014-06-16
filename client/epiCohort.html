@@ -1,8 +1,6 @@
 <template name="epiCohortMain">
   <div class="container">
     {{> epiCohortTbl}}
-    <a href="{{pathFor 'my_lists'}}">Home</a>
-    <a href="{{pathFor 'in_vitro'}}">In vitro!</a>
   </div>
 </template>
 
@@ -14,7 +12,7 @@
       </button>
       <ul class="dropdown-menu">
         {{#unless epiCohortShowNew}}
-        <li><a href="#" id="epiCohort-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
+          <li><a href="#" id="epiCohort-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
         {{/unless}}
         <li><a href="#" id="epiCohort-downloadExcel"><span class="glyphicon glyphicon-save"></span> Download Excel</a></li>
         <li><a href="#" id="epiCohort-toggleShowAllRows"><span class="glyphicon glyphicon-resize-full"></span> Hide/show all rows</a></li>

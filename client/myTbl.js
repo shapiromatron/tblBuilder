@@ -28,6 +28,8 @@ Template.myTbl.helpers({
 Template.myTbl.events({
   'click #myTbl-show-create': function(evt, tmpl){
     Session.set("myTblShowNew", true);
+    Deps.flush(); // update DOM before focus
+    activateInput(tmpl.find("input[name=name]"));
   },
   'click #myTbl-show-edit': function(evt, tmpl){
     Session.set("myTblEditingId", this._id);

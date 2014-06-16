@@ -1,12 +1,23 @@
 <template name="my_lists">
   <div class="container">
-    <h1>My available lists.</h1>
     {{> myTbl }}
-    <a href="{{pathFor 'in_vitro'}}">In vitro!</a>
   </div>
 </template>
 
 <template name="myTbl">
+  <h1>Tables which I've created.
+    <div class="btn-group pull-right">
+      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+        <span class="caret" title="Editing options"></span>
+      </button>
+      <ul class="dropdown-menu">
+        {{#unless showNew}}
+          <li><a href="#" id="myTbl-show-create"><span class="glyphicon glyphicon-plus"></span> New</a></li>
+        {{/unless}}
+      </ul>
+    </div>
+  </h1>
+
   <table class="table table-compressed table-striped">
     <thead>
       <tr>
@@ -21,7 +32,7 @@
       {{#each getMyTbls}}
         <tr>
           {{#if isEditing}}
-            <td colspan="100">
+            <td id="editingRow" colspan="100">
               {{> myTblForm}}
             </td>
           {{else}}
@@ -32,19 +43,25 @@
             <td><a class="btn btn-default" href="#" id="myTbl-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
           {{/if}}
         </tr>
+      {{else}}
+        {{#unless showNew}}
+          <tr>
+            <td colspan="100">You haven't created any tables yet.<br><br>
+              <a href="#" class="btn btn-primary btn-sm" id="myTbl-show-create"><span class="glyphicon glyphicon-plus"></span> Create new</a>
+            </td>
+          </tr>
+        {{/unless}}
       {{/each}}
     </tbody>
   </table>
 
   {{#if showNew}}
     {{> myTblForm}}
-  {{else}}
-    <button class="btn btn-primary" id='myTbl-show-create'><i class="glyphicon glyphicon-plus"></i> New</button>
   {{/if}}
 </template>
 
 <template name="myTblForm">
-  <form id="myTblForm" role="form">
+  <form id="myTblForm" role="form" class="editForm">
     <div class="form-group">
       <label>Table Name</label>
       <input class="form-control" name='name' type="text" value="{{name}}"/>
@@ -60,13 +77,16 @@
       <label>Secret password</label>
       <input class="form-control" name='passwd' type="text" value="{{passwd}}"/>
     </div>
+
+    <div class="well well-sm pager">
+      {{#if _id}}
+        <button type="button" class="btn btn-sm btn-primary" id="myTbl-update" title="Save changes"><span class="glyphicon glyphicon-ok"></span> Save</button>
+        <button type="button" class="btn btn-sm btn-default" id="myTbl-update-cancel" title="Cancel changes">Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger"  id="myTbl-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+      {{else}}
+        <button type="button" class="btn btn-sm btn-primary" id="myTbl-create" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="myTbl-create-cancel" title="Cancel">Cancel</button>
+      {{/if}}
+    </div>
   </form>
-  {{#if _id}}
-    <button type="button" class="btn btn-sm btn-primary" id="myTbl-update" title="Save changes"><span class="glyphicon glyphicon-ok"></span> Save</button>
-    <button type="button" class="btn btn-sm btn-default" id="myTbl-update-cancel" title="Cancel changes">Cancel</button>
-    <button type="button" class="btn btn-sm btn-danger"  id="myTbl-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
-  {{else}}
-    <button type="button" class="btn btn-sm btn-primary" id="myTbl-create" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
-    <button type="button" class="btn btn-sm btn-default" id="myTbl-create-cancel" title="Cancel">Cancel</button>
-  {{/if}}
 </template>
