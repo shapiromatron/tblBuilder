@@ -78,9 +78,10 @@ Template.refs_newform.events({
     Session.set("show_nondisplay", !Session.get("show_nondisplay"));
   },
   'click #download-excel' : function (evt, tmpl){
-    Meteor.call('publish_workbook', 'foo', function(err, response) {
-      return_excel_file(response, "iv.xlsx");
-    });
+    console.log('deprecated');
+    // Meteor.call('publish_workbook', 'foo', function(err, response) {
+    //   return_excel_file(response, "iv.xlsx");
+    // });
   }
 });
 

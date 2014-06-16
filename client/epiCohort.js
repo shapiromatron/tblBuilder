@@ -47,7 +47,10 @@ Template.epiCohortTbl.events({
         moveDown(this, tr, EpiCohort);
   },
   'click #epiCohort-downloadExcel': function(evt, tmpl){
-    console.log('downloadExcel clicked');
+    var myTbl_id = tmpl.data._id;
+    Meteor.call('downloadEpiCohort', myTbl_id, function(err, response) {
+      return_excel_file(response, "epiCohort.xlsx");
+    });
   },
   'click #epiCohort-toggleShowAllRows': function(evt, tmpl){
     console.log('toggleShowAllRows clicked');
