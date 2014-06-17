@@ -56,7 +56,7 @@ Template.epiCohortTbl.events
 
     'click #epiCohort-downloadExcel': (evt, tmpl) ->
         myTbl_id = tmpl.data._id
-        Meteor.call('epiCohortDownload', myTbl_id, (err, response) ->
+        Meteor.call('epiCohortExcelDownload', myTbl_id, (err, response) ->
             return_excel_file(response, "epiCohort.xlsx")
         )
     'click #epiCohort-toggleShowAllRows': (evt, tmpl) ->
