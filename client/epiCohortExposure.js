@@ -69,6 +69,12 @@ Template.epiCohortExposureTbl.events({
   },
   'click #epiCohortExposure-toggle-hidden': function(evt, tmpl){
     EpiCohortExposure.update(this._id, {$set: {isHidden: !this.isHidden}});
+  },
+  'click #epiCohortExposure-copy-as-new': function(evt, tmpl){
+    Session.set("epiCohortExposureShowNew", true);
+    Deps.flush();  // update DOM before focus
+    activateInput(tmpl.find("input[name=organSite]"));
+    copyAsNew(this);
   }
 });
 

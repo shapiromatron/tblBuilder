@@ -51,6 +51,11 @@ Template.epiCohortTbl.events({
         Session.set('epiCohortShowAll', !Session.get('epiCohortShowAll'))
     'click #epiCohort-toggle-hidden': (evt, tmpl) ->
         EpiCohort.update(@_id, {$set: {isHidden: !@isHidden}})
+    'click #epiCohort-copy-as-new': (evt, tmpl) ->
+        Session.set("epiCohortShowNew", true)
+        Deps.flush() # update DOM before focus
+        activateInput(tmpl.find("input[name=reference]"))
+        copyAsNew(@)
 })
 
 Template.epiCohortForm.helpers({

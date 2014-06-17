@@ -96,6 +96,19 @@ okCancelEvents = function (selector, callbacks) {
     Cls.update(next.attr('data-id'),
                 {$set: {'sortIdx': sortIdx}});
   }
+}, copyAsNew = function(obj){
+  for(var key in obj){
+    var val = obj[key];
+    switch (typeof(val)) {
+      case "boolean":
+        $("input[name={0}]".printf(key)).prop('checked', val);
+        break;
+      default:
+        $("input[name={0}]".printf(key)).val(val);
+        $("textarea[name={0}]".printf(key)).val(val);
+        break;
+    }
+  }
 };
 
 UI.registerHelper("formatDate", function(datetime, format) {
