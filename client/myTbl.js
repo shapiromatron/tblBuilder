@@ -26,14 +26,14 @@ Template.myTbl.helpers({
   getURL: function(){
     var url;
     switch (this.tblType){
-      case "In Vitro":
-        url = Router.path('in_vitro');
-        break;
       case "Epidemiology - Cohort":
         url = Router.path('epiCohortMain', {_id: this._id});
         break;
       case "Epidemiology - Case Control":
         url = Router.path('epiCaseControlMain', {_id: this._id});
+        break;
+      default:
+        url = Router.path('404');
         break;
     }
     return url;

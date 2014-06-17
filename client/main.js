@@ -1,6 +1,5 @@
 Router.map(function(){
   this.route('my_lists', {path: '/'});
-  this.route('in_vitro', {path: '/in_vitro'});
   this.route('epiCohortMain', {
     path: '/epi-cohort/:_id',
     data: function(){ return MyTbls.findOne(this.params._id);},
