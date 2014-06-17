@@ -1,3 +1,5 @@
+MyTbls = new Meteor.Collection('myTbls');
+
 Router.map(function(){
   this.route('my_lists', {path: '/'});
   this.route('epiCohortMain', {
