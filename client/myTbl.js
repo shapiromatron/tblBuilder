@@ -22,6 +22,21 @@ Template.myTbl.helpers({
   },
   isEditing: function(){
     return Session.equals('myTblEditingId', this._id);
+  },
+  getURL: function(){
+    var url;
+    switch (this.tblType){
+      case "In Vitro":
+        url = Router.path('in_vitro');
+        break;
+      case "Epidemiology - Cohort":
+        url = Router.path('epiCohortMain', {_id: this._id});
+        break;
+      case "Epidemiology - Case Control":
+        url = Router.path('epiCaseControlMain', {_id: this._id});
+        break;
+    }
+    return url;
   }
 });
 

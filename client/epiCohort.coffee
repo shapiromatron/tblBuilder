@@ -1,7 +1,7 @@
 EpiCohort = new Meteor.Collection('epiCohort')
 
 getEpiCohortHandle = ->
-    myTbl_id = Session.get('epiCohort_myTbl')
+    myTbl_id = Session.get('MyTbl_id')
     if myTbl_id
         epiCohortHandle = Meteor.subscribe('epiCohort', myTbl_id)
     else
@@ -11,7 +11,7 @@ epiCohortHandle = getEpiCohortHandle()
 Deps.autorun(getEpiCohortHandle)
 
 
-Session.setDefault('epiCohort_myTbl', null)
+Session.setDefault('MyTbl_id', null)
 Session.setDefault('epiCohortShowNew', false)
 Session.setDefault('epiCohortEditingId', null)
 Session.setDefault('epiCohortShowAll', false)
@@ -56,7 +56,7 @@ Template.epiCohortTbl.events
 
     'click #epiCohort-downloadExcel': (evt, tmpl) ->
         myTbl_id = tmpl.data._id
-        Meteor.call('downloadEpiCohort', myTbl_id, (err, response) ->
+        Meteor.call('epiCohortDownload', myTbl_id, (err, response) ->
             return_excel_file(response, "epiCohort.xlsx")
         )
     'click #epiCohort-toggleShowAllRows': (evt, tmpl) ->
@@ -82,7 +82,7 @@ Template.epiCohortForm.events
         obj = new_values(tmpl)
         obj['timestamp'] = (new Date()).getTime()
         obj['user_id'] = Meteor.userId()
-        obj['myTbl_id'] = Session.get('epiCohort_myTbl')
+        obj['myTbl_id'] = Session.get('MyTbl_id')
         obj['isHidden'] = false
         Meteor.call('epiCohortNewIdx', obj['myTbl_id'], (err, response) ->
             obj['sortIdx'] = response

@@ -1,15 +1,15 @@
-<template name="epiCohortExposureTbl">
-  {{ #if epiCohortExposureIsEditable epiCohortExposureEditable }}
+<template name="epiRiskEstimateTbl">
+  {{ #if epiRiskEstimateIsEditable epiRiskEstimateEditable }}
     <h2>{{epiCohort.reference}} exposure groups
       <div class="btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
           <span class="caret" title="Editing options"></span>
         </button>
         <ul class="dropdown-menu">
-          {{#unless epiCohortExposureShowNew}}
-            <li><a href="#" id="epiCohortExposure-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
+          {{#unless epiRiskEstimateShowNew}}
+            <li><a href="#" id="epiRiskEstimate-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
           {{/unless}}
-          <li><a href="#" id="epiCohortExposure-toggleShowAllRows">
+          <li><a href="#" id="epiRiskEstimate-toggleShowAllRows">
             {{#if isShowAll}}<span class="glyphicon glyphicon-resize-small"></span> Hide rows
             {{else}}<span class="glyphicon glyphicon-resize-full"></span> Show all rows
             {{/if}}</a>
@@ -27,7 +27,7 @@
       <col width="25%">
     </colgroup>
 
-    {{#if epiCohortExposureIsEditable epiCohortExposureEditable}}
+    {{#if epiRiskEstimateIsEditable epiRiskEstimateEditable}}
       <thead>
         <tr>
           <th>Organ site<br>(ICD Code)</th>
@@ -39,12 +39,12 @@
     {{/if}}
 
     <tbody>
-      {{#each getEpiCohortExposures}}
+      {{#each getEpiRiskEstimates}}
         {{#if showRow isHidden}}
           <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
-            {{#if epiCohortExposureIsEditing}}
+            {{#if epiRiskEstimateIsEditing}}
               <td id="editingRow" colspan="100">
-                {{> epiCohortExposureForm this epiCohort=.. epiCohortExposureIsNew=false}}
+                {{> epiRiskEstimateForm this parent=.. epiRiskEstimateIsNew=false}}
               </td>
             {{else}}
               <td>
@@ -53,15 +53,15 @@
                     <span class="caret" title="Editing options"></span>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="#" id="epiCohortExposure-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                    <li><a href="#" id="epiCohortExposure-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
-                    <li><a href="#" id="epiCohortExposure-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
-                    <li><a href="#" id="epiCohortExposure-toggle-hidden">{{#if isHidden}}
+                    <li><a href="#" id="epiRiskEstimate-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                    <li><a href="#" id="epiRiskEstimate-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
+                    <li><a href="#" id="epiRiskEstimate-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
+                    <li><a href="#" id="epiRiskEstimate-toggle-hidden">{{#if isHidden}}
                       <span class="glyphicon glyphicon-plus"></span> Show row
                       {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
                       {{/if}}</a>
                     </li>
-                    <li><a href="#" id="epiCohortExposure-copy-as-new"><span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
+                    <li><a href="#" id="epiRiskEstimate-copy-as-new"><span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
                   </ul>
                 </div>
                 {{organSite}}
@@ -74,10 +74,10 @@
         {{/if}}
       {{else}}
         <tr>
-          <td colspan="100">No exposure cohorts have been created.
-            {{#if epiCohortExposureIsEditable epiCohortExposureEditable}}
-              {{#unless epiCohortExposureShowNew}}<br><br>
-                <a href="#" class="btn btn-primary btn-sm" id="epiCohortExposure-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a>
+          <td colspan="100">No risk estimates have been added.
+            {{#if epiRiskEstimateIsEditable epiRiskEstimateEditable}}
+              {{#unless epiRiskEstimateShowNew}}<br><br>
+                <a href="#" class="btn btn-primary btn-sm" id="epiRiskEstimate-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a>
               {{/unless}}
             {{/if}}
           </td>
@@ -86,15 +86,15 @@
     </tbody>
   </table>
 
-  {{#if epiCohortExposureIsEditable epiCohortExposureEditable}}
-    {{#if epiCohortExposureShowNew}}
-      {{> epiCohortExposureForm epiCohort=.. epiCohortExposureIsNew=true}}
+  {{#if epiRiskEstimateIsEditable epiRiskEstimateEditable}}
+    {{#if epiRiskEstimateShowNew}}
+      {{> epiRiskEstimateForm parent=.. epiRiskEstimateIsNew=true}}
     {{/if}}
   {{/if}}
 </template>
 
-<template name="epiCohortExposureForm">
-  <form id="epiCohortExposureForm" role="form" class="editForm">
+<template name="epiRiskEstimateForm">
+  <form id="epiRiskEstimateForm" role="form" class="editForm">
     <div class="form-group row">
       <div class="col-xs-4">
         <label>Organ site<br>(ICD code)</label>
@@ -127,7 +127,7 @@
         <label>Estimated</label>
         <div class="checkbox">
           <label>
-            <input type="checkbox" name='estimated' checked="{{estimated}}"/>
+            <input type="checkbox" name='riskEstimated' checked="{{riskEstimated}}"/>
             (check if estimate not in reference)
           </label>
         </div>
@@ -135,13 +135,13 @@
     </div>
 
     <div class="well well-sm pager">
-      {{#if epiCohortExposureIsNew }}
-        <button type="button" class="btn btn-sm btn-primary" id="epiCohortExposure-create" title="Save new"><span class="glyphicon glyphicon-ok"></span> Create</button>
-        <button type="button" class="btn btn-sm btn-default" id="epiCohortExposure-create-cancel" title="Cancel">Cancel</button>
+      {{#if epiRiskEstimateIsNew }}
+        <button type="button" class="btn btn-sm btn-primary" id="epiRiskEstimate-create" title="Save new"><span class="glyphicon glyphicon-ok"></span> Create</button>
+        <button type="button" class="btn btn-sm btn-default" id="epiRiskEstimate-create-cancel" title="Cancel">Cancel</button>
       {{else}}
-        <button type="button" class="btn btn-sm btn-primary" id="epiCohortExposure-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
-        <button type="button" class="btn btn-sm btn-default" id="epiCohortExposure-update-cancel" title="Cancel changes"> Cancel</button>
-        <button type="button" class="btn btn-sm btn-danger"  id="epiCohortExposure-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="btn btn-sm btn-primary" id="epiRiskEstimate-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="epiRiskEstimate-update-cancel" title="Cancel changes"> Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger"  id="epiRiskEstimate-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
       {{/if}}
     </div>
   </form>

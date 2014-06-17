@@ -66,7 +66,7 @@ Meteor.publish('epiCohort', function (myTbl_id) {
     return EpiCohort.find({myTbl_id: myTbl_id});
 });
 
-/* EpiCohortExposure:
+/* EpiRiskEstimate:
 {
     "organSite" : String,
     "exposureCategories" : String,
@@ -74,20 +74,28 @@ Meteor.publish('epiCohort', function (myTbl_id) {
     "riskMid" : Number,
     "riskLow" : Number,
     "riskHigh" : Number,
-    "estimated" : Boolean,
+    "riskEstimated" : Boolean,
     "timestamp" : Date,
     "user_id" : String (id),
-    "epiCohort_id" : String (id),
+    "parent_id" : String (id),  # may be epiCohort or epiCaseControl
     "myTbl_id" : String (id),
     "_id" : String (id),
     "sortIdx" : Integer
 }
 */
 
-EpiCohortExposure = new Meteor.Collection("epiCohortExposure");
+EpiRiskEstimate = new Meteor.Collection("epiRiskEstimate");
 
-Meteor.publish('epiCohortExposure', function (myTbl_id) {
+Meteor.publish('epiRiskEstimate', function (myTbl_id) {
     check(myTbl_id, String);
-    return EpiCohortExposure.find({myTbl_id: myTbl_id});
+    console.log(EpiRiskEstimate.find({myTbl_id: myTbl_id}).fetch().length);
+    return EpiRiskEstimate.find({myTbl_id: myTbl_id});
 });
 
+
+EpiCaseControl = new Meteor.Collection("epiCaseControl");
+
+Meteor.publish('epiCaseControl', function (myTbl_id) {
+    check(myTbl_id, String);
+    return EpiCaseControl.find({myTbl_id: myTbl_id});
+});

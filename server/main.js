@@ -4,12 +4,12 @@ var XLSX = Meteor.require('xlsx'),
     var epoch = Date.parse(v);
     return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000);
   },
-    Workbook = function() {
+  Workbook = function() {
     if(!(this instanceof Workbook)) return new Workbook();
     this.SheetNames = [];
     this.Sheets = {};
   },
-    sheet_from_array_of_arrays = function(data) {
+  sheet_from_array_of_arrays = function(data) {
     var ws = {};
     var range = {s: {c:10000000, r:10000000}, e: {c:0, r:0 }};
     for(var R = 0; R != data.length; ++R) {
@@ -39,7 +39,7 @@ var XLSX = Meteor.require('xlsx'),
 
 Meteor.startup(function () {
   Meteor.methods({
-    downloadEpiCohort: function(myTbl_id){
+    epiCohortDownload: function(myTbl_id){
       var getEpiCohortData = function(myTbl_id){
           cohorts = EpiCohort.find({myTbl_id: myTbl_id}, {sort: {sortIdx: 1}});
           var data = [['reference', 'location', 'followUpPeriod',
@@ -52,20 +52,19 @@ Meteor.startup(function () {
             var row = [v.reference, v.location, v.followUpPeriod,
                        v.numSubjects, v.numSubjectsText, v.covariates,
                        v.comments, v.isHidden],
-                rows = getEpiCohortExposureData(v._id, row);
+                rows = getEpiRiskEstimateData(v._id, row);
             data.push.apply(data, rows);
           });
           return data;
         },
-        getEpiCohortExposureData = function(epiCohort_id, row_arr){
-          var exposures = EpiCohortExposure.find({epiCohort_id: epiCohort_id}, {sort: {sortIdx: 1}}),
+        getEpiRiskEstimateData = function(epiCohort_id, row_arr){
+          var exposures = EpiRiskEstimate.find({epiCohort_id: epiCohort_id}, {sort: {sortIdx: 1}}),
               rows = [];
           exposures.forEach(function(v){
-            console.log(v._id);
             var new_row = row_arr.slice();
             new_row.push(v.organSite, v.exposureCategories, v.exposedCases,
                          v.riskMid, v.riskLow, v.riskHigh,
-                         v.estimated, v.isHidden);
+                         v.riskEstimated, v.isHidden);
             rows.push(new_row);
           });
           return rows;
@@ -85,10 +84,14 @@ Meteor.startup(function () {
       check(myTbl_id, String);
       return getNewIdx(EpiCohort, {"myTbl_id": myTbl_id});
     },
-    epiCohortExposureNewIdx: function (epiCohort_id) {
-      check(epiCohort_id, String);
-      return getNewIdx(EpiCohortExposure, {"epiCohort_id": epiCohort_id});
-    }
+    epiRiskEstimateNewIdx: function (parent_id) {
+      check(parent_id, String);
+      return getNewIdx(EpiRiskEstimate, {"parent_id": parent_id});
+    },
+    epiCaseControlNewIdx: function (myTbl_id) {
+      check(myTbl_id, String);
+      return getNewIdx(EpiCaseControl, {"myTbl_id": myTbl_id});
+    },
   });
 });
 

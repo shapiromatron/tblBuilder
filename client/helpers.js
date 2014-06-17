@@ -138,6 +138,6 @@ UI.registerHelper("riskFormat", function(obj){
   var txt = obj.riskMid.toString();
   if(obj.riskLow && obj.riskHigh)
     txt = txt + " ({0}-{1})".printf(obj.riskLow, obj.riskHigh);
-  if (obj.estimated) txt = "[" + txt + "]";
+  if (obj.riskEstimated) txt = "[" + txt + "]";
   return txt;
 });
