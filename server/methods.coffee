@@ -102,3 +102,7 @@ Meteor.methods
     epiCaseControlNewIdx: (myTbl_id) ->
         check(myTbl_id, String)
         getNewIdx(EpiCaseControl, {myTbl_id: myTbl_id})
+
+    searchUsers: (query) ->
+        check(query, String)
+        Meteor.users.find({"emails": {$elemMatch: {"address": {$regex: query}}}}, {fields: {_id: 1, emails: 1}, limit: 10}).fetch()

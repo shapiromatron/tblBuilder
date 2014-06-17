@@ -1,3 +1,5 @@
+Users = new Meteor.Collection('userLookup');
+
 getMyTblsHandle = ->
     userId = Meteor.userId()
     if userId
@@ -49,6 +51,14 @@ Template.myTblForm.helpers
     TblTypeSelected: (prev, opt) ->
         prev is opt;
 
+    searchUsers: (query, callback) ->
+        Meteor.call 'searchUsers', query, {}, (err, res) ->
+            if err
+                console.log(err)
+                return
+            ids = ({_id: v._id, email: [(e.address for e in v.emails)].join(', ')} for v in res)
+            callback(ids)
+
 
 Template.myTblForm.events
     'click #myTbl-create': (evt, tmpl) ->
@@ -72,3 +82,8 @@ Template.myTblForm.events
     'click #myTbl-delete': (evt, tmpl) ->
         MyTbls.remove(this._id)
         Session.set("myTblEditingId", null)
+
+Template.myTblForm.rendered = () ->
+    Meteor.typeahead.inject();
+    $('.typeahead').on 'typeahead:selected', (e, v) ->
+        console.log(e.target.name, v);

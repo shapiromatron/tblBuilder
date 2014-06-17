@@ -73,9 +73,22 @@
         <option selected={{TblTypeSelected prev=tblType opt="Epidemiology - Case Control"}} >Epidemiology - Case Control</option>
       </select>
     </div>
+    <div>
+      <label>Project managers</label>
+      <div class="form-group">
+        <input class="form-control typeahead" name='projectManagersSearch' type="text" value="{{projectManagersSearch}}" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown"/>
+      </div>
+      <p class="help-block">Can change permissions for who has access.</p>
+    </div>
     <div class="form-group">
-      <label>Secret password</label>
-      <input class="form-control" name='passwd' type="text" value="{{passwd}}"/>
+      <label>Team members</label>
+      <input class="form-control typeahead" name='teamMembersSearc' type="text" value="{{teamMembersSearch}}" autocomplete="off" data-source="searchUsers"/>
+      <p class="help-block">Can create/change/delete content for a selected table.</p>
+    </div>
+    <div class="form-group">
+      <label>Reviewers</label>
+      <input class="form-control typeahead" name='reviewersSearch' type="text" value="{{reviewersSearch}}" autocomplete="off" data-source="searchUsers"/>
+      <p class="help-block">Can view but not change content.</p>
     </div>
 
     <div class="well well-sm pager">
@@ -89,4 +102,9 @@
       {{/if}}
     </div>
   </form>
+</template>
+
+
+<template name="UserMatchPullDown">
+  <p>{{email}}</p>
 </template>
