@@ -73,24 +73,24 @@
         <option selected={{TblTypeSelected prev=tblType opt="Epidemiology - Case Control"}} >Epidemiology - Case Control</option>
       </select>
     </div>
-    <div>
+    <div class="form-group">
       <label>Project managers</label>
-      <div class="form-group">
-        <input class="form-control typeahead" name='projectManagersSearch' type="text" value="{{projectManagersSearch}}" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown"/>
-      </div>
+      <input class="form-control typeahead" name='projectManagers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown"/>
       <p class="help-block">Can change permissions for who has access.</p>
+      <ul class="projectManagers"></ul>
     </div>
     <div class="form-group">
       <label>Team members</label>
-      <input class="form-control typeahead" name='teamMembersSearc' type="text" value="{{teamMembersSearch}}" autocomplete="off" data-source="searchUsers"/>
+      <input class="form-control typeahead" name='teamMembers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown"/>
       <p class="help-block">Can create/change/delete content for a selected table.</p>
+      <ul class="teamMembers"></ul>
     </div>
     <div class="form-group">
       <label>Reviewers</label>
-      <input class="form-control typeahead" name='reviewersSearch' type="text" value="{{reviewersSearch}}" autocomplete="off" data-source="searchUsers"/>
+      <input class="form-control typeahead" name='reviewers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown"/>
       <p class="help-block">Can view but not change content.</p>
+      <ul class="reviewers"></ul>
     </div>
-
     <div class="well well-sm pager">
       {{#if _id}}
         <button type="button" class="btn btn-sm btn-primary" id="myTbl-update" title="Save changes"><span class="glyphicon glyphicon-ok"></span> Save</button>
@@ -106,5 +106,5 @@
 
 
 <template name="UserMatchPullDown">
-  <p>{{email}}</p>
+  <p><b>Email:</b> {{email}}</p>
 </template>

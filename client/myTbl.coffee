@@ -83,7 +83,17 @@ Template.myTblForm.events
         MyTbls.remove(this._id)
         Session.set("myTblEditingId", null)
 
+    'click .removeUser': (evt, tmpl) ->
+        window.ev= evt;
+        $(evt.currentTarget).parent().remove()
+
 Template.myTblForm.rendered = () ->
+    tmpl = @
     Meteor.typeahead.inject();
     $('.typeahead').on 'typeahead:selected', (e, v) ->
-        console.log(e.target.name, v);
+        ul = $(tmpl.find(".#{e.target.name}"))
+        if ul.find("li[data-user_id='#{v._id}']").length is 0
+            ul.append(create_createUserLI(v))
+
+create_createUserLI = (v) ->
+    "<li class='userListItem' data-user_id='#{v._id}'>#{v.email}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' class='removeUser btn btn-default btn-xs' title='Remove from list'><span class='glyphicon glyphicon-remove'></span></a></li>"
