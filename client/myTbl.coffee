@@ -96,4 +96,4 @@ Template.myTblForm.rendered = () ->
             ul.append(create_createUserLI(v))
 
 create_createUserLI = (v) ->
-    "<li class='userListItem' data-user_id='#{v._id}'>#{v.email}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' class='removeUser btn btn-default btn-xs' title='Remove from list'><span class='glyphicon glyphicon-remove'></span></a></li>"
+    "<li class='userListItem' data-user_id='#{v._id}'>#{v.email}<a href='#' class='pull-right removeUser btn btn-default btn-xs' title='Remove from list'><span class='glyphicon glyphicon-remove'></span></a></li>"

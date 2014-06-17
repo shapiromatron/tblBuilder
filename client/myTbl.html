@@ -62,34 +62,42 @@
 
 <template name="myTblForm">
   <form id="myTblForm" role="form" class="editForm">
+    <div class="form-group row">
+      <div class="col-xs-6">
+        <label>Agent Name</label>
+        <input class="form-control" name='agent' type="text" value="{{agent}}"/>
+      </div>
+      <div class="col-xs-6">
+        <label>Table Type</label>
+        <select class="form-control" name='tblType' type="text">
+          <option selected={{TblTypeSelected prev=tblType opt="Epidemiology - Cohort"}} >Epidemiology - Cohort</option>
+          <option selected={{TblTypeSelected prev=tblType opt="Epidemiology - Case Control"}} >Epidemiology - Case Control</option>
+        </select>
+      </div>
+    </div>
     <div class="form-group">
       <label>Table Name</label>
       <input class="form-control" name='name' type="text" value="{{name}}"/>
     </div>
-    <div class="form-group">
-      <label>Table Type</label>
-      <select class="form-control" name='tblType' type="text">
-        <option selected={{TblTypeSelected prev=tblType opt="Epidemiology - Cohort"}} >Epidemiology - Cohort</option>
-        <option selected={{TblTypeSelected prev=tblType opt="Epidemiology - Case Control"}} >Epidemiology - Case Control</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Project managers</label>
-      <input class="form-control typeahead" name='projectManagers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown"/>
-      <p class="help-block">Can change permissions for who has access.</p>
-      <ul class="projectManagers"></ul>
-    </div>
-    <div class="form-group">
-      <label>Team members</label>
-      <input class="form-control typeahead" name='teamMembers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown"/>
-      <p class="help-block">Can create/change/delete content for a selected table.</p>
-      <ul class="teamMembers"></ul>
-    </div>
-    <div class="form-group">
-      <label>Reviewers</label>
-      <input class="form-control typeahead" name='reviewers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown"/>
-      <p class="help-block">Can view but not change content.</p>
-      <ul class="reviewers"></ul>
+    <div class="form-group row">
+      <div class="col-xs-4">
+        <label>Project managers</label>
+        <input class="form-control typeahead" name='projectManagers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown"/>
+        <p class="help-block">Can change permissions for who has access.</p>
+        <ul class="projectManagers"></ul>
+      </div>
+      <div class="col-xs-4">
+        <label>Team members</label>
+        <input class="form-control typeahead" name='teamMembers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown"/>
+        <p class="help-block">Can create/change/delete content for a selected table.</p>
+        <ul class="teamMembers"></ul>
+      </div>
+      <div class="col-xs-4">
+        <label>Reviewers</label>
+        <input class="form-control typeahead" name='reviewers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown"/>
+        <p class="help-block">Can view but not change content.</p>
+        <ul class="reviewers"></ul>
+      </div>
     </div>
     <div class="well well-sm pager">
       {{#if _id}}
