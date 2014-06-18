@@ -105,4 +105,5 @@ Meteor.methods
 
     searchUsers: (query) ->
         check(query, String)
-        Meteor.users.find({"emails": {$elemMatch: {"address": {$regex: query}}}}, {fields: {_id: 1, emails: 1}, limit: 50}).fetch()
+        Meteor.users.find({"emails": {$elemMatch: {"address": {$regex: query}}}},
+                          {fields: {_id: 1, emails: 1}, limit: 50}).fetch()
