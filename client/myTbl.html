@@ -1,6 +1,12 @@
 <template name="my_lists">
   <div class="container">
-    {{> myTbl }}
+  {{#if currentUser}}
+      {{> myTbl }}
+    {{else }}
+      <h1>Welcome to the IARC table builder</h1>
+      <p>This application is designed to store and display key data used in the IARC monograph assessments. Groups of users can collaboratively work together to build evidence tables from multiple streams of evidence.</p>
+      <p>Access is controlled; you'll need to login in order to view or edit documents.</p>
+    {{/if}}
   </div>
 </template>
 
@@ -21,11 +27,11 @@
   <table class="table table-compressed table-striped">
     <thead>
       <tr>
-        <th>Name and Hyperlink</th>
+        <th>Monograph &amp; Agent</th>
+        <th>Table Name</th>
         <th>Table Type</th>
-        <th>Secret Password</th>
         <th>Created</th>
-        <th>Settings</th>
+        <th>Table<br>Configuration</th>
       </tr>
     </thead>
     <tbody>
@@ -36,11 +42,15 @@
               {{> myTblForm}}
             </td>
           {{else}}
+            <td>{{monographNumber}}: {{agent}}</td>
             <td><a href="{{getURL}}">{{name}}</a></td>
             <td>{{tblType}}</td>
-            <td>{{passwd}}</td>
             <td>{{formatDate timestamp "long"}}</td>
-            <td><a class="btn btn-default" href="#" id="myTbl-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
+            {{#if canEdit }}
+              <td><a class="btn btn-default" href="#" id="myTbl-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
+            {{else}}
+              <td>-</td>
+            {{/if}}
           {{/if}}
         </tr>
       {{else}}

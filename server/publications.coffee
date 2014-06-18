@@ -1,6 +1,7 @@
 Meteor.publish 'myTbls', (user_id) ->
     check(user_id, String)
-    MyTbls.find({user_id: user_id})
+    MyTbls.find({$or: [{user_id: user_id},
+                       {user_roles: {$elemMatch: {user_id: user_id}}} ]})
 
 Meteor.publish 'epiCaseControl', (myTbl_id) ->
     check(myTbl_id, String)
