@@ -48,22 +48,24 @@
               </td>
             {{else}}
               <td>
-                <div class="rowOptions btn-group pull-right">
-                  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    <span class="caret" title="Editing options"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#" id="epiRiskEstimate-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                    <li><a href="#" id="epiRiskEstimate-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
-                    <li><a href="#" id="epiRiskEstimate-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
-                    <li><a href="#" id="epiRiskEstimate-toggle-hidden">{{#if isHidden}}
-                      <span class="glyphicon glyphicon-plus"></span> Show row
-                      {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
-                      {{/if}}</a>
-                    </li>
-                    <li><a href="#" id="epiRiskEstimate-copy-as-new"><span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
-                  </ul>
-                </div>
+                {{#if userCanEdit}}
+                  <div class="rowOptions btn-group pull-right">
+                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                      <span class="caret" title="Editing options"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#" id="epiRiskEstimate-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                      <li><a href="#" id="epiRiskEstimate-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
+                      <li><a href="#" id="epiRiskEstimate-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
+                      <li><a href="#" id="epiRiskEstimate-toggle-hidden">{{#if isHidden}}
+                        <span class="glyphicon glyphicon-plus"></span> Show row
+                        {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+                        {{/if}}</a>
+                      </li>
+                      <li><a href="#" id="epiRiskEstimate-copy-as-new"><span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
+                    </ul>
+                  </div>
+                {{/if}}
                 {{organSite}}
               </td>
               <td>{{exposureCategories}}</td>

@@ -141,3 +141,14 @@ UI.registerHelper("riskFormat", function(obj){
   if (obj.riskEstimated) txt = "[" + txt + "]";
   return txt;
 });
+
+UI.registerHelper("userCanEdit", function(){
+  var myTbl = MyTbls.findOne({_id: Session.get('MyTbl_id')}),
+      user = Meteor.user(),
+      id = (user) ? user._id : undefined,
+      ids = [myTbl.user_id];
+  myTbl.user_roles.forEach(function(v){
+    if(v.role !== "reviewers") ids.push(v.user_id);
+  });
+  return (ids.indexOf(id)>=0);
+});

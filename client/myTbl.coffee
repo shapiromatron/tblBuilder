@@ -63,8 +63,8 @@ Template.myTbl.events
 
 
 Template.myTblForm.helpers
-    TblTypeSelected: (prev, opt) ->
-        prev is opt;
+    tblTypeSelected: (opt) ->
+        @.tblType is opt;
 
     searchUsers: (query, callback) ->
         Meteor.call 'searchUsers', query, {}, (err, res) ->
