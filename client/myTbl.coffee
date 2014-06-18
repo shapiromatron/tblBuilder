@@ -71,8 +71,7 @@ Template.myTblForm.helpers
             if err
                 console.log(err)
                 return
-            ids = ({_id: v._id, email: [(e.address for e in v.emails)].join(', ')} for v in res)
-            callback(ids)
+            callback(res)
 
     getUsers: (userType) ->
         ids = (v.user_id for v in @user_roles when v.role is userType)
@@ -122,10 +121,8 @@ Template.myTblForm.rendered = () ->
     Meteor.typeahead.inject();
     $('.typeahead').on 'typeahead:selected', (e, v) ->
         ul = $(tmpl.find(".#{e.target.name}"))
-        if ul.find("li[data-user_id='#{v._id}']").length is 0
-            ul.append("<li class='userListItem' data-user_id='#{v._id}'>#{v.email}
-                        <a href='#' class='pull-right removeUser btn btn-default btn-xs' title='Remove from list'>
-                        <span class='glyphicon glyphicon-remove'></span></a></li>")
+        rendered = UI.renderWithData(Template.UserLI, v)
+        UI.insert(rendered, ul[0])
 
 
 getUserPermissionsObject = (tmpl)->
@@ -140,6 +137,10 @@ getUserPermissionsObject = (tmpl)->
     list = ({user_id: key, role: value} for key, value of permissions)
     return list
 
-Template.UserLI.helpers
-    getEmail: ->
-        [(v.address for v in @.emails)].join(', ')
+
+UI.registerHelper "getUserDescription", ->
+    emails = [(v.address for v in @.emails)].join(', ')
+    if (@.profile and @.profile.fullName)
+        return "#{@.profile.fullName} (#{emails})"
+    else
+        return emails

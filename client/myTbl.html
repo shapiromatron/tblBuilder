@@ -140,11 +140,11 @@
 
 
 <template name="UserMatchPullDown">
-  <p><b>Email:</b> {{email}}</p>
+  <p>{{getUserDescription}}</p>
 </template>
 
 <template name="UserLI">
-  <li class='userListItem' data-user_id='{{_id}}'>{{getEmail}}
+  <li class='userListItem' data-user_id='{{_id}}'>{{getUserDescription}}
     <a href='#' class='pull-right removeUser btn btn-default btn-xs' title='Remove from list'>
       <span class='glyphicon glyphicon-remove'></span>
     </a>

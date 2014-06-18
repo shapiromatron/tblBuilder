@@ -28,10 +28,19 @@ Router.map(function(){
     path: '/epi-cohort/:_id',
     data: function(){ return MyTbls.findOne(this.params._id);},
     action: tblAction});
+  this.route('profileEdit', {path: '/user-profile/'})
   this.route('epiCaseControlMain', {
     path: '/epi-case-control/:_id',
     data: function(){ return MyTbls.findOne(this.params._id);},
     action: tblAction});
   this.route('403', {path: '403'});
   this.route('404', {path: '*'});
+});
+
+Template._loginButtonsLoggedInDropdown.events({
+  'click #login-buttons-edit-profile': function(event) {
+    event.stopPropagation();
+    Template._loginButtons.toggleDropdown();
+    Router.go('profileEdit');
+  }
 });

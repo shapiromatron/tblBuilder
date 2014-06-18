@@ -103,7 +103,13 @@ Meteor.methods
         check(myTbl_id, String)
         getNewIdx(EpiCaseControl, {myTbl_id: myTbl_id})
 
-    searchUsers: (query) ->
-        check(query, String)
-        Meteor.users.find({"emails": {$elemMatch: {"address": {$regex: query}}}},
-                          {fields: {_id: 1, emails: 1}, limit: 50}).fetch()
+    searchUsers: (str) ->
+        check(str, String)
+        querystr = new RegExp(str, "i")  # case insensitive
+        query = {$or: [{"emails": {$elemMatch: {"address": {$regex: querystr}}}},
+                       {"profile.fullName": {$regex: querystr}},
+                       {"profile.affiliation": {$regex: querystr}}]}
+        Meteor.users.find(query, {fields: {_id: 1, emails: 1, profile: 1}, limit: 50}).fetch()
+
+
+

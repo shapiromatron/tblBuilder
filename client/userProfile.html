@@ -1,0 +1,35 @@
+<template name="profileEdit">
+  <div class="container">
+  {{#if currentUser}}
+      {{#with getProfile}}
+        {{> profileForm }}
+      {{/with}}
+    {{else }}
+      <p>You must be logged-in to edit a profile.</p>
+    {{/if}}
+  </div>
+</template>
+
+<template name="profileForm">
+  <div class="row">
+  <form role="form" class="editForm col-xs-offset-2 col-xs-8">
+    <legend>Update your user-profile settings</legend>
+    <div class="form-group row">
+      <div class="col-xs-offset-2 col-xs-8">
+        <label>Full Name</label>
+        <input type="text" class="form-control" name='fullName' value={{fullName}} />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-offset-2 col-xs-8">
+        <label>Affiliation</label>
+        <input type="text" class="form-control" name='affiliation' value="{{affiliation}}" />
+      </div>
+    </div>
+    <div class="well well-sm pager">
+      <button type="button" class="btn btn-sm btn-primary" id="update" title="Update"><span class="glyphicon glyphicon-ok"></span> Update</button>
+      <button type="button" class="btn btn-sm btn-default" id="update-cancel" title="Cancel">Cancel</button>
+    </div>
+  </form>
+  </div>
+</template>

@@ -20,4 +20,4 @@ Meteor.publish 'tblUsers', (myTbl_id) ->
     tbl = MyTbls.findOne(myTbl_id)
     ids = (v.user_id for v in tbl.user_roles)
     Meteor.users.find({_id: {$in: ids}},
-                      {fields: {_id: 1, emails: 1}})
+                      {fields: {_id: 1, emails: 1, profile: 1}})
