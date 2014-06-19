@@ -17,6 +17,13 @@
           {{/unless}}
         {{/if}}
         <li><a href="#" id="epiCohort-downloadExcel"><span class="glyphicon glyphicon-save"></span> Download Excel</a></li>
+
+        <li><a href="#" id="epiCohort-epiRiskShowPlots">
+          {{#if showPlots}}<span class="glyphicon glyphicon-eye-close"></span> Hide risk plots
+          {{else}}<span class="glyphicon glyphicon-eye-open"></span> Show risk plots
+          {{/if}}</a>
+        </li>
+
         <li><a href="#" id="epiCohort-toggleShowAllRows">
           {{#if isShowAll}}<span class="glyphicon glyphicon-resize-small"></span> Hide rows
           {{else}}<span class="glyphicon glyphicon-resize-full"></span> Show all rows
@@ -45,7 +52,7 @@
         <th>Organ site<br>(ICD Code)</th>
         <th>Exposure<br>categories</th>
         <th>Exposed<br>cases</th>
-        <th>Relative risk<br>(95% CI)</th>
+        <th class="riskTR">Relative risk<br>(95% CI)</th>
         <th>Covariates &amp;<br>Comments</th>
       </tr>
     </thead>

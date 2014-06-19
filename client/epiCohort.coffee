@@ -34,6 +34,9 @@ Template.epiCohortTbl.helpers
     isShowAll: ->
         Session.get('epiCohortShowAll')
 
+    showPlots: ->
+        Session.get('epiRiskShowPlots')
+
 
 Template.epiCohortTbl.events
     'click #epiCohort-show-create': (evt, tmpl) ->
@@ -71,6 +74,8 @@ Template.epiCohortTbl.events
         activateInput(tmpl.find("input[name=reference]"))
         copyAsNew(@)
 
+    'click #epiCohort-epiRiskShowPlots': (evt, tmpl) ->
+        Session.set('epiRiskShowPlots', not Session.get('epiRiskShowPlots'))
 
 Template.epiCohortForm.helpers
     "epiCohortIsNew":

@@ -15,6 +15,7 @@ Session.setDefault('epiCaseControlMyTbl_id', null)
 Session.setDefault('epiCaseControlShowNew', false)
 Session.setDefault('epiCaseControlEditingId', null)
 Session.setDefault('epiCaseControlShowAll', false)
+Session.setDefault('epiRiskShowPlots', false)
 
 
 Template.epiCaseControlTbl.helpers
@@ -70,6 +71,9 @@ Template.epiCaseControlTbl.events
         Deps.flush() # update DOM before focus
         activateInput(tmpl.find("input[name=reference]"))
         copyAsNew(@)
+
+    "showPlots": ->
+        Session.get("epiRiskShowPlots")
 
 
 Template.epiCaseControlForm.helpers

@@ -13,6 +13,7 @@ Deps.autorun(getEpiRiskEstimateHandle)
 
 Session.setDefault('epiRiskEstimateShowNew', false)
 Session.setDefault('epiRiskEstimateEditingId', null)
+Session.setDefault('epiRiskShowPlots', false)
 
 
 getEpiRiskEstimateShowAllSessionKey = (_id) ->
@@ -43,6 +44,9 @@ Template.epiRiskEstimateTbl.helpers
     "isShowAll": () ->
         key = getEpiRiskEstimateShowAllSessionKey(@parent._id)
         Session.get(key)
+
+    "showPlots": ->
+        Session.get("epiRiskShowPlots")
 
 
 Template.epiRiskEstimateTbl.events
@@ -112,3 +116,53 @@ Template.epiRiskEstimateForm.events
     'click #epiRiskEstimate-delete': (evt, tmpl) ->
         EpiRiskEstimate.remove(@_id)
         Session.set("epiRiskEstimateEditingId", null)
+
+
+Template.forestPlot.rendered = ->
+    svg = d3.select(@.find('svg'))
+    xscale = d3.scale.log().range([0, svg.node().clientWidth]).domain([0.1, 10]).clamp(true)
+    yscale = d3.scale.linear().range([0, svg.node().clientHeight]).domain([0, 1]).clamp(true)
+    riskStr = "#{@.data.riskMid} (#{@.data.riskLow}-#{@.data.riskHigh})"
+
+    svg.selectAll()
+        .data([@.data])
+        .enter()
+        .append("circle")
+        .attr("cx", (d,i) -> xscale(d.riskMid))
+        .attr("cy", (d,i) -> yscale(0.5))
+        .attr("r", 5)
+        .append("svg:title")
+        .text(riskStr);
+
+    svg.selectAll()
+        .data([@.data])
+        .enter()
+        .append("line")
+        .attr("x1", (d,i) -> xscale(d.riskLow))
+        .attr("x2", (d,i) -> xscale(d.riskHigh))
+        .attr("y1", yscale(0.5))
+        .attr("y2", yscale(0.5))
+        .append("svg:title")
+        .text(riskStr);
+
+    svg.selectAll()
+        .data([@.data])
+        .enter()
+        .append("line")
+        .attr("x1", (d,i) -> xscale(d.riskHigh))
+        .attr("x2", (d,i) -> xscale(d.riskHigh))
+        .attr("y1", yscale(0.25))
+        .attr("y2", yscale(0.75))
+        .append("svg:title")
+        .text(riskStr);
+
+    svg.selectAll()
+        .data([@.data])
+        .enter()
+        .append("line")
+        .attr("x1", (d,i) -> xscale(d.riskLow) )
+        .attr("x2", (d,i) -> xscale(d.riskLow) )
+        .attr("y1", yscale(0.25))
+        .attr("y2", yscale(0.75))
+        .append("svg:title")
+        .text(riskStr);
