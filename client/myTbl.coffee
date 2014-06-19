@@ -53,9 +53,6 @@ Template.myTbl.events
 
 
 Template.myTblForm.helpers
-    tblTypeSelected: (opt) ->
-        @.tblType is opt;
-
     searchUsers: (query, callback) ->
         Meteor.call 'searchUsers', query, {}, (err, res) ->
             if err
@@ -68,8 +65,13 @@ Template.myTblForm.helpers
         ul = $(".#{userType}")
 
     getRoledUsers: (userType) ->
-        ids = (v.user_id for v in @.user_roles when v.role is userType)
-        Meteor.users.find({_id: {$in: ids}})
+        if @.user_roles
+            ids = (v.user_id for v in @.user_roles when v.role is userType)
+            Meteor.users.find({_id: {$in: ids}})
+
+    getTblTypeOptions: ->
+        return tblTypeOptions
+
 
 Template.myTblForm.events
     'click #myTbl-create': (evt, tmpl) ->

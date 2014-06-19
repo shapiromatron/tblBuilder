@@ -83,10 +83,7 @@
       </div>
       <div class="col-xs-5">
         <label>Table Type</label>
-        <select class="form-control" name='tblType' type="text">
-          <option selected={{tblTypeSelected "Epidemiology - Cohort"}} >Epidemiology - Cohort</option>
-          <option selected={{tblTypeSelected "Epidemiology - Case Control"}} >Epidemiology - Case Control</option>
-        </select>
+        {{> selectList options=getTblTypeOptions selected=tblType selectName="tblType" }}
       </div>
     </div>
     <div class="form-group">

@@ -57,3 +57,7 @@ Template._loginButtonsLoggedInDropdown.events({
     Router.go('profileEdit');
   }
 });
+
+Template.selectList.isSelected = function(current, selected){
+  return current === selected;
+};
