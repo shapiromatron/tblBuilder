@@ -1,8 +1,6 @@
-getMyTblsHandle = ->
-    myTblsHandle = Meteor.subscribe('myTbls', Meteor.userId())
+Deps.autorun ->
+    Meteor.subscribe 'myTbls', Meteor.userId()
 
-myTblsHandle = getMyTblsHandle()
-Deps.autorun(getMyTblsHandle)
 
 permissionsCheck = (tbl) ->
 
@@ -28,7 +26,6 @@ Router.map ->
         path: '/',
 
         waitOn: ->
-            userId = Meteor.userId()
             return Meteor.subscribe('myTbls', Meteor.userId())
 
         action: ->
