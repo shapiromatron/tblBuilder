@@ -1,14 +1,3 @@
-getEpiRiskEstimateHandle = ->
-    myTbl = Session.get('MyTbl')
-    if myTbl
-        epiRiskEstimate = Meteor.subscribe('epiRiskEstimate', myTbl._id)
-    else
-        epiRiskEstimate = null
-
-epiRiskEstimateHandle = getEpiRiskEstimateHandle()
-Deps.autorun(getEpiRiskEstimateHandle)
-
-
 Session.setDefault('epiRiskEstimateShowNew', false)
 Session.setDefault('epiRiskEstimateEditingId', null)
 Session.setDefault('epiRiskShowPlots', false)

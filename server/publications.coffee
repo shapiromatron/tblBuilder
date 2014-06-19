@@ -5,15 +5,14 @@ Meteor.publish 'myTbls', (user_id) ->
 
 Meteor.publish 'epiCaseControl', (myTbl_id) ->
     check(myTbl_id, String)
-    EpiCaseControl.find({myTbl_id: myTbl_id})
-
-Meteor.publish 'epiRiskEstimate', (myTbl_id) ->
-    check(myTbl_id, String)
-    EpiRiskEstimate.find({myTbl_id: myTbl_id})
+    return [ EpiCaseControl.find({myTbl_id: myTbl_id}),
+             EpiRiskEstimate.find({myTbl_id: myTbl_id}) ]
 
 Meteor.publish 'epiCohort', (myTbl_id) ->
     check(myTbl_id, String)
-    EpiCohort.find({myTbl_id: myTbl_id})
+    return [ EpiCohort.find({myTbl_id: myTbl_id}),
+             EpiRiskEstimate.find({myTbl_id: myTbl_id}) ]
+
 
 Meteor.publish 'tblUsers', (myTbl_id) ->
     check(myTbl_id, String)
