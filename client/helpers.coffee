@@ -92,3 +92,7 @@ UI.registerHelper "userCanEdit", ->
     for user in tbl.user_roles
         if currentUser is user.user_id and user.role isnt "reviewers" then return true
   return false
+
+
+Template.selectList.isSelected = (current, selected) ->
+    return current is selected

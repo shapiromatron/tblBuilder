@@ -89,6 +89,3 @@ Template._loginButtonsLoggedInDropdown.events
         event.stopPropagation()
         Template._loginButtons.toggleDropdown()
         Router.go('profileEdit')
-
-Template.selectList.isSelected = (current, selected) ->
-    return current is selected
