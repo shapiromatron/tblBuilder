@@ -119,9 +119,11 @@
 
 circle {
     color: black;
+    cursor: pointer;
 }
 
 line {
     stroke: black;
     stroke-width: 2;
+    cursor: pointer;
 }

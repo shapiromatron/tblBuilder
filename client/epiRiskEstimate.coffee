@@ -1,5 +1,3 @@
-window.EpiRiskEstimate = new Meteor.Collection('epiRiskEstimate')
-
 getEpiRiskEstimateHandle = ->
     myTbl = Session.get('MyTbl')
     if myTbl
@@ -54,20 +52,20 @@ Template.epiRiskEstimateTbl.events
     'click #epiRiskEstimate-show-create': (evt, tmpl) ->
         Session.set("epiRiskEstimateShowNew", true)
         Deps.flush()  # update DOM before focus
-        activateInput(tmpl.find("input[name=organSite]"))
+        share.activateInput(tmpl.find("input[name=organSite]"))
 
     'click #epiRiskEstimate-show-edit': (evt, tmpl) ->
         Session.set("epiRiskEstimateEditingId", @_id)
         Deps.flush()  # update DOM before focus
-        activateInput(tmpl.find("input[name=organSite]"))
+        share.activateInput(tmpl.find("input[name=organSite]"))
 
     'click #epiRiskEstimate-move-up': (evt, tmpl) ->
         tr = $(tmpl.find("tr[data-id=#{@_id}]"))
-        moveUp(@, tr, EpiRiskEstimate)
+        share.moveRow(@, tr, EpiRiskEstimate, true)
 
     'click #epiRiskEstimate-move-down': (evt, tmpl) ->
         tr = $(tmpl.find("tr[data-id=#{@_id}]"))
-        moveDown(@, tr, EpiRiskEstimate)
+        share.moveRow(@, tr, EpiRiskEstimate, false)
 
     'click #epiRiskEstimate-toggleShowAllRows': (evt, tmpl) ->
         key = getEpiRiskEstimateShowAllSessionKey(@parent._id)
@@ -79,8 +77,8 @@ Template.epiRiskEstimateTbl.events
     'click #epiRiskEstimate-copy-as-new': (evt, tmpl) ->
         Session.set("epiRiskEstimateShowNew", true)
         Deps.flush()   # update DOM before focus
-        activateInput(tmpl.find("input[name=organSite]"))
-        copyAsNew(@)
+        share.activateInput(tmpl.find("input[name=organSite]"))
+        share.copyAsNew(@)
 
 
 Template.epiRiskEstimateForm.helpers
@@ -90,10 +88,10 @@ Template.epiRiskEstimateForm.helpers
 
 Template.epiRiskEstimateForm.events
     'click #epiRiskEstimate-create': (evt, tmpl) ->
-        obj = new_values(tmpl)
+        obj = share.newValues(tmpl)
         obj['timestamp'] = (new Date()).getTime()
         obj['user_id'] = Meteor.userId()
-        obj['myTbl_id'] = Session.get('MyTbl_id')
+        obj['myTbl_id'] = Session.get('MyTbl')._id
         obj['parent_id'] = tmpl.data.parent._id
         obj['isHidden'] = false
         Meteor.call('epiRiskEstimateNewIdx', obj['parent_id'], (err, response) ->
@@ -106,7 +104,7 @@ Template.epiRiskEstimateForm.events
         Session.set("epiRiskEstimateShowNew", false)
 
     'click #epiRiskEstimate-update': (evt, tmpl) ->
-        vals = update_values(tmpl.find('#epiRiskEstimateForm'), @)
+        vals = share.updateValues(tmpl.find('#epiRiskEstimateForm'), @)
         EpiRiskEstimate.update(@_id, {$set: vals})
         Session.set("epiRiskEstimateEditingId", null)
 

@@ -1,5 +1,3 @@
-EpiCaseControl = new Meteor.Collection('epiCaseControl')
-
 getEpiCaseControlHandle = ->
     myTbl = Session.get('MyTbl')
     if myTbl
@@ -11,7 +9,6 @@ epiCaseControlHandle = getEpiCaseControlHandle()
 Deps.autorun(getEpiCaseControlHandle)
 
 
-Session.setDefault('epiCaseControlMyTbl_id', null)
 Session.setDefault('epiCaseControlShowNew', false)
 Session.setDefault('epiCaseControlEditingId', null)
 Session.setDefault('epiCaseControlShowAll', false)
@@ -35,30 +32,33 @@ Template.epiCaseControlTbl.helpers
     isShowAll: ->
         Session.get('epiCaseControlShowAll')
 
+    showPlots: ->
+        Session.get('epiRiskShowPlots')
+
 
 Template.epiCaseControlTbl.events
     'click #epiCaseControl-show-create': (evt, tmpl) ->
         Session.set("epiCaseControlShowNew", true)
         Deps.flush() # update DOM before focus
-        activateInput(tmpl.find("input[name=reference]"))
+        share.activateInput(tmpl.find("input[name=reference]"))
 
     'click #epiCaseControl-show-edit': (evt, tmpl) ->
         Session.set("epiCaseControlEditingId", @_id)
         Deps.flush() # update DOM before focus
-        activateInput(tmpl.find("input[name=reference]"))
+        share.activateInput(tmpl.find("input[name=reference]"))
 
     'click #epiCaseControl-move-up': (evt, tmpl) ->
         tr = $(tmpl.find('tr[data-id=' + @_id + ']'))
-        moveUp(this, tr, EpiCaseControl)
+        share.moveRow(this, tr, EpiCaseControl, true)
 
     'click #epiCaseControl-move-down': (evt, tmpl) ->
         tr = $(tmpl.find('tr[data-id=' + @_id + ']'))
-        moveDown(this, tr, EpiCaseControl)
+        share.moveRow(this, tr, EpiCaseControl, false)
 
     'click #epiCaseControl-downloadExcel': (evt, tmpl) ->
         myTbl_id = tmpl.data._id
         Meteor.call('epiCaseControlDownload', myTbl_id, (err, response) ->
-            return_excel_file(response, "epiCaseControl.xlsx")
+            share.returnExcelFile(response, "epiCaseControl.xlsx")
         )
     'click #epiCaseControl-toggleShowAllRows': (evt, tmpl) ->
         Session.set('epiCaseControlShowAll', !Session.get('epiCaseControlShowAll'))
@@ -69,11 +69,11 @@ Template.epiCaseControlTbl.events
     'click #epiCaseControl-copy-as-new': (evt, tmpl) ->
         Session.set("epiCaseControlShowNew", true)
         Deps.flush() # update DOM before focus
-        activateInput(tmpl.find("input[name=reference]"))
-        copyAsNew(@)
+        share.activateInput(tmpl.find("input[name=reference]"))
+        share.copyAsNew(@)
 
-    "showPlots": ->
-        Session.get("epiRiskShowPlots")
+    'click #epiCaseControl-epiRiskShowPlots': (evt, tmpl) ->
+        Session.set('epiRiskShowPlots', not Session.get('epiRiskShowPlots'))
 
 
 Template.epiCaseControlForm.helpers
@@ -83,10 +83,10 @@ Template.epiCaseControlForm.helpers
 
 Template.epiCaseControlForm.events
     'click #epiCaseControl-create': (evt, tmpl) ->
-        obj = new_values(tmpl)
+        obj = share.newValues(tmpl)
         obj['timestamp'] = (new Date()).getTime()
         obj['user_id'] = Meteor.userId()
-        obj['myTbl_id'] = Session.get('MyTbl_id')
+        obj['myTbl_id'] = Session.get('MyTbl')._id
         obj['isHidden'] = false
         Meteor.call('epiCaseControlNewIdx', obj['myTbl_id'], (err, response) ->
             obj['sortIdx'] = response
@@ -97,7 +97,7 @@ Template.epiCaseControlForm.events
         Session.set("epiCaseControlShowNew", false)
 
     'click #epiCaseControl-update': (evt, tmpl) ->
-        vals = update_values(tmpl.find('#epiCaseControlForm'), @)
+        vals = share.updateValues(tmpl.find('#epiCaseControlForm'), @)
         EpiCaseControl.update(@_id, {$set: vals})
         Session.set("epiCaseControlEditingId", null)
 

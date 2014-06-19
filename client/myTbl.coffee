@@ -44,12 +44,12 @@ Template.myTbl.events
     'click #myTbl-show-create': (evt, tmpl) ->
         Session.set("myTblShowNew", true)
         Deps.flush()  # update DOM before focus
-        activateInput(tmpl.find("input[name=name]"))
+        share.activateInput(tmpl.find("input[name=name]"))
 
     'click #myTbl-show-edit': (evt, tmpl) ->
         Session.set("myTblEditingId", this._id)
         Deps.flush()  # update DOM before focus
-        activateInput(tmpl.find("input[name=name]"))
+        share.activateInput(tmpl.find("input[name=name]"))
 
 
 Template.myTblForm.helpers
@@ -75,7 +75,7 @@ Template.myTblForm.helpers
 
 Template.myTblForm.events
     'click #myTbl-create': (evt, tmpl) ->
-        obj = new_values(tmpl)
+        obj = share.newValues(tmpl)
         obj['timestamp'] = (new Date()).getTime()
         obj['user_id'] = Meteor.userId()
         obj['user_roles'] = getUserPermissionsObject(tmpl);
@@ -89,7 +89,7 @@ Template.myTblForm.events
         Session.set("myTblShowNew", false)
 
     'click #myTbl-update': (evt, tmpl) ->
-        vals = update_values(tmpl.find("#myTblForm"), this);
+        vals = share.updateValues(tmpl.find("#myTblForm"), this);
         vals['user_roles'] = getUserPermissionsObject(tmpl);
         delete vals['projectManagers']
         delete vals['teamMembers']
