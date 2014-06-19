@@ -110,6 +110,3 @@ Meteor.methods
                        {"profile.fullName": {$regex: querystr}},
                        {"profile.affiliation": {$regex: querystr}}]}
         Meteor.users.find(query, {fields: {_id: 1, emails: 1, profile: 1}, limit: 50}).fetch()
-
-
-
