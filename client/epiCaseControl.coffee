@@ -1,14 +1,3 @@
-getEpiCaseControlHandle = ->
-    myTbl = Session.get('MyTbl')
-    if myTbl
-        epiCaseControlHandle = Meteor.subscribe('epiCaseControl', myTbl._id)
-    else
-        epiCaseControlHandle = null
-
-epiCaseControlHandle = getEpiCaseControlHandle()
-Deps.autorun(getEpiCaseControlHandle)
-
-
 Session.setDefault('epiCaseControlShowNew', false)
 Session.setDefault('epiCaseControlEditingId', null)
 Session.setDefault('epiCaseControlShowAll', false)
