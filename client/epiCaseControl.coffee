@@ -1,9 +1,9 @@
 EpiCaseControl = new Meteor.Collection('epiCaseControl')
 
 getEpiCaseControlHandle = ->
-    myTbl_id = Session.get('MyTbl_id')
-    if myTbl_id
-        epiCaseControlHandle = Meteor.subscribe('epiCaseControl', myTbl_id)
+    myTbl = Session.get('MyTbl')
+    if myTbl
+        epiCaseControlHandle = Meteor.subscribe('epiCaseControl', myTbl._id)
     else
         epiCaseControlHandle = null
 

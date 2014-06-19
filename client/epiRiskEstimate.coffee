@@ -1,9 +1,9 @@
 window.EpiRiskEstimate = new Meteor.Collection('epiRiskEstimate')
 
 getEpiRiskEstimateHandle = ->
-    myTbl_id = Session.get('MyTbl_id')
-    if myTbl_id
-        epiRiskEstimate = Meteor.subscribe('epiRiskEstimate', myTbl_id)
+    myTbl = Session.get('MyTbl')
+    if myTbl
+        epiRiskEstimate = Meteor.subscribe('epiRiskEstimate', myTbl._id)
     else
         epiRiskEstimate = null
 

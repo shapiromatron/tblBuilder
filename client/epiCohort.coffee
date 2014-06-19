@@ -1,9 +1,9 @@
 EpiCohort = new Meteor.Collection('epiCohort')
 
 getEpiCohortHandle = ->
-    myTbl_id = Session.get('MyTbl_id')
-    if myTbl_id
-        epiCohortHandle = Meteor.subscribe('epiCohort', myTbl_id)
+    myTbl = Session.get('MyTbl')
+    if myTbl
+        epiCohortHandle = Meteor.subscribe('epiCohort', myTbl._id)
     else
         epiCohortHandle = null
 

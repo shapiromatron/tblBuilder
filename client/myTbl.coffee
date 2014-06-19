@@ -1,15 +1,5 @@
 Users = new Meteor.Collection('userLookup');
 
-getMyTblsHandle = ->
-    userId = Meteor.userId()
-    if userId
-        myTblsHandle = Meteor.subscribe('myTbls', userId)
-    else
-        myTblsHandle = null
-
-myTblsHandle = getMyTblsHandle()
-Deps.autorun(getMyTblsHandle)
-
 Session.setDefault("myTblShowNew", false)
 Session.setDefault('myTblEditingId', null)
 

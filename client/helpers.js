@@ -143,7 +143,7 @@ UI.registerHelper("riskFormat", function(obj){
 });
 
 UI.registerHelper("userCanEdit", function(){
-  var myTbl = MyTbls.findOne({_id: Session.get('MyTbl_id')}),
+  var myTbl = Session.get('MyTbl'),
       user = Meteor.user(),
       id = (user) ? user._id : undefined,
       ids = [myTbl.user_id];
