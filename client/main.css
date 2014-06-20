@@ -113,22 +113,22 @@
 /*
  * User list setting
  */
- .userListItem {
+ .selectListItem {
     line-height: 1.65;
     padding: 3px;
     border: 2px solid transparent;
 }
 
-.userListItem > a {
+.selectListItem > a {
     display: none;
 }
 
-.userListItem:hover {
+.selectListItem:hover {
     border: 2px solid #6A7487;
     background-color: rgba(255,255,0,0.25);
 }
 
-.userListItem:hover > a {
+.selectListItem:hover > a {
     display: inline;
 }
 

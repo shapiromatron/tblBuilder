@@ -1,4 +1,9 @@
 getValue = (inp) ->
+    # special case for our multi-select list object
+    if $(inp).hasClass("multiSelectList")
+        $ul = $(inp).parent().next()
+        return share.typeaheadSelectListGetLIs($ul)
+    # otherwise it's a standard html input
     val = undefined
     switch inp.type
         when "text", "hidden", "textarea", "url"
@@ -54,12 +59,27 @@ share.moveRow = (self, tr, Cls, moveUp) ->
 share.copyAsNew = (obj) ->
     for key, val of obj
         switch typeof(val)
+            when "object"
+                # special case of typeaheadSelectList
+                $ul = $("input[name=#{key}]").parent().next()
+                share.typeaheadSelectListAddLI($ul, v) for v in val
             when "boolean"
                 $("input[name=#{key}]").prop('checked', val)
             else
                 $("input[name=#{key}]").val(val)
                 $("textarea[name=#{key}]").val(val)
 
+
+share.typeaheadSelectListAddLI = ($ul, val) ->
+    txts = share.typeaheadSelectListGetLIs($ul)
+    if val not in txts
+        rendered = UI.renderWithData(Template.typeaheadSelectListLI, val)
+        UI.insert(rendered, $ul[0])
+        return true
+    return false
+
+share.typeaheadSelectListGetLIs = ($ul) ->
+    (li.innerText for li in $ul.find('li'))
 
 UI.registerHelper "formatDate", (datetime, format) ->
     DateFormats =

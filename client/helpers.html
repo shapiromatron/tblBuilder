@@ -33,3 +33,25 @@
        autocomplete="off" spellcheck="off" value="{{value}}"
        data-source="{{data_source}}"/>
 </template>
+
+<template name="typeaheadSelectList">
+  <div>
+    <input class="form-control typeahead multiSelectList" name={{name}} type="text"
+         placeholder="Find existing (or press-enter to add new)"
+         autocomplete="off" spellcheck="off"
+         data-source="{{data_source}}"/>
+    <ul class="selectList">
+      {{#each values }}
+        {{> typeaheadSelectListLI}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="typeaheadSelectListLI">
+  <li class='selectListItem'>{{this}}
+    <a href='#' class='pull-right selectListRemove btn btn-default btn-xs' title='Remove from list'>
+      <span class='glyphicon glyphicon-remove'></span>
+    </a>
+  </li>
+</template>

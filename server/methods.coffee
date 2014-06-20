@@ -118,3 +118,13 @@ Meteor.methods
                         {fields: {organSite: 1}, limit: 1000, sort: ["organSite"]}).fetch()
         organSites = _.pluck(queryset, 'organSite')
         return _.uniq(organSites, true)
+
+    searchCovariates: (query) ->
+        check(query, String)
+        querystr = new RegExp(query, "i")  # case insensitive
+        queryset = EpiRiskEstimate.find({"covariates": { $in: [ querystr ] }},
+                        {fields: {covariates: 1}, limit: 1000}).fetch()
+        covariates = _.flatten(_.pluck(queryset, 'covariates'))
+        covariates = _.filter(covariates, (v) -> v.match(querystr))
+        return _.uniq(covariates, false)
+

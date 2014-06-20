@@ -105,7 +105,6 @@ Template.tablesForm.events
         Session.set("tablesEditingId", null)
 
     'click .removeUser': (evt, tmpl) ->
-        window.ev= evt;
         $(evt.currentTarget).parent().remove()
 
 

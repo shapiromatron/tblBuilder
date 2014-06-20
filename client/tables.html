@@ -93,7 +93,9 @@
     <div class="form-group row">
       <div class="col-xs-4">
         <label>Project managers</label>
-        <input class="form-control typeahead" name='projectManagers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown" placeholder="Type to search by email"/>
+        <input class="form-control typeahead" name='projectManagers'
+               type="text" autocomplete="off" data-source="searchUsers"
+               data-template="UserMatchPullDown" placeholder="Type to search by email"/>
         <p class="help-block">Can change permissions for who has access.</p>
         <ul class="projectManagers">
           {{#each getRoledUsers 'projectManagers'}}
@@ -103,7 +105,9 @@
       </div>
       <div class="col-xs-4">
         <label>Team members</label>
-        <input class="form-control typeahead" name='teamMembers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown" placeholder="Type to search by email"/>
+        <input class="form-control typeahead" name='teamMembers'
+               type="text" autocomplete="off" data-source="searchUsers"
+               data-template="UserMatchPullDown" placeholder="Type to search by email"/>
         <p class="help-block">Can create/change/delete content for a selected table.</p>
         <ul class="teamMembers">
           {{#each getRoledUsers 'teamMembers'}}
@@ -113,7 +117,9 @@
       </div>
       <div class="col-xs-4">
         <label>Reviewers</label>
-        <input class="form-control typeahead" name='reviewers' type="text" autocomplete="off" data-source="searchUsers" data-template="UserMatchPullDown" placeholder="Type to search by email"/>
+        <input class="form-control typeahead" name='reviewers' type="text"
+               autocomplete="off" data-source="searchUsers"
+               data-template="UserMatchPullDown" placeholder="Type to search by email"/>
         <p class="help-block">Can view but not change content.</p>
         <ul class="reviewers">
           {{#each getRoledUsers 'reviewers'}}
@@ -142,7 +148,7 @@
 
 
 <template name="UserLI">
-  <li class='userListItem' data-user_id='{{_id}}'>{{getUserDescription}}
+  <li class='selectListItem' data-user_id='{{_id}}'>{{getUserDescription}}
     <a href='#' class='pull-right removeUser btn btn-default btn-xs' title='Remove from list'>
       <span class='glyphicon glyphicon-remove'></span>
     </a>

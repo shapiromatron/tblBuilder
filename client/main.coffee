@@ -117,3 +117,34 @@ Template.typeaheadInput.rendered = ->
 
 Template.typeaheadInput.destroyed = ->
     $(@.find("input[name=#{@.data.name}]")).unbind()
+
+
+
+Template.typeaheadSelectList.helpers
+    searchCovariates: (qry, cb) ->
+        Meteor.call "searchCovariates", qry, (err, res) ->
+            if err
+                return console.log(err)
+            map = ({value: v} for v in res)
+            cb(map)
+
+Template.typeaheadSelectList.events
+
+    'keyup .form-control': (evt, tmpl) ->
+        if evt.which is 13
+            val = evt.target.value
+            $ul = $(tmpl.find('ul'))
+            if share.typeaheadSelectListAddLI($ul, val)
+                evt.target.value = ""
+
+    'click .selectListRemove': (evt, tmpl) ->
+        $(evt.currentTarget).parent().remove()
+
+Template.typeaheadSelectList.rendered = ->
+    Meteor.typeahead.inject("input[name=#{@.data.name}]")
+    $ul = $(@.find('ul'))
+    $(@.find("input")).on 'typeahead:selected', (e, v) ->
+        share.typeaheadSelectListAddLI($ul, v.value)
+
+Template.typeaheadSelectList.destroyed = ->
+    $(@.find("input[name=#{@.data.name}]")).unbind()
