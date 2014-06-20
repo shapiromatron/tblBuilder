@@ -113,10 +113,7 @@
     <div class="form-group row">
       <div class="col-xs-4">
         <label>Organ site<br>(ICD code)</label><br>
-        <input class="form-control typeahead" name="organSite" type="text"
-               placeholder="Find existing (or add new)"
-               autocomplete="off" spellcheck="off" value="{{organSite}}"
-               data-source="searchOrganSite"/>
+        {{> typeaheadInput name="organSite" value=organSite data_source="searchOrganSite"}}
       </div>
       <div class="col-xs-4">
         <label>Exposure<br>categories</label>

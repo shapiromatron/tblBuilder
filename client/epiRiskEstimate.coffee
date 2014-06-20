@@ -70,18 +70,6 @@ Template.epiRiskEstimateTbl.events
         share.copyAsNew(@)
 
 
-Template.epiRiskEstimateForm.helpers
-    epiRiskEstimateCheckIsNew: (isNew) ->
-        isNew is "T"
-
-    searchOrganSite: (qry, cb) ->
-        Meteor.call "searchOrganSite", qry, (err, res) ->
-            if err
-                return console.log(err)
-            map = ({value: v} for v in res)
-            cb(map)
-
-
 Template.epiRiskEstimateForm.events
     'click #epiRiskEstimate-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)
@@ -110,10 +98,6 @@ Template.epiRiskEstimateForm.events
     'click #epiRiskEstimate-delete': (evt, tmpl) ->
         EpiRiskEstimate.remove(@_id)
         Session.set("epiRiskEstimateEditingId", null)
-
-
-Template.epiRiskEstimateForm.rendered = () ->
-    Meteor.typeahead.inject('input[name=organSite]');
 
 
 Template.forestPlot.rendered = ->

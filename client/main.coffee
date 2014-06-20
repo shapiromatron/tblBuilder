@@ -102,3 +102,18 @@ Template.selectList.helpers
 UI.registerHelper "getUserDescription", ->
     if (@.profile and @.profile.fullName) then return @.profile.fullName
     return [(v.address for v in @.emails)].join(', ')
+
+
+Template.typeaheadInput.helpers
+    searchOrganSite: (qry, cb) ->
+        Meteor.call "searchOrganSite", qry, (err, res) ->
+            if err
+                return console.log(err)
+            map = ({value: v} for v in res)
+            cb(map)
+
+Template.typeaheadInput.rendered = ->
+    Meteor.typeahead.inject("input[name=#{@.data.name}]")
+
+Template.typeaheadInput.destroyed = ->
+    $(@.find("input[name=#{@.data.name}]")).unbind()

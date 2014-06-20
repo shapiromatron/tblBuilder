@@ -26,3 +26,10 @@
     <h1>Loading...</h1>
   </div>
 </template>
+
+<template name="typeaheadInput">
+  <input class="form-control typeahead" name={{name}} type="text"
+       placeholder="Find existing (or add new)"
+       autocomplete="off" spellcheck="off" value="{{value}}"
+       data-source="{{data_source}}"/>
+</template>
