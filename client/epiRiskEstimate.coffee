@@ -74,14 +74,12 @@ Template.epiRiskEstimateForm.helpers
     epiRiskEstimateCheckIsNew: (isNew) ->
         isNew is "T"
 
-    searchOrganSite: (query, callback) ->
-        params = params:
-            token: Accounts && Accounts._storedLoginToken()
-            searchString: query
-        HTTP.get "#{Meteor.absoluteUrl()}api/searchOrganSite", params, (err, res) ->
+    searchOrganSite: (qry, cb) ->
+        Meteor.call "searchOrganSite", qry, (err, res) ->
             if err
                 return console.log(err)
-            callback(res.data)
+            map = ({value: v} for v in res)
+            cb(map)
 
 
 Template.epiRiskEstimateForm.events
@@ -115,9 +113,7 @@ Template.epiRiskEstimateForm.events
 
 
 Template.epiRiskEstimateForm.rendered = () ->
-    Meteor.typeahead.inject();
-    $('.typeahead').on 'typeahead:selected', (e, v) ->
-        if @.name is 'organSite' then @.value = v.organSite
+    Meteor.typeahead.inject('input[name=organSite]');
 
 
 Template.forestPlot.rendered = ->
