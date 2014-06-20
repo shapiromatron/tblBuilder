@@ -1,5 +1,5 @@
 Deps.autorun ->
-    Meteor.subscribe 'myTbls', Meteor.userId()
+    Meteor.subscribe 'tables', Meteor.userId()
 
 
 permissionsCheck = (tbl) ->
@@ -22,11 +22,11 @@ permissionsCheck = (tbl) ->
 
 Router.map ->
 
-    this.route 'my_lists',
+    this.route 'home',
         path: '/',
 
         waitOn: ->
-            return Meteor.subscribe('myTbls', Meteor.userId())
+            return Meteor.subscribe('tables', Meteor.userId())
 
         action: ->
             if @.ready() then @.render()
@@ -35,14 +35,14 @@ Router.map ->
         path: '/epi-cohort/:_id'
 
         data: ->
-            return MyTbls.findOne(this.params._id)
+            return Tables.findOne(this.params._id)
 
         waitOn: ->
-            @.subscribe('myTbls', Meteor.userId()).wait()
+            @.subscribe('tables', Meteor.userId()).wait()
             if @.ready()
-                tbl = MyTbls.findOne({_id: this.params._id})
+                tbl = Tables.findOne({_id: this.params._id})
                 permissionsCheck(tbl)
-                Session.set('MyTbl', tbl)
+                Session.set('Tbl', tbl)
                 return Meteor.subscribe('epiCohort', tbl._id)
 
         action: ->
@@ -52,14 +52,14 @@ Router.map ->
         path: '/epi-case-control/:_id',
 
         data: ->
-            return MyTbls.findOne(this.params._id)
+            return Tables.findOne(this.params._id)
 
         waitOn: ->
-            @.subscribe('myTbls', Meteor.userId()).wait()
+            @.subscribe('tables', Meteor.userId()).wait()
             if @.ready()
-                tbl = MyTbls.findOne({_id: this.params._id})
+                tbl = Tables.findOne({_id: this.params._id})
                 permissionsCheck(tbl)
-                Session.set('MyTbl', tbl)
+                Session.set('Tbl', tbl)
                 return Meteor.subscribe('epiCaseControl', tbl._id)
 
         action: ->
@@ -86,3 +86,19 @@ Template._loginButtonsLoggedInDropdown.events
         event.stopPropagation()
         Template._loginButtons.toggleDropdown()
         Router.go('profileEdit')
+
+
+###
+Based on loading order issues, the following content must be kept int he "main"
+module, despite it's preferred home being in a different location:
+###
+
+Template.selectList.helpers
+
+    isSelected: (current, selected) ->
+        return current is selected
+
+
+UI.registerHelper "getUserDescription", ->
+    if (@.profile and @.profile.fullName) then return @.profile.fullName
+    return [(v.address for v in @.emails)].join(', ')

@@ -80,7 +80,7 @@ Template.epiRiskEstimateForm.events
         obj = share.newValues(tmpl)
         obj['timestamp'] = (new Date()).getTime()
         obj['user_id'] = Meteor.userId()
-        obj['myTbl_id'] = Session.get('MyTbl')._id
+        obj['tbl_id'] = Session.get('Tbl')._id
         obj['parent_id'] = tmpl.data.parent._id
         obj['isHidden'] = false
         Meteor.call('epiRiskEstimateNewIdx', obj['parent_id'], (err, response) ->

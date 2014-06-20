@@ -45,8 +45,8 @@ Template.epiCaseControlTbl.events
         share.moveRow(this, tr, EpiCaseControl, false)
 
     'click #epiCaseControl-downloadExcel': (evt, tmpl) ->
-        myTbl_id = tmpl.data._id
-        Meteor.call('epiCaseControlDownload', myTbl_id, (err, response) ->
+        tbl_id = tmpl.data._id
+        Meteor.call('epiCaseControlDownload', tbl_id, (err, response) ->
             share.returnExcelFile(response, "epiCaseControl.xlsx")
         )
     'click #epiCaseControl-toggleShowAllRows': (evt, tmpl) ->
@@ -75,9 +75,9 @@ Template.epiCaseControlForm.events
         obj = share.newValues(tmpl)
         obj['timestamp'] = (new Date()).getTime()
         obj['user_id'] = Meteor.userId()
-        obj['myTbl_id'] = Session.get('MyTbl')._id
+        obj['tbl_id'] = Session.get('Tbl')._id
         obj['isHidden'] = false
-        Meteor.call('epiCaseControlNewIdx', obj['myTbl_id'], (err, response) ->
+        Meteor.call('epiCaseControlNewIdx', obj['tbl_id'], (err, response) ->
             obj['sortIdx'] = response
             EpiCaseControl.insert(obj)
             Session.set("epiCaseControlShowNew", false)

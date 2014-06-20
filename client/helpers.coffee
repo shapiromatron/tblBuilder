@@ -85,14 +85,10 @@ UI.registerHelper "riskFormat", (obj) ->
     return txt
 
 UI.registerHelper "userCanEdit", ->
-    tbl = Session.get('MyTbl')
+    tbl = Session.get('Tbl')
     user = Meteor.user()
     currentUser = if user then user._id
     if currentUser is tbl.user_id then return true
     for user in tbl.user_roles
         if currentUser is user.user_id and user.role isnt "reviewers" then return true
   return false
-
-
-Template.selectList.isSelected = (current, selected) ->
-    return current is selected

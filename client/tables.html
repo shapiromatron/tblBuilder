@@ -1,7 +1,7 @@
-<template name="my_lists">
+<template name="home">
   <div class="container">
   {{#if currentUser}}
-      {{> myTbl }}
+      {{> tablesTbl }}
     {{else }}
       <h1>Welcome to the IARC table builder</h1>
       <p>This application is designed to store and display key data used in the IARC monograph assessments. Groups of users can collaboratively work together to build evidence tables from multiple streams of evidence.</p>
@@ -10,15 +10,15 @@
   </div>
 </template>
 
-<template name="myTbl">
-  <h1>Tables which I've created.
+<template name="tablesTbl">
+  <h1>Tables which I have access to.
     <div class="btn-group pull-right">
       <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
         <span class="caret" title="Editing options"></span>
       </button>
       <ul class="dropdown-menu">
         {{#unless showNew}}
-          <li><a href="#" id="myTbl-show-create"><span class="glyphicon glyphicon-plus"></span> New</a></li>
+          <li><a href="#" id="tables-show-create"><span class="glyphicon glyphicon-plus"></span> New</a></li>
         {{/unless}}
       </ul>
     </div>
@@ -35,11 +35,11 @@
       </tr>
     </thead>
     <tbody>
-      {{#each getMyTbls}}
+      {{#each getTables}}
         <tr>
           {{#if isEditing}}
             <td id="editingRow" colspan="100">
-              {{> myTblForm}}
+              {{> tablesForm}}
             </td>
           {{else}}
             <td>{{monographNumber}}: {{agent}}</td>
@@ -47,7 +47,7 @@
             <td>{{tblType}}</td>
             <td>{{formatDate timestamp "long"}}</td>
             {{#if canEdit }}
-              <td><a class="btn btn-default" href="#" id="myTbl-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
+              <td><a class="btn btn-default" href="#" id="tables-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
             {{else}}
               <td>-</td>
             {{/if}}
@@ -57,7 +57,7 @@
         {{#unless showNew}}
           <tr>
             <td colspan="100">You haven't created any tables yet.<br><br>
-              <a href="#" class="btn btn-primary btn-sm" id="myTbl-show-create"><span class="glyphicon glyphicon-plus"></span> Create new</a>
+              <a href="#" class="btn btn-primary btn-sm" id="tables-show-create"><span class="glyphicon glyphicon-plus"></span> Create new</a>
             </td>
           </tr>
         {{/unless}}
@@ -66,12 +66,12 @@
   </table>
 
   {{#if showNew}}
-    {{> myTblForm}}
+    {{> tablesForm}}
   {{/if}}
 </template>
 
-<template name="myTblForm">
-  <form id="myTblForm" role="form" class="editForm">
+<template name="tablesForm">
+  <form id="tablesForm" role="form" class="editForm">
     <div class="form-group row">
       <div class="col-xs-2">
         <label>Monograph Number</label>
@@ -124,12 +124,12 @@
     </div>
     <div class="well well-sm pager">
       {{#if _id}}
-        <button type="button" class="btn btn-sm btn-primary" id="myTbl-update" title="Save changes"><span class="glyphicon glyphicon-ok"></span> Save</button>
-        <button type="button" class="btn btn-sm btn-default" id="myTbl-update-cancel" title="Cancel changes">Cancel</button>
-        <button type="button" class="btn btn-sm btn-danger"  id="myTbl-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="btn btn-sm btn-primary" id="tables-update" title="Save changes"><span class="glyphicon glyphicon-ok"></span> Save</button>
+        <button type="button" class="btn btn-sm btn-default" id="tables-update-cancel" title="Cancel changes">Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger"  id="tables-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
       {{else}}
-        <button type="button" class="btn btn-sm btn-primary" id="myTbl-create" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
-        <button type="button" class="btn btn-sm btn-default" id="myTbl-create-cancel" title="Cancel">Cancel</button>
+        <button type="button" class="btn btn-sm btn-primary" id="tables-create" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="tables-create-cancel" title="Cancel">Cancel</button>
       {{/if}}
     </div>
   </form>
@@ -139,6 +139,7 @@
 <template name="UserMatchPullDown">
   <p>{{getUserDescription}}</p>
 </template>
+
 
 <template name="UserLI">
   <li class='userListItem' data-user_id='{{_id}}'>{{getUserDescription}}

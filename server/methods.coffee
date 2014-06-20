@@ -53,10 +53,10 @@ getNewIdx = (Cls, filter) ->
     return max+1
 
 Meteor.methods
-    epiCohortExcelDownload: (myTbl_id) ->
+    epiCohortExcelDownload: (tbl_id) ->
 
-        getEpiCohortData = (myTbl_id) ->
-            cohorts = EpiCohort.find({myTbl_id: myTbl_id}, {sort: {sortIdx: 1}}).fetch()
+        getEpiCohortData = (tbl_id) ->
+            cohorts = EpiCohort.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
             header = ['reference', 'location', 'followUpPeriod',
                       'numSubjects', 'numSubjectsDetails', 'covariates',
                       'comments', 'isHiddenCohort', 'organSite',
@@ -83,7 +83,7 @@ Meteor.methods
                 rows.push(new_row)
             return rows
 
-        data = getEpiCohortData(myTbl_id)
+        data = getEpiCohortData(tbl_id)
         ws_name = "epiCohort"
         wb = new Workbook()
         ws = sheet_from_array_of_arrays(data)
@@ -91,17 +91,17 @@ Meteor.methods
         wb.Sheets[ws_name] = ws
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
-    epiCohortNewIdx: (myTbl_id) ->
-        check(myTbl_id, String)
-        getNewIdx(EpiCohort, {myTbl_id: myTbl_id})
+    epiCohortNewIdx: (tbl_id) ->
+        check(tbl_id, String)
+        getNewIdx(EpiCohort, {tbl_id: tbl_id})
 
     epiRiskEstimateNewIdx: (parent_id) ->
         check(parent_id, String)
         getNewIdx(EpiRiskEstimate, {parent_id: parent_id})
 
-    epiCaseControlNewIdx: (myTbl_id) ->
-        check(myTbl_id, String)
-        getNewIdx(EpiCaseControl, {myTbl_id: myTbl_id})
+    epiCaseControlNewIdx: (tbl_id) ->
+        check(tbl_id, String)
+        getNewIdx(EpiCaseControl, {tbl_id: tbl_id})
 
     searchUsers: (str) ->
         check(str, String)

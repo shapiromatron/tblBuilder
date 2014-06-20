@@ -1,19 +1,19 @@
 Users = new Meteor.Collection('userLookup');
 
-Session.setDefault("myTblShowNew", false)
-Session.setDefault('myTblEditingId', null)
+Session.setDefault("tablesShowNew", false)
+Session.setDefault('tablesEditingId', null)
 
-getMyUserHandle = ->
-    myTblId = Session.get('myTblEditingId')
-    if myTblId
-        userHandle = Meteor.subscribe('tblUsers', myTblId)
+getTablesHandle = ->
+    tablesId = Session.get('tablesEditingId')
+    if tablesId
+        userHandle = Meteor.subscribe('tblUsers', tablesId)
     else
         userHandle = null
 
-userHandle = getMyUserHandle()
-Deps.autorun(getMyUserHandle)
+userHandle = getTablesHandle()
+Deps.autorun(getTablesHandle)
 
-Template.myTbl.helpers
+Template.tablesTbl.helpers
 
     canEdit: ->
         currentUser = Meteor.user()
@@ -21,14 +21,14 @@ Template.myTbl.helpers
         ids = (v.user_id for v in @.user_roles when v.role is "projectManagers")
         return((id is @.user_id) or (id in ids))
 
-    getMyTbls: () ->
-        MyTbls.find()
+    getTables: () ->
+        Tables.find()
 
     showNew: () ->
-        Session.get("myTblShowNew")
+        Session.get("tablesShowNew")
 
     isEditing: () ->
-        Session.equals('myTblEditingId', @_id)
+        Session.equals('tablesEditingId', @_id)
 
     getURL: () ->
         switch @tblType
@@ -40,19 +40,19 @@ Template.myTbl.helpers
                 url = Router.path('404')
 
 
-Template.myTbl.events
-    'click #myTbl-show-create': (evt, tmpl) ->
-        Session.set("myTblShowNew", true)
+Template.tablesTbl.events
+    'click #tables-show-create': (evt, tmpl) ->
+        Session.set("tablesShowNew", true)
         Deps.flush()  # update DOM before focus
         share.activateInput(tmpl.find("input[name=name]"))
 
-    'click #myTbl-show-edit': (evt, tmpl) ->
-        Session.set("myTblEditingId", this._id)
+    'click #tables-show-edit': (evt, tmpl) ->
+        Session.set("tablesEditingId", this._id)
         Deps.flush()  # update DOM before focus
         share.activateInput(tmpl.find("input[name=name]"))
 
 
-Template.myTblForm.helpers
+Template.tablesForm.helpers
     searchUsers: (query, callback) ->
         Meteor.call 'searchUsers', query, {}, (err, res) ->
             if err
@@ -73,8 +73,8 @@ Template.myTblForm.helpers
         return tblTypeOptions
 
 
-Template.myTblForm.events
-    'click #myTbl-create': (evt, tmpl) ->
+Template.tablesForm.events
+    'click #tables-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)
         obj['timestamp'] = (new Date()).getTime()
         obj['user_id'] = Meteor.userId()
@@ -82,33 +82,34 @@ Template.myTblForm.events
         delete obj['projectManagers']
         delete obj['teamMembers']
         delete obj['reviewers']
-        MyTbls.insert(obj)
-        Session.set("myTblShowNew", false)
+        Tables.insert(obj)
+        Session.set("tablesShowNew", false)
 
-    'click #myTbl-create-cancel': (evt, tmpl) ->
-        Session.set("myTblShowNew", false)
+    'click #tables-create-cancel': (evt, tmpl) ->
+        Session.set("tablesShowNew", false)
 
-    'click #myTbl-update': (evt, tmpl) ->
-        vals = share.updateValues(tmpl.find("#myTblForm"), this);
+    'click #tables-update': (evt, tmpl) ->
+        vals = share.updateValues(tmpl.find("#tablesForm"), this);
         vals['user_roles'] = getUserPermissionsObject(tmpl);
         delete vals['projectManagers']
         delete vals['teamMembers']
         delete vals['reviewers']
-        MyTbls.update(this._id, {$set: vals})
-        Session.set("myTblEditingId", null)
+        Tables.update(this._id, {$set: vals})
+        Session.set("tablesEditingId", null)
 
-    'click #myTbl-update-cancel': (evt, tmpl) ->
-        Session.set("myTblEditingId", null)
+    'click #tables-update-cancel': (evt, tmpl) ->
+        Session.set("tablesEditingId", null)
 
-    'click #myTbl-delete': (evt, tmpl) ->
-        MyTbls.remove(this._id)
-        Session.set("myTblEditingId", null)
+    'click #tables-delete': (evt, tmpl) ->
+        Tables.remove(this._id)
+        Session.set("tablesEditingId", null)
 
     'click .removeUser': (evt, tmpl) ->
         window.ev= evt;
         $(evt.currentTarget).parent().remove()
 
-Template.myTblForm.rendered = () ->
+
+Template.tablesForm.rendered = () ->
     tmpl = @
     Meteor.typeahead.inject();
     $('.typeahead').on 'typeahead:selected', (e, v) ->
@@ -121,18 +122,8 @@ getUserPermissionsObject = (tmpl)->
     # first filter objects so that each user has the higher permission
     permissions = {}
     for role in ['reviewers', 'teamMembers', 'projectManagers']
-        # lis = tmpl.findAll(".#{role} li")
-        # if lis
         ids = ($(li).data('user_id') for li in tmpl.findAll(".#{role} li"))
         permissions[id] = role for id in ids
     # now save as list of objects
     list = ({user_id: key, role: value} for key, value of permissions)
     return list
-
-
-UI.registerHelper "getUserDescription", ->
-    emails = [(v.address for v in @.emails)].join(', ')
-    if (@.profile and @.profile.fullName)
-        return "#{@.profile.fullName} (#{emails})"
-    else
-        return emails

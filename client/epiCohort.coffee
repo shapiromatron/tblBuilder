@@ -44,8 +44,8 @@ Template.epiCohortTbl.events
         share.moveRow(this, tr, EpiCohort, false)
 
     'click #epiCohort-downloadExcel': (evt, tmpl) ->
-        myTbl_id = tmpl.data._id
-        Meteor.call('epiCohortExcelDownload', myTbl_id, (err, response) ->
+        tbl_id = tmpl.data._id
+        Meteor.call('epiCohortExcelDownload', tbl_id, (err, response) ->
             share.returnExcelFile(response, "epiCohort.xlsx")
         )
     'click #epiCohort-toggleShowAllRows': (evt, tmpl) ->
@@ -74,9 +74,9 @@ Template.epiCohortForm.events
         obj = share.newValues(tmpl)
         obj['timestamp'] = (new Date()).getTime()
         obj['user_id'] = Meteor.userId()
-        obj['myTbl_id'] = Session.get('MyTbl')._id
+        obj['tbl_id'] = Session.get('Tbl')._id
         obj['isHidden'] = false
-        Meteor.call('epiCohortNewIdx', obj['myTbl_id'], (err, response) ->
+        Meteor.call('epiCohortNewIdx', obj['tbl_id'], (err, response) ->
             obj['sortIdx'] = response
             EpiCohort.insert(obj)
             Session.set("epiCohortShowNew", false)
