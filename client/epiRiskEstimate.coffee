@@ -71,8 +71,17 @@ Template.epiRiskEstimateTbl.events
 
 
 Template.epiRiskEstimateForm.helpers
-    "epiRiskEstimateCheckIsNew": (isNew) ->
+    epiRiskEstimateCheckIsNew: (isNew) ->
         isNew is "T"
+
+    searchOrganSite: (query, callback) ->
+        params = params:
+            token: Accounts && Accounts._storedLoginToken()
+            searchString: query
+        HTTP.get "#{Meteor.absoluteUrl()}api/searchOrganSite", params, (err, res) ->
+            if err
+                return console.log(err)
+            callback(res.data)
 
 
 Template.epiRiskEstimateForm.events
@@ -103,6 +112,12 @@ Template.epiRiskEstimateForm.events
     'click #epiRiskEstimate-delete': (evt, tmpl) ->
         EpiRiskEstimate.remove(@_id)
         Session.set("epiRiskEstimateEditingId", null)
+
+
+Template.epiRiskEstimateForm.rendered = () ->
+    Meteor.typeahead.inject();
+    $('.typeahead').on 'typeahead:selected', (e, v) ->
+        if @.name is 'organSite' then @.value = v.organSite
 
 
 Template.forestPlot.rendered = ->

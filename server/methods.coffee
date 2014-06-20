@@ -109,4 +109,32 @@ Meteor.methods
         query = {$or: [{"emails": {$elemMatch: {"address": {$regex: querystr}}}},
                        {"profile.fullName": {$regex: querystr}},
                        {"profile.affiliation": {$regex: querystr}}]}
-        Meteor.users.find(query, {fields: {_id: 1, emails: 1, profile: 1}, limit: 50}).fetch()
+        Meteor.users.find(query, {fields: {_id: 1, emails: 1, profile: 1}, limit: 20}).fetch()
+
+    searchOrganSite: (str) ->
+        check(str, String)
+        querystr = new RegExp(str, "i")  # case insensitive
+        EpiRiskEstimate.find({"organSite": {$regex: querystr}},
+                             {fields: {organSite: 1}, limit: 20}).fetch()
+
+
+HTTP.methods
+    'api/searchOrganSite': ->
+
+        getValid = =>
+            check(this.query.searchString, String)
+            querystr = new RegExp(this.query.searchString, "i")  # case insensitive
+            @.setContentType('text/javascript')
+            res = EpiRiskEstimate.find({"organSite": {$regex: querystr}},
+                                       {fields: {organSite: 1}, limit: 20}).fetch()
+            return JSON.stringify(res)
+
+        if permissionsValid(@) then getValid() else call403(@)
+
+call403 = (self) ->
+    self.setStatusCode(403)
+    return '<h1>Forbidden</h1>'
+
+permissionsValid = (self) ->
+    status = self.method isnt 'GET' or self.userId isnt null
+
