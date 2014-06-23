@@ -1,7 +1,8 @@
 Meteor.publish 'tables', (user_id) ->
     check(user_id, String)
     Tables.find({$or: [{user_id: user_id},
-                       {user_roles: {$elemMatch: {user_id: user_id}}}]})
+                       {user_roles: {$elemMatch: {user_id: user_id}}}]},
+                {sort: [['timestamp', 'desc']]})
 
 Meteor.publish 'epiCaseControl', (tbl_id) ->
     check(tbl_id, String)

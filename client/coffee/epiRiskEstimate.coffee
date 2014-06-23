@@ -1,13 +1,7 @@
 Session.setDefault('epiRiskEstimateShowNew', false)
 Session.setDefault('epiRiskEstimateEditingId', null)
 Session.setDefault('epiRiskShowPlots', false)
-
-
-getEpiRiskEstimateShowAllSessionKey = (_id) ->
-    key = "showAll_#{_id}"
-    if (not Session.get(key)?)
-        Session.setDefault(key, false)
-    key
+Session.setDefault('epiRiskShowAll', false)
 
 
 Template.epiRiskEstimateTbl.helpers
@@ -25,12 +19,10 @@ Template.epiRiskEstimateTbl.helpers
         Session.equals('epiRiskEstimateEditingId', @_id)
 
     "showRow": (isHidden) ->
-        key = getEpiRiskEstimateShowAllSessionKey(@parent_id)
-        Session.get(key) or not isHidden
+        Session.get('epiRiskShowAll') or not isHidden
 
     "isShowAll": () ->
-        key = getEpiRiskEstimateShowAllSessionKey(@parent._id)
-        Session.get(key)
+        Session.get('epiRiskShowAll')
 
     "showPlots": ->
         Session.get("epiRiskShowPlots")
@@ -55,10 +47,6 @@ Template.epiRiskEstimateTbl.events
     'click #epiRiskEstimate-move-down': (evt, tmpl) ->
         tr = $(tmpl.find("tr[data-id=#{@_id}]"))
         share.moveRow(@, tr, EpiRiskEstimate, false)
-
-    'click #epiRiskEstimate-toggleShowAllRows': (evt, tmpl) ->
-        key = getEpiRiskEstimateShowAllSessionKey(@parent._id)
-        Session.set(key, !Session.get(key))
 
     'click #epiRiskEstimate-toggle-hidden': (evt, tmpl) ->
         EpiRiskEstimate.update(@_id, {$set: {isHidden: !@isHidden}})

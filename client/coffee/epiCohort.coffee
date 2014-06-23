@@ -49,7 +49,9 @@ Template.epiCohortTbl.events
             share.returnExcelFile(response, "epiCohort.xlsx")
         )
     'click #epiCohort-toggleShowAllRows': (evt, tmpl) ->
-        Session.set('epiCohortShowAll', !Session.get('epiCohortShowAll'))
+        val = !Session.get('epiCohortShowAll')
+        Session.set('epiCohortShowAll', val)
+        Session.set('epiRiskShowAll', val)
 
     'click #epiCohort-toggle-hidden': (evt, tmpl) ->
         EpiCohort.update(@_id, {$set: {isHidden: !@isHidden}})

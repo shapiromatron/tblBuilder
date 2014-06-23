@@ -112,6 +112,14 @@ Template.typeaheadInput.helpers
             map = ({value: v} for v in res)
             cb(map)
 
+    searchAgent: (qry, cb) ->
+        Meteor.call "searchAgent", qry, (err, res) ->
+            if err
+                return console.log(err)
+            map = ({value: v} for v in res)
+            cb(map)
+
+
 Template.typeaheadInput.rendered = ->
     Meteor.typeahead.inject("input[name=#{@.data.name}]")
 

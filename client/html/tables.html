@@ -25,32 +25,43 @@
   </h1>
 
   <table class="table table-compressed table-striped">
+    <colgroup>
+      <col width="20%">
+      <col width="40%">
+      <col width="20%">
+      <col width="20%">
+    </colgroup>
     <thead>
       <tr>
         <th>Monograph &amp; Agent</th>
-        <th>Table Name</th>
-        <th>Table Type</th>
+        <th>Name</th>
+        <th>Type</th>
         <th>Created</th>
-        <th>Table<br>Configuration</th>
       </tr>
     </thead>
     <tbody>
       {{#each getTables}}
-        <tr>
+        <tr class="menu-autohide">
           {{#if isEditing}}
             <td id="editingRow" colspan="100">
               {{> tablesForm}}
             </td>
           {{else}}
-            <td>{{monographNumber}}: {{agent}}</td>
+            <td>{{monographNumber}}: {{agent}}
+                {{#if canEdit}}
+                  <div class="rowOptions btn-group pull-right">
+                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                      <span class="caret" title="Editing options"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#" id="tables-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                    </ul>
+                  </div>
+                {{/if}}
+            </td>
             <td><a href="{{getURL}}">{{name}}</a></td>
             <td>{{tblType}}</td>
             <td>{{formatDate timestamp "long"}}</td>
-            {{#if canEdit }}
-              <td><a class="btn btn-default" href="#" id="tables-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
-            {{else}}
-              <td>-</td>
-            {{/if}}
           {{/if}}
         </tr>
       {{else}}
@@ -79,7 +90,7 @@
       </div>
       <div class="col-xs-5">
         <label>Agent Name</label>
-        <input class="form-control" name='agent' type="text" value="{{agent}}"/>
+        {{> typeaheadInput name="agent" value=agent data_source="searchAgent"}}
       </div>
       <div class="col-xs-5">
         <label>Table Type</label>

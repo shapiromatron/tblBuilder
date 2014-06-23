@@ -52,6 +52,19 @@ getNewIdx = (Cls, filter) ->
     if (val and isFinite(val.sortIdx)) then max = val.sortIdx
     return max+1
 
+singleFieldTextSearch = (inputs) ->
+    # Perform a search of a single field, and return unique values.
+    field = inputs['field']
+    query = {}
+    query[field] = {$regex: new RegExp(inputs['query'], "i")}
+    options = {fields: {}, limit: 1000, sort: []}
+    options.fields[field] = 1
+    options.sort.push(field)
+    queryset = inputs['Collection'].find(query, options).fetch()
+    values = _.pluck(queryset, field)
+    return _.uniq(values, true)
+
+
 Meteor.methods
     epiCohortExcelDownload: (tbl_id) ->
 
@@ -113,11 +126,17 @@ Meteor.methods
 
     searchOrganSite: (query) ->
         check(query, String)
-        querystr = new RegExp(query, "i")  # case insensitive
-        queryset = EpiRiskEstimate.find({"organSite": {$regex: querystr}},
-                        {fields: {organSite: 1}, limit: 1000, sort: ["organSite"]}).fetch()
-        organSites = _.pluck(queryset, 'organSite')
-        return _.uniq(organSites, true)
+        return singleFieldTextSearch
+                    Collection: EpiRiskEstimate,
+                    field: "organSite",
+                    query: query
+
+    searchAgent: (query) ->
+        check(query, String)
+        return singleFieldTextSearch
+                    Collection: Tables,
+                    field: "agent",
+                    query: query
 
     searchCovariates: (query) ->
         check(query, String)

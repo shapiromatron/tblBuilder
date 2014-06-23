@@ -50,7 +50,9 @@ Template.epiCaseControlTbl.events
             share.returnExcelFile(response, "epiCaseControl.xlsx")
         )
     'click #epiCaseControl-toggleShowAllRows': (evt, tmpl) ->
-        Session.set('epiCaseControlShowAll', !Session.get('epiCaseControlShowAll'))
+        val = !Session.get('epiCaseControlShowAll')
+        Session.set('epiCaseControlShowAll', val)
+        Session.set('epiRiskShowAll', val)
 
     'click #epiCaseControl-toggle-hidden': (evt, tmpl) ->
         EpiCaseControl.update(@_id, {$set: {isHidden: !@isHidden}})

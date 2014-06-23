@@ -84,7 +84,7 @@ share.typeaheadSelectListGetLIs = ($ul) ->
 UI.registerHelper "formatDate", (datetime, format) ->
     DateFormats =
         short: "DD MMMM - YYYY",
-        long: "dddd DD.MM.YYYY HH:mm"
+        long: "DD/MM/YYYY"
 
     if moment
         f = DateFormats[format]
