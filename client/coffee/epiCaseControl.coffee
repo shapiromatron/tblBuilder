@@ -29,12 +29,12 @@ Template.epiCaseControlTbl.events
     'click #epiCaseControl-show-create': (evt, tmpl) ->
         Session.set("epiCaseControlShowNew", true)
         Deps.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=reference]"))
+        share.activateInput(tmpl.find("input[name=referenceName]"))
 
     'click #epiCaseControl-show-edit': (evt, tmpl) ->
         Session.set("epiCaseControlEditingId", @_id)
         Deps.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=reference]"))
+        share.activateInput(tmpl.find("input[name=referenceName]"))
 
     'click #epiCaseControl-move-up': (evt, tmpl) ->
         tr = $(tmpl.find('tr[data-id=' + @_id + ']'))
@@ -60,7 +60,7 @@ Template.epiCaseControlTbl.events
     'click #epiCaseControl-copy-as-new': (evt, tmpl) ->
         Session.set("epiCaseControlShowNew", true)
         Deps.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=reference]"))
+        share.activateInput(tmpl.find("input[name=referenceName]"))
         share.copyAsNew(@)
 
     'click #epiCaseControl-epiRiskShowPlots': (evt, tmpl) ->

@@ -84,7 +84,7 @@
                     </ul>
                   </div>
                 {{/if}}
-                {{{referenceFormat reference reference_url}}}<br>{{location}}<br>{{followUpPeriod}}
+                {{{printReference id=referenceID}}}
               </td>
               <td>{{numSubjects}} {{numSubjectsText}}</td>
               <td>{{exposureAssessment}}</td>
@@ -116,9 +116,8 @@
   <form id="epiCohortForm" role="form" class="editForm">
     <div class="form-group row">
       <div class="col-xs-4">
-        <label>Reference and Reference URL</label>
-        <input class="form-control" name='reference' type="text" value="{{reference}}" placeholder='Enter the reference, such as "Smith et al. (2005)"' /><br>
-        <input class="form-control" name='reference_url' type="url" value="{{reference_url}}" placeholder='Enter the reference URL, if available' />
+        <label>Reference</label>
+        {{> referenceSelector}}
       </div>
       <div class="col-xs-4">
         <label>Cohort Location</label>

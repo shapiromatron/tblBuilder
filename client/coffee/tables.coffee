@@ -55,9 +55,7 @@ Template.tablesTbl.events
 Template.tablesForm.helpers
     searchUsers: (query, callback) ->
         Meteor.call 'searchUsers', query, {}, (err, res) ->
-            if err
-                console.log(err)
-                return
+            if err then return console.log(err)
             callback(res)
 
     getUsers: (userType) ->

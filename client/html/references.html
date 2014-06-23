@@ -1,0 +1,141 @@
+<template name="referencesMain">
+  <div class="container">
+    {{startup}}
+    {{> referencesTbl}}
+  </div>
+</template>
+
+<template name="referencesTbl">
+  <h1>Monograph {{monographNumber}}: References
+    <div class="btn-group pull-right">
+      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+        <span class="caret" title="Editing options"></span>
+      </button>
+      <ul class="dropdown-menu">
+        {{#unless referenceShowNew}}
+          <li><a href="#" id="reference-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
+        {{/unless}}
+        <li><a href="#" id="reference-downloadExcel"><span class="glyphicon glyphicon-save"></span> Download Excel</a></li>
+      </ul>
+    </div>
+  </h1>
+  <table></table>
+
+  <table class="table table-compressed">
+    <colgroup>
+      <col width="20%">
+      <col width="80%">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Short Reference Name</th>
+        <th>Full Citation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each getReferences}}
+          <tr class="menu-autohide">
+            {{#if referenceIsEditing}}
+              <td id="editingRow" colspan="100">
+                {{> referenceForm this isNew=false}}
+              </td>
+            {{else}}
+              <td>
+                <div class="rowOptions btn-group pull-right">
+                  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                    <span class="caret" title="Editing options"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" id="reference-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                  </ul>
+                </div>
+                {{printReference id=_id}}
+              </td>
+              <td>{{fullCitation}}</td>
+            {{/if}}
+          </tr>
+      {{else}}
+        <tr>
+          <td colspan="100">No references have been created.
+            {{#unless referenceShowNew}}<br><br>
+              <a href="#" class="btn btn-primary btn-sm" id="reference-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a>
+            {{/unless}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  {{#if referenceShowNew}}
+    {{> referenceForm isNew=true}}
+  {{/if}}
+</template>
+
+<template name="referenceForm">
+  <form id="referenceForm" role="form" class="editForm">
+    <div class="form-group row">
+      <div class="col-xs-4">
+        <label>Reference Short Name</label>
+        <input class="form-control" name='name' type="text" value="{{name}}" placeholder='Enter a short-name such as "Smith et al. (2005)"' />
+      </div>
+
+      <div class="col-xs-2">
+        <label>Reference Type</label>
+        {{> selectList options=getReferenceTypeOptions selected=referenceType selectName="referenceType" }}
+      </div>
+
+      <div class="col-xs-6">
+        <div id='pubMedFields'>
+          <label>PubMed ID</label>
+          <div class="input-group">
+            <input type="number" class="form-control" name="pubmedID" value="{{pubmedID}}">
+            <span class="input-group-btn">
+              <button class="btn btn-success pubmedLookup" type="button"
+                      title="Search PubMed and import the citation text">
+                 <span title = "Loading..." class="pubmedLookupSpinner glyphicon glyphicon-repeat spinner"></span> Lookup
+              </button>
+            </span>
+          </div>
+        </div>
+        <div id='otherFields'>
+          <label>Other URL</label>
+          <input class="form-control" name='otherURL' type="text" value="{{otherURL}}" placeholder='Enter a URL for this reference, if available ' />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-12">
+         <label>Full Citation Text</label>
+            <textarea class="form-control" name='fullCitation' rows="3">{{fullCitation}}</textarea>
+        </div>
+    </div>
+
+    <div class="well well-sm pager">
+      {{#if isNew }}
+        <button type="button" class="btn btn-sm btn-primary" id="reference-create" title="Create new"><span class="glyphicon glyphicon-ok"></span> Create</button>
+        <button type="button" class="btn btn-sm btn-default" id="reference-create-cancel" title="Cancel">Cancel</button>
+      {{else}}
+        <button type="button" class="btn btn-sm btn-primary" id="reference-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="reference-update-cancel" title="Cancel changes">Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger"  id="reference-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+      {{/if}}
+    </div>
+  </form>
+</template>
+
+
+<template name="referenceSelector">
+  <span></span>
+  <input class="form-control typeahead" name="referenceName" type="text"
+         placeholder="Search for an existing reference"
+         autocomplete="off" spellcheck="off" value="{{referenceName}}"
+         data-source="searchReference" data-template="referenceSearchOption"/>
+  <input class="form-control" name="referenceID" value="{{referenceID}}" type="hidden" >
+  <input class="form-control" name="referenceValidated" value="false" type="hidden" >
+</template>
+
+<template name="referenceSearchOption">
+  <p><b>{{name}}</b></p>
+  <p class="text-muted">{{fullCitation}}</p>
+</template>

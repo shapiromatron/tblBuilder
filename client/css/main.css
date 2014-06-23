@@ -153,3 +153,30 @@ line {
     stroke-width: 2;
     cursor: pointer;
 }
+
+/*
+ * Loading spinner
+ * http://stackoverflow.com/questions/14859322/
+ */
+
+.spinner {
+  opacity: 0;
+}
+
+.spinner-active {
+  opacity: 1;
+  -webkit-animation: spin 1s infinite linear;
+}
+
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}

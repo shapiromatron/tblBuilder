@@ -138,6 +138,31 @@ Meteor.methods
                     field: "agent",
                     query: query
 
+    searchReference: (inputs) ->
+        check(inputs, {qry: String, monographNumber: Match.Integer})
+        querystr = new RegExp(inputs.qry, "i")  # case insensitive
+        query =
+            $and: [
+                name:
+                    $regex: querystr,
+                monographNumber:
+                    $in: [ inputs.monographNumber ]
+            ]
+
+        options =
+            limit: 50
+
+        Reference.find(query, options).fetch()
+
+    isReferenceValid: (inputs) ->
+        check(inputs, {name: String, _id: String})
+        query =
+            $and: [
+                _id: inputs['_id']
+                name: inputs['name']
+            ]
+        Reference.find(query).count() is 1
+
     searchCovariates: (query) ->
         check(query, String)
         querystr = new RegExp(query, "i")  # case insensitive

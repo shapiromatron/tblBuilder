@@ -41,12 +41,16 @@ Router.map ->
             @.subscribe('tables', Meteor.userId()).wait()
             if @.ready()
                 tbl = Tables.findOne({_id: this.params._id})
+                Session.set('referenceMonographNumber', tbl.monographNumber)
                 permissionsCheck(tbl)
                 Session.set('Tbl', tbl)
                 return Meteor.subscribe('epiCohort', tbl._id)
 
         action: ->
             if @.ready() then @.render()
+
+        onStop: ->
+            Session.set('referenceMonographNumber', null)
 
     this.route 'epiCaseControlMain',
         path: '/epi-case-control/:_id',
@@ -58,12 +62,34 @@ Router.map ->
             @.subscribe('tables', Meteor.userId()).wait()
             if @.ready()
                 tbl = Tables.findOne({_id: this.params._id})
+                Session.set('referenceMonographNumber', tbl.monographNumber)
                 permissionsCheck(tbl)
                 Session.set('Tbl', tbl)
                 return Meteor.subscribe('epiCaseControl', tbl._id)
 
         action: ->
             if @.ready() then @.render()
+
+        onStop: ->
+            Session.set('referenceMonographNumber', null)
+
+    this.route 'referencesMain',
+        path: '/:monographNumber/references/',
+
+        data: ->
+            return {monographNumber: this.params.monographNumber}
+
+        waitOn: ->
+            if @.ready()
+                monographNumber = parseInt(this.params.monographNumber, 10)
+                Session.set('referenceMonographNumber', monographNumber);
+                return Meteor.subscribe('monographReference', monographNumber)
+
+        action: ->
+            if @.ready() then @.render()
+
+        onStop: ->
+            Session.set('referenceMonographNumber', null)
 
     this.route 'profileEdit',
         path: '/user-profile/'
@@ -107,18 +133,15 @@ UI.registerHelper "getUserDescription", ->
 Template.typeaheadInput.helpers
     searchOrganSite: (qry, cb) ->
         Meteor.call "searchOrganSite", qry, (err, res) ->
-            if err
-                return console.log(err)
+            if err then return console.log(err)
             map = ({value: v} for v in res)
             cb(map)
 
     searchAgent: (qry, cb) ->
         Meteor.call "searchAgent", qry, (err, res) ->
-            if err
-                return console.log(err)
+            if err then return console.log(err)
             map = ({value: v} for v in res)
             cb(map)
-
 
 Template.typeaheadInput.rendered = ->
     Meteor.typeahead.inject("input[name=#{@.data.name}]")
@@ -131,8 +154,7 @@ Template.typeaheadInput.destroyed = ->
 Template.typeaheadSelectList.helpers
     searchCovariates: (qry, cb) ->
         Meteor.call "searchCovariates", qry, (err, res) ->
-            if err
-                return console.log(err)
+            if err then return console.log(err)
             map = ({value: v} for v in res)
             cb(map)
 

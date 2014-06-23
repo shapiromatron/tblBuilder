@@ -92,9 +92,14 @@ UI.registerHelper "formatDate", (datetime, format) ->
     else
         return datetime
 
-UI.registerHelper "referenceFormat", (name, url) ->
-    txt = name
-    if(url) then txt = "<a href='#{url}' target='_blank'>#{name}</a>"
+UI.registerHelper "printReference", (id) ->
+    unless id.hash.id? then return "reference not found"
+    ref = Reference.findOne(_id: id.hash.id)
+    txt = ref.name
+    if isFinite(ref.pubmedID)
+        txt = "<a href='http://www.ncbi.nlm.nih.gov/pubmed/#{ref.pubmedID}/' target='_blank'>#{ref.name}</a>"
+    else if ref.otherURL
+        txt = "<a href='#{ref.otherURL}' target='_blank'>#{ref.name}</a>"
     return Spacebars.SafeString(txt)
 
 UI.registerHelper "riskFormat", (obj) ->

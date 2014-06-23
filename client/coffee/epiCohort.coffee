@@ -28,12 +28,12 @@ Template.epiCohortTbl.events
     'click #epiCohort-show-create': (evt, tmpl) ->
         Session.set("epiCohortShowNew", true)
         Deps.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=reference]"))
+        share.activateInput(tmpl.find("input[name=referenceName]"))
 
     'click #epiCohort-show-edit': (evt, tmpl) ->
         Session.set("epiCohortEditingId", @_id)
         Deps.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=reference]"))
+        share.activateInput(tmpl.find("input[name=referenceName]"))
 
     'click #epiCohort-move-up': (evt, tmpl) ->
         tr = $(tmpl.find('tr[data-id=' + @_id + ']'))
@@ -45,9 +45,9 @@ Template.epiCohortTbl.events
 
     'click #epiCohort-downloadExcel': (evt, tmpl) ->
         tbl_id = tmpl.data._id
-        Meteor.call('epiCohortExcelDownload', tbl_id, (err, response) ->
+        Meteor.call 'epiCohortExcelDownload', tbl_id, (err, response) ->
             share.returnExcelFile(response, "epiCohort.xlsx")
-        )
+
     'click #epiCohort-toggleShowAllRows': (evt, tmpl) ->
         val = !Session.get('epiCohortShowAll')
         Session.set('epiCohortShowAll', val)
@@ -59,7 +59,7 @@ Template.epiCohortTbl.events
     'click #epiCohort-copy-as-new': (evt, tmpl) ->
         Session.set("epiCohortShowNew", true)
         Deps.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=reference]"))
+        share.activateInput(tmpl.find("input[name=referenceName]"))
         share.copyAsNew(@)
 
     'click #epiCohort-epiRiskShowPlots': (evt, tmpl) ->
