@@ -144,7 +144,7 @@
 }
 
 .epiRiskPlot circle {
-    color: black;
+    fill: black;
     cursor: pointer;
 }
 
@@ -152,6 +152,14 @@
     stroke: black;
     stroke-width: 2;
     cursor: pointer;
+}
+
+.riskBar:hover circle {
+  fill: red;
+}
+
+.riskBar:hover line {
+  stroke: red;
 }
 
 /*

@@ -93,8 +93,9 @@ Template.forestPlot.rendered = ->
     xscale = d3.scale.log().range([0, svg.node().clientWidth]).domain([0.09, 10.1]).clamp(true)
     yscale = d3.scale.linear().range([0, svg.node().clientHeight]).domain([0, 1]).clamp(true)
     riskStr = "#{@.data.riskMid} (#{@.data.riskLow}-#{@.data.riskHigh})"
+    group = svg.append('g').attr('class', 'riskBar')
 
-    svg.selectAll()
+    group.selectAll()
         .data([@.data])
         .enter()
         .append("circle")
@@ -104,7 +105,7 @@ Template.forestPlot.rendered = ->
         .append("svg:title")
         .text(riskStr);
 
-    svg.selectAll()
+    group.selectAll()
         .data([@.data])
         .enter()
         .append("line")
@@ -115,7 +116,7 @@ Template.forestPlot.rendered = ->
         .append("svg:title")
         .text(riskStr);
 
-    svg.selectAll()
+    group.selectAll()
         .data([@.data])
         .enter()
         .append("line")
@@ -126,7 +127,7 @@ Template.forestPlot.rendered = ->
         .append("svg:title")
         .text(riskStr);
 
-    svg.selectAll()
+    group.selectAll()
         .data([@.data])
         .enter()
         .append("line")
