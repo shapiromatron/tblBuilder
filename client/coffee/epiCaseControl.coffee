@@ -65,6 +65,10 @@ Template.epiCaseControlTbl.events
 
     'click #epiCaseControl-epiRiskShowPlots': (evt, tmpl) ->
         Session.set('epiRiskShowPlots', not Session.get('epiRiskShowPlots'))
+        share.toggleRiskPlot()
+
+Template.epiCaseControlTbl.rendered = ->
+        share.toggleRiskPlot()
 
 
 Template.epiCaseControlForm.helpers

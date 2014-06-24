@@ -64,12 +64,15 @@ Template.epiCohortTbl.events
 
     'click #epiCohort-epiRiskShowPlots': (evt, tmpl) ->
         Session.set('epiRiskShowPlots', not Session.get('epiRiskShowPlots'))
+        share.toggleRiskPlot()
+
+Template.epiCohortTbl.rendered = ->
+        share.toggleRiskPlot()
 
 
 Template.epiCohortForm.helpers
     "epiCohortIsNew":
         (val)-> val is "T"
-
 
 Template.epiCohortForm.events
     'click #epiCohort-create': (evt, tmpl) ->

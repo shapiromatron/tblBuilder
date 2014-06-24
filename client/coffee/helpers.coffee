@@ -81,6 +81,51 @@ share.typeaheadSelectListAddLI = ($ul, val) ->
 share.typeaheadSelectListGetLIs = ($ul) ->
     (li.innerText for li in $ul.find('li'))
 
+share.toggleRiskPlot = ->
+    if not Session.get('epiRiskShowPlots')
+        return d3.select('.epiRiskAxes').remove()
+
+    header = $('.riskTR')
+    tbl = $(header.parent().parent().parent())
+    tbl_pos = tbl.position();
+    header_pos = header.position();
+    y_top = tbl_pos.top + header.height()
+    x_left = header_pos.left
+    width = header.width()
+    height = tbl.height() - header.height()
+
+    xPlotBuffer = 15  # make room for the text
+    yPlotBuffer = 10  # make room for x-axis
+
+    svg = d3.select('.container').insert("svg", "#epiCohortTbl")
+                           .attr('class', 'epiRiskAxes')
+                           .attr('height', height+yPlotBuffer)
+                           .attr('width', width+2*xPlotBuffer)
+                           .style({top: y_top+20, left: x_left-xPlotBuffer})
+
+    xscale = d3.scale.log().range([0, width]).domain([0.09, 10.1]).clamp(true)
+    yscale = d3.scale.linear().range([0, height-yPlotBuffer]).domain([0, 1]).clamp(true)
+    xaxis = d3.svg.axis().scale(xscale).orient("bottom").ticks(0, d3.format(",.f"))
+
+    svg.append("g")
+        .attr("class", 'axis')
+        .attr("transform", "translate(#{xPlotBuffer}, #{height-yPlotBuffer})")
+        .call(xaxis);
+
+    gridline_data = xscale.ticks(10)
+    gridlines = svg.append("g")
+                    .attr('class', 'gridlines')
+                    .attr("transform", "translate(#{xPlotBuffer},0)")
+    gridlines.selectAll("gridlines")
+        .data(gridline_data).enter()
+        .append("svg:line")
+        .attr("x1", (v) -> xscale(v))
+        .attr("x2", (v) -> xscale(v))
+        .attr("y1", yscale(0))
+        .attr("y2", yscale(1))
+        .attr("class", (v) -> if v in [.1, 1, 10] then 'major' else 'minor')
+
+
 UI.registerHelper "formatDate", (datetime, format) ->
     DateFormats =
         short: "DD MMMM - YYYY",

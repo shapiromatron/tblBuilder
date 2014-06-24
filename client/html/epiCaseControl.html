@@ -54,7 +54,7 @@
         <th>Organ site<br>(ICD code)</th>
         <th>Exposure<br>categories</th>
         <th>Exposed<br>cases</th>
-        <th>Relative risk<br>(95% CI)</th>
+        <th class="riskTR">Relative risk<br>(95% CI)</th>
         <th>Covariates<br>Comments</th>
       </tr>
     </thead>
@@ -109,6 +109,8 @@
       {{/each}}
     </tbody>
   </table>
+
+  {{ drawRiskPlotAxis }}
 
   {{#if epiCaseControlShowNew}}
     {{> epiCaseControlForm epiCaseControlNew="T"}}

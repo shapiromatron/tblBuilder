@@ -143,12 +143,12 @@
     top:0;left:0;bottom:0;right:0;
 }
 
-circle {
+.epiRiskPlot circle {
     color: black;
     cursor: pointer;
 }
 
-line {
+.epiRiskPlot line {
     stroke: black;
     stroke-width: 2;
     cursor: pointer;
@@ -180,3 +180,34 @@ line {
     from {transform:rotate(0deg);}
     to {transform:rotate(360deg);}
 }
+
+/*
+ * Plot axis details
+ */
+.epiRiskAxes {
+    position: absolute;
+    pointer-events: none;
+}
+
+g.gridlines > line {
+  stroke: #b3b3b3;
+}
+
+g.gridlines > .major {
+  stroke-width: 1px;
+}
+
+g.gridlines > .minor {
+  stroke-width: 0.5px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+}
+
+.axis text {
+  font-size: 10px;
+}
+

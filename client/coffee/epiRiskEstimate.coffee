@@ -90,7 +90,7 @@ Template.epiRiskEstimateForm.events
 
 Template.forestPlot.rendered = ->
     svg = d3.select(@.find('svg'))
-    xscale = d3.scale.log().range([0, svg.node().clientWidth]).domain([0.1, 10]).clamp(true)
+    xscale = d3.scale.log().range([0, svg.node().clientWidth]).domain([0.09, 10.1]).clamp(true)
     yscale = d3.scale.linear().range([0, svg.node().clientHeight]).domain([0, 1]).clamp(true)
     riskStr = "#{@.data.riskMid} (#{@.data.riskLow}-#{@.data.riskHigh})"
 
