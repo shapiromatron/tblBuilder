@@ -71,11 +71,6 @@ Template.epiCaseControlTbl.rendered = ->
         share.toggleRiskPlot()
 
 
-Template.epiCaseControlForm.helpers
-    "epiCaseControlIsNew":
-        (val)-> val is "T"
-
-
 Template.epiCaseControlForm.events
     'click #epiCaseControl-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)

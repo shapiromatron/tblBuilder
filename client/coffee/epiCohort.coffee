@@ -70,10 +70,6 @@ Template.epiCohortTbl.rendered = ->
         share.toggleRiskPlot()
 
 
-Template.epiCohortForm.helpers
-    "epiCohortIsNew":
-        (val)-> val is "T"
-
 Template.epiCohortForm.events
     'click #epiCohort-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)

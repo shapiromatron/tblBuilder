@@ -62,7 +62,7 @@
           <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
             {{#if epiCohortIsEditing}}
               <td id="editingRow" colspan="100">
-                {{> epiCohortForm this epiCohortNew="F"}}
+                {{> epiCohortForm this epiCohortIsNew=false}}
               </td>
             {{else}}
               <td>
@@ -110,7 +110,7 @@
   {{ drawRiskPlotAxis }}
 
   {{#if epiCohortShowNew}}
-    {{> epiCohortForm epiCohortNew="T"}}
+    {{> epiCohortForm epiCohortIsNew=true}}
   {{/if}}
 </template>
 
@@ -155,7 +155,7 @@
     </div>
 
     <div class="well well-sm pager">
-      {{#if epiCohortIsNew epiCohortNew }}
+      {{#if epiCohortIsNew}}
         <button type="button" class="btn btn-sm btn-primary" id="epiCohort-create" title="Create new"><span class="glyphicon glyphicon-ok"></span> Create</button>
         <button type="button" class="btn btn-sm btn-default" id="epiCohort-create-cancel" title="Cancel">Cancel</button>
       {{else}}
@@ -166,7 +166,7 @@
     </div>
   </form>
   {{> referenceQuickAddModal}}<!-- Add outside of form-scope -->
-  {{#unless epiCohortIsNew epiCohortNew }}
+  {{#unless epiCohortIsNew}}
     {{> epiRiskEstimateTbl parent=this epiRiskEstimateEditable="T"}}
   {{/unless}}
 </template>
