@@ -37,7 +37,7 @@
           <tr class="menu-autohide">
             {{#if referenceIsEditing}}
               <td id="editingRow" colspan="100">
-                {{> referenceForm this isNew=false}}
+                {{> referenceForm this isNew=false isModal=false}}
               </td>
             {{else}}
               <td>
@@ -67,7 +67,7 @@
   </table>
 
   {{#if referenceShowNew}}
-    {{> referenceForm isNew=true}}
+    {{> referenceForm isNew=true isModal=false}}
   {{/if}}
 </template>
 
@@ -113,8 +113,11 @@
 
     <div class="well well-sm pager">
       {{#if isNew }}
-        <button type="button" class="btn btn-sm btn-primary" id="reference-create" title="Create new"><span class="glyphicon glyphicon-ok"></span> Create</button>
-        <button type="button" class="btn btn-sm btn-default" id="reference-create-cancel" title="Cancel">Cancel</button>
+        <button type="button" class="btn btn-sm btn-primary" id="reference-create"
+                title="Create new" data-dismiss={{# if isModal}}modal{{/if}}>
+          <span class="glyphicon glyphicon-ok"></span> Create</button>
+        <button type="button" class="btn btn-sm btn-default" id="reference-create-cancel"
+                title="Cancel" data-dismiss={{# if isModal}}modal{{/if}}>Cancel</button>
       {{else}}
         <button type="button" class="btn btn-sm btn-primary" id="reference-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
         <button type="button" class="btn btn-sm btn-default" id="reference-update-cancel" title="Cancel changes">Cancel</button>
@@ -140,6 +143,10 @@
 
 <template name="referenceMultiSelect">
   <div>
+    <label>Reference(s)</label>
+    <a class="btn btn-xs btn-default pull-right" data-toggle="modal"
+       data-target="#referenceQuickAdd" title="Quick-add new reference" href="#">
+      <span class="glyphicon glyphicon-plus-sign"></span></a><br>
     <input class="form-control typeahead referenceMultiSelect" name="references" type="text"
            placeholder="Add a reference"
            autocomplete="off" spellcheck="off"
@@ -149,6 +156,22 @@
         {{>referenceMultiSelectListLI}}
       {{/each}}
     </ul>
+  </div>
+
+  <!-- Quick-add modal -->
+  <div class="modal fade" id="referenceQuickAdd" tabindex="-1" role="dialog"
+       aria-labelledby="referenceQuickAdd" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="referenceQuickAdd">Quick-add reference</h4>
+        </div>
+        <div class="modal-body">
+          {{> referenceForm isNew=true isModal=true}}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
