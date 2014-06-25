@@ -104,6 +104,38 @@ Meteor.methods
         wb.Sheets[ws_name] = ws
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
+    epiMechanisticEvidenceDownload: (tbl_id) ->
+
+        getDataRow = (v) ->
+            return [v.section, v._id, v.subheading, v.text,
+                    v.references.join('; '), v.humanInVivo, v.humanInVitro,
+                    v.animalInVivo, v.animalInVitro]
+
+        getData = (tbl_id) ->
+            header = ['section', '_id', 'subheading', 'text',
+                      'references', 'humanInVivo', 'humanInVitro',
+                      'animalInVivo', 'animalInVitro']
+            data = [header]
+
+            addEvidence = (evidence) ->
+                data.push(getDataRow(evidence))
+                children = MechanisticEvidence.find({parent: evidence._id})
+                children.forEach((child) -> addEvidence(child))
+
+            for section in mechanisticEvidenceSections
+                sectionEvidences = MechanisticEvidence.find({tbl_id: tbl_id, section: section.section})
+                sectionEvidences.forEach((evidence) -> addEvidence(evidence))
+
+            return data
+
+        data = getData(tbl_id)
+        ws_name = "mechanisticEvidence"
+        wb = new Workbook()
+        ws = sheet_from_array_of_arrays(data)
+        wb.SheetNames.push(ws_name)
+        wb.Sheets[ws_name] = ws
+        XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
+
     epiCohortNewIdx: (tbl_id) ->
         check(tbl_id, String)
         getNewIdx(EpiCohort, {tbl_id: tbl_id})

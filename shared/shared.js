@@ -10,3 +10,12 @@ tblTypeOptions = ["Epidemiology - Cohort",
                   "Mechanistic Evidence Summary"];
 
 referenceTypeOptions = ["PubMed", "Other"];
+
+mechanisticEvidenceSections = [
+    {section: "toxicokinetics", sectionDesc: "Toxicokinetics"},
+    {section: "mechanisms",     sectionDesc: "Major mechanisms"},
+    {section: "targetSites",    sectionDesc: "Toxicity confirming target tissue/site"},
+    {section: "susceptibility", sectionDesc: "Susceptibility"},
+    {section: "other",          sectionDesc: "Additional relevant data"}
+]
+

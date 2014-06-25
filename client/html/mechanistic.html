@@ -34,21 +34,9 @@
     </tr>
   </thead>
   <tbody>
-    {{# with section="toxicokinetics" sectionDesc="Toxicokinetics"}}
+    {{#each getMechanisticEvidenceSections}}
       {{> mechanisticSectionTR}}
-    {{/with}}
-    {{# with section="mechanisms" sectionDesc="Major mechanisms"}}
-      {{> mechanisticSectionTR}}
-    {{/with}}
-    {{# with section="targetSites" sectionDesc="Toxicity confirming target tissue/site"}}
-      {{> mechanisticSectionTR}}
-    {{/with}}
-    {{# with section="susceptibility" sectionDesc="Susceptibility"}}
-      {{> mechanisticSectionTR}}
-    {{/with}}
-    {{# with section="other" sectionDesc="Additional relevant data"}}
-      {{> mechanisticSectionTR}}
-    {{/with}}
+    {{/each}}
   </tbody>
 </table>
 </template>

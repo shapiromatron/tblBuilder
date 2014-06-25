@@ -13,11 +13,22 @@ Template.mechanisticMain.events
         if Session.get('mechanisticAllCollapsed') then els.collapse('show') else els.collapse('hide')
         Session.set('mechanisticAllCollapsed', not Session.get('mechanisticAllCollapsed'))
 
+    'click #mechanistic-downloadExcel': (evt, tmpl) ->
+        tbl_id = tmpl.data._id
+        Meteor.call 'epiMechanisticEvidenceDownload', tbl_id, (err, response) ->
+            share.returnExcelFile(response, "mechanisticEvidence.xlsx")
+
+
 Template.mechanisticMain.rendered = ->
     $(@.findAll('.collapse')).on 'show.bs.collapse', () ->
         $(@).parent().addClass('evidenceExpanded')
     $(@.findAll('.collapse')).on 'hide.bs.collapse', () ->
         $(@).parent().removeClass('evidenceExpanded')
+
+
+Template.mechanisticTbl.helpers
+    getMechanisticEvidenceSections: ->
+        return mechanisticEvidenceSections
 
 
 Template.mechanisticSectionTR.helpers
