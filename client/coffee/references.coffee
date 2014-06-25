@@ -86,10 +86,7 @@ Template.referenceForm.events
     'change select[name=referenceType]': (evt, tmpl) ->
         toggleFieldDisplays(tmpl);
 
-
-Template.referenceSelector.helpers
-
-    searchReference: (qry, cb) ->
+searchRefHelper = (qry, cb) ->
         qry =
             qry : qry
             monographNumber: Session.get('referenceMonographNumber')
@@ -99,6 +96,9 @@ Template.referenceSelector.helpers
             (ref['value']= ref['name'] for ref in res)
             cb(res)
 
+
+Template.referenceSelector.helpers
+    searchReference: searchRefHelper
 
 Template.referenceSelector.rendered = ->
     ref = @.find('input[name=referenceName]')
@@ -122,3 +122,41 @@ Template.referenceSelector.rendered = ->
 
 Template.referenceSelector.destroyed = ->
     $(@.find("input[name=referenceName]")).unbind()
+
+
+Template.referenceMultiSelect.helpers
+    searchReference: searchRefHelper
+
+Template.referenceMultiSelect.events
+    'click .selectListRemove': (evt, tmpl) ->
+        $(evt.currentTarget).parent().remove()
+
+Template.referenceMultiSelect.rendered = ->
+    Meteor.typeahead.inject("input[name=references]")
+    $ul = $(@.find('ul'))
+    $(@.find("input")).on 'typeahead:selected', (e, v) ->
+        rendered = UI.renderWithData(Template.referenceMultiSelectListLI, v._id)
+        ids = ($(li).data('id') for li in $ul.find('li'))
+        if v._id not in ids then UI.insert(rendered, $ul[0])
+        this.value = ""
+
+Template.referenceMultiSelect.destroyed = ->
+    $(@.find("input[name=references]")).unbind()
+
+Template.printReference.helpers
+
+    getReference: (id) ->
+        Reference.findOne(_id: id)
+
+    showHyperlink: ->
+        isFinite(@pubmedID) or @otherURL
+
+    getHyperlink: ->
+        if isFinite(@pubmedID) then "http://www.ncbi.nlm.nih.gov/pubmed/#{@pubmedID}/"
+        else @otherURL
+
+Template.printReference.rendered = ->
+    $(@.find('*[data-toggle=popover]')).popover
+        trigger: 'hover'
+        placement: 'bottom'
+        delay: { show: 500, hide: 300 }

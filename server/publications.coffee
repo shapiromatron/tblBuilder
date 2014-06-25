@@ -18,6 +18,12 @@ Meteor.publish 'epiCohort', (tbl_id) ->
             EpiRiskEstimate.find({tbl_id: tbl_id}),
             Reference.find({monographNumber: {$in: [tbl.monographNumber]}}) ]
 
+Meteor.publish 'mechanisticEvidence', (tbl_id) ->
+    check(tbl_id, String)
+    tbl = Tables.findOne(_id: tbl_id)
+    return [MechanisticEvidence.find({tbl_id: tbl_id}),
+            Reference.find({monographNumber: {$in: [tbl.monographNumber]}}) ]
+
 Meteor.publish 'tblUsers', (tbl_id) ->
     check(tbl_id, String)
     tbl = Tables.findOne(tbl_id)

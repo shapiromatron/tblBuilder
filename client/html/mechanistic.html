@@ -1,0 +1,179 @@
+<template name="mechanisticMain">
+  <div class="container">
+    <h1>{{monographNumber}} {{agent}}: Mechanistic data
+      <div class="btn-group pull-right">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+          <span class="caret" title="Editing options"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="#" id="mechanistic-downloadExcel">
+                <span class="glyphicon glyphicon-save"></span> Download Excel</a></li>
+
+          <li><a href="#" id="mechanistic-toggleShowAllRows">
+            {{#if isAllCollapsed}}<span class="glyphicon glyphicon-resize-full"></span> Show all details
+            {{else}}<span class="glyphicon glyphicon-resize-small"></span> Hide all details
+            {{/if}}</a>
+          </li>
+        </ul>
+      </div>
+    </h1>
+    {{> mechanisticTbl}}
+  </div>
+</template>
+
+<template name="mechanisticTbl">
+  <table class="table table-condensed" >
+    <colgroup>
+    <col width="20%"/>
+    <col width="80%"/>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Consideration</th>
+      <th>Relevant data to highlight</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{# with section="toxicokinetics" sectionDesc="Toxicokinetics"}}
+      {{> mechanisticSectionTR}}
+    {{/with}}
+    {{# with section="mechanisms" sectionDesc="Major mechanisms"}}
+      {{> mechanisticSectionTR}}
+    {{/with}}
+    {{# with section="targetSites" sectionDesc="Toxicity confirming target tissue/site"}}
+      {{> mechanisticSectionTR}}
+    {{/with}}
+    {{# with section="susceptibility" sectionDesc="Susceptibility"}}
+      {{> mechanisticSectionTR}}
+    {{/with}}
+    {{# with section="other" sectionDesc="Additional relevant data"}}
+      {{> mechanisticSectionTR}}
+    {{/with}}
+  </tbody>
+</table>
+</template>
+
+<template name="mechanisticSectionTR">
+  <tr>
+    <td class="menu-autohide">{{sectionDesc}}
+      {{#if userCanEdit}}
+        <div class="rowOptions btn-group pull-right">
+          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+            <span class="caret" title="Editing options"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" id="mechanistic-newSection"><span class="glyphicon glyphicon-plus"></span> New</a></li>
+          </ul>
+        </div>
+      {{/if}}
+    </td>
+    <td>
+      {{#each getSectionEvidence section=section}}
+        {{> mechanisticEvidenceDisplay}}
+      {{/each }}
+      {{#if displayNewSection section=section}}
+        {{> mechanisticEvidenceForm section=section isNew=true}}
+      {{/if}}
+    </td>
+  </tr>
+</template>
+
+<template name="mechanisticEvidenceDisplay">
+  {{#if displayEditingForm}}
+    {{> mechanisticEvidenceForm this isNew=false}}
+  {{else }}
+    <div class='accordian'>
+      <div class="menu-autohide accordianHeader" title="Click to show more details" data-toggle="collapse" data-target="#extra{{_id}}">
+        {{#if userCanEdit}}
+          <div class="rowOptions btn-group pull-right">
+            <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+              <span class="caret" title="Editing options"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#" id="mechanistic-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+              <li><a href="#" id="mechanistic-newChild"><span class="glyphicon glyphicon-list"></span> New bullet</a></li>
+            </ul>
+          </div>
+        {{/if}}
+        <li>{{#if subheading}}<b>{{subheading}}: </b>{{/if}}{{text}}</li>
+      </div>
+      <div class="accordianBody collapse row" id="extra{{_id}}">
+        <div class="col-md-6">
+          <ul class="comma-list">
+            {{# each references}}
+              <li>{{>printReference id=this}}</li>
+            {{/each}}
+          </ul>
+        </div>
+        <div align="col-md-6">
+          <table class="pull-right evidenceStream table-condensed">
+            <tr class="mechDisplay">
+              <th>Human<br><i>In Vivo</i>?</th>
+              <th>Animal<br><i>In Vivo</i>?</th>
+              <th>Human<br><i>In Vitro</i>?</th>
+              <th>Animal<br><i>In Vitro</i>?</th>
+            </tr>
+            <tr>
+              <td>{{{ballotBoolean bool=humanInVivo}}}</td>
+              <td>{{{ballotBoolean bool=animalInVivo}}}</td>
+              <td>{{{ballotBoolean bool=humanInVitro}}}</td>
+              <td>{{{ballotBoolean bool=animalInVitro}}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      {{#if hasChildren }}
+        <ul>
+          {{#each getChildren}}
+            {{> mechanisticEvidenceDisplay}}
+          {{/each}}
+        </ul>
+      {{/if}}
+    </div>
+  {{/if }}
+  {{#if displayNewChild parent=_id}}
+    {{> mechanisticEvidenceForm parent=_id isNew=true}}
+  {{/if}}
+</template>
+
+<template name="mechanisticEvidenceForm">
+  <form id="mechanisticEvidenceForm" role="form" class="editForm">
+    <div class="form-group row">
+      <div class="col-xs-4">
+        <label>Supporting evidence</label><br>
+        <textarea class="form-control" name='text' type="text"
+                  placeholder='Describe supporting evidence' rows="6">{{text}}</textarea>
+      </div>
+      <div class="col-xs-4">
+        {{#if displaySubheading}}
+          <label>Subheading</label>
+          <input class="form-control" name='subheading' type="text"
+                 value="{{subheading}}" placeholder='Leave blank if none required'/><br>
+        {{/if}}
+        <label>Reference(s)</label><br>
+        {{> referenceMultiSelect}}
+      </div>
+      <div class="col-xs-4">
+        <label>Evidence stream</label>
+        <p class="help-block">Which evidence streams support this statement?</p>
+        <div class="checkbox">
+          <label><input name="humanInVivo" checked="{{humanInVivo}}" type="checkbox"> Human <i>in vivo</i></label><br>
+          <label><input name="animalInVivo" checked="{{animalInVivo}}" type="checkbox"> Animal <i>in vivo</i></label><br>
+          <label><input name="humanInVitro" checked="{{humanInVitro}}" type="checkbox"> Human <i>in vitro</i></label><br>
+          <label><input name="animalInVitro" checked="{{animalInVitro}}" type="checkbox"> Animal <i>in vitro</i></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="well well-sm pager">
+      {{#if isNew }}
+        <button type="button" class="btn btn-sm btn-primary" id="mechanisticEvidence-create" title="Create new"><span class="glyphicon glyphicon-ok"></span> Create</button>
+        <button type="button" class="btn btn-sm btn-default" id="mechanisticEvidence-create-cancel" title="Cancel">Cancel</button>
+      {{else}}
+        <button type="button" class="btn btn-sm btn-primary" id="mechanisticEvidence-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
+        <button type="button" class="btn btn-sm btn-default" id="mechanisticEvidence-update-cancel" title="Cancel changes">Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger"  id="mechanisticEvidence-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+      {{/if}}
+    </div>
+  </form>
+</template>

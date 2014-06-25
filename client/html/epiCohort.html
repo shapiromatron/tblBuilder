@@ -33,7 +33,7 @@
     </div>
   </h1>
 
-  <table id="epiCohortTbl" class="table table-compressed">
+  <table id="epiCohortTbl" class="evidenceTable table table-compressed">
     <colgroup>
       <col width="15%">
       <col width="10%">
@@ -84,7 +84,7 @@
                     </ul>
                   </div>
                 {{/if}}
-                {{{printReference id=referenceID}}}
+                {{>printReference id=referenceID}}
               </td>
               <td>{{numSubjects}} {{numSubjectsText}}</td>
               <td>{{exposureAssessment}}</td>

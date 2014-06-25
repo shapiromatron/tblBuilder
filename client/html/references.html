@@ -21,7 +21,7 @@
   </h1>
   <table></table>
 
-  <table class="table table-compressed">
+  <table class="table table-compressed table-hover">
     <colgroup>
       <col width="20%">
       <col width="80%">
@@ -49,7 +49,7 @@
                     <li><a href="#" id="reference-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
                   </ul>
                 </div>
-                {{printReference id=_id}}
+                {{>printReference id=_id}}
               </td>
               <td>{{fullCitation}}</td>
             {{/if}}
@@ -124,9 +124,7 @@
   </form>
 </template>
 
-
 <template name="referenceSelector">
-  <span></span>
   <input class="form-control typeahead" name="referenceName" type="text"
          placeholder="Search for an existing reference"
          autocomplete="off" spellcheck="off" value="{{referenceName}}"
@@ -137,5 +135,37 @@
 
 <template name="referenceSearchOption">
   <p><b>{{name}}</b></p>
-  <p class="text-muted">{{fullCitation}}</p>
+  <small class="text-muted">{{fullCitation}}</small>
+</template>
+
+<template name="referenceMultiSelect">
+  <div>
+    <input class="form-control typeahead referenceMultiSelect" name="references" type="text"
+           placeholder="Add a reference"
+           autocomplete="off" spellcheck="off"
+           data-source="searchReference" data-template="referenceSearchOption"/>
+     <ul class="selectList">
+      {{#each references }}
+        {{>referenceMultiSelectListLI}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="referenceMultiSelectListLI">
+  <li class='selectListItem' data-id="{{this}}">{{>printReference id=this}}
+    <a href='#' class='pull-right selectListRemove btn btn-default btn-xs' title='Remove from list'>
+      <span class='glyphicon glyphicon-remove'></span>
+    </a>
+  </li>
+</template>
+
+<template name="printReference">
+  {{#with getReference id}}
+    {{# if showHyperlink}}
+      <a href="{{getHyperlink}}" target='_blank' data-toggle="popover" data-content="{{fullCitation}}">{{name}}</a>
+    {{else}}
+      <span data-toggle="popover" data-content="{{fullCitation}}">{{name}}</span>
+    {{/if}}
+  {{/with}}
 </template>

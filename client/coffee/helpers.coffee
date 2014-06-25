@@ -3,6 +3,10 @@ getValue = (inp) ->
     if $(inp).hasClass("multiSelectList")
         $ul = $(inp).parent().next()
         return share.typeaheadSelectListGetLIs($ul)
+    # special case for reference-list
+    if $(inp).hasClass("referenceMultiSelect")
+        $ul = $(inp).parent().next()
+        return ($(li).data('id') for li in $ul.find('li'))
     # otherwise it's a standard html input
     val = undefined
     switch inp.type
@@ -137,16 +141,6 @@ UI.registerHelper "formatDate", (datetime, format) ->
     else
         return datetime
 
-UI.registerHelper "printReference", (id) ->
-    unless id.hash.id? then return "reference not found"
-    ref = Reference.findOne(_id: id.hash.id)
-    txt = ref.name
-    if isFinite(ref.pubmedID)
-        txt = "<a href='http://www.ncbi.nlm.nih.gov/pubmed/#{ref.pubmedID}/' target='_blank'>#{ref.name}</a>"
-    else if ref.otherURL
-        txt = "<a href='#{ref.otherURL}' target='_blank'>#{ref.name}</a>"
-    return Spacebars.SafeString(txt)
-
 UI.registerHelper "riskFormat", (obj) ->
     txt = obj.riskMid.toString()
     if (obj.riskLow and obj.riskHigh)
@@ -161,4 +155,8 @@ UI.registerHelper "userCanEdit", ->
     if currentUser is tbl.user_id then return true
     for user in tbl.user_roles
         if currentUser is user.user_id and user.role isnt "reviewers" then return true
-  return false
+    return false
+
+UI.registerHelper "ballotBoolean", (bool) ->
+    icon = if (bool.hash.bool) then "glyphicon-ok" else "glyphicon-remove"
+    return Spacebars.SafeString("<span class='glyphicon #{icon}'></span>")

@@ -41,9 +41,9 @@ Router.map ->
             @.subscribe('tables', Meteor.userId()).wait()
             if @.ready()
                 tbl = Tables.findOne({_id: this.params._id})
-                Session.set('referenceMonographNumber', tbl.monographNumber)
                 permissionsCheck(tbl)
                 Session.set('Tbl', tbl)
+                Session.set('referenceMonographNumber', tbl.monographNumber)
                 return Meteor.subscribe('epiCohort', tbl._id)
 
         action: ->
@@ -62,9 +62,9 @@ Router.map ->
             @.subscribe('tables', Meteor.userId()).wait()
             if @.ready()
                 tbl = Tables.findOne({_id: this.params._id})
-                Session.set('referenceMonographNumber', tbl.monographNumber)
                 permissionsCheck(tbl)
                 Session.set('Tbl', tbl)
+                Session.set('referenceMonographNumber', tbl.monographNumber)
                 return Meteor.subscribe('epiCaseControl', tbl._id)
 
         action: ->
@@ -73,8 +73,29 @@ Router.map ->
         onStop: ->
             Session.set('referenceMonographNumber', null)
 
+    this.route 'mechanisticMain',
+        path: '/mechanistic/:_id/',
+
+        data: ->
+            return Tables.findOne(this.params._id)
+
+        waitOn: ->
+            @.subscribe('tables', Meteor.userId()).wait()
+            if @.ready()
+                tbl = Tables.findOne({_id: this.params._id})
+                permissionsCheck(tbl)
+                Session.set('Tbl', tbl)
+                Session.set('referenceMonographNumber', tbl.monographNumber)
+                return Meteor.subscribe('mechanisticEvidence', tbl._id)
+
+        action: ->
+            if @.ready() then @.render()
+
+        onStop: ->
+            Session.set('referenceMonographNumber', null)
+
     this.route 'referencesMain',
-        path: '/:monographNumber/references/',
+        path: '/monograph-:monographNumber/references/',
 
         data: ->
             return {monographNumber: this.params.monographNumber}
@@ -82,7 +103,7 @@ Router.map ->
         waitOn: ->
             if @.ready()
                 monographNumber = parseInt(this.params.monographNumber, 10)
-                Session.set('referenceMonographNumber', monographNumber);
+                Session.set('referenceMonographNumber', monographNumber)
                 return Meteor.subscribe('monographReference', monographNumber)
 
         action: ->

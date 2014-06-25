@@ -1,4 +1,8 @@
-.menu-autohide > td >.rowOptions {
+/*
+ * Menu auto-hide functionality
+ */
+.menu-autohide > td >.rowOptions,
+.menu-autohide > .rowOptions {
     opacity:0;
     filter:alpha(opacity=0);
     -webkit-transition: all 0.5s ease-in-out;
@@ -7,7 +11,8 @@
     transition: all 0.5s ease-in-out;
 }
 
-.menu-autohide:hover > td > .rowOptions {
+.menu-autohide:hover > td > .rowOptions,
+.menu-autohide:hover > .rowOptions {
     opacity:1.0;
     filter:alpha(opacity=100);
     -webkit-transition: all 0.5s ease-in-out;
@@ -16,6 +21,13 @@
     transition: all 0.5s ease-in-out;
 }
 
+.rowOptions > .btn {
+  line-height: 0.95;  /* required for mechanistic data for pulldowns to not overlap*/
+}
+
+/*
+ * Edit options form
+ */
 .editForm {
     padding: 10px;
     background-color: #B7C7E8;
@@ -25,16 +37,15 @@
     background-color: #6A7487;
 }
 
-.table .nestedTbl {
-    margin-bottom: 0;
-    background-color: inherit;
+#editingRow {
+    border: 5px solid #6A7487;
+    background-color: #E6E6FA;
 }
 
-.table .nestedTbl td {
-    border-top: none;
-}
-
-.table > tbody > tr:hover {
+/*
+ * Table visualization
+ */
+.evidenceTable > tbody > tr:hover {
     background-color: #E6E6FA;
 }
 
@@ -42,16 +53,19 @@
     background-color: #CFCFE1;
 }
 
-#editingRow {
-    border: 5px solid #6A7487;
-    background-color: #E6E6FA;
+.evidenceTable .nestedTbl {
+    margin-bottom: 0;
+    background-color: inherit;
+}
+
+.evidenceTable .nestedTbl td {
+    border-top: none;
 }
 
 .hiddenRow {
     color: gray;
     background-color: #eee;
 }
-
 
 /*
  * Twitter typeahead.js
@@ -102,16 +116,14 @@
 .tt-suggestion.tt-cursor {
   color: #fff;
   background-color: #0097cf;
-
 }
 
 .tt-suggestion p {
   margin: 0;
 }
 
-
 /*
- * User list setting
+ * Multi-select list setting
  */
  .selectListItem {
     line-height: 1.65;
@@ -119,7 +131,7 @@
     border: 2px solid transparent;
 }
 
-.selectListItem > a {
+a.selectListRemove {
     display: none;
 }
 
@@ -132,11 +144,9 @@
     display: inline;
 }
 
-
 /*
  * Risk SVG
  */
-
 .epiRiskPlot {
     width:100%;
     height:100%;
@@ -166,7 +176,6 @@
  * Loading spinner
  * http://stackoverflow.com/questions/14859322/
  */
-
 .spinner {
   opacity: 0;
 }
@@ -219,3 +228,42 @@ g.gridlines > .minor {
   font-size: 10px;
 }
 
+/*
+ * Mechanistic evidence styles
+ */
+
+.accordian {
+/*  margin-right: 2px;
+  margin-bottom: 2px;*/
+}
+
+.accordianHeader {
+  cursor: pointer;
+}
+
+.accordianHeader:hover {
+  background-color: #efefef
+}
+
+/* Comma-seperated list */
+.comma-list { list-style-type: none }
+.comma-list > li { display: inline }
+.comma-list > li:after { content: ", " }
+.comma-list > li:last-child:after { content: "" }
+
+.evidenceStream {
+  width: 250px;
+  margin-right:25px;
+}
+
+.evidenceStream td,th{
+  text-align: center;
+}
+
+.evidenceExpanded {
+  background: rgba(180, 180, 180, 0.2);
+}
+
+.evidenceExpanded > .accordianHeader{
+  background-color: #ccc
+}

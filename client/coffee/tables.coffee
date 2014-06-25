@@ -36,6 +36,8 @@ Template.tablesTbl.helpers
                 url = Router.path('epiCohortMain', {_id: @_id})
             when "Epidemiology - Case Control"
                 url = Router.path('epiCaseControlMain', {_id: @_id})
+            when "Mechanistic Evidence Summary"
+                url = Router.path('mechanisticMain', {_id: @_id})
             else
                 url = Router.path('404')
 

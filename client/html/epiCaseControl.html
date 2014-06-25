@@ -33,7 +33,7 @@
     </div>
   </h1>
 
-  <table class="table table-compressed">
+  <table class="evidenceTable table table-compressed">
     <colgroup>
       <col width="10%">
       <col width="10%">
@@ -86,7 +86,7 @@
                     </ul>
                   </div>
                 {{/if}}
-                {{{printReference id=referenceID}}}<br>{{location}}<br>{{followUpPeriod}}
+                {{>printReference id=referenceID}}<br>{{location}}<br>{{followUpPeriod}}
               </td>
               <td><span>{{numCases}} {{numCasesText}}<br>{{numControls}} {{numControlsText}}</span></td>
               <td>{{controlSource}}</td>
