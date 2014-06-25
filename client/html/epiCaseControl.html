@@ -121,8 +121,7 @@
   <form id="epiCaseControlForm" role="form" class="editForm">
     <div class="form-group row">
       <div class="col-xs-4">
-        <label>Reference</label>
-        {{> referenceSelector}}
+        {{> referenceSingleSelect}}
       </div>
       <div class="col-xs-4">
         <label>Cohort Location</label>
@@ -179,7 +178,7 @@
       {{/if}}
     </div>
   </form>
-
+  {{> referenceQuickAddModal}}<!-- Add outside of form-scope -->
   {{#unless epiCaseControlIsNew epiCaseControlNew }}
     {{> epiRiskEstimateTbl parent=this epiRiskEstimateEditable="T"}}
   {{/unless}}

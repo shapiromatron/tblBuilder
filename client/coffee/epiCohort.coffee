@@ -28,12 +28,12 @@ Template.epiCohortTbl.events
     'click #epiCohort-show-create': (evt, tmpl) ->
         Session.set("epiCohortShowNew", true)
         Deps.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=referenceName]"))
+        share.activateInput(tmpl.find("input[name=referenceID]"))
 
     'click #epiCohort-show-edit': (evt, tmpl) ->
         Session.set("epiCohortEditingId", @_id)
         Deps.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=referenceName]"))
+        share.activateInput(tmpl.find("input[name=referenceID]"))
 
     'click #epiCohort-move-up': (evt, tmpl) ->
         tr = $(tmpl.find('tr[data-id=' + @_id + ']'))
@@ -59,7 +59,7 @@ Template.epiCohortTbl.events
     'click #epiCohort-copy-as-new': (evt, tmpl) ->
         Session.set("epiCohortShowNew", true)
         Deps.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=referenceName]"))
+        share.activateInput(tmpl.find("input[name=referenceID]"))
         share.copyAsNew(@)
 
     'click #epiCohort-epiRiskShowPlots': (evt, tmpl) ->

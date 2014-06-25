@@ -127,14 +127,33 @@
   </form>
 </template>
 
-<template name="referenceSelector">
-  <input class="form-control typeahead" name="referenceName" type="text"
-         placeholder="Search for an existing reference"
-         autocomplete="off" spellcheck="off" value="{{referenceName}}"
-         data-source="searchReference" data-template="referenceSearchOption"/>
-  <input class="form-control" name="referenceID" value="{{referenceID}}" type="hidden" >
-  <input class="form-control" name="referenceValidated" value="false" type="hidden" >
+<template name="referenceSingleSelect">
+  <div>
+    <label>Reference</label>
+    <a class="btn btn-xs btn-default pull-right" data-toggle="modal"
+       data-target="#referenceQuickAdd" title="Quick-add new reference" href="#">
+    <span class="glyphicon glyphicon-plus-sign"></span></a><br>
+    <input class="form-control typeahead referenceSingleSelect" name="referenceID" type="text"
+           placeholder="Select for a reference"
+           autocomplete="off" spellcheck="off"
+           data-source="searchReference" data-template="referenceSearchOption"/>
+    <div class="selectedItem">
+      {{> referenceSingleSelectSelected}}
+    </div>
+  </div>
 </template>
+
+<template name="referenceSingleSelectSelected">
+  {{#if referenceID}}
+    <p class='selectListItem' data-id="{{referenceID}}">{{>printReference id=referenceID}}
+      <a href='#' class='pull-right selectListRemove btn btn-default btn-xs' title='Remove this reference'>
+        <span class='glyphicon glyphicon-remove'></span>
+      </a>
+    </p>
+  {{/if}}
+</template>
+
+
 
 <template name="referenceSearchOption">
   <p><b>{{name}}</b></p>
@@ -157,22 +176,6 @@
       {{/each}}
     </ul>
   </div>
-
-  <!-- Quick-add modal -->
-  <div class="modal fade" id="referenceQuickAdd" tabindex="-1" role="dialog"
-       aria-labelledby="referenceQuickAdd" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="referenceQuickAdd">Quick-add reference</h4>
-        </div>
-        <div class="modal-body">
-          {{> referenceForm isNew=true isModal=true}}
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <template name="referenceMultiSelectListLI">
@@ -191,4 +194,22 @@
       <span data-toggle="popover" data-content="{{fullCitation}}">{{name}}</span>
     {{/if}}
   {{/with}}
+</template>
+
+
+<template name="referenceQuickAddModal">
+  <div class="modal fade" id="referenceQuickAdd" tabindex="-1" role="dialog"
+       aria-labelledby="referenceQuickAdd" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="referenceQuickAdd">Quick-add reference</h4>
+        </div>
+        <div class="modal-body">
+          {{> referenceForm isNew=true isModal=true}}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

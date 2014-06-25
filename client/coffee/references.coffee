@@ -86,6 +86,7 @@ Template.referenceForm.events
     'change select[name=referenceType]': (evt, tmpl) ->
         toggleFieldDisplays(tmpl);
 
+
 searchRefHelper = (qry, cb) ->
         qry =
             qry : qry
@@ -97,31 +98,24 @@ searchRefHelper = (qry, cb) ->
             cb(res)
 
 
-Template.referenceSelector.helpers
+Template.referenceSingleSelect.helpers
     searchReference: searchRefHelper
 
-Template.referenceSelector.rendered = ->
-    ref = @.find('input[name=referenceName]')
-    ref_id = @.find('input[name=referenceID]')
-    refValidated = @.find('input[name=referenceValidated]')
+Template.referenceSingleSelect.events
+    'click .selectListRemove': (evt, tmpl) ->
+        $(evt.currentTarget).parent().remove()
 
-    Meteor.typeahead.inject("input[name=referenceName]")
-    $('input[name=referenceName]').on 'blur', ->
-        qry = {name: ref.value, _id: ref_id.value}
-        Meteor.call "isReferenceValid", qry, (err, res) ->
-            if err then return console.log(err)
-            if res then return refValidated.value = true;
-            refValidated.value = false;
-            ref.value = "";
-            ref_id.value = ""
+Template.referenceSingleSelect.rendered = ->
+    Meteor.typeahead.inject("input[name=referenceID]")
+    div = @.find('div.selectedItem')
+    $(@.find("input")).on 'typeahead:selected', (e, v) ->
+        rendered = UI.renderWithData(Template.referenceSingleSelectSelected, {referenceID:v._id})
+        $(div).empty()
+        UI.insert(rendered, div)
+        this.value = ""
 
-    $('input[name=referenceName]')
-        .bind 'typeahead:selected', (obj, datum, name) ->
-            ref_id.value = datum._id
-            refValidated.value = true
-
-Template.referenceSelector.destroyed = ->
-    $(@.find("input[name=referenceName]")).unbind()
+Template.referenceSingleSelect.destroyed = ->
+    $(@.find("input[name=referenceID]")).unbind()
 
 
 Template.referenceMultiSelect.helpers
@@ -142,6 +136,7 @@ Template.referenceMultiSelect.rendered = ->
 
 Template.referenceMultiSelect.destroyed = ->
     $(@.find("input[name=references]")).unbind()
+
 
 Template.printReference.helpers
 

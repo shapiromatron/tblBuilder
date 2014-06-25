@@ -3,7 +3,11 @@ getValue = (inp) ->
     if $(inp).hasClass("multiSelectList")
         $ul = $(inp).parent().next()
         return share.typeaheadSelectListGetLIs($ul)
-    # special case for reference-list
+    # special case for single-reference selector
+    if $(inp).hasClass("referenceSingleSelect")
+        $div = $(inp).parent().next()
+        return $div.find('p').data('id')
+    # special case for multiple-reference selector
     if $(inp).hasClass("referenceMultiSelect")
         $ul = $(inp).parent().next()
         return ($(li).data('id') for li in $ul.find('li'))
