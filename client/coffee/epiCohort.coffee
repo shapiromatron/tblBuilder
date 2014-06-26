@@ -74,6 +74,7 @@ Template.epiCohortForm.events
     'click #epiCohort-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)
         obj['tbl_id'] = Session.get('Tbl')._id
+        obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
         EpiCohort.insert(obj)
         Session.set("epiCohortShowNew", false)
 

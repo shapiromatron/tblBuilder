@@ -108,6 +108,7 @@ Template.mechanisticEvidenceForm.events
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['section'] = @section
         obj['parent'] = @parent
+        obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
         MechanisticEvidence.insert(obj)
         Session.set("mechanisticEditingId", null)
         Session.set('mechanisticNewChild', null)

@@ -76,6 +76,7 @@ Template.epiCaseControlForm.events
     'click #epiCaseControl-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)
         obj['tbl_id'] = Session.get('Tbl')._id
+        obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
         EpiCaseControl.insert(obj)
         Session.set("epiCaseControlShowNew", false)
 

@@ -45,25 +45,25 @@ Reference.before.insert (userId, doc) ->
 MechanisticEvidence.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc['sortIdx'] = getNewIdx(MechanisticEvidence, doc.tbl_id)
-    return userCanEditTbl(doc.tbl_id, userId)
+    return userCanEditTblContent(doc.tbl_id, userId)
 
 EpiCaseControl.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc['isHidden'] = false
     doc['sortIdx'] = getNewIdx(EpiCaseControl, doc.tbl_id)
-    return userCanEditTbl(doc.tbl_id, userId)
+    return userCanEditTblContent(doc.tbl_id, userId)
 
 EpiCohort.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc['isHidden'] = false
     doc['sortIdx'] = getNewIdx(EpiCohort, doc.tbl_id)
-    return userCanEditTbl(doc.tbl_id, userId)
+    return userCanEditTblContent(doc.tbl_id, userId)
 
 EpiRiskEstimate.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc['isHidden'] = false
     doc['sortIdx'] = getNewIdx(EpiRiskEstimate, doc.tbl_id)
-    return userCanEditTbl(doc.tbl_id, userId)
+    return userCanEditTblContent(doc.tbl_id, userId)
 
 
 
