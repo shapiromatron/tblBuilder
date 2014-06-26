@@ -10,6 +10,22 @@ getNewIdx = (Cls, tbl_id) ->
     if found then max = found.sortIdx
     return max+1
 
+userCanEditTblContent = (tbl_id, editorId) ->
+    console.log("userCanEditTbl check called.")
+    tbl = Tables.findOne(tbl_id)
+    if not editorId? or not tbl? then return false
+    if editorId is tbl.user_id then return true
+    for user in tbl.user_roles
+        if editorId is user.user_id and user.role isnt "reviewers" then return true
+    return false
+
+
+
+# Create hooks
+
+Tables.before.insert (userId, doc) ->
+    doc = addTimestampAndUserID(userId, doc)
+
 Reference.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     # Duplication check. First see if a reference with this PubMed ID already
@@ -29,22 +45,55 @@ Reference.before.insert (userId, doc) ->
 MechanisticEvidence.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc['sortIdx'] = getNewIdx(MechanisticEvidence, doc.tbl_id)
-
-Tables.before.insert (userId, doc) ->
-    doc = addTimestampAndUserID(userId, doc)
+    return userCanEditTbl(doc.tbl_id, userId)
 
 EpiCaseControl.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc['isHidden'] = false
     doc['sortIdx'] = getNewIdx(EpiCaseControl, doc.tbl_id)
+    return userCanEditTbl(doc.tbl_id, userId)
 
 EpiCohort.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc['isHidden'] = false
     doc['sortIdx'] = getNewIdx(EpiCohort, doc.tbl_id)
+    return userCanEditTbl(doc.tbl_id, userId)
 
 EpiRiskEstimate.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc['isHidden'] = false
     doc['sortIdx'] = getNewIdx(EpiRiskEstimate, doc.tbl_id)
+    return userCanEditTbl(doc.tbl_id, userId)
 
+
+
+# Update hooks
+
+userCanEditTblContentCheck = (userId, doc, fieldNames, modifier, options) ->
+    return userCanEditTblContent(doc.tbl_id, userId)
+Reference.before.update (userId, doc, fieldNames, modifier, options) -> return true
+
+MechanisticEvidence.before.update userCanEditTblContentCheck
+
+EpiCaseControl.before.update userCanEditTblContentCheck
+
+EpiCohort.before.update userCanEditTblContentCheck
+
+EpiRiskEstimate.before.update userCanEditTblContentCheck
+
+
+
+# Remove hooks
+
+userCanRemoveTblContentCheck = (userId, doc) ->
+    return userCanEditTblContent(doc.tbl_id, userId)
+
+Reference.before.remove (userId, doc) -> return true
+
+MechanisticEvidence.before.remove userCanRemoveTblContentCheck
+
+EpiCaseControl.before.remove userCanRemoveTblContentCheck
+
+EpiCohort.before.remove userCanRemoveTblContentCheck
+
+EpiRiskEstimate.before.remove userCanRemoveTblContentCheck

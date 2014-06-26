@@ -156,11 +156,11 @@ UI.registerHelper "riskFormat", (obj) ->
 
 UI.registerHelper "userCanEdit", ->
     tbl = Session.get('Tbl')
-    user = Meteor.user()
-    currentUser = if user then user._id
-    if currentUser is tbl.user_id then return true
+    thisId = Meteor.userId()
+    if not thisId? or not tbl? then return false
+    if thisId is tbl.user_id then return true
     for user in tbl.user_roles
-        if currentUser is user.user_id and user.role isnt "reviewers" then return true
+        if thisId is user.user_id and user.role isnt "reviewers" then return true
     return false
 
 UI.registerHelper "ballotBoolean", (bool) ->

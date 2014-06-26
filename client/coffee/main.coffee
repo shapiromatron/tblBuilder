@@ -1,24 +1,22 @@
+share.TablesHandler = null;
 Deps.autorun ->
-    Meteor.subscribe 'tables', Meteor.userId()
+    share.TablesHandler = Meteor.subscribe('tables', Meteor.userId())
 
+class TblRouterController extends RouteController
 
-permissionsCheck = (tbl) ->
+    data: ->
+        return Tables.findOne(this.params._id)
 
-    userCanView = (tbl) ->
-        # check to ensure that the current user is both authenticated and part of
-        # the project team before allowing to view
-        user = Meteor.user()
-        if(tbl and user)
-            id = user._id
-            valid_ids = (v.user_id for v in tbl.user_roles)
-            return ((id is tbl.user_id) or (valid_ids.indexOf(id)>=0))
-        return false
+    action: ->
+        if @.ready()
+            if Session.get('Tbl') is undefined then return @.render('404')
+            @.render()
+        else @.render("isLoading")
 
-    if not tbl?
-        Router.go('404')
-        return false
-    if(userCanView(tbl)) then return true else Router.go('403')
-    return false
+    onStop: ->
+        console.log('reset')
+        Session.set('referenceMonographNumber', null)
+        Session.set('Tbl', null)
 
 Router.map ->
 
@@ -26,7 +24,7 @@ Router.map ->
         path: '/',
 
         waitOn: ->
-            return this.subscribe('tables', Meteor.userId())
+            if share.TablesHandler.ready() then return
 
         action: ->
             if @.ready() then @.render() else @.render("isLoading")
@@ -34,65 +32,41 @@ Router.map ->
     this.route 'epiCohortMain',
         path: '/epi-cohort/:_id'
 
-        data: ->
-            return Tables.findOne(this.params._id)
-
         waitOn: ->
-            @.subscribe('tables', Meteor.userId()).wait()
-            if @.ready()
+            if share.TablesHandler.ready()
                 tbl = Tables.findOne({_id: this.params._id})
-                permissionsCheck(tbl)
                 Session.set('Tbl', tbl)
-                Session.set('referenceMonographNumber', tbl.monographNumber)
-                return Meteor.subscribe('epiCohort', tbl._id)
+                if tbl
+                    Session.set('referenceMonographNumber', tbl.monographNumber)
+                    return Meteor.subscribe('epiCohort', tbl._id)
 
-        action: ->
-            if @.ready() then @.render() else @.render("isLoading")
-
-        onStop: ->
-            Session.set('referenceMonographNumber', null)
+        controller: TblRouterController
 
     this.route 'epiCaseControlMain',
-        path: '/epi-case-control/:_id',
-
-        data: ->
-            return Tables.findOne(this.params._id)
+        path: '/epi-case-control/:_id'
 
         waitOn: ->
-            @.subscribe('tables', Meteor.userId()).wait()
-            if @.ready()
+            if share.TablesHandler.ready()
                 tbl = Tables.findOne({_id: this.params._id})
-                permissionsCheck(tbl)
                 Session.set('Tbl', tbl)
-                Session.set('referenceMonographNumber', tbl.monographNumber)
-                return Meteor.subscribe('epiCaseControl', tbl._id)
+                if tbl
+                    Session.set('referenceMonographNumber', tbl.monographNumber)
+                    return Meteor.subscribe('epiCaseControl', tbl._id)
 
-        action: ->
-            if @.ready() then @.render() else @.render("isLoading")
-
-        onStop: ->
-            Session.set('referenceMonographNumber', null)
+        controller: TblRouterController
 
     this.route 'mechanisticMain',
         path: '/mechanistic/:_id/',
 
-        data: ->
-            return Tables.findOne(this.params._id)
-
         waitOn: ->
-            @.subscribe('tables', Meteor.userId()).wait()
-            if @.ready()
+            if share.TablesHandler.ready()
                 tbl = Tables.findOne({_id: this.params._id})
-                permissionsCheck(tbl)
                 Session.set('Tbl', tbl)
-                Session.set('referenceMonographNumber', tbl.monographNumber)
-                return Meteor.subscribe('mechanisticEvidence', tbl._id)
+                if tbl
+                    Session.set('referenceMonographNumber', tbl.monographNumber)
+                    return Meteor.subscribe('mechanisticEvidence', tbl._id)
 
-        action: ->
-            if @.ready() then @.render() else @.render("isLoading")
-
-        onStop: ->
-            Session.set('referenceMonographNumber', null)
+        controller: TblRouterController
 
     this.route 'referencesMain',
         path: '/monograph-:monographNumber/references/',
@@ -101,7 +75,7 @@ Router.map ->
             return {monographNumber: this.params.monographNumber}
 
         waitOn: ->
-            if @.ready()
+            if share.TablesHandler.ready()
                 monographNumber = parseInt(this.params.monographNumber, 10)
                 Session.set('referenceMonographNumber', monographNumber)
                 return Meteor.subscribe('monographReference', monographNumber)
@@ -118,9 +92,8 @@ Router.map ->
     this.route 'isLoading',
         path: '/loading/'
 
-    this.route '403'
-
     this.route '404'
+
 
 Router.configure
     layoutTemplate: 'layout',
