@@ -73,15 +73,10 @@ Template.epiCohortTbl.rendered = ->
 Template.epiCohortForm.events
     'click #epiCohort-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)
-        obj['timestamp'] = (new Date()).getTime()
-        obj['user_id'] = Meteor.userId()
         obj['tbl_id'] = Session.get('Tbl')._id
-        obj['isHidden'] = false
-        Meteor.call('epiCohortNewIdx', obj['tbl_id'], (err, response) ->
-            obj['sortIdx'] = response
-            EpiCohort.insert(obj)
-            Session.set("epiCohortShowNew", false)
-        )
+        EpiCohort.insert(obj)
+        Session.set("epiCohortShowNew", false)
+
     'click #epiCohort-create-cancel': (evt, tmpl) ->
         Session.set("epiCohortShowNew", false)
 

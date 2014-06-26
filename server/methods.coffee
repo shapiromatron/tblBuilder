@@ -46,12 +46,6 @@ sheet_from_array_of_arrays = (data) ->
     if(range.s.c < 10000000) then ws['!ref'] = XLSX.utils.encode_range(range)
     return ws
 
-getNewIdx = (Cls, filter) ->
-    max = -1
-    val = Cls.findOne(filter, {fields: {"sortIdx":1, "_id":0}, sort: {"sortIdx":-1}})
-    if (val and isFinite(val.sortIdx)) then max = val.sortIdx
-    return max+1
-
 singleFieldTextSearch = (inputs) ->
     # Perform a search of a single field, and return unique values.
     field = inputs['field']
@@ -136,18 +130,6 @@ Meteor.methods
         wb.Sheets[ws_name] = ws
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
-    epiCohortNewIdx: (tbl_id) ->
-        check(tbl_id, String)
-        getNewIdx(EpiCohort, {tbl_id: tbl_id})
-
-    epiRiskEstimateNewIdx: (parent_id) ->
-        check(parent_id, String)
-        getNewIdx(EpiRiskEstimate, {parent_id: parent_id})
-
-    epiCaseControlNewIdx: (tbl_id) ->
-        check(tbl_id, String)
-        getNewIdx(EpiCaseControl, {tbl_id: tbl_id})
-
     searchUsers: (str) ->
         check(str, String)
         querystr = new RegExp(str, "i")  # case insensitive
@@ -186,15 +168,6 @@ Meteor.methods
 
         Reference.find(query, options).fetch()
 
-    isReferenceValid: (inputs) ->
-        check(inputs, {name: String, _id: String})
-        query =
-            $and: [
-                _id: inputs['_id']
-                name: inputs['name']
-            ]
-        Reference.find(query).count() is 1
-
     searchCovariates: (query) ->
         check(query, String)
         querystr = new RegExp(query, "i")  # case insensitive
@@ -203,4 +176,3 @@ Meteor.methods
         covariates = _.flatten(_.pluck(queryset, 'covariates'))
         covariates = _.filter(covariates, (v) -> v.match(querystr))
         return _.uniq(covariates, false)
-

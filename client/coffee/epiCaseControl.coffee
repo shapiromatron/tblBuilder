@@ -74,15 +74,10 @@ Template.epiCaseControlTbl.rendered = ->
 Template.epiCaseControlForm.events
     'click #epiCaseControl-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)
-        obj['timestamp'] = (new Date()).getTime()
-        obj['user_id'] = Meteor.userId()
         obj['tbl_id'] = Session.get('Tbl')._id
-        obj['isHidden'] = false
-        Meteor.call('epiCaseControlNewIdx', obj['tbl_id'], (err, response) ->
-            obj['sortIdx'] = response
-            EpiCaseControl.insert(obj)
-            Session.set("epiCaseControlShowNew", false)
-        )
+        EpiCaseControl.insert(obj)
+        Session.set("epiCaseControlShowNew", false)
+
     'click #epiCaseControl-create-cancel': (evt, tmpl) ->
         Session.set("epiCaseControlShowNew", false)
 

@@ -73,8 +73,6 @@ Template.mechanisticEvidenceDisplay.events
 Template.mechanisticEvidenceForm.events
     'click #mechanisticEvidence-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)
-        obj['timestamp'] = (new Date()).getTime()
-        obj['user_id'] = Meteor.userId()
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['section'] = @section
         obj['parent'] = @parent

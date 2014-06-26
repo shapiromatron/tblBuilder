@@ -48,8 +48,6 @@ Template.referenceForm.events
 
     'click #reference-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)
-        obj['timestamp'] = (new Date()).getTime()
-        obj['user_id'] = Meteor.userId()
         obj['monographNumber'] = [Session.get('referenceMonographNumber')]
         Reference.insert(obj)
         Session.set("referenceShowNew", false)

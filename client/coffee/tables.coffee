@@ -76,8 +76,6 @@ Template.tablesForm.helpers
 Template.tablesForm.events
     'click #tables-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)
-        obj['timestamp'] = (new Date()).getTime()
-        obj['user_id'] = Meteor.userId()
         obj['user_roles'] = getUserPermissionsObject(tmpl);
         delete obj['projectManagers']
         delete obj['teamMembers']

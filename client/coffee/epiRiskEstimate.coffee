@@ -61,16 +61,10 @@ Template.epiRiskEstimateTbl.events
 Template.epiRiskEstimateForm.events
     'click #epiRiskEstimate-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)
-        obj['timestamp'] = (new Date()).getTime()
-        obj['user_id'] = Meteor.userId()
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['parent_id'] = tmpl.data.parent._id
-        obj['isHidden'] = false
-        Meteor.call('epiRiskEstimateNewIdx', obj['parent_id'], (err, response) ->
-            obj['sortIdx'] = response
-            EpiRiskEstimate.insert(obj)
-            Session.set("epiRiskEstimateShowNew", false)
-        )
+        EpiRiskEstimate.insert(obj)
+        Session.set("epiRiskEstimateShowNew", false)
 
     'click #epiRiskEstimate-create-cancel': (evt, tmpl) ->
         Session.set("epiRiskEstimateShowNew", false)

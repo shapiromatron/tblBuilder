@@ -8,7 +8,8 @@
       "iron-router": {},
       "moment": {},
       "accounts-ui-bootstrap-3": {},
-      "typeahead": {}
+      "typeahead": {},
+      "collection-hooks": {}
     },
     "packages": {
       "bootstrap-3": {
@@ -45,6 +46,11 @@
         "git": "https://github.com/sergeyt/meteor-typeahead.git",
         "tag": "v0.0.10",
         "commit": "fe0bb03aea8493037de134d815f9663feb21a944"
+      },
+      "collection-hooks": {
+        "git": "https://github.com/matb33/meteor-collection-hooks.git",
+        "tag": "v0.7.0",
+        "commit": "20a6de81f3818f112bccf67b5e1d3db342cf0b18"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",
