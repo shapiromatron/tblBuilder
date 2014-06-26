@@ -1,10 +1,13 @@
-<head>
-  <title>IARC</title>
-</head>
+<template  name="layout">
+  <head>
+    <title>IARC</title>
+  </head>
 
-<body>
-  {{> navBar}}
-</body>
+  <body>
+    {{> navBar}}
+    {{> yield}}
+  </body>
+</template>
 
 <template name="_loginButtonsAdditionalLoggedInDropdownActions">
   <button class="btn btn-default btn-block" id="login-buttons-edit-profile">Edit profile</button>

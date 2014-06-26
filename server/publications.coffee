@@ -1,3 +1,9 @@
+# sleep = (ms) ->
+# # Dirty hack for forcing sleep
+#     unixtime_ms = new Date().getTime()
+#     while(new Date().getTime() < unixtime_ms + ms)
+#         x=1
+
 Meteor.publish 'tables', (user_id) ->
     check(user_id, String)
     Tables.find({$or: [{user_id: user_id},

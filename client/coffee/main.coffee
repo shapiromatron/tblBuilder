@@ -26,10 +26,10 @@ Router.map ->
         path: '/',
 
         waitOn: ->
-            return Meteor.subscribe('tables', Meteor.userId())
+            return this.subscribe('tables', Meteor.userId())
 
         action: ->
-            if @.ready() then @.render()
+            if @.ready() then @.render() else @.render("isLoading")
 
     this.route 'epiCohortMain',
         path: '/epi-cohort/:_id'
@@ -47,7 +47,7 @@ Router.map ->
                 return Meteor.subscribe('epiCohort', tbl._id)
 
         action: ->
-            if @.ready() then @.render()
+            if @.ready() then @.render() else @.render("isLoading")
 
         onStop: ->
             Session.set('referenceMonographNumber', null)
@@ -68,7 +68,7 @@ Router.map ->
                 return Meteor.subscribe('epiCaseControl', tbl._id)
 
         action: ->
-            if @.ready() then @.render()
+            if @.ready() then @.render() else @.render("isLoading")
 
         onStop: ->
             Session.set('referenceMonographNumber', null)
@@ -89,7 +89,7 @@ Router.map ->
                 return Meteor.subscribe('mechanisticEvidence', tbl._id)
 
         action: ->
-            if @.ready() then @.render()
+            if @.ready() then @.render() else @.render("isLoading")
 
         onStop: ->
             Session.set('referenceMonographNumber', null)
@@ -107,7 +107,7 @@ Router.map ->
                 return Meteor.subscribe('monographReference', monographNumber)
 
         action: ->
-            if @.ready() then @.render()
+            if @.ready() then @.render() else @.render("isLoading")
 
         onStop: ->
             Session.set('referenceMonographNumber', null)
@@ -122,8 +122,8 @@ Router.map ->
 
     this.route '404'
 
-
 Router.configure
+    layoutTemplate: 'layout',
     notFoundTemplate: '404',
     loadingTemplate: 'isLoading'
 

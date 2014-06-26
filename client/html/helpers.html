@@ -12,6 +12,16 @@
   </div>
 </template>
 
+<template name='isLoading'>
+  <div class="container">
+    <h1 class="text-center">Loading...</h1>
+    <p class="lead text-center">
+      <span class="glyphicon glyphicon-repeat spinner-active"></span>
+      <p class="text-center help-block">Getting all the good stuff...</p>
+    </p>
+  </div>
+</template>
+
 <template name="selectList">
   {{hi}}
   <select class="form-control" name="{{selectName}}">
@@ -19,12 +29,6 @@
       <option selected="{{isSelected this ../selected}}">{{this}}</option>
     {{/each}}
   </select>
-</template>
-
-<template name='isLoading'>
-  <div class="container">
-    <h1>Loading...</h1>
-  </div>
 </template>
 
 <template name="typeaheadInput">
