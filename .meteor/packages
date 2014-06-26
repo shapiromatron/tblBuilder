@@ -5,7 +5,6 @@
 
 standard-app-packages
 insecure
-bootstrap-3
 npm
 filesaver
 accounts-base
@@ -21,3 +20,6 @@ underscore
 http
 collection-hooks
 sortable
+less
+less-bootstrap-3
+font-awesome-4-less

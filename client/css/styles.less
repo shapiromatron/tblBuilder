@@ -1,0 +1,25 @@
+/*
+ * http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
+ *
+ * There is one thing you have to be aware of: If you use @import "file.less"
+ * make sure you name the imported file "file.import.less" (or *.lessimport
+ * before Meteor v0.7.1). This way Meteor knows that it does not have to compile
+ * the file automatically.
+ */
+
+// Import CSS components
+@import "../../packages/less-bootstrap-3/lib/less/bootstrap.import.less";
+@import "../../packages/font-awesome-4-less/lib/less/core.import.less";
+
+// Import site-specific CSS components
+@import "main.import.less";
+
+// Import Vendor Variables
+@import "variables_bootstrap_default.import.less";
+@import "variables_fontawesome.import.less";
+
+// Import Vendor-override variables
+// @import "variables_bootstrap_yeti.import.less";
+// @import "variables_bootswatch_yeti.import.less";
+
+// Import site-specific variables

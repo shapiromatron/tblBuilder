@@ -1,6 +1,5 @@
 {
   "packages": {
-    "bootstrap-3": {},
     "npm": {},
     "filesaver": {},
     "iron-router": {},
@@ -8,6 +7,8 @@
     "accounts-ui-bootstrap-3": {},
     "typeahead": {},
     "collection-hooks": {},
-    "sortable": {}
+    "sortable": {},
+    "less-bootstrap-3": {},
+    "font-awesome-4-less": {}
   }
 }
