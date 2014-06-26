@@ -1,3 +1,5 @@
+Session.setDefault('reorderRows', false)
+
 getValue = (inp) ->
     # special case for our multi-select list object
     if $(inp).hasClass("multiSelectList")
@@ -54,15 +56,16 @@ share.returnExcelFile = (raw_data, fn) ->
     blob = new Blob([s2ab(raw_data)], {type: "application/octet-stream"})
     saveAs(blob, fn)
 
-share.moveRow = (self, tr, Cls, moveUp) ->
-    swap = if moveUp then tr.prev() else tr.next()
-    prev = tr.prev()
-    if swap.length is 1
-        sortIdx = self.sortIdx
-        Cls.update(self._id,
-                {$set: {'sortIdx': parseInt(swap.attr('data-sortIdx'), 10) }})
-        Cls.update(swap.attr('data-id'),
-                {$set: {'sortIdx': sortIdx }})
+share.toggleRowVisibilty = (display, $els) ->
+    if display then $els.fadeIn() else $els.fadeOut()
+
+share.moveRowCheck = (evt) ->
+    this_pos = $(evt.target).data('sortidx')
+    prev_pos = $(evt.target).prev().data('sortidx') or 0
+    next_pos = $(evt.target).next().data('sortidx') or prev_pos+1
+    if (this_pos < prev_pos) or (this_pos > next_pos)
+        data = UI.getElementData(evt.target)
+        @options.Cls.update(data._id, {$set: {sortIdx: d3.mean([prev_pos, next_pos])}})
 
 share.copyAsNew = (obj) ->
     for key, val of obj
@@ -76,7 +79,6 @@ share.copyAsNew = (obj) ->
             else
                 $("input[name=#{key}]").val(val)
                 $("textarea[name=#{key}]").val(val)
-
 
 share.typeaheadSelectListAddLI = ($ul, val) ->
     txts = share.typeaheadSelectListGetLIs($ul)

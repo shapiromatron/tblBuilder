@@ -34,7 +34,7 @@
       </thead>
     {{/if}}
 
-    <tbody>
+    <tbody id="sortableInner">
       {{#each getEpiRiskEstimates}}
         {{#if showRow isHidden}}
           <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
@@ -53,10 +53,6 @@
                     <ul class="dropdown-menu">
                       <li><a href="#" id="epiRiskEstimate-show-edit">
                           <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                      <li><a href="#" id="epiRiskEstimate-move-up">
-                          <span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
-                      <li><a href="#" id="epiRiskEstimate-move-down">
-                          <span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
                       <li><a href="#" id="epiRiskEstimate-toggle-hidden">{{#if isHidden}}
                         <span class="glyphicon glyphicon-plus"></span> Show row
                         {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
@@ -78,6 +74,7 @@
                   {{{riskFormat this}}}
                 {{/if}}
               </td>
+              <td class="dragHandle dhInner" style="{display: none}" title="Drag to re-order rows"></td>
             {{/if}}
           </tr>
         {{/if}}

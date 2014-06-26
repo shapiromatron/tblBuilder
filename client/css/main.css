@@ -67,6 +67,19 @@
     background-color: #eee;
 }
 
+.dragHandle {
+  border-left: 2px solid #dedede;
+  border-bottom: none !important;
+  border-top: none !important;
+  background-color: #deeeee !important;
+  cursor: pointer;
+}
+
+.dragHandle:hover {
+  border-left: 2px solid gray;
+  background-color: #b1eeee !important;
+}
+
 /*
  * Twitter typeahead.js
  */

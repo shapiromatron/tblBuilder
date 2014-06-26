@@ -35,14 +35,6 @@ Template.epiCohortTbl.events
         Deps.flush() # update DOM before focus
         share.activateInput(tmpl.find("input[name=referenceID]"))
 
-    'click #epiCohort-move-up': (evt, tmpl) ->
-        tr = $(tmpl.find('tr[data-id=' + @_id + ']'))
-        share.moveRow(this, tr, EpiCohort, true)
-
-    'click #epiCohort-move-down': (evt, tmpl) ->
-        tr = $(tmpl.find('tr[data-id=' + @_id + ']'))
-        share.moveRow(this, tr, EpiCohort, false)
-
     'click #epiCohort-downloadExcel': (evt, tmpl) ->
         tbl_id = tmpl.data._id
         Meteor.call 'epiCohortExcelDownload', tbl_id, (err, response) ->
@@ -66,9 +58,17 @@ Template.epiCohortTbl.events
         Session.set('epiRiskShowPlots', not Session.get('epiRiskShowPlots'))
         share.toggleRiskPlot()
 
-Template.epiCohortTbl.rendered = ->
-        share.toggleRiskPlot()
+    'click #epiCohort-reorderRows': (evt, tmpl) ->
+        Session.set('reorderRows', not Session.get('reorderRows'))
+        share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
 
+Template.epiCohortTbl.rendered = ->
+    share.toggleRiskPlot()
+    new Sortable(@.find('#sortable'),
+        handle: ".dhOuter",
+        onUpdate: share.moveRowCheck,
+        Cls: EpiCohort )
+    share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
 
 Template.epiCohortForm.events
     'click #epiCohort-create': (evt, tmpl) ->

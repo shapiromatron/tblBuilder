@@ -15,6 +15,8 @@
           {{#unless epiCaseControlShowNew}}
             <li><a href="#" id="epiCaseControl-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
           {{/unless}}
+          <li><a href="#" id="epiCaseControl-reorderRows"><span class="glyphicon glyphicon-align-justify"></span> Reorder rows</a></li>
+
         {{/if}}
         <li><a href="#" id="epiCaseControl-downloadExcel"><span class="glyphicon glyphicon-save"></span> Download Excel</a></li>
 
@@ -58,7 +60,7 @@
         <th>Covariates<br>Comments</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="sortable">
       {{#each getEpiCaseControls}}
         {{#if showRow isHidden}}
           <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
@@ -75,8 +77,6 @@
                     </button>
                     <ul class="dropdown-menu">
                       <li><a href="#" id="epiCaseControl-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                      <li><a href="#" id="epiCaseControl-move-up"><span class="glyphicon glyphicon-arrow-up"></span> Move up</a></li>
-                      <li><a href="#" id="epiCaseControl-move-down"><span class="glyphicon glyphicon-arrow-down"></span> Move down</a></li>
                       <li><a href="#" id="epiCaseControl-toggle-hidden">{{#if isHidden}}
                         <span class="glyphicon glyphicon-plus"></span> Show row
                         {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
@@ -95,6 +95,7 @@
                 {{> epiRiskEstimateTbl parent=this epiRiskEstimateEditable="F" }}
               </td>
               <td>{{covariates}}<br>{{comments}}</td>
+              <td class="dragHandle dhOuter" style="{display: none}" title="Drag to re-order rows"></td>
             {{/if}}
           </tr>
         {{/if}}

@@ -28,6 +28,14 @@ Template.epiRiskEstimateTbl.helpers
         Session.get("epiRiskShowPlots")
 
 
+Template.epiRiskEstimateTbl.rendered = ->
+    new Sortable(@.find('#sortableInner'),
+        handle: ".dhInner",
+        onUpdate: share.moveRowCheck,
+        Cls: EpiRiskEstimate)
+    share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
+
+
 Template.epiRiskEstimateTbl.events
 
     'click #epiRiskEstimate-show-create': (evt, tmpl) ->
@@ -39,14 +47,6 @@ Template.epiRiskEstimateTbl.events
         Session.set("epiRiskEstimateEditingId", @_id)
         Deps.flush()  # update DOM before focus
         share.activateInput(tmpl.find("input[name=organSite]"))
-
-    'click #epiRiskEstimate-move-up': (evt, tmpl) ->
-        tr = $(tmpl.find("tr[data-id=#{@_id}]"))
-        share.moveRow(@, tr, EpiRiskEstimate, true)
-
-    'click #epiRiskEstimate-move-down': (evt, tmpl) ->
-        tr = $(tmpl.find("tr[data-id=#{@_id}]"))
-        share.moveRow(@, tr, EpiRiskEstimate, false)
 
     'click #epiRiskEstimate-toggle-hidden': (evt, tmpl) ->
         EpiRiskEstimate.update(@_id, {$set: {isHidden: !@isHidden}})

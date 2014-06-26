@@ -36,14 +36,6 @@ Template.epiCaseControlTbl.events
         Deps.flush() # update DOM before focus
         share.activateInput(tmpl.find("input[name=referenceID]"))
 
-    'click #epiCaseControl-move-up': (evt, tmpl) ->
-        tr = $(tmpl.find('tr[data-id=' + @_id + ']'))
-        share.moveRow(this, tr, EpiCaseControl, true)
-
-    'click #epiCaseControl-move-down': (evt, tmpl) ->
-        tr = $(tmpl.find('tr[data-id=' + @_id + ']'))
-        share.moveRow(this, tr, EpiCaseControl, false)
-
     'click #epiCaseControl-downloadExcel': (evt, tmpl) ->
         tbl_id = tmpl.data._id
         Meteor.call('epiCaseControlDownload', tbl_id, (err, response) ->
@@ -67,8 +59,17 @@ Template.epiCaseControlTbl.events
         Session.set('epiRiskShowPlots', not Session.get('epiRiskShowPlots'))
         share.toggleRiskPlot()
 
+    'click #epiCaseControl-reorderRows': (evt, tmpl) ->
+        Session.set('reorderRows', not Session.get('reorderRows'))
+        share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
+
 Template.epiCaseControlTbl.rendered = ->
-        share.toggleRiskPlot()
+    share.toggleRiskPlot()
+    new Sortable(@.find('#sortable'),
+        handle: ".dhOuter",
+        onUpdate: share.moveRowCheck,
+        Cls: EpiCaseControl)
+    share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
 
 
 Template.epiCaseControlForm.events
