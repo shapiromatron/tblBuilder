@@ -6,6 +6,9 @@
           <span class="caret" title="Editing options"></span>
         </button>
         <ul class="dropdown-menu">
+          {{#if userCanEdit}}
+            <li><a href="#" id="mechanistic-reorderRows"><span class="glyphicon glyphicon-align-justify"></span> Reorder rows</a></li>
+          {{/if}}
           <li><a href="#" id="mechanistic-downloadExcel">
                 <span class="glyphicon glyphicon-save"></span> Download Excel</a></li>
 
@@ -55,7 +58,7 @@
         </div>
       {{/if}}
     </td>
-    <td>
+    <td id="{{getDragContainer}}">
       {{#each getSectionEvidence section=section}}
         {{> mechanisticEvidenceDisplay}}
       {{/each }}
@@ -70,9 +73,11 @@
   {{#if displayEditingForm}}
     {{> mechanisticEvidenceForm this isNew=false}}
   {{else }}
-    <div class='accordian'>
-      <div class="menu-autohide accordianHeader" title="Click to show more details" data-toggle="collapse" data-target="#extra{{_id}}">
+    <div class="accordian {{getDragObject}}" data-id="{{_id}}" data-sortIdx="{{sortIdx}}">
+      <div class="menu-autohide accordianHeader" title="Click to show more details"
+           data-toggle="collapse" data-target="#extra{{_id}}">
         {{#if userCanEdit}}
+          <div class="dragHandle {{getDragHandleName}} pull-right" style="{margin-left: 5px; width:15px; display: none}" title="Drag to re-order rows">&nbsp;</div>
           <div class="rowOptions btn-group pull-right">
             <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
               <span class="caret" title="Editing options"></span>
@@ -111,7 +116,7 @@
         </div>
       </div>
       {{#if hasChildren }}
-        <ul>
+        <ul id="{{getDragContainer}}">
           {{#each getChildren}}
             {{> mechanisticEvidenceDisplay}}
           {{/each}}

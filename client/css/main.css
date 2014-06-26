@@ -69,8 +69,10 @@
 
 .dragHandle {
   border-left: 2px solid #dedede;
-  border-bottom: none !important;
-  border-top: none !important;
+  margin-top: -2px;
+  margin-bottom: -2px;
+  border-bottom: 2px solid white !important;
+  border-top: 2px solid white !important;
   background-color: #deeeee !important;
   cursor: pointer;
 }
