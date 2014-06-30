@@ -72,14 +72,50 @@ Template.referenceForm.events
         spinner.toggleClass('spinner-active')
         pubmedID = tmpl.find('input[name=pubmedID]').value
         citation = tmpl.find('textarea[name=fullCitation]')
-        url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=#{pubmedID}&rettype=docsum&retmode=text"
+        name = tmpl.find('input[name=name]')
+
+        url= "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=#{pubmedID}&rettype=docsum&retmode=xml"
         HTTP.get url, (err, result) ->
-            if err
-                text = "An error occurred."
-            else
-                text = result.content.replace('1: ','').replace(/[\n\r]/g, '')
-            citation.value = text
+            # assume an error occurred by default
+            fullCitation = "An error occurred."
+            shortCitation = ""
+
+            if result
+                xmlDoc = $.parseXML(result.content)
+                xml = $(xmlDoc)
+                window.xml = xml
+
+                err = xml.find("ERROR")
+                if err.length >= 1
+                    fullCitation = xml.find("ERROR").text()
+                else
+                    # Parse XML for text, we use the AuthorList children to
+                    # filter for both "Author" and "CollectiveName" fields,
+                    # as an example see PMID 187847.
+                    authors = (auth.innerHTML for auth in xml.find('Item[Name=AuthorList]').children())
+                    title = xml.find("Item[Name=Title]").text()
+                    journal_source = xml.find("Item[Name=Source]").text()
+                    so =  xml.find("Item[Name=SO]").text()
+                    pmid = xml.find("Id").text()
+                    year = pubDate = xml.find("Item[Name=PubDate]").text().substr(0,4)
+
+                    # build short-citation
+                    first = authors[0].substr(0, authors[0].search(" "))
+                    shortCitation = "#{first} #{year}"
+                    if authors.length>2
+                        shortCitation = "#{first} et al. #{year}"
+                    else if authors.length is 2
+                        second = authors[1].substr(0, authors[1].search(" "))
+                        shortCitation = "#{first} and #{second} #{year}"
+
+                    # build full-citation, using the PubMed Summary format, found here:
+                    # http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=#{pubmedID}&rettype=docsum&retmode=text
+                    fullCitation = "#{authors.join(', ')}. #{title}. #{journal_source}. #{so}. PubMed PMID: #{pmid}."
+
+            # turn-off spinner, and add retrieved content to input fields
             spinner.toggleClass('spinner-active')
+            citation.value = fullCitation
+            name.value = shortCitation
 
     'change select[name=referenceType]': (evt, tmpl) ->
         toggleFieldDisplays(tmpl);
