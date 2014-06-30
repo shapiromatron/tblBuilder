@@ -96,3 +96,23 @@ EpiCaseControl.before.remove userCanRemoveTblContentCheck
 EpiCohort.before.remove userCanRemoveTblContentCheck
 
 EpiRiskEstimate.before.remove userCanRemoveTblContentCheck
+
+
+
+# After insert hook
+Tables.after.insert (userId, doc) ->
+    # Prepopulate mechanistic evidence table with predefined categories.
+    if doc.tblType is "Mechanistic Evidence Summary"
+        for category in mechanisticEvidenceCategories
+            mech =
+                tbl_id: doc._id
+                section: "mechanisms"
+                text: ""
+                subheading: category
+                humanInVivo: false
+                animalInVivo: false
+                humanInVitro: false
+                animalInVitro: false
+                references: []
+            MechanisticEvidence.insert(mech)
+

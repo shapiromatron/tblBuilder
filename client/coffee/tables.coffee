@@ -46,12 +46,12 @@ Template.tablesTbl.events
     'click #tables-show-create': (evt, tmpl) ->
         Session.set("tablesShowNew", true)
         Deps.flush()  # update DOM before focus
-        share.activateInput(tmpl.find("input[name=name]"))
+        share.activateInput(tmpl.find("input[name=monographNumber]"))
 
     'click #tables-show-edit': (evt, tmpl) ->
         Session.set("tablesEditingId", this._id)
         Deps.flush()  # update DOM before focus
-        share.activateInput(tmpl.find("input[name=name]"))
+        share.activateInput(tmpl.find("input[name=monographNumber]"))
 
 
 Template.tablesForm.helpers

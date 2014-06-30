@@ -14,7 +14,6 @@ class TblRouterController extends RouteController
         else @.render("isLoading")
 
     onStop: ->
-        console.log('reset')
         Session.set('referenceMonographNumber', null)
         Session.set('Tbl', null)
 
