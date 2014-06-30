@@ -13,8 +13,9 @@
       </button>
       <ul class="dropdown-menu">
         {{#unless referenceShowNew}}
-          <li><a href="#" id="reference-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
+          <li><a href="#" id="reference-show-create"><span class="glyphicon glyphicon-plus"></span> Add a reference</a></li>
         {{/unless}}
+        <li><a href="{{pathFor 'referenceBatchUpload' monographNumber}}"><span class="glyphicon glyphicon-open"></span> Bulk upload</a></li>
         <li><a href="#" id="reference-downloadExcel"><span class="glyphicon glyphicon-save"></span> Download Excel</a></li>
       </ul>
     </div>
@@ -153,8 +154,6 @@
   {{/if}}
 </template>
 
-
-
 <template name="referenceSearchOption">
   <p><b>{{name}}</b></p>
   <small class="text-muted">{{fullCitation}}</small>
@@ -196,7 +195,6 @@
   {{/with}}
 </template>
 
-
 <template name="referenceQuickAddModal">
   <div class="modal fade" id="referenceQuickAdd" tabindex="-1" role="dialog"
        aria-labelledby="referenceQuickAdd" aria-hidden="true">
@@ -213,3 +211,23 @@
     </div>
   </div>
 </template>
+
+<template name="referenceBatchUpload">
+  <div class="container">
+    {{startup}}
+    <form>
+      <div class="form-group">
+        <label for="excelReferences">Load list of references (XLSX)</label>
+        <input type="file" name="excelReferences">
+        <p class="help-block">Upload a list of references, using <a href="/static/ReferenceUploadTemplate.xlsx">this</a> format.</p>
+      </div>
+
+      <div id='uploadStatusDiv' class="alert" role="alert">
+        <p id="uploadStatus"></p>
+      </div>
+
+      <button type="button" class='btn btn-primary' id="uploadReferences" style="display: none">Upload</button>
+    </form>
+  </div>
+</template>
+

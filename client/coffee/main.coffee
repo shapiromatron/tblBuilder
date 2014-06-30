@@ -85,6 +85,24 @@ Router.map ->
         onStop: ->
             Session.set('referenceMonographNumber', null)
 
+    this.route 'referenceBatchUpload',
+        path: '/monograph-:monographNumber/references/upload/',
+
+        data: ->
+            return {monographNumber: this.params.monographNumber}
+
+        waitOn: ->
+            if share.TablesHandler.ready()
+                monographNumber = parseInt(this.params.monographNumber, 10)
+                Session.set('referenceMonographNumber', monographNumber)
+                return Meteor.subscribe('monographReference', monographNumber)
+
+        action: ->
+            if @.ready() then @.render() else @.render("isLoading")
+
+        onStop: ->
+            Session.set('referenceMonographNumber', null)
+
     this.route 'profileEdit',
         path: '/user-profile/'
 
