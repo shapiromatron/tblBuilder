@@ -277,7 +277,6 @@ Template.referenceBatchUpload.events
                     if isFinite(parseInt(PMID, 10))
                         do (status) ->
                             getPubMedDetails PMID, (v) ->
-                                console.log(v)
                                 if v.isError
                                     status.append('failure! (PMID import error)')
                                 else

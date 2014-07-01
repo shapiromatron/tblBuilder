@@ -33,13 +33,17 @@ Reference.before.insert (userId, doc) ->
     # checked if the item has a PubMed ID.
     if isFinite(doc.pubmedID)
         ref = Reference.findOne({pubmedID: doc.pubmedID})
-        if ref
-            newMonographNumber = doc.monographNumber[0]
-            # check if it's already associated with this monograph
-            if ref not in ref.monographNumber
-                Reference.update(ref._id, {$push: {'monographNumber': newMonographNumber}})
-            # don't create a new reference.
-            return false
+    else
+        ref = Reference.findOne({fullCitation: doc.fullCitation})
+
+    if (ref?)
+        newMonographNumber = doc.monographNumber[0]
+        # check if it's already associated with this monograph
+        if newMonographNumber not in ref.monographNumber
+            Reference.update(ref._id, {$push: {'monographNumber': newMonographNumber}})
+        # don't create a new reference.
+        return false
+
 
 MechanisticEvidence.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
