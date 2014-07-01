@@ -27,6 +27,9 @@
 
       <div id="iarc-login-options" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
+          {{#if isInRole 'staff'}}
+            {{> adminNav}}
+          {{/if}}
           {{> loginButtons }}
         </ul>
       </div>

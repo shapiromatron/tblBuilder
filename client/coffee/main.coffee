@@ -111,6 +111,17 @@ Router.map ->
     this.route 'isLoading',
         path: '/loading/'
 
+    this.route 'admin',
+
+        waitOn: ->
+            return Meteor.subscribe('adminUsers')
+
+        action: ->
+            if @.ready() then @.render() else @.render("isLoading")
+
+        # onStop: ->
+        #     Meteor.subscribe('adminUsers').stop()
+
     this.route '404'
 
 
@@ -136,7 +147,6 @@ Template.selectList.helpers
 
     isSelected: (current, selected) ->
         return current is selected
-
 
 UI.registerHelper "getUserDescription", ->
     if (@.profile and @.profile.fullName) then return @.profile.fullName

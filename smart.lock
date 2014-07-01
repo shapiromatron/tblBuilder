@@ -11,7 +11,8 @@
       "collection-hooks": {},
       "sortable": {},
       "less-bootstrap-3": {},
-      "font-awesome-4-less": {}
+      "font-awesome-4-less": {},
+      "roles": {}
     },
     "packages": {
       "npm": {
@@ -63,6 +64,11 @@
         "git": "https://github.com/svub/fontawesome4-less.git",
         "tag": "v4.3.9",
         "commit": "45e5d416d85ad8216ac17066492dddb67ad4acb4"
+      },
+      "roles": {
+        "git": "https://github.com/alanning/meteor-roles.git",
+        "tag": "v1.2.10",
+        "commit": "7ccb35de0a6cb0c9a0c3666badd04757e39c09a6"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",

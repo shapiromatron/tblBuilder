@@ -14,7 +14,6 @@ userHandle = getTablesHandle()
 Deps.autorun(getTablesHandle)
 
 
-
 Template.TablesByMonograph.helpers
 
     getMonographs: ->

@@ -19,11 +19,10 @@ userCanEditTblContent = (tbl_id, editorId) ->
     return false
 
 
-
 # Create hooks
-
 Tables.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
+    return share.isStaffOrHigher(userId)
 
 Reference.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
@@ -102,8 +101,10 @@ EpiCohort.before.remove userCanRemoveTblContentCheck
 EpiRiskEstimate.before.remove userCanRemoveTblContentCheck
 
 
-
 # After insert hook
+Meteor.users.after.insert (userId, doc) ->
+    Roles.addUsersToRoles(doc._id, "default");
+
 Tables.after.insert (userId, doc) ->
     # Prepopulate mechanistic evidence table with predefined categories.
     if doc.tblType is "Mechanistic Evidence Summary"

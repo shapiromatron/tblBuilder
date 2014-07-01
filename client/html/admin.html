@@ -1,0 +1,88 @@
+<template name="adminNav">
+  <li><a href="{{pathFor 'admin'}}">Admin</a></li>
+</template>
+
+<template name="admin">
+  <div class="container">
+    <h1>User Administration</h1>
+    <table class='table table-condensed table-hover'>
+      <thead>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Affiliation</th>
+        <th>Roles</th>
+      </thead>
+      <tbody>
+        {{#each getUsers}}
+          {{> adminUserRow}}
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<template name="adminUserRow">
+  <tr class="menu-autohide">
+    {{#if adminUserIsEditing}}
+      <td colspan="100">
+        {{> adminUserRowForm}}
+      </td>
+    {{else}}
+      <td>{{this.profile.fullName}}
+        <div class="rowOptions btn-group pull-right">
+          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+            <span class="caret" title="Editing options"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" id="adminUser-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+          </ul>
+        </div>
+      </td>
+      <td>{{getUserEmail}}</td>
+      <td>{{this.profile.affiliation}}</td>
+      <td>
+        {{#each this.roles}}
+          <span class="label label-default">{{this}}</span>
+        {{/each}}
+      </td>
+    {{/if}}
+  </tr>
+</template>
+
+<template name="adminUserRowForm">
+  <form id="adminUserForm" role="form" class="editForm">
+
+    <div class="form-group row">
+
+      <div class="col-xs-6">
+        <label>Full Name</label>
+        <input class="form-control" name='fullName' type='text' value="{{profile.fullName}}"><br>
+        <label>Email</label>
+        <input class="form-control" name='email' type='text' value="{{getEmail}}"><br>
+        <label>Affiliation</label>
+        <input class="form-control" name='affiliation' type='text' value="{{profile.affiliation}}">
+      </div>
+
+      <div class="col-xs-6 inputRoles">
+        <label>Roles</label>
+        <div class="checkbox">
+          <label><input type="checkbox" name='superuser' checked="{{hasRole role='superuser'}}"> superuser</label>
+          <p class='help-block'>Full permissions to change anything on website</p>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" name='staff' checked="{{hasRole role='staff'}}"> staff</label>
+          <p class='help-block'>Can view admin page to assign user roles and create tables</p>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" name='default' checked="{{hasRole role='default'}}"> default</label>
+          <p class='help-block'>Can change content where they have been given permission to</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="well well-sm pager">
+      <button type="button" class="btn btn-sm btn-primary" id="adminUser-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Update</span></button>
+      <button type="button" class="btn btn-sm btn-default" id="adminUser-update-cancel" title="Cancel changes">Cancel</button>
+    </div>
+  </form>
+</template>

@@ -160,6 +160,12 @@ Meteor.methods
         wb.Sheets[ws_name] = ws
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
+    adminUserEditProfile: (_id, obj) ->
+        if share.isStaffOrHigher(this.userId)
+            Meteor.users.update(_id, {$set: obj})
+        else
+            throw new Meteor.Error(403, "Nice try wise-guy.")
+
     searchUsers: (str) ->
         check(str, String)
         querystr = new RegExp(str, "i")  # case insensitive
