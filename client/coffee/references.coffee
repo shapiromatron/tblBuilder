@@ -197,7 +197,6 @@ Template.printReference.rendered = ->
         delay: { show: 500, hide: 300 }
 
 
-
 getImportWS = (wb, error) ->
     # Find Excel worksheet which matches the input requirements
     try
@@ -234,7 +233,6 @@ Template.referenceBatchUpload.events
             if not obj.isError then okBtn.fadeIn() else okBtn.fadeOut()
             div.fadeIn()
 
-
         loadWB = (file, success, error) ->
             #return as a workbook object
             fr = new FileReader()
@@ -252,7 +250,6 @@ Template.referenceBatchUpload.events
 
         file = evt.target.files[0]
         loadWB(file, getImportWS, printStatus)
-
 
     'click #uploadReferences': (evt, tmpl) ->
 

@@ -1,90 +1,93 @@
 <template name="home">
   <div class="container">
   {{#if currentUser}}
-      {{> tablesTbl }}
+      {{> TablesByMonograph}}
     {{else }}
-      <h1>Welcome to the IARC table builder</h1>
-      <p>This application is designed to store and display key data used in the IARC monograph assessments. Groups of users can collaboratively work together to build evidence tables from multiple streams of evidence.</p>
-      <p>Access is controlled; you'll need to login in order to view or edit documents.</p>
+      <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+          <h1>Welcome!</h1>
+          <p>This application is designed for monograph sections to collaborate on
+             assembling key evidence which will be useful in the development of the
+             IARC monographs. If a user is given permission to edit the data for a
+             specific assessment, after logging-in, key evidence tables will be
+             available.</p>
+          <p><strong>Access is controlled; you'll need to login in order to view or edit documents.</strong></p>
+      </div>
+      </div>
     {{/if}}
   </div>
 </template>
 
-<template name="tablesTbl">
-  <h1>Tables which I have access to.
-    <div class="btn-group pull-right">
-      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-        <span class="caret" title="Editing options"></span>
-      </button>
-      <ul class="dropdown-menu">
-        {{#unless showNew}}
-          <li><a href="#" id="tables-show-create"><span class="glyphicon glyphicon-plus"></span> New</a></li>
-        {{/unless}}
-      </ul>
-    </div>
-  </h1>
+<template name="TablesByMonograph">
+  <div class="row">
+    <div class="col-md-offset-1 col-md-10">
+      <h1>Available evidence tables
+        <div class="btn-group pull-right">
+          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+            <span class="caret" title="Editing options"></span>
+          </button>
+          <ul class="dropdown-menu">
+            {{#unless showNew}}
+              <li><a href="#" id="tables-show-create"><span class="glyphicon glyphicon-plus"></span> New</a></li>
+            {{/unless}}
+          </ul>
+        </div>
+      </h1>
 
-  <table class="table table-hover table-compressed">
-    <colgroup>
-      <col width="20%">
-      <col width="40%">
-      <col width="20%">
-      <col width="20%">
-    </colgroup>
-    <thead>
-      <tr>
-        <th>Monograph &amp; Agent</th>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Created</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each getTables}}
-        <tr class="menu-autohide">
-          {{#if isEditing}}
-            <td id="editingRow" colspan="100">
-              {{> tablesForm}}
-            </td>
-          {{else}}
-            <td>{{monographNumber}}: {{agent}}
-                {{#if canEdit}}
-                  <div class="rowOptions btn-group pull-right">
-                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                      <span class="caret" title="Editing options"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a href="#" id="tables-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                    </ul>
-                  </div>
-                {{/if}}
-            </td>
-            <td><a href="{{getURL}}">{{name}}</a></td>
-            <td>{{tblType}}</td>
-            <td>{{formatDate timestamp "long"}}</td>
-          {{/if}}
-        </tr>
+      {{#unless showNew}}
+        {{#each getMonographs}}
+          <div class="monographBanner">
+            <h2 class= "menu-autohide">Monograph {{this}}
+              <div class="rowOptions btn-group pull-right">
+                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                  <span class="caret" title="Editing options"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{{pathFor 'referencesMain' monographNumber=this}}"><span class="glyphicon glyphicon-edit"></span> View references</a></li>
+                </ul>
+              </div>
+            </h2>
+          </div>
+         {{#each getAgents this}}
+          <div class="agentBanner">
+            <h3>{{this}}</h3>
+          </div>
+            {{#each getTables .. . }}
+              {{#if isEditing}}
+                {{> tablesForm}}
+              {{else}}
+                <div class="tableDiv menu-autohide">
+                  <span class="label label-default">{{tblType}} </span>
+                  {{#if canEdit}}
+                    <div class="rowOptions btn-group pull-right">
+                      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="caret" title="Editing options"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                          <li><a href="#" id="tables-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                      </ul>
+                    </div>
+                  {{/if}}
+                  <br><a href="{{getURL}}">{{name}}</a>
+                </div>
+              {{/if}}
+            {{/each}}
+         {{/each}}
+        {{else}}
+          <p>You don't have access to any evidence tables.</p>
+        {{/each}}
       {{else}}
-        {{#unless showNew}}
-          <tr>
-            <td colspan="100">You haven't created any tables yet.<br><br>
-              <a href="#" class="btn btn-primary btn-sm" id="tables-show-create"><span class="glyphicon glyphicon-plus"></span> Create new</a>
-            </td>
-          </tr>
-        {{/unless}}
-      {{/each}}
-    </tbody>
-  </table>
-
-  {{#if showNew}}
-    {{> tablesForm}}
-  {{/if}}
+        <h2>New evidence table.</h2>
+        {{> tablesForm}}
+      {{/unless}}
+    </div>
+  </div>
 </template>
 
 <template name="tablesForm">
   <form id="tablesForm" role="form" class="editForm">
     <div class="form-group row">
-      <div class="col-xs-2">
+      <div class="col-xs-3">
         <label>Monograph Number</label>
         <input class="form-control" name='monographNumber' type="number" value="{{monographNumber}}"/>
       </div>
@@ -92,7 +95,7 @@
         <label>Agent Name</label>
         {{> typeaheadInput name="agent" value=agent data_source="searchAgent"}}
       </div>
-      <div class="col-xs-5">
+      <div class="col-xs-4">
         <label>Table Type</label>
         {{> selectList options=getTblTypeOptions selected=tblType selectName="tblType" }}
       </div>
@@ -152,11 +155,9 @@
   </form>
 </template>
 
-
 <template name="UserMatchPullDown">
   <p>{{getUserDescription}}</p>
 </template>
-
 
 <template name="UserLI">
   <li class='selectListItem' data-user_id='{{_id}}'>{{getUserDescription}}

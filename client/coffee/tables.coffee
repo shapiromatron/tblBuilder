@@ -13,16 +13,39 @@ getTablesHandle = ->
 userHandle = getTablesHandle()
 Deps.autorun(getTablesHandle)
 
-Template.tablesTbl.helpers
+
+
+Template.TablesByMonograph.helpers
+
+    getMonographs: ->
+        tbls = Tables.find({},{fields: {"monographNumber": 1}, sort: {"monographNumber": -1}}).fetch()
+        return _.uniq(_.pluck(tbls, "monographNumber"))
+
+    getAgents: (monographNumber) ->
+        tbls = Tables.find({"monographNumber": monographNumber},
+                           {fields: {"agent": 1}, sort: {"agent": 1}}).fetch()
+        return _.uniq(_.pluck(tbls, "agent"))
+
+    getTables: (monographNumber, agent) ->
+        tbls = Tables.find({"monographNumber": monographNumber, "agent": agent}).fetch()
+        return tbls
+
+    getURL: () ->
+        switch @tblType
+            when "Epidemiology - Cohort"
+                url = Router.path('epiCohortMain', {_id: @_id})
+            when "Epidemiology - Case Control"
+                url = Router.path('epiCaseControlMain', {_id: @_id})
+            when "Mechanistic Evidence Summary"
+                url = Router.path('mechanisticMain', {_id: @_id})
+            else
+                url = Router.path('404')
 
     canEdit: ->
         currentUser = Meteor.user()
         if currentUser then id = currentUser._id else return
         ids = (v.user_id for v in @.user_roles when v.role is "projectManagers")
         return((id is @.user_id) or (id in ids))
-
-    getTables: () ->
-        Tables.find()
 
     showNew: () ->
         Session.get("tablesShowNew")
@@ -42,7 +65,7 @@ Template.tablesTbl.helpers
                 url = Router.path('404')
 
 
-Template.tablesTbl.events
+Template.TablesByMonograph.events
     'click #tables-show-create': (evt, tmpl) ->
         Session.set("tablesShowNew", true)
         Deps.flush()  # update DOM before focus

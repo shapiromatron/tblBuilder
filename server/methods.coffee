@@ -144,7 +144,8 @@ Meteor.methods
             header = ['_id', 'Short Citation', 'Full Citation',
                       'Reference Type', 'Pubmed ID', 'Other URL']
             data = [header]
-            refs = Reference.find({"monographNumber": {$in: [monographNumber]}})
+            refs = Reference.find({"monographNumber": {$in: [monographNumber]}},
+                                  {sort: [["name", 1]]})
 
             for ref in refs.fetch()
                 data.push(getDataRow(ref))
