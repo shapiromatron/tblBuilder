@@ -1,3 +1,5 @@
+Session.setDefault('monographNumber', null)
+
 share.TablesHandler = null;
 Deps.autorun ->
     share.TablesHandler = Meteor.subscribe('tables', Meteor.userId())
@@ -14,7 +16,7 @@ class TblRouterController extends RouteController
         else @.render("isLoading")
 
     onStop: ->
-        Session.set('referenceMonographNumber', null)
+        Session.set('monographNumber', null)
         Session.set('Tbl', null)
 
 Router.map ->
@@ -36,7 +38,7 @@ Router.map ->
                 tbl = Tables.findOne({_id: this.params._id})
                 Session.set('Tbl', tbl)
                 if tbl
-                    Session.set('referenceMonographNumber', tbl.monographNumber)
+                    Session.set('monographNumber', tbl.monographNumber)
                     return Meteor.subscribe('epiCohort', tbl._id)
 
         controller: TblRouterController
@@ -49,7 +51,7 @@ Router.map ->
                 tbl = Tables.findOne({_id: this.params._id})
                 Session.set('Tbl', tbl)
                 if tbl
-                    Session.set('referenceMonographNumber', tbl.monographNumber)
+                    Session.set('monographNumber', tbl.monographNumber)
                     return Meteor.subscribe('epiCaseControl', tbl._id)
 
         controller: TblRouterController
@@ -62,7 +64,7 @@ Router.map ->
                 tbl = Tables.findOne({_id: this.params._id})
                 Session.set('Tbl', tbl)
                 if tbl
-                    Session.set('referenceMonographNumber', tbl.monographNumber)
+                    Session.set('monographNumber', tbl.monographNumber)
                     return Meteor.subscribe('mechanisticEvidence', tbl._id)
 
         controller: TblRouterController
@@ -76,14 +78,14 @@ Router.map ->
         waitOn: ->
             if share.TablesHandler.ready()
                 monographNumber = parseInt(this.params.monographNumber, 10)
-                Session.set('referenceMonographNumber', monographNumber)
+                Session.set('monographNumber', monographNumber)
                 return Meteor.subscribe('monographReference', monographNumber)
 
         action: ->
             if @.ready() then @.render() else @.render("isLoading")
 
         onStop: ->
-            Session.set('referenceMonographNumber', null)
+            Session.set('monographNumber', null)
 
     this.route 'referenceBatchUpload',
         path: '/monograph-:monographNumber/references/upload/',
@@ -94,14 +96,14 @@ Router.map ->
         waitOn: ->
             if share.TablesHandler.ready()
                 monographNumber = parseInt(this.params.monographNumber, 10)
-                Session.set('referenceMonographNumber', monographNumber)
+                Session.set('monographNumber', monographNumber)
                 return Meteor.subscribe('monographReference', monographNumber)
 
         action: ->
             if @.ready() then @.render() else @.render("isLoading")
 
         onStop: ->
-            Session.set('referenceMonographNumber', null)
+            Session.set('monographNumber', null)
 
     this.route 'profileEdit',
         path: '/user-profile/'

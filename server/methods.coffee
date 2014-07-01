@@ -130,6 +130,31 @@ Meteor.methods
         wb.Sheets[ws_name] = ws
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
+    referenceExcelDownload: (monographNumber) ->
+
+        getDataRow = (v) ->
+            return [v._id, v.name, v.fullCitation,
+                    v.referenceType, v.pubmedID, v.otherURL]
+
+        getData = ->
+            header = ['_id', 'Short Citation', 'Full Citation',
+                      'Reference Type', 'Pubmed ID', 'Other URL']
+            data = [header]
+            refs = Reference.find({"monographNumber": {$in: [monographNumber]}})
+
+            for ref in refs.fetch()
+                data.push(getDataRow(ref))
+
+            return data
+
+        data = getData()
+        ws_name = "#{monographNumber}-references"
+        wb = new Workbook()
+        ws = sheet_from_array_of_arrays(data)
+        wb.SheetNames.push(ws_name)
+        wb.Sheets[ws_name] = ws
+        XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
+
     searchUsers: (str) ->
         check(str, String)
         querystr = new RegExp(str, "i")  # case insensitive
