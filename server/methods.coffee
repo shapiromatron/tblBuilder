@@ -101,8 +101,10 @@ Meteor.methods
     epiMechanisticEvidenceDownload: (tbl_id) ->
 
         getDataRow = (v) ->
+            refs = _.pluck(Reference.find({_id: {$in : v.references}},
+                                          {fields: {name: 1}}).fetch(), 'name')
             return [v.section, v._id, v.subheading, v.text,
-                    v.references.join('; '), v.humanInVivo, v.humanInVitro,
+                    refs.join('; '), v.humanInVivo, v.humanInVitro,
                     v.animalInVivo, v.animalInVitro]
 
         getData = (tbl_id) ->
@@ -113,11 +115,13 @@ Meteor.methods
 
             addEvidence = (evidence) ->
                 data.push(getDataRow(evidence))
-                children = MechanisticEvidence.find({parent: evidence._id})
+                children = MechanisticEvidence.find({parent: evidence._id},
+                                                    {sort: {sortIdx: 1}})
                 children.forEach((child) -> addEvidence(child))
 
             for section in mechanisticEvidenceSections
-                sectionEvidences = MechanisticEvidence.find({tbl_id: tbl_id, section: section.section})
+                sectionEvidences = MechanisticEvidence.find({tbl_id: tbl_id, section: section.section},
+                                                            {sort: {sortIdx: 1}})
                 sectionEvidences.forEach((evidence) -> addEvidence(evidence))
 
             return data

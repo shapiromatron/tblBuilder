@@ -1,5 +1,5 @@
 # sleep = (ms) ->
-# # Dirty hack for forcing sleep
+#     # DEBUG: force sleep
 #     unixtime_ms = new Date().getTime()
 #     while(new Date().getTime() < unixtime_ms + ms)
 #         x=1
