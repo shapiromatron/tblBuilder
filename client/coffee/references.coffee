@@ -7,7 +7,7 @@ Template.referencesTbl.helpers
         Session.get("referenceShowNew")
 
     getReferences: ->
-        Reference.find({})
+        Reference.find({}, {sort: [["name", 1]]})
 
     referenceIsEditing: ->
         Session.equals('referenceEditingId', @_id)
