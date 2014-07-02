@@ -109,9 +109,15 @@ Template.mechanisticEvidenceForm.events
         obj['section'] = @section
         obj['parent'] = @parent
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
-        MechanisticEvidence.insert(obj)
-        Session.set("mechanisticEditingId", null)
-        Session.set('mechanisticNewChild', null)
+
+        isValid = MechanisticEvidence.simpleSchema().namedContext().validate(obj)
+        if isValid
+            MechanisticEvidence.insert(obj)
+            Session.set("mechanisticEditingId", null)
+            Session.set('mechanisticNewChild', null)
+        else
+            errorDiv = share.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
 
     'click #mechanisticEvidence-create-cancel': (evt, tmpl) ->
         Session.set("mechanisticEditingId", null)

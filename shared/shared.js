@@ -9,6 +9,8 @@ tblTypeOptions = ["Epidemiology - Cohort",
                   "Epidemiology - Case Control",
                   "Mechanistic Evidence Summary"];
 
+tblRoleOptions = ["projectManagers", "teamMembers", "reviewers"];
+
 referenceTypeOptions = ["PubMed", "Other"];
 
 mechanisticEvidenceSections = [

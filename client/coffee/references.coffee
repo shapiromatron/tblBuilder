@@ -47,8 +47,13 @@ Template.referenceForm.events
     'click #reference-create': (evt, tmpl) ->
         obj = share.newValues(tmpl)
         obj['monographNumber'] = [Session.get('monographNumber')]
-        Reference.insert(obj)
-        Session.set("referenceShowNew", false)
+        isValid = Reference.simpleSchema().namedContext().validate(obj)
+        if isValid
+            Reference.insert(obj)
+            Session.set("referenceShowNew", false)
+        else
+            errorDiv = share.createErrorDiv(Reference.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
 
     'click #reference-create-cancel': (evt, tmpl) ->
         Session.set("referenceShowNew", false)

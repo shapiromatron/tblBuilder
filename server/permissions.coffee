@@ -1,10 +1,3 @@
-# Tables = new Meteor.Collection('tables');
-# Reference = new Meteor.Collection('reference');
-# EpiCohort = new Meteor.Collection('epiCohort');
-# EpiCaseControl = new Meteor.Collection('epiCaseControl');
-# EpiRiskEstimate = new Meteor.Collection('epiRiskEstimate');
-# MechanisticEvidence = new Meteor.Collection('mechanisticEvidence');
-
 isCreatorOrProjectManager = (tbl, userId) ->
     # only project managers or creators
     ids = (v.user_id for v in tbl.user_roles when v.role is "projectManagers")
@@ -33,9 +26,9 @@ tblContentAllowRules =
         if not tbl? then return false
         return isTeamMemberOrHigher(tbl, userId)
 
-
 Meteor.startup ->
 
+    # Set rules for create, update, destroy operations
     Tables.allow
         insert: (userId, doc) ->
             return share.isStaffOrHigher(userId)

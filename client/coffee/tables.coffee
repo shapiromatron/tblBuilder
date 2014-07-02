@@ -102,8 +102,13 @@ Template.tablesForm.events
         delete obj['projectManagers']
         delete obj['teamMembers']
         delete obj['reviewers']
-        Tables.insert(obj)
-        Session.set("tablesShowNew", false)
+        isValid = Tables.simpleSchema().namedContext().validate(obj)
+        if isValid
+            Tables.insert(obj)
+            Session.set("tablesShowNew", false)
+        else
+            errorDiv = share.createErrorDiv(Tables.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
 
     'click #tables-create-cancel': (evt, tmpl) ->
         Session.set("tablesShowNew", false)
@@ -130,11 +135,14 @@ Template.tablesForm.events
 
 Template.tablesForm.rendered = () ->
     tmpl = @
-    Meteor.typeahead.inject();
-    $('.typeahead').on 'typeahead:selected', (e, v) ->
+    Meteor.typeahead.inject('.userTypeahead');
+    $('.userTypeahead').on 'typeahead:selected', (e, v) ->
         ul = $(tmpl.find(".#{e.target.name}"))
         rendered = UI.renderWithData(Template.UserLI, v)
         UI.insert(rendered, ul[0])
+
+Template.tablesForm.destroyed = ->
+    $('.userTypeahead').unbind()
 
 
 getUserPermissionsObject = (tmpl)->

@@ -20,6 +20,7 @@ getValue = (inp) ->
             val = inp.value
         when "number"
             val = parseFloat(inp.value, 10)
+            if isNaN(val) then val = null
         when "checkbox"
             val = inp.checked
         when "select-one"
@@ -27,6 +28,13 @@ getValue = (inp) ->
         else
             console.log('input not recognized')
     return val
+
+share.createErrorDiv = (context) ->
+    div = $("<div class='bg-danger'>").append('<p><strong>The following errors were found:</strong></p>')
+    ul = $("<ul>")
+    for obj in context.invalidKeys()
+        ul.append("<li>#{obj.message}</li>")
+    return div.append(ul)
 
 share.activateInput = (input) ->
     input.focus()

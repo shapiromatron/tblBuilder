@@ -20,7 +20,10 @@
       </ul>
     </div>
   </h1>
-  <table></table>
+
+  {{#if referenceShowNew}}
+    {{> referenceForm isNew=true isModal=false}}
+  {{/if}}
 
   <table class="table table-compressed table-hover">
     <colgroup>
@@ -66,10 +69,6 @@
       {{/each}}
     </tbody>
   </table>
-
-  {{#if referenceShowNew}}
-    {{> referenceForm isNew=true isModal=false}}
-  {{/if}}
 </template>
 
 <template name="referenceForm">
@@ -111,6 +110,8 @@
             <textarea class="form-control" name='fullCitation' rows="3">{{fullCitation}}</textarea>
         </div>
     </div>
+
+    <div id="errors"></div>
 
     <div class="well well-sm pager">
       {{#if isNew }}
