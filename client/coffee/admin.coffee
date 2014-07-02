@@ -1,9 +1,19 @@
 Session.setDefault('adminUserEditingId', null)
+Session.set("adminUserShowNew", false)
+
 
 Template.admin.helpers
 
     getUsers: ->
         Meteor.users.find({}, {sort: {createdAt: -1}})
+
+    adminUserShowNew: ->
+        Session.get("adminUserShowNew")
+
+Template.admin.events
+
+    'click #adminUser-show-create': (evt, tmpl) ->
+        Session.set("adminUserShowNew", true)
 
 Template.adminUserRow.helpers
 
@@ -24,10 +34,10 @@ Template.adminUserRow.events
 
 Template.adminUserRowForm.helpers
     getEmail: ->
-        return @emails[0].address
+        if @emails? then return @emails[0].address
 
     hasRole: (v) ->
-        return v.hash.role in @.roles
+        if @roles? then return v.hash.role in @roles
 
 
 getAdminUserValues = (tmpl) ->
@@ -54,3 +64,11 @@ Template.adminUserRowForm.events
 
     'click #adminUser-update-cancel': (evt, tmpl) ->
         Session.set("adminUserEditingId", null)
+
+    'click #adminUser-create': (evt, tmpl) ->
+        vals = getAdminUserValues(tmpl)
+        Meteor.call('adminUserCreateProfile', vals)
+        Session.set("adminUserShowNew", false)
+
+    'click #adminUser-create-cancel': (evt, tmpl) ->
+        Session.set("adminUserShowNew", false)

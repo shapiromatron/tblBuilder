@@ -6,16 +6,20 @@
 
 userCanView = (tbl, userId) ->
     # User-can view permissions check on a table-level basis.
+    if share.isStaffOrHigher(userId) then return true
     if(tbl and userId)
         valid_ids = (v.user_id for v in tbl.user_roles)
         return ((userId is tbl.user_id) or (valid_ids.indexOf(userId)>=0))
     return false
 
 Meteor.publish 'tables', (user_id) ->
-    if user_id?
-        return Tables.find({$or: [{user_id: user_id},
-                                  {user_roles: {$elemMatch: {user_id: user_id}}}]},
-                           {sort: [['monographNumber', 'desc'], ['timestamp', 'desc']]})
+    if this.userId?
+        options = {sort: [['monographNumber', 'desc'], ['timestamp', 'desc']]}
+        if share.isStaffOrHigher(this.userId)
+            return Tables.find({}, options)
+        else
+            return Tables.find({$or: [{user_id: this.userId},
+                                      {user_roles: {$elemMatch: {user_id: this.userId}}}]}, options)
     return this.ready()
 
 Meteor.publish 'epiCaseControl', (tbl_id) ->

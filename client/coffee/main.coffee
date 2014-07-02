@@ -119,9 +119,6 @@ Router.map ->
         action: ->
             if @.ready() then @.render() else @.render("isLoading")
 
-        # onStop: ->
-        #     Meteor.subscribe('adminUsers').stop()
-
     this.route '404'
 
 

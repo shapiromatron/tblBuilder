@@ -166,6 +166,15 @@ Meteor.methods
         else
             throw new Meteor.Error(403, "Nice try wise-guy.")
 
+    adminUserCreateProfile: (obj) ->
+        if share.isStaffOrHigher(this.userId)
+            opts = {email: obj.emails[0].address}
+            _id = Accounts.createUser(opts)
+            Meteor.users.update(_id, {$set: obj})
+            Accounts.sendEnrollmentEmail(_id)
+        else
+            throw new Meteor.Error(403, "Nice try wise-guy.")
+
     searchUsers: (str) ->
         check(str, String)
         querystr = new RegExp(str, "i")  # case insensitive
