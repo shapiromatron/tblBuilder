@@ -58,7 +58,7 @@
               {{#if isEditing}}
                 {{> tablesForm}}
               {{else}}
-                <div class="tableDiv menu-autohide">
+                <a class="noUnderline" href="{{getURL}}"><div class="tableDiv menu-autohide">
                   <span class="label label-default">{{tblType}} </span>
                   {{#if canEdit}}
                     <div class="rowOptions btn-group pull-right">
@@ -70,8 +70,8 @@
                       </ul>
                     </div>
                   {{/if}}
-                  <br><a href="{{getURL}}">{{name}}</a>
-                </div>
+                  <br>{{name}}
+                </div></a>
               {{/if}}
             {{/each}}
          {{/each}}
