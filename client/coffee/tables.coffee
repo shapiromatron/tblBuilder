@@ -119,8 +119,14 @@ Template.tablesForm.events
         delete vals['projectManagers']
         delete vals['teamMembers']
         delete vals['reviewers']
-        Tables.update(this._id, {$set: vals})
-        Session.set("tablesEditingId", null)
+        modifier = {$set: vals}
+        isValid = Tables.simpleSchema().namedContext().validate(modifier, {modifier: true})
+        if isValid
+            Tables.update(this._id, modifier)
+            Session.set("tablesEditingId", null)
+        else
+            errorDiv = share.createErrorDiv(Tables.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
 
     'click #tables-update-cancel': (evt, tmpl) ->
         Session.set("tablesEditingId", null)

@@ -60,8 +60,14 @@ Template.referenceForm.events
 
     'click #reference-update': (evt, tmpl) ->
         vals = share.updateValues(tmpl.find('#referenceForm'), @)
-        Reference.update(@_id, {$set: vals})
-        Session.set("referenceEditingId", null)
+        modifier = {$set: vals}
+        isValid = Reference.simpleSchema().namedContext().validate(modifier, {modifier: true})
+        if isValid
+            Reference.update(@_id, modifier)
+            Session.set("referenceEditingId", null)
+        else
+            errorDiv = share.createErrorDiv(Reference.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
 
     'click #reference-update-cancel': (evt, tmpl) ->
         Session.set("referenceEditingId", null)

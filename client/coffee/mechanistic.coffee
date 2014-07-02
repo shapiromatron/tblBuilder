@@ -125,9 +125,15 @@ Template.mechanisticEvidenceForm.events
 
     'click #mechanisticEvidence-update': (evt, tmpl) ->
         vals = share.updateValues(tmpl.find('#mechanisticEvidenceForm'), @)
-        MechanisticEvidence.update(@_id, {$set: vals})
-        Session.set("mechanisticEditingId", null)
-        Session.set('mechanisticNewChild', null)
+        modifier = {$set: vals}
+        isValid = MechanisticEvidence.simpleSchema().namedContext().validate(modifier, {modifier: true})
+        if isValid
+            MechanisticEvidence.update(@_id, modifier)
+            Session.set("mechanisticEditingId", null)
+            Session.set('mechanisticNewChild', null)
+        else
+            errorDiv = share.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
 
     'click #mechanisticEvidence-update-cancel': (evt, tmpl) ->
         Session.set("mechanisticEditingId", null)

@@ -19,6 +19,7 @@ Meteor.startup ->
             label: "Table Type"
             type: String
             allowedValues: tblTypeOptions
+            denyUpdate: true
 
         "user_roles.$.user_id":
             type: SimpleSchema.RegEx.Id
@@ -34,6 +35,7 @@ Meteor.startup ->
 
         user_id:
             type: SimpleSchema.RegEx.Id
+            denyUpdate: true
             optional: true
 
 
@@ -47,6 +49,7 @@ Meteor.startup ->
             label: "Reference Type"
             type: String
             allowedValues: referenceTypeOptions
+            denyUpdate: true
 
         otherURL:
             label: "Other URL"
@@ -60,6 +63,7 @@ Meteor.startup ->
             custom: () ->
                 needsPMID = (this.field('referenceType').value is "PubMed")
                 if needsPMID and this.value<=0 then return "required"
+            denyUpdate: true
 
         fullCitation:
             label: "Full Citation Text"
@@ -77,6 +81,7 @@ Meteor.startup ->
 
         user_id:
             type: SimpleSchema.RegEx.Id
+            denyUpdate: true
             optional: true
 
 
@@ -121,6 +126,7 @@ Meteor.startup ->
 
         tbl_id:
             type: SimpleSchema.RegEx.Id
+            denyUpdate: true
 
         sortIdx:
             type: Number
@@ -129,10 +135,12 @@ Meteor.startup ->
 
         timestamp:
             type: Date
+            denyUpdate: true
             optional: true
 
         user_id:
             type: SimpleSchema.RegEx.Id
+            denyUpdate: true
             optional: true
 
 
