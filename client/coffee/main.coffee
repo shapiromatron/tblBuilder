@@ -114,10 +114,14 @@ Router.map ->
     this.route 'admin',
 
         waitOn: ->
-            return Meteor.subscribe('adminUsers')
+            share.viewHandles = Meteor.subscribe('adminUsers')
+            return share.viewHandles
 
         action: ->
             if @.ready() then @.render() else @.render("isLoading")
+
+        onStop: ->
+            share.viewHandles.stop()
 
     this.route '404'
 
