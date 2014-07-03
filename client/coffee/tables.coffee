@@ -37,6 +37,8 @@ Template.TablesByMonograph.helpers
                 url = Router.path('epiCaseControlMain', {_id: @_id})
             when "Mechanistic Evidence Summary"
                 url = Router.path('mechanisticMain', {_id: @_id})
+            when "Epidemiology Evidence"
+                url = Router.path('epiMain', {_id: @_id})
             else
                 url = Router.path('404')
 
@@ -51,17 +53,6 @@ Template.TablesByMonograph.helpers
 
     isEditing: () ->
         Session.equals('tablesEditingId', @_id)
-
-    getURL: () ->
-        switch @tblType
-            when "Epidemiology - Cohort"
-                url = Router.path('epiCohortMain', {_id: @_id})
-            when "Epidemiology - Case Control"
-                url = Router.path('epiCaseControlMain', {_id: @_id})
-            when "Mechanistic Evidence Summary"
-                url = Router.path('mechanisticMain', {_id: @_id})
-            else
-                url = Router.path('404')
 
 
 Template.TablesByMonograph.events

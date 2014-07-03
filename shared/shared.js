@@ -7,7 +7,8 @@ MechanisticEvidence = new Meteor.Collection('mechanisticEvidence');
 
 tblTypeOptions = ["Epidemiology - Cohort",
                   "Epidemiology - Case Control",
-                  "Mechanistic Evidence Summary"];
+                  "Mechanistic Evidence Summary",
+                  "Epidemiology Evidence"];
 
 tblRoleOptions = ["projectManagers", "teamMembers", "reviewers"];
 

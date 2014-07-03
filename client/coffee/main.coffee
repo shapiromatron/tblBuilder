@@ -56,6 +56,19 @@ Router.map ->
 
         controller: TblRouterController
 
+    this.route 'epiMain',
+        path: '/epidemiology/:_id'
+
+        waitOn: ->
+            if share.TablesHandler.ready()
+                tbl = Tables.findOne({_id: this.params._id})
+                Session.set('Tbl', tbl)
+                if tbl
+                    Session.set('monographNumber', tbl.monographNumber)
+                    return Meteor.subscribe('epiCohort', tbl._id)
+
+        controller: TblRouterController
+
     this.route 'mechanisticMain',
         path: '/mechanistic/:_id/',
 
