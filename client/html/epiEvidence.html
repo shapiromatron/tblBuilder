@@ -217,28 +217,37 @@
     <div class="well well-sm pager">
       {{#if epiRiskEstimateIsNew }}
         <button type="button" class="btn btn-sm btn-primary"
-                id="epiRiskEstimate-create" title="Save new">
+                id="epiDescriptive-create" title="Save new">
                 <span class="glyphicon glyphicon-ok"></span> Create</button>
         <button type="button" class="btn btn-sm btn-default"
-                id="epiRiskEstimate-create-cancel" title="Cancel">Cancel</button>
+                id="epiDescriptive-create-cancel" title="Cancel">Cancel</button>
       {{else}}
         <button type="button" class="btn btn-sm btn-primary"
-                id="epiRiskEstimate-update" title="Save changes">
-                <span class="glyphicon glyphicon-ok"> Save</span></button>
+                id="epiDescriptive-update" title="Save changes">
+                <span class="glyphicon glyphicon-ok"></span> Save</button>
         <button type="button" class="btn btn-sm btn-default"
-                id="epiRiskEstimate-update-cancel" title="Cancel changes"> Cancel</button>
+                id="epiDescriptive-update-cancel" title="Cancel changes"> Cancel</button>
         <button type="button" class="btn btn-sm btn-danger"
-                id="epiRiskEstimate-delete" title="Delete row">
+                id="epiDescriptive-delete" title="Delete row">
                 <span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="pull-left btn btn-sm btn-primary"
+                data-toggle="modal"
+                data-target="#epiResultsModal"
+                title="Display modal for entering results">
+                <span class="fa fa-medkit"></span> Add results</button>
       {{/if}}
     </div>
   </form>
-  {{> referenceQuickAddModal}}<!-- Add outside of form-scope -->
+  <!-- Add input form-modals outside form scope -->
+  {{> referenceQuickAddModal}}
+  {{> epiResultsModal}}
 </template>
 
 <template name="epiResultsForm">
   <form id="epiResultsForm" role="form" class="editForm">
-    <legend>Results data capture</legend>
+    {{#unless isModal}}
+      <legend>Results data capture</legend>
+    {{/unless}}
     <p class="help-block">Hover-over field labels for more descriptive text.</p>
 
     <!-- First row -->
@@ -398,15 +407,18 @@
                 id="epiRiskEstimate-create" title="Save new">
                 <span class="glyphicon glyphicon-ok"></span> Create</button>
         <button type="button" class="btn btn-sm btn-default"
-                id="epiRiskEstimate-create-cancel" title="Cancel">Cancel</button>
+                id="epiRiskEstimate-create-cancel" title="Cancel"
+                data-dismiss={{# if isModal}}modal{{/if}}>Cancel</button>
       {{else}}
         <button type="button" class="btn btn-sm btn-primary"
                 id="epiRiskEstimate-update" title="Save changes">
                 <span class="glyphicon glyphicon-ok"> Save</span></button>
         <button type="button" class="btn btn-sm btn-default"
-                id="epiRiskEstimate-update-cancel" title="Cancel changes"> Cancel</button>
+                id="epiRiskEstimate-update-cancel" title="Cancel changes"
+                data-dismiss={{# if isModal}}modal{{/if}}>Cancel</button>
         <button type="button" class="btn btn-sm btn-danger"
-                id="epiRiskEstimate-delete" title="Delete row">
+                id="epiRiskEstimate-delete" title="Delete row"
+                data-dismiss={{# if isModal}}modal{{/if}}>
                 <span class="glyphicon glyphicon-trash"></span></button>
       {{/if}}
     </div>
@@ -448,4 +460,21 @@
                 <span class="glyphicon glyphicon-trash"></span></button>
     </td>
   </tr>
+</template>
+
+<template name="epiResultsModal">
+  <div class="modal fade" id="epiResultsModal" tabindex="-1" role="dialog"
+       aria-labelledby="epiResultsModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="epiResultsModal">Results data capture</h4>
+        </div>
+        <div class="modal-body">
+          {{> epiResultsForm isModal=true }}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
