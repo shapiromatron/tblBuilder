@@ -1,59 +1,235 @@
 <template name="epiMain">
   <div class="container">
-    <!-- {{> epiDescriptiveForm}} -->
-    {{> epiResultsForm}}
+    {{> epiDescriptiveForm}}
+    <!-- {{> epiResultsForm}} -->
   </div>
 </template>
 
 <template name="epiDescriptiveForm">
-  <form id="epiCohortForm" role="form" class="editForm">
-    <legend>Descriptive data</legend>
+  <form id="epiResultsForm" role="form" class="editForm">
+    <legend>Epidemiological Cohort Description</legend>
+    <p class="help-block">Hover-over field labels for more descriptive text.</p>
+
+    <!-- First row -->
     <div class="form-group row">
-      <div class="col-xs-4">
+      <div class="col-xs-3">
         {{> referenceSingleSelect}}
       </div>
-      <div class="col-xs-4">
-        <label>Cohort Location</label>
-        <input class="form-control" name='location' type="text" value="{{location}}"/>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Study-design used for evaluation (Prospective Cohort, Case-Control, etc.) ">
+              Study design</label>
+        {{> selectList options=getStudyDesignOptions selected=studyDesign selectName="studyDesign" }}
       </div>
-      <div class="col-xs-4">
-        <label>Follow-up period</label>
-        <input class="form-control" name='followUpPeriod' type="text" value="{{followUpPeriod}}"/>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Country; other information (e.g., region, state, province, city) if important">
+              Location</label>
+        <input class="form-control" type="text"
+               name='location'
+               value="{{location}}"/>
       </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-xs-4">
-        <label>Number of Subjects</label>
-        <input class="form-control" name='numSubjects' type="number" value="{{numSubjects}}" placeholder="Numeric" />
-      </div>
-      <div class="col-xs-8">
-        <label>Number of Subjects (text-details)</label>
-        <input class="form-control" name='numSubjectsText' type="text" value="{{numSubjectsText}}"/>
-      </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-xs-4">
-        <label>Exposure assessment details</label>
-        <textarea class="form-control" name='exposureAssessment' rows="3">{{exposureAssessment}}</textarea>
-      </div>
-      <div class="col-xs-4">
-        <label>Covariates</label>
-        <textarea class="form-control" name='covariates' rows="3">{{covariates}}</textarea>
-      </div>
-      <div class="col-xs-4">
-        <label>Comments</label>
-        <textarea class="form-control" name='comments' rows="3">{{comments}}</textarea>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Enrollment for case-control studies, follow-up for cohort studies">
+               Enrollment or follow-up date</label>
+        <input class="form-control" type="text"
+               name='enrollmentDates'
+               value="{{enrollmentDates}}"/>
       </div>
     </div>
 
+    <!-- Second row -->
+    <div class="form-group row">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Industry or occupation (e.g., transformer repair
+                             workers); cohort name (e.g., Nurses' Health Study);
+                             source of population (e.g., participants in the
+                             population census, registered voters, source cohort
+                             for nested case-control studies)">
+                Population description</label>
+        <textarea class="form-control"
+                  name='populationDescription'
+                  rows="4">{{populationDescription}}</textarea>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Any additional criteria for inclusion/exclusion
+                             (e.g., age, sex, race, length of employment).
+                             Provide for cases and controls in case-control studies.">
+                Eligibility criteria</label>
+        <textarea class="form-control"
+                  name='strengths'
+                  rows="4">{{strengths}}</textarea>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Approach used to estimate exposure, if any
+                            (quantitative measurement, JEM questionnaire, expert
+                            judgement, biomonitoring, other)">
+              Exposure assessment method</label>
+        <textarea class="form-control"
+                  name='exposureAssessmentMethod'
+                  rows="4">{{exposureAssessmentMethod}}</textarea>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Method of follow-up or source of outcome data (e.g.
+                            linkage to natinoal cancer registry, searches of
+                            death certificates, insurace records, etc.)">
+              Outcome data source</label>
+        <textarea class="form-control"
+                  name='outcomeDataSource'
+                  rows="4">{{outcomeDataSource}}</textarea>
+      </div>
+    </div>
+
+    <!-- Third row -->
+    <div class="form-group row">
+
+      <div class="col-xs-4 isNotCCinput">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Number enrolled for cohort studies which were
+                             included in the analysis after exclusions">
+               Population size</label>
+        <input class="form-control" type="number"
+               name='populationSize'
+               value="{{populationSize}}"/>
+      </div>
+      <div class="col-xs-3 isCCinput">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Number of cases in case-control study which were
+                             included in the analysis after exclusions">
+               Cases: population size</label>
+        <input class="form-control" type="number"
+               name='populationSizeCase'
+               value="{{populationSizeCase}}"/>
+      </div>
+      <div class="col-xs-3 isCCinput">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Number of controls in case-control study which were
+                             included in the analysis after exclusions">
+               Controls: population size</label>
+        <input class="form-control" type="number"
+               name='populationSizeControl'
+               value="{{populationSizeControl}}"/>
+      </div>
+
+      <div class="col-xs-6 isCCinput">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Note disease definition and whether incident for
+                             cases. For hospital clinical/registry controls note
+                             disease(s) if relevant (e.g., other cancers, non-
+                             smoking related disease)">
+                Source of cases and controls</label>
+        <textarea class="form-control"
+                  name='sourceCaseControls'
+                  rows="2">{{sourceCaseControls}}</textarea>
+      </div>
+    </div>
+
+    <!-- Fourth row -->
+    <div class="form-group row">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Percent of eligible participants included
+                            (for cases and controls in case-control studies)">
+              Response rates</label>
+        <input class="form-control" type="number" step="any"
+               name='responseRate'
+               value="{{responseRate}}"
+               placeholder="Leave blank if unknown"/>
+      </div>
+
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Enrollment for case-control studies, follow-up for cohort studies">
+               Type of referent group</label>
+        <input class="form-control" type="text"
+               name='referentGroup'
+               value="{{referentGroup}}"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Average exposure level or range">
+               Exposure level</label>
+        <input class="form-control" type="text"
+               name='exposureLevel'
+               value="{{exposureLevel}}"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="e.g., multiple logistic regression, lifetable, Mantel-Haenzel, etc.">
+               Analytical method</label>
+        <input class="form-control" type="text"
+               name='analyticalMethod'
+               value="{{analyticalMethod}}"/>
+      </div>
+    </div>
+
+    <!-- Fifth row -->
+    <div class="form-group row">
+
+      <div class="col-xs-4">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Any study-strengths should be described here.">
+                Principal strengths</label>
+        <textarea class="form-control"
+                  name='strengths'
+                  rows="3">{{strengths}}</textarea>
+      </div>
+
+      <div class="col-xs-4">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Limitations to consider include the extent to which
+                             chance, bias, and confounding could explain the results">
+                Principal limitations</label>
+        <textarea class="form-control"
+                  name='limitations'
+                  rows="3">{{limitations}}</textarea>
+      </div>
+
+      <div class="col-xs-4">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Any other general comments related to the study">
+              General Notes</label>
+        <textarea class="form-control"
+                  name='notes'
+                  rows="3">{{notes}}</textarea>
+      </div>
+    </div>
+
+    <div id="errors"></div>
+
+    <!-- Submission -->
     <div class="well well-sm pager">
-      {{#if epiCohortIsNew}}
-        <button type="button" class="btn btn-sm btn-primary" id="epiCohort-create" title="Create new"><span class="glyphicon glyphicon-ok"></span> Create</button>
-        <button type="button" class="btn btn-sm btn-default" id="epiCohort-create-cancel" title="Cancel">Cancel</button>
+      {{#if epiRiskEstimateIsNew }}
+        <button type="button" class="btn btn-sm btn-primary"
+                id="epiRiskEstimate-create" title="Save new">
+                <span class="glyphicon glyphicon-ok"></span> Create</button>
+        <button type="button" class="btn btn-sm btn-default"
+                id="epiRiskEstimate-create-cancel" title="Cancel">Cancel</button>
       {{else}}
-        <button type="button" class="btn btn-sm btn-primary" id="epiCohort-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
-        <button type="button" class="btn btn-sm btn-default" id="epiCohort-update-cancel" title="Cancel changes">Cancel</button>
-        <button type="button" class="btn btn-sm btn-danger"  id="epiCohort-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="btn btn-sm btn-primary"
+                id="epiRiskEstimate-update" title="Save changes">
+                <span class="glyphicon glyphicon-ok"> Save</span></button>
+        <button type="button" class="btn btn-sm btn-default"
+                id="epiRiskEstimate-update-cancel" title="Cancel changes"> Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger"
+                id="epiRiskEstimate-delete" title="Delete row">
+                <span class="glyphicon glyphicon-trash"></span></button>
       {{/if}}
     </div>
   </form>
@@ -80,12 +256,11 @@
 
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
-               data-content="Risk metric used to display results (SMR, RR, etc.)">
-               Description of effect measure</label>
+              data-content="Deaths/cases for cohort studies; Cases for case-control studies">
+              Number exposed</label>
         <input class="form-control" type="text"
-               name='effectMeasure'
-               value="{{effectMeasure}}"
-               placeholder="dropdown-list"/>
+               name='numberExposed'
+               value="{{numberExposed}}"/>
       </div>
 
       <div class="col-xs-4">
@@ -101,13 +276,15 @@
 
     <!-- Second row -->
     <div class="form-group row">
+
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="Deaths/cases for cohort studies; Cases for case-control studies">
-              Number exposed</label>
+               data-content="Risk metric used to display results (SMR, RR, etc.)">
+               Description of effect measure</label>
         <input class="form-control" type="text"
-               name='numberExposed'
-               value="{{numberExposed}}"/>
+               name='effectMeasure'
+               value="{{effectMeasure}}"
+               placeholder="dropdown-list"/>
       </div>
 
       <div class="col-xs-4">

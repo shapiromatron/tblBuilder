@@ -14,6 +14,8 @@ tblRoleOptions = ["projectManagers", "teamMembers", "reviewers"];
 
 referenceTypeOptions = ["PubMed", "Other"];
 
+epiStudyDesignOptions = ["Cohort", "Case-Control"];
+
 mechanisticEvidenceSections = [
     {section: "toxicokinetics", sectionDesc: "Toxicokinetics"},
     {section: "mechanisms",     sectionDesc: "Major mechanisms"},
