@@ -2,6 +2,16 @@ Session.setDefault('adminUserEditingId', null)
 Session.set("adminUserShowNew", false)
 
 
+setAdminNotification = (message) ->
+    # notify Admin password reset sent
+    div = $('#messages')[0]
+    data = {
+        alertType: "success"
+        message: message
+    }
+    rendered = UI.renderWithData(Template.dismissableAlert, data)
+    UI.insert(rendered, div)
+
 Template.admin.helpers
 
     getUsers: ->
@@ -31,6 +41,12 @@ Template.adminUserRow.events
         Session.set("adminUserEditingId", @_id)
         Deps.flush() # update DOM before focus
         share.activateInput(tmpl.find("input[name=fullName]"))
+
+    'click #adminUser-resetPassword': (evt, tmpl) ->
+        Meteor.call('adminUserResetPassword', @_id)
+        email = @.emails[0].address
+        message = "An password-reset email was just sent to #{email}"
+        setAdminNotification(message)
 
 Template.adminUserRowForm.helpers
     getEmail: ->
@@ -69,6 +85,8 @@ Template.adminUserRowForm.events
         vals = getAdminUserValues(tmpl)
         Meteor.call('adminUserCreateProfile', vals)
         Session.set("adminUserShowNew", false)
+        message = "User created- an email was sent to user to create password."
+        setAdminNotification(message)
 
     'click #adminUser-create-cancel': (evt, tmpl) ->
         Session.set("adminUserShowNew", false)

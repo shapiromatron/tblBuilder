@@ -175,6 +175,14 @@ Meteor.methods
         else
             throw new Meteor.Error(403, "Nice try wise-guy.")
 
+    adminUserResetPassword: (_id) ->
+        if share.isStaffOrHigher(this.userId)
+            # This will work even if a user has not initially created
+            # a password
+            Accounts.sendResetPasswordEmail(_id)
+        else
+            throw new Meteor.Error(403, "Nice try wise-guy.")
+
     searchUsers: (str) ->
         check(str, String)
         querystr = new RegExp(str, "i")  # case insensitive
