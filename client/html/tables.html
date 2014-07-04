@@ -150,12 +150,30 @@
 
     <div class="well well-sm pager">
       {{#if _id}}
-        <button type="button" class="btn btn-sm btn-primary" id="tables-update" title="Save changes"><span class="glyphicon glyphicon-ok"></span> Save</button>
-        <button type="button" class="btn btn-sm btn-default" id="tables-update-cancel" title="Cancel changes">Cancel</button>
-        <button type="button" class="btn btn-sm btn-danger"  id="tables-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button"
+                class="btn btn-sm btn-primary"
+                id="tables-update"
+                title="Save changes">
+          <span class="glyphicon glyphicon-ok"></span> Save</button>
+        <button type="button"
+                class="btn btn-sm btn-default"
+                id="tables-update-cancel"
+                title="Cancel changes">Cancel</button>
+        <button type="button"
+                class="btn btn-sm btn-danger"
+                id="tables-delete"
+                title="Delete row">
+          <span class="glyphicon glyphicon-trash"></span></button>
       {{else}}
-        <button type="button" class="btn btn-sm btn-primary" id="tables-create" title="Save new"><span class="glyphicon glyphicon-ok"> Create</span></button>
-        <button type="button" class="btn btn-sm btn-default" id="tables-create-cancel" title="Cancel">Cancel</button>
+        <button type="button"
+                class="btn btn-sm btn-primary"
+                id="tables-create"
+                title="Save new">
+          <span class="glyphicon glyphicon-ok"></span> Create</button>
+        <button type="button"
+                class="btn btn-sm btn-default"
+                id="tables-create-cancel"
+                title="Cancel">Cancel</button>
       {{/if}}
     </div>
   </form>

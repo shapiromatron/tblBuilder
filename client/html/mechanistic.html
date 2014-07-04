@@ -131,6 +131,7 @@
 
 <template name="mechanisticEvidenceForm">
   <form id="mechanisticEvidenceForm" role="form" class="editForm">
+
     <div class="form-group row">
       <div class="col-xs-4">
         <label>Supporting evidence</label><br>
@@ -161,12 +162,30 @@
 
     <div class="well well-sm pager">
       {{#if isNew }}
-        <button type="button" class="btn btn-sm btn-primary" id="mechanisticEvidence-create" title="Create new"><span class="glyphicon glyphicon-ok"></span> Create</button>
-        <button type="button" class="btn btn-sm btn-default" id="mechanisticEvidence-create-cancel" title="Cancel">Cancel</button>
+        <button type="button"
+                class="btn btn-sm btn-primary"
+                id="mechanisticEvidence-create"
+                title="Create new">
+          <span class="glyphicon glyphicon-ok"></span> Create</button>
+        <button type="button"
+                class="btn btn-sm btn-default"
+                id="mechanisticEvidence-create-cancel"
+                title="Cancel">Cancel</button>
       {{else}}
-        <button type="button" class="btn btn-sm btn-primary" id="mechanisticEvidence-update" title="Save changes"><span class="glyphicon glyphicon-ok"> Save</span></button>
-        <button type="button" class="btn btn-sm btn-default" id="mechanisticEvidence-update-cancel" title="Cancel changes">Cancel</button>
-        <button type="button" class="btn btn-sm btn-danger"  id="mechanisticEvidence-delete" title="Delete row"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button"
+                class="btn btn-sm btn-primary"
+                id="mechanisticEvidence-update"
+                title="Save changes">
+          <span class="glyphicon glyphicon-ok"></span> Save</button>
+        <button type="button"
+                class="btn btn-sm btn-default"
+                id="mechanisticEvidence-update-cancel"
+                title="Cancel changes">Cancel</button>
+        <button type="button"
+                class="btn btn-sm btn-danger"
+                id="mechanisticEvidence-delete"
+                title="Delete row">
+          <span class="glyphicon glyphicon-trash"></span></button>
       {{/if}}
     </div>
   </form>
