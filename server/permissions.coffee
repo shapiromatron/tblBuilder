@@ -59,3 +59,7 @@ Meteor.startup ->
     EpiRiskEstimate.allow tblContentAllowRules
 
     MechanisticEvidence.allow tblContentAllowRules
+
+    EpiDescriptive.allow tblContentAllowRules
+
+    EpiResult.allow tblContentAllowRules

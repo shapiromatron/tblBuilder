@@ -67,6 +67,17 @@ EpiRiskEstimate.before.insert (userId, doc) ->
     doc['sortIdx'] = getNewIdx(EpiRiskEstimate, doc.tbl_id)
     return userCanEditTblContent(doc.tbl_id, userId)
 
+EpiDescriptive.before.insert (userId, doc) ->
+    doc = addTimestampAndUserID(userId, doc)
+    doc['isHidden'] = false
+    doc['sortIdx'] = getNewIdx(EpiCohort, doc.tbl_id)
+    return userCanEditTblContent(doc.tbl_id, userId)
+
+EpiResult.before.insert (userId, doc) ->
+    doc = addTimestampAndUserID(userId, doc)
+    doc['isHidden'] = false
+    doc['sortIdx'] = getNewIdx(EpiCohort, doc.tbl_id)
+    return userCanEditTblContent(doc.tbl_id, userId)
 
 
 # Update hooks
@@ -83,6 +94,9 @@ EpiCohort.before.update userCanEditTblContentCheck
 
 EpiRiskEstimate.before.update userCanEditTblContentCheck
 
+EpiDescriptive.before.update userCanEditTblContentCheck
+
+EpiResult.before.update userCanEditTblContentCheck
 
 
 # Remove hooks
@@ -100,6 +114,9 @@ EpiCohort.before.remove userCanRemoveTblContentCheck
 
 EpiRiskEstimate.before.remove userCanRemoveTblContentCheck
 
+EpiDescriptive.before.remove userCanRemoveTblContentCheck
+
+EpiResult.before.remove userCanRemoveTblContentCheck
 
 # After insert hook
 Meteor.users.after.insert (userId, doc) ->
