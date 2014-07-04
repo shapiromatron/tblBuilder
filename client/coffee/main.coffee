@@ -65,7 +65,7 @@ Router.map ->
                 Session.set('Tbl', tbl)
                 if tbl
                     Session.set('monographNumber', tbl.monographNumber)
-                    return Meteor.subscribe('epiCohort', tbl._id)
+                    return Meteor.subscribe('epiDescriptive', tbl._id)
 
         controller: TblRouterController
 

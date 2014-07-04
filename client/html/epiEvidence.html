@@ -1,12 +1,137 @@
 <template name="epiMain">
   <div class="container">
-    {{> epiDescriptiveForm}}
-    <!-- {{> epiResultsForm}} -->
+    {{> epiDescriptiveTbl}}
   </div>
 </template>
 
+
+<template name="epiDescriptiveTbl">
+  <h1>{{name}}
+    <div class="btn-group pull-right">
+      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+        <span class="caret" title="Editing options"></span>
+      </button>
+      <ul class="dropdown-menu">
+        {{#if userCanEdit}}
+          {{#unless showNew}}
+            <li>
+              <a href="#" id="show-create">
+                <span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
+          {{/unless}}
+          <li>
+            <a href="#" id="reorderRows">
+              <span class="glyphicon glyphicon-align-justify"></span> Reorder rows</a></li>
+        {{/if}}
+        <li>
+          <a href="#" id="downloadExcel">
+            <span class="fa fa-file-excel-o"></span> Download Excel</a></li>
+
+        <li>
+          <a href="#" id="epiRiskShowPlots">
+            {{#if showPlots}}<span class="glyphicon glyphicon-eye-close"></span> Hide risk plots
+            {{else}}<span class="glyphicon glyphicon-eye-open"></span> Show risk plots
+            {{/if}}</a></li>
+
+        <li>
+          <a href="#" id="toggleShowAllRows">
+            {{#if isShowAll}}<span class="glyphicon glyphicon-resize-small"></span> Hide rows
+            {{else}}<span class="glyphicon glyphicon-resize-full"></span> Show all rows
+            {{/if}}</a></li>
+      </ul>
+    </div>
+  </h1>
+
+  <table id="epiDescritpiveTbl" class="evidenceTable table table-compressed">
+    <colgroup>
+      <col width="20%">
+      <col width="20%">
+      <col width="10%">
+      <col width="10%">
+      <col width="10%">
+      <col width="10%">
+      <col width="20%">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Header</th>
+        <th>Header</th>
+        <th>Header</th>
+        <th>Header</th>
+        <th>Header</th>
+        <th class="riskTR">Header</th>
+        <th>Header</th>
+      </tr>
+    </thead>
+    <tbody id="sortable">
+      {{#each getEpiDescriptives}}
+        {{#if showRow isHidden}}
+          <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
+              data-id="{{_id}}"
+              data-sortIdx="{{sortIdx}}">
+            {{#if isEditing}}
+              <td id="editingRow" colspan="100">
+                {{> epiDescriptiveForm this isNew=false}}
+              </td>
+            {{else}}
+              {{> epiDescriptiveRow}}
+            {{/if}}
+          </tr>
+        {{/if}}
+      {{else}}
+        <tr>
+          <td colspan="100">No data has been entered into this table.
+            {{#unless showNew}}<br><br>
+              <a href="#" class="btn btn-primary btn-sm" id="show-create">
+                <span class="glyphicon glyphicon-plus"></span> Create new row</a>
+            {{/unless}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+<!--
+  {{ drawRiskPlotAxis }}
+ -->
+  {{#if showNew}}
+    {{> epiDescriptiveForm isNew=true}}
+  {{/if}}
+</template>
+
+<template name='epiDescriptiveRow'>
+  <td>
+    {{#if userCanEdit}}
+      <div class="rowOptions btn-group pull-right">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+          <span class="caret" title="Editing options"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#" id="show-edit">
+              <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+          <li>
+            <a href="#" id="copy-as-new">
+              <span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
+          <li>
+              <a href="#" id="toggle-hidden">{{#if isHidden}}
+                <span class="glyphicon glyphicon-plus"></span> Show row
+                {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+                {{/if}}</a></li>
+        </ul>
+      </div>
+    {{/if}}
+    {{>printReference id=referenceID}}
+  </td>
+  <td>Content</td>
+  <td colspan="4">
+    Content
+    <!-- {{> epiRiskEstimateTbl parent=this epiRiskEstimateEditable="F" }} -->
+  </td>
+  <td>Content</td>
+  <td class="dragHandle dhOuter" style="{display: none}" title="Drag to re-order rows"></td>
+</template>
+
 <template name="epiDescriptiveForm">
-  <form id="epiResultsForm" role="form" class="editForm">
+  <form id="epiDescriptiveForm" role="form" class="editForm">
     <legend>Epidemiological Cohort Description</legend>
     <p class="help-block">Hover-over field labels for more descriptive text.</p>
 
@@ -215,22 +340,32 @@
 
     <!-- Submission -->
     <div class="well well-sm pager">
-      {{#if epiRiskEstimateIsNew }}
-        <button type="button" class="btn btn-sm btn-primary"
-                id="epiDescriptive-create" title="Save new">
+      {{#if isNew }}
+        <button type="button"
+                class="btn btn-sm btn-primary"
+                id="create"
+                title="Save new">
                 <span class="glyphicon glyphicon-ok"></span> Create</button>
-        <button type="button" class="btn btn-sm btn-default"
-                id="epiDescriptive-create-cancel" title="Cancel">Cancel</button>
+        <button type="button"
+                class="btn btn-sm btn-default"
+                id="create-cancel"
+                title="Cancel">Cancel</button>
       {{else}}
-        <button type="button" class="btn btn-sm btn-primary"
-                id="epiDescriptive-update" title="Save changes">
+        <button type="button"
+                class="btn btn-sm btn-primary"
+                id="update"
+                title="Save changes">
                 <span class="glyphicon glyphicon-ok"></span> Save</button>
-        <button type="button" class="btn btn-sm btn-default"
-                id="epiDescriptive-update-cancel" title="Cancel changes"> Cancel</button>
-        <button type="button" class="btn btn-sm btn-danger"
-                id="epiDescriptive-delete" title="Delete row">
+        <button type="button"
+                class="btn btn-sm btn-default"
+                id="update-cancel"
+                title="Cancel changes">Cancel</button>
+        <button type="button"
+                class="btn btn-sm btn-danger"
+                id="delete" title="Delete row">
                 <span class="glyphicon glyphicon-trash"></span></button>
-        <button type="button" class="pull-left btn btn-sm btn-primary"
+        <button type="button"
+                class="pull-left btn btn-sm btn-primary"
                 data-toggle="modal"
                 data-target="#epiResultsModal"
                 title="Display modal for entering results">
@@ -412,7 +547,7 @@
       {{else}}
         <button type="button" class="btn btn-sm btn-primary"
                 id="epiRiskEstimate-update" title="Save changes">
-                <span class="glyphicon glyphicon-ok"> Save</span></button>
+                <span class="glyphicon glyphicon-ok"></span> Save</button>
         <button type="button" class="btn btn-sm btn-default"
                 id="epiRiskEstimate-update-cancel" title="Cancel changes"
                 data-dismiss={{# if isModal}}modal{{/if}}>Cancel</button>
