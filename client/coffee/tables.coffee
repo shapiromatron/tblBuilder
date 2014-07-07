@@ -88,7 +88,7 @@ Template.tablesForm.helpers
 
 Template.tablesForm.events
     'click #tables-create': (evt, tmpl) ->
-        obj = share.newValues(tmpl)
+        obj = share.newValues(tmpl.find("#tablesForm"))
         obj['user_roles'] = getUserPermissionsObject(tmpl);
         delete obj['projectManagers']
         delete obj['teamMembers']

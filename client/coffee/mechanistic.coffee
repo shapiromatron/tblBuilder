@@ -104,7 +104,7 @@ Template.mechanisticEvidenceDisplay.rendered = ->
 
 Template.mechanisticEvidenceForm.events
     'click #mechanisticEvidence-create': (evt, tmpl) ->
-        obj = share.newValues(tmpl)
+        obj = share.newValues(tmpl.find('#mechanisticEvidenceForm'))
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['section'] = @section
         obj['parent'] = @parent

@@ -100,6 +100,7 @@
 <template name='epiDescriptiveRow'>
   <td>
     {{#if userCanEdit}}
+      <div id="epiResultDiv"></div>
       <div class="rowOptions btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
           <span class="caret" title="Editing options"></span>
@@ -108,6 +109,11 @@
           <li>
             <a href="#" id="show-edit">
               <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+          <li>
+            <a href="#"
+               class="addEpiResult"
+               title="Display modal for entering results">
+              <span class="fa fa-medkit"></span> Add results</a></li>
           <li>
             <a href="#" id="copy-as-new">
               <span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
@@ -123,11 +129,21 @@
   </td>
   <td>Content</td>
   <td colspan="4">
-    Content
-    <!-- {{> epiRiskEstimateTbl parent=this epiRiskEstimateEditable="F" }} -->
+    {{#each getResults}}
+      {{> epiResultTbl}}
+    {{else}}
+      <p class="help-block">No results have been created.
+        {{#if userCanEdit}}
+          <a href="#"
+             class="btn btn-primary btn-sm addEpiResult pull-right"
+             title="Display modal for entering results">
+            <span class="fa fa-medkit"></span> Add results</a>
+        {{/if}}
+      </p>
+    {{/each }}
   </td>
   <td>Content</td>
-  <td class="dragHandle dhOuter" style="{display: none}" title="Drag to re-order rows"></td>
+  <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
 </template>
 
 <template name="epiDescriptiveForm">
@@ -364,10 +380,9 @@
                 class="btn btn-sm btn-danger"
                 id="delete" title="Delete row">
                 <span class="glyphicon glyphicon-trash"></span></button>
-        <button type="button"
+        <button type ="button"
+                id   ="addEpiResult"
                 class="pull-left btn btn-sm btn-primary"
-                data-toggle="modal"
-                data-target="#epiResultsModal"
                 title="Display modal for entering results">
                 <span class="fa fa-medkit"></span> Add results</button>
       {{/if}}
@@ -375,189 +390,215 @@
   </form>
   <!-- Add input form-modals outside form scope -->
   {{> referenceQuickAddModal}}
-  {{> epiResultsModal}}
+  <div id="epiResultDiv"></div>
 </template>
 
-<template name="epiResultsForm">
-  <form id="epiResultsForm" role="form" class="editForm">
-    {{#unless isModal}}
-      <legend>Results data capture</legend>
-    {{/unless}}
-    <p class="help-block">Hover-over field labels for more descriptive text.</p>
+<template name="epiResultTbl">
+  <table class="table table-condensed nestedTbl">
+    <tbody>
+      {{#each eachIndex riskEstimates}}
+        <tr>
+          {{#if isEqual current=index target=0 }}
+            <td rowspan="{{../riskEstimates.length}}">{{../cancerSite}}</td>
+            <td rowspan="{{../riskEstimates.length}}">{{../numberExposed}}</td>
+          {{/if}}
+          <td>{{value.exposureCategory}}</td>
+          <td>{{{riskFormat value}}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>
 
-    <!-- First row -->
-    <div class="form-group row">
-      <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Cancer site for results being measured.">
-               Cancer Site</label>
-        <br>
-        <input class="form-control" type="text"
-               name='cancerSite'
-               value="{{cancerSite}}"
-               placeholder="dropdown-list"/>
-      </div>
+<template name="epiResultForm">
+  <div class="modal fade" id="epiResultsModal" tabindex="-1" role="dialog"
+       aria-labelledby="epiResultsModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
 
-      <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Deaths/cases for cohort studies; Cases for case-control studies">
-              Number exposed</label>
-        <input class="form-control" type="text"
-               name='numberExposed'
-               value="{{numberExposed}}"/>
-      </div>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="epiResultsModal">Results data capture</h4>
+        </div>
 
-      <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Units, if relevant (e.g., risk per 10 μg/m3)">
-              Units of effect measurement</label>
-        <input class="form-control" type="text"
-               name='effectUnits'
-               value="{{effectUnits}}"
-               placeholder="dropdown-list"/>
-      </div>
-    </div>
+        <div class="modal-body">
+          <form id="epiResultForm" role="form" class="editForm">
+            <p class="help-block">Hover-over field labels for more descriptive text.</p>
 
-    <!-- Second row -->
-    <div class="form-group row">
+            <!-- First row -->
+            <div class="form-group row">
+              <div class="col-xs-4">
+                <label class="helpPopovers" data-toggle="popover"
+                       data-content="Cancer site for results being measured.">
+                       Cancer Site</label>
+                <br>
+                <input class="form-control" type="text"
+                       name='cancerSite'
+                       value="{{cancerSite}}"
+                       placeholder="dropdown-list"/>
+              </div>
 
-      <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Risk metric used to display results (SMR, RR, etc.)">
-               Description of effect measure</label>
-        <input class="form-control" type="text"
-               name='effectMeasure'
-               value="{{effectMeasure}}"
-               placeholder="dropdown-list"/>
-      </div>
+              <div class="col-xs-4">
+                <label class="helpPopovers" data-toggle="popover"
+                      data-content="Deaths/cases for cohort studies; Cases for case-control studies">
+                      Number exposed</label>
+                <input class="form-control" type="number"
+                       name='numberExposed'
+                       value="{{numberExposed}}"/>
+              </div>
 
-      <div class="col-xs-4">
-          <!-- spacer -->
-      </div>
+              <div class="col-xs-4">
+                <label class="helpPopovers" data-toggle="popover"
+                      data-content="Units, if relevant (e.g., risk per 10 μg/m3)">
+                      Units of effect measurement</label>
+                <input class="form-control" type="text"
+                       name='effectUnits'
+                       value="{{effectUnits}}"
+                       placeholder="dropdown-list"/>
+              </div>
+            </div>
 
-      <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Trend test, provide for categorical analysis when reported">
-              Trend test</label>
-        <input class="form-control" type="number" step="any"
-               name='trendTest'
-               value="{{trendTest}}"/>
-      </div>
-    </div>
+            <!-- Second row -->
+            <div class="form-group row">
 
-    <!-- Risk estimates -->
-    <table class="table table-condensed">
-      <thead>
-        <th>
-          <span class="helpPopovers" data-toggle="popover"
-                data-content="E.g., all exposed workers, second quartile of exposure,
-                            quantitative exposure level (always provide quantitative
-                            information when available)">
-                Exposure category<br>or level
-          </span>
-        </th>
-        <th>
-          <span class="helpPopovers" data-toggle="popover"
-                data-content="Central risk reported for risk estimate">
-                Risk estimate<br>midpoint
-          </span>
-        </th>
-        <th>
-          <span class="helpPopovers" data-toggle="popover"
-                data-content="95% lower confidence interval risk estimate">
-                Risk estimate<br>95% lower CI
-          </span>
+              <div class="col-xs-4">
+                <label class="helpPopovers" data-toggle="popover"
+                       data-content="Risk metric used to display results (SMR, RR, etc.)">
+                       Description of effect measure</label>
+                <input class="form-control" type="text"
+                       name='effectMeasure'
+                       value="{{effectMeasure}}"
+                       placeholder="dropdown-list"/>
+              </div>
 
-        </th>
-        <th>
-          <span class="helpPopovers" data-toggle="popover"
-                data-content="95% upper confidence interval risk estimate">
-                 Risk estimate<br>95% upper CI
-          </span>
-        </th>
-        <th>
-          <span class="helpPopovers" data-toggle="popover"
-                data-content="Risk was estimated by reviewers, not study-authors">
-                Estimated<br>&nbsp;
-          </span>
-        </th>
-        <th>
-            <button type="button" class="btn btn-xs btn-info"
-                    id="epiRiskEstimate-add" title="Add row">
-                    <span class="glyphicon glyphicon-plus"></span></button>
-        </th>
-      </thead>
-      <tbody class="riskEstimateTbody">
-        {{#if riskEstimates}}
-          {{#each riskEstimates}}
-            {{> riskEstimateForm this}}
-          {{/each}}
-        {{else}}
-          {{> riskEstimateForm}}
-        {{/if}}
-      </tbody>
-    </table>
+              <div class="col-xs-4">
+                  <!-- spacer -->
+              </div>
 
-    <!-- Final row -->
-    <div class="form-group row">
+              <div class="col-xs-4">
+                <label class="helpPopovers" data-toggle="popover"
+                      data-content="Trend test, provide for categorical analysis when reported">
+                      Trend test</label>
+                <input class="form-control" type="number" step="any"
+                       name='trendTest'
+                       value="{{trendTest}}"/>
+              </div>
+            </div>
 
-      <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="List all covariates which were controlled by matching or
-                             adjustment in the analysis reported">
-               Covariates controlled</label>
-        <input class="form-control" type="text"
-               name='covariatesControlled'
-               value="{{covariatesControlled}}"
-               placeholder="dropdown-list"/>
-      </div>
+            <!-- Risk estimates -->
+            <table class="table table-condensed">
+              <thead>
+                <th>
+                  <span class="helpPopovers" data-toggle="popover"
+                        data-content="E.g., all exposed workers, second quartile of exposure,
+                                    quantitative exposure level (always provide quantitative
+                                    information when available)">
+                        Exposure category<br>or level
+                  </span>
+                </th>
+                <th>
+                  <span class="helpPopovers" data-toggle="popover"
+                        data-content="Central risk reported for risk estimate">
+                        Risk estimate<br>midpoint
+                  </span>
+                </th>
+                <th>
+                  <span class="helpPopovers" data-toggle="popover"
+                        data-content="95% lower confidence interval risk estimate">
+                        Risk estimate<br>95% lower CI
+                  </span>
 
-      <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Further describe how covariates were controlled, if needed,
-                             such as details on matching methodology or adjustments made">
-                Covariates controlled notes</label>
-        <textarea class="form-control"
-                  name='covariatesControlledText'
-                  rows="4">{{covariatesControlledText}}</textarea>
-      </div>
+                </th>
+                <th>
+                  <span class="helpPopovers" data-toggle="popover"
+                        data-content="95% upper confidence interval risk estimate">
+                         Risk estimate<br>95% upper CI
+                  </span>
+                </th>
+                <th>
+                  <span class="helpPopovers" data-toggle="popover"
+                        data-content="Risk was estimated by reviewers, not study-authors">
+                        Estimated<br>&nbsp;
+                  </span>
+                </th>
+                <th>
+                    <button type="button" class="btn btn-xs btn-info"
+                            id="inner-addRiskRow" title="Add row">
+                            <span class="glyphicon glyphicon-plus"></span></button>
+                </th>
+              </thead>
+              <tbody class="riskEstimateTbody">
+                {{#if riskEstimates}}
+                  {{#each riskEstimates}}
+                    {{> riskEstimateForm this}}
+                  {{/each}}
+                {{else}}
+                  {{> riskEstimateForm}}
+                {{/if}}
+              </tbody>
+            </table>
 
-      <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Note issues related to appropriateness of comparison
-                             groups, potential for uncontrolled confounding, etc.">
-              General Notes</label>
-        <textarea class="form-control"
-                  name='notes'
-                  rows="4">{{notes}}</textarea>
-      </div>
-    </div>
+            <!-- Final row -->
+            <div class="form-group row">
 
-    <div id="errors"></div>
+              <div class="col-xs-4">
+                <label class="helpPopovers" data-toggle="popover"
+                       data-content="List all covariates which were controlled by matching or
+                                     adjustment in the analysis reported">
+                       Covariates controlled</label>
+               {{> typeaheadSelectList name="covariates" values=covariates data_source="searchCovariates"}}
+              </div>
 
-    <!-- Submission -->
-    <div class="well well-sm pager">
-      {{#if epiRiskEstimateIsNew }}
-        <button type="button" class="btn btn-sm btn-primary"
-                id="epiRiskEstimate-create" title="Save new">
-                <span class="glyphicon glyphicon-ok"></span> Create</button>
-        <button type="button" class="btn btn-sm btn-default"
-                id="epiRiskEstimate-create-cancel" title="Cancel"
-                data-dismiss={{# if isModal}}modal{{/if}}>Cancel</button>
-      {{else}}
-        <button type="button" class="btn btn-sm btn-primary"
-                id="epiRiskEstimate-update" title="Save changes">
-                <span class="glyphicon glyphicon-ok"></span> Save</button>
-        <button type="button" class="btn btn-sm btn-default"
-                id="epiRiskEstimate-update-cancel" title="Cancel changes"
-                data-dismiss={{# if isModal}}modal{{/if}}>Cancel</button>
-        <button type="button" class="btn btn-sm btn-danger"
-                id="epiRiskEstimate-delete" title="Delete row"
-                data-dismiss={{# if isModal}}modal{{/if}}>
-                <span class="glyphicon glyphicon-trash"></span></button>
-      {{/if}}
-    </div>
-  </form>
+              <div class="col-xs-4">
+                <label class="helpPopovers" data-toggle="popover"
+                       data-content="Further describe how covariates were controlled, if needed,
+                                     such as details on matching methodology or adjustments made">
+                        Covariates controlled notes</label>
+                <textarea class="form-control"
+                          name='covariatesControlledText'
+                          rows="4">{{covariatesControlledText}}</textarea>
+              </div>
+
+              <div class="col-xs-4">
+                <label class="helpPopovers" data-toggle="popover"
+                       data-content="Note issues related to appropriateness of comparison
+                                     groups, potential for uncontrolled confounding, etc.">
+                      General Notes</label>
+                <textarea class="form-control"
+                          name='notes'
+                          rows="4">{{notes}}</textarea>
+              </div>
+            </div>
+
+            <div id="errors"></div>
+
+            <!-- Submission -->
+            <div class="well well-sm pager">
+              {{#if isNew }}
+                <button type="button" class="btn btn-sm btn-primary"
+                        id="inner-create" title="Save new">
+                        <span class="glyphicon glyphicon-ok"></span> Create</button>
+                <button type="button" class="btn btn-sm btn-default"
+                        id="inner-create-cancel" title="Cancel"
+                        data-dismiss=modal>Cancel</button>
+              {{else}}
+                <button type="button" class="btn btn-sm btn-primary"
+                        id="inner-update" title="Save changes">
+                        <span class="glyphicon glyphicon-ok"></span> Save</button>
+                <button type="button" class="btn btn-sm btn-default"
+                        id="inner-update-cancel" title="Cancel changes"
+                        data-dismiss=modal>Cancel</button>
+                <button type="button" class="btn btn-sm btn-danger"
+                        id="inner-delete" title="Delete row"
+                        data-dismiss=modal>
+                        <span class="glyphicon glyphicon-trash"></span></button>
+              {{/if}}
+            </div>
+          </form>
+        </div>  <!-- Modal body -->
+      </div>  <!-- Modal content -->
+    </div>  <!-- Modal dialog -->
+  </div>  <!-- Modal container -->
 </template>
 
 <template name="riskEstimateForm">
@@ -595,21 +636,4 @@
                 <span class="glyphicon glyphicon-trash"></span></button>
     </td>
   </tr>
-</template>
-
-<template name="epiResultsModal">
-  <div class="modal fade" id="epiResultsModal" tabindex="-1" role="dialog"
-       aria-labelledby="epiResultsModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="epiResultsModal">Results data capture</h4>
-        </div>
-        <div class="modal-body">
-          {{> epiResultsForm isModal=true }}
-        </div>
-      </div>
-    </div>
-  </div>
 </template>

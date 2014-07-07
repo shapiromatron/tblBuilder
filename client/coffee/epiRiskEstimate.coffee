@@ -60,7 +60,7 @@ Template.epiRiskEstimateTbl.events
 
 Template.epiRiskEstimateForm.events
     'click #epiRiskEstimate-create': (evt, tmpl) ->
-        obj = share.newValues(tmpl)
+        obj = share.newValues(tmpl.find('#epiRiskEstimateForm'))
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['parent_id'] = tmpl.data.parent._id
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom

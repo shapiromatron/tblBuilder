@@ -9,7 +9,7 @@ Template.profileEdit.helpers
 Template.profileForm.events
 
     'click #update': (evt, tmpl) ->
-        profile = {'profile': share.newValues(tmpl)}
+        profile = {'profile': share.newValues(tmpl.find('form'))}
         Meteor.users.update(Meteor.user()._id, {$set: profile})
         Router.go('home')
 

@@ -45,7 +45,7 @@ Template.referenceForm.helpers
 Template.referenceForm.events
 
     'click #reference-create': (evt, tmpl) ->
-        obj = share.newValues(tmpl)
+        obj = share.newValues(tmpl.find('#referenceForm'))
         obj['monographNumber'] = [Session.get('monographNumber')]
         isValid = Reference.simpleSchema().namedContext().validate(obj)
         if isValid

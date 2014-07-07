@@ -1,6 +1,7 @@
 Session.setDefault('epiDescriptiveShowNew', false)
 Session.setDefault('epiDescriptiveEditingId', null)
 Session.setDefault('epiDescriptiveShowAll', false)
+Session.setDefault('epiResultEditingId', null)
 
 # EPI DESCRIPTIVE TABLE --------------------------------------------------------
 Template.epiDescriptiveTbl.helpers
@@ -60,6 +61,11 @@ Template.epiDescriptiveTbl.rendered = ->
 
 
 # EPI DESCRIPTIVE ROW ----------------------------------------------------------
+Template.epiDescriptiveRow.helpers
+
+    getResults: (evt, tmpl) ->
+        return EpiResult.find({parent_id: @_id}, {sort: {sortIdx: 1}})
+
 Template.epiDescriptiveRow.events
 
     'click #toggle-hidden': (evt, tmpl) ->
@@ -77,6 +83,16 @@ Template.epiDescriptiveRow.events
         share.activateInput($("input[name=referenceID]")[0])
         share.copyAsNew(@)
 
+    'click .addEpiResult': (evt, tmpl) ->
+        # remove exiting modal, add new one, and inject scope
+        window.tmpl=tmpl
+        div = tmpl.find('#epiResultDiv')
+        $(div).empty()
+        window.tmpl = tmpl
+        rendered = UI.renderWithData(Template.epiResultForm, {descriptive:@})
+        UI.insert(rendered, div)
+
+
 # EPI DESCRIPTIVE FORM ---------------------------------------------------------
 Template.epiDescriptiveForm.helpers
 
@@ -88,7 +104,7 @@ Template.epiDescriptiveForm.events
         toggleCCfields(tmpl)
 
     'click #create': (evt, tmpl) ->
-        obj = share.newValues(tmpl)
+        obj = share.newValues(tmpl.find('#epiDescriptiveForm'))
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
         EpiDescriptive.insert(obj)
@@ -109,6 +125,14 @@ Template.epiDescriptiveForm.events
         EpiDescriptive.remove(@_id)
         Session.set("epiDescriptiveEditingId", null)
 
+    'click #addEpiResult': (evt, tmpl) ->
+        # remove exiting modal, add new one, and inject scope
+        div = tmpl.find('#epiResultDiv')
+        $(div).empty()
+        window.tmpl = tmpl
+        rendered = UI.renderWithData(Template.epiResultForm, {descriptive:@})
+        UI.insert(rendered, div)
+
 Template.epiDescriptiveForm.rendered = ->
     toggleCCfields(@)
     $(@.findAll('.helpPopovers')).popover
@@ -128,13 +152,52 @@ toggleCCfields = (tmpl) ->
         $(tmpl.findAll('.isNotCCinput')).show()
 
 # EPI RESULTS FORM -------------------------------------------------------------
-Template.epiResultsForm.events
-    'click #epiRiskEstimate-add': (evt, tmpl) ->
+Template.epiResultForm.helpers
+
+    isNew: ->
+        return Session.get('epiResultEditingId') is null
+
+getRiskRows = (tmpl, obj) ->
+    delete obj.exposureCategory
+    delete obj.riskHigh
+    delete obj.riskMid
+    delete obj.riskLow
+    delete obj.riskEstimated
+    obj.riskEstimates = []
+    tbody = tmpl.find('.riskEstimateTbody')
+    for row in $(tbody).find('tr')
+        obj.riskEstimates.push(share.newValues(row))
+
+Template.epiResultForm.events
+    'click #inner-addRiskRow': (evt, tmpl) ->
         tbody = tmpl.find('.riskEstimateTbody')
         rendered = UI.renderWithData(Template.riskEstimateForm, {})
         UI.insert(rendered, tbody)
 
-Template.epiResultsForm.rendered = ->
+    'click #inner-create': (evt, tmpl) ->
+        obj = share.newValues(tmpl.find('#epiResultForm'))
+        getRiskRows(tmpl, obj)
+        obj['tbl_id'] = Session.get('Tbl')._id
+        obj['parent_id'] = tmpl.data.descriptive._id
+        obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
+        EpiResult.insert(obj)
+        $('#epiResultsModal').modal('toggle')
+
+    'click #inner-update': (evt, tmpl) ->
+        vals = share.updateValues(tmpl.find('#epiResultForm'), @)
+        getRiskRows(tmpl, obj)
+        EpiResult.update(@_id, {$set: vals})
+        Session.set("epiResultEditingId", null)
+
+    'click #inner-update-cancel': (evt, tmpl) ->
+        Session.set("epiResultEditingId", null)
+
+    'click #inner-delete': (evt, tmpl) ->
+        EpiResult.remove(@_id)
+        Session.set("epiResultEditingId", null)
+
+Template.epiResultForm.rendered = ->
+    $(@.find('#epiResultsModal')).modal('toggle')
     $(@.findAll('.helpPopovers')).popover
             delay: {show: 500, hide: 100}
             trigger: "hover"

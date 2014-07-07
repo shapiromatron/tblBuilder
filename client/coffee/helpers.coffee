@@ -48,9 +48,9 @@ share.updateValues = (form, obj) ->
         if obj[key] isnt val then updates[key] = val
     return updates
 
-share.newValues = (tmpl) ->
+share.newValues = (form) ->
   obj = {}
-  for inp in $(tmpl.find('form')).find("select,input,textarea")
+  for inp in $(form).find("select,input,textarea")
     obj[inp.name] = getValue(inp)
   return obj
 
@@ -174,3 +174,12 @@ UI.registerHelper "userCanEdit", ->
 UI.registerHelper "ballotBoolean", (bool) ->
     icon = if (bool.hash.bool) then "glyphicon-ok" else "glyphicon-remove"
     return Spacebars.SafeString("<span class='glyphicon #{icon}'></span>")
+
+UI.registerHelper "eachIndex", (array) ->
+    result = []
+    for value, index in array
+        result.push({value:value, index:index})
+    return result
+
+UI.registerHelper "isEqual", (kw) ->
+    return kw.hash.current is kw.hash.target
