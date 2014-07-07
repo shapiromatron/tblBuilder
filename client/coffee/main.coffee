@@ -183,10 +183,6 @@ Template.typeaheadInput.helpers
 Template.typeaheadInput.rendered = ->
     Meteor.typeahead.inject("input[name=#{@.data.name}]")
 
-Template.typeaheadInput.destroyed = ->
-    $(@.find("input[name=#{@.data.name}]")).unbind()
-
-
 
 Template.typeaheadSelectList.helpers
     searchCovariates: (qry, cb) ->
@@ -212,6 +208,3 @@ Template.typeaheadSelectList.rendered = ->
     $ul = $(@.find('ul'))
     $(@.find("input")).on 'typeahead:selected', (e, v) ->
         share.typeaheadSelectListAddLI($ul, v.value)
-
-Template.typeaheadSelectList.destroyed = ->
-    $(@.find("input[name=#{@.data.name}]")).unbind()

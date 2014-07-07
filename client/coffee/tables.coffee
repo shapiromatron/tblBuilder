@@ -138,10 +138,6 @@ Template.tablesForm.rendered = () ->
         rendered = UI.renderWithData(Template.UserLI, v)
         UI.insert(rendered, ul[0])
 
-Template.tablesForm.destroyed = ->
-    $('.userTypeahead').unbind()
-
-
 getUserPermissionsObject = (tmpl)->
     # first filter objects so that each user has the higher permission
     permissions = {}

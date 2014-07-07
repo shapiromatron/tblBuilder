@@ -165,9 +165,6 @@ Template.referenceSingleSelect.rendered = ->
         UI.insert(rendered, div)
         this.value = ""
 
-Template.referenceSingleSelect.destroyed = ->
-    $(@.find("input[name=referenceID]")).unbind()
-
 
 Template.referenceMultiSelect.helpers
     searchReference: searchRefHelper
@@ -184,9 +181,6 @@ Template.referenceMultiSelect.rendered = ->
         ids = ($(li).data('id') for li in $ul.find('li'))
         if v._id not in ids then UI.insert(rendered, $ul[0])
         this.value = ""
-
-Template.referenceMultiSelect.destroyed = ->
-    $(@.find("input[name=references]")).unbind()
 
 
 Template.printReference.helpers

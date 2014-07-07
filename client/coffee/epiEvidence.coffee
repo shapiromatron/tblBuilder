@@ -116,9 +116,6 @@ Template.epiDescriptiveForm.rendered = ->
             trigger: "hover"
             placement: "auto"
 
-Template.epiDescriptiveForm.destroyed = ->
-    $(@.findAll('.helpPopovers')).popover('destroy')
-
 toggleCCfields = (tmpl) ->
     # toggle between if Cohort or Case-Control fields are present
     selector = tmpl.find('select[name="studyDesign"]')
@@ -143,8 +140,6 @@ Template.epiResultsForm.rendered = ->
             trigger: "hover"
             placement: "auto"
 
-Template.epiResultsForm.destroyed = ->
-    $(@.findAll('.helpPopovers')).popover('destroy')
 
 # EPI RISK ESTIMATE FORM ROW ---------------------------------------------------
 Template.riskEstimateForm.events
