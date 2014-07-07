@@ -44,11 +44,11 @@
   <table id="epiDescritpiveTbl" class="evidenceTable table table-compressed">
     <colgroup>
       <col width="20%">
-      <col width="20%">
+      <col width="10%">
+      <col width="15%">
       <col width="10%">
       <col width="10%">
-      <col width="10%">
-      <col width="10%">
+      <col width="15%">
       <col width="20%">
     </colgroup>
     <thead>
@@ -394,20 +394,56 @@
 </template>
 
 <template name="epiResultTbl">
-  <table class="table table-condensed nestedTbl">
-    <tbody>
-      {{#each eachIndex riskEstimates}}
-        <tr>
-          {{#if isEqual current=index target=0 }}
-            <td rowspan="{{../riskEstimates.length}}">{{../cancerSite}}</td>
-            <td rowspan="{{../riskEstimates.length}}">{{../numberExposed}}</td>
-          {{/if}}
-          <td>{{value.exposureCategory}}</td>
-          <td>{{{riskFormat value}}}</td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
+  {{#if showRow isHidden}}
+    <div class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
+        data-id="{{_id}}"
+        data-sortIdx="{{sortIdx}}">
+
+    <table class="table table-condensed nestedTbl">
+      <colgroup>
+        <col width="30%">
+        <col width="20%">
+        <col width="20%">
+        <col width="30%">
+      </colgroup>
+      <tbody>
+        {{#each eachIndex riskEstimates}}
+          <tr>
+            {{#if isEqual current=index target=0 }}
+              <td rowspan="{{../riskEstimates.length}}">
+                {{#if userCanEdit}}
+                  <div id="epiResultDiv"></div>
+                  <div class="rowOptions btn-group pull-right">
+                    <button class="btn btn-default btn-xs dropdown-toggle"
+                            type="button" data-toggle="dropdown">
+                            <span class="caret" title="Editing options"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#" id="inner-show-edit">
+                          <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                      <li><a href="#" id="inner-toggle-hidden">{{#if ../isHidden}}
+                        <span class="glyphicon glyphicon-plus"></span> Show row
+                        {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+                        {{/if}}</a>
+                      </li>
+                      <li><a href="#" id="inner-copy-as-new">
+                          <span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
+                    </ul>
+                  </div>
+                {{/if}}
+                {{../cancerSite}}
+              </td>
+              <td rowspan="{{../riskEstimates.length}}">{{../numberExposed}}</td>
+            {{/if}}
+            <td>{{value.exposureCategory}}</td>
+            <td>{{{riskFormat value}}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+  </div>
+  {{/if}}
+
 </template>
 
 <template name="epiResultForm">
@@ -579,21 +615,19 @@
                         id="inner-create" title="Save new">
                         <span class="glyphicon glyphicon-ok"></span> Create</button>
                 <button type="button" class="btn btn-sm btn-default"
-                        id="inner-create-cancel" title="Cancel"
-                        data-dismiss=modal>Cancel</button>
+                        id="inner-create-cancel" title="Cancel">Cancel</button>
               {{else}}
                 <button type="button" class="btn btn-sm btn-primary"
                         id="inner-update" title="Save changes">
                         <span class="glyphicon glyphicon-ok"></span> Save</button>
                 <button type="button" class="btn btn-sm btn-default"
-                        id="inner-update-cancel" title="Cancel changes"
-                        data-dismiss=modal>Cancel</button>
+                        id="inner-update-cancel" title="Cancel changes">Cancel</button>
                 <button type="button" class="btn btn-sm btn-danger"
-                        id="inner-delete" title="Delete row"
-                        data-dismiss=modal>
+                        id="inner-delete" title="Delete row">
                         <span class="glyphicon glyphicon-trash"></span></button>
               {{/if}}
             </div>
+
           </form>
         </div>  <!-- Modal body -->
       </div>  <!-- Modal content -->

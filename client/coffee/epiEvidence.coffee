@@ -85,10 +85,8 @@ Template.epiDescriptiveRow.events
 
     'click .addEpiResult': (evt, tmpl) ->
         # remove exiting modal, add new one, and inject scope
-        window.tmpl=tmpl
         div = tmpl.find('#epiResultDiv')
         $(div).empty()
-        window.tmpl = tmpl
         rendered = UI.renderWithData(Template.epiResultForm, {descriptive:@})
         UI.insert(rendered, div)
 
@@ -128,8 +126,6 @@ Template.epiDescriptiveForm.events
     'click #addEpiResult': (evt, tmpl) ->
         # remove exiting modal, add new one, and inject scope
         div = tmpl.find('#epiResultDiv')
-        $(div).empty()
-        window.tmpl = tmpl
         rendered = UI.renderWithData(Template.epiResultForm, {descriptive:@})
         UI.insert(rendered, div)
 
@@ -151,11 +147,45 @@ toggleCCfields = (tmpl) ->
         $(tmpl.findAll('.isCCinput')).hide()
         $(tmpl.findAll('.isNotCCinput')).show()
 
+# EPI RESULTS TBL --------------------------------------------------------------
+Template.epiResultTbl.helpers
+
+    showRow: (isHidden) ->
+        Session.get('epiDescriptiveShowAll') or !isHidden
+
+Template.epiResultTbl.events
+
+    'click #inner-show-edit': (evt, tmpl) ->
+        div = tmpl.find('#epiResultDiv')
+        data = tmpl.__component__.parent.data()
+        Session.set('epiResultEditingId', data._id)
+        rendered = UI.renderWithData(Template.epiResultForm, data)
+        UI.insert(rendered, div)
+
+    'click #inner-toggle-hidden': (evt, tmpl) ->
+        data = tmpl.__component__.parent.data()
+        EpiResult.update(data._id, {$set: {isHidden: !data.isHidden}})
+
+    'click #inner-copy-as-new': (evt, tmpl) ->
+        div = tmpl.find('#epiResultDiv')
+        data = tmpl.__component__.parent.data()
+        data.descriptive = {_id: data.parent_id}
+        rendered = UI.renderWithData(Template.epiResultForm, data)
+        UI.insert(rendered, div)
+
+
 # EPI RESULTS FORM -------------------------------------------------------------
 Template.epiResultForm.helpers
 
     isNew: ->
         return Session.get('epiResultEditingId') is null
+
+removeSelf = (tmpl) ->
+    # completely remove self from DOM, including template
+    $(tmpl.find('#epiResultsModal')).on 'hidden.bs.modal', ->
+        tmpl.__component__.dom.remove()
+
+    $(tmpl.find('#epiResultsModal')).modal('hide')
 
 getRiskRows = (tmpl, obj) ->
     delete obj.exposureCategory
@@ -181,20 +211,26 @@ Template.epiResultForm.events
         obj['parent_id'] = tmpl.data.descriptive._id
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
         EpiResult.insert(obj)
-        $('#epiResultsModal').modal('toggle')
+        removeSelf(tmpl)
+
+    'click #inner-create-cancel': (evt, tmpl) ->
+        removeSelf(tmpl)
 
     'click #inner-update': (evt, tmpl) ->
         vals = share.updateValues(tmpl.find('#epiResultForm'), @)
-        getRiskRows(tmpl, obj)
+        getRiskRows(tmpl, vals)
         EpiResult.update(@_id, {$set: vals})
         Session.set("epiResultEditingId", null)
+        removeSelf(tmpl)
 
     'click #inner-update-cancel': (evt, tmpl) ->
         Session.set("epiResultEditingId", null)
+        removeSelf(tmpl)
 
     'click #inner-delete': (evt, tmpl) ->
         EpiResult.remove(@_id)
         Session.set("epiResultEditingId", null)
+        removeSelf(tmpl)
 
 Template.epiResultForm.rendered = ->
     $(@.find('#epiResultsModal')).modal('toggle')

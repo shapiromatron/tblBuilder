@@ -70,13 +70,13 @@ EpiRiskEstimate.before.insert (userId, doc) ->
 EpiDescriptive.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc['isHidden'] = false
-    doc['sortIdx'] = getNewIdx(EpiCohort, doc.tbl_id)
+    doc['sortIdx'] = getNewIdx(EpiDescriptive, doc.tbl_id)
     return userCanEditTblContent(doc.tbl_id, userId)
 
 EpiResult.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc['isHidden'] = false
-    doc['sortIdx'] = getNewIdx(EpiCohort, doc.tbl_id)
+    doc['sortIdx'] = getNewIdx(EpiResult, doc.tbl_id)
     return userCanEditTblContent(doc.tbl_id, userId)
 
 

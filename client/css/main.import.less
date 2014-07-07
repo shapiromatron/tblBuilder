@@ -43,7 +43,8 @@ a.noUnderline {
  * Menu auto-hide functionality
  */
 .menu-autohide > td >.rowOptions,
-.menu-autohide > .rowOptions {
+.menu-autohide > .rowOptions,
+.menu-autohide > table .rowOptions {
     opacity:0;
     filter:alpha(opacity=0);
     -webkit-transition: all 0.5s ease-in-out;
@@ -53,7 +54,8 @@ a.noUnderline {
 }
 
 .menu-autohide:hover > td > .rowOptions,
-.menu-autohide:hover > .rowOptions {
+.menu-autohide:hover > .rowOptions,
+.menu-autohide:hover > table .rowOptions {
     opacity:1.0;
     filter:alpha(opacity=100);
     -webkit-transition: all 0.5s ease-in-out;
