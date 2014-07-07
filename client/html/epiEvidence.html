@@ -128,7 +128,7 @@
     {{>printReference id=referenceID}}
   </td>
   <td>Content</td>
-  <td colspan="4">
+  <td colspan="4" id="sortableInner">
     {{#each getResults}}
       {{> epiResultTbl}}
     {{else}}
@@ -436,6 +436,10 @@
             {{/if}}
             <td>{{value.exposureCategory}}</td>
             <td>{{{riskFormat value}}}</td>
+            {{#if isEqual current=index target=0 }}
+              <td rowspan="{{../riskEstimates.length}}" class="dragHandle dhInner"
+                  style="display: none" title="Drag to re-order rows"></td>
+            {{/if}}
           </tr>
         {{/each}}
       </tbody>

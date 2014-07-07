@@ -90,6 +90,13 @@ Template.epiDescriptiveRow.events
         rendered = UI.renderWithData(Template.epiResultForm, {descriptive:@})
         UI.insert(rendered, div)
 
+Template.epiDescriptiveRow.rendered = ->
+    new Sortable(@.find('#sortableInner'),
+        handle: ".dhInner",
+        onUpdate: share.moveRowCheck,
+        Cls: EpiResult)
+    share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
+
 
 # EPI DESCRIPTIVE FORM ---------------------------------------------------------
 Template.epiDescriptiveForm.helpers
