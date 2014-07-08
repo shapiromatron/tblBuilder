@@ -1,10 +1,4 @@
 XLSX = Meteor.require('xlsx')
-DocXTemplater = Meteor.require('docxtemplater')
-angular_expressions= Meteor.require('angular-expressions')
-
-angularParser = (tag) ->
-    expr = angular_expressions.compile(tag)
-    return get: expr
 
 type = do ->
     classToType = {}
@@ -51,19 +45,6 @@ sheet_from_array_of_arrays = (data) ->
             ws[cell_ref] = cell
     if(range.s.c < 10000000) then ws['!ref'] = XLSX.utils.encode_range(range)
     return ws
-
-singleFieldTextSearch = (inputs) ->
-    # Perform a search of a single field, and return unique values.
-    field = inputs['field']
-    query = {}
-    query[field] = {$regex: new RegExp(inputs['query'], "i")}
-    options = {fields: {}, limit: 1000, sort: []}
-    options.fields[field] = 1
-    options.sort.push(field)
-    queryset = inputs['Collection'].find(query, options).fetch()
-    values = _.pluck(queryset, field)
-    return _.uniq(values, true)
-
 
 Meteor.methods
     epiEvidenceDownload: (tbl_id) ->
@@ -184,104 +165,3 @@ Meteor.methods
         wb.SheetNames.push(ws_name)
         wb.Sheets[ws_name] = ws
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
-
-    adminUserEditProfile: (_id, obj) ->
-        if share.isStaffOrHigher(this.userId)
-            Meteor.users.update(_id, {$set: obj})
-        else
-            throw new Meteor.Error(403, "Nice try wise-guy.")
-
-    adminUserCreateProfile: (obj) ->
-        if share.isStaffOrHigher(this.userId)
-            opts = {email: obj.emails[0].address}
-            _id = Accounts.createUser(opts)
-            Meteor.users.update(_id, {$set: obj})
-            Accounts.sendEnrollmentEmail(_id)
-        else
-            throw new Meteor.Error(403, "Nice try wise-guy.")
-
-    adminUserResetPassword: (_id) ->
-        if share.isStaffOrHigher(this.userId)
-            # This will work even if a user has not initially created
-            # a password
-            Accounts.sendResetPasswordEmail(_id)
-        else
-            throw new Meteor.Error(403, "Nice try wise-guy.")
-
-    searchUsers: (str) ->
-        check(str, String)
-        querystr = new RegExp(str, "i")  # case insensitive
-        query = {$or: [{"emails": {$elemMatch: {"address": {$regex: querystr}}}},
-                       {"profile.fullName": {$regex: querystr}},
-                       {"profile.affiliation": {$regex: querystr}}]}
-        Meteor.users.find(query, {fields: {_id: 1, emails: 1, profile: 1}, limit: 20}).fetch()
-
-    searchCancerSite: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: EpiResult,
-                    field: "cancerSite",
-                    query: query
-
-    searchEffectUnits: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: EpiResult,
-                    field: "effectUnits",
-                    query: query
-
-    searchEffectMeasure: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: EpiResult,
-                    field: "effectMeasure",
-                    query: query
-
-    searchAnalyticalMethod: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: EpiDescriptive,
-                    field: "analyticalMethod",
-                    query: query
-
-    searchAgent: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: Tables,
-                    field: "agent",
-                    query: query
-
-    searchReference: (inputs) ->
-        check(inputs, {qry: String, monographNumber: Match.Integer})
-        querystr = new RegExp(inputs.qry, "i")  # case insensitive
-        query =
-            $and: [
-                name:
-                    $regex: querystr,
-                monographNumber:
-                    $in: [ inputs.monographNumber ]
-            ]
-
-        options =
-            limit: 50
-
-        Reference.find(query, options).fetch()
-
-    searchCovariates: (query) ->
-        check(query, String)
-        querystr = new RegExp(query, "i")  # case insensitive
-        queryset = EpiResult.find({"covariates": { $in: [ querystr ] }},
-                        {fields: {covariates: 1}, limit: 1000}).fetch()
-        covariates = _.flatten(_.pluck(queryset, 'covariates'))
-        covariates = _.filter(covariates, (v) -> v.match(querystr))
-        return _.uniq(covariates, false)
-
-    epiWordReport: (tbl_id) ->
-        vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
-        for val in vals
-            val.reference = Reference.findOne(_id: val.referenceID)
-        path = "#{process.env.PWD}/private/docx-templates/epi-v1.docx"
-        docx = new DocxGen().loadFromFile(path, {async:false, parser:angularParser})
-        docx.setTags({descriptions: vals})
-        docx.applyTags()
-        docx.output({type: "string"})
