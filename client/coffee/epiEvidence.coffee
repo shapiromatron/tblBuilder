@@ -49,6 +49,11 @@ Template.epiDescriptiveTbl.events
         Session.set('reorderRows', val)
         share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
 
+    'click #wordReport': (evt, tmpl) ->
+        tbl_id = Session.get('Tbl')._id
+        Meteor.call 'helloWordWorld', tbl_id, (err, response) ->
+            share.returnWordFile(response, "report.docx")
+
 Template.epiDescriptiveTbl.rendered = ->
     share.toggleRiskPlot()
     new Sortable(@.find('#sortable'),

@@ -64,6 +64,16 @@ share.returnExcelFile = (raw_data, fn) ->
     blob = new Blob([s2ab(raw_data)], {type: "application/octet-stream"})
     saveAs(blob, fn)
 
+share.returnWordFile = (raw_data, fn) ->
+    fn = fn or "download.docx"
+    s2ab = (s) ->
+        buf = new ArrayBuffer(s.length)
+        view = new Uint8Array(buf)
+        view[i] = s.charCodeAt(i) & 0xFF for i in [0..s.length]
+        return buf
+    blob = new Blob([s2ab(raw_data)], {type: "application/octet-stream"})
+    saveAs(blob, fn)
+
 share.toggleRowVisibilty = (display, $els) ->
     if display then $els.fadeIn() else $els.fadeOut()
 
