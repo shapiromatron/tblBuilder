@@ -467,10 +467,10 @@
 
             <!-- First row -->
             <div class="form-group row">
-              <div class="col-xs-4">
+              <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
                        data-content="Cancer site for results being measured.">
-                       Cancer Site</label>
+                       Cancer Site<br>&nbsp;</label>
                 <br>
                 <input class="form-control" type="text"
                        name='cancerSite'
@@ -478,16 +478,7 @@
                        placeholder="dropdown-list"/>
               </div>
 
-              <div class="col-xs-4">
-                <label class="helpPopovers" data-toggle="popover"
-                      data-content="Deaths/cases for cohort studies; Cases for case-control studies">
-                      Number exposed</label>
-                <input class="form-control" type="number"
-                       name='numberExposed'
-                       value="{{numberExposed}}"/>
-              </div>
-
-              <div class="col-xs-4">
+              <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
                       data-content="Units, if relevant (e.g., risk per 10 μg/m3)">
                       Units of effect measurement</label>
@@ -496,12 +487,8 @@
                        value="{{effectUnits}}"
                        placeholder="dropdown-list"/>
               </div>
-            </div>
 
-            <!-- Second row -->
-            <div class="form-group row">
-
-              <div class="col-xs-4">
+              <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
                        data-content="Risk metric used to display results (SMR, RR, etc.)">
                        Description of effect measure</label>
@@ -511,14 +498,10 @@
                        placeholder="dropdown-list"/>
               </div>
 
-              <div class="col-xs-4">
-                  <!-- spacer -->
-              </div>
-
-              <div class="col-xs-4">
+              <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
                       data-content="Trend test, provide for categorical analysis when reported">
-                      Trend test</label>
+                      Trend test<br>&nbsp;</label>
                 <input class="form-control" type="number" step="any"
                        name='trendTest'
                        value="{{trendTest}}"/>
@@ -533,39 +516,32 @@
                         data-content="E.g., all exposed workers, second quartile of exposure,
                                     quantitative exposure level (always provide quantitative
                                     information when available)">
-                        Exposure category<br>or level
-                  </span>
-                </th>
+                        Exposure category<br>or level</span></th>
+
+                <th>
+                  <span class="helpPopovers" data-toggle="popover"
+                    data-content="Deaths/cases for cohort studies; Cases for case-control studies">
+                    Number exposed<br>&nbsp;</span></th>
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="Central risk reported for risk estimate">
-                        Risk estimate<br>midpoint
-                  </span>
-                </th>
+                        Risk estimate<br>midpoint</span></th>
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="95% lower confidence interval risk estimate">
-                        Risk estimate<br>95% lower CI
-                  </span>
-
-                </th>
+                        Risk estimate<br>95% lower CI</span></th>
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="95% upper confidence interval risk estimate">
-                         Risk estimate<br>95% upper CI
-                  </span>
-                </th>
+                         Risk estimate<br>95% upper CI</span></th>
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="Risk was estimated by reviewers, not study-authors">
-                        Estimated<br>&nbsp;
-                  </span>
-                </th>
+                        Estimated<br>&nbsp;</span></th>
                 <th>
                     <button type="button" class="btn btn-xs btn-info"
                             id="inner-addRiskRow" title="Add row">
-                            <span class="glyphicon glyphicon-plus"></span></button>
-                </th>
+                            <span class="glyphicon glyphicon-plus"></span></button></th>
               </thead>
               <tbody class="riskEstimateTbody">
                 {{#if riskEstimates}}
@@ -645,6 +621,11 @@
       <input class="form-control" type="text"
              name='exposureCategory'
              value="{{exposureCategory}}"/>
+    </td>
+    <td>
+      <input class="form-control" type="number"
+             name='numberExposed'
+             value="{{numberExposed}}"/>
     </td>
     <td>
         <input class="form-control" type="number" step="any"

@@ -104,7 +104,6 @@ getPubMedDetails = (pubmedID, cb) ->
         if result
             xmlDoc = $.parseXML(result.content)
             xml = $(xmlDoc)
-            window.xml = xml
 
             err = xml.find("ERROR")
             if err.length >= 1
