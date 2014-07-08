@@ -168,17 +168,35 @@ UI.registerHelper "getUserDescription", ->
 
 
 Template.typeaheadInput.helpers
-    searchOrganSite: (qry, cb) ->
-        Meteor.call "searchOrganSite", qry, (err, res) ->
+    searchCancerSite: (qry, cb) ->
+        Meteor.call "searchCancerSite", qry, (err, res) ->
             if err then return console.log(err)
             map = ({value: v} for v in res)
-            cb(map)
+            return cb(map)
 
     searchAgent: (qry, cb) ->
         Meteor.call "searchAgent", qry, (err, res) ->
             if err then return console.log(err)
             map = ({value: v} for v in res)
-            cb(map)
+            return cb(map)
+
+    searchEffectUnits: (qry, cb) ->
+        Meteor.call "searchEffectUnits", qry, (err, res) ->
+            if err then return console.log(err)
+            map = ({value: v} for v in res)
+            return cb(map)
+
+    searchEffectMeasure: (qry, cb) ->
+        Meteor.call "searchEffectMeasure", qry, (err, res) ->
+            if err then return console.log(err)
+            map = ({value: v} for v in res)
+            return cb(map)
+
+    searchAnalyticalMethod: (qry, cb) ->
+        Meteor.call "searchAnalyticalMethod", qry, (err, res) ->
+            if err then return console.log(err)
+            map = ({value: v} for v in res)
+            return cb(map)
 
 Template.typeaheadInput.rendered = ->
     Meteor.typeahead.inject("input[name=#{@.data.name}]")
@@ -197,14 +215,16 @@ Template.typeaheadSelectList.events
         if evt.which is 13
             val = evt.target.value
             $ul = $(tmpl.find('ul'))
-            if share.typeaheadSelectListAddLI($ul, val)
-                evt.target.value = ""
+            if share.typeaheadSelectListAddLI($ul, val) then evt.target.value = ""
+
+    'typeahead:selected': (evt, tmpl) ->
+        $(tmpl.find(".typeahead")).typeahead("val", "")
 
     'click .selectListRemove': (evt, tmpl) ->
         $(evt.currentTarget).parent().remove()
 
 Template.typeaheadSelectList.rendered = ->
     Meteor.typeahead.inject("input[name=#{@.data.name}]")
-    $ul = $(@.find('ul'))
-    $(@.find("input")).on 'typeahead:selected', (e, v) ->
+    $ul = $(@.find("ul"))
+    $(@.find("input")).on "typeahead:selected", (e, v) ->
         share.typeaheadSelectListAddLI($ul, v.value)

@@ -4,7 +4,6 @@
   </div>
 </template>
 
-
 <template name="epiDescriptiveTbl">
   <h1>{{name}}
     <div class="btn-group pull-right">
@@ -312,9 +311,7 @@
         <label class="helpPopovers" data-toggle="popover"
                data-content="e.g., multiple logistic regression, lifetable, Mantel-Haenzel, etc.">
                Analytical method</label>
-        <input class="form-control" type="text"
-               name='analyticalMethod'
-               value="{{analyticalMethod}}"/>
+        {{> typeaheadInput name="analyticalMethod" value=analyticalMethod data_source="searchAnalyticalMethod"}}
       </div>
     </div>
 
@@ -474,30 +471,21 @@
                        data-content="Cancer site for results being measured.">
                        Cancer Site<br>&nbsp;</label>
                 <br>
-                <input class="form-control" type="text"
-                       name='cancerSite'
-                       value="{{cancerSite}}"
-                       placeholder="dropdown-list"/>
+                {{> typeaheadInput name="cancerSite" value=cancerSite data_source="searchCancerSite"}}
               </div>
 
               <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
                       data-content="Units, if relevant (e.g., risk per 10 μg/m3)">
                       Units of effect measurement</label>
-                <input class="form-control" type="text"
-                       name='effectUnits'
-                       value="{{effectUnits}}"
-                       placeholder="dropdown-list"/>
+                {{> typeaheadInput name="effectUnits" value=effectUnits data_source="searchEffectUnits"}}
               </div>
 
               <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
                        data-content="Risk metric used to display results (SMR, RR, etc.)">
                        Description of effect measure</label>
-                <input class="form-control" type="text"
-                       name='effectMeasure'
-                       value="{{effectMeasure}}"
-                       placeholder="dropdown-list"/>
+                {{> typeaheadInput name="effectMeasure" value=effectMeasure data_source="searchEffectMeasure"}}
               </div>
 
               <div class="col-xs-3">

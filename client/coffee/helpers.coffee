@@ -90,7 +90,7 @@ share.copyAsNew = (obj) ->
 
 share.typeaheadSelectListAddLI = ($ul, val) ->
     txts = share.typeaheadSelectListGetLIs($ul)
-    if val not in txts
+    if ((val not in txts) and (val isnt ""))
         rendered = UI.renderWithData(Template.typeaheadSelectListLI, val)
         UI.insert(rendered, $ul[0])
         return true

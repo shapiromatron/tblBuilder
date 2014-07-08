@@ -248,11 +248,32 @@ Meteor.methods
                        {"profile.affiliation": {$regex: querystr}}]}
         Meteor.users.find(query, {fields: {_id: 1, emails: 1, profile: 1}, limit: 20}).fetch()
 
-    searchOrganSite: (query) ->
+    searchCancerSite: (query) ->
         check(query, String)
         return singleFieldTextSearch
-                    Collection: EpiRiskEstimate,
-                    field: "organSite",
+                    Collection: EpiResult,
+                    field: "cancerSite",
+                    query: query
+
+    searchEffectUnits: (query) ->
+        check(query, String)
+        return singleFieldTextSearch
+                    Collection: EpiResult,
+                    field: "effectUnits",
+                    query: query
+
+    searchEffectMeasure: (query) ->
+        check(query, String)
+        return singleFieldTextSearch
+                    Collection: EpiResult,
+                    field: "effectMeasure",
+                    query: query
+
+    searchAnalyticalMethod: (query) ->
+        check(query, String)
+        return singleFieldTextSearch
+                    Collection: EpiDescriptive,
+                    field: "analyticalMethod",
                     query: query
 
     searchAgent: (query) ->
