@@ -77,16 +77,26 @@ share.moveRowCheck = (evt) ->
 
 share.copyAsNew = (obj) ->
     for key, val of obj
-        switch typeof(val)
-            when "object"
-                # special case of typeaheadSelectList
-                $ul = $("input[name=#{key}]").parent().next()
-                share.typeaheadSelectListAddLI($ul, v) for v in val
-            when "boolean"
-                $("input[name=#{key}]").prop('checked', val)
+        switch key
+            when "referenceID"
+                $div = $("input[name=#{key}]").parent().next()
+                $div.empty()
+                rendered = UI.renderWithData(Template.referenceSingleSelectSelected, {referenceID: val})
+                UI.insert(rendered, $div[0])
             else
-                $("input[name=#{key}]").val(val)
-                $("textarea[name=#{key}]").val(val)
+                switch typeof(val)
+                    when "object"
+                        # special case of typeaheadSelectList
+                        if val is not null
+                            $ul = $("input[name=#{key}]").parent().next()
+                            share.typeaheadSelectListAddLI($ul, v) for v in val
+                    when "boolean"
+                        $("input[name=#{key}]").prop('checked', val)
+                    else
+                        $("input[name=#{key}]").val(val)
+                        $("textarea[name=#{key}]").val(val)
+                        $("select[name=#{key}] option[value='#{val}']").prop('selected', true)
+                        $("select[name=#{key}]").trigger('change')
 
 share.typeaheadSelectListAddLI = ($ul, val) ->
     txts = share.typeaheadSelectListGetLIs($ul)

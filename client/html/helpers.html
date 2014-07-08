@@ -18,7 +18,7 @@
 <template name="selectList">
   <select class="form-control" name="{{selectName}}">
     {{#each options}}
-      <option selected="{{isSelected this ../selected}}">{{this}}</option>
+      <option value="{{this}}" selected="{{isSelected this ../selected}}">{{this}}</option>
     {{/each}}
   </select>
 </template>

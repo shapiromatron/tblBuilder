@@ -75,7 +75,6 @@ Template.epiDescriptiveRow.events
         share.activateInput($("input[name=referenceID]")[0])
 
     'click #copy-as-new': (evt, tmpl) ->
-        console.log('ajs need to fix')
         Session.set("epiDescriptiveShowNew", true)
         Deps.flush() # update DOM before focus
         share.activateInput($("input[name=referenceID]")[0])

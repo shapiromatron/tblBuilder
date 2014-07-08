@@ -157,7 +157,7 @@ Template.referenceSingleSelect.events
 
 Template.referenceSingleSelect.rendered = ->
     Meteor.typeahead.inject("input[name=referenceID]")
-    div = @.find('div.selectedItem')
+    div = @.find('div.selectedReference')
     $(@.find("input")).on 'typeahead:selected', (e, v) ->
         rendered = UI.renderWithData(Template.referenceSingleSelectSelected, {referenceID:v._id})
         $(div).empty()
