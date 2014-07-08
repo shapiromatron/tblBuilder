@@ -432,8 +432,8 @@
                 {{/if}}
                 {{../cancerSite}}
               </td>
-              <td rowspan="{{../riskEstimates.length}}">{{../numberExposed}}</td>
             {{/if}}
+            <td>{{value.numberExposed}}</td>
             <td>{{value.exposureCategory}}</td>
             <td>{{{riskFormat value}}}</td>
             {{#if isEqual current=index target=0 }}
@@ -447,7 +447,6 @@
 
   </div>
   {{/if}}
-
 </template>
 
 <template name="epiResultForm">

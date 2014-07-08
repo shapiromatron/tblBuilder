@@ -26,7 +26,7 @@ Template.mechanisticMain.events
 
     'click #mechanistic-downloadExcel': (evt, tmpl) ->
         tbl_id = tmpl.data._id
-        Meteor.call 'epiMechanisticEvidenceDownload', tbl_id, (err, response) ->
+        Meteor.call 'mechanisticEvidenceExcelDownload', tbl_id, (err, response) ->
             share.returnExcelFile(response, "mechanisticEvidence.xlsx")
 
     'click #mechanistic-reorderRows': (evt, tmpl) ->

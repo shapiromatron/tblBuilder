@@ -98,7 +98,64 @@ Meteor.methods
         wb.Sheets[ws_name] = ws
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
-    epiMechanisticEvidenceDownload: (tbl_id) ->
+    epiEvidenceDownload: (tbl_id) ->
+
+        getDescriptiveData = ->
+            vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
+            header = ["Descriptive ID", "Reference", "Study Design",
+                      "Location", "Enrollment Dates", "Population Description",
+                      "Population Size", "Population Cases", "Population Controls",
+                      "Source Case Control", "Exposure Assessment Method", "Outcome Data Source",
+                      "Response Rate", "Referent Group", "Exposure Level", "Analytical Method",
+                      "Strengths", "Limitations", "Notes",
+
+                      "Result ID", "Cancer Site", "Effect Measure",
+                      "Effect Units", "Trend Test", "Covariates",
+                      "Covariates Text", "Notes",
+
+                      "Exposure Category", "Number Exposed", "Risks estimated?",
+                      "Risk Mid", "Risk 5% CI", "Risk 95% CI"]
+            data = [header]
+            for v in vals
+                reference = Reference.findOne({_id: v.referenceID}).name
+                row = [v._id, reference, v.studyDesign,
+                       v.location, v.enrollmentDates, v.populationDescription,
+                       v.populationSize, v.populationSizeCase, v.populationSizeControl,
+                       v.sourceCaseControls, v.exposureAssessmentMethod, v.outcomeDataSource,
+                       v.responseRate, v.referentGroup, v.exposureLevel, v.analyticalMethod,
+                       v.strengths, v.limitations, v.notes]
+                rows = getResultData(v._id, row)
+                data.push.apply(data, rows)
+            return data
+
+        getResultData = (parent_id, row) ->
+            vals = EpiResult.find({parent_id: parent_id}, {sort: {sortIdx: 1}}).fetch()
+            rows = []
+            # multiple results (cancer sites) per cohort
+            for v in vals
+                covariates = v.covariates.join(', ')
+                row2 = row.slice()  # shallow copy
+                row2.push(v._id, v.cancerSite, v.effectMeasure,
+                          v.effectUnits, v.trendTest, covariates,
+                          v.covariatesControlledText, v.notes)
+
+                # multiple risk-estimates per cancer site (low-exp group, high-exp group, etc.)
+                for re in v.riskEstimates
+                    row3 = row2.slice()  # shallow copy
+                    row3.push(re.exposureCategory, re.numberExposed, re.riskEstimated,
+                              re.riskMid, re.riskLow, re.riskHigh)
+                    rows.push(row3)
+            return rows
+
+        data = getDescriptiveData()
+        ws_name = "epi Results"
+        wb = new Workbook()
+        ws = sheet_from_array_of_arrays(data)
+        wb.SheetNames.push(ws_name)
+        wb.Sheets[ws_name] = ws
+        XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
+
+    mechanisticEvidenceExcelDownload: (tbl_id) ->
 
         getDataRow = (v) ->
             refs = _.pluck(Reference.find({_id: {$in : v.references}},

@@ -31,10 +31,9 @@ Template.epiDescriptiveTbl.events
         share.activateInput(tmpl.find("input[name=referenceID]"))
 
     'click #downloadExcel': (evt, tmpl) ->
-        console.log('ajs to fix')
-        tbl_id = tmpl.data._id
-        # Meteor.call 'epiCohortExcelDownload', tbl_id, (err, response) ->
-        #     share.returnExcelFile(response, "epiCohort.xlsx")
+        tbl_id = Session.get('Tbl')._id
+        Meteor.call 'epiEvidenceDownload', tbl_id, (err, response) ->
+            share.returnExcelFile(response, "epi.xlsx")
 
     'click #toggleShowAllRows': (evt, tmpl) ->
         val = not Session.get('epiDescriptiveShowAll')
