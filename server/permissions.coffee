@@ -52,12 +52,6 @@ Meteor.startup ->
             # must be logged-in
             return userId?
 
-    EpiCohort.allow tblContentAllowRules
-
-    EpiCaseControl.allow tblContentAllowRules
-
-    EpiRiskEstimate.allow tblContentAllowRules
-
     MechanisticEvidence.allow tblContentAllowRules
 
     EpiDescriptive.allow tblContentAllowRules

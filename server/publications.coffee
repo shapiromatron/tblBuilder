@@ -22,24 +22,6 @@ Meteor.publish 'tables', (user_id) ->
                                       {user_roles: {$elemMatch: {user_id: this.userId}}}]}, options)
     return this.ready()
 
-Meteor.publish 'epiCaseControl', (tbl_id) ->
-    check(tbl_id, String)
-    tbl = Tables.findOne(_id: tbl_id)
-    if userCanView(tbl, this.userId)
-        return [EpiCaseControl.find({tbl_id: tbl_id}),
-                EpiRiskEstimate.find({tbl_id: tbl_id}),
-                Reference.find({monographNumber: {$in: [tbl.monographNumber]}}) ]
-    return this.ready()
-
-Meteor.publish 'epiCohort', (tbl_id) ->
-    check(tbl_id, String)
-    tbl = Tables.findOne(_id: tbl_id)
-    if userCanView(tbl, this.userId)
-        return [EpiCohort.find({tbl_id: tbl_id}),
-                EpiRiskEstimate.find({tbl_id: tbl_id}),
-                Reference.find({monographNumber: {$in: [tbl.monographNumber]}}) ]
-    return this.ready()
-
 Meteor.publish 'epiDescriptive', (tbl_id) ->
     check(tbl_id, String)
     tbl = Tables.findOne(_id: tbl_id)

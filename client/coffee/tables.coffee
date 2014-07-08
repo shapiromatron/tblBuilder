@@ -31,10 +31,6 @@ Template.TablesByMonograph.helpers
 
     getURL: () ->
         switch @tblType
-            when "Epidemiology - Cohort"
-                url = Router.path('epiCohortMain', {_id: @_id})
-            when "Epidemiology - Case Control"
-                url = Router.path('epiCaseControlMain', {_id: @_id})
             when "Mechanistic Evidence Summary"
                 url = Router.path('mechanisticMain', {_id: @_id})
             when "Epidemiology Evidence"

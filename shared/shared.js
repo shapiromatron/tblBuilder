@@ -1,15 +1,10 @@
 Tables = new Meteor.Collection('tables');
-EpiCohort = new Meteor.Collection('epiCohort');
-EpiCaseControl = new Meteor.Collection('epiCaseControl');
-EpiRiskEstimate = new Meteor.Collection('epiRiskEstimate');
 Reference = new Meteor.Collection('reference');
 MechanisticEvidence = new Meteor.Collection('mechanisticEvidence');
 EpiDescriptive = new Meteor.Collection('epiDescriptive');
 EpiResult = new Meteor.Collection('epiResult');
 
-tblTypeOptions = ["Epidemiology - Cohort",
-                  "Epidemiology - Case Control",
-                  "Mechanistic Evidence Summary",
+tblTypeOptions = ["Mechanistic Evidence Summary",
                   "Epidemiology Evidence"];
 
 tblRoleOptions = ["projectManagers", "teamMembers", "reviewers"];

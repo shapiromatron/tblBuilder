@@ -30,32 +30,6 @@ Router.map ->
         action: ->
             if @.ready() then @.render() else @.render("isLoading")
 
-    this.route 'epiCohortMain',
-        path: '/epi-cohort/:_id'
-
-        waitOn: ->
-            if share.TablesHandler.ready()
-                tbl = Tables.findOne({_id: this.params._id})
-                Session.set('Tbl', tbl)
-                if tbl
-                    Session.set('monographNumber', tbl.monographNumber)
-                    return Meteor.subscribe('epiCohort', tbl._id)
-
-        controller: TblRouterController
-
-    this.route 'epiCaseControlMain',
-        path: '/epi-case-control/:_id'
-
-        waitOn: ->
-            if share.TablesHandler.ready()
-                tbl = Tables.findOne({_id: this.params._id})
-                Session.set('Tbl', tbl)
-                if tbl
-                    Session.set('monographNumber', tbl.monographNumber)
-                    return Meteor.subscribe('epiCaseControl', tbl._id)
-
-        controller: TblRouterController
-
     this.route 'epiMain',
         path: '/epidemiology/:_id'
 

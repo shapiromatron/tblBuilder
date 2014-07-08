@@ -60,44 +60,6 @@ singleFieldTextSearch = (inputs) ->
 
 
 Meteor.methods
-    epiCohortExcelDownload: (tbl_id) ->
-
-        getEpiCohortData = (tbl_id) ->
-            cohorts = EpiCohort.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
-            header = ['reference', 'location', 'followUpPeriod',
-                      'numSubjects', 'numSubjectsDetails', 'covariates',
-                      'comments', 'isHiddenCohort', 'organSite',
-                      'exposureCategories', 'exposedCases', 'riskMid',
-                      'riskLow', 'riskHigh', 'riskEstimated',
-                      'isHiddenCohortExposure']
-            data = [header]
-            for v in cohorts
-                row = [v.reference, v.location, v.followUpPeriod
-                       v.numSubjects, v.numSubjectsText, v.covariates
-                       v.comments, v.isHidden]
-                rows = getEpiRiskEstimateData(v._id, row)
-                data.push.apply(data, rows)
-            return data
-
-        getEpiRiskEstimateData = (parent_id, row_arr) ->
-            exposures = EpiRiskEstimate.find({parent_id: parent_id}, {sort: {sortIdx: 1}}).fetch()
-            rows = []
-            for v in exposures
-                new_row = row_arr.slice()  # shallow copy
-                new_row.push(v.organSite, v.exposureCategories, v.exposedCases,
-                             v.riskMid, v.riskLow, v.riskHigh,
-                             v.riskEstimated, v.isHidden)
-                rows.push(new_row)
-            return rows
-
-        data = getEpiCohortData(tbl_id)
-        ws_name = "epiCohort"
-        wb = new Workbook()
-        ws = sheet_from_array_of_arrays(data)
-        wb.SheetNames.push(ws_name)
-        wb.Sheets[ws_name] = ws
-        XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
-
     epiEvidenceDownload: (tbl_id) ->
 
         getDescriptiveData = ->

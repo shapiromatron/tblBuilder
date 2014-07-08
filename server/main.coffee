@@ -49,24 +49,6 @@ MechanisticEvidence.before.insert (userId, doc) ->
     doc['sortIdx'] = getNewIdx(MechanisticEvidence, doc.tbl_id)
     return userCanEditTblContent(doc.tbl_id, userId)
 
-EpiCaseControl.before.insert (userId, doc) ->
-    doc = addTimestampAndUserID(userId, doc)
-    doc['isHidden'] = false
-    doc['sortIdx'] = getNewIdx(EpiCaseControl, doc.tbl_id)
-    return userCanEditTblContent(doc.tbl_id, userId)
-
-EpiCohort.before.insert (userId, doc) ->
-    doc = addTimestampAndUserID(userId, doc)
-    doc['isHidden'] = false
-    doc['sortIdx'] = getNewIdx(EpiCohort, doc.tbl_id)
-    return userCanEditTblContent(doc.tbl_id, userId)
-
-EpiRiskEstimate.before.insert (userId, doc) ->
-    doc = addTimestampAndUserID(userId, doc)
-    doc['isHidden'] = false
-    doc['sortIdx'] = getNewIdx(EpiRiskEstimate, doc.tbl_id)
-    return userCanEditTblContent(doc.tbl_id, userId)
-
 EpiDescriptive.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc['isHidden'] = false
@@ -88,12 +70,6 @@ Reference.before.update (userId, doc, fieldNames, modifier, options) -> return t
 
 MechanisticEvidence.before.update userCanEditTblContentCheck
 
-EpiCaseControl.before.update userCanEditTblContentCheck
-
-EpiCohort.before.update userCanEditTblContentCheck
-
-EpiRiskEstimate.before.update userCanEditTblContentCheck
-
 EpiDescriptive.before.update userCanEditTblContentCheck
 
 EpiResult.before.update userCanEditTblContentCheck
@@ -107,12 +83,6 @@ userCanRemoveTblContentCheck = (userId, doc) ->
 Reference.before.remove (userId, doc) -> return true
 
 MechanisticEvidence.before.remove userCanRemoveTblContentCheck
-
-EpiCaseControl.before.remove userCanRemoveTblContentCheck
-
-EpiCohort.before.remove userCanRemoveTblContentCheck
-
-EpiRiskEstimate.before.remove userCanRemoveTblContentCheck
 
 EpiDescriptive.before.remove userCanRemoveTblContentCheck
 
