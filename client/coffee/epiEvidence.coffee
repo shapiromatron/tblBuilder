@@ -274,35 +274,37 @@ Template.forestPlot.rendered = ->
         .append("svg:title")
         .text(riskStr);
 
-    group.selectAll()
-        .data([data])
-        .enter()
-        .append("line")
-        .attr("x1", (d,i) -> xscale(d.riskLow))
-        .attr("x2", (d,i) -> xscale(d.riskHigh))
-        .attr("y1", yscale(0.5))
-        .attr("y2", yscale(0.5))
-        .append("svg:title")
-        .text(riskStr);
+    if data.riskLow? and data.riskHigh?
 
-    group.selectAll()
-        .data([data])
-        .enter()
-        .append("line")
-        .attr("x1", (d,i) -> xscale(d.riskHigh))
-        .attr("x2", (d,i) -> xscale(d.riskHigh))
-        .attr("y1", yscale(0.25))
-        .attr("y2", yscale(0.75))
-        .append("svg:title")
-        .text(riskStr);
+        group.selectAll()
+            .data([data])
+            .enter()
+            .append("line")
+            .attr("x1", (d,i) -> xscale(d.riskLow))
+            .attr("x2", (d,i) -> xscale(d.riskHigh))
+            .attr("y1", yscale(0.5))
+            .attr("y2", yscale(0.5))
+            .append("svg:title")
+            .text(riskStr);
 
-    group.selectAll()
-        .data([data])
-        .enter()
-        .append("line")
-        .attr("x1", (d,i) -> xscale(d.riskLow) )
-        .attr("x2", (d,i) -> xscale(d.riskLow) )
-        .attr("y1", yscale(0.25))
-        .attr("y2", yscale(0.75))
-        .append("svg:title")
-        .text(riskStr);
+        group.selectAll()
+            .data([data])
+            .enter()
+            .append("line")
+            .attr("x1", (d,i) -> xscale(d.riskHigh))
+            .attr("x2", (d,i) -> xscale(d.riskHigh))
+            .attr("y1", yscale(0.25))
+            .attr("y2", yscale(0.75))
+            .append("svg:title")
+            .text(riskStr);
+
+        group.selectAll()
+            .data([data])
+            .enter()
+            .append("line")
+            .attr("x1", (d,i) -> xscale(d.riskLow) )
+            .attr("x2", (d,i) -> xscale(d.riskLow) )
+            .attr("y1", yscale(0.25))
+            .attr("y2", yscale(0.75))
+            .append("svg:title")
+            .text(riskStr);
