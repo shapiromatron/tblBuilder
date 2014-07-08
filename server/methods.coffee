@@ -1,5 +1,10 @@
 XLSX = Meteor.require('xlsx')
 DocXTemplater = Meteor.require('docxtemplater')
+angular_expressions= Meteor.require('angular-expressions')
+
+angularParser = (tag) ->
+    expr = angular_expressions.compile(tag)
+    return get: expr
 
 type = do ->
     classToType = {}
@@ -271,14 +276,12 @@ Meteor.methods
         covariates = _.filter(covariates, (v) -> v.match(querystr))
         return _.uniq(covariates, false)
 
-    helloWordWorld: (tbl_id) ->
-        path = "#{process.env.PWD}/private/docx-templates/tagExample.docx"
-        docx = new DocxGen().loadFromFile(path)
-        docx.setTags({
-                "first_name":"Hipp",
-                "last_name":"Edgar",
-                "phone":"0652455478",
-                "description":"New Website"
-            })
+    epiWordReport: (tbl_id) ->
+        vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
+        for val in vals
+            val.reference = Reference.findOne(_id: val.referenceID)
+        path = "#{process.env.PWD}/private/docx-templates/epi-v1.docx"
+        docx = new DocxGen().loadFromFile(path, {async:false, parser:angularParser})
+        docx.setTags({descriptions: vals})
         docx.applyTags()
         docx.output({type: "string"})

@@ -51,7 +51,7 @@ Template.epiDescriptiveTbl.events
 
     'click #wordReport': (evt, tmpl) ->
         tbl_id = Session.get('Tbl')._id
-        Meteor.call 'helloWordWorld', tbl_id, (err, response) ->
+        Meteor.call 'epiWordReport', tbl_id, (err, response) ->
             share.returnWordFile(response, "report.docx")
 
 Template.epiDescriptiveTbl.rendered = ->
