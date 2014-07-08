@@ -40,7 +40,6 @@ Template.epiDescriptiveTbl.events
         Session.set('epiDescriptiveShowAll', val)
 
     'click #epiRiskShowPlots': (evt, tmpl) ->
-        console.log('ajs to fix')
         val = not Session.get('epiRiskShowPlots')
         Session.set('epiRiskShowPlots', val)
         share.toggleRiskPlot()
@@ -51,7 +50,7 @@ Template.epiDescriptiveTbl.events
         share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
 
 Template.epiDescriptiveTbl.rendered = ->
-    # share.toggleRiskPlot()
+    share.toggleRiskPlot()
     new Sortable(@.find('#sortable'),
         handle: ".dhOuter",
         onUpdate: share.moveRowCheck,
@@ -159,6 +158,9 @@ Template.epiResultTbl.helpers
     showRow: (isHidden) ->
         Session.get('epiDescriptiveShowAll') or !isHidden
 
+    showPlots: ->
+        Session.get("epiRiskShowPlots")
+
 Template.epiResultTbl.events
 
     'click #inner-show-edit': (evt, tmpl) ->
@@ -250,3 +252,57 @@ Template.epiResultForm.rendered = ->
 Template.riskEstimateForm.events
     'click #epiRiskEstimate-delete': (evt, tmpl) ->
         tmpl.__component__.dom.remove()
+
+
+# EPI RISK FOREST PLOT ---------------------------------------------------------
+Template.forestPlot.rendered = ->
+    data = @.data.value
+    svg = d3.select(@.find('svg'))
+    svg.attr('viewBox', "0 0 #{svg.node().clientWidth} #{svg.node().clientHeight}")
+    xscale = d3.scale.log().range([0, svg.node().clientWidth]).domain([0.05, 50]).clamp(true)
+    yscale = d3.scale.linear().range([0, svg.node().clientHeight]).domain([0, 1]).clamp(true)
+    riskStr = "#{data.riskMid} (#{data.riskLow}-#{data.riskHigh})"
+    group = svg.append('g').attr('class', 'riskBar')
+
+    group.selectAll()
+        .data([data])
+        .enter()
+        .append("circle")
+        .attr("cx", (d,i) -> xscale(d.riskMid))
+        .attr("cy", (d,i) -> yscale(0.5))
+        .attr("r", 5)
+        .append("svg:title")
+        .text(riskStr);
+
+    group.selectAll()
+        .data([data])
+        .enter()
+        .append("line")
+        .attr("x1", (d,i) -> xscale(d.riskLow))
+        .attr("x2", (d,i) -> xscale(d.riskHigh))
+        .attr("y1", yscale(0.5))
+        .attr("y2", yscale(0.5))
+        .append("svg:title")
+        .text(riskStr);
+
+    group.selectAll()
+        .data([data])
+        .enter()
+        .append("line")
+        .attr("x1", (d,i) -> xscale(d.riskHigh))
+        .attr("x2", (d,i) -> xscale(d.riskHigh))
+        .attr("y1", yscale(0.25))
+        .attr("y2", yscale(0.75))
+        .append("svg:title")
+        .text(riskStr);
+
+    group.selectAll()
+        .data([data])
+        .enter()
+        .append("line")
+        .attr("x1", (d,i) -> xscale(d.riskLow) )
+        .attr("x2", (d,i) -> xscale(d.riskLow) )
+        .attr("y1", yscale(0.25))
+        .attr("y2", yscale(0.75))
+        .append("svg:title")
+        .text(riskStr);

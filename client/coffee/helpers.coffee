@@ -100,28 +100,29 @@ share.typeaheadSelectListGetLIs = ($ul) ->
     (li.innerText for li in $ul.find('li'))
 
 share.toggleRiskPlot = ->
+    # Draw log-axis for epi risk plot as needed
     if not Session.get('epiRiskShowPlots')
         return d3.select('.epiRiskAxes').remove()
 
     header = $('.riskTR')
     tbl = $(header.parent().parent().parent())
-    tbl_pos = tbl.position();
-    header_pos = header.position();
-    y_top = tbl_pos.top + header.height()
+    tbl_pos = tbl.position()
+    header_pos = header.position()
+    y_top = tbl_pos.top + header.outerHeight()
     x_left = header_pos.left
     width = header.width()
-    height = tbl.height() - header.height()
+    height = tbl.outerHeight()
 
-    xPlotBuffer = 15  # make room for the text
-    yPlotBuffer = 10  # make room for x-axis
+    xPlotBuffer = 0   # make room for the text
+    yPlotBuffer = 20  # make room for x-axis
 
     svg = d3.select('.container').insert("svg", "#epiCohortTbl")
                            .attr('class', 'epiRiskAxes')
                            .attr('height', height+yPlotBuffer)
                            .attr('width', width+2*xPlotBuffer)
-                           .style({top: y_top+20, left: x_left-xPlotBuffer})
+                           .style({top: y_top, left: x_left-xPlotBuffer})
 
-    xscale = d3.scale.log().range([0, width]).domain([0.09, 10.1]).clamp(true)
+    xscale = d3.scale.log().range([0, width]).domain([0.05, 50]).clamp(true)
     yscale = d3.scale.linear().range([0, height-yPlotBuffer]).domain([0, 1]).clamp(true)
     xaxis = d3.svg.axis().scale(xscale).orient("bottom").ticks(0, d3.format(",.f"))
 

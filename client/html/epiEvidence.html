@@ -89,9 +89,7 @@
       {{/each}}
     </tbody>
   </table>
-<!--
-  {{ drawRiskPlotAxis }}
- -->
+
   {{#if showNew}}
     {{> epiDescriptiveForm isNew=true}}
   {{/if}}
@@ -435,7 +433,12 @@
             {{/if}}
             <td>{{value.numberExposed}}</td>
             <td>{{value.exposureCategory}}</td>
-            <td>{{{riskFormat value}}}</td>
+            <td>{{#if showPlots}}
+                  {{> forestPlot}}
+                {{ else}}
+                  {{{riskFormat value}}}
+                {{/if}}
+            </td>
             {{#if isEqual current=index target=0 }}
               <td rowspan="{{../riskEstimates.length}}" class="dragHandle dhInner"
                   style="display: none" title="Drag to re-order rows"></td>
@@ -654,4 +657,10 @@
                 <span class="glyphicon glyphicon-trash"></span></button>
     </td>
   </tr>
+</template>
+
+<template name="forestPlot">
+  <div>
+    <svg class="epiRiskPlot" preserveAspectRatio="none" viewBox="0 0 100 20"></svg>
+  </div>
 </template>
