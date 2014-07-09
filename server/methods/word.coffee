@@ -5,6 +5,12 @@ angularParser = (tag) ->
     expr = angular_expressions.compile(tag)
     return get: expr
 
+getPath = (fn) ->
+    if process.env.NODE_ENV is "development"
+        return "#{process.env.PWD}/private/docx-templates/#{fn}"
+    else
+        return "#{process.env.PWD}/bundle/programs/server/assets/app/docx-templates/#{fn}"
+
 Meteor.methods
     epiWordReport: (tbl_id) ->
         vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
@@ -16,7 +22,7 @@ Meteor.methods
                 for riskEst in res.riskEstimates
                     riskEst.riskFormatted = share.riskFormatter(riskEst)
 
-        path = "#{process.env.PWD}/private/docx-templates/epi-v1.docx"
+        path = getPath("epi-v1.docx")
         docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
         docx.setTags({descriptions: vals})
         docx.applyTags()
@@ -46,7 +52,8 @@ Meteor.methods
                 getReferences(child)
                 getChildren(child)
 
-        path = "#{process.env.PWD}/private/docx-templates/mechanistic-v1.docx"
+        path = getPath("mechanistic-v1.docx")
+        console.log(path)
         docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
         docx.setTags(data)
         docx.applyTags()
