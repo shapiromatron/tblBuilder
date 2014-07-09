@@ -164,7 +164,6 @@ share.toggleRiskPlot = ->
         .attr("y2", yscale(1))
         .attr("class", (v) -> if v in [.1, 1, 10] then 'major' else 'minor')
 
-
 UI.registerHelper "formatDate", (datetime, format) ->
     DateFormats =
         short: "DD MMMM - YYYY",
@@ -177,11 +176,7 @@ UI.registerHelper "formatDate", (datetime, format) ->
         return datetime
 
 UI.registerHelper "riskFormat", (obj) ->
-    txt = obj.riskMid.toString()
-    if (obj.riskLow and obj.riskHigh)
-        txt += " (#{obj.riskLow}-#{obj.riskHigh})"
-    if obj.riskEstimated then txt = "[#{txt}]"
-    return txt
+    return share.riskFormatter(obj)
 
 UI.registerHelper "userCanEdit", ->
     tbl = Session.get('Tbl')

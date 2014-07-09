@@ -52,7 +52,7 @@ Meteor.methods
         getDescriptiveData = ->
             vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
             header = ["Descriptive ID", "Reference", "Study Design",
-                      "Location", "Enrollment Dates", "Population Description",
+                      "Location", "Enrollment Dates", "Population Description", "eligibilityCriteria",
                       "Population Size", "Population Cases", "Population Controls",
                       "Source Case Control", "Exposure Assessment Method", "Outcome Data Source",
                       "Response Rate", "Referent Group", "Exposure Level", "Analytical Method",
@@ -68,7 +68,7 @@ Meteor.methods
             for v in vals
                 reference = Reference.findOne({_id: v.referenceID}).name
                 row = [v._id, reference, v.studyDesign,
-                       v.location, v.enrollmentDates, v.populationDescription,
+                       v.location, v.enrollmentDates, v.populationDescription, v.eligibilityCriteria,
                        v.populationSize, v.populationSizeCase, v.populationSizeControl,
                        v.sourceCaseControls, v.exposureAssessmentMethod, v.outcomeDataSource,
                        v.responseRate, v.referentGroup, v.exposureLevel, v.analyticalMethod,

@@ -29,6 +29,11 @@ Template.mechanisticMain.events
         Meteor.call 'mechanisticEvidenceExcelDownload', tbl_id, (err, response) ->
             share.returnExcelFile(response, "mechanisticEvidence.xlsx")
 
+    'click #wordReport': (evt, tmpl) ->
+        tbl_id = Session.get('Tbl')._id
+        Meteor.call 'mechanisticWordReport', tbl_id, (err, response) ->
+            share.returnWordFile(response, "report.docx")
+
     'click #mechanistic-reorderRows': (evt, tmpl) ->
         Session.set('reorderRows', not Session.get('reorderRows'))
         share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
