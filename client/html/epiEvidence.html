@@ -81,10 +81,12 @@
       {{else}}
         <tr>
           <td colspan="100">No data has been entered into this table.
-            {{#unless showNew}}<br><br>
+            {{#if userCanEdit}}
+              {{#unless showNew}}<br><br>
               <a href="#" class="btn btn-primary btn-sm" id="show-create">
                 <span class="glyphicon glyphicon-plus"></span> Create new row</a>
-            {{/unless}}
+              {{/unless}}
+            {{/if}}
           </td>
         </tr>
       {{/each}}

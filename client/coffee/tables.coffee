@@ -41,6 +41,7 @@ Template.TablesByMonograph.helpers
     canEdit: ->
         currentUser = Meteor.user()
         if currentUser then id = currentUser._id else return
+        if "superuser" in currentUser.roles then return true
         ids = (v.user_id for v in @.user_roles when v.role is "projectManagers")
         return((id is @.user_id) or (id in ids))
 

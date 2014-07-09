@@ -1,10 +1,12 @@
 isCreatorOrProjectManager = (tbl, userId) ->
     # only project managers or creators
+    if "superuser" in Meteor.user().roles then return true
     ids = (v.user_id for v in tbl.user_roles when v.role is "projectManagers")
     return ((tbl.user_id is userId) or (userId in ids))
 
 isTeamMemberOrHigher = (tbl, userId) ->
     # only project managers or creators
+    if "superuser" in Meteor.user().roles then return true
     ids = (v.user_id for v in tbl.user_roles when v.role in ["projectManagers", "teamMembers"])
     return ((tbl.user_id is userId) or (userId in ids))
 
