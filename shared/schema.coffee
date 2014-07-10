@@ -98,6 +98,10 @@ Meteor.startup ->
         text:
             label: "Supporting evidence"
             type: String
+            optional: true
+            custom: () ->
+                isRequired = ((not @field('subheading').isSet) and (@value is ""))
+                if isRequired then return "required"
 
         animalInVitro:
             label: "Animal in vitro"
