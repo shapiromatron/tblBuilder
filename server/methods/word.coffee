@@ -53,7 +53,6 @@ Meteor.methods
                 getChildren(child)
 
         path = getPath("mechanistic-v1.docx")
-        console.log(path)
         docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
         docx.setTags(data)
         docx.applyTags()
