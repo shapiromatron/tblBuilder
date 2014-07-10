@@ -1,4 +1,4 @@
-Session.setDefault('monographNumber', null)
+Session.setDefault('monographAgent', null)
 
 share.TablesHandler = null;
 Deps.autorun ->
@@ -16,7 +16,7 @@ class TblRouterController extends RouteController
         else @.render("isLoading")
 
     onStop: ->
-        Session.set('monographNumber', null)
+        Session.set('monographAgent', null)
         Session.set('Tbl', null)
 
 Router.map ->
@@ -38,7 +38,7 @@ Router.map ->
                 tbl = Tables.findOne({_id: this.params._id})
                 Session.set('Tbl', tbl)
                 if tbl
-                    Session.set('monographNumber', tbl.monographNumber)
+                    Session.set('monographAgent', tbl.monographAgent)
                     return Meteor.subscribe('epiDescriptive', tbl._id)
 
         controller: TblRouterController
@@ -51,46 +51,46 @@ Router.map ->
                 tbl = Tables.findOne({_id: this.params._id})
                 Session.set('Tbl', tbl)
                 if tbl
-                    Session.set('monographNumber', tbl.monographNumber)
+                    Session.set('monographAgent', tbl.monographAgent)
                     return Meteor.subscribe('mechanisticEvidence', tbl._id)
 
         controller: TblRouterController
 
     this.route 'referencesMain',
-        path: '/monograph-:monographNumber/references/',
+        path: '/references/:monographAgent/',
 
         data: ->
-            return {monographNumber: this.params.monographNumber}
+            return {monographAgent: this.params.monographAgent}
 
         waitOn: ->
             if share.TablesHandler.ready()
-                monographNumber = parseInt(this.params.monographNumber, 10)
-                Session.set('monographNumber', monographNumber)
-                return Meteor.subscribe('monographReference', monographNumber)
+                monographAgent = this.params.monographAgent
+                Session.set('monographAgent', monographAgent)
+                return Meteor.subscribe('monographReference', monographAgent)
 
         action: ->
             if @.ready() then @.render() else @.render("isLoading")
 
         onStop: ->
-            Session.set('monographNumber', null)
+            Session.set('monographAgent', null)
 
     this.route 'referenceBatchUpload',
-        path: '/monograph-:monographNumber/references/upload/',
+        path: '/references/:monographAgent/upload/',
 
         data: ->
-            return {monographNumber: this.params.monographNumber}
+            return {monographAgent: this.params.monographAgent}
 
         waitOn: ->
             if share.TablesHandler.ready()
-                monographNumber = parseInt(this.params.monographNumber, 10)
-                Session.set('monographNumber', monographNumber)
-                return Meteor.subscribe('monographReference', monographNumber)
+                monographAgent = this.params.monographAgent
+                Session.set('monographAgent', monographAgent)
+                return Meteor.subscribe('monographReference', monographAgent)
 
         action: ->
             if @.ready() then @.render() else @.render("isLoading")
 
         onStop: ->
-            Session.set('monographNumber', null)
+            Session.set('monographAgent', null)
 
     this.route 'profileEdit',
         path: '/user-profile/'
@@ -148,8 +148,8 @@ Template.typeaheadInput.helpers
             map = ({value: v} for v in res)
             return cb(map)
 
-    searchAgent: (qry, cb) ->
-        Meteor.call "searchAgent", qry, (err, res) ->
+    searchMonographAgent: (qry, cb) ->
+        Meteor.call "searchMonographAgent", qry, (err, res) ->
             if err then return console.log(err)
             map = ({value: v} for v in res)
             return cb(map)

@@ -17,16 +17,16 @@ Deps.autorun(getTablesHandle)
 Template.TablesByMonograph.helpers
 
     getMonographs: ->
-        tbls = Tables.find({},{fields: {"monographNumber": 1}, sort: {"monographNumber": -1}}).fetch()
-        return _.uniq(_.pluck(tbls, "monographNumber"))
+        tbls = Tables.find({},{fields: {"volumeNumber": 1}, sort: {"volumeNumber": -1}}).fetch()
+        return _.uniq(_.pluck(tbls, "volumeNumber"))
 
-    getAgents: (monographNumber) ->
-        tbls = Tables.find({"monographNumber": monographNumber},
-                           {fields: {"agent": 1}, sort: {"agent": 1}}).fetch()
-        return _.uniq(_.pluck(tbls, "agent"))
+    getMonographAgents: (volumeNumber) ->
+        tbls = Tables.find({"volumeNumber": volumeNumber},
+                           {fields: {"monographAgent": 1}, sort: {"monographAgent": 1}}).fetch()
+        return _.uniq(_.pluck(tbls, "monographAgent"))
 
-    getTables: (monographNumber, agent) ->
-        tbls = Tables.find({"monographNumber": monographNumber, "agent": agent}).fetch()
+    getTables: (volumeNumber, monographAgent) ->
+        tbls = Tables.find({"volumeNumber": volumeNumber, "monographAgent": monographAgent}).fetch()
         return tbls
 
     getURL: () ->
@@ -56,12 +56,12 @@ Template.TablesByMonograph.events
     'click #tables-show-create': (evt, tmpl) ->
         Session.set("tablesShowNew", true)
         Deps.flush()  # update DOM before focus
-        share.activateInput(tmpl.find("input[name=monographNumber]"))
+        share.activateInput(tmpl.find("input[name=volumeNumber]"))
 
     'click #tables-show-edit': (evt, tmpl) ->
         Session.set("tablesEditingId", this._id)
         Deps.flush()  # update DOM before focus
-        share.activateInput(tmpl.find("input[name=monographNumber]"))
+        share.activateInput(tmpl.find("input[name=volumeNumber]"))
 
 
 Template.tablesForm.helpers

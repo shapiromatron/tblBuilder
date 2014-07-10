@@ -25,8 +25,8 @@ Template.referencesTbl.events
         share.activateInput(tmpl.find("input[name=name]"))
 
     'click #reference-downloadExcel': (evt, tmpl) ->
-        monographNumber = Session.get('monographNumber')
-        Meteor.call 'referenceExcelDownload', monographNumber, (err, response) ->
+        volumeNumber = Session.get('monographAgent')
+        Meteor.call 'referenceExcelDownload', volumeNumber, (err, response) ->
             share.returnExcelFile(response, "references.xlsx")
 
 
@@ -46,7 +46,7 @@ Template.referenceForm.events
 
     'click #reference-create': (evt, tmpl) ->
         obj = share.newValues(tmpl.find('#referenceForm'))
-        obj['monographNumber'] = [Session.get('monographNumber')]
+        obj['monographAgent'] = [Session.get('monographAgent')]
         isValid = Reference.simpleSchema().namedContext().validate(obj)
         if isValid
             Reference.insert(obj)
@@ -140,7 +140,7 @@ getPubMedDetails = (pubmedID, cb) ->
 searchRefHelper = (qry, cb) ->
     qry =
         qry : qry
-        monographNumber: Session.get('monographNumber')
+        monographAgent: Session.get('monographAgent')
 
     Meteor.call "searchReference", qry, (err, res) ->
         if err then return console.log(err)
@@ -285,7 +285,7 @@ Template.referenceBatchUpload.events
                                         pubmedID: parseInt(v.pubmedID, 10)
                                         otherURL: ""
                                         fullCitation: v.fullCitation
-                                        monographNumber: [Session.get('monographNumber')]
+                                        monographAgent: [Session.get('monographAgent')]
                                     Reference.insert(obj)
                                     status.append('success!')
                     else
@@ -294,10 +294,9 @@ Template.referenceBatchUpload.events
                     obj =
                         name: row['Name'] or "INSERT NAME"
                         referenceType: "Other"
-                        pubmedID: NaN
                         otherURL: row['Other URL']
                         fullCitation: row['Full Citation'] or "ADD DESCRIPTION"
-                        monographNumber: [Session.get('monographNumber')]
+                        monographAgent: [Session.get('monographAgent')]
                     status.append('success!')
                     Reference.insert(obj)
 

@@ -140,7 +140,7 @@ Meteor.methods
         wb.Sheets[ws_name] = ws
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
-    referenceExcelDownload: (monographNumber) ->
+    referenceExcelDownload: (monographAgent) ->
 
         getDataRow = (v) ->
             return [v._id, v.name, v.fullCitation,
@@ -150,7 +150,7 @@ Meteor.methods
             header = ['_id', 'Short Citation', 'Full Citation',
                       'Reference Type', 'Pubmed ID', 'Other URL']
             data = [header]
-            refs = Reference.find({"monographNumber": {$in: [monographNumber]}},
+            refs = Reference.find({"monographAgent": {$in: [monographAgent]}},
                                   {sort: [["name", 1]]})
 
             for ref in refs.fetch()
@@ -159,7 +159,7 @@ Meteor.methods
             return data
 
         data = getData()
-        ws_name = "#{monographNumber}-references"
+        ws_name = "#{monographAgent}-references"
         wb = new Workbook()
         ws = sheet_from_array_of_arrays(data)
         wb.SheetNames.push(ws_name)

@@ -2,12 +2,12 @@ Meteor.startup ->
 
     share.TableSchema = new SimpleSchema
 
-        agent:
-            label: "Agent Name"
+        monographAgent:
+            label: "Monograph Agent Name"
             type: String
 
-        monographNumber:
-            label: "Monograph Number"
+        volumeNumber:
+            label: "Volume Number"
             type: Number
             decimal: false
 
@@ -69,10 +69,9 @@ Meteor.startup ->
             label: "Full Citation Text"
             type: String
 
-        monographNumber:
-            type: [Number]
+        monographAgent:
+            type: [String]
             minCount: 1
-            decimal: false
 
         timestamp:
             type: Date

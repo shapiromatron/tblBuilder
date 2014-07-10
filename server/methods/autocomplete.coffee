@@ -72,22 +72,22 @@ Meteor.methods
                     field: "analyticalMethod",
                     query: query
 
-    searchAgent: (query) ->
+    searchMonographAgent: (query) ->
         check(query, String)
         return singleFieldTextSearch
                     Collection: Tables,
-                    field: "agent",
+                    field: "monographAgent",
                     query: query
 
     searchReference: (inputs) ->
-        check(inputs, {qry: String, monographNumber: Match.Integer})
+        check(inputs, {qry: String, monographAgent: String})
         querystr = new RegExp(inputs.qry, "i")  # case insensitive
         query =
             $and: [
                 name:
                     $regex: querystr,
-                monographNumber:
-                    $in: [ inputs.monographNumber ]
+                monographAgent:
+                    $in: [ inputs.monographAgent ]
             ]
 
         options =

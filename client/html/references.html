@@ -6,7 +6,7 @@
 </template>
 
 <template name="referencesTbl">
-  <h1>Monograph {{monographNumber}}: References
+  <h1>{{monographAgent}}: References
     <div class="btn-group pull-right">
       <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
         <span class="caret" title="Editing options"></span>
@@ -15,7 +15,7 @@
         {{#unless referenceShowNew}}
           <li><a href="#" id="reference-show-create"><span class="glyphicon glyphicon-plus"></span> Add a reference</a></li>
         {{/unless}}
-        <li><a href="{{pathFor 'referenceBatchUpload' monographNumber}}"><span class="glyphicon glyphicon-open"></span> Bulk upload</a></li>
+        <li><a href="{{pathFor 'referenceBatchUpload' monographAgent}}"><span class="glyphicon glyphicon-open"></span> Bulk upload</a></li>
         <li><a href="#" id="reference-downloadExcel"><span class="fa fa-file-excel-o"></span> Download Excel</a></li>
       </ul>
     </div>

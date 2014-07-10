@@ -14,7 +14,7 @@ userCanView = (tbl, userId) ->
 
 Meteor.publish 'tables', (user_id) ->
     if this.userId?
-        options = {sort: [['monographNumber', 'desc'], ['timestamp', 'desc']]}
+        options = {sort: [['volumeNumber', 'desc'], ['timestamp', 'desc']]}
         if share.isStaffOrHigher(this.userId)
             return Tables.find({}, options)
         else
@@ -28,7 +28,7 @@ Meteor.publish 'epiDescriptive', (tbl_id) ->
     if userCanView(tbl, this.userId)
         return [EpiDescriptive.find({tbl_id: tbl_id}),
                 EpiResult.find({tbl_id: tbl_id}),
-                Reference.find({monographNumber: {$in: [tbl.monographNumber]}}) ]
+                Reference.find({monographAgent: {$in: [tbl.monographAgent]}}) ]
     return this.ready()
 
 Meteor.publish 'mechanisticEvidence', (tbl_id) ->
@@ -36,7 +36,7 @@ Meteor.publish 'mechanisticEvidence', (tbl_id) ->
     tbl = Tables.findOne(_id: tbl_id)
     if userCanView(tbl, this.userId)
         return [MechanisticEvidence.find({tbl_id: tbl_id}),
-                Reference.find({monographNumber: {$in: [tbl.monographNumber]}}) ]
+                Reference.find({monographAgent: {$in: [tbl.monographAgent]}}) ]
     return this.ready()
 
 Meteor.publish 'tblUsers', (tbl_id) ->
@@ -55,7 +55,6 @@ Meteor.publish 'adminUsers', ->
     else
         return this.ready()
 
-Meteor.publish 'monographReference', (monographNumber) ->
-    monographNumber = parseInt(monographNumber, 10)
-    check(monographNumber, Number)
-    Reference.find({monographNumber: {$in: [monographNumber]}})
+Meteor.publish 'monographReference', (monographAgent) ->
+    check(monographAgent, String)
+    Reference.find({monographAgent: {$in: [monographAgent]}})

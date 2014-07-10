@@ -21,7 +21,7 @@
 <template name="TablesByMonograph">
   <div class="row">
     <div class="col-md-offset-1 col-md-10">
-      <h1>Available evidence tables
+      <h1>Available evidence streams
           {{#if isInRole 'staff'}}
           <div class="btn-group pull-right">
             <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -39,20 +39,20 @@
       {{#unless showNew}}
         {{#each getMonographs}}
           <div class="monographBanner">
-            <h2 class= "menu-autohide">Monograph {{this}}
+            <h2>Volume {{this}}</h2>
+          </div>
+         {{#each getMonographAgents this}}
+          <div class="agentBanner">
+            <h3 class= "menu-autohide">{{this}}
               <div class="rowOptions btn-group pull-right">
                 <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
                   <span class="caret" title="Editing options"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="{{pathFor 'referencesMain' monographNumber=this}}"><span class="glyphicon glyphicon-edit"></span> View references</a></li>
+                    <li><a href="{{pathFor 'referencesMain' monographAgent=this}}"><span class="glyphicon glyphicon-edit"></span> View references</a></li>
                 </ul>
               </div>
-            </h2>
-          </div>
-         {{#each getAgents this}}
-          <div class="agentBanner">
-            <h3>{{this}}</h3>
+            </h3>
           </div>
             {{#each getTables .. . }}
               {{#if isEditing}}
@@ -80,7 +80,7 @@
              You must be `staff` to create a new evidence table.</p>
         {{/each}}
       {{else}}
-        <h2>New evidence table.</h2>
+        <h2>Create a new evidence table</h2>
         {{> tablesForm}}
       {{/unless}}
     </div>
@@ -91,12 +91,12 @@
   <form id="tablesForm" role="form" class="editForm">
     <div class="form-group row">
       <div class="col-xs-3">
-        <label>Monograph Number</label>
-        <input class="form-control" name='monographNumber' type="number" value="{{monographNumber}}"/>
+        <label>Volume Number</label>
+        <input class="form-control" name='volumeNumber' type="number" value="{{volumeNumber}}"/>
       </div>
       <div class="col-xs-5">
-        <label>Agent Name</label>
-        {{> typeaheadInput name="agent" value=agent data_source="searchAgent"}}
+        <label>Monograph Agent Name</label>
+        {{> typeaheadInput name="monographAgent" value=monographAgent data_source="searchMonographAgent"}}
       </div>
       <div class="col-xs-4">
         <label>Table Type</label>

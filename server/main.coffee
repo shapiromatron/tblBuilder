@@ -36,10 +36,10 @@ Reference.before.insert (userId, doc) ->
         ref = Reference.findOne({fullCitation: doc.fullCitation})
 
     if (ref?)
-        newMonographNumber = doc.monographNumber[0]
+        newMonographAgent = doc.monographAgent[0]
         # check if it's already associated with this monograph
-        if newMonographNumber not in ref.monographNumber
-            Reference.update(ref._id, {$push: {'monographNumber': newMonographNumber}})
+        if newMonographAgent not in ref.monographAgent
+            Reference.update(ref._id, {$push: {'monographAgent': newMonographAgent}})
         # don't create a new reference.
         return false
 
