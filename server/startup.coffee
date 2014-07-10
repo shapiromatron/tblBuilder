@@ -22,5 +22,23 @@ Meteor.startup ->
 
     # create basic report template objects in database
     if ReportTemplate.find().count() is 0
-        ReportTemplate.insert({filename: "mechanistic-v1.docx", tblType: "Mechanistic Evidence Summary"})
-        ReportTemplate.insert({filename: "epi-v1.docx",         tblType: "Epidemiology Evidence"})
+        user = Meteor.users.findOne()._id
+        timestamp = (new Date()).getTime()
+
+        templates = [
+            {
+                filename: "mechanistic-v1.docx"
+                tblType: "Mechanistic Evidence Summary"
+                timestamp: timestamp
+                user_id: user
+            },
+            {
+                filename: "epi-v1.docx"
+                tblType: "Epidemiology Evidence"
+                timestamp: timestamp
+                user_id: user
+            }
+        ]
+
+        for template in templates
+            ReportTemplate.insert(template)
