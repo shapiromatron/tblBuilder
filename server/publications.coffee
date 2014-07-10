@@ -58,3 +58,6 @@ Meteor.publish 'adminUsers', ->
 Meteor.publish 'monographReference', (monographAgent) ->
     check(monographAgent, String)
     Reference.find({monographAgent: {$in: [monographAgent]}})
+
+Meteor.publish 'reportTemplate', ->
+    ReportTemplate.find()

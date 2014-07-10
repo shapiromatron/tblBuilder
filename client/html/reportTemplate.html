@@ -1,0 +1,29 @@
+<template name="reportTemplateModal">
+  <div class="modal fade" id="reportTemplateModal" tabindex="-1" role="dialog"
+       aria-labelledby="reportTemplateModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title">Create Microsoft Word report</h4>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <label>Select report template</label>
+              {{> selectList options=getTemplateOptions selectName="filename" }}
+          </form>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-primary"
+                    id="download" title="Download report" data-dismiss="modal">
+                    <span class="fa fa-download"></span> Download</button>
+            <button type="button" class="btn btn-sm btn-default"
+                    id="cancel" title="Cancel" data-dismiss="modal">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

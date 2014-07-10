@@ -3,6 +3,8 @@ Reference = new Meteor.Collection('reference');
 MechanisticEvidence = new Meteor.Collection('mechanisticEvidence');
 EpiDescriptive = new Meteor.Collection('epiDescriptive');
 EpiResult = new Meteor.Collection('epiResult');
+ReportTemplate = new Meteor.Collection('reportTemplate');
+
 
 tblTypeOptions = ["Mechanistic Evidence Summary",
                   "Epidemiology Evidence"];

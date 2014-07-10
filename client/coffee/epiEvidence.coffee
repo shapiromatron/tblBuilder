@@ -50,9 +50,9 @@ Template.epiDescriptiveTbl.events
         share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
 
     'click #wordReport': (evt, tmpl) ->
-        tbl_id = Session.get('Tbl')._id
-        Meteor.call 'epiWordReport', tbl_id, (err, response) ->
-            share.returnWordFile(response, "report.docx")
+        div = tmpl.find('#modalHolder')
+        rendered = UI.renderWithData(Template.reportTemplateModal, {})
+        UI.insert(rendered, div)
 
 Template.epiDescriptiveTbl.rendered = ->
     share.toggleRiskPlot()
