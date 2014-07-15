@@ -24,6 +24,10 @@ Tables.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     return share.isStaffOrHigher(userId)
 
+ReportTemplate.before.insert (userId, doc) ->
+    doc = addTimestampAndUserID(userId, doc)
+    return share.isStaffOrHigher(userId)
+
 Reference.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     # Duplication check. First see if a reference with this PubMed ID already
@@ -87,6 +91,7 @@ MechanisticEvidence.before.remove userCanRemoveTblContentCheck
 EpiDescriptive.before.remove userCanRemoveTblContentCheck
 
 EpiResult.before.remove userCanRemoveTblContentCheck
+
 
 # After insert hook
 Meteor.users.after.insert (userId, doc) ->

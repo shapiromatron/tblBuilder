@@ -46,9 +46,9 @@ Template.reportTemplateRow.events
         Session.set("reportTemplateEditingId", @_id)
 
     'click #downloadTemplate': (evt, tmpl) ->
-        console.log("AJS to implement")
-        # Meteor.call('adminUserResetPassword', @_id)
-
+        fn = @filename
+        Meteor.call 'downloadTemplate', @._id, (err, response) ->
+            share.returnWordFile(response, fn)
 
 # REPORT TEMPLATE FORM ---------------------------------------------------------
 Template.reportTemplateForm.helpers
@@ -59,19 +59,37 @@ Template.reportTemplateForm.helpers
     isNew: ->
         return Session.get('reportTemplateEditingId') is null
 
+getValues = (tmpl, methodName) ->
+    errorDiv = tmpl.find("#errors")
+    errorDiv.innerHTML = ""
+    tblType = tmpl.find('select[name="tblType"]').value
+    inp = tmpl.find('input[name="filename"]')
+    if tmpl.data? then _id = tmpl.data._id
+    if inp.files.length is 1
+        fileReader = new FileReader()
+        file = inp.files[0]
+        fn = file.name
+        fileReader.onload = (file) ->
+            binaryData = file.srcElement.result
+            Meteor.call methodName, binaryData, fn, tblType, _id, (err, res) ->
+                if (err?)
+                    msg = "#{err.reason}: #{err.details}"
+                    setError(msg, errorDiv)
+                else
+                    Session.set("reportTemplateShowNew", false)
+                    Session.set("reportTemplateEditingId", null)
+        fileReader.readAsBinaryString(file)
+    else
+        msg = "Please load a Word template file."
+        setError(msg, errorDiv)
+
 Template.reportTemplateForm.events
 
     'click #create': (evt, tmpl) ->
-        # vals = getAdminUserValues(tmpl)
-        # Meteor.call('adminUserCreateProfile', vals)
-        console.log("AJS to implement")
-        Session.set("reportTemplateShowNew", false)
+        getValues(tmpl, 'saveNewTemplate')
 
     'click #update': (evt, tmpl) ->
-        # vals = getAdminUserValues(tmpl)
-        # Meteor.call('adminUserEditProfile', @_id, vals)
-        console.log("AJS to implement")
-        Session.set("reportTemplateEditingId", null)
+        getValues(tmpl, 'updateExistingTemplate')
 
     'click #update-cancel': (evt, tmpl) ->
         Session.set("reportTemplateEditingId", null)
@@ -80,5 +98,13 @@ Template.reportTemplateForm.events
         Session.set("reportTemplateShowNew", false)
 
     'click #delete': (evt, tmpl) ->
-        console.log("AJS to implement")
+        Meteor.call("removeExistingTemplate", @_id)
         Session.set("reportTemplateEditingId", null)
+
+setError = (message, div) ->
+    data = {
+        alertType: "danger"
+        message: message
+    }
+    rendered = UI.renderWithData(Template.dismissableAlert, data)
+    UI.insert(rendered, div)

@@ -43,15 +43,12 @@ Meteor.startup ->
 
     Reference.allow
         insert: (userId, doc) ->
-            # must be logged-in
             return userId?
 
         update: (userId, doc, fieldNames, modifier) ->
-            # must be logged-in
             return userId?
 
         remove: (userId, doc) ->
-            # must be logged-in
             return userId?
 
     MechanisticEvidence.allow tblContentAllowRules
@@ -59,3 +56,13 @@ Meteor.startup ->
     EpiDescriptive.allow tblContentAllowRules
 
     EpiResult.allow tblContentAllowRules
+
+    ReportTemplate.allow
+        insert: (userId, doc) ->
+            share.isStaffOrHigher(userId)
+
+        update: (userId, doc, fieldNames, modifier) ->
+            share.isStaffOrHigher(userId)
+
+        remove: (userId, doc) ->
+            share.isStaffOrHigher(userId)

@@ -5,12 +5,6 @@ angularParser = (tag) ->
     expr = angular_expressions.compile(tag)
     return get: expr
 
-getPath = (fn) ->
-    if process.env.NODE_ENV is "development"
-        return "#{process.env.PWD}/private/docx-templates/#{fn}"
-    else
-        return "#{process.env.PWD}/bundle/programs/server/assets/app/docx-templates/#{fn}"
-
 epiWordReport = (tbl_id, filename) ->
     vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
     for val in vals
@@ -21,7 +15,7 @@ epiWordReport = (tbl_id, filename) ->
             for riskEst in res.riskEstimates
                 riskEst.riskFormatted = share.riskFormatter(riskEst)
 
-    path = getPath(filename)
+    path = share.getWordTemplatePath(filename)
     docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
     docx.setTags({descriptions: vals})
     docx.applyTags()
@@ -51,7 +45,7 @@ mechanisticWordReport = (tbl_id, filename) ->
             getReferences(child)
             getChildren(child)
 
-    path = getPath(filename)
+    path = share.getWordTemplatePath(filename)
     docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
     docx.setTags(data)
     docx.applyTags()
