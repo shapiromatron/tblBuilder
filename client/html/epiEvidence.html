@@ -4,6 +4,24 @@
   </div>
 </template>
 
+<template name="epiAnalysisTbl">
+  <div class="container">
+    <h1>{{name}}
+      <div class="btn-group pull-right">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+          <span class="caret" title="Editing options"></span>
+        </button>
+        <ul class="dropdown-menu">
+        <li>
+          <a href="{{pathFor 'epiMain' _id=this._id}}">
+            <span class="fa fa-table"></span> Data editing</a></li>
+        </ul>
+      </div>
+    </h1>
+    <table id="analysisTbl" class="table table-condensed table-striped" cellspacing="0" width="100%"></table>
+  </div>
+</template>
+
 <template name="epiDescriptiveTbl">
   <h1>{{name}}
     <div class="btn-group pull-right">
@@ -38,6 +56,9 @@
             {{#if isShowAll}}<span class="glyphicon glyphicon-resize-small"></span> Hide rows
             {{else}}<span class="glyphicon glyphicon-resize-full"></span> Show all rows
             {{/if}}</a></li>
+        <li>
+          <a href="{{pathFor 'epiAnalysisTbl' _id=this._id}}">
+            <span class="fa fa-table"></span> Data exploration</a></li>
       </ul>
     </div>
   </h1>

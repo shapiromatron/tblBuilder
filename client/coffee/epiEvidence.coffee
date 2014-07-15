@@ -3,9 +3,43 @@ Session.setDefault('epiDescriptiveEditingId', null)
 Session.setDefault('epiDescriptiveShowAll', false)
 Session.setDefault('epiResultEditingId', null)
 
+# EPI ANALYSIS TABLE -----------------------------------------------------------
+Template.epiAnalysisTbl.rendered = ->
+    self = @
+    data = share.getFlattenedEpiData(Session.get("Tbl")._id)
+
+    # build default columns to display
+    columns = []
+    for field in data.shift()
+        columns.push({"title": field, "visible": field in share.defaultEpiVisible})
+
+    # create the dataTable object
+    tbl = $(self.find('#analysisTbl'))
+    tbl.dataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "dom": 'C<"clear">lfrtip',
+        "scrollY":        "400px",
+        "scrollCollapse": true,
+        "paging":         false,
+        "data": data,
+        "columns": columns
+    })
+
+    # tbl = tbl.DataTable()
+    # $("#analysisTbl tfoot th").each (i) ->
+    #     select = $("<select></select>")
+    #         .appendTo($(this).empty())
+    #         .append("<option></option>")
+    #         .on 'change', ->
+    #             val = $(this).val()
+    #             tbl.column(i).search(val ? '^' + val + '$' : val, true, false).draw()
+
+    #     tbl.column(i).data().unique().sort().each (d,j) ->
+    #         select.append("<option value='#{d}'>#{d}</option>")
+
+
 # EPI DESCRIPTIVE TABLE --------------------------------------------------------
 Template.epiDescriptiveTbl.helpers
-
     showNew: ->
         Session.get("epiDescriptiveShowNew")
 

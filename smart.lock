@@ -38,8 +38,8 @@
       },
       "accounts-ui-bootstrap-3": {
         "git": "https://github.com/mangasocial/meteor-accounts-ui-bootstrap-3.git",
-        "tag": "v0.3.0-1",
-        "commit": "93ffa5d0e325dc7026de89f6d90c178fa04bdd3a"
+        "tag": "v0.3.3",
+        "commit": "2e50b605d8d5ed68e48c4529a65f13552d8af3f9"
       },
       "typeahead": {
         "git": "https://github.com/sergeyt/meteor-typeahead.git",
@@ -48,8 +48,8 @@
       },
       "collection-hooks": {
         "git": "https://github.com/matb33/meteor-collection-hooks.git",
-        "tag": "v0.7.0",
-        "commit": "20a6de81f3818f112bccf67b5e1d3db342cf0b18"
+        "tag": "v0.7.2",
+        "commit": "261f61f07b371ae913463fba8964a9b93cab531b"
       },
       "sortable": {
         "git": "https://github.com/fishdude/meteor-sortable.git",
@@ -58,13 +58,13 @@
       },
       "less-bootstrap-3": {
         "git": "https://github.com/DerMambo/less-bootstrap-3.git",
-        "tag": "v0.0.1",
-        "commit": "1321ac0ebc809bc354186b96f4c28b7042e38507"
+        "tag": "v0.0.2",
+        "commit": "b5010b2ff9e9ae6b0e6e13eb0f6c81c9cb84373e"
       },
       "font-awesome-4-less": {
         "git": "https://github.com/svub/fontawesome4-less.git",
-        "tag": "v4.3.9",
-        "commit": "45e5d416d85ad8216ac17066492dddb67ad4acb4"
+        "tag": "v4.4.0",
+        "commit": "250d2336a217c18eb70e9d074784a7db3ca38472"
       },
       "roles": {
         "git": "https://github.com/alanning/meteor-roles.git",
