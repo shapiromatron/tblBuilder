@@ -6,18 +6,22 @@ angularParser = (tag) ->
     return get: expr
 
 epiWordReport = (tbl_id, filename) ->
+    tbl = Tables.findOne(tbl_id)
     vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
     for val in vals
         val.reference = Reference.findOne(_id: val.referenceID)
+        val.isCaseControl = val.studyDesign is "Case-Control"
         val.results = EpiResult.find({parent_id: val._id}, {sort: {sortIdx: 1}}).fetch()
         for res in val.results
             res.covariatesList = res.covariates.join(', ')
             for riskEst in res.riskEstimates
                 riskEst.riskFormatted = share.riskFormatter(riskEst)
 
+    data = {"descriptions": vals, "table": tbl}
+
     path = share.getWordTemplatePath(filename)
     docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
-    docx.setTags({descriptions: vals})
+    docx.setTags(data)
     docx.applyTags()
     docx.output({type: "string"})
 
