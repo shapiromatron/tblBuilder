@@ -65,23 +65,25 @@
 
   <table id="epiDescritpiveTbl" class="evidenceTable table table-compressed">
     <colgroup>
-      <col width="20%">
-      <col width="10%">
       <col width="15%">
-      <col width="10%">
-      <col width="10%">
       <col width="15%">
-      <col width="20%">
+      <col width="12%">
+      <col width="13%">
+      <col width="07%">
+      <col width="13%">
+      <col width="13%">
+      <col width="12%">
     </colgroup>
     <thead>
       <tr>
-        <th>Header</th>
-        <th>Header</th>
-        <th>Header</th>
-        <th>Header</th>
-        <th>Header</th>
-        <th class="riskTR">Header</th>
-        <th>Header</th>
+        <th>Reference, study-type,<br>location, and year</th>
+        <th>Population description</th>
+        <th>Organ site<br>(ICD code)</th>
+        <th>Exposure</th>
+        <th>Cases/<br>deaths</th>
+        <th class="riskTR">Risks<br>(95% CI)</th>
+        <th>Covariates controlled<br>(effect measure)</th>
+        <th>Comments</th>
       </tr>
     </thead>
     <tbody id="sortable">
@@ -149,10 +151,13 @@
         </ul>
       </div>
     {{/if}}
-    {{>printReference id=referenceID}}
+    {{>printReference id=referenceID}}<br>
+    {{studyDesign}}<br>
+    {{location}}<br>
+    {{enrollmentDates}}
   </td>
-  <td>Content</td>
-  <td colspan="4" id="sortableInner">
+  <td>{{populationDescription}}</td>
+  <td colspan="5" id="sortableInner">
     {{#each getResults}}
       {{> epiResultTbl}}
     {{else}}
@@ -166,7 +171,7 @@
       </p>
     {{/each }}
   </td>
-  <td>Content</td>
+  <td>{{notes}}</td>
   <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
 </template>
 
@@ -423,10 +428,11 @@
 
     <table class="table table-condensed nestedTbl">
       <colgroup>
-        <col width="30%">
-        <col width="20%">
-        <col width="20%">
-        <col width="30%">
+        <col width="20.7%">
+        <col width="22.4%">
+        <col width="12.1%">
+        <col width="22.4%">
+        <col width="22.4%">
       </colgroup>
       <tbody>
         {{#each eachIndex riskEstimates}}
@@ -455,8 +461,8 @@
                 {{../cancerSite}}
               </td>
             {{/if}}
-            <td>{{value.numberExposed}}</td>
             <td>{{value.exposureCategory}}</td>
+            <td>{{value.numberExposed}}</td>
             <td>{{#if showPlots}}
                   {{> forestPlot}}
                 {{ else}}
@@ -464,6 +470,9 @@
                 {{/if}}
             </td>
             {{#if isEqual current=index target=0 }}
+              <td rowspan="{{../riskEstimates.length}}">
+                {{getCovariatesList ..}} ({{../effectMeasure}})
+              </td>
               <td rowspan="{{../riskEstimates.length}}" class="dragHandle dhInner"
                   style="display: none" title="Drag to re-order rows"></td>
             {{/if}}
@@ -659,12 +668,11 @@
                name='riskHigh'
                value="{{riskHigh}}"/>
     </td>
-    <td>
-      <div class="checkbox">
-        <input type="checkbox" name='riskEstimated'
-               checked="{{riskEstimated}}"
-               title="Check if risk was estimated by reviewer, not study-author"/>
-      </div>
+    <td class="checkbox">
+      <input style="margin: 0px"
+             type="checkbox" name='riskEstimated'
+             checked="{{riskEstimated}}"
+             title="Check if risk was estimated by reviewer, not study-author"/>
     </td>
     <td class="text-center" style="vertical-align: middle;">
       <button type="button" class="btn btn-xs btn-danger"

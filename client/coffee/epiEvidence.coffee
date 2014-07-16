@@ -214,6 +214,9 @@ Template.epiResultTbl.helpers
     showPlots: ->
         Session.get("epiRiskShowPlots")
 
+    getCovariatesList: (obj) ->
+        obj.covariates.join(", ")
+
 Template.epiResultTbl.events
 
     'click #inner-show-edit': (evt, tmpl) ->
