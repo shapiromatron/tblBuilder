@@ -17,25 +17,40 @@ Template.epiAnalysisTbl.rendered = ->
     tbl = $(self.find('#analysisTbl'))
     tbl.dataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        "dom": 'C<"clear">lfrtip',
-        "scrollY":        "400px",
+        "dom": 'RC<"clear">lfrtip',
+        "scrollY":        "600px",
         "scrollCollapse": true,
         "paging":         false,
         "data": data,
         "columns": columns
     })
 
-    # tbl = tbl.DataTable()
-    # $("#analysisTbl tfoot th").each (i) ->
-    #     select = $("<select></select>")
-    #         .appendTo($(this).empty())
-    #         .append("<option></option>")
-    #         .on 'change', ->
-    #             val = $(this).val()
-    #             tbl.column(i).search(val ? '^' + val + '$' : val, true, false).draw()
+# not used, sort fine without so-far
+$.extend $.fn.dataTableExt.oSort,
+    # Author-year citation field
+    "authorYear-pre": (s) ->
+        # Change citation from "Smith et al. 1972" to "1972 Smith" for sorting
+        res = s.match(/(\w+).*(\d{4})/)
+        if res? then return "#{res[2]} #{res[1]}"
+        else return s
 
-    #     tbl.column(i).data().unique().sort().each (d,j) ->
-    #         select.append("<option value='#{d}'>#{d}</option>")
+    "authorYear-asc": (a, b) ->
+        return ((a < b) ? -1 : ((a > b) ? 1 : 0))
+
+    "authorYear-desc": (a, b) ->
+        return ((a < b) ? 1 : ((a > b) ?  -1 : 0))
+
+    # Risk field
+    "riskSort-pre": (s) ->
+        # get the first numeric value in risk string
+        res = s.match(/([\d\.]+)/)
+        return parseFloat(res[1])
+
+    "riskSort-asc": (a, b) ->
+        return ((a < b) ? -1 : ((a > b) ? 1 : 0))
+
+    "riskSort-desc": (a, b) ->
+        return ((a < b) ? 1 : ((a > b) ?  -1 : 0))
 
 
 # EPI DESCRIPTIVE TABLE --------------------------------------------------------

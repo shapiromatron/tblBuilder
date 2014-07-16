@@ -23,7 +23,7 @@ share.getFlattenedEpiData = (tbl_id) ->
             for re in v.riskEstimates
                 row3 = row2.slice()  # shallow copy
                 row3.push(re.exposureCategory, re.numberExposed, re.riskEstimated,
-                          re.riskMid, re.riskLow, re.riskHigh)
+                          re.riskMid, re.riskLow, re.riskHigh, share.riskFormatter(re))
                 rows.push(row3)
         return rows
 
@@ -40,7 +40,7 @@ share.getFlattenedEpiData = (tbl_id) ->
               "Covariates Text", "Notes",
 
               "Exposure Category", "Number Exposed", "Risks estimated?",
-              "Risk Mid", "Risk 5% CI", "Risk 95% CI"]
+              "Risk Mid", "Risk 5% CI", "Risk 95% CI", "Risk"]
     data = [header]
     for v in vals
         reference = Reference.findOne({_id: v.referenceID}).name
@@ -56,4 +56,4 @@ share.getFlattenedEpiData = (tbl_id) ->
 
 share.defaultEpiVisible = ["Reference", "Study Design", "Location",
                            "Cancer Site", "Effect Measure",
-                           "Risk Mid", "Risk 5% CI", "Risk 95% CI"]
+                           "Exposure Category", "Risk"]
