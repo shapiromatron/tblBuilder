@@ -44,11 +44,11 @@ Meteor.methods
                        {"profile.affiliation": {$regex: querystr}}]}
         Meteor.users.find(query, {fields: {_id: 1, emails: 1, profile: 1}, limit: 20}).fetch()
 
-    searchCancerSite: (query) ->
+    searchOrganSite: (query) ->
         check(query, String)
         return singleFieldTextSearch
                     Collection: EpiResult,
-                    field: "cancerSite",
+                    field: "organSite",
                     query: query
 
     searchEffectUnits: (query) ->
@@ -63,13 +63,6 @@ Meteor.methods
         return singleFieldTextSearch
                     Collection: EpiResult,
                     field: "effectMeasure",
-                    query: query
-
-    searchAnalyticalMethod: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: EpiDescriptive,
-                    field: "analyticalMethod",
                     query: query
 
     searchMonographAgent: (query) ->
@@ -103,3 +96,12 @@ Meteor.methods
         covariates = _.flatten(_.pluck(queryset, 'covariates'))
         covariates = _.filter(covariates, (v) -> v.match(querystr))
         return _.uniq(covariates, false)
+
+    searchCoexposures: (query) ->
+        check(query, String)
+        querystr = new RegExp(query, "i")  # case insensitive
+        queryset = EpiDescriptive.find({"coexposures": { $in: [ querystr ] }},
+                        {fields: {coexposures: 1}, limit: 1000}).fetch()
+        coexposures = _.flatten(_.pluck(queryset, 'coexposures'))
+        coexposures = _.filter(coexposures, (v) -> v.match(querystr))
+        return _.uniq(coexposures, false)

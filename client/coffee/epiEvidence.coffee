@@ -155,6 +155,9 @@ Template.epiDescriptiveForm.helpers
     getStudyDesignOptions: ->
         return epiStudyDesignOptions
 
+    getExposureAssessmentTypeOptions: ->
+        return exposureAssessmentTypeOptions
+
 Template.epiDescriptiveForm.events
     'change select[name="studyDesign"]': (evt, tmpl) ->
         toggleCCfields(tmpl)

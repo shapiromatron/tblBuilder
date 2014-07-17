@@ -205,7 +205,7 @@
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Enrollment for case-control studies, follow-up for cohort studies">
-               Enrollment or follow-up date</label>
+               Enrollment or follow-up dates</label>
         <input class="form-control" type="text"
                name='enrollmentDates'
                value="{{enrollmentDates}}"/>
@@ -253,7 +253,7 @@
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
               data-content="Method of follow-up or source of outcome data (e.g.
-                            linkage to natinoal cancer registry, searches of
+                            linkage to national cancer registry, searches of
                             death certificates, insurace records, etc.)">
               Outcome data source</label>
         <textarea class="form-control"
@@ -265,92 +265,150 @@
     <!-- Third row -->
     <div class="form-group row">
 
-      <div class="col-xs-4 isNotCCinput">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Number enrolled for cohort studies which were
-                             included in the analysis after exclusions">
-               Population size</label>
-        <input class="form-control" type="number"
-               name='populationSize'
-               value="{{populationSize}}"/>
-      </div>
-      <div class="col-xs-3 isCCinput">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Number of cases in case-control study which were
-                             included in the analysis after exclusions">
-               Cases: population size</label>
-        <input class="form-control" type="number"
-               name='populationSizeCase'
-               value="{{populationSizeCase}}"/>
-      </div>
-      <div class="col-xs-3 isCCinput">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Number of controls in case-control study which were
-                             included in the analysis after exclusions">
-               Controls: population size</label>
-        <input class="form-control" type="number"
-               name='populationSizeControl'
-               value="{{populationSizeControl}}"/>
+      <!-- Cohort options -->
+      <div class="col-xs-12 isNotCCinput">
+        <div class="row">
+          <div class="col-xs-4">
+            <label class="helpPopovers" data-toggle="popover"
+                   data-content="Number enrolled for cohort studies which were
+                                 included in the analysis after exclusions">
+                   Population size</label>
+            <input class="form-control" type="number"
+                   name='populationSize'
+                   value="{{populationSize}}"/>
+          </div>
+
+          <div class="col-xs-4">
+            <label class="helpPopovers" data-toggle="popover"
+                   data-content="Number enrolled for cohort studies which were
+                                 included in the analysis after exclusions">
+                   Loss to follow-up</label>
+            <input class="form-control" type="number"
+                   name='lossToFollowUp'
+                   value="{{lossToFollowUp}}"/>
+          </div>
+
+          <div class="col-xs-4"></div>
+        </div>
       </div>
 
-      <div class="col-xs-6 isCCinput">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Note disease definition and whether incident for
-                             cases. For hospital clinical/registry controls note
-                             disease(s) if relevant (e.g., other cancers, non-
-                             smoking related disease)">
-                Source of cases and controls</label>
-        <textarea class="form-control"
-                  name='sourceCaseControls'
-                  rows="2">{{sourceCaseControls}}</textarea>
+      <!-- Case-control options -->
+      <div class="col-xs-12 isCCinput">
+        <!-- Header inputs -->
+        <div class="row">
+          <div class="col-xs-1">
+          </div>
+          <div class="col-xs-2">
+            <label class="helpPopovers" data-toggle="popover"
+                   data-content="Number of cases in case-control study which were
+                                 included in the analysis after exclusions">
+                   Population size</label>
+          </div>
+          <div class="col-xs-3">
+            <label class="helpPopovers" data-toggle="popover"
+                   data-content="Percent of eligible participants included
+                                 (for cases and controls in case-control studies)">
+                   Response rates</label>
+          </div>
+          <div class="col-xs-6">
+            <label class="helpPopovers" data-toggle="popover"
+                   data-content="Note disease definition and whether incident for
+                                 cases. For hospital clinical/registry controls note
+                                 disease(s) if relevant (e.g., other cancers, non-
+                                 smoking related disease)">
+                    Source of cases and controls</label>
+          </div>
+        </div>
+
+        <!-- Case inputs -->
+        <div class="row">
+          <div class="col-xs-1">
+            <strong>Cases</strong>
+          </div>
+          <div class="col-xs-2">
+            <input class="form-control" type="number"
+                   name='populationSizeCase'
+                   value="{{populationSizeCase}}"/>
+          </div>
+          <div class="col-xs-3">
+            <input class="form-control" type="number" step="any"
+                   name='responseRateCase'
+                   value="{{responseRateCase}}"
+                   placeholder="Leave blank if unknown"/>
+          </div>
+          <div class="col-xs-6">
+            <textarea class="form-control"
+                      name="sourceCase"
+                      rows="1">{{sourceCase}}</textarea>
+          </div>
+        </div>
+
+        <!-- Control inputs -->
+        <div class="row">
+          <div class="col-xs-1">
+            <strong>Controls</strong>
+          </div>
+          <div class="col-xs-2">
+            <input class="form-control" type="number"
+                   name='populationSizeControl'
+                   value="{{populationSizeControl}}"/>
+          </div>
+          <div class="col-xs-3">
+            <input class="form-control" type="number" step="any"
+                   name='responseRateControl'
+                   value="{{responseRateControl}}"
+                   placeholder="Leave blank if unknown"/>
+          </div>
+          <div class="col-xs-6">
+            <textarea class="form-control"
+                      name="sourceControl"
+                      rows="1">{{sourceControl}}</textarea>
+          </div>
+        </div>
       </div>
+
     </div>
 
     <!-- Fourth row -->
     <div class="form-group row">
 
-      <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Percent of eligible participants included
-                            (for cases and controls in case-control studies)">
-              Response rates</label>
-        <input class="form-control" type="number" step="any"
-               name='responseRate'
-               value="{{responseRate}}"
-               placeholder="Leave blank if unknown"/>
-      </div>
-
-
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Enrollment for case-control studies, follow-up for cohort studies">
-               Type of referent group</label>
+               Type of referent group<br>(external vs. internal analysis)</label>
         <input class="form-control" type="text"
                name='referentGroup'
                value="{{referentGroup}}"/>
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Average exposure level or range">
-               Exposure level</label>
+               &nbsp;<br>Exposure level</label>
         <input class="form-control" type="text"
                name='exposureLevel'
                value="{{exposureLevel}}"/>
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
-               data-content="e.g., multiple logistic regression, lifetable, Mantel-Haenzel, etc.">
-               Analytical method</label>
-        {{> typeaheadInput name="analyticalMethod" value=analyticalMethod data_source="searchAnalyticalMethod"}}
+              data-content="Which method was used to estimate agent-exposure?">
+               &nbsp;<br>Exposure assessment type</label>
+        {{> selectList options=getExposureAssessmentTypeOptions selected=exposureAssessmentType selectName="exposureAssessmentType"}}
       </div>
     </div>
 
     <!-- Fifth row -->
     <div class="form-group row">
 
-      <div class="col-xs-4">
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Possible co-exposures which may potentially confound results.">
+                Possible co-exposures</label>
+        {{> typeaheadSelectList name="coexposures" values=coexposures data_source="searchCoexposures"}}
+      </div>
+
+      <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Any study-strengths should be described here.">
                 Principal strengths</label>
@@ -359,7 +417,7 @@
                   rows="3">{{strengths}}</textarea>
       </div>
 
-      <div class="col-xs-4">
+      <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Limitations to consider include the extent to which
                              chance, bias, and confounding could explain the results">
@@ -369,7 +427,7 @@
                   rows="3">{{limitations}}</textarea>
       </div>
 
-      <div class="col-xs-4">
+      <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Any other general comments related to the study">
               General Notes</label>
@@ -458,7 +516,7 @@
                     </ul>
                   </div>
                 {{/if}}
-                {{../cancerSite}}
+                {{../organSite}}
               </td>
             {{/if}}
             <td>{{value.exposureCategory}}</td>
@@ -493,7 +551,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="epiResultsModal">Results data capture</h4>
+          <h4 class="modal-title" id="epiResultsModal">Results for epidemiological studies</h4>
         </div>
 
         <div class="modal-body">
@@ -504,10 +562,10 @@
             <div class="form-group row">
               <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
-                       data-content="Cancer site for results being measured.">
-                       Cancer Site<br>&nbsp;</label>
+                       data-content="Cancer-organ site for results being measured.">
+                       &nbsp;<br>Organ Site (ICD code)</label>
                 <br>
-                {{> typeaheadInput name="cancerSite" value=cancerSite data_source="searchCancerSite"}}
+                {{> typeaheadInput name="organSite" value=organSite data_source="searchOrganSite"}}
               </div>
 
               <div class="col-xs-3">
@@ -520,14 +578,14 @@
               <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
                        data-content="Risk metric used to display results (SMR, RR, etc.)">
-                       Description of effect measure</label>
+                       &nbsp;<br>Measure of effect</label>
                 {{> typeaheadInput name="effectMeasure" value=effectMeasure data_source="searchEffectMeasure"}}
               </div>
 
               <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
-                      data-content="Trend test, provide for categorical analysis when reported">
-                      Trend test<br>&nbsp;</label>
+                      data-content="Provide p-value for trend-test when reported">
+                      &nbsp;<br><i>p</i>-value for trend</label>
                 <input class="form-control" type="number" step="any"
                        name='trendTest'
                        value="{{trendTest}}"/>
@@ -547,23 +605,23 @@
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                     data-content="Deaths/cases for cohort studies; Cases for case-control studies">
-                    Number exposed<br>&nbsp;</span></th>
+                    &nbsp;<br>Number exposed</span></th>
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="Central risk reported for risk estimate">
-                        Risk estimate<br>midpoint</span></th>
+                        &nbsp;<br>Risk estimate</span></th>
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="95% lower confidence interval risk estimate">
-                        Risk estimate<br>95% lower CI</span></th>
+                        &nbsp;<br>95% lower CI</span></th>
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="95% upper confidence interval risk estimate">
-                         Risk estimate<br>95% upper CI</span></th>
+                         &nbsp;<br>95% upper CI</span></th>
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
-                        data-content="Risk was estimated by reviewers, not study-authors">
-                        Estimated<br>&nbsp;</span></th>
+                        data-content="Calculations by the working-group (WG), not study-authors">
+                        WG<br>calculation?</span></th>
                 <th>
                     <button type="button" class="btn btn-xs btn-info"
                             id="inner-addRiskRow" title="Add row">

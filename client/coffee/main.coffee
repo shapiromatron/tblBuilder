@@ -157,8 +157,8 @@ UI.registerHelper "getUserDescription", ->
 
 
 Template.typeaheadInput.helpers
-    searchCancerSite: (qry, cb) ->
-        Meteor.call "searchCancerSite", qry, (err, res) ->
+    searchOrganSite: (qry, cb) ->
+        Meteor.call "searchOrganSite", qry, (err, res) ->
             if err then return console.log(err)
             map = ({value: v} for v in res)
             return cb(map)
@@ -181,12 +181,6 @@ Template.typeaheadInput.helpers
             map = ({value: v} for v in res)
             return cb(map)
 
-    searchAnalyticalMethod: (qry, cb) ->
-        Meteor.call "searchAnalyticalMethod", qry, (err, res) ->
-            if err then return console.log(err)
-            map = ({value: v} for v in res)
-            return cb(map)
-
 Template.typeaheadInput.rendered = ->
     Meteor.typeahead.inject("input[name=#{@.data.name}]")
 
@@ -197,6 +191,12 @@ Template.typeaheadSelectList.helpers
             if err then return console.log(err)
             map = ({value: v} for v in res)
             cb(map)
+
+    searchCoexposures: (qry, cb) ->
+        Meteor.call "searchCoexposures", qry, (err, res) ->
+            if err then return console.log(err)
+            map = ({value: v} for v in res)
+            return cb(map)
 
 Template.typeaheadSelectList.events
 
