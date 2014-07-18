@@ -15,7 +15,7 @@ share.getFlattenedEpiData = (tbl_id) ->
         for v in vals
             covariates = v.covariates.join(', ')
             row2 = row.slice()  # shallow copy
-            row2.push(v._id, v.cancerSite, v.effectMeasure,
+            row2.push(v._id, v.organSite, v.effectMeasure,
                       v.effectUnits, v.trendTest, covariates,
                       v.covariatesControlledText, v.notes)
 
@@ -28,14 +28,15 @@ share.getFlattenedEpiData = (tbl_id) ->
         return rows
 
     vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
-    header = ["Descriptive ID", "Reference", "Study Design",
-              "Location", "Enrollment Dates", "Population Description", "eligibilityCriteria",
-              "Population Size", "Population Cases", "Population Controls",
-              "Source Case Control", "Exposure Assessment Method", "Outcome Data Source",
-              "Response Rate", "Referent Group", "Exposure Level", "Analytical Method",
+    header = ["Descriptive ID", "Reference", "Study Design", "Location", "Enrollment Dates",
+              "Population Description", "Eligibility Criteria", "Outcome Data Source",
+              "Population Size", "Loss to follow-up", "Referent Group",
+              "Population Cases", "Response Rate Cases", "Source Cases",
+              "Population Controls", "Response Rate Controls", "Source Controls"
+              "Exposure Assessment Method", "Exposure Assessment Type", "Exposure Level", "Coexposures",
               "Strengths", "Limitations", "Notes",
 
-              "Result ID", "Cancer Site", "Effect Measure",
+              "Result ID", "Organ Site", "Effect Measure",
               "Effect Units", "Trend Test", "Covariates",
               "Covariates Text", "Notes",
 
@@ -44,16 +45,18 @@ share.getFlattenedEpiData = (tbl_id) ->
     data = [header]
     for v in vals
         reference = Reference.findOne({_id: v.referenceID}).name
-        row = [v._id, reference, v.studyDesign,
-               v.location, v.enrollmentDates, v.populationDescription, v.eligibilityCriteria,
-               v.populationSize, v.populationSizeCase, v.populationSizeControl,
-               v.sourceCaseControls, v.exposureAssessmentMethod, v.outcomeDataSource,
-               v.responseRate, v.referentGroup, v.exposureLevel, v.analyticalMethod,
+        coexposures = v.coexposures.join(', ')
+        row = [v._id, reference, v.studyDesign, v.location, v.enrollmentDates,
+               v.populationDescription, v.eligibilityCriteria, v.outcomeDataSource,
+               v.populationSize, v.lossToFollowUp, v.referentGroup,
+               v.populationSizeCase, v.responseRateCase, v.sourceCase,
+               v.populationSizeControl, v.responseRateControl, v.sourceControl,
+               v.exposureAssessmentMethod, v.exposureAssessmentType, v.exposureLevel, coexposures,
                v.strengths, v.limitations, v.notes]
         rows = getResultData(v._id, row)
         data.push.apply(data, rows)
     return data
 
 share.defaultEpiVisible = ["Reference", "Study Design", "Location",
-                           "Cancer Site", "Effect Measure",
+                           "Organ Site", "Effect Measure",
                            "Exposure Category", "Risk"]
