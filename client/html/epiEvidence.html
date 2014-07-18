@@ -177,7 +177,7 @@
 
 <template name="epiDescriptiveForm">
   <form id="epiDescriptiveForm" role="form" class="editForm">
-    <legend>Epidemiological Cohort Description</legend>
+    <legend>Epidemiological Study Description</legend>
     <p class="help-block">Hover-over field labels for more descriptive text.</p>
 
     <!-- First row -->
@@ -215,7 +215,7 @@
     <!-- Second row -->
     <div class="form-group row">
 
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Industry or occupation (e.g., transformer repair
                              workers); cohort name (e.g., Nurses' Health Study);
@@ -228,7 +228,7 @@
                   rows="4">{{populationDescription}}</textarea>
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Any additional criteria for inclusion/exclusion
                              (e.g., age, sex, race, length of employment).
@@ -239,18 +239,7 @@
                   rows="4">{{eligibilityCriteria}}</textarea>
       </div>
 
-      <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Approach used to estimate exposure, if any
-                            (quantitative measurement, JEM questionnaire, expert
-                            judgement, biomonitoring, other)">
-              Exposure assessment method</label>
-        <textarea class="form-control"
-                  name='exposureAssessmentMethod'
-                  rows="4">{{exposureAssessmentMethod}}</textarea>
-      </div>
-
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
               data-content="Method of follow-up or source of outcome data (e.g.
                             linkage to national cancer registry, searches of
@@ -272,7 +261,7 @@
             <label class="helpPopovers" data-toggle="popover"
                    data-content="Number enrolled for cohort studies which were
                                  included in the analysis after exclusions">
-                   Population size</label>
+                   &nbsp;<br>Population size</label>
             <input class="form-control" type="number"
                    name='populationSize'
                    value="{{populationSize}}"/>
@@ -282,13 +271,21 @@
             <label class="helpPopovers" data-toggle="popover"
                    data-content="Number enrolled for cohort studies which were
                                  included in the analysis after exclusions">
-                   Loss to follow-up</label>
+                   &nbsp;<br>Loss to follow-up</label>
             <input class="form-control" type="number"
                    name='lossToFollowUp'
                    value="{{lossToFollowUp}}"/>
           </div>
 
-          <div class="col-xs-4"></div>
+          <div class="col-xs-4">
+            <label class="helpPopovers" data-toggle="popover"
+                   data-content="Enrollment for case-control studies, follow-up for cohort studies">
+                   Type of referent group<br>(external vs. internal analysis)</label>
+            <input class="form-control" type="text"
+                   name='referentGroup'
+                   value="{{referentGroup}}"/>
+          </div>
+
         </div>
       </div>
 
@@ -371,20 +368,25 @@
 
     <!-- Fourth row -->
     <div class="form-group row">
-
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
-               data-content="Enrollment for case-control studies, follow-up for cohort studies">
-               Type of referent group<br>(external vs. internal analysis)</label>
-        <input class="form-control" type="text"
-               name='referentGroup'
-               value="{{referentGroup}}"/>
+              data-content="Approach used to estimate exposure, if any
+                            (quantitative measurement, JEM questionnaire, expert
+                            judgement, biomonitoring, other)">
+              Exposure assessment method</label>
+        <textarea class="form-control"
+                  name='exposureAssessmentMethod'
+                  rows="4">{{exposureAssessmentMethod}}</textarea>
       </div>
 
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
+               data-content="Which method was used to estimate agent-exposure?">
+               Exposure assessment type</label>
+        {{> selectList options=getExposureAssessmentTypeOptions selected=exposureAssessmentType selectName="exposureAssessmentType"}}
+        <label class="helpPopovers" data-toggle="popover"
                data-content="Average exposure level or range">
-               &nbsp;<br>Exposure level</label>
+               Exposure level</label>
         <input class="form-control" type="text"
                name='exposureLevel'
                value="{{exposureLevel}}"/>
@@ -392,23 +394,16 @@
 
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="Which method was used to estimate agent-exposure?">
-               &nbsp;<br>Exposure assessment type</label>
-        {{> selectList options=getExposureAssessmentTypeOptions selected=exposureAssessmentType selectName="exposureAssessmentType"}}
+               data-content="Possible co-exposures which may potentially confound results.">
+                Possible co-exposures</label>
+        {{> typeaheadSelectList name="coexposures" values=coexposures data_source="searchCoexposures"}}
       </div>
     </div>
 
     <!-- Fifth row -->
     <div class="form-group row">
 
-      <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Possible co-exposures which may potentially confound results.">
-                Possible co-exposures</label>
-        {{> typeaheadSelectList name="coexposures" values=coexposures data_source="searchCoexposures"}}
-      </div>
-
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Any study-strengths should be described here.">
                 Principal strengths</label>
@@ -417,7 +412,7 @@
                   rows="3">{{strengths}}</textarea>
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Limitations to consider include the extent to which
                              chance, bias, and confounding could explain the results">
@@ -427,7 +422,7 @@
                   rows="3">{{limitations}}</textarea>
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Any other general comments related to the study">
               General Notes</label>
