@@ -10,6 +10,7 @@ epiWordReport = (tbl_id, filename) ->
     vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
     for val in vals
         val.reference = Reference.findOne(_id: val.referenceID)
+        val.coexposuresList = val.coexposures.join(', ')
         val.isCaseControl = val.studyDesign is "Case-Control"
         val.results = EpiResult.find({parent_id: val._id}, {sort: {sortIdx: 1}}).fetch()
         for res in val.results
