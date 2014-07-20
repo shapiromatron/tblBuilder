@@ -1,5 +1,6 @@
 
 share.riskFormatter = (obj) ->
+    if not obj.riskMid? then return "-"
     txt = obj.riskMid.toString()
     if (obj.riskLow and obj.riskHigh)
         txt += " (#{obj.riskLow}-#{obj.riskHigh})"
