@@ -47,6 +47,7 @@ mechanisticWordReport = (tbl_id, filename) ->
                                             {sort: {sortIdx: 1}}).fetch()
         data.sections.push({"description": section.sectionDesc, "children": children})
         for child in children
+            child.hasSubheading = child.subheading? and child.subheading isnt ""
             getReferences(child)
             getChildren(child)
 
