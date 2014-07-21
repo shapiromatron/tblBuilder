@@ -11,6 +11,7 @@ getNewIdx = (Cls, tbl_id) ->
     return max+1
 
 userCanEditTblContent = (tbl_id, editorId) ->
+    if "superuser" in Meteor.user().roles then return true
     tbl = Tables.findOne(tbl_id)
     if not editorId? or not tbl? then return false
     if editorId is tbl.user_id then return true

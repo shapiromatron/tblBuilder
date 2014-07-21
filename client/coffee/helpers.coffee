@@ -93,6 +93,10 @@ share.copyAsNew = (obj) ->
                 $div.empty()
                 rendered = UI.renderWithData(Template.referenceSingleSelectSelected, {referenceID: val})
                 UI.insert(rendered, $div[0])
+            when "coexposures"
+                $ul = $('input[name="coexposures"]').parent().next()
+                for key in val
+                    share.typeaheadSelectListAddLI($ul, key)
             else
                 switch typeof(val)
                     when "object"
@@ -174,9 +178,6 @@ UI.registerHelper "formatDate", (datetime, format) ->
         return moment(datetime).format(f)
     else
         return datetime
-
-UI.registerHelper "riskFormat", (obj) ->
-    return share.riskFormatter(obj)
 
 UI.registerHelper "userCanEdit", ->
     tbl = Session.get('Tbl')

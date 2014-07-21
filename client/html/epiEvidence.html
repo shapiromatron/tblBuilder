@@ -67,12 +67,12 @@
     <colgroup>
       <col width="15%">
       <col width="15%">
+      <col width="10%">
+      <col width="11%">
+      <col width="06%">
       <col width="12%">
-      <col width="13%">
-      <col width="07%">
-      <col width="13%">
-      <col width="13%">
-      <col width="12%">
+      <col width="10%">
+      <col width="21%">
     </colgroup>
     <thead>
       <tr>
@@ -155,7 +155,7 @@
     {{location}}<br>
     {{enrollmentDates}}
   </td>
-  <td>{{eligibilityCriteria}}<br><i>Exposure assessment type: </i>{{exposureAssessmentType}}</td>
+  <td>{{eligibilityCriteria}}<br><strong>Exposure assess. method: </strong>{{exposureAssessmentType}}</td>
   <td colspan="5" id="sortableInner">
     {{#each getResults}}
       {{> epiResultTbl}}
@@ -324,12 +324,12 @@
             <strong>Cases</strong>
           </div>
           <div class="col-xs-2">
-            <input class="form-control" type="number"
+            <input class="form-control" type="text"
                    name='populationSizeCase'
                    value="{{populationSizeCase}}"/>
           </div>
           <div class="col-xs-3">
-            <input class="form-control" type="number" step="any"
+            <input class="form-control" type="text"
                    name='responseRateCase'
                    value="{{responseRateCase}}"
                    placeholder="Leave blank if unknown"/>
@@ -347,12 +347,12 @@
             <strong>Controls</strong>
           </div>
           <div class="col-xs-2">
-            <input class="form-control" type="number"
+            <input class="form-control" type="text"
                    name='populationSizeControl'
                    value="{{populationSizeControl}}"/>
           </div>
           <div class="col-xs-3">
-            <input class="form-control" type="number" step="any"
+            <input class="form-control" type="text"
                    name='responseRateControl'
                    value="{{responseRateControl}}"
                    placeholder="Leave blank if unknown"/>
@@ -479,63 +479,61 @@
     <div class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
         data-id="{{_id}}"
         data-sortIdx="{{sortIdx}}">
-
-    <table class="table table-condensed nestedTbl">
-      <colgroup>
-        <col width="20.7%">
-        <col width="22.4%">
-        <col width="12.1%">
-        <col width="22.4%">
-        <col width="22.4%">
-      </colgroup>
-      <tbody>
-        {{#each eachIndex riskEstimates}}
-          <tr>
-            {{#if isEqual current=index target=0 }}
-              <td rowspan="{{../riskEstimates.length}}">
-                {{#if userCanEdit}}
-                  <div id="epiResultDiv"></div>
-                  <div class="rowOptions btn-group pull-right">
-                    <button class="btn btn-default btn-xs dropdown-toggle"
-                            type="button" data-toggle="dropdown">
-                            <span class="caret" title="Editing options"></span></button>
-                    <ul class="dropdown-menu">
-                      <li><a href="#" id="inner-show-edit">
-                          <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                      <li><a href="#" id="inner-toggle-hidden">{{#if ../isHidden}}
-                        <span class="glyphicon glyphicon-plus"></span> Show row
-                        {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
-                        {{/if}}</a>
-                      </li>
-                      <li><a href="#" id="inner-copy-as-new">
-                          <span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
-                    </ul>
-                  </div>
-                {{/if}}
-                {{../organSite}}
+      <table class="table table-condensed nestedTbl">
+        <colgroup>
+          <col width="20.4%">
+          <col width="22.4%">
+          <col width="12.2%">
+          <col width="24.5%">
+          <col width="20.5%">
+        </colgroup>
+        <tbody>
+          {{#each eachIndex riskEstimates}}
+            <tr>
+              {{#if isEqual current=index target=0 }}
+                <td rowspan="{{../riskEstimates.length}}">
+                  {{#if userCanEdit}}
+                    <div id="epiResultDiv"></div>
+                    <div class="rowOptions btn-group pull-right">
+                      <button class="btn btn-default btn-xs dropdown-toggle"
+                              type="button" data-toggle="dropdown">
+                              <span class="caret" title="Editing options"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#" id="inner-show-edit">
+                            <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                        <li><a href="#" id="inner-toggle-hidden">{{#if ../isHidden}}
+                          <span class="glyphicon glyphicon-plus"></span> Show row
+                          {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+                          {{/if}}</a>
+                        </li>
+                        <li><a href="#" id="inner-copy-as-new">
+                            <span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
+                      </ul>
+                    </div>
+                  {{/if}}
+                  {{../organSite}}
+                </td>
+              {{/if}}
+              <td>{{value.exposureCategory}}</td>
+              <td>{{value.numberExposed}}</td>
+              <td>{{#if showPlots}}
+                    {{> forestPlot parent=.. index=index }}
+                  {{ else}}
+                    <span title="Effect measure: {{../effectMeasure}}">{{{riskFormat value}}}</span>
+                  {{/if}}
               </td>
-            {{/if}}
-            <td>{{value.exposureCategory}}</td>
-            <td>{{value.numberExposed}}</td>
-            <td>{{#if showPlots}}
-                  {{> forestPlot}}
-                {{ else}}
-                  <span title="Effect measure: {{../effectMeasure}}">{{{riskFormat value}}}</span>
-                {{/if}}
-            </td>
-            {{#if isEqual current=index target=0 }}
-              <td rowspan="{{../riskEstimates.length}}">
-                {{getCovariatesList ..}}
-              </td>
-              <td rowspan="{{../riskEstimates.length}}" class="dragHandle dhInner"
-                  style="display: none" title="Drag to re-order rows"></td>
-            {{/if}}
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-
-  </div>
+              {{#if isEqual current=index target=0 }}
+                <td rowspan="{{../riskEstimates.length}}">
+                  {{getCovariatesList ..}}
+                </td>
+                <td rowspan="{{../riskEstimates.length}}" class="dragHandle dhInner"
+                    style="display: none" title="Drag to re-order rows"></td>
+              {{/if}}
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   {{/if}}
 </template>
 

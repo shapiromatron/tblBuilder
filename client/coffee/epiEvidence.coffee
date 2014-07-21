@@ -223,6 +223,9 @@ Template.epiResultTbl.helpers
     getCovariatesList: (obj) ->
         obj.covariates.join(", ")
 
+    riskFormat: (obj) ->
+        return share.riskFormatter(obj)
+
 Template.epiResultTbl.events
 
     'click #inner-show-edit': (evt, tmpl) ->
@@ -318,13 +321,14 @@ Template.riskEstimateForm.events
 
 # EPI RISK FOREST PLOT ---------------------------------------------------------
 Template.forestPlot.rendered = ->
-    data = @.data.value
+    data = @data.parent.riskEstimates[@data.index]
     svg = d3.select(@.find('svg'))
     svg.attr('viewBox', "0 0 #{svg.node().clientWidth} #{svg.node().clientHeight}")
     xscale = d3.scale.log().range([0, svg.node().clientWidth]).domain([0.05, 50]).clamp(true)
     yscale = d3.scale.linear().range([0, svg.node().clientHeight]).domain([0, 1]).clamp(true)
-    riskStr = "#{data.riskMid} (#{data.riskLow}-#{data.riskHigh})"
+    riskStr = "Effect measure #{@data.parent.effectMeasure}: #{data.riskMid} (#{data.riskLow}-#{data.riskHigh})"
     group = svg.append('g').attr('class', 'riskBar')
+    group.append("svg:title").text(riskStr)
 
     if data.riskMid?
         group.selectAll()
@@ -334,8 +338,6 @@ Template.forestPlot.rendered = ->
             .attr("cx", (d,i) -> xscale(d.riskMid))
             .attr("cy", (d,i) -> yscale(0.5))
             .attr("r", 5)
-            .append("svg:title")
-            .text(riskStr)
 
     if data.riskLow? and data.riskHigh?
 
@@ -347,8 +349,6 @@ Template.forestPlot.rendered = ->
             .attr("x2", (d,i) -> xscale(d.riskHigh))
             .attr("y1", yscale(0.5))
             .attr("y2", yscale(0.5))
-            .append("svg:title")
-            .text(riskStr)
 
         group.selectAll()
             .data([data])
@@ -358,8 +358,6 @@ Template.forestPlot.rendered = ->
             .attr("x2", (d,i) -> xscale(d.riskHigh))
             .attr("y1", yscale(0.25))
             .attr("y2", yscale(0.75))
-            .append("svg:title")
-            .text(riskStr)
 
         group.selectAll()
             .data([data])
@@ -369,5 +367,3 @@ Template.forestPlot.rendered = ->
             .attr("x2", (d,i) -> xscale(d.riskLow) )
             .attr("y1", yscale(0.25))
             .attr("y2", yscale(0.75))
-            .append("svg:title")
-            .text(riskStr)
