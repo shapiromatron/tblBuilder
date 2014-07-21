@@ -147,7 +147,101 @@ Meteor.startup ->
             optional: true
 
 
+    share.epiResultSchema = new SimpleSchema
+
+        organSite:
+            label: "Organ site (ICD code)"
+            type: String
+
+        effectMeasure:
+            label: "Measure of effect"
+            type: String
+
+        effectUnits:
+            label: "Units of effect measurement"
+            type: String
+            optional: true
+
+        trendTest:
+            label: "p-value for trend"
+            type: Number
+            decimal: true
+            optional: true
+
+        "riskEstimates.$.exposureCategory":
+            label: "Exposure category or level"
+            type: String
+
+        "riskEstimates.$.numberExposed":
+            label: "Exposed cases/deaths"
+            type: Number
+            decimal: false
+
+        "riskEstimates.$.riskMid":
+            label: "Risk estimate"
+            type: Number
+            decimal: true
+            optional: true
+
+        "riskEstimates.$.riskLow":
+            label: "95% lower CI"
+            type: Number
+            decimal: true
+            optional: true
+
+        "riskEstimates.$.riskHigh":
+            label: "95% upper CI"
+            type: Number
+            decimal: true
+            optional: true
+
+        "riskEstimates.$.riskEstimated":
+            label: "Working-group calculation"
+            type: Boolean
+
+        covariates:
+            label: "Covariates controlled"
+            type: [String]
+
+        covariatesControlledText:
+            label: "Covariates controlled notes"
+            type: String
+            optional: true
+
+        notes:
+            label: "General notes"
+            type: String
+            optional: true
+
+        isHidden:
+            type: Boolean
+
+        parent_id:
+            type: SimpleSchema.RegEx.Id
+            denyUpdate: true
+
+        sortIdx:
+            type: Number
+            decimal: true
+            optional: true
+
+        tbl_id:
+            type: SimpleSchema.RegEx.Id
+            denyUpdate: true
+
+        timestamp:
+            type: Date
+            denyUpdate: true
+            optional: true
+
+        user_id:
+            type: Date
+            denyUpdate: true
+            optional: true
+
+
     # attach schema to collections
     Tables.attachSchema(share.TableSchema)
     Reference.attachSchema(share.ReferenceSchema)
     MechanisticEvidence.attachSchema(share.MechanisticEvidenceSchema)
+    EpiResult.attachSchema(share.epiResultSchema)

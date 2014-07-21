@@ -267,6 +267,7 @@ getRiskRows = (tmpl, obj) ->
     delete obj.riskMid
     delete obj.riskLow
     delete obj.riskEstimated
+    delete obj.numberExposed
     obj.riskEstimates = []
     tbody = tmpl.find('.riskEstimateTbody')
     for row in $(tbody).find('tr')
@@ -284,8 +285,14 @@ Template.epiResultForm.events
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['parent_id'] = tmpl.data.descriptive._id
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
-        EpiResult.insert(obj)
-        removeSelf(tmpl)
+        obj['isHidden'] = false
+        isValid = EpiResult.simpleSchema().namedContext().validate(obj)
+        if isValid
+            EpiResult.insert(obj)
+            removeSelf(tmpl)
+        else
+            errorDiv = share.createErrorDiv(EpiResult.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
 
     'click #inner-create-cancel': (evt, tmpl) ->
         removeSelf(tmpl)
@@ -293,9 +300,15 @@ Template.epiResultForm.events
     'click #inner-update': (evt, tmpl) ->
         vals = share.updateValues(tmpl.find('#epiResultForm'), @)
         getRiskRows(tmpl, vals)
-        EpiResult.update(@_id, {$set: vals})
-        Session.set("epiResultEditingId", null)
-        removeSelf(tmpl)
+        modifier = {$set: vals}
+        isValid = EpiResult.simpleSchema().namedContext().validate(modifier, {modifier: true})
+        if isValid
+            EpiResult.update(@_id, modifier)
+            Session.set("epiResultEditingId", null)
+            removeSelf(tmpl)
+        else
+            errorDiv = share.createErrorDiv(EpiResult.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
 
     'click #inner-update-cancel': (evt, tmpl) ->
         Session.set("epiResultEditingId", null)

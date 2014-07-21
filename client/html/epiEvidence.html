@@ -564,16 +564,16 @@
 
               <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
-                      data-content="Units, if relevant (e.g., risk per 10 μg/m3)">
-                      Units of effect measurement</label>
-                {{> typeaheadInput name="effectUnits" value=effectUnits data_source="searchEffectUnits"}}
+                       data-content="Risk metric used to display results (SMR, RR, etc.)">
+                       &nbsp;<br>Measure of effect</label>
+                {{> typeaheadInput name="effectMeasure" value=effectMeasure data_source="searchEffectMeasure"}}
               </div>
 
               <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
-                       data-content="Risk metric used to display results (SMR, RR, etc.)">
-                       &nbsp;<br>Measure of effect</label>
-                {{> typeaheadInput name="effectMeasure" value=effectMeasure data_source="searchEffectMeasure"}}
+                      data-content="Units, if relevant (e.g., risk per 10 μg/m3)">
+                      Units of effect measurement</label>
+                {{> typeaheadInput name="effectUnits" value=effectUnits data_source="searchEffectUnits"}}
               </div>
 
               <div class="col-xs-3">
