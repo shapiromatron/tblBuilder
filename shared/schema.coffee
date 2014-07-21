@@ -239,9 +239,165 @@ Meteor.startup ->
             denyUpdate: true
             optional: true
 
+    requiredCC = () ->
+        isRequired = ((@field('studyDesign').value in CaseControlTypes) and (@value is ""))
+        if isRequired then return "required"
+
+    requiredCohort = () ->
+        isRequired = ((@field('studyDesign').value not in CaseControlTypes) and (@value is ""))
+        if isRequired then return "required"
+
+    share.epiDescriptiveSchema = new SimpleSchema
+
+        referenceID:
+            label: "Reference"
+            type: SimpleSchema.RegEx.Id
+
+        studyDesign:
+            label: "Study design"
+            allowedValues: epiStudyDesignOptions
+            type: String
+
+        location:
+            label: "Location"
+            type: String
+
+        enrollmentDates:
+            label: "Enrollment or follow-up dates"
+            type: String
+
+        eligibilityCriteria:
+            label: "Population/eligibility characteristics"
+            type: String
+
+        populationDescription:
+            label: "Other population descriptors"
+            type: String
+            optional: true
+
+        outcomeDataSource:
+            label: "Outcome data source"
+            type: String
+
+        populationSize:
+            label: "Population size"
+            type: String
+            optional: true
+            custom: requiredCohort
+            defaultValue: null
+
+        lossToFollowUp:
+            label: "Loss to follow-up"
+            type: String
+            optional: true
+            custom: requiredCohort
+            defaultValue: null
+
+        referentGroup:
+            label: "Type of referent group"
+            type: String
+            optional: true
+            custom: requiredCohort
+            defaultValue: null
+
+        populationSizeCase:
+            label: "Population size (cases)"
+            type: String
+            optional: true
+            custom: requiredCC
+            defaultValue: null
+
+        populationSizeControl:
+            label: "Population size (controls)"
+            type: String
+            optional: true
+            custom: requiredCC
+            defaultValue: null
+
+        responseRateCase:
+            label: "Response rate (cases)"
+            type: String
+            optional: true
+            custom: requiredCC
+            defaultValue: null
+
+        responseRateControl:
+            label: "Response rate (controls)"
+            type: String
+            optional: true
+            custom: requiredCC
+            defaultValue: null
+
+        sourceCase:
+            label: "Source of cases"
+            type: String
+            optional: true
+            custom: requiredCC
+            defaultValue: null
+
+        sourceControl:
+            label: "Source of controls"
+            type: String
+            optional: true
+            custom: requiredCC
+            defaultValue: null
+
+        exposureAssessmentMethod:
+            label: "Exposure assessment method"
+            type: String
+
+        exposureAssessmentType:
+            label: "Exposure assessment type"
+            allowedValues: exposureAssessmentTypeOptions
+            type: String
+
+        exposureLevel:
+            label: "Exposure level"
+            type: String
+
+        coexposures:
+            label: "Possible co-exposures"
+            type: [String]
+
+        strengths:
+            label: "Principal strengths"
+            type: String
+
+        limitations:
+            label: "Principal limitations"
+            type: String
+
+        notes:
+            label: "General notes"
+            type: String
+
+        isHidden:
+            type: Boolean
+            optional: true
+
+        sortIdx:
+            type: Number
+            decimal: true
+            optional: true
+
+        tbl_id:
+            type: SimpleSchema.RegEx.Id
+            denyUpdate: true
+
+        timestamp:
+            type: Date
+            denyUpdate: true
+            optional: true
+
+        user_id:
+            type: SimpleSchema.RegEx.Id
+            denyUpdate: true
+            optional: true
+
 
     # attach schema to collections
     Tables.attachSchema(share.TableSchema)
     Reference.attachSchema(share.ReferenceSchema)
     MechanisticEvidence.attachSchema(share.MechanisticEvidenceSchema)
     EpiResult.attachSchema(share.epiResultSchema)
+    EpiDescriptive.attachSchema(share.epiDescriptiveSchema)

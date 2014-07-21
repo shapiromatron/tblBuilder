@@ -15,6 +15,8 @@ referenceTypeOptions = ["PubMed", "Other"];
 
 epiStudyDesignOptions = ["Cohort", "Nested Case-Control", "Case-Control", "Ecological"];
 
+CaseControlTypes = ["Case-Control", "Nested Case-Control"];
+
 exposureAssessmentTypeOptions = ["JEM", "questionnaire", "company records"];
 
 mechanisticEvidenceSections = [

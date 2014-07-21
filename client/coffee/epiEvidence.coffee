@@ -7,7 +7,6 @@ Session.setDefault('epiResultEditingId', null)
 Template.epiAnalysisTbl.rendered = ->
     self = @
     data = share.getFlattenedEpiData(Session.get("Tbl")._id)
-
     # build default columns to display
     columns = []
     for field in data.shift()
@@ -169,16 +168,27 @@ Template.epiDescriptiveForm.events
         obj = share.newValues(tmpl.find('#epiDescriptiveForm'))
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
-        EpiDescriptive.insert(obj)
-        Session.set("epiDescriptiveShowNew", false)
+        isValid = EpiDescriptive.simpleSchema().namedContext().validate(obj)
+        if isValid
+            EpiDescriptive.insert(obj)
+            Session.set("epiDescriptiveShowNew", false)
+        else
+            errorDiv = share.createErrorDiv(EpiDescriptive.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
 
     'click #create-cancel': (evt, tmpl) ->
         Session.set("epiDescriptiveShowNew", false)
 
     'click #update': (evt, tmpl) ->
         vals = share.updateValues(tmpl.find('#epiDescriptiveForm'), @)
-        EpiDescriptive.update(@_id, {$set: vals})
-        Session.set("epiDescriptiveEditingId", null)
+        modifier = {$set: vals}
+        isValid = EpiDescriptive.simpleSchema().namedContext().validate(modifier, {modifier: true})
+        if isValid
+            EpiDescriptive.update(@_id, {$set: vals})
+            Session.set("epiDescriptiveEditingId", null)
+        else
+            errorDiv = share.createErrorDiv(EpiDescriptive.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
 
     'click #update-cancel': (evt, tmpl) ->
         Session.set("epiDescriptiveEditingId", null)
@@ -204,7 +214,7 @@ toggleCCfields = (tmpl) ->
     # toggle between if Cohort or Case-Control fields are present
     selector = tmpl.find('select[name="studyDesign"]')
     studyD = $(selector).find('option:selected')[0].value
-    if studyD in ["Case-Control", "Nested Case-Control"]
+    if studyD in CaseControlTypes
         $(tmpl.findAll('.isNotCCinput')).hide()
         $(tmpl.findAll('.isCCinput')).show()
     else

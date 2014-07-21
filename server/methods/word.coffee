@@ -11,7 +11,7 @@ epiWordReport = (tbl_id, filename) ->
     for val in vals
         val.reference = Reference.findOne(_id: val.referenceID)
         val.coexposuresList = val.coexposures.join(', ')
-        val.isCaseControl = val.studyDesign is "Case-Control"
+        val.isCaseControl = val.studyDesign in CaseControlTypes
         val.results = EpiResult.find({parent_id: val._id}, {sort: {sortIdx: 1}}).fetch()
         for res in val.results
             res.covariatesList = res.covariates.join(', ')
