@@ -250,10 +250,11 @@ Template.epiResultForm.helpers
     isNew: ->
         return Session.get('epiResultEditingId') is null
 
-removeSelf = (tmpl) ->
+removeSelf = (tmpl, opt) ->
     # completely remove self from DOM, including template
     $(tmpl.find('#epiResultsModal')).on 'hidden.bs.modal', ->
         tmpl.__component__.dom.remove()
+        if opt? and opt.removeResult then EpiResult.remove(opt.removeResult)
 
     $(tmpl.find('#epiResultsModal')).modal('hide')
 
@@ -298,9 +299,8 @@ Template.epiResultForm.events
         removeSelf(tmpl)
 
     'click #inner-delete': (evt, tmpl) ->
-        EpiResult.remove(@_id)
         Session.set("epiResultEditingId", null)
-        removeSelf(tmpl)
+        removeSelf(tmpl, {"removeResult": @_id})
 
 Template.epiResultForm.rendered = ->
     $(@.find('#epiResultsModal')).modal('toggle')
