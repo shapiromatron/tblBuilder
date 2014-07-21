@@ -118,6 +118,9 @@ Template.epiDescriptiveRow.helpers
     getResults: (evt, tmpl) ->
         return EpiResult.find({parent_id: @_id}, {sort: {sortIdx: 1}})
 
+    getStudyDesign: (evt, tmpl) ->
+        if @studyDesign is "Nested Case-Control" then return "#{@studyDesign}<br>"
+
 Template.epiDescriptiveRow.events
 
     'click #toggle-hidden': (evt, tmpl) ->
@@ -201,7 +204,7 @@ toggleCCfields = (tmpl) ->
     # toggle between if Cohort or Case-Control fields are present
     selector = tmpl.find('select[name="studyDesign"]')
     studyD = $(selector).find('option:selected')[0].value
-    if studyD is "Case-Control"
+    if studyD in ["Case-Control", "Nested Case-Control"]
         $(tmpl.findAll('.isNotCCinput')).hide()
         $(tmpl.findAll('.isCCinput')).show()
     else
@@ -323,15 +326,16 @@ Template.forestPlot.rendered = ->
     riskStr = "#{data.riskMid} (#{data.riskLow}-#{data.riskHigh})"
     group = svg.append('g').attr('class', 'riskBar')
 
-    group.selectAll()
-        .data([data])
-        .enter()
-        .append("circle")
-        .attr("cx", (d,i) -> xscale(d.riskMid))
-        .attr("cy", (d,i) -> yscale(0.5))
-        .attr("r", 5)
-        .append("svg:title")
-        .text(riskStr);
+    if data.riskMid?
+        group.selectAll()
+            .data([data])
+            .enter()
+            .append("circle")
+            .attr("cx", (d,i) -> xscale(d.riskMid))
+            .attr("cy", (d,i) -> yscale(0.5))
+            .attr("r", 5)
+            .append("svg:title")
+            .text(riskStr)
 
     if data.riskLow? and data.riskHigh?
 
@@ -344,7 +348,7 @@ Template.forestPlot.rendered = ->
             .attr("y1", yscale(0.5))
             .attr("y2", yscale(0.5))
             .append("svg:title")
-            .text(riskStr);
+            .text(riskStr)
 
         group.selectAll()
             .data([data])
@@ -355,7 +359,7 @@ Template.forestPlot.rendered = ->
             .attr("y1", yscale(0.25))
             .attr("y2", yscale(0.75))
             .append("svg:title")
-            .text(riskStr);
+            .text(riskStr)
 
         group.selectAll()
             .data([data])
@@ -366,4 +370,4 @@ Template.forestPlot.rendered = ->
             .attr("y1", yscale(0.25))
             .attr("y2", yscale(0.75))
             .append("svg:title")
-            .text(riskStr);
+            .text(riskStr)

@@ -76,13 +76,13 @@
     </colgroup>
     <thead>
       <tr>
-        <th>Reference, study-type,<br>location, and year</th>
-        <th>Population description</th>
+        <th>Reference,<br>location, and year</th>
+        <th>Population description &amp;<br>exposure assessment method</th>
         <th>Organ site<br>(ICD code)</th>
-        <th>Exposure</th>
-        <th>Cases/<br>deaths</th>
-        <th class="riskTR">Risks<br>(95% CI)</th>
-        <th>Covariates controlled<br>(effect measure)</th>
+        <th>Exposure category<br> or level</th>
+        <th>Exposed<br>cases/<br>deaths</th>
+        <th class="riskTR">Risk estimate<br>(95% CI)</th>
+        <th>Covariates controlled</th>
         <th>Comments</th>
       </tr>
     </thead>
@@ -151,12 +151,11 @@
         </ul>
       </div>
     {{/if}}
-    {{>printReference id=referenceID}}<br>
-    {{studyDesign}}<br>
+    {{>printReference id=referenceID}}<br>{{{getStudyDesign}}}
     {{location}}<br>
     {{enrollmentDates}}
   </td>
-  <td>{{populationDescription}}</td>
+  <td>{{eligibilityCriteria}}<br><i>Exposure assessment type: </i>{{exposureAssessmentType}}</td>
   <td colspan="5" id="sortableInner">
     {{#each getResults}}
       {{> epiResultTbl}}
@@ -171,7 +170,9 @@
       </p>
     {{/each }}
   </td>
-  <td>{{notes}}</td>
+  <td>{{notes}}<br>
+    <strong>Strengths: </strong>{{strengths}}<br>
+    <strong>Limitations: </strong>{{limitations}}</td>
   <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
 </template>
 
@@ -188,7 +189,7 @@
 
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="Study-design used for evaluation (Prospective Cohort, Case-Control, etc.) ">
+              data-content="Study-design used for evaluation (Cohort, Case-Control, Nested-Case Control, etc.) ">
               Study design</label>
         {{> selectList options=getStudyDesignOptions selected=studyDesign selectName="studyDesign" }}
       </div>
@@ -214,6 +215,16 @@
 
     <!-- Second row -->
     <div class="form-group row">
+      <div class="col-xs-4">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Any additional criteria for inclusion/exclusion
+                             (e.g., age, sex, race, length of employment).
+                             Provide for cases and controls in case-control studies.">
+                &nbsp;<br>Population/eligibility characteristics</label>
+        <textarea class="form-control"
+                  name='eligibilityCriteria'
+                  rows="4">{{eligibilityCriteria}}</textarea>
+      </div>
 
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
@@ -222,29 +233,19 @@
                              source of population (e.g., participants in the
                              population census, registered voters, source cohort
                              for nested case-control studies)">
-                Population description</label>
+                Other population descriptors<br>(if relevant)</label>
         <textarea class="form-control"
                   name='populationDescription'
                   rows="4">{{populationDescription}}</textarea>
       </div>
 
-      <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Any additional criteria for inclusion/exclusion
-                             (e.g., age, sex, race, length of employment).
-                             Provide for cases and controls in case-control studies.">
-                Eligibility criteria</label>
-        <textarea class="form-control"
-                  name='eligibilityCriteria'
-                  rows="4">{{eligibilityCriteria}}</textarea>
-      </div>
 
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
               data-content="Method of follow-up or source of outcome data (e.g.
                             linkage to national cancer registry, searches of
-                            death certificates, insurace records, etc.)">
-              Outcome data source</label>
+                            death certificates, insurance records, etc.)">
+              &nbsp;<br>Outcome data source</label>
         <textarea class="form-control"
                   name='outcomeDataSource'
                   rows="4">{{outcomeDataSource}}</textarea>
@@ -262,7 +263,7 @@
                    data-content="Number enrolled for cohort studies which were
                                  included in the analysis after exclusions">
                    &nbsp;<br>Population size</label>
-            <input class="form-control" type="number"
+            <input class="form-control" type="text"
                    name='populationSize'
                    value="{{populationSize}}"/>
           </div>
@@ -272,7 +273,7 @@
                    data-content="Number enrolled for cohort studies which were
                                  included in the analysis after exclusions">
                    &nbsp;<br>Loss to follow-up</label>
-            <input class="form-control" type="number"
+            <input class="form-control" type="text"
                    name='lossToFollowUp'
                    value="{{lossToFollowUp}}"/>
           </div>
@@ -305,7 +306,7 @@
             <label class="helpPopovers" data-toggle="popover"
                    data-content="Percent of eligible participants included
                                  (for cases and controls in case-control studies)">
-                   Response rates</label>
+                   Response rates (%)</label>
           </div>
           <div class="col-xs-6">
             <label class="helpPopovers" data-toggle="popover"
@@ -519,12 +520,12 @@
             <td>{{#if showPlots}}
                   {{> forestPlot}}
                 {{ else}}
-                  {{{riskFormat value}}}
+                  <span title="Effect measure: {{../effectMeasure}}">{{{riskFormat value}}}</span>
                 {{/if}}
             </td>
             {{#if isEqual current=index target=0 }}
               <td rowspan="{{../riskEstimates.length}}">
-                {{getCovariatesList ..}} ({{../effectMeasure}})
+                {{getCovariatesList ..}}
               </td>
               <td rowspan="{{../riskEstimates.length}}" class="dragHandle dhInner"
                   style="display: none" title="Drag to re-order rows"></td>
@@ -591,6 +592,10 @@
             <table class="table table-condensed">
               <thead>
                 <th>
+                    <button type="button" class="btn btn-xs btn-info"
+                            id="inner-addRiskRow" title="Add row">
+                            <span class="glyphicon glyphicon-plus"></span></button></th>
+                <th>
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="E.g., all exposed workers, second quartile of exposure,
                                     quantitative exposure level (always provide quantitative
@@ -600,7 +605,7 @@
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                     data-content="Deaths/cases for cohort studies; Cases for case-control studies">
-                    &nbsp;<br>Number exposed</span></th>
+                    &nbsp;<br>Exposed cases/deaths</span></th>
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="Central risk reported for risk estimate">
@@ -617,10 +622,6 @@
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="Calculations by the working-group (WG), not study-authors">
                         WG<br>calculation?</span></th>
-                <th>
-                    <button type="button" class="btn btn-xs btn-info"
-                            id="inner-addRiskRow" title="Add row">
-                            <span class="glyphicon glyphicon-plus"></span></button></th>
               </thead>
               <tbody class="riskEstimateTbody">
                 {{#if riskEstimates}}
@@ -696,6 +697,11 @@
 
 <template name="riskEstimateForm">
   <tr>
+    <td class="text-center" style="vertical-align: middle;">
+      <button type="button" class="btn btn-xs btn-danger"
+                id="epiRiskEstimate-delete" title="Delete row">
+                <span class="glyphicon glyphicon-trash"></span></button>
+    </td>
     <td>
       <input class="form-control" type="text"
              name='exposureCategory'
@@ -721,17 +727,12 @@
                name='riskHigh'
                value="{{riskHigh}}"/>
     </td>
-    <td class="checkbox">
-      <input style="margin: 0px"
-             type="checkbox" name='riskEstimated'
-             checked="{{riskEstimated}}"
-             title="Check if risk was estimated by reviewer, not study-author"/>
-    </td>
-    <td class="text-center" style="vertical-align: middle;">
-      <button type="button" class="btn btn-xs btn-danger"
-                id="epiRiskEstimate-delete" title="Delete row">
-                <span class="glyphicon glyphicon-trash"></span></button>
-    </td>
+    <td>
+      <div class="checkbox">
+        <input style="margin: 0px"
+               type="checkbox" name='riskEstimated'
+               checked="{{riskEstimated}}"
+               title="Check if risk was estimated by reviewer, not study-author"/></div></td>
   </tr>
 </template>
 
