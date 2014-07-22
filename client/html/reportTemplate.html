@@ -92,6 +92,12 @@
       <div class="col-xs-6">
         <label>Evidence type</label>
         {{> selectList options=getTblTypeOptions selectName="tblType" selected=tblType}}
+
+        <div class="epiOnly">
+          <label>Sort epidemiology results by</label>
+          {{> selectList options=getEpiSortOrder selectName="epiSortOrder" selected=epiSortOrder}}
+        </div>
+
       </div>
       <div class="col-xs-6">
           <label>Report template (.DOCX)</label>

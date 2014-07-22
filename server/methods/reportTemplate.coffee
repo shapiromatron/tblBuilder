@@ -7,7 +7,7 @@ cleanFilename = (str) ->
 
 Meteor.methods
 
-    saveNewTemplate: (blob, fn, tblType) ->
+    saveNewTemplate: (blob, fn, tblType, epiSortOrder) ->
         unless share.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
         fn = cleanFilename(fn)
@@ -18,10 +18,10 @@ Meteor.methods
             throw new Meteor.Error(403, 'Failed to save file',
                                    'Duplicate filename. An existing report template has the same template name. Rename the current file.')
 
-        ReportTemplate.insert({filename: fn, tblType: tblType})
+        ReportTemplate.insert({filename: fn, tblType: tblType, epiSortOrder: epiSortOrder})
         saveFile(blob, fn)
 
-    updateExistingTemplate: (blob, fn, tblType, _id) ->
+    updateExistingTemplate: (blob, fn, tblType, epiSortOrder, _id) ->
         unless share.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
         fn = cleanFilename(fn)
@@ -32,7 +32,7 @@ Meteor.methods
             throw new Meteor.Error(403, 'Failed to save file',
                                    'Cannot overwrite template used for another report (change filename).')
 
-        ReportTemplate.update(_id, {filename: fn, tblType: tblType})
+        ReportTemplate.update(_id, {filename: fn, tblType: tblType, epiSortOrder: epiSortOrder})
         saveFile(blob, fn)
 
     removeExistingTemplate: (_id) ->

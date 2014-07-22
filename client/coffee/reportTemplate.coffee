@@ -59,10 +59,23 @@ Template.reportTemplateForm.helpers
     isNew: ->
         return Session.get('reportTemplateEditingId') is null
 
+    getEpiSortOrder: ->
+        return ["Reference", "Organ-site"]
+
+toggleEpiFields = (tmpl) ->
+    # Required-input only if epidemiological study
+    selector = tmpl.find('select[name="tblType"]')
+    type = $(selector).find('option:selected')[0].value
+    if type is "Epidemiology Evidence"
+        $(tmpl.findAll('.epiOnly')).show()
+    else
+        $(tmpl.findAll('.epiOnly')).hide()
+
 getValues = (tmpl, methodName) ->
     errorDiv = tmpl.find("#errors")
     errorDiv.innerHTML = ""
     tblType = tmpl.find('select[name="tblType"]').value
+    epiSortOrder = tmpl.find('select[name="epiSortOrder"]').value
     inp = tmpl.find('input[name="filename"]')
     if tmpl.data? then _id = tmpl.data._id
     if inp.files.length is 1
@@ -71,7 +84,7 @@ getValues = (tmpl, methodName) ->
         fn = file.name
         fileReader.onload = (file) ->
             binaryData = file.srcElement.result
-            Meteor.call methodName, binaryData, fn, tblType, _id, (err, res) ->
+            Meteor.call methodName, binaryData, fn, tblType, epiSortOrder, _id, (err, res) ->
                 if (err?)
                     msg = "#{err.reason}: #{err.details}"
                     setError(msg, errorDiv)
@@ -100,6 +113,12 @@ Template.reportTemplateForm.events
     'click #delete': (evt, tmpl) ->
         Meteor.call("removeExistingTemplate", @_id)
         Session.set("reportTemplateEditingId", null)
+
+    'change select[name="tblType"]': (evt, tmpl) ->
+        toggleEpiFields(tmpl)
+
+Template.reportTemplateForm.rendered = ->
+    toggleEpiFields(@)
 
 setError = (message, div) ->
     data = {

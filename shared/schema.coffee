@@ -239,6 +239,7 @@ Meteor.startup ->
             denyUpdate: true
             optional: true
 
+
     requiredCC = () ->
         isRequired = ((@field('studyDesign').value in CaseControlTypes) and (@value is ""))
         if isRequired then return "required"
