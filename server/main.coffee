@@ -71,6 +71,7 @@ EpiResult.before.insert (userId, doc) ->
 
 userCanEditTblContentCheck = (userId, doc, fieldNames, modifier, options) ->
     return userCanEditTblContent(doc.tbl_id, userId)
+
 Reference.before.update (userId, doc, fieldNames, modifier, options) -> return true
 
 MechanisticEvidence.before.update userCanEditTblContentCheck
@@ -79,17 +80,29 @@ EpiDescriptive.before.update userCanEditTblContentCheck
 
 EpiResult.before.update userCanEditTblContentCheck
 
-
 # Remove hooks
+Tables.before.remove (userId, doc) ->
+    # also remove all results
+    EpiResult.remove({tbl_id: doc._id})
+    EpiDescriptive.remove({tbl_id: doc._id})
+    MechanisticEvidence.remove({tbl_id: doc._id})
 
 userCanRemoveTblContentCheck = (userId, doc) ->
     return userCanEditTblContent(doc.tbl_id, userId)
 
 Reference.before.remove (userId, doc) -> return true
 
-MechanisticEvidence.before.remove userCanRemoveTblContentCheck
+MechanisticEvidence.before.remove (userId, doc) ->
+    # also remove all child documents
+    if userCanRemoveTblContentCheck(userId, doc) is false then return false
+    MechanisticEvidence.remove({parent: doc._id})
+    return true
 
-EpiDescriptive.before.remove userCanRemoveTblContentCheck
+EpiDescriptive.before.remove (userId, doc) ->
+    # also remove all results
+    if userCanRemoveTblContentCheck(userId, doc) is false then return false
+    EpiResult.remove({parent_id: doc._id})
+    return true
 
 EpiResult.before.remove userCanRemoveTblContentCheck
 
