@@ -5,20 +5,52 @@ angularParser = (tag) ->
     expr = angular_expressions.compile(tag)
     return get: expr
 
-epiWordReport = (tbl_id, filename) ->
+prepareEpiDescriptive = (desc) ->
+    desc.reference = Reference.findOne(_id: desc.referenceID)
+    desc.coexposuresList = desc.coexposures.join(', ')
+    desc.isCaseControl = desc.studyDesign in CaseControlTypes
+
+prepareEpiResult = (res) ->
+    res.covariatesList = res.covariates.join(', ')
+    for riskEst in res.riskEstimates
+        riskEst.riskFormatted = share.riskFormatter(riskEst)
+
+getEpiDataByReference = (tbl_id) ->
     tbl = Tables.findOne(tbl_id)
     vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
     for val in vals
-        val.reference = Reference.findOne(_id: val.referenceID)
-        val.coexposuresList = val.coexposures.join(', ')
-        val.isCaseControl = val.studyDesign in CaseControlTypes
+        prepareEpiDescriptive(val)
         val.results = EpiResult.find({parent_id: val._id}, {sort: {sortIdx: 1}}).fetch()
         for res in val.results
-            res.covariatesList = res.covariates.join(', ')
-            for riskEst in res.riskEstimates
-                riskEst.riskFormatted = share.riskFormatter(riskEst)
+            prepareEpiResult(res)
 
-    data = {"descriptions": vals, "table": tbl}
+    return {"descriptions": vals, "table": tbl}
+
+getEpiDataByOrganSite = (tbl_id) ->
+    organSites = []
+    tbl = Tables.findOne(tbl_id)
+    vals = EpiResult.find({tbl_id: tbl_id}, {sort: {organSite: 1}}).fetch()
+    sites = _.uniq(_.pluck(vals, "organSite"), true)
+    for site in sites
+        data = []
+        results = EpiResult.find({tbl_id: tbl_id, organSite: site}).fetch()
+        for res in results
+            prepareEpiResult(res)
+            res.descriptive = EpiDescriptive.findOne({_id: res.parent_id})
+            prepareEpiDescriptive(res.descriptive)
+            data.push(res)
+
+        organSites.push({"organSite": site, "results": data})
+
+    return {"organSites": organSites, "table": tbl}
+
+epiWordReport = (tbl_id, filename) ->
+    epiSortOrder = ReportTemplate.findOne({filename: filename}).epiSortOrder
+    switch epiSortOrder
+        when "Reference"
+            data = getEpiDataByReference(tbl_id)
+        when "Organ-site"
+            data = getEpiDataByOrganSite(tbl_id)
 
     path = share.getWordTemplatePath(filename)
     docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
