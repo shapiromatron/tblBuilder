@@ -68,7 +68,6 @@ EpiResult.before.insert (userId, doc) ->
 
 
 # Update hooks
-
 userCanEditTblContentCheck = (userId, doc, fieldNames, modifier, options) ->
     return userCanEditTblContent(doc.tbl_id, userId)
 
@@ -79,6 +78,7 @@ MechanisticEvidence.before.update userCanEditTblContentCheck
 EpiDescriptive.before.update userCanEditTblContentCheck
 
 EpiResult.before.update userCanEditTblContentCheck
+
 
 # Remove hooks
 Tables.before.remove (userId, doc) ->

@@ -63,6 +63,11 @@ Template.TablesByMonograph.events
         Deps.flush()  # update DOM before focus
         share.activateInput(tmpl.find("input[name=volumeNumber]"))
 
+    'click #agentEpiReport': (evt, tmpl) ->
+        val = $(evt.target).data()
+        fn = "#{val.volumenumber}-#{val.monographagent}.docx"
+        Meteor.call 'monographAgentEpiReport', val, (err, response) ->
+            share.returnWordFile(response, fn)
 
 Template.tablesForm.helpers
     searchUsers: (query, callback) ->

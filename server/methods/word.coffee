@@ -29,8 +29,12 @@ getEpiDataByReference = (tbl_id) ->
 getEpiDataByOrganSite = (tbl_id) ->
     organSites = []
     tbl = Tables.findOne(tbl_id)
-    vals = EpiResult.find({tbl_id: tbl_id}, {sort: {organSite: 1}}).fetch()
-    sites = _.uniq(_.pluck(vals, "organSite"), true)
+
+    # get unique sites
+    epiResults = EpiResult.find({tbl_id: tbl_id}, {sort: {organSite: 1}}).fetch()
+    sites = _.uniq(_.pluck(epiResults, "organSite"), true)
+
+    # loop through unique sites
     for site in sites
         data = []
         results = EpiResult.find({tbl_id: tbl_id, organSite: site}).fetch()
@@ -43,6 +47,36 @@ getEpiDataByOrganSite = (tbl_id) ->
         organSites.push({"organSite": site, "results": data})
 
     return {"organSites": organSites, "table": tbl}
+
+getEpiDataByOrganSiteMonographAgent = (monographAgent, volumeNumber) ->
+    organSites = []
+    tbls = Tables.find({volumeNumber: volumeNumber, monographAgent: monographAgent}).fetch()
+    tbl_ids = _.pluck(tbls, "_id")
+
+    # get unique sites
+    epiResults = EpiResult.find({tbl_id: {$in: tbl_ids}}).fetch()
+    sites = _.uniq(_.pluck(epiResults, "organSite"), true)
+
+    # loop through unique sites
+    for site in sites
+        data = []
+        results = EpiResult.find({tbl_id: {$in: tbl_ids}, organSite: site}).fetch()
+        for res in results
+            prepareEpiResult(res)
+            res.descriptive = EpiDescriptive.findOne({_id: res.parent_id})
+            prepareEpiDescriptive(res.descriptive)
+            data.push(res)
+
+        organSites.push({"organSite": site, "results": data})
+
+    data = {"organSites": organSites, "monographAgent": monographAgent, "volumeNumber": volumeNumber}
+
+    path = share.getWordTemplatePath("epi-resultsByAgent.docx")
+    docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
+    docx.setTags(data)
+    docx.applyTags()
+    docx.output({type: "string"})
+
 
 epiWordReport = (tbl_id, filename) ->
     epiSortOrder = ReportTemplate.findOne({filename: filename}).epiSortOrder
@@ -97,3 +131,6 @@ Meteor.methods
                 mechanisticWordReport(tbl_id, filename)
             when "Epidemiology Evidence"
                 epiWordReport(tbl_id, filename)
+
+    monographAgentEpiReport: (d) ->
+        getEpiDataByOrganSiteMonographAgent(d.monographagent, d.volumenumber)
