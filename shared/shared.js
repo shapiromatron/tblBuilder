@@ -39,3 +39,5 @@ mechanisticEvidenceCategories = [
     "Immortalization",
     "Other"
 ];
+
+browserWhitelist = ["Chrome", "Firefox", "Mozilla"];
