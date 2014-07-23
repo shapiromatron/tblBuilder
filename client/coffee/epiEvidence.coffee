@@ -236,6 +236,9 @@ Template.epiResultTbl.helpers
     riskFormat: (obj) ->
         return share.riskFormatter(obj)
 
+    displayTrendTest: ->
+        return @trendTest?
+
 Template.epiResultTbl.events
 
     'click #inner-show-edit': (evt, tmpl) ->

@@ -531,6 +531,9 @@
               {{/if}}
             </tr>
           {{/each}}
+          {{#if displayTrendTest}}
+            <tr><td></td><td colspan="4">Trend-test <i>p</i>-value: {{trendTest}}</td></tr>
+          {{/if}}
         </tbody>
       </table>
     </div>
@@ -638,7 +641,8 @@
               <div class="col-xs-4">
                 <label class="helpPopovers" data-toggle="popover"
                        data-content="List all covariates which were controlled by matching or
-                                     adjustment in the analysis reported">
+                                     adjustment in the analysis reported. Enter each covariate
+                                     individually, and then press <enter> to add it to the list">
                        Covariates controlled</label>
                {{> typeaheadSelectList name="covariates" values=covariates data_source="searchCovariates"}}
               </div>
