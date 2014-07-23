@@ -15,45 +15,65 @@ prepareEpiResult = (res) ->
     for riskEst in res.riskEstimates
         riskEst.riskFormatted = share.riskFormatter(riskEst)
 
+
+# EPI REPORT BY REFERENCE ------------------------------------------------------
 getEpiDataByReference = (tbl_id) ->
     tbl = Tables.findOne(tbl_id)
-    vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
+    descriptions = getDescriptionObjects([tbl_id])
+    data =
+        "descriptions": descriptions
+        "monographAgent": tbl.monographAgent
+        "volumeNumber": tbl.volumeNumber
+        "hasTable": true
+        "table": tbl
+    return data
+
+getEpiDataByReferenceMonographAgent = (monographAgent, volumeNumber) ->
+    tbls = Tables.find({volumeNumber: volumeNumber, monographAgent: monographAgent}).fetch()
+    tbl_ids = _.pluck(tbls, "_id")
+    descriptions = getDescriptionObjects(tbl_ids)
+    data =
+        "descriptions": descriptions
+        "monographAgent": monographAgent
+        "volumeNumber": volumeNumber
+        "hasTable": false
+    return data
+
+getDescriptionObjects = (tbl_ids) ->
+    vals = EpiDescriptive.find({tbl_id: {$in: tbl_ids}}, {sort: {sortIdx: 1}}).fetch()
     for val in vals
         prepareEpiDescriptive(val)
         val.results = EpiResult.find({parent_id: val._id}, {sort: {sortIdx: 1}}).fetch()
         for res in val.results
             prepareEpiResult(res)
+    return vals
 
-    return {"descriptions": vals, "table": tbl}
-
+# EPI REPORT BY ORGAN-SITE -----------------------------------------------------
 getEpiDataByOrganSite = (tbl_id) ->
-    organSites = []
     tbl = Tables.findOne(tbl_id)
-
-    # get unique sites
-    epiResults = EpiResult.find({tbl_id: tbl_id}, {sort: {organSite: 1}}).fetch()
-    sites = _.uniq(_.pluck(epiResults, "organSite"), true)
-
-    # loop through unique sites
-    for site in sites
-        data = []
-        results = EpiResult.find({tbl_id: tbl_id, organSite: site}).fetch()
-        for res in results
-            prepareEpiResult(res)
-            res.descriptive = EpiDescriptive.findOne({_id: res.parent_id})
-            prepareEpiDescriptive(res.descriptive)
-            data.push(res)
-
-        organSites.push({"organSite": site, "results": data})
-
-    return {"organSites": organSites, "table": tbl}
+    organSites = getOrganSitesObject([tbl_id])
+    data =
+        "organSites": organSites
+        "monographAgent": tbl.monographAgent
+        "volumeNumber": tbl.volumeNumber
+        "hasTable": true
+        "table": tbl
+    return data
 
 getEpiDataByOrganSiteMonographAgent = (monographAgent, volumeNumber) ->
-    organSites = []
     tbls = Tables.find({volumeNumber: volumeNumber, monographAgent: monographAgent}).fetch()
     tbl_ids = _.pluck(tbls, "_id")
+    organSites = getOrganSitesObject(tbl_ids)
+    data =
+        "organSites": organSites
+        "monographAgent": monographAgent
+        "volumeNumber": volumeNumber
+        "hasTable": false
+    return data
 
+getOrganSitesObject = (tbl_ids) ->
     # get unique sites
+    organSites = []
     epiResults = EpiResult.find({tbl_id: {$in: tbl_ids}}).fetch()
     sites = _.uniq(_.pluck(epiResults, "organSite"), true)
 
@@ -69,14 +89,15 @@ getEpiDataByOrganSiteMonographAgent = (monographAgent, volumeNumber) ->
 
         organSites.push({"organSite": site, "results": data})
 
-    data = {"organSites": organSites, "monographAgent": monographAgent, "volumeNumber": volumeNumber}
+    return organSites
 
-    path = share.getWordTemplatePath("epi-resultsByAgent.docx")
+# EPI REPORT BY REFERENCE ------------------------------------------------------
+createWordReport = (templateFilename, data) ->
+    path = share.getWordTemplatePath(templateFilename)
     docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
     docx.setTags(data)
     docx.applyTags()
-    docx.output({type: "string"})
-
+    return docx.output({type: "string"})
 
 epiWordReport = (tbl_id, filename) ->
     epiSortOrder = ReportTemplate.findOne({filename: filename}).epiSortOrder
@@ -85,13 +106,18 @@ epiWordReport = (tbl_id, filename) ->
             data = getEpiDataByReference(tbl_id)
         when "Organ-site"
             data = getEpiDataByOrganSite(tbl_id)
+    return createWordReport(filename, data)
 
-    path = share.getWordTemplatePath(filename)
-    docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
-    docx.setTags(data)
-    docx.applyTags()
-    docx.output({type: "string"})
+epiWordReportMultiTable = (filename, monographAgent, volumeNumber) ->
+    epiSortOrder = ReportTemplate.findOne({filename: filename}).epiSortOrder
+    switch epiSortOrder
+        when "Reference"
+            data = getEpiDataByReferenceMonographAgent(monographAgent, volumeNumber)
+        when "Organ-site"
+            data = getEpiDataByOrganSiteMonographAgent(monographAgent, volumeNumber)
+    return createWordReport(filename, data)
 
+# MECHANISTIC REPORT -----------------------------------------------------------
 mechanisticWordReport = (tbl_id, filename) ->
 
     getReferences = (obj) ->
@@ -133,4 +159,4 @@ Meteor.methods
                 epiWordReport(tbl_id, filename)
 
     monographAgentEpiReport: (d) ->
-        getEpiDataByOrganSiteMonographAgent(d.monographagent, d.volumenumber)
+        epiWordReportMultiTable(d.templateFN, d.monographagent, d.volumenumber)

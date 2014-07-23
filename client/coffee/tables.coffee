@@ -65,9 +65,10 @@ Template.TablesByMonograph.events
 
     'click #agentEpiReport': (evt, tmpl) ->
         val = $(evt.target).data()
-        fn = "#{val.volumenumber}-#{val.monographagent}.docx"
-        Meteor.call 'monographAgentEpiReport', val, (err, response) ->
-            share.returnWordFile(response, fn)
+        val.multiTable = true
+        div = tmpl.find('#modalHolder')
+        rendered = UI.renderWithData(Template.reportTemplateModal, val)
+        UI.insert(rendered, div)
 
 Template.tablesForm.helpers
     searchUsers: (query, callback) ->

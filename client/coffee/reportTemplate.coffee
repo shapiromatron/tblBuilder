@@ -3,17 +3,27 @@ Session.set("reportTemplateShowNew", false)
 
 # REPORT TEMPLATE MODAL --------------------------------------------------------
 Template.reportTemplateModal.helpers
-        getTemplateOptions : ->
+    getTemplateOptions : ->
+        if @multiTable
+            tblType = "Epidemiology Evidence"
+        else
             tblType = Session.get('Tbl').tblType
-            templates = ReportTemplate.find({tblType: tblType}).fetch()
-            return _.pluck(templates, 'filename')
+        templates = ReportTemplate.find({tblType: tblType}).fetch()
+        return _.pluck(templates, 'filename')
 
 Template.reportTemplateModal.events
     'click #download': (evt, tmpl) ->
-        tbl_id = Session.get('Tbl')._id
-        filename = tmpl.find('select[name="filename"] option:selected').value
-        Meteor.call 'downloadWordReport', tbl_id, filename, (err, response) ->
-            share.returnWordFile(response, "report.docx")
+        templateFN = tmpl.find('select[name="filename"] option:selected').value
+        if @multiTable
+            @templateFN = templateFN
+            fn = "#{@volumenumber}-#{@monographagent}.docx"
+            Meteor.call 'monographAgentEpiReport', @, (err, response) ->
+                share.returnWordFile(response, fn)
+
+        else
+            tbl_id = Session.get('Tbl')._id
+            Meteor.call 'downloadWordReport', tbl_id, templateFN, (err, response) ->
+                share.returnWordFile(response, "report.docx")
 
 Template.reportTemplateModal.rendered = ->
     $(@.find('#reportTemplateModal')).modal('show')
