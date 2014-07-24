@@ -5,7 +5,7 @@ share.riskFormatter = (obj) ->
     if not obj.riskMid? then return "-"
     txt = obj.riskMid.toString()
     if (isNumber(obj.riskLow) and isNumber(obj.riskHigh))
-        txt += " (#{obj.riskLow}-#{obj.riskHigh})"
+        txt += " (#{obj.riskLow}–#{obj.riskHigh})"
     if obj.riskEstimated then txt = "[#{txt}]"
     return txt
 

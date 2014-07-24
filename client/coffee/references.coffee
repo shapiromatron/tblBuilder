@@ -121,12 +121,12 @@ getPubMedDetails = (pubmedID, cb) ->
 
                 # build short-citation
                 first = authors[0].substr(0, authors[0].search(" "))
-                shortCitation = "#{first} #{year}"
+                shortCitation = "#{first} (#{year})"
                 if authors.length>2
-                    shortCitation = "#{first} et al. #{year}"
+                    shortCitation = "#{first} et al. (#{year})"
                 else if authors.length is 2
                     second = authors[1].substr(0, authors[1].search(" "))
-                    shortCitation = "#{first} and #{second} #{year}"
+                    shortCitation = "#{first} and #{second} (#{year})"
 
                 # build full-citation, using the PubMed Summary format, found here:
                 # http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=#{pubmedID}&rettype=docsum&retmode=text

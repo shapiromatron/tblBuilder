@@ -17,7 +17,14 @@ epiStudyDesignOptions = ["Cohort", "Nested Case-Control", "Case-Control", "Ecolo
 
 CaseControlTypes = ["Case-Control", "Nested Case-Control"];
 
-exposureAssessmentTypeOptions = ["JEM", "questionnaire", "company records"];
+exposureAssessmentTypeOptions = ["JEM",
+                                 "questionnaire",
+                                 "company records",
+                                 "personal monitoring",
+                                 "environmental monitoring",
+                                 "modelling",
+                                 "expert assessment",
+                                 "other (specify in notes)"];
 
 mechanisticEvidenceSections = [
     {section: "toxicokinetics", sectionDesc: "Toxicokinetics"},
