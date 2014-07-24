@@ -33,7 +33,10 @@ share.createErrorDiv = (context) ->
     div = $("<div class='bg-danger'>").append('<p><strong>The following errors were found:</strong></p>')
     ul = $("<ul>")
     for obj in context.invalidKeys()
-        ul.append("<li>#{obj.message}</li>")
+        if obj.message?
+            ul.append("<li>#{obj.message}</li>")
+        else
+            ul.append("<li>#{obj.name}: #{obj.type} (got \"#{obj.value}\")</li>")
     return div.append(ul)
 
 share.activateInput = (input) ->
