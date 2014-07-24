@@ -1,3 +1,7 @@
+share.capitalizeFirst = (str) ->
+    if str.length>0
+        str = str[0].toUpperCase() + str.slice(1)
+    return str
 
 share.riskFormatter = (obj) ->
     isNumber = (v) -> return v isnt null and not isNaN(v)

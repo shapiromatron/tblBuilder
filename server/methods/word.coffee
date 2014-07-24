@@ -11,9 +11,11 @@ prepareEpiDescriptive = (desc) ->
     desc.isCaseControl = desc.studyDesign in CaseControlTypes
 
 prepareEpiResult = (res) ->
-    res.covariatesList = res.covariates.join(', ')
+    res.covariatesList = share.capitalizeFirst(res.covariates.join(', '))
+    res.hasTrendTest = res.trendTest?
     for riskEst in res.riskEstimates
         riskEst.riskFormatted = share.riskFormatter(riskEst)
+        riskEst.exposureCategory = share.capitalizeFirst(riskEst.exposureCategory)
 
 
 # EPI REPORT BY REFERENCE ------------------------------------------------------
@@ -75,7 +77,7 @@ getOrganSitesObject = (tbl_ids) ->
     # get unique sites
     organSites = []
     epiResults = EpiResult.find({tbl_id: {$in: tbl_ids}}).fetch()
-    sites = _.uniq(_.pluck(epiResults, "organSite"), true)
+    sites = _.uniq(_.pluck(epiResults, "organSite"), false)
 
     # loop through unique sites
     for site in sites
