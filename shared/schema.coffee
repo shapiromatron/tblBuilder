@@ -202,6 +202,7 @@ Meteor.startup ->
         covariates:
             label: "Covariates controlled"
             type: [String]
+            minCount: 1
 
         covariatesControlledText:
             label: "Covariates controlled notes"
@@ -279,6 +280,7 @@ Meteor.startup ->
         outcomeDataSource:
             label: "Outcome data source"
             type: String
+            optional: true
 
         populationSize:
             label: "Population size"
@@ -333,14 +335,12 @@ Meteor.startup ->
             label: "Source of cases"
             type: String
             optional: true
-            custom: requiredCC
             defaultValue: null
 
         sourceControl:
             label: "Source of controls"
             type: String
             optional: true
-            custom: requiredCC
             defaultValue: null
 
         exposureAssessmentType:
@@ -353,9 +353,10 @@ Meteor.startup ->
             type: String
             optional: true
 
-        exposureAssessmentMethod:
+        exposureAssessmentNotes:
             label: "Exposure assessment comments"
             type: String
+            optional: true
 
         coexposures:
             label: "Possible co-exposures"
@@ -397,6 +398,7 @@ Meteor.startup ->
             denyUpdate: true
             optional: true
 
+    SimpleSchema.messages({minCount: "[label] must specify at least [minCount] value(s) (press <enter> after typing to add to list)"})
 
     # attach schema to collections
     Tables.attachSchema(share.TableSchema)

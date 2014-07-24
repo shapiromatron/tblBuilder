@@ -24,7 +24,7 @@ exposureAssessmentTypeOptions = ["JEM",
                                  "environmental monitoring",
                                  "modelling",
                                  "expert assessment",
-                                 "other (specify in notes)"];
+                                 "other (specify in exposure assessment notes)"];
 
 mechanisticEvidenceSections = [
     {section: "toxicokinetics", sectionDesc: "Toxicokinetics"},

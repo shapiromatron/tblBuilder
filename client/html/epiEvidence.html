@@ -275,13 +275,14 @@
                    &nbsp;<br>Loss to follow-up (%)</label>
             <input class="form-control" type="text"
                    name='lossToFollowUp'
+                   placeholder='"NR" if not-reported'
                    value="{{lossToFollowUp}}"/>
           </div>
 
           <div class="col-xs-4">
             <label class="helpPopovers" data-toggle="popover"
                    data-content="Enrollment for case-control studies, follow-up for cohort studies">
-                   Type of referent group<br>(external vs. internal analysis)</label>
+                   Type of referent group<br>(<i>i.e.</i>, external vs. internal analysis)</label>
             <input class="form-control" type="text"
                    name='referentGroup'
                    value="{{referentGroup}}"/>
@@ -332,7 +333,7 @@
             <input class="form-control" type="text"
                    name='responseRateCase'
                    value="{{responseRateCase}}"
-                   placeholder="Leave blank if unknown"/>
+                   placeholder='"NR" if not-reported'/>
           </div>
           <div class="col-xs-6">
             <textarea class="form-control"
@@ -355,7 +356,7 @@
             <input class="form-control" type="text"
                    name='responseRateControl'
                    value="{{responseRateControl}}"
-                   placeholder="Leave blank if unknown"/>
+                   placeholder='"NR" if not-reported'/>
           </div>
           <div class="col-xs-6">
             <textarea class="form-control"
@@ -575,7 +576,7 @@
               <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
                       data-content="Units, if relevant (e.g., risk per 10 μg/m3)">
-                      Units of effect measurement</label>
+                      Units of effect measurement, if relevant</label>
                 {{> typeaheadInput name="effectUnits" value=effectUnits data_source="searchEffectUnits"}}
               </div>
 
@@ -640,9 +641,10 @@
 
               <div class="col-xs-4">
                 <label class="helpPopovers" data-toggle="popover"
-                       data-content="List all covariates which were controlled by matching or
+                       data-content='List all covariates which were controlled by matching or
                                      adjustment in the analysis reported. Enter each covariate
-                                     individually, and then press <enter> to add it to the list">
+                                     individually, and then press <enter> to add it to the list.
+                                     If no covariates were specified, add "not-specified"'>
                        Covariates controlled</label>
                {{> typeaheadSelectList name="covariates" values=covariates data_source="searchCovariates"}}
               </div>
