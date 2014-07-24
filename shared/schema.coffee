@@ -288,7 +288,7 @@ Meteor.startup ->
             defaultValue: null
 
         lossToFollowUp:
-            label: "Loss to follow-up"
+            label: "Loss to follow-up (%)"
             type: String
             optional: true
             custom: requiredCohort
@@ -343,10 +343,6 @@ Meteor.startup ->
             custom: requiredCC
             defaultValue: null
 
-        exposureAssessmentMethod:
-            label: "Exposure assessment method"
-            type: String
-
         exposureAssessmentType:
             label: "Exposure assessment type"
             allowedValues: exposureAssessmentTypeOptions
@@ -354,6 +350,11 @@ Meteor.startup ->
 
         exposureLevel:
             label: "Exposure level"
+            type: String
+            optional: true
+
+        exposureAssessmentMethod:
+            label: "Exposure assessment comments"
             type: String
 
         coexposures:
@@ -371,6 +372,7 @@ Meteor.startup ->
         notes:
             label: "General notes"
             type: String
+            optional: true
 
         isHidden:
             type: Boolean

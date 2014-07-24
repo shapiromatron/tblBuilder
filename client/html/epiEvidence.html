@@ -270,9 +270,9 @@
 
           <div class="col-xs-4">
             <label class="helpPopovers" data-toggle="popover"
-                   data-content="Number enrolled for cohort studies which were
-                                 included in the analysis after exclusions">
-                   &nbsp;<br>Loss to follow-up</label>
+                   data-content="The proportion of enrolled subjects whose
+                                 status was unknown at the end of follow-up">
+                   &nbsp;<br>Loss to follow-up (%)</label>
             <input class="form-control" type="text"
                    name='lossToFollowUp'
                    value="{{lossToFollowUp}}"/>
@@ -371,26 +371,26 @@
     <div class="form-group row">
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="Approach used to estimate exposure, if any
-                            (quantitative measurement, JEM questionnaire, expert
-                            judgement, biomonitoring, other)">
-              Exposure assessment method</label>
-        <textarea class="form-control"
-                  name='exposureAssessmentMethod'
-                  rows="4">{{exposureAssessmentMethod}}</textarea>
-      </div>
-
-      <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
                data-content="Which method was used to estimate agent-exposure?">
                Exposure assessment type</label>
         {{> selectList options=getExposureAssessmentTypeOptions selected=exposureAssessmentType selectName="exposureAssessmentType"}}
         <label class="helpPopovers" data-toggle="popover"
-               data-content="Average exposure level or range">
-               Exposure level</label>
+               data-content="Average quantitative exposure-level or range, if reported">
+               Quantitative exposure level (if reported)</label>
         <input class="form-control" type="text"
                name='exposureLevel'
                value="{{exposureLevel}}"/>
+      </div>
+
+      <div class="col-xs-4">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Approach used to estimate exposure, if any
+                            (quantitative measurement, JEM questionnaire, expert
+                            judgement, biomonitoring, other)">
+              Exposure assessment notes</label>
+        <textarea class="form-control"
+                  name='exposureAssessmentNotes'
+                  rows="4">{{exposureAssessmentNotes}}</textarea>
       </div>
 
       <div class="col-xs-4">
@@ -426,7 +426,7 @@
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Any other general comments related to the study">
-              General Notes</label>
+              General notes</label>
         <textarea class="form-control"
                   name='notes'
                   rows="3">{{notes}}</textarea>
@@ -560,7 +560,7 @@
               <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
                        data-content="Cancer-organ site for results being measured.">
-                       &nbsp;<br>Organ Site (ICD code)</label>
+                       &nbsp;<br>Organ site (ICD code)</label>
                 <br>
                 {{> typeaheadInput name="organSite" value=organSite data_source="searchOrganSite"}}
               </div>

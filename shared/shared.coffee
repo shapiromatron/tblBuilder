@@ -1,8 +1,10 @@
 
 share.riskFormatter = (obj) ->
+    isNumber = (v) -> return v isnt null and not isNaN(v)
+
     if not obj.riskMid? then return "-"
     txt = obj.riskMid.toString()
-    if (obj.riskLow and obj.riskHigh)
+    if (isNumber(obj.riskLow) and isNumber(obj.riskHigh))
         txt += " (#{obj.riskLow}-#{obj.riskHigh})"
     if obj.riskEstimated then txt = "[#{txt}]"
     return txt
@@ -29,35 +31,35 @@ share.getFlattenedEpiData = (tbl_id) ->
         return rows
 
     vals = EpiDescriptive.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
-    header = ["Descriptive ID", "Reference", "Study Design", "Location", "Enrollment Dates",
-              "Population Description", "Eligibility Criteria", "Outcome Data Source",
-              "Population Size", "Loss to follow-up", "Referent Group",
-              "Population Cases", "Response Rate Cases", "Source Cases",
-              "Population Controls", "Response Rate Controls", "Source Controls"
-              "Exposure Assessment Method", "Exposure Assessment Type", "Exposure Level", "Coexposures",
-              "Strengths", "Limitations", "Notes",
+    header = ["Descriptive ID", "Reference", "Study design", "Location", "Enrollment or follow-up dates",
+              "Population/eligibility characteristics", "Other population descriptors", "Outcome Data Source",
+              "Population size", "Loss to follow-up (%)", "Type of referent group",
+              "Population cases", "Response rate cases", "Source cases",
+              "Population controls", "Response rate controls", "Source controls"
+              "Exposure assessment type", "Quantitative exposure level", "Exposure assessment notes", "Possible co-exposures",
+              "Principal strengths", "Principal limitations", "General notes",
 
-              "Result ID", "Organ Site", "Effect Measure",
-              "Effect Units", "Trend Test", "Covariates",
-              "Covariates Text", "Notes",
+              "Result ID", "Organ site", "Effect measure",
+              "Effect measure units", "Trend test", "Covariates",
+              "Covariates notes", "General notes",
 
-              "Exposure Category", "Number Exposed", "Risks estimated?",
+              "Exposure category", "Number exposed", "Risks estimated?",
               "Risk Mid", "Risk 5% CI", "Risk 95% CI", "Risk"]
     data = [header]
     for v in vals
         reference = Reference.findOne({_id: v.referenceID}).name
         coexposures = v.coexposures.join(', ')
         row = [v._id, reference, v.studyDesign, v.location, v.enrollmentDates,
-               v.populationDescription, v.eligibilityCriteria, v.outcomeDataSource,
+               v.eligibilityCriteria, v.populationDescription, v.outcomeDataSource,
                v.populationSize, v.lossToFollowUp, v.referentGroup,
                v.populationSizeCase, v.responseRateCase, v.sourceCase,
                v.populationSizeControl, v.responseRateControl, v.sourceControl,
-               v.exposureAssessmentMethod, v.exposureAssessmentType, v.exposureLevel, coexposures,
+               v.exposureAssessmentType, v.exposureLevel, v.exposureAssessmentNotes, coexposures,
                v.strengths, v.limitations, v.notes]
         rows = getResultData(v._id, row)
         data.push.apply(data, rows)
     return data
 
-share.defaultEpiVisible = ["Reference", "Study Design", "Location",
-                           "Organ Site", "Effect Measure",
-                           "Exposure Category", "Risk"]
+share.defaultEpiVisible = ["Reference", "Study design", "Location",
+                           "Organ site", "Effect measure",
+                           "Exposure category", "Risk"]

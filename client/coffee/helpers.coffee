@@ -124,7 +124,7 @@ share.typeaheadSelectListAddLI = ($ul, val) ->
     return false
 
 share.typeaheadSelectListGetLIs = ($ul) ->
-    (li.innerText for li in $ul.find('li'))
+    ($(li).data('value') for li in $ul.find('li'))
 
 share.toggleRiskPlot = ->
     # Draw log-axis for epi risk plot as needed
