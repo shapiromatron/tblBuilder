@@ -1,5 +1,5 @@
 share.capitalizeFirst = (str) ->
-    if str.length>0
+    if str? and str.length>0
         str = str[0].toUpperCase() + str.slice(1)
     return str
 
