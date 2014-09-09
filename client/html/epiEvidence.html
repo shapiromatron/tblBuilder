@@ -76,8 +76,8 @@
     </colgroup>
     <thead>
       <tr>
-        <th>Reference,<br>location, and year</th>
-        <th>Population description &amp;<br>exposure assessment method</th>
+        <th>Reference,<br>location, year,<br> &amp; study-design</th>
+        <th>Population description &amp; exposure assessment method</th>
         <th>Organ site<br>(ICD code)</th>
         <th>Exposure category<br> or level</th>
         <th>Exposed<br>cases/<br>deaths</th>
@@ -153,7 +153,8 @@
     {{/if}}
     {{>printReference id=referenceID}}<br>{{{getStudyDesign}}}
     {{location}}<br>
-    {{enrollmentDates}}
+    {{enrollmentDates}}<br>
+    {{studyDesign}}
   </td>
   <td>{{eligibilityCriteria}}<br><strong>Exposure assess. method: </strong>{{exposureAssessmentType}}</td>
   <td colspan="5" id="sortableInner">
