@@ -72,20 +72,22 @@
 
 <template name="referenceForm">
   <form id="referenceForm" role="form" class="editForm">
+    <p class="help-block">Fields marked with an asterisk (<b>*</b>) are required</p>
+
     <div class="form-group row">
       <div class="col-xs-4">
-        <label>Reference Short Name</label>
+        <label>Reference Short Name*</label>
         <input class="form-control" name='name' type="text" value="{{name}}" placeholder='Enter a short-name such as "Smith et al. (2005)"' />
       </div>
 
       <div class="col-xs-2">
-        <label>Reference Type</label>
+        <label>Reference Type*</label>
         {{> selectList options=getReferenceTypeOptions selected=referenceType selectName="referenceType" }}
       </div>
 
       <div class="col-xs-6">
         <div id='pubMedFields'>
-          <label>PubMed ID</label>
+          <label>PubMed ID*</label>
           <div class="input-group">
             <input type="number" class="form-control" name="pubmedID" value="{{pubmedID}}">
             <span class="input-group-btn">
@@ -105,7 +107,7 @@
 
     <div class="form-group row">
         <div class="col-xs-12">
-         <label>Full Citation Text</label>
+         <label>Full Citation Text*</label>
             <textarea class="form-control" name='fullCitation' rows="3">{{fullCitation}}</textarea>
         </div>
     </div>
@@ -133,7 +135,7 @@
 <template name="referenceSingleSelect">
   <div>
     <label class="helpPopovers" data-toggle="popover"
-           data-content="Select the primary reference were data were originally reported">Reference</label>
+           data-content="Select the primary reference were data were originally reported">Reference*</label>
     <a class="btn btn-xs btn-default pull-right" data-toggle="modal"
        data-target="#referenceQuickAdd" title="Add reference to library" href="#">
     <span class="glyphicon glyphicon-plus-sign"></span></a><br>

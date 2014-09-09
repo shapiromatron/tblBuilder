@@ -95,22 +95,25 @@
 
 <template name="tablesForm">
   <form id="tablesForm" role="form" class="editForm">
+
+    <p class="help-block">Fields marked with an asterisk (<b>*</b>) are required.</p>
+
     <div class="form-group row">
       <div class="col-xs-3">
-        <label>Volume Number</label>
+        <label>Volume Number*</label>
         <input class="form-control" name='volumeNumber' type="number" value="{{volumeNumber}}"/>
       </div>
       <div class="col-xs-5">
-        <label>Monograph Agent Name</label>
+        <label>Monograph Agent Name*</label>
         {{> typeaheadInput name="monographAgent" value=monographAgent data_source="searchMonographAgent"}}
       </div>
       <div class="col-xs-4">
-        <label>Table Type</label>
+        <label>Table Type*</label>
         {{> selectList options=getTblTypeOptions selected=tblType selectName="tblType" }}
       </div>
     </div>
     <div class="form-group">
-      <label>Table Name</label>
+      <label>Table Name*</label>
       <input class="form-control" name='name' type="text" value="{{name}}"/>
     </div>
     <div class="form-group row">

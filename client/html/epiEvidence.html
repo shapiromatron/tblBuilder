@@ -180,7 +180,7 @@
 <template name="epiDescriptiveForm">
   <form id="epiDescriptiveForm" role="form" class="editForm">
     <legend>Epidemiological Study Description</legend>
-    <p class="help-block">Hover-over field labels for more descriptive text.</p>
+    <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
 
     <!-- First row -->
     <div class="form-group row">
@@ -191,14 +191,14 @@
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
               data-content="Study-design used for evaluation (Cohort, Case-Control, Nested-Case Control, etc.) ">
-              Study design</label>
+              Study design*</label>
         {{> selectList options=getStudyDesignOptions selected=studyDesign selectName="studyDesign" }}
       </div>
 
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
               data-content="Country; other information (e.g., region, state, province, city) if important">
-              Location</label>
+              Location*</label>
         <input class="form-control" type="text"
                name='location'
                value="{{location}}"/>
@@ -207,7 +207,7 @@
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Enrollment for case-control studies, follow-up for cohort studies">
-               Enrollment or follow-up dates</label>
+               Enrollment or follow-up dates*</label>
         <input class="form-control" type="text"
                name='enrollmentDates'
                value="{{enrollmentDates}}"/>
@@ -221,7 +221,7 @@
                data-content="Any additional criteria for inclusion/exclusion
                              (e.g., age, sex, race, length of employment).
                              Provide for cases and controls in case-control studies.">
-                Population/eligibility characteristics</label>
+                Population/eligibility characteristics*</label>
         <textarea class="form-control"
                   name='eligibilityCriteria'
                   rows="4">{{eligibilityCriteria}}</textarea>
@@ -263,7 +263,7 @@
             <label class="helpPopovers" data-toggle="popover"
                    data-content="Number enrolled for cohort studies which were
                                  included in the analysis after exclusions">
-                   &nbsp;<br>Population size</label>
+                   &nbsp;<br>Population size*</label>
             <input class="form-control" type="text"
                    name='populationSize'
                    value="{{populationSize}}"/>
@@ -273,7 +273,7 @@
             <label class="helpPopovers" data-toggle="popover"
                    data-content="The proportion of enrolled subjects whose
                                  status was unknown at the end of follow-up">
-                   &nbsp;<br>Loss to follow-up (%)</label>
+                   &nbsp;<br>Loss to follow-up* (%)</label>
             <input class="form-control" type="text"
                    name='lossToFollowUp'
                    placeholder='"NR" if not-reported'
@@ -283,7 +283,7 @@
           <div class="col-xs-4">
             <label class="helpPopovers" data-toggle="popover"
                    data-content="Enrollment for case-control studies, follow-up for cohort studies">
-                   Type of referent group<br>(<i>i.e.</i>, external vs. internal analysis)</label>
+                   Type of referent group*<br>(<i>i.e.</i>, external vs. internal analysis)</label>
             <input class="form-control" type="text"
                    name='referentGroup'
                    value="{{referentGroup}}"/>
@@ -294,7 +294,7 @@
 
       <!-- Case-control options -->
       <div class="col-xs-12 isCCinput">
-        <!-- Header inputs -->
+        <!-- Header labels -->
         <div class="row">
           <div class="col-xs-1">
           </div>
@@ -302,13 +302,13 @@
             <label class="helpPopovers" data-toggle="popover"
                    data-content="Number of cases in case-control study which were
                                  included in the analysis after exclusions">
-                   Population size</label>
+                   Population size*</label>
           </div>
           <div class="col-xs-3">
             <label class="helpPopovers" data-toggle="popover"
                    data-content="Percent of eligible participants included
                                  (for cases and controls in case-control studies)">
-                   Response rates (%)</label>
+                   Response rates* (%)</label>
           </div>
           <div class="col-xs-6">
             <label class="helpPopovers" data-toggle="popover"
@@ -374,7 +374,7 @@
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Which method was used to estimate agent-exposure?">
-               Exposure assessment type</label>
+               Exposure assessment type*</label>
         {{> selectList options=getExposureAssessmentTypeOptions selected=exposureAssessmentType selectName="exposureAssessmentType"}}
         <label class="helpPopovers" data-toggle="popover"
                data-content="Average quantitative exposure-level or range, if reported">
@@ -409,7 +409,7 @@
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Any study-strengths should be described here.">
-                Principal strengths</label>
+                Principal strengths*</label>
         <textarea class="form-control"
                   name='strengths'
                   rows="3">{{strengths}}</textarea>
@@ -419,7 +419,7 @@
         <label class="helpPopovers" data-toggle="popover"
                data-content="Limitations to consider include the extent to which
                              chance, bias, and confounding could explain the results">
-                Principal limitations</label>
+                Principal limitations*</label>
         <textarea class="form-control"
                   name='limitations'
                   rows="3">{{limitations}}</textarea>
@@ -555,14 +555,14 @@
 
         <div class="modal-body">
           <form id="epiResultForm" role="form" class="editForm">
-            <p class="help-block">Hover-over field labels for more descriptive text.</p>
+            <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
 
             <!-- First row -->
             <div class="form-group row">
               <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
                        data-content="Cancer-organ site for results being measured.">
-                       &nbsp;<br>Organ site (ICD code)</label>
+                       &nbsp;<br>Organ site* (ICD code)</label>
                 <br>
                 {{> typeaheadInput name="organSite" value=organSite data_source="searchOrganSite"}}
               </div>
@@ -570,7 +570,7 @@
               <div class="col-xs-3">
                 <label class="helpPopovers" data-toggle="popover"
                        data-content="Risk metric used to display results (SMR, RR, etc.)">
-                       &nbsp;<br>Measure of effect</label>
+                       &nbsp;<br>Measure of effect*</label>
                 {{> typeaheadInput name="effectMeasure" value=effectMeasure data_source="searchEffectMeasure"}}
               </div>
 
@@ -603,12 +603,12 @@
                         data-content="E.g., all exposed workers, second quartile of exposure,
                                     quantitative exposure level (always provide quantitative
                                     information when available)">
-                        Exposure category<br>or level</span></th>
+                        Exposure category<br>or level*</span></th>
 
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                     data-content="Deaths/cases for cohort studies; Cases for case-control studies">
-                    &nbsp;<br>Exposed cases/deaths</span></th>
+                    &nbsp;<br>Exposed cases/deaths*</span></th>
                 <th>
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="Central risk reported for risk estimate">
@@ -646,7 +646,7 @@
                                      adjustment in the analysis reported. Enter each covariate
                                      individually, and then press <enter> to add it to the list.
                                      If no covariates were specified, add "not-specified"'>
-                       Covariates controlled</label>
+                       Covariates controlled*</label>
                {{> typeaheadSelectList name="covariates" values=covariates data_source="searchCovariates"}}
               </div>
 
