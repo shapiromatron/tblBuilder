@@ -57,15 +57,15 @@
     </thead>
     <tbody>
       {{#each getReportTemplates}}
-          <tr class="menu-autohide">
-            {{#if isEditing}}
-              <td id="editingRow" colspan="100">
-                {{> reportTemplateForm this}}
-              </td>
-            {{else}}
-                {{> reportTemplateRow this}}
-            {{/if}}
-          </tr>
+        <tr class="menu-autohide">
+          {{#if isEditing}}
+            <td id="editingRow" colspan="100">
+              {{> reportTemplateForm this}}
+            </td>
+          {{else}}
+              {{> reportTemplateRow this}}
+          {{/if}}
+        </tr>
       {{/each}}
     </tbody>
   </table>

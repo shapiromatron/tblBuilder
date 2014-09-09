@@ -103,18 +103,18 @@
         {{/if}}
       {{else}}
         <tr>
-          <td colspan="100">No data has been entered into this table.
-            {{#if userCanEdit}}
-              {{#unless showNew}}<br><br>
-              <a href="#" class="btn btn-primary btn-sm" id="show-create">
-                <span class="glyphicon glyphicon-plus"></span> Create new row</a>
-              {{/unless}}
-            {{/if}}
-          </td>
+          <td colspan="100">No data has been entered into this table.</td>
         </tr>
       {{/each}}
     </tbody>
   </table>
+
+  {{#if userCanEdit}}
+    {{#unless showNew}}<br><br>
+    <a href="#" class="btn btn-primary btn-sm" id="show-create">
+      <span class="glyphicon glyphicon-plus"></span> Create new row</a>
+    {{/unless}}
+  {{/if}}
 
   {{#if showNew}}
     {{> epiDescriptiveForm isNew=true}}

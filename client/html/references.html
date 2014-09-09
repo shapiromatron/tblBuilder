@@ -60,15 +60,14 @@
           </tr>
       {{else}}
         <tr>
-          <td colspan="100">No references have been created.
-            {{#unless referenceShowNew}}<br><br>
-              <a href="#" class="btn btn-primary btn-sm" id="reference-show-create"><span class="glyphicon glyphicon-plus"></span> Create new row</a>
-            {{/unless}}
-          </td>
+          <td colspan="100">No references have been created.</td>
         </tr>
       {{/each}}
     </tbody>
   </table>
+  {{#unless referenceShowNew}}
+    <a href="#" class="btn btn-primary btn-sm" id="reference-show-create"><span class="glyphicon glyphicon-plus"></span> Add reference</a>
+  {{/unless}}
 </template>
 
 <template name="referenceForm">
