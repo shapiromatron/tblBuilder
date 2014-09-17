@@ -1,3 +1,4 @@
+Session.setDefault('showQAflags', false)
 Session.setDefault('monographAgent', null)
 
 Meteor.subscribe('reportTemplate')

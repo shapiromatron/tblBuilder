@@ -146,6 +146,19 @@ Meteor.startup ->
             denyUpdate: true
             optional: true
 
+        isQA:
+            type: Boolean
+            defaultValue: false
+            optional: true
+
+        timestampQA:
+            type: Date
+            optional: true
+
+        user_id_QA:
+            type: SimpleSchema.RegEx.Id
+            optional: true
+
 
     share.epiResultSchema = new SimpleSchema
 
@@ -240,6 +253,19 @@ Meteor.startup ->
             denyUpdate: true
             optional: true
 
+        isQA:
+            type: Boolean
+            defaultValue: false
+            optional: true
+
+        timestampQA:
+            type: Date
+            optional: true
+
+        user_id_QA:
+            type: SimpleSchema.RegEx.Id
+            optional: true
+
 
     requiredCC = () ->
         isRequired = ((@field('studyDesign').value in CaseControlTypes) and (@value is ""))
@@ -248,6 +274,7 @@ Meteor.startup ->
     requiredCohort = () ->
         isRequired = ((@field('studyDesign').value not in CaseControlTypes) and (@value is ""))
         if isRequired then return "required"
+
 
     share.epiDescriptiveSchema = new SimpleSchema
 
@@ -402,7 +429,22 @@ Meteor.startup ->
             denyUpdate: true
             optional: true
 
+        isQA:
+            type: Boolean
+            defaultValue: false
+            optional: true
+
+        timestampQA:
+            type: Date
+            optional: true
+
+        user_id_QA:
+            type: SimpleSchema.RegEx.Id
+            optional: true
+
+
     SimpleSchema.messages({minCount: "[label] must specify at least [minCount] value(s) (press <enter> after typing to add to list)"})
+
 
     # attach schema to collections
     Tables.attachSchema(share.TableSchema)

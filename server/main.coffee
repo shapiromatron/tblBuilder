@@ -3,6 +3,12 @@ addTimestampAndUserID = (userId, doc) ->
     doc.user_id = userId
     return doc
 
+addQAmarks = (doc) ->
+    doc.isQA = false
+    doc.timestamp = null
+    doc.user_id = null
+    return doc
+
 getNewIdx = (Cls, tbl_id) ->
     # auto-incrementing table index , starting at 1
     max = 0
@@ -51,17 +57,20 @@ Reference.before.insert (userId, doc) ->
 
 MechanisticEvidence.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
+    doc = addQAmarks(doc)
     doc['sortIdx'] = getNewIdx(MechanisticEvidence, doc.tbl_id)
     return userCanEditTblContent(doc.tbl_id, userId)
 
 EpiDescriptive.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
+    doc = addQAmarks(doc)
     doc['isHidden'] = false
     doc['sortIdx'] = getNewIdx(EpiDescriptive, doc.tbl_id)
     return userCanEditTblContent(doc.tbl_id, userId)
 
 EpiResult.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
+    doc = addQAmarks(doc)
     doc['isHidden'] = false
     doc['sortIdx'] = getNewIdx(EpiResult, doc.tbl_id)
     return userCanEditTblContent(doc.tbl_id, userId)

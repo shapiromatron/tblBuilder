@@ -14,27 +14,53 @@ singleFieldTextSearch = (inputs) ->
 Meteor.methods
 
     adminUserEditProfile: (_id, obj) ->
-        if share.isStaffOrHigher(this.userId)
-            Meteor.users.update(_id, {$set: obj})
-        else
+        unless share.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
+
+        Meteor.users.update(_id, {$set: obj})
+
 
     adminUserCreateProfile: (obj) ->
-        if share.isStaffOrHigher(this.userId)
-            opts = {email: obj.emails[0].address}
-            _id = Accounts.createUser(opts)
-            Meteor.users.update(_id, {$set: obj})
-            Accounts.sendEnrollmentEmail(_id)
-        else
+        unless share.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
 
+        opts = {email: obj.emails[0].address}
+        _id = Accounts.createUser(opts)
+        Meteor.users.update(_id, {$set: obj})
+        Accounts.sendEnrollmentEmail(_id)
+
+
     adminUserResetPassword: (_id) ->
-        if share.isStaffOrHigher(this.userId)
-            # This will work even if a user has not initially created
-            # a password
-            Accounts.sendResetPasswordEmail(_id)
-        else
+        unless share.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
+
+        # This will work even if a user has not initially created
+        # a password
+        Accounts.sendResetPasswordEmail(_id)
+
+    adminToggleQAd: (_id, model) ->
+        unless share.isStaffOrHigher(this.userId)
+            throw new Meteor.Error(403, "Nice try wise-guy.")
+
+        collection = switch
+            when model is "epiDescriptive" then EpiDescriptive
+            when model is "epiResult" then EpiResult
+            when model is "mechanisticEvidence" then MechanisticEvidence
+            else undefined
+
+        if collection
+            obj = collection.findOne(_id)
+
+            if obj
+                qad = obj.isQA
+                if qad
+                    updates = {isQA: false, timestampQA: null, user_id_QA: null}
+                else
+                    timestamp = new Date()
+                    updates = {isQA: true, timestampQA: timestamp, user_id_QA: this.userId}
+                collection.update(_id, {$set: updates})
+                return {success: true, QAd: not qad}
+        return {success: false}
 
     searchUsers: (str) ->
         check(str, String)

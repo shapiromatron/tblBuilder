@@ -175,16 +175,19 @@ share.toggleRiskPlot = ->
         .attr("y2", yscale(1))
         .attr("class", (v) -> if v in [.1, 1, 10] then 'major' else 'minor')
 
-UI.registerHelper "formatDate", (datetime, format) ->
-    DateFormats =
-        short: "DD MMMM - YYYY",
-        long: "DD/MM/YYYY"
+timestamp_format = 'MMM Do YYYY, h:mm a'
 
-    if moment
-        f = DateFormats[format]
-        return moment(datetime).format(f)
+UI.registerHelper "formatDate", (datetime) ->
+    return moment(datetime).format(timestamp_format)
+
+UI.registerHelper "QAstampFormat", (datetime, userID) ->
+    datetime = moment(datetime).format(timestamp_format)
+    user = Meteor.users.findOne(userID)
+    if user then username = user.profile.fullName
+    if username
+        return "QA'd by #{username} on #{datetime}"
     else
-        return datetime
+        return "QA'd on #{datetime}"
 
 UI.registerHelper "userCanEdit", ->
     tbl = Session.get('Tbl')
@@ -208,3 +211,9 @@ UI.registerHelper "eachIndex", (array) ->
 
 UI.registerHelper "isEqual", (kw) ->
     return kw.hash.current is kw.hash.target
+
+UI.registerHelper "qaMark", (isQA) ->
+    if Session.get("showQAflags")
+        icon = if (isQA) then "glyphicon-ok" else "glyphicon-remove"
+        title = if (isQA) then "QA'd" else "Not QA'd"
+        return Spacebars.SafeString("""<span title="#{title}" class="btn-xs text-muted pull-right glyphicon #{icon}"></span>""")

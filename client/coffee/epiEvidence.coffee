@@ -102,6 +102,11 @@ Template.epiDescriptiveTbl.events
         rendered = UI.renderWithData(Template.reportTemplateModal, {})
         UI.insert(rendered, div)
 
+    'click #toggleQAflags': (evt, tmpl) ->
+        val = not Session.get('showQAflags')
+        Session.set('showQAflags', val)
+
+
 Template.epiDescriptiveTbl.rendered = ->
     share.toggleRiskPlot()
     new Sortable(@.find('#sortable'),
@@ -204,12 +209,20 @@ Template.epiDescriptiveForm.events
         rendered = UI.renderWithData(Template.epiResultForm, {descriptive:@})
         UI.insert(rendered, div)
 
+    'click #setQA,#unsetQA': (evt, tmpl) ->
+        Meteor.call 'adminToggleQAd', this._id, "epiDescriptive", (err, response) ->
+            if response then toggleQA(tmpl, response.QAd)
+
 Template.epiDescriptiveForm.rendered = ->
     toggleCCfields(@)
+    toggleQA(@, @.data.isQA)
     $(@.findAll('.helpPopovers')).popover
             delay: {show: 500, hide: 100}
             trigger: "hover"
             placement: "auto"
+
+toggleQA = (tmpl, isQA) ->
+   $(tmpl.findAll('input,select,textarea')).prop('disabled', isQA)
 
 toggleCCfields = (tmpl) ->
     # toggle between if Cohort or Case-Control fields are present

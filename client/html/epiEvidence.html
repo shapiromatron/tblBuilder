@@ -57,6 +57,9 @@
             {{else}}<span class="glyphicon glyphicon-resize-full"></span> Show all rows
             {{/if}}</a></li>
         <li>
+          <a href="#" id="toggleQAflags">
+            <span class="fa fa-flag-o"></span> Toggle QA flags</a></li>
+        <li>
           <a href="{{pathFor 'epiAnalysisTbl' _id=this._id}}">
             <span class="fa fa-table"></span> Data exploration</a></li>
       </ul>
@@ -171,7 +174,7 @@
       </p>
     {{/each }}
   </td>
-  <td>{{notes}}<br>
+  <td>{{qaMark isQA}}{{#if notes}}{{notes}}<br>{{/if}}
     <strong>Strengths: </strong>{{strengths}}<br>
     <strong>Limitations: </strong>{{limitations}}</td>
   <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
@@ -437,6 +440,11 @@
 
     <div id="errors"></div>
 
+    <!-- QA notice -->
+    {{#if isQA }}
+      <strong>{{QAstampFormat timestampQA user_id_QA}}</strong>
+    {{/if}}
+
     <!-- Submission -->
     <div class="well well-sm pager">
       {{#if isNew }}
@@ -450,24 +458,45 @@
                 id="create-cancel"
                 title="Cancel">Cancel</button>
       {{else}}
-        <button type="button"
-                class="btn btn-sm btn-primary"
-                id="update"
-                title="Save changes">
-                <span class="glyphicon glyphicon-ok"></span> Save</button>
-        <button type="button"
-                class="btn btn-sm btn-default"
-                id="update-cancel"
-                title="Cancel changes">Cancel</button>
-        <button type="button"
-                class="btn btn-sm btn-danger"
-                id="delete" title="Delete row">
-                <span class="glyphicon glyphicon-trash"></span></button>
-        <button type ="button"
-                id   ="addEpiResult"
-                class="pull-left btn btn-sm btn-primary"
-                title="Display modal for entering results">
-                <span class="fa fa-medkit"></span> Add results</button>
+        {{#if isQA }}
+          <button type="button"
+                  class="btn btn-sm btn-default pull-left"
+                  id="update-cancel"
+                  title="Cancel changes">Close</button>
+          {{#if isInRole 'staff'}}
+            <button type ="button"
+                      id   ="unsetQA"
+                      class="pull-right btn btn-sm btn-warning"
+                      title="Unset data as QA'd and allow further changes">
+                      <span class="fa fa-exclamation-circle"></span> Remove QA'd</button>
+          {{/if}}
+        {{else}}
+          <button type="button"
+                  class="btn btn-sm btn-primary"
+                  id="update"
+                  title="Save changes">
+                  <span class="glyphicon glyphicon-ok"></span> Save</button>
+          <button type="button"
+                  class="btn btn-sm btn-default"
+                  id="update-cancel"
+                  title="Cancel changes">Cancel</button>
+          <button type="button"
+                  class="btn btn-sm btn-danger"
+                  id="delete" title="Delete row">
+                  <span class="glyphicon glyphicon-trash"></span></button>
+          <button type ="button"
+                  id   ="addEpiResult"
+                  class="pull-left btn btn-sm btn-primary"
+                  title="Display modal for entering results">
+                  <span class="fa fa-medkit"></span> Add results</button>
+          {{#if isInRole 'staff'}}
+            <button type ="button"
+                    id   ="setQA"
+                    class="pull-right btn btn-sm btn-success"
+                    title="Make data as QA'd and prevent further changes">
+                    <span class="fa fa-check-circle"></span> Mark QA'd</button>
+          {{/if}}
+        {{/if}}
       {{/if}}
     </div>
   </form>
