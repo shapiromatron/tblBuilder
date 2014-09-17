@@ -181,6 +181,7 @@ Template.epiDescriptiveForm.events
 
     'click #update': (evt, tmpl) ->
         vals = share.updateValues(tmpl.find('#epiDescriptiveForm'), @)
+        vals.studyDesign = tmpl.find('select[name="studyDesign"]').value  # add for conditional schema-logic
         modifier = {$set: vals}
         isValid = EpiDescriptive.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid

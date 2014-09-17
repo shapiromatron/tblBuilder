@@ -271,6 +271,8 @@ Meteor.startup ->
         eligibilityCriteria:
             label: "Population/eligibility characteristics"
             type: String
+            optional: true
+            custom: requiredCohort
 
         populationDescription:
             label: "Other population descriptors"
@@ -335,12 +337,14 @@ Meteor.startup ->
             label: "Source of cases"
             type: String
             optional: true
+            custom: requiredCC
             defaultValue: null
 
         sourceControl:
             label: "Source of controls"
             type: String
             optional: true
+            custom: requiredCC
             defaultValue: null
 
         exposureAssessmentType:
