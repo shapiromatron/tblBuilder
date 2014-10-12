@@ -459,8 +459,13 @@
                 title="Cancel">Cancel</button>
       {{else}}
         {{#if isQA }}
+          <button type ="button"
+                  id   ="addEpiResult"
+                  class="pull-left btn btn-sm btn-primary"
+                  title="Display modal for entering results">
+                  <span class="fa fa-medkit"></span> Add results</button>
           <button type="button"
-                  class="btn btn-sm btn-default pull-left"
+                  class="btn btn-sm btn-default"
                   id="update-cancel"
                   title="Cancel changes">Close</button>
           {{#if isInRole 'staff'}}
