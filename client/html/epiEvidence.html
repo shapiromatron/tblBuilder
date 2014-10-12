@@ -708,6 +708,13 @@
 
             <div id="errors"></div>
 
+            <!-- QA notice -->
+            {{#if isQA }}
+              <strong>{{QAstampFormat timestampQA user_id_QA}}</strong>
+            {{else}}
+              <strong>Not QA</strong>
+            {{/if}}
+
             <!-- Submission -->
             <div class="well well-sm pager">
               {{#if isNew }}
@@ -717,14 +724,36 @@
                 <button type="button" class="btn btn-sm btn-default"
                         id="inner-create-cancel" title="Cancel">Cancel</button>
               {{else}}
-                <button type="button" class="btn btn-sm btn-primary"
-                        id="inner-update" title="Save changes">
-                        <span class="glyphicon glyphicon-ok"></span> Save</button>
-                <button type="button" class="btn btn-sm btn-default"
-                        id="inner-update-cancel" title="Cancel changes">Cancel</button>
-                <button type="button" class="btn btn-sm btn-danger"
-                        id="inner-delete" title="Delete row">
-                        <span class="glyphicon glyphicon-trash"></span></button>
+
+                {{#if isQA }}
+                  <button type="button"
+                          class="btn btn-sm btn-default"
+                          id="inner-update-cancel"
+                          title="Cancel changes">Cancel</button>
+                  {{#if isInRole 'staff'}}
+                    <button type="button"
+                              id="unsetQA"
+                           class="pull-right btn btn-sm btn-warning"
+                           title="Unset data as QA'd and allow further changes">
+                        <span class="fa fa-exclamation-circle"></span> Remove QA'd</button>
+                  {{/if}}
+                {{else}}
+                  <button type="button" class="btn btn-sm btn-primary"
+                          id="inner-update" title="Save changes">
+                          <span class="glyphicon glyphicon-ok"></span> Save</button>
+                  <button type="button" class="btn btn-sm btn-default"
+                          id="inner-update-cancel" title="Cancel changes">Cancel</button>
+                  <button type="button" class="btn btn-sm btn-danger"
+                          id="inner-delete" title="Delete row">
+                          <span class="glyphicon glyphicon-trash"></span></button>
+                  {{#if isInRole 'staff'}}
+                    <button type="button"
+                              id="setQA"
+                           class="pull-right btn btn-sm btn-success"
+                           title="Make data as QA'd and prevent further changes">
+                        <span class="fa fa-check-circle"></span> Mark QA'd</button>
+                  {{/if}}
+                {{/if}}
               {{/if}}
             </div>
 

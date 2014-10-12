@@ -231,6 +231,7 @@ toggleCCfields = (tmpl) ->
         $(tmpl.findAll('.isCCinput')).hide()
         $(tmpl.findAll('.isNotCCinput')).show()
 
+
 # EPI RESULTS TBL --------------------------------------------------------------
 Template.epiResultTbl.helpers
 
@@ -346,6 +347,7 @@ Template.epiResultForm.events
             if response then share.toggleQA(tmpl, response.QAd)
 
 Template.epiResultForm.rendered = ->
+    share.toggleQA(@, @.data.isQA)
     $(@.find('#epiResultsModal')).modal('toggle')
     $(@.findAll('.helpPopovers')).popover
             delay: {show: 500, hide: 100}
