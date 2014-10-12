@@ -175,6 +175,9 @@ share.toggleRiskPlot = ->
         .attr("y2", yscale(1))
         .attr("class", (v) -> if v in [.1, 1, 10] then 'major' else 'minor')
 
+share.toggleQA = (tmpl, isQA) ->
+   $(tmpl.findAll('input,select,textarea')).prop('disabled', isQA)
+
 timestamp_format = 'MMM Do YYYY, h:mm a'
 
 UI.registerHelper "formatDate", (datetime) ->
