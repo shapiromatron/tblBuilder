@@ -38,7 +38,7 @@ Template.adminUserRow.helpers
 Template.adminUserRow.events
     'click #adminUser-show-edit': (evt, tmpl) ->
         Session.set("adminUserEditingId", @_id)
-        Deps.flush() # update DOM before focus
+        Tracker.flush() # update DOM before focus
         share.activateInput(tmpl.find("input[name=fullName]"))
 
     'click #adminUser-resetPassword': (evt, tmpl) ->

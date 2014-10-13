@@ -62,7 +62,7 @@ Template.mechanisticSectionTR.helpers
 Template.mechanisticSectionTR.events
     'click #mechanistic-newSection': (evt, tmpl) ->
         Session.set('mechanisticEditingId', @section)
-        Deps.flush() # update DOM before focus
+        Tracker.flush() # update DOM before focus
         share.activateInput(tmpl.find("textarea[name=text]"))
 
 Template.mechanisticSectionTR.rendered = ->
@@ -94,12 +94,12 @@ Template.mechanisticEvidenceDisplay.helpers
 Template.mechanisticEvidenceDisplay.events
     'click #mechanistic-show-edit': (evt, tmpl) ->
         Session.set("mechanisticEditingId", @_id)
-        Deps.flush() # update DOM before focus
+        Tracker.flush() # update DOM before focus
         share.activateInput(tmpl.find("textarea[name=text]"))
 
     'click #mechanistic-newChild': (evt, tmpl) ->
         Session.set("mechanisticNewChild", @_id)
-        Deps.flush() # update DOM before focus
+        Tracker.flush() # update DOM before focus
         share.activateInput(tmpl.find("textarea[name=text]"))
 
 Template.mechanisticEvidenceDisplay.rendered = ->

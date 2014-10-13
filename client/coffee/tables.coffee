@@ -11,7 +11,7 @@ getTablesHandle = ->
         userHandle = null
 
 userHandle = getTablesHandle()
-Deps.autorun(getTablesHandle)
+Tracker.autorun(getTablesHandle)
 
 
 Template.TablesByMonograph.helpers
@@ -55,12 +55,12 @@ Template.TablesByMonograph.helpers
 Template.TablesByMonograph.events
     'click #tables-show-create': (evt, tmpl) ->
         Session.set("tablesShowNew", true)
-        Deps.flush()  # update DOM before focus
+        Tracker.flush()  # update DOM before focus
         share.activateInput(tmpl.find("input[name=volumeNumber]"))
 
     'click #tables-show-edit': (evt, tmpl) ->
         Session.set("tablesEditingId", this._id)
-        Deps.flush()  # update DOM before focus
+        Tracker.flush()  # update DOM before focus
         share.activateInput(tmpl.find("input[name=volumeNumber]"))
 
     'click #agentEpiReport': (evt, tmpl) ->

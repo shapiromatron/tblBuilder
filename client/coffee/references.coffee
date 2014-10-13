@@ -16,12 +16,12 @@ Template.referencesTbl.helpers
 Template.referencesTbl.events
     'click #reference-show-create': (evt, tmpl) ->
         Session.set("referenceShowNew", true)
-        Deps.flush() # update DOM before focus
+        Tracker.flush() # update DOM before focus
         share.activateInput(tmpl.find("input[name=name]"))
 
     'click #reference-show-edit': (evt, tmpl) ->
         Session.set("referenceEditingId", @_id)
-        Deps.flush() # update DOM before focus
+        Tracker.flush() # update DOM before focus
         share.activateInput(tmpl.find("input[name=name]"))
 
     'click #reference-downloadExcel': (evt, tmpl) ->

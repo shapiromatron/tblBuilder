@@ -75,7 +75,7 @@ Template.epiDescriptiveTbl.helpers
 Template.epiDescriptiveTbl.events
     'click #show-create': (evt, tmpl) ->
         Session.set("epiDescriptiveShowNew", true)
-        Deps.flush() # update DOM before focus
+        Tracker.flush() # update DOM before focus
         share.activateInput(tmpl.find("input[name=referenceID]"))
 
     'click #downloadExcel': (evt, tmpl) ->
@@ -130,12 +130,12 @@ Template.epiDescriptiveRow.events
 
     'click #show-edit': (evt, tmpl) ->
         Session.set("epiDescriptiveEditingId", @_id)
-        Deps.flush() # update DOM before focus
+        Tracker.flush() # update DOM before focus
         share.activateInput($("input[name=referenceID]")[0])
 
     'click #copy-as-new': (evt, tmpl) ->
         Session.set("epiDescriptiveShowNew", true)
-        Deps.flush() # update DOM before focus
+        Tracker.flush() # update DOM before focus
         share.activateInput($("input[name=referenceID]")[0])
         share.copyAsNew(@)
 

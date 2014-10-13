@@ -4,7 +4,7 @@ Session.setDefault('monographAgent', null)
 Meteor.subscribe('reportTemplate')
 
 share.TablesHandler = null;
-Deps.autorun ->
+Tracker.autorun ->
     share.TablesHandler = Meteor.subscribe('tables', Meteor.userId())
 
 class TblRouterController extends RouteController
