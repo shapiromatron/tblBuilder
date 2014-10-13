@@ -154,6 +154,7 @@
         </ul>
       </div>
     {{/if}}
+    {{qaMark isQA}}
     {{>printReference id=referenceID}}<br>{{{getStudyDesign}}}
     {{location}}<br>
     {{enrollmentDates}}<br>
@@ -174,7 +175,7 @@
       </p>
     {{/each }}
   </td>
-  <td>{{qaMark isQA}}{{#if notes}}{{notes}}<br>{{/if}}
+  <td>{{#if notes}}{{notes}}<br>{{/if}}
     <strong>Strengths: </strong>{{strengths}}<br>
     <strong>Limitations: </strong>{{limitations}}</td>
   <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
@@ -547,7 +548,7 @@
                       </ul>
                     </div>
                   {{/if}}
-                  {{../organSite}}
+                  {{qaMark ../isQA}}{{../organSite}}
                 </td>
               {{/if}}
               <td>{{value.exposureCategory}}</td>
@@ -711,8 +712,6 @@
             <!-- QA notice -->
             {{#if isQA }}
               <strong>{{QAstampFormat timestampQA user_id_QA}}</strong>
-            {{else}}
-              <strong>Not QA</strong>
             {{/if}}
 
             <!-- Submission -->
@@ -729,7 +728,7 @@
                   <button type="button"
                           class="btn btn-sm btn-default"
                           id="inner-update-cancel"
-                          title="Cancel changes">Cancel</button>
+                          title="Cancel changes">Close</button>
                   {{#if isInRole 'staff'}}
                     <button type="button"
                               id="unsetQA"
