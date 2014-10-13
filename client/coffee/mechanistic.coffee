@@ -31,8 +31,7 @@ Template.mechanisticMain.events
 
     'click #wordReport': (evt, tmpl) ->
         div = tmpl.firstNode
-        rendered = UI.renderWithData(Template.reportTemplateModal, {})
-        UI.insert(rendered, div)
+        Blaze.renderWithData(Template.reportTemplateModal, {}, div)
 
     'click #mechanistic-reorderRows': (evt, tmpl) ->
         Session.set('reorderRows', not Session.get('reorderRows'))

@@ -1,0 +1,59 @@
+{
+  "dependencies": {
+    "angular-expressions": {
+      "version": "0.2.1"
+    },
+    "docxtemplater": {
+      "version": "0.6.0",
+      "dependencies": {
+        "xmldom": {
+          "version": "0.1.19"
+        },
+        "angular-expressions": {
+          "version": "0.2.1"
+        }
+      }
+    },
+    "xlsx": {
+      "version": "0.7.5",
+      "dependencies": {
+        "ssf": {
+          "version": "0.7.1",
+          "dependencies": {
+            "voc": {
+              "version": "0.5.0"
+            },
+            "colors": {
+              "version": "1.0.3"
+            },
+            "frac": {
+              "version": "0.3.1"
+            }
+          }
+        },
+        "codepage": {
+          "version": "1.2.0",
+          "dependencies": {
+            "voc": {
+              "version": "0.5.0"
+            }
+          }
+        },
+        "cfb": {
+          "version": "0.10.1"
+        },
+        "jszip": {
+          "version": "2.2.2",
+          "dependencies": {
+            "pako": {
+              "version": "0.2.5"
+            }
+          }
+        },
+        "commander": {
+          "version": "2.3.0"
+        }
+      }
+    }
+  }
+}

@@ -148,8 +148,7 @@ searchRefHelper = (qry, cb) ->
         cb(res)
 
 
-Template.referenceSingleSelect.helpers
-    searchReference: searchRefHelper
+Template.referenceSingleSelect.searchReference = searchRefHelper
 
 Template.referenceSingleSelect.events
     'click .selectListRemove': (evt, tmpl) ->
@@ -159,14 +158,12 @@ Template.referenceSingleSelect.rendered = ->
     Meteor.typeahead.inject("input[name=referenceID]")
     div = @.find('div.selectedReference')
     $(@.find("input")).on 'typeahead:selected', (e, v) ->
-        rendered = UI.renderWithData(Template.referenceSingleSelectSelected, {referenceID:v._id})
         $(div).empty()
-        UI.insert(rendered, div)
+        Blaze.renderWithData(Template.referenceSingleSelectSelected, {referenceID:v._id}, div)
         this.value = ""
 
 
-Template.referenceMultiSelect.helpers
-    searchReference: searchRefHelper
+Template.referenceMultiSelect.searchReference = searchRefHelper
 
 Template.referenceMultiSelect.events
     'click .selectListRemove': (evt, tmpl) ->
@@ -176,9 +173,10 @@ Template.referenceMultiSelect.rendered = ->
     Meteor.typeahead.inject("input[name=references]")
     $ul = $(@.find('ul'))
     $(@.find("input")).on 'typeahead:selected', (e, v) ->
-        rendered = UI.renderWithData(Template.referenceMultiSelectListLI, v._id)
         ids = ($(li).data('id') for li in $ul.find('li'))
-        if v._id not in ids then UI.insert(rendered, $ul[0])
+        if v._id not in ids
+            ul = $ul[0]
+            Blaze.renderWithData(Template.referenceMultiSelectListLI, v._id, ul)
         this.value = ""
 
 

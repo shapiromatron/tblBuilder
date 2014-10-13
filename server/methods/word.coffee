@@ -1,5 +1,5 @@
-DocXTemplater = Meteor.require('docxtemplater')
-angular_expressions= Meteor.require('angular-expressions')
+DocXTemplater = Meteor.npmRequire('docxtemplater')
+angular_expressions= Meteor.npmRequire('angular-expressions')
 
 angularParser = (tag) ->
     expr = angular_expressions.compile(tag)

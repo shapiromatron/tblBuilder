@@ -9,8 +9,7 @@ setAdminNotification = (message) ->
         alertType: "success"
         message: message
     }
-    rendered = UI.renderWithData(Template.dismissableAlert, data)
-    UI.insert(rendered, div)
+    Blaze.renderWithData(Template.dismissableAlert, data, div)
 
 Template.admin.helpers
 

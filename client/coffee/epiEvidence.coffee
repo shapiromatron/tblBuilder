@@ -99,8 +99,7 @@ Template.epiDescriptiveTbl.events
 
     'click #wordReport': (evt, tmpl) ->
         div = tmpl.find('#modalHolder')
-        rendered = UI.renderWithData(Template.reportTemplateModal, {})
-        UI.insert(rendered, div)
+        Blaze.renderWithData(Template.reportTemplateModal, {}, div)
 
     'click #toggleQAflags': (evt, tmpl) ->
         val = not Session.get('showQAflags')
@@ -144,8 +143,7 @@ Template.epiDescriptiveRow.events
         # remove exiting modal, add new one, and inject scope
         div = tmpl.find('#epiResultDiv')
         $(div).empty()
-        rendered = UI.renderWithData(Template.epiResultForm, {descriptive:@})
-        UI.insert(rendered, div)
+        Blaze.renderWithData(Template.epiResultForm, {descriptive:@}, div)
 
 Template.epiDescriptiveRow.rendered = ->
     new Sortable(@.find('#sortableInner'),
@@ -205,8 +203,7 @@ Template.epiDescriptiveForm.events
     'click #addEpiResult': (evt, tmpl) ->
         # remove exiting modal, add new one, and inject scope
         div = tmpl.find('#epiResultDiv')
-        rendered = UI.renderWithData(Template.epiResultForm, {descriptive:@})
-        UI.insert(rendered, div)
+        Blaze.renderWithData(Template.epiResultForm, {descriptive:@}, div)
 
     'click #setQA,#unsetQA': (evt, tmpl) ->
         Meteor.call 'adminToggleQAd', this._id, "epiDescriptive", (err, response) ->
@@ -254,21 +251,19 @@ Template.epiResultTbl.events
 
     'click #inner-show-edit': (evt, tmpl) ->
         div = tmpl.find('#epiResultDiv')
-        data = tmpl.__component__.parent.data()
+        data = tmpl.view.parentView.dataVar.curValue
         Session.set('epiResultEditingId', data._id)
-        rendered = UI.renderWithData(Template.epiResultForm, data)
-        UI.insert(rendered, div)
+        Blaze.renderWithData(Template.epiResultForm, data, div)
 
     'click #inner-toggle-hidden': (evt, tmpl) ->
-        data = tmpl.__component__.parent.data()
+        data = tmpl.view.parentView.dataVar.curValue
         EpiResult.update(data._id, {$set: {isHidden: !data.isHidden}})
 
     'click #inner-copy-as-new': (evt, tmpl) ->
         div = tmpl.find('#epiResultDiv')
-        data = tmpl.__component__.parent.data()
+        data = tmpl.view.parentView.dataVar.curValue
         data.descriptive = {_id: data.parent_id}
-        rendered = UI.renderWithData(Template.epiResultForm, data)
-        UI.insert(rendered, div)
+        Blaze.renderWithData(Template.epiResultForm, data, div)
 
 
 # EPI RESULTS FORM -------------------------------------------------------------
@@ -280,7 +275,8 @@ Template.epiResultForm.helpers
 removeSelf = (tmpl, opt) ->
     # completely remove self from DOM, including template
     $(tmpl.find('#epiResultsModal')).on 'hidden.bs.modal', ->
-        tmpl.__component__.dom.remove()
+        Blaze.remove(tmpl.view)
+        $(tmpl.view._domrange.members).remove()
         if opt? and opt.removeResult then EpiResult.remove(opt.removeResult)
 
     $(tmpl.find('#epiResultsModal')).modal('hide')
@@ -300,8 +296,7 @@ getRiskRows = (tmpl, obj) ->
 Template.epiResultForm.events
     'click #inner-addRiskRow': (evt, tmpl) ->
         tbody = tmpl.find('.riskEstimateTbody')
-        rendered = UI.renderWithData(Template.riskEstimateForm, {})
-        UI.insert(rendered, tbody)
+        Blaze.renderWithData(Template.riskEstimateForm, {}, tbody)
 
     'click #inner-create': (evt, tmpl) ->
         obj = share.newValues(tmpl.find('#epiResultForm'))
@@ -358,7 +353,8 @@ Template.epiResultForm.rendered = ->
 # EPI RISK ESTIMATE FORM ROW ---------------------------------------------------
 Template.riskEstimateForm.events
     'click #epiRiskEstimate-delete': (evt, tmpl) ->
-        tmpl.__component__.dom.remove()
+        Blaze.remove(tmpl.view)
+        $(tmpl.view._domrange.members).remove()
 
 
 # EPI RISK FOREST PLOT ---------------------------------------------------------

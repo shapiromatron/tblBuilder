@@ -1,4 +1,4 @@
-XLSX = Meteor.require('xlsx')
+XLSX = Meteor.npmRequire('xlsx')
 
 type = do ->
     classToType = {}

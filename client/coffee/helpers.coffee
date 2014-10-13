@@ -89,7 +89,7 @@ share.moveRowCheck = (evt) ->
     prev_pos = $(evt.target).prev().data('sortidx') or 0
     next_pos = $(evt.target).next().data('sortidx') or prev_pos+1
     if (this_pos < prev_pos) or (this_pos > next_pos)
-        data = UI.getElementData(evt.target)
+        data = UI.getData(evt.target)
         @options.Cls.update(data._id, {$set: {sortIdx: d3.mean([prev_pos, next_pos])}})
 
 share.copyAsNew = (obj) ->
@@ -98,8 +98,7 @@ share.copyAsNew = (obj) ->
             when "referenceID"
                 $div = $("input[name=#{key}]").parent().next()
                 $div.empty()
-                rendered = UI.renderWithData(Template.referenceSingleSelectSelected, {referenceID: val})
-                UI.insert(rendered, $div[0])
+                Blaze.renderWithData(Template.referenceSingleSelectSelected, {referenceID: val}, $div[0])
             when "coexposures"
                 $ul = $('input[name="coexposures"]').parent().next()
                 for key in val
@@ -122,8 +121,7 @@ share.copyAsNew = (obj) ->
 share.typeaheadSelectListAddLI = ($ul, val) ->
     txts = share.typeaheadSelectListGetLIs($ul)
     if ((val not in txts) and (val isnt ""))
-        rendered = UI.renderWithData(Template.typeaheadSelectListLI, val)
-        UI.insert(rendered, $ul[0])
+        Blaze.renderWithData(Template.typeaheadSelectListLI, val, $ul[0])
         return true
     return false
 

@@ -67,8 +67,7 @@ Template.TablesByMonograph.events
         val = $(evt.target).data()
         val.multiTable = true
         div = tmpl.find('#modalHolder')
-        rendered = UI.renderWithData(Template.reportTemplateModal, val)
-        UI.insert(rendered, div)
+        Blaze.renderWithData(Template.reportTemplateModal, val, div)
 
 Template.tablesForm.helpers
     searchUsers: (query, callback) ->
@@ -138,8 +137,7 @@ Template.tablesForm.rendered = () ->
     Meteor.typeahead.inject('.userTypeahead');
     $('.userTypeahead').on 'typeahead:selected', (e, v) ->
         ul = $(tmpl.find(".#{e.target.name}"))
-        rendered = UI.renderWithData(Template.UserLI, v)
-        UI.insert(rendered, ul[0])
+        Blaze.renderWithData(Template.UserLI, v, ul[0])
 
 getUserPermissionsObject = (tmpl)->
     # first filter objects so that each user has the higher permission

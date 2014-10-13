@@ -30,7 +30,8 @@ Template.reportTemplateModal.rendered = ->
 
     # completely remove self from DOM, including template
     $(@.find('#reportTemplateModal')).on 'hidden.bs.modal', =>
-        @.__component__.dom.remove()
+        Blaze.remove(@.view)
+        $(@.view._domrange.members).remove()
 
 # REPORT TEMPLATE TABLE --------------------------------------------------------
 Template.reportTemplateTable.helpers
@@ -135,5 +136,4 @@ setError = (message, div) ->
         alertType: "danger"
         message: message
     }
-    rendered = UI.renderWithData(Template.dismissableAlert, data)
-    UI.insert(rendered, div)
+    Blaze.renderWithData(Template.dismissableAlert, data, div)

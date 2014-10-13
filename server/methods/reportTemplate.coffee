@@ -1,5 +1,5 @@
-fs = Meteor.require('fs')
-DocXTemplater = Meteor.require('docxtemplater')
+fs = Meteor.npmRequire('fs')
+DocXTemplater = Meteor.npmRequire('docxtemplater')
 
 
 cleanFilename = (str) ->

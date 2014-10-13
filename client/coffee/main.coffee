@@ -157,26 +157,25 @@ UI.registerHelper "getUserDescription", ->
     return [(v.address for v in @.emails)].join(', ')
 
 
-Template.typeaheadInput.helpers
-    searchOrganSite: (qry, cb) ->
+Template.typeaheadInput.searchOrganSite = (qry, cb) ->
         Meteor.call "searchOrganSite", qry, (err, res) ->
             if err then return console.log(err)
             map = ({value: v} for v in res)
             return cb(map)
 
-    searchMonographAgent: (qry, cb) ->
+Template.typeaheadInput.searchMonographAgent = (qry, cb) ->
         Meteor.call "searchMonographAgent", qry, (err, res) ->
             if err then return console.log(err)
             map = ({value: v} for v in res)
             return cb(map)
 
-    searchEffectUnits: (qry, cb) ->
+Template.typeaheadInput.searchEffectUnits = (qry, cb) ->
         Meteor.call "searchEffectUnits", qry, (err, res) ->
             if err then return console.log(err)
             map = ({value: v} for v in res)
             return cb(map)
 
-    searchEffectMeasure: (qry, cb) ->
+Template.typeaheadInput.searchEffectMeasure = (qry, cb) ->
         Meteor.call "searchEffectMeasure", qry, (err, res) ->
             if err then return console.log(err)
             map = ({value: v} for v in res)
@@ -186,18 +185,17 @@ Template.typeaheadInput.rendered = ->
     Meteor.typeahead.inject("input[name=#{@.data.name}]")
 
 
-Template.typeaheadSelectList.helpers
-    searchCovariates: (qry, cb) ->
-        Meteor.call "searchCovariates", qry, (err, res) ->
-            if err then return console.log(err)
-            map = ({value: v} for v in res)
-            cb(map)
+Template.typeaheadSelectList.searchCovariates = (qry, cb) ->
+    Meteor.call "searchCovariates", qry, (err, res) ->
+        if err then return console.log(err)
+        map = ({value: v} for v in res)
+        cb(map)
 
-    searchCoexposures: (qry, cb) ->
-        Meteor.call "searchCoexposures", qry, (err, res) ->
-            if err then return console.log(err)
-            map = ({value: v} for v in res)
-            return cb(map)
+Template.typeaheadSelectList.searchCoexposures = (qry, cb) ->
+    Meteor.call "searchCoexposures", qry, (err, res) ->
+        if err then return console.log(err)
+        map = ({value: v} for v in res)
+        return cb(map)
 
 Template.typeaheadSelectList.events
 
@@ -223,10 +221,10 @@ Template.typeaheadSelectList.rendered = ->
 Template.browserDetect.helpers
 
     isSupportedBrowser: ->
-        return BrowserDetect.browser in browserWhitelist
+        return true
 
     getErrorMessage: ->
-        return "<b>Warning:</b> Your current browser (#{BrowserDetect.browser})
+        return "<b>Warning:</b> Your current browser
                 has not been tested extensively with this website, which may
                 result in some some errors with functionality. The following
                 browsers are supported:
