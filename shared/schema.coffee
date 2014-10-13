@@ -5,6 +5,7 @@ Meteor.startup ->
         monographAgent:
             label: "Monograph Agent Name"
             type: String
+            min: 1
 
         volumeNumber:
             label: "Volume Number"
@@ -14,6 +15,7 @@ Meteor.startup ->
         name:
             label: "Table Name"
             type: String
+            min: 1
 
         tblType:
             label: "Table Type"
@@ -44,6 +46,7 @@ Meteor.startup ->
         name:
             label: "Reference Short Name"
             type: String
+            min: 1
 
         referenceType:
             label: "Reference Type"
@@ -68,6 +71,7 @@ Meteor.startup ->
         fullCitation:
             label: "Full Citation Text"
             type: String
+            min: 1
 
         monographAgent:
             type: [String]
@@ -165,10 +169,12 @@ Meteor.startup ->
         organSite:
             label: "Organ site (ICD code)"
             type: String
+            min: 1
 
         effectMeasure:
             label: "Measure of effect"
             type: String
+            min: 1
 
         effectUnits:
             label: "Units of effect measurement"
@@ -184,6 +190,7 @@ Meteor.startup ->
         "riskEstimates.$.exposureCategory":
             label: "Exposure category or level"
             type: String
+            min: 1
 
         "riskEstimates.$.numberExposed":
             label: "Exposed cases/deaths"
@@ -290,10 +297,12 @@ Meteor.startup ->
         location:
             label: "Location"
             type: String
+            min: 1
 
         enrollmentDates:
             label: "Enrollment or follow-up dates"
             type: String
+            min: 1
 
         eligibilityCriteria:
             label: "Population/eligibility characteristics"
@@ -396,10 +405,12 @@ Meteor.startup ->
         strengths:
             label: "Principal strengths"
             type: String
+            min: 1
 
         limitations:
             label: "Principal limitations"
             type: String
+            min: 1
 
         notes:
             label: "General notes"
