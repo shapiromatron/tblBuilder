@@ -251,9 +251,8 @@ Template.epiResultTbl.events
 
     'click #inner-show-edit': (evt, tmpl) ->
         div = tmpl.find('#epiResultDiv')
-        data = tmpl.view.parentView.dataVar.curValue
-        Session.set('epiResultEditingId', data._id)
-        Blaze.renderWithData(Template.epiResultForm, data, div)
+        Session.set('epiResultEditingId', tmpl.data._id)
+        Blaze.renderWithData(Template.epiResultForm, {}, div)
 
     'click #inner-toggle-hidden': (evt, tmpl) ->
         data = tmpl.view.parentView.dataVar.curValue
@@ -272,14 +271,27 @@ Template.epiResultForm.helpers
     isNew: ->
         return Session.get('epiResultEditingId') is null
 
-removeSelf = (tmpl, opt) ->
-    # completely remove self from DOM, including template
-    $(tmpl.find('#epiResultsModal')).on 'hidden.bs.modal', ->
-        Blaze.remove(tmpl.view)
-        $(tmpl.view._domrange.members).remove()
-        if opt? and opt.removeResult then EpiResult.remove(opt.removeResult)
+    getResult: () ->
+        # get data to render into form, either using a reactive data-source if
+        # editing an existing result, or by using initial-data specified from
+        # a creation view
+        initial = @
+        existing = EpiResult.findOne({_id: Session.get('epiResultEditingId')})
+        return existing || initial
 
-    $(tmpl.find('#epiResultsModal')).modal('hide')
+removeModal = (tmpl, options) ->
+
+    onHidden = () ->
+        # remove template from DOM completely
+        $(tmpl.view._domrange.members).remove()
+        Blaze.remove(tmpl.view)
+        if options? and options.remove?
+            EpiResult.remove(options.remove)
+
+    $(tmpl.find('#epiResultsModal'))
+        .on('hidden.bs.modal', onHidden)
+        .modal('hide')
+
 
 getRiskRows = (tmpl, obj) ->
     delete obj.exposureCategory
@@ -308,13 +320,13 @@ Template.epiResultForm.events
         isValid = EpiResult.simpleSchema().namedContext().validate(obj)
         if isValid
             EpiResult.insert(obj)
-            removeSelf(tmpl)
+            removeModal(tmpl)
         else
             errorDiv = share.createErrorDiv(EpiResult.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #inner-create-cancel': (evt, tmpl) ->
-        removeSelf(tmpl)
+        removeModal(tmpl)
 
     'click #inner-update': (evt, tmpl) ->
         vals = share.updateValues(tmpl.find('#epiResultForm'), @)
@@ -324,18 +336,18 @@ Template.epiResultForm.events
         if isValid
             EpiResult.update(@_id, modifier)
             Session.set("epiResultEditingId", null)
-            removeSelf(tmpl)
+            removeModal(tmpl)
         else
             errorDiv = share.createErrorDiv(EpiResult.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #inner-update-cancel': (evt, tmpl) ->
         Session.set("epiResultEditingId", null)
-        removeSelf(tmpl)
+        removeModal(tmpl)
 
     'click #inner-delete': (evt, tmpl) ->
         Session.set("epiResultEditingId", null)
-        removeSelf(tmpl, {"removeResult": @_id})
+        removeModal(tmpl, {"remove": @_id})
 
     'click #setQA,#unsetQA': (evt, tmpl) ->
         Meteor.call 'adminToggleQAd', this._id, "epiResult", (err, response) ->
@@ -345,9 +357,9 @@ Template.epiResultForm.rendered = ->
     share.toggleQA(@, @.data.isQA)
     $(@.find('#epiResultsModal')).modal('toggle')
     $(@.findAll('.helpPopovers')).popover
-            delay: {show: 500, hide: 100}
-            trigger: "hover"
-            placement: "auto"
+        delay: {show: 500, hide: 100}
+        trigger: "hover"
+        placement: "auto"
 
 
 # EPI RISK ESTIMATE FORM ROW ---------------------------------------------------

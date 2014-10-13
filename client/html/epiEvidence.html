@@ -580,6 +580,7 @@
 <template name="epiResultForm">
   <div class="modal fade" id="epiResultsModal" tabindex="-1" role="dialog"
        aria-labelledby="epiResultsModal" aria-hidden="true">
+    {{#with getResult }}   <!-- Reactive epiResult  -->
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
@@ -760,6 +761,7 @@
         </div>  <!-- Modal body -->
       </div>  <!-- Modal content -->
     </div>  <!-- Modal dialog -->
+    {{/with}}  <!-- Reactive epiResult  -->
   </div>  <!-- Modal container -->
 </template>
 
