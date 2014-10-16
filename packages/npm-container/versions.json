@@ -2,14 +2,14 @@
   "dependencies": [
     [
       "meteor",
-      "1.1.2-pre.2"
+      "1.1.2"
     ],
     [
       "underscore",
-      "1.0.1-pre.2"
+      "1.0.1"
     ]
   ],
   "pluginDependencies": [],
-  "toolVersion": "meteor-tool@1.0.34-pre.5",
+  "toolVersion": "meteor-tool@1.0.34",
   "format": "1.0"
 }
