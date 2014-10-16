@@ -1,12 +1,12 @@
 addTimestampAndUserID = (userId, doc) ->
-    doc.timestamp = (new Date()).getTime()
+    doc.timestamp = new Date()
     doc.user_id = userId
     return doc
 
 addQAmarks = (doc) ->
     doc.isQA = false
-    doc.timestamp = null
-    doc.user_id = null
+    doc.timestampQA = null
+    doc.user_id_QA = null
     return doc
 
 getNewIdx = (Cls, tbl_id) ->
