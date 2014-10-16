@@ -39,6 +39,14 @@ Meteor.publish 'mechanisticEvidence', (tbl_id) ->
                 Reference.find({monographAgent: {$in: [tbl.monographAgent]}}) ]
     return this.ready()
 
+Meteor.publish 'exposureEvidence', (tbl_id) ->
+    check(tbl_id, String)
+    tbl = Tables.findOne(_id: tbl_id)
+    if userCanView(tbl, this.userId)
+        return [ExposureEvidence.find({tbl_id: tbl_id}),
+                Reference.find({monographAgent: {$in: [tbl.monographAgent]}}) ]
+    return this.ready()
+
 Meteor.publish 'tblUsers', (tbl_id) ->
     check(tbl_id, String)
     tbl = Tables.findOne(tbl_id)

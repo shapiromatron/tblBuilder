@@ -72,6 +72,19 @@ Router.map ->
 
         controller: TblRouterController
 
+    this.route 'exposureMain',
+        path: '/exposure/:_id'
+
+        waitOn: ->
+            if share.TablesHandler.ready()
+                tbl = Tables.findOne({_id: this.params._id})
+                Session.set('Tbl', tbl)
+                if tbl
+                    Session.set('monographAgent', tbl.monographAgent)
+                    return Meteor.subscribe('exposureEvidence', tbl._id)
+
+        controller: TblRouterController
+
     this.route 'referencesMain',
         path: '/references/:monographAgent/',
 

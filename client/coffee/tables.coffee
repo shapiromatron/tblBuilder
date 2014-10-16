@@ -35,6 +35,8 @@ Template.TablesByMonograph.helpers
                 url = Router.path('mechanisticMain', {_id: @_id})
             when "Epidemiology Evidence"
                 url = Router.path('epiMain', {_id: @_id})
+            when "Exposure Evidence"
+                url = Router.path('exposureMain', {_id: @_id})
             else
                 url = Router.path('404')
 

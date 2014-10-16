@@ -1,13 +1,15 @@
 Tables = new Meteor.Collection('tables');
 Reference = new Meteor.Collection('reference');
 MechanisticEvidence = new Meteor.Collection('mechanisticEvidence');
+ExposureEvidence = new Meteor.Collection('exposureEvidence');
 EpiDescriptive = new Meteor.Collection('epiDescriptive');
 EpiResult = new Meteor.Collection('epiResult');
 ReportTemplate = new Meteor.Collection('reportTemplate');
 
 
 tblTypeOptions = ["Mechanistic Evidence Summary",
-                  "Epidemiology Evidence"];
+                  "Epidemiology Evidence",
+                  "Exposure Evidence"];
 
 tblRoleOptions = ["projectManagers", "teamMembers", "reviewers"];
 
