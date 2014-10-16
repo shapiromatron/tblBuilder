@@ -57,6 +57,8 @@ Meteor.startup ->
 
     EpiResult.allow tblContentAllowRules
 
+    ExposureEvidence.allow tblContentAllowRules
+
     ReportTemplate.allow
         insert: (userId, doc) ->
             share.isStaffOrHigher(userId)

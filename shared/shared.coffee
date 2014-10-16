@@ -64,6 +64,17 @@ share.getFlattenedEpiData = (tbl_id) ->
         data.push.apply(data, rows)
     return data
 
+
+share.getFlattenedExposureData = (tbl_id) ->
+    vals = ExposureEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
+    header = ["Exposure ID", "Reference"]
+    data = [header]
+    for v in vals
+        reference = Reference.findOne({_id: v.referenceID}).name
+        row = [v._id, reference]
+    return data
+
+
 share.defaultEpiVisible = ["Reference", "Study design", "Location",
                            "Organ site", "Effect measure",
                            "Exposure category", "Risk"]

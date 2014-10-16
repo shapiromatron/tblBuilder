@@ -454,6 +454,49 @@ Meteor.startup ->
             optional: true
 
 
+    share.exposureEvidenceSchema = new SimpleSchema
+
+        referenceID:
+            label: "Reference"
+            type: SimpleSchema.RegEx.Id
+
+        tbl_id:
+            type: SimpleSchema.RegEx.Id
+            denyUpdate: true
+
+        isHidden:
+            type: Boolean
+            optional: true
+
+        sortIdx:
+            type: Number
+            decimal: true
+            optional: true
+
+        timestamp:
+            type: Date
+            denyUpdate: true
+            optional: true
+
+        user_id:
+            type: SimpleSchema.RegEx.Id
+            denyUpdate: true
+            optional: true
+
+        isQA:
+            type: Boolean
+            defaultValue: false
+            optional: true
+
+        timestampQA:
+            type: Date
+            optional: true
+
+        user_id_QA:
+            type: SimpleSchema.RegEx.Id
+            optional: true
+
+
     SimpleSchema.messages({minCount: "[label] must specify at least [minCount] value(s) (press <enter> after typing to add to list)"})
 
 
@@ -463,3 +506,4 @@ Meteor.startup ->
     MechanisticEvidence.attachSchema(share.MechanisticEvidenceSchema)
     EpiResult.attachSchema(share.epiResultSchema)
     EpiDescriptive.attachSchema(share.epiDescriptiveSchema)
+    ExposureEvidence.attachSchema(share.exposureEvidenceSchema)

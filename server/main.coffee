@@ -75,6 +75,13 @@ EpiResult.before.insert (userId, doc) ->
     doc['sortIdx'] = getNewIdx(EpiResult, doc.tbl_id)
     return userCanEditTblContent(doc.tbl_id, userId)
 
+ExposureEvidence.before.insert (userId, doc) ->
+    doc = addTimestampAndUserID(userId, doc)
+    doc = addQAmarks(doc)
+    doc['isHidden'] = false
+    doc['sortIdx'] = getNewIdx(ExposureEvidence, doc.tbl_id)
+    return userCanEditTblContent(doc.tbl_id, userId)
+
 
 # Update hooks
 userCanEditTblContentCheck = (userId, doc, fieldNames, modifier, options) ->
@@ -87,6 +94,8 @@ MechanisticEvidence.before.update userCanEditTblContentCheck
 EpiDescriptive.before.update userCanEditTblContentCheck
 
 EpiResult.before.update userCanEditTblContentCheck
+
+ExposureEvidence.before.update userCanEditTblContentCheck
 
 
 # Remove hooks
@@ -114,6 +123,8 @@ EpiDescriptive.before.remove (userId, doc) ->
     return true
 
 EpiResult.before.remove userCanRemoveTblContentCheck
+
+ExposureEvidence.before.remove userCanRemoveTblContentCheck
 
 
 # After insert hook

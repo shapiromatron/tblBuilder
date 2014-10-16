@@ -46,6 +46,7 @@ Meteor.methods
             when model is "epiDescriptive" then EpiDescriptive
             when model is "epiResult" then EpiResult
             when model is "mechanisticEvidence" then MechanisticEvidence
+            when model is "exposureEvidence" then ExposureEvidence
             else undefined
 
         if collection
