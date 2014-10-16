@@ -1,6 +1,50 @@
 Meteor.startup ->
 
-    share.TableSchema = new SimpleSchema
+
+    # define base-schemas
+    base_content =
+
+        timestamp:
+            type: Date
+            optional: true
+            denyUpdate: true
+
+        user_id:
+            type: SimpleSchema.RegEx.Id
+            denyUpdate: true
+            optional: true
+
+    tbl_content_base =
+
+        tbl_id:
+            type: SimpleSchema.RegEx.Id
+            denyUpdate: true
+
+        isHidden:
+            type: Boolean
+            optional: true
+
+        sortIdx:
+            type: Number
+            decimal: true
+            optional: true
+
+        isQA:
+            type: Boolean
+            defaultValue: false
+            optional: true
+
+        timestampQA:
+            type: Date
+            optional: true
+
+        user_id_QA:
+            type: SimpleSchema.RegEx.Id
+            optional: true
+
+
+    # define collection-specific schemas
+    tbl_schema =
 
         monographAgent:
             label: "Monograph Agent Name"
@@ -30,19 +74,7 @@ Meteor.startup ->
             type: String
             allowedValues: tblRoleOptions
 
-        timestamp:
-            type: Date
-            optional: true
-            denyUpdate: true
-
-        user_id:
-            type: SimpleSchema.RegEx.Id
-            denyUpdate: true
-            optional: true
-
-
-    share.ReferenceSchema = new SimpleSchema
-
+    ref_schema =
         name:
             label: "Reference Short Name"
             type: String
@@ -77,18 +109,7 @@ Meteor.startup ->
             type: [String]
             minCount: 1
 
-        timestamp:
-            type: Date
-            optional: true
-            denyUpdate: true
-
-        user_id:
-            type: SimpleSchema.RegEx.Id
-            denyUpdate: true
-            optional: true
-
-
-    share.MechanisticEvidenceSchema = new SimpleSchema
+    mech_schema =
 
         subheading:
             label: "Subheading"
@@ -131,40 +152,7 @@ Meteor.startup ->
             type: SimpleSchema.RegEx.Id
             optional: true
 
-        tbl_id:
-            type: SimpleSchema.RegEx.Id
-            denyUpdate: true
-
-        sortIdx:
-            type: Number
-            decimal: true
-            optional: true
-
-        timestamp:
-            type: Date
-            denyUpdate: true
-            optional: true
-
-        user_id:
-            type: SimpleSchema.RegEx.Id
-            denyUpdate: true
-            optional: true
-
-        isQA:
-            type: Boolean
-            defaultValue: false
-            optional: true
-
-        timestampQA:
-            type: Date
-            optional: true
-
-        user_id_QA:
-            type: SimpleSchema.RegEx.Id
-            optional: true
-
-
-    share.epiResultSchema = new SimpleSchema
+    epi_result_schema =
 
         organSite:
             label: "Organ site (ICD code)"
@@ -234,45 +222,9 @@ Meteor.startup ->
             type: String
             optional: true
 
-        isHidden:
-            type: Boolean
-
         parent_id:
             type: SimpleSchema.RegEx.Id
             denyUpdate: true
-
-        sortIdx:
-            type: Number
-            decimal: true
-            optional: true
-
-        tbl_id:
-            type: SimpleSchema.RegEx.Id
-            denyUpdate: true
-
-        timestamp:
-            type: Date
-            denyUpdate: true
-            optional: true
-
-        user_id:
-            type: Date
-            denyUpdate: true
-            optional: true
-
-        isQA:
-            type: Boolean
-            defaultValue: false
-            optional: true
-
-        timestampQA:
-            type: Date
-            optional: true
-
-        user_id_QA:
-            type: SimpleSchema.RegEx.Id
-            optional: true
-
 
     requiredCC = () ->
         isRequired = ((@field('studyDesign').value in CaseControlTypes) and (@value is ""))
@@ -282,8 +234,7 @@ Meteor.startup ->
         isRequired = ((@field('studyDesign').value not in CaseControlTypes) and (@value is ""))
         if isRequired then return "required"
 
-
-    share.epiDescriptiveSchema = new SimpleSchema
+    epi_descriptive_schema =
 
         referenceID:
             label: "Reference"
@@ -417,87 +368,34 @@ Meteor.startup ->
             type: String
             optional: true
 
-        isHidden:
-            type: Boolean
-            optional: true
-
-        sortIdx:
-            type: Number
-            decimal: true
-            optional: true
-
-        tbl_id:
-            type: SimpleSchema.RegEx.Id
-            denyUpdate: true
-
-        timestamp:
-            type: Date
-            denyUpdate: true
-            optional: true
-
-        user_id:
-            type: SimpleSchema.RegEx.Id
-            denyUpdate: true
-            optional: true
-
-        isQA:
-            type: Boolean
-            defaultValue: false
-            optional: true
-
-        timestampQA:
-            type: Date
-            optional: true
-
-        user_id_QA:
-            type: SimpleSchema.RegEx.Id
-            optional: true
-
-
-    share.exposureEvidenceSchema = new SimpleSchema
+    exposure_schema =
 
         referenceID:
             label: "Reference"
             type: SimpleSchema.RegEx.Id
 
-        tbl_id:
-            type: SimpleSchema.RegEx.Id
-            denyUpdate: true
 
-        isHidden:
-            type: Boolean
-            optional: true
-
-        sortIdx:
-            type: Number
-            decimal: true
-            optional: true
-
-        timestamp:
-            type: Date
-            denyUpdate: true
-            optional: true
-
-        user_id:
-            type: SimpleSchema.RegEx.Id
-            denyUpdate: true
-            optional: true
-
-        isQA:
-            type: Boolean
-            defaultValue: false
-            optional: true
-
-        timestampQA:
-            type: Date
-            optional: true
-
-        user_id_QA:
-            type: SimpleSchema.RegEx.Id
-            optional: true
+    # extend content between base base-content objects
+    _.extend(tbl_schema, base_content)
+    _.extend(ref_schema, base_content)
+    _.extend(tbl_content_base, base_content)
+    _.extend(mech_schema, tbl_content_base)
+    _.extend(epi_result_schema, tbl_content_base)
+    _.extend(epi_descriptive_schema, tbl_content_base)
+    _.extend(exposure_schema, tbl_content_base)
 
 
+    # Override simple-schema defaults
     SimpleSchema.messages({minCount: "[label] must specify at least [minCount] value(s) (press <enter> after typing to add to list)"})
+
+
+    # create simple schema objects
+    share.TableSchema = new SimpleSchema(tbl_schema)
+    share.ReferenceSchema = new SimpleSchema(ref_schema)
+    share.MechanisticEvidenceSchema = new SimpleSchema(mech_schema)
+    share.epiResultSchema = new SimpleSchema(epi_result_schema)
+    share.epiDescriptiveSchema = new SimpleSchema(epi_descriptive_schema)
+    share.exposureEvidenceSchema = new SimpleSchema(exposure_schema)
 
 
     # attach schema to collections
