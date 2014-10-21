@@ -59,6 +59,12 @@ Meteor.startup ->
 
     ExposureEvidence.allow tblContentAllowRules
 
+    AnimalEvidence.allow tblContentAllowRules
+
+    GenotoxEvidence.allow tblContentAllowRules
+
+    MechQuantEvidence.allow tblContentAllowRules
+
     ReportTemplate.allow
         insert: (userId, doc) ->
             share.isStaffOrHigher(userId)

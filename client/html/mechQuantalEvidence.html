@@ -1,5 +1,201 @@
 <template name="mechQuantMain">
   <div class="container">
-    <p>mechQuantMain...</p>
+    {{> mechQuantTbl}}
   </div>
+</template>
+
+
+<template name="mechQuantTbl">
+  <h1>{{name}}
+    <div class="btn-group pull-right">
+      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+        Actions <span class="caret" title="Editing options"></span>
+      </button>
+      <ul class="dropdown-menu">
+        {{#if userCanEdit}}
+          {{#unless showNew}}
+            <li>
+              <a href="#" id="show-create">
+                <span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
+          {{/unless}}
+          <li>
+            <a href="#" id="reorderRows">
+              <span class="glyphicon glyphicon-align-justify"></span> Reorder rows</a></li>
+        {{/if}}
+        <li>
+          <a href="#" id="downloadExcel">
+            <span class="fa fa-file-excel-o"></span> Download Excel</a></li>
+        <li>
+          <a href="#" id="wordReport">
+            <span class="fa fa-file-word-o"></span> Download Word</a></li>
+        <li>
+          <a href="#" id="toggleShowAllRows">
+            {{#if isShowAll}}<span class="glyphicon glyphicon-resize-small"></span> Hide rows
+            {{else}}<span class="glyphicon glyphicon-resize-full"></span> Show all rows
+            {{/if}}</a></li>
+        <li>
+          <a href="#" id="toggleQAflags">
+            <span class="fa fa-flag-o"></span> Toggle QA flags</a></li>
+      </ul>
+    </div>
+  </h1>
+
+  <table class="evidenceTable table table-compressed">
+    <colgroup>
+      <col width="15%">
+      <col width="15%">
+      <col width="10%">
+      <col width="10%">
+      <col width="50%">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Reference</th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+      </tr>
+    </thead>
+    <tbody id="sortable">
+      {{#each object_list}}
+        {{#if showRow isHidden}}
+          <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
+              data-id="{{_id}}"
+              data-sortIdx="{{sortIdx}}">
+            {{#if isEditing}}
+              <td id="editingRow" colspan="100">
+                {{> mechQuantForm this isNew=false}}
+              </td>
+            {{else}}
+              {{> mechQuantRow}}
+            {{/if}}
+          </tr>
+        {{/if}}
+      {{else}}
+        <tr>
+          <td colspan="100">No data has been entered into this table.</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  {{#if userCanEdit}}
+    {{#unless showNew}}<br><br>
+    <a href="#" class="btn btn-primary btn-sm" id="show-create">
+      <span class="glyphicon glyphicon-plus"></span> Create new row</a>
+    {{/unless}}
+  {{/if}}
+
+  {{#if showNew}}
+    {{> mechQuantForm isNew=true}}
+  {{/if}}
+</template>
+
+
+<template name='mechQuantRow'>
+  <td>
+    {{#if userCanEdit}}
+      <div class="rowOptions btn-group pull-right">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+          <span class="caret" title="Editing options"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#" id="show-edit">
+              <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+          <li>
+            <a href="#" id="copy-as-new">
+              <span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
+          <li>
+              <a href="#" id="toggle-hidden">{{#if isHidden}}
+                <span class="glyphicon glyphicon-plus"></span> Show row
+                {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+                {{/if}}</a></li>
+        </ul>
+      </div>
+    {{/if}}
+    {{qaMark isQA}}
+    {{>printReference id=referenceID}}<br>
+    A
+  </td>
+  <td>B</td>
+  <td>C</td>
+  <td>D</td>
+  <td>E</td>
+  <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
+</template>
+
+
+<template name="mechQuantForm">
+  <form id="mechQuantForm" role="form" class="editForm">
+    <legend>Quantitative mechanistic evidence</legend>
+    <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
+
+    <!-- First row -->
+    <div class="form-group row">
+      <div class="col-xs-3">
+        {{> referenceSingleSelect}}
+      </div>
+    </div>
+
+    <div id="errors"></div>
+
+    <!-- QA notice -->
+    {{#if isQA }}
+      <strong>{{QAstampFormat timestampQA user_id_QA}}</strong>
+    {{/if}}
+
+    <!-- Submission -->
+    <div class="well well-sm pager">
+      {{#if isNew }}
+        <button type="button"
+                class="btn btn-sm btn-primary"
+                id="create"
+                title="Save new">
+                <span class="glyphicon glyphicon-ok"></span> Create</button>
+        <button type="button"
+                class="btn btn-sm btn-default"
+                id="create-cancel"
+                title="Cancel">Cancel</button>
+      {{else}}
+        {{#if isQA }}
+          <button type="button"
+                  class="btn btn-sm btn-default"
+                  id="update-cancel"
+                  title="Cancel changes">Close</button>
+          {{#if isInRole 'staff'}}
+            <button type ="button"
+                      id   ="unsetQA"
+                      class="pull-right btn btn-sm btn-warning"
+                      title="Unset data as QA'd and allow further changes">
+                      <span class="fa fa-exclamation-circle"></span> Remove QA'd</button>
+          {{/if}}
+        {{else}}
+          <button type="button"
+                  class="btn btn-sm btn-primary"
+                  id="update"
+                  title="Save changes">
+                  <span class="glyphicon glyphicon-ok"></span> Save</button>
+          <button type="button"
+                  class="btn btn-sm btn-default"
+                  id="update-cancel"
+                  title="Cancel changes">Cancel</button>
+          <button type="button"
+                  class="btn btn-sm btn-danger"
+                  id="delete" title="Delete row">
+                  <span class="glyphicon glyphicon-trash"></span></button>
+          {{#if isInRole 'staff'}}
+            <button type ="button"
+                    id   ="setQA"
+                    class="pull-right btn btn-sm btn-success"
+                    title="Make data as QA'd and prevent further changes">
+                    <span class="fa fa-check-circle"></span> Mark QA'd</button>
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    </div>
+  </form>
+  <!-- Add input form-modals outside form scope -->
+  {{> referenceQuickAddModal}}
 </template>

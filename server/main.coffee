@@ -82,6 +82,27 @@ ExposureEvidence.before.insert (userId, doc) ->
     doc['sortIdx'] = getNewIdx(ExposureEvidence, doc.tbl_id)
     return userCanEditTblContent(doc.tbl_id, userId)
 
+AnimalEvidence.before.insert (userId, doc) ->
+    doc = addTimestampAndUserID(userId, doc)
+    doc = addQAmarks(doc)
+    doc['isHidden'] = false
+    doc['sortIdx'] = getNewIdx(AnimalEvidence, doc.tbl_id)
+    return userCanEditTblContent(doc.tbl_id, userId)
+
+GenotoxEvidence.before.insert (userId, doc) ->
+    doc = addTimestampAndUserID(userId, doc)
+    doc = addQAmarks(doc)
+    doc['isHidden'] = false
+    doc['sortIdx'] = getNewIdx(GenotoxEvidence, doc.tbl_id)
+    return userCanEditTblContent(doc.tbl_id, userId)
+
+MechQuantEvidence.before.insert (userId, doc) ->
+    doc = addTimestampAndUserID(userId, doc)
+    doc = addQAmarks(doc)
+    doc['isHidden'] = false
+    doc['sortIdx'] = getNewIdx(MechQuantEvidence, doc.tbl_id)
+    return userCanEditTblContent(doc.tbl_id, userId)
+
 
 # Update hooks
 userCanEditTblContentCheck = (userId, doc, fieldNames, modifier, options) ->

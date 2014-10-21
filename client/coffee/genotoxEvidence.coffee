@@ -1,12 +1,12 @@
-# ANIMAL MAIN ------------------------------------------------------------------
-Template.animalMain.rendered = ->
+# GENOTOX MAIN -----------------------------------------------------------------
+Template.genotoxMain.rendered = ->
     Session.set('evidenceShowNew', false)
     Session.set('evidenceEditingId', null)
     Session.set('evidenceShowAll', false)
 
 
-# ANIMAL TABLE -----------------------------------------------------------------
-Template.animalTbl.helpers
+# GENOTOX TABLE ----------------------------------------------------------------
+Template.genotoxTbl.helpers
 
     showNew: ->
         Session.get("evidenceShowNew")
@@ -20,10 +20,10 @@ Template.animalTbl.helpers
     isShowAll: ->
         Session.get('evidenceShowAll')
 
-    getAnimals: ->
-        AnimalEvidence.find({}, {sort: {sortIdx: 1}})
+    object_list: ->
+        GenotoxEvidence.find({}, {sort: {sortIdx: 1}})
 
-Template.animalTbl.events
+Template.genotoxTbl.events
 
     'click #show-create': (evt, tmpl) ->
         Session.set("evidenceShowNew", true)
@@ -49,19 +49,19 @@ Template.animalTbl.events
 
     'click #downloadExcel': (evt, tmpl) ->
         tbl_id = Session.get('Tbl')._id
-        Meteor.call 'animalEvidenceDownload', tbl_id, (err, response) ->
-            share.returnExcelFile(response, "animal.xlsx")
+        Meteor.call 'genotoxEvidenceDownload', tbl_id, (err, response) ->
+            share.returnExcelFile(response, "genotox.xlsx")
 
-Template.animalTbl.rendered = ->
+Template.genotoxTbl.rendered = ->
     new Sortable(@.find('#sortable'),
         handle: ".dhOuter",
         onUpdate: share.moveRowCheck,
-        Cls: AnimalEvidence )
+        Cls: GenotoxEvidence )
     share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
 
 
-# ANIMAL ROW -------------------------------------------------------------------
-Template.animalRow.events
+# GENOTOX ROW ------------------------------------------------------------------
+Template.genotoxRow.events
 
     'click #show-edit': (evt, tmpl) ->
         Session.set("evidenceEditingId", @_id)
@@ -75,11 +75,11 @@ Template.animalRow.events
         share.copyAsNew(@)
 
     'click #toggle-hidden': (evt, tmpl) ->
-        AnimalEvidence.update(@_id, {$set: {isHidden: !@isHidden}})
+        GenotoxEvidence.update(@_id, {$set: {isHidden: !@isHidden}})
 
 
-# ANIMAL FORM ------------------------------------------------------------------
-Template.animalForm.events
+# GENOTOX FORM -----------------------------------------------------------------
+Template.genotoxForm.events
 
     'click #create-cancel': (evt, tmpl) ->
         Session.set("evidenceShowNew", false)
@@ -88,38 +88,38 @@ Template.animalForm.events
         Session.set("evidenceEditingId", null)
 
     'click #create': (evt, tmpl) ->
-        obj = share.newValues(tmpl.find('#animalForm'))
+        obj = share.newValues(tmpl.find('#genotoxForm'))
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
-        isValid = AnimalEvidence.simpleSchema().namedContext().validate(obj)
+        isValid = GenotoxEvidence.simpleSchema().namedContext().validate(obj)
         if isValid
-            AnimalEvidence.insert(obj)
+            GenotoxEvidence.insert(obj)
             Session.set("evidenceShowNew", false)
         else
-            errorDiv = share.createErrorDiv(AnimalEvidence.simpleSchema().namedContext())
+            errorDiv = share.createErrorDiv(GenotoxEvidence.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #update': (evt, tmpl) ->
-        vals = share.updateValues(tmpl.find('#animalForm'), @)
+        vals = share.updateValues(tmpl.find('#genotoxForm'), @)
         # vals.studyDesign = tmpl.find('select[name="studyDesign"]').value  # add for conditional schema-logic
         modifier = {$set: vals}
-        isValid = AnimalEvidence.simpleSchema().namedContext().validate(modifier, {modifier: true})
+        isValid = GenotoxEvidence.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid
-            AnimalEvidence.update(@_id, {$set: vals})
+            GenotoxEvidence.update(@_id, {$set: vals})
             Session.set("evidenceEditingId", null)
         else
-            errorDiv = share.createErrorDiv(AnimalEvidence.simpleSchema().namedContext())
+            errorDiv = share.createErrorDiv(GenotoxEvidence.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #delete': (evt, tmpl) ->
-        AnimalEvidence.remove(@_id)
+        GenotoxEvidence.remove(@_id)
         Session.set("evidenceEditingId", null)
 
     'click #setQA,#unsetQA': (evt, tmpl) ->
-        Meteor.call 'adminToggleQAd', this._id, "animalEvidence", (err, response) ->
+        Meteor.call 'adminToggleQAd', this._id, "genotoxEvidence", (err, response) ->
             if response then share.toggleQA(tmpl, response.QAd)
 
-Template.animalForm.rendered = ->
+Template.genotoxForm.rendered = ->
     share.toggleQA(@, @.data.isQA)
     $(@.findAll('.helpPopovers')).popover
             delay: {show: 500, hide: 100}

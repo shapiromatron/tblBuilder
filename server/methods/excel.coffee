@@ -101,6 +101,33 @@ Meteor.methods
         wb.Sheets[ws_name] = ws
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
+    animalEvidenceDownload: (tbl_id) ->
+        data = share.getFlattenedAnimalData(tbl_id)
+        ws_name = "Bioassay Results"
+        wb = new Workbook()
+        ws = sheet_from_array_of_arrays(data)
+        wb.SheetNames.push(ws_name)
+        wb.Sheets[ws_name] = ws
+        XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
+
+    genotoxEvidenceDownload: (tbl_id) ->
+        data = share.getFlattenedGenotoxData(tbl_id)
+        ws_name = "Genotoxicity Results"
+        wb = new Workbook()
+        ws = sheet_from_array_of_arrays(data)
+        wb.SheetNames.push(ws_name)
+        wb.Sheets[ws_name] = ws
+        XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
+
+    mechQuantEvidenceDownload: (tbl_id) ->
+        data = share.getFlattenedMechQuantData(tbl_id)
+        ws_name = "Mech Quant Results"
+        wb = new Workbook()
+        ws = sheet_from_array_of_arrays(data)
+        wb.SheetNames.push(ws_name)
+        wb.Sheets[ws_name] = ws
+        XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
+
     referenceExcelDownload: (monographAgent) ->
 
         getDataRow = (v) ->

@@ -75,6 +75,36 @@ share.getFlattenedExposureData = (tbl_id) ->
     return data
 
 
+share.getFlattenedAnimalData = (tbl_id) ->
+    vals = AnimalEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
+    header = ["Animal Bioassay ID", "Reference"]
+    data = [header]
+    for v in vals
+        reference = Reference.findOne({_id: v.referenceID}).name
+        row = [v._id, reference]
+    return data
+
+
+share.getFlattenedGenotoxData = (tbl_id) ->
+    vals = GenotoxEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
+    header = ["Genotoxicity ID", "Reference"]
+    data = [header]
+    for v in vals
+        reference = Reference.findOne({_id: v.referenceID}).name
+        row = [v._id, reference]
+    return data
+
+
+share.getFlattenedMechQuantData = (tbl_id) ->
+    vals = MechQuantEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
+    header = ["Mechanistic Quantitative ID", "Reference"]
+    data = [header]
+    for v in vals
+        reference = Reference.findOne({_id: v.referenceID}).name
+        row = [v._id, reference]
+    return data
+
+
 share.defaultEpiVisible = ["Reference", "Study design", "Location",
                            "Organ site", "Effect measure",
                            "Exposure category", "Risk"]

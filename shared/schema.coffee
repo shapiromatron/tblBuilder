@@ -374,6 +374,24 @@ Meteor.startup ->
             label: "Reference"
             type: SimpleSchema.RegEx.Id
 
+    animal_schema =
+
+        referenceID:
+            label: "Reference"
+            type: SimpleSchema.RegEx.Id
+
+    genotox_schema =
+
+        referenceID:
+            label: "Reference"
+            type: SimpleSchema.RegEx.Id
+
+    mech_quant_schema =
+
+        referenceID:
+            label: "Reference"
+            type: SimpleSchema.RegEx.Id
+
 
     # extend content between base base-content objects
     _.extend(tbl_schema, base_content)
@@ -383,6 +401,9 @@ Meteor.startup ->
     _.extend(epi_result_schema, tbl_content_base)
     _.extend(epi_descriptive_schema, tbl_content_base)
     _.extend(exposure_schema, tbl_content_base)
+    _.extend(animal_schema, tbl_content_base)
+    _.extend(genotox_schema, tbl_content_base)
+    _.extend(mech_quant_schema, tbl_content_base)
 
 
     # Override simple-schema defaults
@@ -396,6 +417,9 @@ Meteor.startup ->
     share.epiResultSchema = new SimpleSchema(epi_result_schema)
     share.epiDescriptiveSchema = new SimpleSchema(epi_descriptive_schema)
     share.exposureEvidenceSchema = new SimpleSchema(exposure_schema)
+    share.animalEvidenceSchema = new SimpleSchema(animal_schema)
+    share.genotoxEvidenceSchema = new SimpleSchema(genotox_schema)
+    share.mechQuantEvidenceSchema = new SimpleSchema(mech_quant_schema)
 
 
     # attach schema to collections
@@ -405,3 +429,6 @@ Meteor.startup ->
     EpiResult.attachSchema(share.epiResultSchema)
     EpiDescriptive.attachSchema(share.epiDescriptiveSchema)
     ExposureEvidence.attachSchema(share.exposureEvidenceSchema)
+    AnimalEvidence.attachSchema(share.animalEvidenceSchema)
+    GenotoxEvidence.attachSchema(share.genotoxEvidenceSchema)
+    MechQuantEvidence.attachSchema(share.mechQuantEvidenceSchema)
