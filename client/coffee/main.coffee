@@ -85,6 +85,45 @@ Router.map ->
 
         controller: TblRouterController
 
+    this.route 'animalMain',
+        path: '/animal/:_id'
+
+        waitOn: ->
+            if share.TablesHandler.ready()
+                tbl = Tables.findOne({_id: this.params._id})
+                Session.set('Tbl', tbl)
+                if tbl
+                    Session.set('monographAgent', tbl.monographAgent)
+                    return Meteor.subscribe('animalEvidence', tbl._id)
+
+        controller: TblRouterController
+
+    this.route 'genotoxMain',
+        path: '/genotoxicity/:_id'
+
+        waitOn: ->
+            if share.TablesHandler.ready()
+                tbl = Tables.findOne({_id: this.params._id})
+                Session.set('Tbl', tbl)
+                if tbl
+                    Session.set('monographAgent', tbl.monographAgent)
+                    return Meteor.subscribe('genotoxEvidence', tbl._id)
+
+        controller: TblRouterController
+
+    this.route 'mechQuantMain',
+        path: '/mechanistic-quantitative/:_id'
+
+        waitOn: ->
+            if share.TablesHandler.ready()
+                tbl = Tables.findOne({_id: this.params._id})
+                Session.set('Tbl', tbl)
+                if tbl
+                    Session.set('monographAgent', tbl.monographAgent)
+                    return Meteor.subscribe('mechQuantEvidence', tbl._id)
+
+        controller: TblRouterController
+
     this.route 'referencesMain',
         path: '/references/:monographAgent/',
 

@@ -37,6 +37,12 @@ Template.TablesByMonograph.helpers
                 url = Router.path('epiMain', {_id: @_id})
             when "Exposure Evidence"
                 url = Router.path('exposureMain', {_id: @_id})
+            when "Animal Bioassay Evidence"
+                url = Router.path('animalMain', {_id: @_id})
+            when "Genotoxicity Evidence"
+                url = Router.path('genotoxMain', {_id: @_id})
+            when "Mechanistic Quantitative Evidence"
+                url = Router.path('mechQuantMain', {_id: @_id})
             else
                 url = Router.path('404')
 
