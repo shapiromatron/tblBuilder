@@ -65,7 +65,7 @@ reactive-var@1.0.3
 reload@1.1.1
 retry@1.0.1
 routepolicy@1.0.2
-sergeyt:typeahead@0.10.5_4
+sergeyt:typeahead@0.10.5_6
 service-configuration@1.0.2
 session@1.0.3
 sha@1.0.1
