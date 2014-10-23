@@ -58,7 +58,7 @@
       </tr>
     </thead>
     <tbody id="sortable">
-      {{#each getAnimals}}
+      {{#each object_list}}
         {{#if showRow isHidden}}
           <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
               data-id="{{_id}}"
@@ -128,7 +128,7 @@
 
 
 <template name="animalForm">
-  <form id="animalForm" role="form" class="editForm">
+  <form id="mainForm" role="form" class="editForm">
     <legend>Animal evidence</legend>
     <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
 

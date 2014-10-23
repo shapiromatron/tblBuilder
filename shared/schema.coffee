@@ -1,6 +1,5 @@
 Meteor.startup ->
 
-
     # define base-schemas
     base_content =
 

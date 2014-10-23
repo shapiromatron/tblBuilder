@@ -285,3 +285,24 @@ Template.browserDetect.helpers
                     <li><a href='https://www.mozilla.org/firefox/' target='_blank'>Mozilla Firefox</a></li>
                 </ul><br>
                 Please use a different browser for an optimal experience."
+
+share.evidenceType = {
+        animal: {
+            collection: AnimalEvidence,
+            collection_name: "animalEvidence",
+            excel_method: "animalEvidenceDownload",
+            excel_fn: "animal.xlsx"
+        },
+        genotox: {
+            collection: GenotoxEvidence,
+            collection_name: "genotoxEvidence",
+            excel_method: "genotoxEvidenceDownload",
+            excel_fn: "genotox.xlsx"
+        },
+        mechQuant: {
+            collection: MechQuantEvidence,
+            collection_name: "mechQuantEvidence",
+            excel_method: "mechQuantEvidenceDownload",
+            excel_fn: "mechQuant.xlsx"
+        }
+    }
