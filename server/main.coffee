@@ -118,6 +118,12 @@ EpiResult.before.update userCanEditTblContentCheck
 
 ExposureEvidence.before.update userCanEditTblContentCheck
 
+AnimalEvidence.before.update userCanEditTblContentCheck
+
+GenotoxEvidence.before.update userCanEditTblContentCheck
+
+MechQuantEvidence.before.update userCanEditTblContentCheck
+
 
 # Remove hooks
 Tables.before.remove (userId, doc) ->
@@ -146,6 +152,12 @@ EpiDescriptive.before.remove (userId, doc) ->
 EpiResult.before.remove userCanRemoveTblContentCheck
 
 ExposureEvidence.before.remove userCanRemoveTblContentCheck
+
+AnimalEvidence.before.remove userCanRemoveTblContentCheck
+
+GenotoxEvidence.before.remove userCanRemoveTblContentCheck
+
+MechQuantEvidence.before.remove userCanRemoveTblContentCheck
 
 
 # After insert hook
