@@ -291,7 +291,10 @@ share.evidenceType = {
             collection: AnimalEvidence,
             collection_name: "animalEvidence",
             excel_method: "animalEvidenceDownload",
-            excel_fn: "animal.xlsx"
+            excel_fn: "animal.xlsx",
+            nested_template: Template.animalEndpointForm,
+            nested_collection: AnimalEndpointEvidence,
+            nested_collection_name: "animalEndpointEvidence",
         },
         genotox: {
             collection: GenotoxEvidence,

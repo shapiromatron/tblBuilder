@@ -48,6 +48,7 @@ Meteor.methods
             when model is "mechanisticEvidence" then MechanisticEvidence
             when model is "exposureEvidence" then ExposureEvidence
             when model is "animalEvidence" then AnimalEvidence
+            when model is "animalEndpointEvidence" then AnimalEndpointEvidence
             when model is "genotoxEvidence" then GenotoxEvidence
             when model is "mechQuantEvidence" then MechQuantEvidence
             else undefined

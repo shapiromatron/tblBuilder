@@ -61,6 +61,8 @@ Meteor.startup ->
 
     AnimalEvidence.allow tblContentAllowRules
 
+    AnimalEndpointEvidence.allow tblContentAllowRules
+
     GenotoxEvidence.allow tblContentAllowRules
 
     MechQuantEvidence.allow tblContentAllowRules

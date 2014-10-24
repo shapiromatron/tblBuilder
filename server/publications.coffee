@@ -52,6 +52,7 @@ Meteor.publish 'animalEvidence', (tbl_id) ->
     tbl = Tables.findOne(_id: tbl_id)
     if userCanView(tbl, this.userId)
         return [AnimalEvidence.find({tbl_id: tbl_id}),
+                AnimalEndpointEvidence.find({tbl_id: tbl_id}),
                 Reference.find({monographAgent: {$in: [tbl.monographAgent]}}) ]
     return this.ready()
 

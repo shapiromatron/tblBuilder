@@ -42,11 +42,11 @@
 
   <table class="evidenceTable table table-compressed">
     <colgroup>
-      <col width="15%">
-      <col width="15%">
-      <col width="10%">
-      <col width="10%">
-      <col width="50%">
+      <col width="20%">
+      <col width="20%">
+      <col width="20%">
+      <col width="20%">
+      <col width="20%">
     </colgroup>
     <thead>
       <tr>
@@ -96,6 +96,7 @@
 <template name='animalRow'>
   <td>
     {{#if userCanEdit}}
+      <div id="nestedModalHolder"></div>
       <div class="rowOptions btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
           <span class="caret" title="Editing options"></span>
@@ -104,6 +105,11 @@
           <li>
             <a href="#" id="show-edit">
               <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+          <li>
+            <a href="#"
+               class="add-nested"
+               title="Display modal for entering results">
+              <span class="fa fa-medkit"></span> Add results</a></li>
           <li>
             <a href="#" id="copy-as-new">
               <span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
@@ -119,7 +125,20 @@
     {{>printReference id=referenceID}}<br>
     A
   </td>
-  <td>B</td>
+  <td id="sortableInner">
+    {{#each getChildren}}
+      {{> animalEndpointTbl}}
+    {{else}}
+      <p class="help-block">No endpoints have been created.
+        {{#if userCanEdit}}
+          <a href="#"
+             class="btn btn-primary btn-sm add-nested pull-right"
+             title="Display modal for entering endpoints">
+            <span class="fa fa-medkit"></span> Add endpoint</a>
+        {{/if}}
+      </p>
+    {{/each }}
+  </td>
   <td>C</td>
   <td>D</td>
   <td>E</td>
@@ -198,4 +217,132 @@
   </form>
   <!-- Add input form-modals outside form scope -->
   {{> referenceQuickAddModal}}
+</template>
+
+<template name="animalEndpointTbl">
+  {{#if showRow isHidden}}
+    <div class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
+        data-id="{{_id}}"
+        data-sortIdx="{{sortIdx}}">
+      <table class="table table-condensed nestedTbl">
+        <colgroup>
+          <col width="100%">
+        </colgroup>
+        <tbody>
+          <tr>
+            <td>
+              {{#if userCanEdit}}
+                <div id="nestedModalHolder"></div>
+                <div class="rowOptions btn-group pull-right">
+                  <button class="btn btn-default btn-xs dropdown-toggle"
+                          type="button" data-toggle="dropdown">
+                          <span class="caret" title="Editing options"></span></button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" id="inner-show-edit">
+                        <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                    <li><a href="#" id="inner-toggle-hidden">{{#if isHidden}}
+                      <span class="glyphicon glyphicon-plus"></span> Show row
+                      {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+                      {{/if}}</a>
+                    </li>
+                    <li><a href="#" id="inner-copy-as-new">
+                        <span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
+                  </ul>
+                </div>
+              {{/if}}
+              {{qaMark isQA}}{{endpoint_name}}
+            </td>
+            <td class="dragHandle dhInner"
+                style="display: none"
+                title="Drag to re-order rows"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  {{/if}}
+</template>
+
+<template name="animalEndpointForm">
+  <div class="modal fade" id="nestedModalDiv" tabindex="-1" role="dialog"
+       aria-labelledby="nestedModal" aria-hidden="true">
+    {{#with getObject }}   <!-- Reactive nested-value  -->
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Animal endpoint evidence</h4>
+        </div>
+
+        <div class="modal-body">
+          <form id="nestedModalForm" role="form" class="editForm">
+            <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
+
+            <!-- First row -->
+            <div class="form-group row">
+              <div class="col-xs-3">
+                <label class="helpPopovers" data-toggle="popover"
+                      data-content="Example name field">
+                      Example name field</label>
+                <input class="form-control"
+                       name="endpoint_name"
+                       value="{{endpoint_name}}"/>
+              </div>
+            </div>
+
+            <div id="errors"></div>
+
+            <!-- QA notice -->
+            {{#if isQA }}
+              <strong>{{QAstampFormat timestampQA user_id_QA}}</strong>
+            {{/if}}
+
+            <!-- Submission -->
+            <div class="well well-sm pager">
+              {{#if isNew }}
+                <button type="button" class="btn btn-sm btn-primary"
+                        id="inner-create" title="Save new">
+                        <span class="glyphicon glyphicon-ok"></span> Create</button>
+                <button type="button" class="btn btn-sm btn-default"
+                        id="inner-create-cancel" title="Cancel">Cancel</button>
+              {{else}}
+
+                {{#if isQA }}
+                  <button type="button"
+                          class="btn btn-sm btn-default"
+                          id="inner-update-cancel"
+                          title="Cancel changes">Close</button>
+                  {{#if isInRole 'staff'}}
+                    <button type="button"
+                              id="unsetQA"
+                           class="pull-right btn btn-sm btn-warning"
+                           title="Unset data as QA'd and allow further changes">
+                        <span class="fa fa-exclamation-circle"></span> Remove QA'd</button>
+                  {{/if}}
+                {{else}}
+                  <button type="button" class="btn btn-sm btn-primary"
+                          id="inner-update" title="Save changes">
+                          <span class="glyphicon glyphicon-ok"></span> Save</button>
+                  <button type="button" class="btn btn-sm btn-default"
+                          id="inner-update-cancel" title="Cancel changes">Cancel</button>
+                  <button type="button" class="btn btn-sm btn-danger"
+                          id="inner-delete" title="Delete row">
+                          <span class="glyphicon glyphicon-trash"></span></button>
+                  {{#if isInRole 'staff'}}
+                    <button type="button"
+                              id="setQA"
+                           class="pull-right btn btn-sm btn-success"
+                           title="Make data as QA'd and prevent further changes">
+                        <span class="fa fa-check-circle"></span> Mark QA'd</button>
+                  {{/if}}
+                {{/if}}
+              {{/if}}
+            </div>
+
+          </form>
+        </div>  <!-- Modal body -->
+      </div>  <!-- Modal content -->
+    </div>  <!-- Modal dialog -->
+    {{/with}}  <!-- Reactive epiResult  -->
+  </div>  <!-- Modal container -->
 </template>

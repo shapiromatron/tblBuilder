@@ -3,6 +3,7 @@ Reference = new Meteor.Collection('reference');
 MechanisticEvidence = new Meteor.Collection('mechanisticEvidence');
 ExposureEvidence = new Meteor.Collection('exposureEvidence');
 AnimalEvidence = new Meteor.Collection('animalEvidence');
+AnimalEndpointEvidence = new Meteor.Collection('animalEndpointEvidence');
 GenotoxEvidence = new Meteor.Collection('genotoxEvidence');
 MechQuantEvidence = new Meteor.Collection('mechQuantEvidence');
 EpiDescriptive = new Meteor.Collection('epiDescriptive');

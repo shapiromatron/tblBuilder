@@ -392,6 +392,18 @@ Meteor.startup ->
             type: SimpleSchema.RegEx.Id
 
 
+    animal_endpoint_schema =
+
+        parent_id:
+            type: SimpleSchema.RegEx.Id
+            denyUpdate: true
+
+        endpoint_name:
+            label: "Endpoint name"
+            type: String
+            min: 1
+
+
     # extend content between base base-content objects
     _.extend(tbl_schema, base_content)
     _.extend(ref_schema, base_content)
@@ -401,6 +413,7 @@ Meteor.startup ->
     _.extend(epi_descriptive_schema, tbl_content_base)
     _.extend(exposure_schema, tbl_content_base)
     _.extend(animal_schema, tbl_content_base)
+    _.extend(animal_endpoint_schema, tbl_content_base)
     _.extend(genotox_schema, tbl_content_base)
     _.extend(mech_quant_schema, tbl_content_base)
 
@@ -417,6 +430,7 @@ Meteor.startup ->
     share.epiDescriptiveSchema = new SimpleSchema(epi_descriptive_schema)
     share.exposureEvidenceSchema = new SimpleSchema(exposure_schema)
     share.animalEvidenceSchema = new SimpleSchema(animal_schema)
+    share.animalEndpointEvidenceSchema = new SimpleSchema(animal_endpoint_schema)
     share.genotoxEvidenceSchema = new SimpleSchema(genotox_schema)
     share.mechQuantEvidenceSchema = new SimpleSchema(mech_quant_schema)
 
@@ -429,5 +443,6 @@ Meteor.startup ->
     EpiDescriptive.attachSchema(share.epiDescriptiveSchema)
     ExposureEvidence.attachSchema(share.exposureEvidenceSchema)
     AnimalEvidence.attachSchema(share.animalEvidenceSchema)
+    AnimalEndpointEvidence.attachSchema(share.animalEndpointEvidenceSchema)
     GenotoxEvidence.attachSchema(share.genotoxEvidenceSchema)
     MechQuantEvidence.attachSchema(share.mechQuantEvidenceSchema)

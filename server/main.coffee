@@ -89,6 +89,13 @@ AnimalEvidence.before.insert (userId, doc) ->
     doc['sortIdx'] = getNewIdx(AnimalEvidence, doc.tbl_id)
     return userCanEditTblContent(doc.tbl_id, userId)
 
+AnimalEndpointEvidence.before.insert (userId, doc) ->
+    doc = addTimestampAndUserID(userId, doc)
+    doc = addQAmarks(doc)
+    doc['isHidden'] = false
+    doc['sortIdx'] = getNewIdx(AnimalEndpointEvidence, doc.tbl_id)
+    return userCanEditTblContent(doc.tbl_id, userId)
+
 GenotoxEvidence.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
     doc = addQAmarks(doc)
@@ -119,6 +126,8 @@ EpiResult.before.update userCanEditTblContentCheck
 ExposureEvidence.before.update userCanEditTblContentCheck
 
 AnimalEvidence.before.update userCanEditTblContentCheck
+
+AnimalEndpointEvidence.before.update userCanEditTblContentCheck
 
 GenotoxEvidence.before.update userCanEditTblContentCheck
 
@@ -154,6 +163,8 @@ EpiResult.before.remove userCanRemoveTblContentCheck
 ExposureEvidence.before.remove userCanRemoveTblContentCheck
 
 AnimalEvidence.before.remove userCanRemoveTblContentCheck
+
+AnimalEndpointEvidence.before.remove userCanRemoveTblContentCheck
 
 GenotoxEvidence.before.remove userCanRemoveTblContentCheck
 
