@@ -11,12 +11,14 @@ EpiResult = new Meteor.Collection('epiResult');
 ReportTemplate = new Meteor.Collection('reportTemplate');
 
 
-tblTypeOptions = ["Mechanistic Evidence Summary",
-                  "Epidemiology Evidence",
-                  "Exposure Evidence",
-                  "Animal Bioassay Evidence",
-                  "Genotoxicity Evidence",
-                  "Mechanistic Quantitative Evidence"];
+tblTypeOptions = [
+    "Mechanistic Evidence Summary",
+    "Epidemiology Evidence",
+    // "Exposure Evidence",
+    // "Animal Bioassay Evidence",
+    // "Genotoxicity Evidence",
+    // "Mechanistic Quantitative Evidence"
+];
 
 tblRoleOptions = ["projectManagers", "teamMembers", "reviewers"];
 
