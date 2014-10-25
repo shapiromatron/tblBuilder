@@ -551,7 +551,7 @@
                   {{qaMark ../isQA}}{{../organSite}}
                 </td>
               {{/if}}
-              <td>{{value.exposureCategory}}</td>
+              <td>{{value.exposureCategory}}{{#if value.inTrendTest}}<sup>*</sup>{{/if}}</td>
               <td>{{value.numberExposed}}</td>
               <td>{{#if showPlots}}
                     {{> forestPlot parent=.. index=index }}
@@ -569,7 +569,7 @@
             </tr>
           {{/each}}
           {{#if displayTrendTest}}
-            <tr><td></td><td colspan="4">Trend-test <i>p</i>-value: {{trendTest}}</td></tr>
+            <tr><td></td><td colspan="4"><sup>*</sup>Trend-test <i>p</i>-value: {{trendTest}}</td></tr>
           {{/if}}
         </tbody>
       </table>
@@ -629,39 +629,53 @@
 
             <!-- Risk estimates -->
             <table class="table table-condensed">
+              <colgroup>
+                <col width="8%">
+                <col width="20%">
+                <col width="12%">
+                <col width="12%">
+                <col width="12%">
+                <col width="12%">
+                <col width="12%">
+                <col width="12%">
+              </colgroup>
               <thead>
-                <th>
+                <th style="vertical-align: middle;" class="text-center">
                     <button type="button" class="btn btn-xs btn-info"
                             id="inner-addRiskRow" title="Add row">
                             <span class="glyphicon glyphicon-plus"></span></button></th>
-                <th>
+                <th class="text-center">
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="E.g., all exposed workers, second quartile of exposure,
                                     quantitative exposure level (always provide quantitative
                                     information when available)">
                         Exposure category<br>or level*</span></th>
 
-                <th>
+                <th class="text-center">
                   <span class="helpPopovers" data-toggle="popover"
                     data-content="Deaths/cases for cohort studies; Cases for case-control studies">
-                    &nbsp;<br>Exposed cases/deaths*</span></th>
-                <th>
+                    Exposed<br>cases/deaths*</span></th>
+                <th class="text-center">
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="Central risk reported for risk estimate">
-                        &nbsp;<br>Risk estimate</span></th>
-                <th>
+                        Risk<br>estimate</span></th>
+                <th class="text-center">
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="95% lower confidence interval risk estimate">
-                        &nbsp;<br>95% lower CI</span></th>
-                <th>
+                        95%<br>lower CI</span></th>
+                <th class="text-center">
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="95% upper confidence interval risk estimate">
-                         &nbsp;<br>95% upper CI</span></th>
-                <th>
+                         95%<br>upper CI</span></th>
+                <th class="text-center">
                   <span class="helpPopovers" data-toggle="popover"
                         data-content="Calculations by the working-group (WG), not study-authors">
-                        WG<br>calculation?</span></th>
-              </thead>
+                        WG calculation?</span></th>
+                <th class="text-center">
+                  <span class="helpPopovers" data-toggle="popover"
+                        data-content="Risk estimate included in trend-test">
+                        Estimate in<br>trend-test?</span></th>
+                </thead>
               <tbody class="riskEstimateTbody">
                 {{#if riskEstimates}}
                   {{#each riskEstimates}}
@@ -798,11 +812,17 @@
                value="{{riskHigh}}"/>
     </td>
     <td>
-      <div class="checkbox">
+      <div class="checkbox text-center">
         <input style="margin: 0px"
                type="checkbox" name='riskEstimated'
                checked="{{riskEstimated}}"
                title="Check if risk was estimated by reviewer, not study-author"/></div></td>
+    <td>
+      <div class="checkbox text-center">
+        <input style="margin: 0px"
+               type="checkbox" name='inTrendTest'
+               checked="{{inTrendTest}}"
+               title="Check if risk-estimated included in trend-test"/></div></td>
   </tr>
 </template>
 

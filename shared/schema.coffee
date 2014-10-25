@@ -206,6 +206,10 @@ Meteor.startup ->
             label: "Working-group calculation"
             type: Boolean
 
+        "riskEstimates.$.inTrendTest":
+            label: "Estimate in Trend Test"
+            type: Boolean
+
         covariates:
             label: "Covariates controlled"
             type: [String]

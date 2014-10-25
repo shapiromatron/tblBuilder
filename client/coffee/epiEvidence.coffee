@@ -295,11 +295,12 @@ removeModal = (tmpl, options) ->
 
 getRiskRows = (tmpl, obj) ->
     delete obj.exposureCategory
-    delete obj.riskHigh
+    delete obj.numberExposed
     delete obj.riskMid
     delete obj.riskLow
+    delete obj.riskHigh
     delete obj.riskEstimated
-    delete obj.numberExposed
+    delete obj.inTrendTest
     obj.riskEstimates = []
     tbody = tmpl.find('.riskEstimateTbody')
     for row in $(tbody).find('tr')
