@@ -178,6 +178,10 @@ share.toggleQA = (tmpl, isQA) ->
 
 timestamp_format = 'MMM Do YYYY, h:mm a'
 
+UI.registerHelper "tableTitle", () ->
+    tbl = Session.get("Tbl")
+    return "Volume #{tbl.volumeNumber}: #{tbl.monographAgent}"
+
 UI.registerHelper "formatDate", (datetime) ->
     return moment(datetime).format(timestamp_format)
 
