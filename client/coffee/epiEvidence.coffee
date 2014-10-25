@@ -292,7 +292,6 @@ removeModal = (tmpl, options) ->
         .on('hidden.bs.modal', onHidden)
         .modal('hide')
 
-
 getRiskRows = (tmpl, obj) ->
     delete obj.exposureCategory
     delete obj.numberExposed
@@ -355,7 +354,9 @@ Template.epiResultForm.events
             if response then share.toggleQA(tmpl, response.QAd)
 
 Template.epiResultForm.rendered = ->
-    share.toggleQA(@, @.data.isQA)
+    epiResult = EpiResult.findOne({_id: Session.get('epiResultEditingId')})
+    if epiResult?
+        share.toggleQA(@, epiResult.isQA)
     $(@.find('#epiResultsModal')).modal('toggle')
     $(@.findAll('.helpPopovers')).popover
         delay: {show: 500, hide: 100}
