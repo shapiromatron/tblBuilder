@@ -1,7 +1,11 @@
-Session.setDefault('epiDescriptiveShowNew', false)
-Session.setDefault('epiDescriptiveEditingId', null)
-Session.setDefault('epiDescriptiveShowAll', false)
-Session.setDefault('epiResultEditingId', null)
+Session.setDefault('epiResultEditingId', null) # required?
+
+# EPI MAIN ------------------------------------------------------------------
+Template.epiMain.rendered = ->
+    Session.set('evidenceShowNew', false)
+    Session.set('evidenceEditingId', null)
+    Session.set('evidenceShowAll', false)
+    Session.set('evidenceType', 'epi')
 
 # EPI ANALYSIS TABLE -----------------------------------------------------------
 Template.epiAnalysisTbl.rendered = ->
@@ -53,57 +57,23 @@ $.extend $.fn.dataTableExt.oSort,
 
 
 # EPI DESCRIPTIVE TABLE --------------------------------------------------------
-Template.epiDescriptiveTbl.helpers
-    showNew: ->
-        Session.get("epiDescriptiveShowNew")
-
-    isEditing: ->
-        Session.equals('epiDescriptiveEditingId', @_id)
-
-    getEpiDescriptives: ->
-        EpiDescriptive.find({}, {sort: {sortIdx: 1}})
-
-    showRow: (isHidden) ->
-        Session.get('epiDescriptiveShowAll') or !isHidden
-
-    isShowAll: ->
-        Session.get('epiDescriptiveShowAll')
+epiDescriptiveTblHelpers =
 
     showPlots: ->
         Session.get('epiRiskShowPlots')
 
-Template.epiDescriptiveTbl.events
-    'click #show-create': (evt, tmpl) ->
-        Session.set("epiDescriptiveShowNew", true)
-        Tracker.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=referenceID]"))
-
-    'click #downloadExcel': (evt, tmpl) ->
-        tbl_id = Session.get('Tbl')._id
-        Meteor.call 'epiEvidenceDownload', tbl_id, (err, response) ->
-            share.returnExcelFile(response, "epi.xlsx")
-
-    'click #toggleShowAllRows': (evt, tmpl) ->
-        val = not Session.get('epiDescriptiveShowAll')
-        Session.set('epiDescriptiveShowAll', val)
+epiDescriptiveTblEvents =
 
     'click #epiRiskShowPlots': (evt, tmpl) ->
         val = not Session.get('epiRiskShowPlots')
         Session.set('epiRiskShowPlots', val)
         share.toggleRiskPlot()
 
-    'click #reorderRows': (evt, tmpl) ->
-        val = not Session.get('reorderRows')
-        Session.set('reorderRows', val)
-        share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
+_.extend(epiDescriptiveTblHelpers, share.abstractTblHelpers)
+_.extend(epiDescriptiveTblEvents, share.abstractTblEvents)
 
-    'click #wordReport': (evt, tmpl) ->
-        div = tmpl.find('#modalHolder')
-        Blaze.renderWithData(Template.reportTemplateModal, {}, div)
-
-    'click #toggleQAflags': (evt, tmpl) ->
-        val = not Session.get('showQAflags')
-        Session.set('showQAflags', val)
+Template.epiDescriptiveTbl.helpers epiDescriptiveTblHelpers
+Template.epiDescriptiveTbl.events epiDescriptiveTblEvents
 
 Template.epiDescriptiveTbl.rendered = ->
     share.toggleRiskPlot()
@@ -115,35 +85,15 @@ Template.epiDescriptiveTbl.rendered = ->
 
 
 # EPI DESCRIPTIVE ROW ----------------------------------------------------------
-Template.epiDescriptiveRow.helpers
-
-    getResults: (evt, tmpl) ->
-        return EpiResult.find({parent_id: @_id}, {sort: {sortIdx: 1}})
+epiDescriptiveRowHelpers =
 
     getStudyDesign: (evt, tmpl) ->
         if @studyDesign is "Nested Case-Control" then return "#{@studyDesign}<br>"
 
-Template.epiDescriptiveRow.events
+_.extend(epiDescriptiveRowHelpers, share.abstractRowHelpers)
 
-    'click #toggle-hidden': (evt, tmpl) ->
-        EpiDescriptive.update(@_id, {$set: {isHidden: !@isHidden}})
-
-    'click #show-edit': (evt, tmpl) ->
-        Session.set("epiDescriptiveEditingId", @_id)
-        Tracker.flush() # update DOM before focus
-        share.activateInput($("input[name=referenceID]")[0])
-
-    'click #copy-as-new': (evt, tmpl) ->
-        Session.set("epiDescriptiveShowNew", true)
-        Tracker.flush() # update DOM before focus
-        share.activateInput($("input[name=referenceID]")[0])
-        share.copyAsNew(@)
-
-    'click .addEpiResult': (evt, tmpl) ->
-        # remove exiting modal, add new one, and inject scope
-        div = tmpl.find('#epiResultDiv')
-        $(div).empty()
-        Blaze.renderWithData(Template.epiResultForm, {descriptive:@}, div)
+Template.epiDescriptiveRow.helpers(epiDescriptiveRowHelpers)
+Template.epiDescriptiveRow.events(share.abstractRowEvents)
 
 Template.epiDescriptiveRow.rendered = ->
     new Sortable(@.find('#sortableInner'),
@@ -173,13 +123,13 @@ Template.epiDescriptiveForm.events
         isValid = EpiDescriptive.simpleSchema().namedContext().validate(obj)
         if isValid
             EpiDescriptive.insert(obj)
-            Session.set("epiDescriptiveShowNew", false)
+            Session.set("evidenceShowNew", false)
         else
             errorDiv = share.createErrorDiv(EpiDescriptive.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #create-cancel': (evt, tmpl) ->
-        Session.set("epiDescriptiveShowNew", false)
+        Session.set("evidenceShowNew", false)
 
     'click #update': (evt, tmpl) ->
         vals = share.updateValues(tmpl.find('#epiDescriptiveForm'), @)
@@ -188,17 +138,17 @@ Template.epiDescriptiveForm.events
         isValid = EpiDescriptive.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid
             EpiDescriptive.update(@_id, {$set: vals})
-            Session.set("epiDescriptiveEditingId", null)
+            Session.set("evidenceEditingId", null)
         else
             errorDiv = share.createErrorDiv(EpiDescriptive.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #update-cancel': (evt, tmpl) ->
-        Session.set("epiDescriptiveEditingId", null)
+        Session.set("evidenceEditingId", null)
 
     'click #delete': (evt, tmpl) ->
         EpiDescriptive.remove(@_id)
-        Session.set("epiDescriptiveEditingId", null)
+        Session.set("evidenceEditingId", null)
 
     'click #addEpiResult': (evt, tmpl) ->
         # remove exiting modal, add new one, and inject scope
@@ -233,7 +183,7 @@ toggleCCfields = (tmpl) ->
 Template.epiResultTbl.helpers
 
     showRow: (isHidden) ->
-        Session.get('epiDescriptiveShowAll') or !isHidden
+        Session.get('evidenceShowAll') or !isHidden
 
     showPlots: ->
         Session.get("epiRiskShowPlots")

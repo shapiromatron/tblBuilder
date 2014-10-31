@@ -91,7 +91,7 @@
       </tr>
     </thead>
     <tbody id="sortable">
-      {{#each getEpiDescriptives}}
+      {{#each object_list}}
         {{#if showRow isHidden}}
           <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
               data-id="{{_id}}"
@@ -130,7 +130,7 @@
 <template name='epiDescriptiveRow'>
   <td>
     {{#if userCanEdit}}
-      <div id="epiResultDiv"></div>
+      <div id="nestedModalHolder"></div>
       <div class="rowOptions btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
           <span class="caret" title="Editing options"></span>
@@ -141,7 +141,7 @@
               <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
           <li>
             <a href="#"
-               class="addEpiResult"
+               class="add-nested"
                title="Display modal for entering results">
               <span class="fa fa-medkit"></span> Add results</a></li>
           <li>
@@ -163,13 +163,13 @@
   </td>
   <td>{{eligibilityCriteria}}<br><strong>Exposure assess. method: </strong>{{exposureAssessmentType}}</td>
   <td colspan="5" id="sortableInner">
-    {{#each getResults}}
+    {{#each getChildren}}
       {{> epiResultTbl}}
     {{else}}
       <p class="help-block">No results have been created.
         {{#if userCanEdit}}
           <a href="#"
-             class="btn btn-primary btn-sm addEpiResult pull-right"
+             class="btn btn-primary btn-sm add-nested pull-right"
              title="Display modal for entering results">
             <span class="fa fa-medkit"></span> Add results</a>
         {{/if}}

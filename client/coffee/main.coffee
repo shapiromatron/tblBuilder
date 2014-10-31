@@ -288,6 +288,15 @@ Template.browserDetect.helpers
                 Please use a different browser for an optimal experience."
 
 share.evidenceType = {
+        epi: {
+            collection: EpiDescriptive,
+            collection_name: "epiDescriptive",
+            excel_method: "epiEvidenceDownload",
+            excel_fn: "epi.xlsx",
+            nested_template: Template.epiResultForm,
+            nested_collection: EpiResult,
+            nested_collection_name: "epiResult",
+        },
         animal: {
             collection: AnimalEvidence,
             collection_name: "animalEvidence",
