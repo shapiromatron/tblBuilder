@@ -178,7 +178,8 @@ Router.map ->
         onStop: ->
             share.viewHandles.stop()
 
-    this.route '404'
+    this.route '404',
+        path: '/(.*)'
 
 
 Router.configure
