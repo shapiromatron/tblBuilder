@@ -183,7 +183,7 @@
 </template>
 
 <template name="epiDescriptiveForm">
-  <form id="epiDescriptiveForm" role="form" class="editForm">
+  <form id="mainForm" role="form" class="editForm">
     <legend>Epidemiological Study Description</legend>
     <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
 
@@ -530,7 +530,7 @@
               {{#if isEqual current=index target=0 }}
                 <td rowspan="{{../riskEstimates.length}}">
                   {{#if userCanEdit}}
-                    <div id="epiResultDiv"></div>
+                    <div id="nestedModalHolder"></div>
                     <div class="rowOptions btn-group pull-right">
                       <button class="btn btn-default btn-xs dropdown-toggle"
                               type="button" data-toggle="dropdown">
@@ -578,19 +578,19 @@
 </template>
 
 <template name="epiResultForm">
-  <div class="modal fade" id="epiResultsModal" tabindex="-1" role="dialog"
-       aria-labelledby="epiResultsModal" aria-hidden="true">
-    {{#with getResult }}   <!-- Reactive epiResult  -->
+  <div class="modal fade" id="nestedModalDiv" tabindex="-1" role="dialog"
+       aria-labelledby="nestedModalDiv" aria-hidden="true">
+    {{#with getObject }}   <!-- Reactive epiResult  -->
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="epiResultsModal">Results for epidemiological studies</h4>
+          <h4 class="modal-title">Results for epidemiological studies</h4>
         </div>
 
         <div class="modal-body">
-          <form id="epiResultForm" role="form" class="editForm">
+          <form id="nestedModalForm" role="form" class="editForm">
             <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
 
             <!-- First row -->

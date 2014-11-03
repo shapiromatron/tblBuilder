@@ -112,52 +112,38 @@ Template.epiDescriptiveForm.helpers
     getExposureAssessmentTypeOptions: ->
         return exposureAssessmentTypeOptions
 
-Template.epiDescriptiveForm.events
-    'change select[name="studyDesign"]': (evt, tmpl) ->
-        toggleCCfields(tmpl)
-
-    'click #create': (evt, tmpl) ->
-        obj = share.newValues(tmpl.find('#epiDescriptiveForm'))
-        obj['tbl_id'] = Session.get('Tbl')._id
-        obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
-        isValid = EpiDescriptive.simpleSchema().namedContext().validate(obj)
-        if isValid
-            EpiDescriptive.insert(obj)
-            Session.set("evidenceShowNew", false)
-        else
-            errorDiv = share.createErrorDiv(EpiDescriptive.simpleSchema().namedContext())
-            $(tmpl.find("#errors")).html(errorDiv)
-
-    'click #create-cancel': (evt, tmpl) ->
-        Session.set("evidenceShowNew", false)
+# copy but override abstract object
+epiDescriptiveFormExtension =
 
     'click #update': (evt, tmpl) ->
-        vals = share.updateValues(tmpl.find('#epiDescriptiveForm'), @)
+        # requires override of default to ensure that studyDesign is set
+
+        key = Session.get('evidenceType')
+        Collection = share.evidenceType[key].collection
+        vals = share.updateValues(tmpl.find('#mainForm'), @)
+
+        # addition to ensure that schema-logic has required fields
         vals.studyDesign = tmpl.find('select[name="studyDesign"]').value  # add for conditional schema-logic
+
         modifier = {$set: vals}
-        isValid = EpiDescriptive.simpleSchema().namedContext().validate(modifier, {modifier: true})
+        isValid = Collection.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid
-            EpiDescriptive.update(@_id, {$set: vals})
+            Collection.update(@_id, {$set: vals})
             Session.set("evidenceEditingId", null)
         else
-            errorDiv = share.createErrorDiv(EpiDescriptive.simpleSchema().namedContext())
+            errorDiv = share.createErrorDiv(Collection.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
-    'click #update-cancel': (evt, tmpl) ->
-        Session.set("evidenceEditingId", null)
-
-    'click #delete': (evt, tmpl) ->
-        EpiDescriptive.remove(@_id)
-        Session.set("evidenceEditingId", null)
+    'change select[name="studyDesign"]': (evt, tmpl) ->
+        toggleCCfields(tmpl)
 
     'click #addEpiResult': (evt, tmpl) ->
         # remove exiting modal, add new one, and inject scope
         div = tmpl.find('#epiResultDiv')
         Blaze.renderWithData(Template.epiResultForm, {descriptive:@}, div)
 
-    'click #setQA,#unsetQA': (evt, tmpl) ->
-        Meteor.call 'adminToggleQAd', this._id, "epiDescriptive", (err, response) ->
-            if response then share.toggleQA(tmpl, response.QAd)
+epiDescriptiveFormEvents = $.extend(true, {}, share.abstractFormEvents, epiDescriptiveFormExtension)
+Template.epiDescriptiveForm.events(epiDescriptiveFormEvents)
 
 Template.epiDescriptiveForm.rendered = ->
     toggleCCfields(@)
@@ -180,10 +166,8 @@ toggleCCfields = (tmpl) ->
 
 
 # EPI RESULTS TBL --------------------------------------------------------------
-Template.epiResultTbl.helpers
 
-    showRow: (isHidden) ->
-        Session.get('evidenceShowAll') or !isHidden
+epiResultTblHelpers =
 
     showPlots: ->
         Session.get("epiRiskShowPlots")
@@ -197,50 +181,14 @@ Template.epiResultTbl.helpers
     displayTrendTest: ->
         return @trendTest?
 
-Template.epiResultTbl.events
+_.extend(epiResultTblHelpers, share.abstractNestedTableHelpers)
 
-    'click #inner-show-edit': (evt, tmpl) ->
-        div = tmpl.find('#epiResultDiv')
-        Session.set('epiResultEditingId', tmpl.data._id)
-        Blaze.renderWithData(Template.epiResultForm, {}, div)
-
-    'click #inner-toggle-hidden': (evt, tmpl) ->
-        data = tmpl.view.parentView.dataVar.curValue
-        EpiResult.update(data._id, {$set: {isHidden: !data.isHidden}})
-
-    'click #inner-copy-as-new': (evt, tmpl) ->
-        div = tmpl.find('#epiResultDiv')
-        data = tmpl.view.parentView.dataVar.curValue
-        data.descriptive = {_id: data.parent_id}
-        Blaze.renderWithData(Template.epiResultForm, data, div)
+Template.epiResultTbl.helpers(epiResultTblHelpers)
+Template.epiResultTbl.events(share.abstractNestedTableEvents)
 
 
 # EPI RESULTS FORM -------------------------------------------------------------
-Template.epiResultForm.helpers
-
-    isNew: ->
-        return Session.get('epiResultEditingId') is null
-
-    getResult: () ->
-        # get data to render into form, either using a reactive data-source if
-        # editing an existing result, or by using initial-data specified from
-        # a creation view
-        initial = @
-        existing = EpiResult.findOne({_id: Session.get('epiResultEditingId')})
-        return existing || initial
-
-removeModal = (tmpl, options) ->
-
-    onHidden = () ->
-        # remove template from DOM completely
-        $(tmpl.view._domrange.members).remove()
-        Blaze.remove(tmpl.view)
-        if options? and options.remove?
-            EpiResult.remove(options.remove)
-
-    $(tmpl.find('#epiResultsModal'))
-        .on('hidden.bs.modal', onHidden)
-        .modal('hide')
+Template.epiResultForm.helpers(share.abstractNestedFormHelpers)
 
 getRiskRows = (tmpl, obj) ->
     delete obj.exposureCategory
@@ -255,59 +203,57 @@ getRiskRows = (tmpl, obj) ->
     for row in $(tbody).find('tr')
         obj.riskEstimates.push(share.newValues(row))
 
-Template.epiResultForm.events
+# copy but override abstract object
+epiResultFormExtension =
+
     'click #inner-addRiskRow': (evt, tmpl) ->
         tbody = tmpl.find('.riskEstimateTbody')
         Blaze.renderWithData(Template.riskEstimateForm, {}, tbody)
 
     'click #inner-create': (evt, tmpl) ->
-        obj = share.newValues(tmpl.find('#epiResultForm'))
-        getRiskRows(tmpl, obj)
+        # override required to get riskRow information
+        key = Session.get('evidenceType')
+        NestedCollection = share.evidenceType[key].nested_collection
+        obj = share.newValues(tmpl.find('#nestedModalForm'))
+        getRiskRows(tmpl, obj)  # (override)
         obj['tbl_id'] = Session.get('Tbl')._id
-        obj['parent_id'] = tmpl.data.descriptive._id
+        obj['parent_id'] = tmpl.data.parent._id
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
         obj['isHidden'] = false
-        isValid = EpiResult.simpleSchema().namedContext().validate(obj)
-        if isValid
-            EpiResult.insert(obj)
-            removeModal(tmpl)
-        else
-            errorDiv = share.createErrorDiv(EpiResult.simpleSchema().namedContext())
-            $(tmpl.find("#errors")).html(errorDiv)
 
-    'click #inner-create-cancel': (evt, tmpl) ->
-        removeModal(tmpl)
+        isValid = NestedCollection.simpleSchema().namedContext().validate(obj)
+        if isValid
+            NestedCollection.insert(obj)
+            share.removeNestedFormModal(tmpl)
+        else
+            errorDiv = share.createErrorDiv(NestedCollection.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
 
     'click #inner-update': (evt, tmpl) ->
-        vals = share.updateValues(tmpl.find('#epiResultForm'), @)
-        getRiskRows(tmpl, vals)
+        # override required to get riskRow information
+        key = Session.get('evidenceType')
+        NestedCollection = share.evidenceType[key].nested_collection
+        vals = share.updateValues(tmpl.find('#nestedModalForm'), @)
+        getRiskRows(tmpl, vals)  # (override)
         modifier = {$set: vals}
-        isValid = EpiResult.simpleSchema().namedContext().validate(modifier, {modifier: true})
+
+        isValid = NestedCollection.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid
-            EpiResult.update(@_id, modifier)
-            Session.set("epiResultEditingId", null)
-            removeModal(tmpl)
+            NestedCollection.update(@_id, modifier)
+            Session.set("nestedEvidenceEditingId", null)
+            share.removeNestedFormModal(tmpl)
         else
-            errorDiv = share.createErrorDiv(EpiResult.simpleSchema().namedContext())
+            errorDiv = share.createErrorDiv(NestedCollection.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
-    'click #inner-update-cancel': (evt, tmpl) ->
-        Session.set("epiResultEditingId", null)
-        removeModal(tmpl)
-
-    'click #inner-delete': (evt, tmpl) ->
-        Session.set("epiResultEditingId", null)
-        removeModal(tmpl, {"remove": @_id})
-
-    'click #setQA,#unsetQA': (evt, tmpl) ->
-        Meteor.call 'adminToggleQAd', this._id, "epiResult", (err, response) ->
-            if response then share.toggleQA(tmpl, response.QAd)
+epiResultFormEvents = $.extend(true, {}, share.abstractNestedFormEvents, epiResultFormExtension)
+Template.epiResultForm.events(epiResultFormEvents)
 
 Template.epiResultForm.rendered = ->
-    epiResult = EpiResult.findOne({_id: Session.get('epiResultEditingId')})
+    epiResult = EpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')})
     if epiResult?
         share.toggleQA(@, epiResult.isQA)
-    $(@.find('#epiResultsModal')).modal('toggle')
+    $(@.find('#nestedModalDiv')).modal('toggle')
     $(@.findAll('.helpPopovers')).popover
         delay: {show: 500, hide: 100}
         trigger: "hover"

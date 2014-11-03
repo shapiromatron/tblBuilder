@@ -114,7 +114,6 @@ share.abstractFormEvents =
         key = Session.get('evidenceType')
         Collection = share.evidenceType[key].collection
         vals = share.updateValues(tmpl.find('#mainForm'), @)
-        # vals.studyDesign = tmpl.find('select[name="studyDesign"]').value  # add for conditional schema-logic
         modifier = {$set: vals}
         isValid = Collection.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid
@@ -159,8 +158,14 @@ share.abstractNestedTableEvents =
     'click #inner-copy-as-new': (evt, tmpl) ->
         key = Session.get('evidenceType')
         NestedTemplate = share.evidenceType[key].nested_template
-        data = tmpl.view.parentView.dataVar.curValue
+
+        # copy data from existing and set QA flags to false
+        data = $.extend(true, {}, tmpl.view.parentView.dataVar.curValue)
         data.parent = {_id: data.parent_id}
+        data.isQA = false;
+        data.timestampQA = null;
+        data.user_id_QA = null;
+
         div = tmpl.find('#nestedModalHolder')
         Blaze.renderWithData(NestedTemplate, data, div)
 
@@ -179,7 +184,7 @@ share.abstractNestedFormHelpers =
         existing = NestedCollection.findOne({_id: Session.get('nestedEvidenceEditingId')})
         return existing || initial
 
-removeModal = (tmpl, options) ->
+share.removeNestedFormModal = (tmpl, options) ->
 
     onHidden = () ->
         # remove template from DOM completely
@@ -187,6 +192,7 @@ removeModal = (tmpl, options) ->
         NestedCollection = share.evidenceType[key].nested_collection
         $(tmpl.view._domrange.members).remove()
         Blaze.remove(tmpl.view)
+        # optionally remove object from collection after removing DOM
         if options? and options.remove?
             NestedCollection.remove(options.remove)
 
@@ -204,38 +210,40 @@ share.abstractNestedFormEvents =
         obj['parent_id'] = tmpl.data.parent._id
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
         obj['isHidden'] = false
+
         isValid = NestedCollection.simpleSchema().namedContext().validate(obj)
         if isValid
             NestedCollection.insert(obj)
-            removeModal(tmpl)
+            share.removeNestedFormModal(tmpl)
         else
             errorDiv = share.createErrorDiv(NestedCollection.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #inner-create-cancel': (evt, tmpl) ->
-        removeModal(tmpl)
+        share.removeNestedFormModal(tmpl)
 
     'click #inner-update': (evt, tmpl) ->
         key = Session.get('evidenceType')
         NestedCollection = share.evidenceType[key].nested_collection
         vals = share.updateValues(tmpl.find('#nestedModalForm'), @)
         modifier = {$set: vals}
+
         isValid = NestedCollection.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid
             NestedCollection.update(@_id, modifier)
             Session.set("nestedEvidenceEditingId", null)
-            removeModal(tmpl)
+            share.removeNestedFormModal(tmpl)
         else
             errorDiv = share.createErrorDiv(NestedCollection.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #inner-update-cancel': (evt, tmpl) ->
         Session.set("nestedEvidenceEditingId", null)
-        removeModal(tmpl)
+        share.removeNestedFormModal(tmpl)
 
     'click #inner-delete': (evt, tmpl) ->
         Session.set("nestedEvidenceEditingId", null)
-        removeModal(tmpl, {"remove": @_id})
+        share.removeNestedFormModal(tmpl, {"remove": @_id})
 
     'click #setQA,#unsetQA': (evt, tmpl) ->
         key = Session.get('evidenceType')
