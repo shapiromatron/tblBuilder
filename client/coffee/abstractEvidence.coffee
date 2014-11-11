@@ -102,6 +102,7 @@ share.abstractFormEvents =
         obj = share.newValues(tmpl.find('#mainForm'))
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
+        # obj = Collection.simpleSchema().clean(obj)
         isValid = Collection.simpleSchema().namedContext().validate(obj)
         if isValid
             Collection.insert(obj)
@@ -114,7 +115,12 @@ share.abstractFormEvents =
         key = Session.get('evidenceType')
         Collection = share.evidenceType[key].collection
         vals = share.updateValues(tmpl.find('#mainForm'), @)
+        key = Session.get('evidenceType')
+        for fld in share.evidenceType[key].requiredUpdateFields
+            vals[fld] = tmpl.find('select[name="' + fld + '"]').value  # add for conditional schema-logic
+        # vals = Collection.simpleSchema().clean(vals)
         modifier = {$set: vals}
+
         isValid = Collection.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid
             Collection.update(@_id, {$set: vals})

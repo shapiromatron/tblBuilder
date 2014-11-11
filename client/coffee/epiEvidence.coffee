@@ -115,25 +115,6 @@ Template.epiDescriptiveForm.helpers
 # copy but override abstract object
 epiDescriptiveFormExtension =
 
-    'click #update': (evt, tmpl) ->
-        # requires override of default to ensure that studyDesign is set
-
-        key = Session.get('evidenceType')
-        Collection = share.evidenceType[key].collection
-        vals = share.updateValues(tmpl.find('#mainForm'), @)
-
-        # addition to ensure that schema-logic has required fields
-        vals.studyDesign = tmpl.find('select[name="studyDesign"]').value  # add for conditional schema-logic
-
-        modifier = {$set: vals}
-        isValid = Collection.simpleSchema().namedContext().validate(modifier, {modifier: true})
-        if isValid
-            Collection.update(@_id, {$set: vals})
-            Session.set("evidenceEditingId", null)
-        else
-            errorDiv = share.createErrorDiv(Collection.simpleSchema().namedContext())
-            $(tmpl.find("#errors")).html(errorDiv)
-
     'change select[name="studyDesign"]': (evt, tmpl) ->
         toggleCCfields(tmpl)
 

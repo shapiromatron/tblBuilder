@@ -287,41 +287,45 @@ Template.browserDetect.helpers
                 </ul><br>
                 Please use a different browser for an optimal experience."
 
-share.evidenceType = {
-        epi: {
-            collection: EpiDescriptive,
-            collection_name: "epiDescriptive",
-            excel_method: "epiEvidenceDownload",
-            excel_fn: "epi.xlsx",
-            nested_template: Template.epiResultForm,
-            nested_collection: EpiResult,
-            nested_collection_name: "epiResult",
-        },
-        animal: {
-            collection: AnimalEvidence,
-            collection_name: "animalEvidence",
-            excel_method: "animalEvidenceDownload",
-            excel_fn: "animal.xlsx",
-            nested_template: Template.animalEndpointForm,
-            nested_collection: AnimalEndpointEvidence,
-            nested_collection_name: "animalEndpointEvidence",
-        },
-        exposure: {
-            collection: ExposureEvidence,
-            collection_name: "exposureEvidence",
-            excel_method: "exposureEvidenceDownload",
+share.evidenceType =
+
+        epi:
+            collection: EpiDescriptive
+            collection_name: "epiDescriptive"
+            excel_method: "epiEvidenceDownload"
+            excel_fn: "epi.xlsx"
+            nested_template: Template.epiResultForm
+            nested_collection: EpiResult
+            nested_collection_name: "epiResult"
+            requiredUpdateFields: ["studyDesign"]
+
+        animal:
+            collection: AnimalEvidence
+            collection_name: "animalEvidence"
+            excel_method: "animalEvidenceDownload"
+            excel_fn: "animal.xlsx"
+            nested_template: Template.animalEndpointForm
+            nested_collection: AnimalEndpointEvidence
+            nested_collection_name: "animalEndpointEvidence"
+            requiredUpdateFields: []
+
+        exposure:
+            collection: ExposureEvidence
+            collection_name: "exposureEvidence"
+            excel_method: "exposureEvidenceDownload"
             excel_fn: "exposure.xlsx"
-        },
-        genotox: {
-            collection: GenotoxEvidence,
-            collection_name: "genotoxEvidence",
-            excel_method: "genotoxEvidenceDownload",
+            requiredUpdateFields: ["exposureScenario"]
+
+        genotox:
+            collection: GenotoxEvidence
+            collection_name: "genotoxEvidence"
+            excel_method: "genotoxEvidenceDownload"
             excel_fn: "genotox.xlsx"
-        },
-        mechQuant: {
-            collection: MechQuantEvidence,
-            collection_name: "mechQuantEvidence",
-            excel_method: "mechQuantEvidenceDownload",
+            requiredUpdateFields: []
+
+        mechQuant:
+            collection: MechQuantEvidence
+            collection_name: "mechQuantEvidence"
+            excel_method: "mechQuantEvidenceDownload"
             excel_fn: "mechQuant.xlsx"
-        }
-    }
+            requiredUpdateFields: []
