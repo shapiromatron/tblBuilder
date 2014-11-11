@@ -234,6 +234,30 @@ Template.typeaheadInput.searchEffectMeasure = (qry, cb) ->
             map = ({value: v} for v in res)
             return cb(map)
 
+Template.typeaheadInput.searchCountries = (qry, cb) ->
+        Meteor.call "searchCountries", qry, (err, res) ->
+            if err then return console.log(err)
+            map = ({value: v} for v in res)
+            return cb(map)
+
+Template.typeaheadInput.searchAgents = (qry, cb) ->
+        Meteor.call "searchAgents", qry, (err, res) ->
+            if err then return console.log(err)
+            map = ({value: v} for v in res)
+            return cb(map)
+
+Template.typeaheadInput.searchSamplingMatrices = (qry, cb) ->
+        Meteor.call "searchSamplingMatrices", qry, (err, res) ->
+            if err then return console.log(err)
+            map = ({value: v} for v in res)
+            return cb(map)
+
+Template.typeaheadInput.searchUnits = (qry, cb) ->
+        Meteor.call "searchUnits", qry, (err, res) ->
+            if err then return console.log(err)
+            map = ({value: v} for v in res)
+            return cb(map)
+
 Template.typeaheadInput.rendered = ->
     Meteor.typeahead.inject("input[name=#{@.data.name}]")
 

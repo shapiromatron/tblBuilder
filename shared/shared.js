@@ -10,33 +10,77 @@ EpiDescriptive = new Meteor.Collection('epiDescriptive');
 EpiResult = new Meteor.Collection('epiResult');
 ReportTemplate = new Meteor.Collection('reportTemplate');
 
+// Project-level shared-options
+tblRoleOptions = ["projectManagers", "teamMembers", "reviewers"];
+browserWhitelist = ["Chrome", "Firefox", "Mozilla"];
 
 tblTypeOptions = [
     "Mechanistic Evidence Summary",
     "Epidemiology Evidence",
-    // "Exposure Evidence",
+    "Exposure Evidence",
     // "Animal Bioassay Evidence",
     // "Genotoxicity Evidence",
     // "Mechanistic Quantitative Evidence"
 ];
 
-tblRoleOptions = ["projectManagers", "teamMembers", "reviewers"];
 
+// Reference shared-options
 referenceTypeOptions = ["PubMed", "Other"];
 
-epiStudyDesignOptions = ["Cohort", "Nested Case-Control", "Case-Control", "Ecological"];
 
-CaseControlTypes = ["Case-Control", "Nested Case-Control"];
+// Exposure evidence shared options
+exposureScenarios = [
+    "Occupational",
+    "Environmental"
+];
 
-exposureAssessmentTypeOptions = ["JEM",
-                                 "questionnaire",
-                                 "company records",
-                                 "personal monitoring",
-                                 "environmental monitoring",
-                                 "modelling",
-                                 "expert assessment",
-                                 "other (specify in exposure assessment notes)"];
+exposureScenariosOccupational = [
+    "Occupational"
+];
 
+samplingApproaches = [
+    "Personal",
+    "Environmental",
+    "Biological",
+    "Other",
+    "Not-specified"
+];
+
+exposureLevelDescriptions = [
+    "Arithmetic mean",
+    "Geometric mean",
+    "Median",
+    "Other",
+    "Not-reported"
+];
+
+
+// Epidemiology evidence shared options
+epiStudyDesignOptions = [
+    "Cohort",
+    "Nested Case-Control",
+    "Case-Control",
+    "Ecological"
+];
+
+CaseControlTypes = [
+    "Case-Control",
+    "Nested Case-Control"
+];
+
+exposureAssessmentTypeOptions = [
+    "JEM",
+    "questionnaire",
+    "company records",
+    "personal monitoring",
+    "environmental monitoring",
+    "modelling",
+    "expert assessment",
+    "other (specify in exposure assessment notes)"
+];
+
+
+// Mechanistic evidence shared options
 mechanisticEvidenceSections = [
     {section: "toxicokinetics", sectionDesc: "Toxicokinetics"},
     {section: "mechanisms",     sectionDesc: "Major mechanisms"},
@@ -57,5 +101,3 @@ mechanisticEvidenceCategories = [
     "Immortalization",
     "Other"
 ];
-
-browserWhitelist = ["Chrome", "Firefox", "Mozilla"];

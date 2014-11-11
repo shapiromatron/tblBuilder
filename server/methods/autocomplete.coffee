@@ -136,3 +136,51 @@ Meteor.methods
         coexposures = _.flatten(_.pluck(queryset, 'coexposures'))
         coexposures = _.filter(coexposures, (v) -> v.match(querystr))
         return _.uniq(coexposures, false)
+
+
+    # exposure auto-complete
+    searchCountries: (query) ->
+        check(query, String)
+        return singleFieldTextSearch
+                    Collection: ExposureEvidence,
+                    field: "country",
+                    query: query
+
+    searchAgents: (query) ->
+        check(query, String)
+        return singleFieldTextSearch
+                    Collection: ExposureEvidence,
+                    field: "agent",
+                    query: query
+
+    searchSamplingMatrices: (query) ->
+        check(query, String)
+        return singleFieldTextSearch
+                    Collection: ExposureEvidence,
+                    field: "samplingMatrix",
+                    query: query
+
+    searchUnits: (query) ->
+        check(query, String)
+        vals = singleFieldTextSearch
+                    Collection: ExposureEvidence,
+                    field: "units",
+                    query: query
+
+        # extra check for micro symbol
+        if query[0] is "u"
+            extra = singleFieldTextSearch
+                        Collection: ExposureEvidence,
+                        field: "units",
+                        query: query.replace("u", "μ")
+            vals = _.union(extra, vals)
+
+        # extra check for pico symbol
+        if query[0] is "p"
+            extra = singleFieldTextSearch
+                        Collection: ExposureEvidence,
+                        field: "units",
+                        query: query.replace("p", "ρ")
+            vals = _.union(extra, vals)
+
+        return vals

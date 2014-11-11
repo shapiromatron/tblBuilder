@@ -371,11 +371,98 @@ Meteor.startup ->
             type: String
             optional: true
 
+
+    requiredOccupational = () ->
+        isRequired = ((@field('exposureScenario').value in exposureScenariosOccupational) and (@value is ""))
+        if isRequired then return "required"
+
     exposure_schema =
 
         referenceID:
             label: "Reference"
             type: SimpleSchema.RegEx.Id
+
+        exposureScenario:
+            label: "Exposure scenario"
+            type: String
+            allowedValues: exposureScenarios
+
+        collectionDate:
+            label: "Collection date"
+            type: String
+            min: 1
+
+        occupation:
+            label: "Industry or occupation"
+            type: String
+            optional: true
+            custom: requiredOccupational
+
+        occupationInfo:
+            label: "Other occupational information"
+            type: String
+            optional: true
+
+        country:
+            label: "Country"
+            type: String
+            min: 1
+
+        location:
+            label: "Other locational information"
+            type: String
+            optional: true
+
+        agent:
+            label: "Agent"
+            type: String
+            min: 1
+
+        samplingMatrix:
+            label: "Sampling matrix"
+            type: String
+            min: 1
+
+        samplingApproach:
+            label: "Sampling approach"
+            type: String
+            allowedValues: samplingApproaches
+
+        numberMeasurements:
+            label: "Number of measurements"
+            type: String
+            min: 1
+
+        measurementDuration:
+            label: "Measurement duration"
+            type: String
+            min: 1
+
+        exposureLevel:
+            label: "Mean or median exposure-level"
+            type: String
+            min: 1
+
+        exposureLevelDescription:
+            label: "Description of exposure-level"
+            type: String
+            allowedValues: exposureLevelDescriptions
+
+        exposureLevelRange:
+            label: "Range of exposure-level"
+            type: String
+            min: 1
+
+        units:
+            label: "Units"
+            type: String
+            min: 1
+
+        comments:
+            label: "Comments"
+            type: String
+            optional: true
+
 
     animal_schema =
 
@@ -394,7 +481,6 @@ Meteor.startup ->
         referenceID:
             label: "Reference"
             type: SimpleSchema.RegEx.Id
-
 
     animal_endpoint_schema =
 

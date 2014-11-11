@@ -44,18 +44,20 @@
   <table class="evidenceTable table table-compressed">
     <colgroup>
       <col width="15%">
+      <col width="10%">
+      <col width="10%">
       <col width="15%">
       <col width="10%">
-      <col width="10%">
-      <col width="50%">
+      <col width="40%">
     </colgroup>
     <thead>
       <tr>
-        <th>Reference</th>
-        <th>Country, industry,<br> and job</th>
-        <th>Mean</th>
-        <th>Range</th>
-        <th>Comments or additional data</th>
+        <th>Reference,<br>agent collected</th>
+        <th>Location, <br>collection date</th>
+        <th>Occupation description</th>
+        <th>Exposure level</th>
+        <th>Exposure range</th>
+        <th>Comments/additional data</th>
       </tr>
     </thead>
     <tbody id="sortable">
@@ -121,12 +123,36 @@
     {{/if}}
     {{qaMark isQA}}
     {{>printReference id=referenceID}}<br>
-    A
+    <span class="help-block">{{agent}}</span>
   </td>
-  <td>B</td>
-  <td>C</td>
-  <td>D</td>
-  <td>E</td>
+  <td>
+    {{country}}<br>
+    {{#if location}}
+      <span class="help-block">{{location}}</span><br>
+    {{/if}}
+    {{collectionDate}}
+  </td>
+  <td>
+
+    {{#if isOccupational}}
+      {{occupation}}<br>
+      {{#if occupationInfo}}
+        <span class="help-block">{{occupationInfo}}</span>
+      {{/if}}
+    {{else}}
+      N/A
+    {{/if}}
+  </td>
+  <td>
+    {{exposureLevel}} {{units}}<br>
+    <span class="help-block">{{exposureLevelDescription}}</span>
+  </td>
+  <td>
+    {{exposureLevelRange}} {{units}}
+  </td>
+  <td>
+    {{comments}}
+  </td>
   <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
 </template>
 
@@ -140,6 +166,162 @@
     <div class="form-group row">
       <div class="col-xs-3">
         {{> referenceSingleSelect}}
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Type of exposure-information collected">
+              Exposure scenario*</label>
+        {{> selectList options=getExposureScenario selected=exposureScenario selectName="exposureScenario" }}
+
+        <br>
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Year(s) of data collection">
+              Collection date*</label>
+        <input class="form-control" type="text"
+               name='collectionDate'
+               value="{{collectionDate}}"
+               placeholder="e.g. 2009-2011"/>
+      </div>
+
+      <div class="col-xs-3 isOcc">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Industry/occupation for occupational exposure">
+              Industry or occupation*</label>
+        <input class="form-control" type="text"
+               name='occupation'
+               value="{{occupation}}"
+               placeholder="e.g. Bitumen production"/>
+
+        <br>
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Other information (e.g., job task, etc.) if important">
+              Other occupational information</label>
+        <input class="form-control" type="text"
+               name='occupationInfo'
+               value="{{occupationInfo}}"
+               placeholder="e.g. Tar distillation"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Country of exposure measurement">
+              Country*</label>
+        {{> typeaheadInput name="country" value=country data_source="searchCountries" placeholder="e.g. France"}}
+
+        <br>
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Other information
+                            (e.g., region, state, province, city) if important">
+              Other location information</label>
+        <input class="form-control" type="text"
+               name='location'
+               value="{{location}}"
+               placeholder="e.g. Montpellier"/>
+      </div>
+    </div>
+
+    <!-- Second row -->
+    <div class="form-group row">
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="The substance or exposure that was measured
+                            (e.g., PM-10, TCE, Total PCB)">
+              <br>Agent*</label>
+        {{> typeaheadInput name="agent" value=agent data_source="searchAgents" placeholder="e.g. PM-10"}}
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="The environmental medium or other matrix
+                            (e.g., air, drinking water, food, urine, blood)
+                            in which the agent was measured">
+              <br>Sampling matrix*</label>
+        {{> typeaheadInput name="samplingMatrix" value=samplingMatrix data_source="searchSamplingMatrices" placeholder="e.g. air"}}
+      </div>
+
+      <div class="col-xs-2">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Approach used to collect samples">
+              <br>Sampling approach*</label>
+        {{> selectList options=getSamplingApproach selected=samplingApproach selectName="samplingApproach" }}
+      </div>
+
+      <div class="col-xs-2">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Typically the number of samples for environmental
+                            sampling, or the number of individuals sampled if
+                            personal sampling (if >1 measurement/person, give
+                            total measurements and explain in the comment-box)">
+              Number of<br>measurements*</label>
+        <input class="form-control" type="text"
+               name='numberMeasurements'
+               value="{{numberMeasurements}}"
+               placeholder="e.g. 3"/>
+      </div>
+
+      <div class="col-xs-2">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Mean or range; NR if not reported; NA if not applicable">
+              <br>Measurement duration*</label>
+        <input class="form-control" type="text"
+               name='measurementDuration'
+               value="{{measurementDuration}}"
+               placeholder="e.g. NR"/>
+      </div>
+    </div>
+
+    <!-- Third row -->
+    <div class="form-group row">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Quantitative level or NR if not reported.
+                            Geometric mean preferred if available.">
+              Mean or median<br>exposure-level*</label>
+        <input class="form-control" type="text"
+               name='exposureLevel'
+               value="{{exposureLevel}}"
+               placeholder="e.g. 12.35"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Statistic used to describe exposure-level">
+              Description of<br>exposure-level*</label>
+        {{> selectList options=getExposureLevelDescription selected=exposureLevelDescription selectName="exposureLevelDescription" }}
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Minimum and maximum or NR if not reported.
+                            Optionally if range not reported the standard-deviation
+                            or other measure of variability relative to the mean.
+                            (e.g., 32.3-40.2, NR, 13.2 SD, 14.7 SE)">
+              Range of<br>exposure-level*</label>
+        <input class="form-control" type="text"
+               name='exposureLevelRange'
+               value="{{exposureLevelRange}}"
+               placeholder="e.g. 32.3-40.2"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Measurement units (e.g. µg/m³, g/m²)">
+              <br>Units*</label>
+        {{> typeaheadInput name="units" value=units data_source="searchUnits" placeholder="e.g. µg/m³"}}
+      </div>
+    </div>
+
+    <!-- Fourth row -->
+    <div class="form-group row">
+      <div class="col-xs-12">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="Other relevant information or Working Group comments">
+              Additional information/comments</label>
+        <textarea class="form-control"
+                  name='comments'
+                  rows="2">{{comments}}</textarea>
       </div>
     </div>
 
