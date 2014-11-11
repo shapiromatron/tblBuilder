@@ -184,7 +184,7 @@
 
 <template name="epiDescriptiveForm">
   <form id="mainForm" role="form" class="editForm">
-    <legend>Epidemiological Study Description</legend>
+    <legend>Epidemiological study description {{>formLegendPulldown}}</legend>
     <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
 
     <!-- First row -->
@@ -586,12 +586,12 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Results for epidemiological studies</h4>
+          <h4 class="modal-title">Epidemiological results</h4>
         </div>
 
         <div class="modal-body">
           <form id="nestedModalForm" role="form" class="editForm">
-            <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
+            <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.{{>formLegendPulldown}}</p>
 
             <!-- First row -->
             <div class="form-group row">

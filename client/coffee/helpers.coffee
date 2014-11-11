@@ -222,3 +222,10 @@ UI.registerHelper "qaMark", (isQA) ->
         icon = if (isQA) then "glyphicon-ok" else "glyphicon-remove"
         title = if (isQA) then "QA'd" else "Not QA'd"
         return Spacebars.SafeString("""<span title="#{title}" class="btn-xs text-muted pull-right glyphicon #{icon}"></span>""")
+
+
+Template.formLegendPulldown.rendered = ->
+    # prevent pull-down from closing when clicking special characters
+    $(@.findAll('pre')).click (e) ->
+        e.preventDefault()
+        e.stopPropagation()

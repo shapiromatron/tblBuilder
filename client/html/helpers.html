@@ -25,7 +25,7 @@
 
 <template name="typeaheadInput">
   <input class="form-control typeahead" name={{name}} type="text"
-       placeholder="Search (or add new)"
+       placeholder="{{placeholder}}"
        autocomplete="off" spellcheck="off" value="{{value}}"
        data-source="{{data_source}}"/>
 </template>
@@ -56,5 +56,23 @@
   <div class="alert alert-{{alertType}} alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     {{{message}}}
+  </div>
+</template>
+
+<template name="formLegendPulldown">
+  <div class="btn-group pull-right">
+    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+      Special characters <span class="caret" title="Special characters"></span>
+    </button>
+    <ul class="specials-menu dropdown-menu">
+      <li class="dropdown-header">Greek characters (lowercase):</li>
+      <li style="padding: 3px 20px;"><pre>α β γ δ ε ζ  η θ ι κ λ μ<br>ν ξ ο π ρ σς τ υ φ χ ψ ω</pre></li>
+      <li class="dropdown-header">Greek characters (uppercase):</li>
+      <li style="padding: 3px 20px;"><pre>A B Γ Δ E Z H Θ I K Λ M<br>N Ξ O Π P Σ T Y Φ X Ψ Ω</pre></li>
+      <li class="dropdown-header">Superscripts:</li>
+      <li style="padding: 3px 20px;"><pre>x⁻¹ x² x³</pre></li>
+      <li class="dropdown-header">Subscripts:</li>
+      <li style="padding: 3px 20px;"><pre>x₁ x₂ x₃</pre></li>
+    </ul>
   </div>
 </template>
