@@ -59,7 +59,7 @@
       </tr>
     </thead>
     <tbody id="sortable">
-      {{#each getExposures}}
+      {{#each object_list}}
         {{#if showRow isHidden}}
           <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
               data-id="{{_id}}"
@@ -91,6 +91,9 @@
   {{#if showNew}}
     {{> exposureForm isNew=true}}
   {{/if}}
+
+  <div id="modalHolder"></div>
+
 </template>
 
 
@@ -129,7 +132,7 @@
 
 
 <template name="exposureForm">
-  <form id="exposureForm" role="form" class="editForm">
+  <form id="mainForm" role="form" class="editForm">
     <legend>Exposure evidence</legend>
     <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
 

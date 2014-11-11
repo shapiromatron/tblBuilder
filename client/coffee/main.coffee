@@ -306,6 +306,12 @@ share.evidenceType = {
             nested_collection: AnimalEndpointEvidence,
             nested_collection_name: "animalEndpointEvidence",
         },
+        exposure: {
+            collection: ExposureEvidence,
+            collection_name: "exposureEvidence",
+            excel_method: "exposureEvidenceDownload",
+            excel_fn: "exposure.xlsx"
+        },
         genotox: {
             collection: GenotoxEvidence,
             collection_name: "genotoxEvidence",
