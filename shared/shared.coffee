@@ -69,11 +69,51 @@ share.getFlattenedEpiData = (tbl_id) ->
 
 share.getFlattenedExposureData = (tbl_id) ->
     vals = ExposureEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
-    header = ["Exposure ID", "Reference"]
+    header = [
+        "Exposure ID",
+        "Reference",
+        "Exposure scenario",
+        "Collection date",
+        "Occupation",
+        "Occupational information",
+        "Country",
+        "Location",
+        "Agent",
+        "Sampling Matrix",
+        "Sampling Approach",
+        "Number of measurements",
+        "Measurement duration",
+        "Exposure level",
+        "Exposure level description",
+        "Exposure level range",
+        "Units",
+        "Comments"
+    ]
     data = [header]
     for v in vals
         reference = Reference.findOne({_id: v.referenceID}).name
-        row = [v._id, reference]
+        row = [
+            v._id,
+            reference,
+            v.exposureScenario,
+            v.collectionDate,
+            v.occupation,
+            v.occupationInfo,
+            v.country,
+            v.location,
+            v.agent,
+            v.samplingMatrix,
+            v.samplingApproach,
+            v.numberMeasurements,
+            v.measurementDuration,
+            v.exposureLevel,
+            v.exposureLevelDescription,
+            v.exposureLevelRange,
+            v.units,
+            v.comments,
+        ]
+        data.push(row)
+
     return data
 
 
@@ -107,6 +147,12 @@ share.getFlattenedMechQuantData = (tbl_id) ->
     return data
 
 
-share.defaultEpiVisible = ["Reference", "Study design", "Location",
-                           "Organ site", "Effect measure",
-                           "Exposure category", "Risk"]
+share.defaultEpiVisible = [
+    "Reference",
+    "Study design",
+    "Location",
+    "Organ site",
+    "Effect measure",
+    "Exposure category",
+    "Risk"
+]

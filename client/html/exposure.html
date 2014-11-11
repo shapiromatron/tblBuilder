@@ -123,12 +123,12 @@
     {{/if}}
     {{qaMark isQA}}
     {{>printReference id=referenceID}}<br>
-    <span class="help-block">{{agent}}</span>
+    <span class="text-muted">{{agent}}</span>
   </td>
   <td>
     {{country}}<br>
     {{#if location}}
-      <span class="help-block">{{location}}</span><br>
+      <span class="text-muted">{{location}}</span><br>
     {{/if}}
     {{collectionDate}}
   </td>
@@ -137,7 +137,7 @@
     {{#if isOccupational}}
       {{occupation}}<br>
       {{#if occupationInfo}}
-        <span class="help-block">{{occupationInfo}}</span>
+        <span class="text-muted">{{occupationInfo}}</span>
       {{/if}}
     {{else}}
       N/A
@@ -145,7 +145,7 @@
   </td>
   <td>
     {{exposureLevel}} {{units}}<br>
-    <span class="help-block">{{exposureLevelDescription}}</span>
+    <span class="text-muted">{{exposureLevelDescription}}</span>
   </td>
   <td>
     {{exposureLevelRange}} {{units}}
