@@ -176,7 +176,7 @@ share.mechanisticTestCrosswalk =
                 "Mutation": ["Reverse mutation", "Forward mutation", "Gene conversion", "Other"]
                 "Chromosomal damage": ["Chromosomal aberrations", "Aneuploidy", "Other"]
 
-        "Insects":
+        "Insect":
             "Genotox":
                 "Mutation": ["Somatic mutation and recombination test (SMART)", "Sex-linked recessive lethal mutations", "Heritable translocation test", "Dominant lethal test", "Other"]
                 "Chromosomal damage": ["Aneuploidy", "Other"]

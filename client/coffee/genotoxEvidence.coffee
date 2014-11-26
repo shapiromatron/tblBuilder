@@ -47,15 +47,25 @@ toggleDataClassFields = (tmpl) ->
     $(tmpl.findAll(shows)).show()
     $(tmpl.findAll(hides)).hide()
 
+
+togglePhyloFields = (tmpl) ->
+    if tmpl.find('select[name="phylogeneticClass"]').value is "Acellular systems"
+        $(tmpl.findAll('.isAcellular')).show()
+        $(tmpl.findAll('.isntAcellular')).hide()
+    else
+        $(tmpl.findAll('.isAcellular')).hide()
+        $(tmpl.findAll('.isntAcellular')).show()
+
+
 toggleEndpointOptions = (tmpl) ->
     dataType = tmpl.find('select[name="dataClass"]').value
-    pheno = tmpl.find('select[name="phylogeneticClass"]').value
+    phylo = tmpl.find('select[name="phylogeneticClass"]').value
     mamm = tmpl.find('select[name="testSpeciesMamm"]').value
     tox = "Genotox"  # todo: fix
 
     switch dataType
         when "Non-mammalian in vitro"
-            obj = share.mechanisticTestCrosswalk[dataType][pheno][tox]
+            obj = share.mechanisticTestCrosswalk[dataType][phylo][tox]
         when "Mammalian and human in vitro"
             obj = share.mechanisticTestCrosswalk[dataType][mamm][tox]
         when "Animal in vivo"
@@ -69,23 +79,26 @@ toggleEndpointOptions = (tmpl) ->
     options = for val in vals
         "<option value='#{val}'>#{val}</option>"
 
-    # todo: apply selected value
-    $(tmpl.find('select[name="endpoint"]')).html(options)
+    selector = $(tmpl.find('select[name="endpoint"]'))
+    existing = "option[value='#{ selector.val() }']"
+    selector.html(options)
+    found = selector.find(existing)
+    if (found.length > 0)
+        found.prop('selected', true)
 
     toggleEndpointTestOptions(tmpl)
 
 
-toggleEndpointTestOptions =  (tmpl) ->
-    # todo: fetch existing value and mark selected
+toggleEndpointTestOptions = (tmpl) ->
     dataType = tmpl.find('select[name="dataClass"]').value
-    pheno = tmpl.find('select[name="phylogeneticClass"]').value
+    phylo = tmpl.find('select[name="phylogeneticClass"]').value
     mamm = tmpl.find('select[name="testSpeciesMamm"]').value
-    tox = "Genotox"
+    tox = "Genotox"  # todo: fix
     endpoint = tmpl.find('select[name="endpoint"]').value
 
     switch dataType
         when "Non-mammalian in vitro"
-            vals = share.mechanisticTestCrosswalk[dataType][pheno][tox][endpoint]
+            vals = share.mechanisticTestCrosswalk[dataType][phylo][tox][endpoint]
         when "Mammalian and human in vitro"
             vals = share.mechanisticTestCrosswalk[dataType][mamm][tox][endpoint]
         when "Animal in vivo"
@@ -98,8 +111,25 @@ toggleEndpointTestOptions =  (tmpl) ->
     options = for val in vals
         "<option value='#{val}'>#{val}</option>"
 
-    # todo: apply selected value
-    $(tmpl.find('select[name="endpointTest"]')).html(options)
+    selector = $(tmpl.find('select[name="endpointTest"]'))
+    existing = "option[value='#{ selector.val() }']"
+    selector.html(options)
+    found = selector.find(existing)
+    if (found.length > 0)
+        found.prop('selected', true)
+
+
+toggleDualResult = (tmpl) ->
+    dataType = tmpl.find('select[name="dataClass"]').value
+    phylo = tmpl.find('select[name="phylogeneticClass"]').value
+    duals = ["Acellular systems", "Prokaryote (bacteria)", "Lower eukaryote (yeast, mold)"]
+
+    if dataType is "Non-mammalian in vitro" and phylo in duals
+        $(tmpl.findAll('.isDualResult')).show()
+        $(tmpl.findAll('.isntDualResult')).hide()
+    else
+        $(tmpl.findAll('.isDualResult')).hide()
+        $(tmpl.findAll('.isntDualResult')).show()
 
 
 # copy but override abstract object
@@ -108,9 +138,12 @@ genotoxFormExtension =
     'change select[name="dataClass"]': (evt, tmpl) ->
         toggleDataClassFields(tmpl)
         toggleEndpointOptions(tmpl)
+        toggleDualResult(tmpl)
 
     'change select[name="phylogeneticClass"]': (evt, tmpl) ->
+        togglePhyloFields(tmpl)
         toggleEndpointOptions(tmpl)
+        toggleDualResult(tmpl)
 
     'change select[name="testSpeciesMamm"]': (evt, tmpl) ->
         toggleEndpointOptions(tmpl)
@@ -124,7 +157,9 @@ Template.genotoxForm.events(genotoxFormEvents)
 
 Template.genotoxForm.rendered = ->
     toggleDataClassFields(@)
+    togglePhyloFields(@)
     toggleEndpointOptions(@)
+    toggleDualResult(@)
     share.toggleQA(@, @.data.isQA)
     $(@.findAll('.helpPopovers')).popover
             delay: {show: 500, hide: 100}

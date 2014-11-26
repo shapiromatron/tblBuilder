@@ -179,22 +179,41 @@
           <option value="Acellular systems">Acellular systems</option>
           <option value="Prokaryote (bacteria)">Prokaryote (bacteria)</option>
           <option value="Lower eukaryote (yeast, mold)">Lower eukaryote (yeast, mold)</option>
-          <option value="Insects">Insects</option>
+          <option value="Insect">Insect</option>
           <option value="Plant systems">Plant systems</option>
           <option value="Other (fish, worm, bird, etc)">Other (fish, worm, bird, etc)</option>
         </select>
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-3 isAcellular">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
-              Test species; strain</label>
+              Test system</label>
         <input class="form-control" type="text"
-               name='testSpecies'
-               value="{{testSpecies}}"
-               placeholder="calf thymus DNA"/>
+               name='testSystem'
+               value="{{testSystem}}"
+               placeholder="Calf thymus DNA"/>
       </div>
 
+      <div class="col-xs-3 isntAcellular">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Species</label>
+        <input class="form-control" type="text"
+               name='species'
+               value="{{species}}"
+               placeholder="Salmonella typhimurium"/>
+      </div>
+
+      <div class="col-xs-3 isntAcellular">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Strain</label>
+        <input class="form-control" type="text"
+               name='strain'
+               value="{{strain}}"
+               placeholder="TA98"/>
+      </div>
     </div>
 
     <div class="form-group row mamm_vitro">
@@ -202,7 +221,7 @@
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
-              Test species</label>
+              Test species class</label>
         <select class="form-control"
                name='testSpeciesMamm'
                value="{{testSpeciesMamm}}">
@@ -214,13 +233,22 @@
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
+              Species</label>
+        <input class="form-control" type="text"
+               name='species'
+               value="{{species}}"
+               placeholder="Human"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
               Tissue, cell line</label>
         <input class="form-control" type="text"
                name='tissueCellLine'
                value="{{tissueCellLine}}"
                placeholder="Liver/HepG2"/>
       </div>
-
     </div>
 
     <div class="form-group row ani_vivo">
@@ -228,11 +256,33 @@
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
-              Species, strain, sex</label>
+              Species</label>
         <input class="form-control" type="text"
-               name='speciesStrainSex'
-               value="{{speciesStrainSex}}"
-               placeholder="Rat F344 male"/>
+               name='species'
+               value="{{species}}"
+               placeholder="Mouse"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Strain</label>
+        <input class="form-control" type="text"
+               name='strain'
+               value="{{strain}}"
+               placeholder="B6C3F1"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Sex</label>
+        <select class="form-control" type="text"
+                name='sex'>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Male and female">Male and female</option>
+        </select>
       </div>
 
       <div class="col-xs-3">
@@ -244,30 +294,19 @@
                value="{{tissue}}"
                placeholder="bone marrow"/>
       </div>
-
-      <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
-              Route, duration, and dosing regime</label>
-        <input class="form-control" type="text"
-               name='exposureProtocol'
-               value="{{exposureProtocol}}"
-               placeholder="Drinking water; 2 week; 1x/week"/>
-      </div>
-
-      <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
-              Doses tested (mg/kg bw)</label>
-        <input class="form-control" type="text"
-               name='dosesTested'
-               value="{{dosesTested}}"
-               placeholder="0, 3, 10, 30"/>
-      </div>
-
     </div>
 
     <div class="form-group row human_vivo">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Tissue</label>
+        <input class="form-control" type="text"
+               name='tissue'
+               value="{{tissue}}"
+               placeholder="skin"/>
+      </div>
 
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
@@ -276,10 +315,10 @@
         <input class="form-control" type="text"
                name='cellType'
                value="{{cellType}}"
-               placeholder="Endothelial"/>
+               placeholder="endothelial"/>
       </div>
 
-      <div class="col-xs-9">
+      <div class="col-xs-6">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Description of exposed and controls</label>
@@ -288,7 +327,6 @@
                value="{{exposureDescription}}"
                placeholder="Farmers; 123,000; Australia"/>
       </div>
-
     </div>
 
     <!-- Third row. Test class. All the time. -->
@@ -308,12 +346,58 @@
         <select class="form-control" name='endpointTest' value="{{endpointTest}}"></select>
       </div>
 
+      <div class="col-xs-2 ani_vivo">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Route</label>
+        <input class="form-control" type="text"
+               name='dosingRoute'
+               value="{{dosingRoute}}"
+               placeholder="Drinking water"/>
+      </div>
+
+      <div class="col-xs-2 ani_vivo">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Duration</label>
+        <input class="form-control" type="text"
+               name='dosingDuration'
+               value="{{dosingDuration}}"
+               placeholder="28 day"/>
+      </div>
+
+      <div class="col-xs-2 ani_vivo">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Dosing regimen</label>
+        <input class="form-control" type="text"
+               name='dosingRegimen'
+               value="{{dosingRegimen}}"
+               placeholder="2 week; 1x/week"/>
+      </div>
+
     </div>
 
     <!-- Fourth row. All results. All the time. -->
     <div class="form-group row">
 
-      <div class="col-xs-3">
+      <div class="col-xs-3 isntDualResult">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              <br>Result*</label>
+        <select class="form-control"
+               name='result'
+               value="{{result}}">
+          <option> + </option>
+          <option>(+)</option>
+          <option>+/-</option>
+          <option>(-)</option>
+          <option>-</option>
+          <option>Not tested</option>
+        </select>
+      </div>
+
+      <div class="col-xs-3 isDualResult">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Result*<br>(without metabolic activation)</label>
@@ -329,7 +413,7 @@
         </select>
       </div>
 
-      <div class="col-xs-3 non_mamm_vitro">
+      <div class="col-xs-3 isDualResult">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Result*<br>(without metabolic activation)</label>
@@ -349,10 +433,40 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               <br>LED or HID</label>
-        <input class="form-control" type="text"
+        <input class="form-control" type="number"
                name='led'
                value="{{led}}"
                placeholder="100"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              <br>Dosing units</label>
+        <input class="form-control" type="text"
+               name='units'
+               value="{{units}}"
+               placeholder="μM"/>
+      </div>
+
+      <div class="col-xs-3 ani_vivo">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              <br>Doses tested</label>
+        <input class="form-control" type="text"
+               name='dosesTested'
+               value="{{dosesTested}}"
+               placeholder="0, 3, 10, 30"/>
+      </div>
+
+      <div class="col-xs-3 human_vivo">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              <br>Significance</label>
+        <input class="form-control" type="text"
+               name='significance'
+               value="{{significance}}"
+               placeholder="p<0.05"/>
       </div>
 
     </div>
@@ -362,7 +476,10 @@
 
       <div class="col-xs-12">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+               data-content="Other relevant information or working-group comments.
+                             For human in-vivo data, this may include any
+                             co-exposures, strengths, limitations, or extent to
+                             which chance, bias, or confounding could explain the results.">
               Comments</label>
         <textarea class="form-control" type="text"
                   rows="3" name="comments">{{comments}}</textarea>
