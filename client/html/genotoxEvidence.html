@@ -133,12 +133,243 @@
     <legend>Genotoxicity evidence {{>formLegendPulldown}}</legend>
     <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
 
-    <!-- First row -->
+    <!-- First row. This describes reference, data-type, and endpoint -->
     <div class="form-group row">
-      <div class="col-xs-3">
+
+      <div class="col-xs-4">
         {{> referenceSingleSelect}}
       </div>
+
+      <div class="col-xs-4">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Data class*</label>
+        <select class="form-control"
+               name='dataClass'
+               value="{{dataClass}}">
+          <option value="Non-mammalian in vitro">Non-mammalian in vitro</option>
+          <option value="Mammalian and human in vitro">Mammalian and human in vitro</option>
+          <option value="Animal in vivo">Animal in vivo</option>
+          <option value="Human in vivo">Human in vivo</option>
+        </select>
+      </div>
+
+      <div class="col-xs-4">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Agent</label>
+        <input class="form-control" type="text"
+               name='agent'
+               value="{{agent}}"
+               placeholder="Trichloroethylene"/>
+      </div>
+
     </div>
+
+    <!-- Second row. Should describe the test-system used. -->
+    <div class="form-group row non_mamm_vitro">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Phylogenetic class*</label>
+        <select class="form-control"
+               name='phylogeneticClass'
+               value="{{phylogeneticClass}}">
+          <option value="Acellular systems">Acellular systems</option>
+          <option value="Prokaryote (bacteria)">Prokaryote (bacteria)</option>
+          <option value="Lower eukaryote (yeast, mold)">Lower eukaryote (yeast, mold)</option>
+          <option value="Insects">Insects</option>
+          <option value="Plant systems">Plant systems</option>
+          <option value="Other (fish, worm, bird, etc)">Other (fish, worm, bird, etc)</option>
+        </select>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Test species; strain</label>
+        <input class="form-control" type="text"
+               name='testSpecies'
+               value="{{testSpecies}}"
+               placeholder="calf thymus DNA"/>
+      </div>
+
+    </div>
+
+    <div class="form-group row mamm_vitro">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Test species</label>
+        <select class="form-control"
+               name='testSpeciesMamm'
+               value="{{testSpeciesMamm}}">
+          <option value="Human">Human</option>
+          <option value="Non-human mammalian">Non-human mammalian</option>
+        </select>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Tissue, cell line</label>
+        <input class="form-control" type="text"
+               name='tissueCellLine'
+               value="{{tissueCellLine}}"
+               placeholder="Liver/HepG2"/>
+      </div>
+
+    </div>
+
+    <div class="form-group row ani_vivo">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Species, strain, sex</label>
+        <input class="form-control" type="text"
+               name='speciesStrainSex'
+               value="{{speciesStrainSex}}"
+               placeholder="Rat F344 male"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Tissue</label>
+        <input class="form-control" type="text"
+               name='tissue'
+               value="{{tissue}}"
+               placeholder="bone marrow"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Route, duration, and dosing regime</label>
+        <input class="form-control" type="text"
+               name='exposureProtocol'
+               value="{{exposureProtocol}}"
+               placeholder="Drinking water; 2 week; 1x/week"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Doses tested (mg/kg bw)</label>
+        <input class="form-control" type="text"
+               name='dosesTested'
+               value="{{dosesTested}}"
+               placeholder="0, 3, 10, 30"/>
+      </div>
+
+    </div>
+
+    <div class="form-group row human_vivo">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Cell type (if specified)</label>
+        <input class="form-control" type="text"
+               name='cellType'
+               value="{{cellType}}"
+               placeholder="Endothelial"/>
+      </div>
+
+      <div class="col-xs-9">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Description of exposed and controls</label>
+        <input class="form-control" type="text"
+               name='exposureDescription'
+               value="{{exposureDescription}}"
+               placeholder="Farmers; 123,000; Australia"/>
+      </div>
+
+    </div>
+
+    <!-- Third row. Test class. All the time. -->
+    <div class="form-group row">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Endpoint*</label>
+        <select class="form-control" name='endpoint' value="{{endpoint}}"></select>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Endpoint test*</label>
+        <select class="form-control" name='endpointTest' value="{{endpointTest}}"></select>
+      </div>
+
+    </div>
+
+    <!-- Fourth row. All results. All the time. -->
+    <div class="form-group row">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Result*<br>(without metabolic activation)</label>
+        <select class="form-control"
+               name='result'
+               value="{{result}}">
+          <option> + </option>
+          <option>(+)</option>
+          <option>+/-</option>
+          <option>(-)</option>
+          <option>-</option>
+          <option>Not tested</option>
+        </select>
+      </div>
+
+      <div class="col-xs-3 non_mamm_vitro">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Result*<br>(without metabolic activation)</label>
+        <select class="form-control"
+               name='resultNoMetabolic'
+               value="{{resultNoMetabolic}}">
+          <option> + </option>
+          <option>(+)</option>
+          <option>+/-</option>
+          <option>-</option>
+          <option>(-)</option>
+          <option>Not tested</option>
+        </select>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              <br>LED or HID</label>
+        <input class="form-control" type="text"
+               name='led'
+               value="{{led}}"
+               placeholder="100"/>
+      </div>
+
+    </div>
+
+    <!-- Fifth row. All comments. All the time. -->
+    <div class="form-group row">
+
+      <div class="col-xs-12">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Comments</label>
+        <textarea class="form-control" type="text"
+                  rows="3" name="comments">{{comments}}</textarea>
+      </div>
+
+    </div>
+
 
     <div id="errors"></div>
 
