@@ -180,11 +180,13 @@ share.mechanisticTestCrosswalk =
             "Genotox":
                 "Mutation": ["Somatic mutation and recombination test (SMART)", "Sex-linked recessive lethal mutations", "Heritable translocation test", "Dominant lethal test", "Other"]
                 "Chromosomal damage": ["Aneuploidy", "Other"]
+                "DNA repair": ["Other"]
 
         "Plant systems":
             "Genotox":
                 "DNA damage": ["Unscheduled DNA synthesis", "Other"]
                 "Chromosomal damage": ["Chromosomal aberrations", "Micronuclei", "Sister Chromatid Exchange", "Aneuploidy", "Other"]
+                "Mutation": ["Reverse mutation", "Forward mutation", "Gene conversion", "Other"]
 
         "Other (fish, worm, bird, etc)":
             "Genotox":
