@@ -1,6 +1,7 @@
 Session.setDefault('referenceShowNew', false)
 Session.setDefault('referenceEditingId', null)
 
+
 Template.referencesTbl.helpers
 
     referenceShowNew: ->
@@ -11,7 +12,6 @@ Template.referencesTbl.helpers
 
     referenceIsEditing: ->
         Session.equals('referenceEditingId', @_id)
-
 
 Template.referencesTbl.events
     'click #reference-show-create': (evt, tmpl) ->
@@ -136,7 +136,6 @@ getPubMedDetails = (pubmedID, cb) ->
 
         cb({'shortCitation': shortCitation, 'fullCitation': fullCitation, 'isError': isError, 'pubmedID': pubmedID})
 
-
 searchRefHelper = (qry, cb) ->
     qry =
         qry : qry
@@ -147,8 +146,11 @@ searchRefHelper = (qry, cb) ->
         (ref['value']= ref['name'] for ref in res)
         cb(res)
 
-
 Template.referenceSingleSelect.searchReference = searchRefHelper
+
+Template.referenceSingleSelect.helpers
+    getMonographAgent: ->
+        return Session.get("monographAgent")
 
 Template.referenceSingleSelect.events
     'click .selectListRemove': (evt, tmpl) ->

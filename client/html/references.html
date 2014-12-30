@@ -137,8 +137,12 @@
     <label class="helpPopovers" data-toggle="popover"
            data-content="Select the primary reference were data were originally reported">Reference*</label>
     <a class="btn btn-xs btn-default pull-right" data-toggle="modal"
-       data-target="#referenceQuickAdd" title="Add reference to library" href="#">
-    <span class="glyphicon glyphicon-plus-sign"></span></a><br>
+       data-target="#referenceQuickAdd" title="Add reference to library for this agent" href="#">
+      <span class="glyphicon glyphicon-plus-sign"></span></a>
+    <a class="btn btn-xs btn-default pull-right" title="View references for this agent"
+       target="_blank" href="{{pathFor 'referencesMain' monographAgent=getMonographAgent}}">
+      <span class="fa fa-eye"></span></a>
+    <br>
     <input class="form-control typeahead referenceSingleSelect" name="referenceID" type="text"
            placeholder="Select reference from library"
            autocomplete="off" spellcheck="off"
