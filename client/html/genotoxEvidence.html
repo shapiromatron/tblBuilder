@@ -159,17 +159,17 @@
 
     </div>
 
-    <div class="form-group row non_mamm_vitro">
     <!-- Second row. Test-system description. -->
+    <div class="form-group row">
 
-      <div class="col-xs-3">
+      <div class="col-xs-3 non_mamm_vitro">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Phylogenetic class*</label>
         {{> selectList options=getPhylogeneticClasses selected=phylogeneticClass selectName="phylogeneticClass" }}
       </div>
 
-      <div class="col-xs-3 isAcellular">
+      <div class="col-xs-3 non_mamm_vitro isAcellular">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Test system</label>
@@ -179,47 +179,44 @@
                placeholder="Calf thymus DNA"/>
       </div>
 
-      <div class="col-xs-3 isntAcellular">
+      <div class="col-xs-3 non_mamm_vitro isntAcellular">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Species</label>
         <input class="form-control" type="text"
-               name='species'
-               value="{{species}}"
+               name='speciesNonMamm'
+               value="{{speciesNonMamm}}"
                placeholder="Salmonella typhimurium"/>
       </div>
 
-      <div class="col-xs-3 isntAcellular">
+      <div class="col-xs-3 non_mamm_vitro isntAcellular">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Strain</label>
         <input class="form-control" type="text"
-               name='strain'
-               value="{{strain}}"
+               name='strainNonMamm'
+               value="{{strainNonMamm}}"
                placeholder="TA98"/>
       </div>
-    </div>
 
-    <div class="form-group row mamm_vitro">
-
-      <div class="col-xs-3">
+      <div class="col-xs-3 mamm_vitro">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Test species class</label>
         {{> selectList options=getMammalianTestSpecies selected=testSpeciesMamm selectName="testSpeciesMamm" }}
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-3 mamm_vitro">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Species</label>
         <input class="form-control" type="text"
-               name='species'
-               value="{{species}}"
+               name='speciesMamm'
+               value="{{speciesMamm}}"
                placeholder="Human"/>
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-3 mamm_vitro">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Tissue, cell line</label>
@@ -228,11 +225,8 @@
                value="{{tissueCellLine}}"
                placeholder="Liver/HepG2"/>
       </div>
-    </div>
 
-    <div class="form-group row ani_vivo">
-
-      <div class="col-xs-3">
+      <div class="col-xs-3 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Species</label>
@@ -242,7 +236,7 @@
                placeholder="Mouse"/>
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-3 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Strain</label>
@@ -252,37 +246,34 @@
                placeholder="B6C3F1"/>
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-3 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Sex</label>
         {{> selectList options=getSexes selected=sex selectName="sex" }}
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-3 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Tissue</label>
         <input class="form-control" type="text"
-               name='tissue'
-               value="{{tissue}}"
+               name='tissueAnimal'
+               value="{{tissueAnimal}}"
                placeholder="bone marrow"/>
       </div>
-    </div>
 
-    <div class="form-group row human_vivo">
-
-      <div class="col-xs-3">
+      <div class="col-xs-3 human_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Tissue</label>
         <input class="form-control" type="text"
-               name='tissue'
-               value="{{tissue}}"
+               name='tissueHuman'
+               value="{{tissueHuman}}"
                placeholder="skin"/>
       </div>
 
-      <div class="col-xs-3">
+      <div class="col-xs-3 human_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Cell type (if specified)</label>
@@ -292,7 +283,7 @@
                placeholder="endothelial"/>
       </div>
 
-      <div class="col-xs-6">
+      <div class="col-xs-6 human_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Description of exposed and controls</label>
@@ -301,6 +292,7 @@
                value="{{exposureDescription}}"
                placeholder="Farmers; 123,000; Australia"/>
       </div>
+
     </div>
 
     <!-- Third row. Test class. -->
@@ -355,14 +347,11 @@
     <!-- Fourth row. Results. -->
     <div class="form-group row">
 
-      <div class="col-xs-3 isntDualResult">
-        <label class="helpPopovers" data-toggle="popover"
+      <div class="col-xs-3">
+        <label class="isntDualResult helpPopovers" data-toggle="popover"
               data-content="<add>">
               <br>Result*</label>
-      </div>
-
-      <div class="col-xs-3 isDualResult">
-        <label class="helpPopovers" data-toggle="popover"
+        <label class="isDualResult helpPopovers" data-toggle="popover"
               data-content="<add>">
               Result*<br>(with metabolic activation)</label>
         {{> selectList options=getGenotoxResultOptions selected=result selectName="result" }}

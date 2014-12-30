@@ -54,15 +54,14 @@ toggleDataClassFields = (tmpl) ->
         when "Animal in vivo"
             shows = ".ani_vivo, .concs"
             hides = ".non_mamm_vitro, .mamm_vitro, .human_vivo, .doses"
-        when "Human in vivo, .concs"
-            shows = ".human_vivo"
+        when "Human in vivo"
+            shows = ".human_vivo, .concs"
             hides = ".non_mamm_vitro, .mamm_vitro, .ani_vivo, .doses"
         else
             console.log("unknown data-type")
 
     $(tmpl.findAll(shows)).show()
     $(tmpl.findAll(hides)).hide()
-
 
 togglePhyloFields = (tmpl) ->
     if tmpl.find('select[name="phylogeneticClass"]').value is "Acellular systems"
@@ -71,7 +70,6 @@ togglePhyloFields = (tmpl) ->
     else
         $(tmpl.findAll('.isAcellular')).hide()
         $(tmpl.findAll('.isntAcellular')).show()
-
 
 toggleEndpointOptions = (tmpl) ->
     dataType = tmpl.find('select[name="dataClass"]').value
@@ -104,7 +102,6 @@ toggleEndpointOptions = (tmpl) ->
 
     toggleEndpointTestOptions(tmpl)
 
-
 toggleEndpointTestOptions = (tmpl) ->
     dataType = tmpl.find('select[name="dataClass"]').value
     phylo = tmpl.find('select[name="phylogeneticClass"]').value
@@ -134,7 +131,6 @@ toggleEndpointTestOptions = (tmpl) ->
     if (found.length > 0)
         found.prop('selected', true)
 
-
 toggleDualResult = (tmpl) ->
     dataType = tmpl.find('select[name="dataClass"]').value
     phylo = tmpl.find('select[name="phylogeneticClass"]').value
@@ -146,7 +142,6 @@ toggleDualResult = (tmpl) ->
     else
         $(tmpl.findAll('.isDualResult')).hide()
         $(tmpl.findAll('.isntDualResult')).show()
-
 
 # copy but override abstract object
 genotoxFormExtension =
@@ -166,7 +161,6 @@ genotoxFormExtension =
 
     'change select[name="endpoint"]': (evt, tmpl) ->
         toggleEndpointTestOptions(tmpl)
-
 
 genotoxFormEvents = $.extend(true, {}, share.abstractFormEvents, genotoxFormExtension)
 Template.genotoxForm.events(genotoxFormEvents)
