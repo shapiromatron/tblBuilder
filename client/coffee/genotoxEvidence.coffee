@@ -23,6 +23,22 @@ Template.genotoxRow.events(share.abstractRowEvents)
 
 
 # GENOTOX FORM -----------------------------------------------------------------
+Template.genotoxForm.helpers
+    getGenotoxDataClass: ->
+        return genotoxDataClass
+
+    getPhylogeneticClasses: ->
+        return phylogeneticClasses
+
+    getMammalianTestSpecies: ->
+        return mammalianTestSpecies
+
+    getSexes: ->
+        return sexes
+
+    getGenotoxResultOptions: ->
+        return genotoxResultOptions
+
 toggleDataClassFields = (tmpl) ->
     # toggle between required fields for multiple data types
     selector = tmpl.find('select[name="dataClass"]')

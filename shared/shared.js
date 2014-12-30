@@ -101,3 +101,41 @@ mechanisticEvidenceCategories = [
     "Immortalization",
     "Other"
 ];
+
+
+// Genotoxicity shared-classes
+genotoxDataClass = [
+    "Non-mammalian in vitro",
+    "Mammalian and human in vitro",
+    "Animal in vivo",
+    "Human in vivo"
+];
+
+phylogeneticClasses = [
+    "Acellular systems",
+    "Prokaryote (bacteria)",
+    "Lower eukaryote (yeast, mold)",
+    "Insect",
+    "Plant systems",
+    "Other (fish, worm, bird, etc)"
+];
+
+mammalianTestSpecies = [
+    "Human",
+    "Non-human mammalian"
+];
+
+sexes = [
+    "Male",
+    "Female",
+    "Male and female"
+];
+
+genotoxResultOptions = [
+    " + ",
+    "(+)",
+    "+/-",
+    "(-)",
+    " - ",
+    "Not tested"
+];

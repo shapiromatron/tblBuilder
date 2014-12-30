@@ -133,7 +133,7 @@
     <legend>Genotoxicity evidence {{>formLegendPulldown}}</legend>
     <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
 
-    <!-- First row. This describes reference, data-type, and endpoint -->
+    <!-- First row. Reference, data-type, and agent -->
     <div class="form-group row">
 
       <div class="col-xs-4">
@@ -144,14 +144,7 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Data class*</label>
-        <select class="form-control"
-               name='dataClass'
-               value="{{dataClass}}">
-          <option value="Non-mammalian in vitro">Non-mammalian in vitro</option>
-          <option value="Mammalian and human in vitro">Mammalian and human in vitro</option>
-          <option value="Animal in vivo">Animal in vivo</option>
-          <option value="Human in vivo">Human in vivo</option>
-        </select>
+        {{> selectList options=getGenotoxDataClass selected=dataClass selectName="dataClass" }}
       </div>
 
       <div class="col-xs-4">
@@ -166,23 +159,14 @@
 
     </div>
 
-    <!-- Second row. Should describe the test-system used. -->
     <div class="form-group row non_mamm_vitro">
+    <!-- Second row. Test-system description. -->
 
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Phylogenetic class*</label>
-        <select class="form-control"
-               name='phylogeneticClass'
-               value="{{phylogeneticClass}}">
-          <option value="Acellular systems">Acellular systems</option>
-          <option value="Prokaryote (bacteria)">Prokaryote (bacteria)</option>
-          <option value="Lower eukaryote (yeast, mold)">Lower eukaryote (yeast, mold)</option>
-          <option value="Insect">Insect</option>
-          <option value="Plant systems">Plant systems</option>
-          <option value="Other (fish, worm, bird, etc)">Other (fish, worm, bird, etc)</option>
-        </select>
+        {{> selectList options=getPhylogeneticClasses selected=phylogeneticClass selectName="phylogeneticClass" }}
       </div>
 
       <div class="col-xs-3 isAcellular">
@@ -222,12 +206,7 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Test species class</label>
-        <select class="form-control"
-               name='testSpeciesMamm'
-               value="{{testSpeciesMamm}}">
-          <option value="Human">Human</option>
-          <option value="Non-human mammalian">Non-human mammalian</option>
-        </select>
+        {{> selectList options=getMammalianTestSpecies selected=testSpeciesMamm selectName="testSpeciesMamm" }}
       </div>
 
       <div class="col-xs-3">
@@ -277,12 +256,7 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Sex</label>
-        <select class="form-control" type="text"
-                name='sex'>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Male and female">Male and female</option>
-        </select>
+        {{> selectList options=getSexes selected=sex selectName="sex" }}
       </div>
 
       <div class="col-xs-3">
@@ -329,7 +303,7 @@
       </div>
     </div>
 
-    <!-- Third row. Test class. All the time. -->
+    <!-- Third row. Test class. -->
     <div class="form-group row">
 
       <div class="col-xs-3">
@@ -378,55 +352,27 @@
 
     </div>
 
-    <!-- Fourth row. All results. All the time. -->
+    <!-- Fourth row. Results. -->
     <div class="form-group row">
 
       <div class="col-xs-3 isntDualResult">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               <br>Result*</label>
-        <select class="form-control"
-               name='result'
-               value="{{result}}">
-          <option> + </option>
-          <option>(+)</option>
-          <option>+/-</option>
-          <option>(-)</option>
-          <option>-</option>
-          <option>Not tested</option>
-        </select>
       </div>
 
       <div class="col-xs-3 isDualResult">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Result*<br>(with metabolic activation)</label>
-        <select class="form-control"
-               name='result'
-               value="{{result}}">
-          <option> + </option>
-          <option>(+)</option>
-          <option>+/-</option>
-          <option>(-)</option>
-          <option>-</option>
-          <option>Not tested</option>
-        </select>
+        {{> selectList options=getGenotoxResultOptions selected=result selectName="result" }}
       </div>
 
       <div class="col-xs-3 isDualResult">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Result*<br>(without metabolic activation)</label>
-        <select class="form-control"
-               name='resultNoMetabolic'
-               value="{{resultNoMetabolic}}">
-          <option> + </option>
-          <option>(+)</option>
-          <option>+/-</option>
-          <option>-</option>
-          <option>(-)</option>
-          <option>Not tested</option>
-        </select>
+        {{> selectList options=getGenotoxResultOptions selected=resultNoMetabolic selectName="resultNoMetabolic" }}
       </div>
 
       <div class="col-xs-3">
@@ -474,7 +420,7 @@
 
     </div>
 
-    <!-- Fifth row. All comments. All the time. -->
+    <!-- Fifth row. Comments. -->
     <div class="form-group row">
 
       <div class="col-xs-12">
