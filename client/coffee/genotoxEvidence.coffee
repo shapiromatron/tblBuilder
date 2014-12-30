@@ -30,17 +30,17 @@ toggleDataClassFields = (tmpl) ->
     hides = ""
     switch $(selector).find('option:selected')[0].value
         when "Non-mammalian in vitro"
-            shows = ".non_mamm_vitro"
-            hides = ".mamm_vitro, .ani_vivo, .human_vivo"
+            shows = ".non_mamm_vitro, .doses"
+            hides = ".mamm_vitro, .ani_vivo, .human_vivo, .concs"
         when "Mammalian and human in vitro"
-            shows = ".mamm_vitro"
-            hides = ".non_mamm_vitro, .ani_vivo, .human_vivo"
+            shows = ".mamm_vitro, .doses"
+            hides = ".non_mamm_vitro, .ani_vivo, .human_vivo, .concs"
         when "Animal in vivo"
-            shows = ".ani_vivo"
-            hides = ".non_mamm_vitro, .mamm_vitro, .human_vivo"
-        when "Human in vivo"
+            shows = ".ani_vivo, .concs"
+            hides = ".non_mamm_vitro, .mamm_vitro, .human_vivo, .doses"
+        when "Human in vivo, .concs"
             shows = ".human_vivo"
-            hides = ".non_mamm_vitro, .mamm_vitro, .ani_vivo"
+            hides = ".non_mamm_vitro, .mamm_vitro, .ani_vivo, .doses"
         else
             console.log("unknown data-type")
 
