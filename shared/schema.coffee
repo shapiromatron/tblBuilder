@@ -463,18 +463,232 @@ Meteor.startup ->
             type: String
             optional: true
 
-
     animal_schema =
 
         referenceID:
             label: "Reference"
             type: SimpleSchema.RegEx.Id
 
+
+    reqNonMammVitro = () ->
+        isRequired = ((@field('dataClass').value is "Non-mammalian in vitro") and
+                      (@value is ""))
+        if isRequired then return "required"
+
+    reqAcellular = () ->
+        isRequired = ((@field('dataClass').value is "Non-mammalian in vitro") and
+            (@field('phylogeneticClass').value is "Acellular systems") and
+            (@value is ""))
+        if isRequired then return "required"
+
+    reqNotAcellular = () ->
+        isRequired = ((@field('dataClass').value is "Non-mammalian in vitro") and
+            (@field('phylogeneticClass').value isnt "Acellular systems") and
+            (@value is ""))
+        if isRequired then return "required"
+
+    reqMammVitro = () ->
+        isRequired = ((@field('dataClass').value is "Mammalian and human in vitro") and
+                      (@value is ""))
+        if isRequired then return "required"
+
+    reqAniVivo = () ->
+        isRequired = ((@field('dataClass').value is "Animal in vivo") and
+                      (@value is ""))
+        if isRequired then return "required"
+
+    reqHumanVivo = () ->
+        isRequired = ((@field('dataClass').value is "Human in vivo") and
+                      (@value is ""))
+        if isRequired then return "required"
+
     genotox_schema =
 
+        # FIRST ROW
         referenceID:
             label: "Reference"
             type: SimpleSchema.RegEx.Id
+
+        dataClass:
+            label: "Data class"
+            type: String
+            allowedValues: genotoxDataClass
+
+        agent:
+            label: "Agent"
+            type: String
+            min: 1
+
+
+        # SECOND ROW
+        # (non_mamm_vitro)
+        phylogeneticClass:
+            label: "Data class"
+            type: String
+            allowedValues: phylogeneticClasses
+            optional: true
+            custom: reqNonMammVitro
+
+        # (isAcellular only)
+        testSystem:
+            label: "Test system"
+            type: String
+            optional: true
+            custom: reqAcellular
+
+        # (isntAcellular only)
+        speciesNonMamm:
+            label: "Species"
+            type: String
+            optional: true
+            custom: reqNotAcellular
+
+        strainNonMamm:
+            label: "Strain"
+            type: String
+            optional: true
+            custom: reqNotAcellular
+
+        # (mamm_vitro only)
+        testSpeciesMamm:
+            label: "Test species class"
+            type: String
+            allowedValues: mammalianTestSpecies
+            optional: true
+            custom: reqMammVitro
+
+        speciesMamm:
+            label: "Species"
+            type: String
+            optional: true
+            custom: reqMammVitro
+
+        tissueCellLine:
+            label: "Tissue, cell-line"
+            type: String
+            optional: true
+            custom: reqMammVitro
+
+        # (ani_vivo only)
+        species:
+            label: "Species"
+            type: String
+            optional: true
+            custom: reqAniVivo
+
+        strain:
+            label: "Strain"
+            type: String
+            optional: true
+            custom: reqAniVivo
+
+        sex:
+            label: "Sex"
+            type: String
+            allowedValues: sexes
+            optional: true
+            custom: reqAniVivo
+
+        tissueAnimal:
+            label: "Tissue"
+            type: String
+            optional: true
+            custom: reqAniVivo
+
+        # (human_vivo only)
+        tissueHuman:
+            label: "Tissue"
+            type: String
+            optional: true
+            custom: reqHumanVivo
+
+        cellType:
+            label: "Cell type"
+            type: String
+            optional: true
+
+        exposureDescription:
+            label: "Description of exposed and controls"
+            type: String
+            optional: true
+            custom: reqHumanVivo
+
+
+        #THIRD ROW
+        endpoint:
+            label: "Endpoint"
+            type: String
+            min: 1
+
+        endpointTest:
+            label: "Endpoint test"
+            type: String
+            min: 1
+
+        #ani_vivo
+        dosingRoute:
+            label: "Route"
+            type: String
+            optional: true
+            custom: reqAniVivo
+
+        dosingDuration:
+            label: "Duration"
+            type: String
+            optional: true
+            custom: reqAniVivo
+
+        dosingRegimen:
+            label: "Dosing regimen"
+            type: String
+            optional: true
+            custom: reqAniVivo
+
+
+        # FOURTH ROW
+        result:
+            label: "Result"
+            type: String
+            allowedValues: genotoxResultOptions
+
+        led:
+            label: "LED or HID"
+            type: Number
+            optional: true
+
+        units:
+            label: "Dosing units"
+            type: String
+            min: 1
+
+        # (isDualResult only)
+        resultNoMetabolic:
+            label: "Result (no metabolic activation)"
+            type: String
+            allowedValues: genotoxResultOptions
+
+
+        # (ani_vivo only)
+        dosesTested:
+            label: "Doses tested"
+            type: String
+            optional: true
+            custom: reqAniVivo
+
+
+        # (human_vivo only)
+        significance:
+            label: "Significance"
+            type: String
+            optional: true
+
+
+        # FIFTH ROW
+        comments:
+            label: "Comments"
+            type: String
+            optional: true
+
 
     mech_quant_schema =
 

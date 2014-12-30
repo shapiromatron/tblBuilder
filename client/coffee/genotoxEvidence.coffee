@@ -64,6 +64,9 @@ toggleDataClassFields = (tmpl) ->
     $(tmpl.findAll(hides)).hide()
 
 togglePhyloFields = (tmpl) ->
+    if tmpl.find('select[name="dataClass"] option:selected').value isnt "Non-mammalian in vitro"
+        return
+
     if tmpl.find('select[name="phylogeneticClass"]').value is "Acellular systems"
         $(tmpl.findAll('.isAcellular')).show()
         $(tmpl.findAll('.isntAcellular')).hide()
@@ -148,6 +151,7 @@ genotoxFormExtension =
 
     'change select[name="dataClass"]': (evt, tmpl) ->
         toggleDataClassFields(tmpl)
+        togglePhyloFields(tmpl)
         toggleEndpointOptions(tmpl)
         toggleDualResult(tmpl)
 
