@@ -18,7 +18,7 @@ tblTypeOptions = [
     "Mechanistic Evidence Summary",
     "Epidemiology Evidence",
     "Exposure Evidence",
-    "Genotoxicity Evidence",
+    "Genetic and Related Effects",
     // "Animal Bioassay Evidence",
     // "Mechanistic Quantitative Evidence"
 ];

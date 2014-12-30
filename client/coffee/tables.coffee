@@ -39,7 +39,7 @@ Template.TablesByMonograph.helpers
                 url = Router.path('exposureMain', {_id: @_id})
             when "Animal Bioassay Evidence"
                 url = Router.path('animalMain', {_id: @_id})
-            when "Genotoxicity Evidence"
+            when "Genetic and Related Effects"
                 url = Router.path('genotoxMain', {_id: @_id})
             when "Mechanistic Quantitative Evidence"
                 url = Router.path('mechQuantMain', {_id: @_id})
