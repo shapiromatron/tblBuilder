@@ -97,7 +97,11 @@ toggleEndpointOptions = (tmpl) ->
         "<option value='#{val}'>#{val}</option>"
 
     selector = $(tmpl.find('select[name="endpoint"]'))
-    existing = "option[value='#{ selector.val() }']"
+    if tmpl.data.isNew
+        existing = "option[value='#{ selector.val() }']"
+    else
+        existing = "option[value='#{ tmpl.data.endpoint }']"
+
     selector.html(options)
     found = selector.find(existing)
     if (found.length > 0)
@@ -128,7 +132,11 @@ toggleEndpointTestOptions = (tmpl) ->
         "<option value='#{val}'>#{val}</option>"
 
     selector = $(tmpl.find('select[name="endpointTest"]'))
-    existing = "option[value='#{ selector.val() }']"
+    if tmpl.data.isNew
+        existing = "option[value='#{ selector.val() }']"
+    else
+        existing = "option[value='#{ tmpl.data.endpointTest }']"
+
     selector.html(options)
     found = selector.find(existing)
     if (found.length > 0)
