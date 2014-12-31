@@ -221,3 +221,7 @@ share.mechanisticTestCrosswalk =
             "Mutation": ["Oncogene", "Tumour suppressor", "Other"]
             "Chromosomal damage": ["Chromosomal aberrations", "Micronuclei", "Sister Chromatid Exchange", "Aneuploidy", "Other"]
             "DNA repair": ["Other"]
+
+
+share.setGenotoxColumns = (data) ->
+    data.col2 = "foo" + data._id

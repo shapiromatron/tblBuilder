@@ -45,17 +45,21 @@
     <colgroup>
       <col width="15%">
       <col width="15%">
+      <col width="15%">
       <col width="10%">
       <col width="10%">
-      <col width="50%">
+      <col width="10%">
+      <col width="25%">
     </colgroup>
     <thead>
       <tr>
         <th>Reference</th>
-        <th>A</th>
-        <th>B</th>
-        <th>C</th>
-        <th>D</th>
+        <th>Test System</th>
+        <th>Endpoint/test</th>
+        <th>Results/ Results with metabolic activation</th>
+        <th>Results without metabolic activation</th>
+        <th>Agent, dose/units<br>(LED or HID)</th>
+        <th>Comments</th>
       </tr>
     </thead>
     <tbody id="sortable">
@@ -118,12 +122,27 @@
     {{/if}}
     {{qaMark isQA}}
     {{>printReference id=referenceID}}<br>
-    A
   </td>
-  <td>B</td>
-  <td>C</td>
-  <td>D</td>
-  <td>E</td>
+  <td>
+    {{col2}}
+  </td>
+  <td>
+    {{endpoint}}<br>
+    {{endpointTest}}
+  </td>
+  <td>
+    {{result}}
+  </td>
+  <td>
+    {{resultNoMetabolic}}
+  </td>
+  <td>
+    {{agent}},<br>
+    {{# if led }}{{led}}&nbsp;{{/if}}{{units}}
+  </td>
+  <td>
+    {{comments}}
+  </td>
   <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
 </template>
 

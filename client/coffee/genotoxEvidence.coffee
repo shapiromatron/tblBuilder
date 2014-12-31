@@ -21,6 +21,9 @@ Template.genotoxTbl.rendered = ->
 # GENOTOX ROW ------------------------------------------------------------------
 Template.genotoxRow.events(share.abstractRowEvents)
 
+Template.genotoxRow.created = ->
+    share.setGenotoxColumns(@data)
+
 
 # GENOTOX FORM -----------------------------------------------------------------
 Template.genotoxForm.helpers
