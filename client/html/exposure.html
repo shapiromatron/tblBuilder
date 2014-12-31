@@ -207,7 +207,7 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="Country of exposure measurement">
               Country*</label>
-        {{> typeaheadInput name="country" value=country data_source="searchCountries" placeholder="e.g. France"}}
+        {{> typeaheadInput name="country" value=country methodName="searchCountries" placeholder="e.g. France"}}
 
         <br>
         <label class="helpPopovers" data-toggle="popover"
@@ -228,7 +228,7 @@
               data-content="The substance or exposure that was measured
                             (e.g., PM-10, TCE, Total PCB)">
               <br>Agent*</label>
-        {{> typeaheadInput name="agent" value=agent data_source="searchAgents" placeholder="e.g. PM-10"}}
+        {{> typeaheadInput name="agent" value=agent methodName="searchAgents" placeholder="e.g. PM-10"}}
       </div>
 
       <div class="col-xs-3">
@@ -237,7 +237,7 @@
                             (e.g., air, drinking water, food, urine, blood)
                             in which the agent was measured">
               <br>Sampling matrix*</label>
-        {{> typeaheadInput name="samplingMatrix" value=samplingMatrix data_source="searchSamplingMatrices" placeholder="e.g. air"}}
+        {{> typeaheadInput name="samplingMatrix" value=samplingMatrix methodName="searchSamplingMatrices" placeholder="e.g. air"}}
       </div>
 
       <div class="col-xs-2">
@@ -309,7 +309,7 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="Measurement units (e.g. µg/m³, g/m²)">
               <br>Units*</label>
-        {{> typeaheadInput name="units" value=units data_source="searchUnits" placeholder="e.g. µg/m³"}}
+        {{> typeaheadInput name="units" value=units methodName="searchUnits" placeholder="e.g. µg/m³"}}
       </div>
     </div>
 

@@ -196,64 +196,28 @@ Template._loginButtonsLoggedInDropdown.events
 
 
 ###
-Based on loading order issues, the following content must be kept int he "main"
+Based on loading order issues, the following content must be kept in the "main"
 module, despite it's preferred home being in a different location:
 ###
-
-Template.selectList.helpers
-
-    isSelected: (current, selected) ->
-        return current is selected
 
 UI.registerHelper "getUserDescription", ->
     if (@.profile and @.profile.fullName) then return @.profile.fullName
     return [(v.address for v in @.emails)].join(', ')
 
 
-Template.typeaheadInput.searchOrganSite = (qry, cb) ->
-        Meteor.call "searchOrganSite", qry, (err, res) ->
-            if err then return console.log(err)
-            map = ({value: v} for v in res)
-            return cb(map)
+# selectList
+Template.selectList.helpers
 
-Template.typeaheadInput.searchMonographAgent = (qry, cb) ->
-        Meteor.call "searchMonographAgent", qry, (err, res) ->
-            if err then return console.log(err)
-            map = ({value: v} for v in res)
-            return cb(map)
+    isSelected: (current, selected) ->
+        return current is selected
 
-Template.typeaheadInput.searchEffectUnits = (qry, cb) ->
-        Meteor.call "searchEffectUnits", qry, (err, res) ->
-            if err then return console.log(err)
-            map = ({value: v} for v in res)
-            return cb(map)
 
-Template.typeaheadInput.searchEffectMeasure = (qry, cb) ->
-        Meteor.call "searchEffectMeasure", qry, (err, res) ->
-            if err then return console.log(err)
-            map = ({value: v} for v in res)
-            return cb(map)
+# typeaheadInput
+Template.typeaheadInput.helpers
 
-Template.typeaheadInput.searchCountries = (qry, cb) ->
-        Meteor.call "searchCountries", qry, (err, res) ->
-            if err then return console.log(err)
-            map = ({value: v} for v in res)
-            return cb(map)
-
-Template.typeaheadInput.searchAgents = (qry, cb) ->
-        Meteor.call "searchAgents", qry, (err, res) ->
-            if err then return console.log(err)
-            map = ({value: v} for v in res)
-            return cb(map)
-
-Template.typeaheadInput.searchSamplingMatrices = (qry, cb) ->
-        Meteor.call "searchSamplingMatrices", qry, (err, res) ->
-            if err then return console.log(err)
-            map = ({value: v} for v in res)
-            return cb(map)
-
-Template.typeaheadInput.searchUnits = (qry, cb) ->
-        Meteor.call "searchUnits", qry, (err, res) ->
+    getOptions: (qry, cb) ->
+        methodName = @$el.parent().parent().find('input').data('methodname')
+        Meteor.call methodName, qry, (err, res) ->
             if err then return console.log(err)
             map = ({value: v} for v in res)
             return cb(map)
@@ -262,6 +226,7 @@ Template.typeaheadInput.rendered = ->
     Meteor.typeahead.inject("input[name=#{@.data.name}]")
 
 
+# typeaheadSelectList
 Template.typeaheadSelectList.searchCovariates = (qry, cb) ->
     Meteor.call "searchCovariates", qry, (err, res) ->
         if err then return console.log(err)
