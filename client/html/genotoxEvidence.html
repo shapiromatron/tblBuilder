@@ -151,10 +151,7 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Agent*</label>
-        <input class="form-control" type="text"
-               name='agent'
-               value="{{agent}}"
-               placeholder="Trichloroethylene"/>
+        {{> typeaheadInput name="agent" value=agent methodName="searchGenotoxAgents" placeholder="Trichloroethylene"}}
       </div>
 
     </div>
@@ -173,30 +170,21 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Test system*</label>
-        <input class="form-control" type="text"
-               name='testSystem'
-               value="{{testSystem}}"
-               placeholder="Calf thymus DNA"/>
+        {{> typeaheadInput name="testSystem" value=testSystem methodName="searchGenotoxTestSystem" placeholder="Calf thymus DNA"}}
       </div>
 
       <div class="col-xs-3 non_mamm_vitro isntAcellular">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Species*</label>
-        <input class="form-control" type="text"
-               name='speciesNonMamm'
-               value="{{speciesNonMamm}}"
-               placeholder="Salmonella typhimurium"/>
+        {{> typeaheadInput name="speciesNonMamm" value=speciesNonMamm methodName="searchSpeciesNonMamm" placeholder="Salmonella typhimurium"}}
       </div>
 
       <div class="col-xs-3 non_mamm_vitro isntAcellular">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Strain*</label>
-        <input class="form-control" type="text"
-               name='strainNonMamm'
-               value="{{strainNonMamm}}"
-               placeholder="TA98"/>
+        {{> typeaheadInput name="strainNonMamm" value=strainNonMamm methodName="searchStrainNonMamm" placeholder="TA98"}}
       </div>
 
       <div class="col-xs-3 mamm_vitro">
@@ -210,40 +198,28 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Species*</label>
-        <input class="form-control" type="text"
-               name='speciesMamm'
-               value="{{speciesMamm}}"
-               placeholder="Human"/>
+        {{> typeaheadInput name="speciesMamm" value=speciesMamm methodName="searchSpeciesMamm" placeholder="Human"}}
       </div>
 
       <div class="col-xs-3 mamm_vitro">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Tissue, cell line*</label>
-        <input class="form-control" type="text"
-               name='tissueCellLine'
-               value="{{tissueCellLine}}"
-               placeholder="Liver/HepG2"/>
+        {{> typeaheadInput name="tissueCellLine" value=tissueCellLine methodName="searchTissueCellLine" placeholder="Liver/HepG2"}}
       </div>
 
       <div class="col-xs-3 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Species*</label>
-        <input class="form-control" type="text"
-               name='species'
-               value="{{species}}"
-               placeholder="Mouse"/>
+        {{> typeaheadInput name="species" value=species methodName="searchGenotoxSpecies" placeholder="Mouse"}}
       </div>
 
       <div class="col-xs-3 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Strain*</label>
-        <input class="form-control" type="text"
-               name='strain'
-               value="{{strain}}"
-               placeholder="B6C3F1"/>
+        {{> typeaheadInput name="strain" value=strain methodName="searchGenotoxStrain" placeholder="B6C3F1"}}
       </div>
 
       <div class="col-xs-3 ani_vivo">
@@ -257,30 +233,21 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Tissue*</label>
-        <input class="form-control" type="text"
-               name='tissueAnimal'
-               value="{{tissueAnimal}}"
-               placeholder="bone marrow"/>
+        {{> typeaheadInput name="tissueAnimal" value=tissueAnimal methodName="searchGenotoxTissueAnimal" placeholder="bone marrow"}}
       </div>
 
       <div class="col-xs-3 human_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Tissue*</label>
-        <input class="form-control" type="text"
-               name='tissueHuman'
-               value="{{tissueHuman}}"
-               placeholder="skin"/>
+        {{> typeaheadInput name="tissueHuman" value=tissueHuman methodName="searchGenotoxTissueHuman" placeholder="skin"}}
       </div>
 
       <div class="col-xs-3 human_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Cell type (if specified)</label>
-        <input class="form-control" type="text"
-               name='cellType'
-               value="{{cellType}}"
-               placeholder="endothelial"/>
+        {{> typeaheadInput name="cellType" value=cellType methodName="searchGenotoxCellType" placeholder="endothelial"}}
       </div>
 
       <div class="col-xs-6 human_vivo">
@@ -316,10 +283,7 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Route*</label>
-        <input class="form-control" type="text"
-               name='dosingRoute'
-               value="{{dosingRoute}}"
-               placeholder="Drinking water"/>
+        {{> typeaheadInput name="dosingRoute" value=dosingRoute methodName="searchGenotoxDosingRoute" placeholder="Drinking water"}}
       </div>
 
       <div class="col-xs-2 ani_vivo">
@@ -371,7 +335,7 @@
         <label class="concs helpPopovers" data-toggle="popover"
               data-content="<add>">
               <br>LEC or HIC</label>
-        <input class="form-control" type="number"
+        <input class="form-control" type="text"
                name="led"
                value="{{led}}"
                placeholder="100"/>
@@ -381,10 +345,7 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               <br>Dosing units*</label>
-        <input class="form-control" type="text"
-               name='units'
-               value="{{units}}"
-               placeholder="μM"/>
+        {{> typeaheadInput name="units" value=units methodName="searchGenotoxDosingUnits" placeholder="μM"}}
       </div>
 
       <div class="col-xs-3 ani_vivo">

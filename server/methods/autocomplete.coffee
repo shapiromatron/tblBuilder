@@ -1,24 +1,24 @@
-singleFieldTextSearch = (inputs) ->
+singleFieldTextSearch = (Collection, field, qrystr) ->
     # Perform a search of a single field, and return unique values.
-    field = inputs['field']
+    check(qrystr, String)
     query = {}
-    query[field] = {$regex: new RegExp(inputs['query'], "i")}
+    query[field] = {$regex: new RegExp(qrystr, "i")}
     options = {fields: {}, limit: 1000, sort: []}
     options.fields[field] = 1
     options.sort.push(field)
-    queryset = inputs['Collection'].find(query, options).fetch()
+    queryset = Collection.find(query, options).fetch()
     values = _.pluck(queryset, field)
     return _.uniq(values, true)
 
 
 Meteor.methods
 
+    #admin-only methods
     adminUserEditProfile: (_id, obj) ->
         unless share.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
 
         Meteor.users.update(_id, {$set: obj})
-
 
     adminUserCreateProfile: (obj) ->
         unless share.isStaffOrHigher(this.userId)
@@ -28,7 +28,6 @@ Meteor.methods
         _id = Accounts.createUser(opts)
         Meteor.users.update(_id, {$set: obj})
         Accounts.sendEnrollmentEmail(_id)
-
 
     adminUserResetPassword: (_id) ->
         unless share.isStaffOrHigher(this.userId)
@@ -67,6 +66,7 @@ Meteor.methods
                 return {success: true, QAd: not qad}
         return {success: false}
 
+    # users
     searchUsers: (str) ->
         check(str, String)
         querystr = new RegExp(str, "i")  # case insensitive
@@ -75,34 +75,7 @@ Meteor.methods
                        {"profile.affiliation": {$regex: querystr}}]}
         Meteor.users.find(query, {fields: {_id: 1, emails: 1, profile: 1}, limit: 20}).fetch()
 
-    searchOrganSite: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: EpiResult,
-                    field: "organSite",
-                    query: query
-
-    searchEffectUnits: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: EpiResult,
-                    field: "effectUnits",
-                    query: query
-
-    searchEffectMeasure: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: EpiResult,
-                    field: "effectMeasure",
-                    query: query
-
-    searchMonographAgent: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: Tables,
-                    field: "monographAgent",
-                    query: query
-
+    # references
     searchReference: (inputs) ->
         check(inputs, {qry: String, monographAgent: String})
         querystr = new RegExp(inputs.qry, "i")  # case insensitive
@@ -118,6 +91,19 @@ Meteor.methods
             limit: 50
 
         Reference.find(query, options).fetch()
+
+    # epi evidence auto-complete
+    searchOrganSite: (query) ->
+        return singleFieldTextSearch(EpiResult, "organSite", query)
+
+    searchEffectUnits: (query) ->
+        return singleFieldTextSearch(EpiResult, "effectUnits", query)
+
+    searchEffectMeasure: (query) ->
+        return singleFieldTextSearch(EpiResult, "effectMeasure", query)
+
+    searchMonographAgent: (query) ->
+        return singleFieldTextSearch(Tables, "monographAgent", query)
 
     searchCovariates: (query) ->
         check(query, String)
@@ -137,50 +123,79 @@ Meteor.methods
         coexposures = _.filter(coexposures, (v) -> v.match(querystr))
         return _.uniq(coexposures, false)
 
-
-    # exposure auto-complete
+    # exposure evidence auto-complete
     searchCountries: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: ExposureEvidence,
-                    field: "country",
-                    query: query
+        return singleFieldTextSearch(ExposureEvidence, "country", query)
 
     searchAgents: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: ExposureEvidence,
-                    field: "agent",
-                    query: query
+        return singleFieldTextSearch(ExposureEvidence, "agent", query)
 
     searchSamplingMatrices: (query) ->
-        check(query, String)
-        return singleFieldTextSearch
-                    Collection: ExposureEvidence,
-                    field: "samplingMatrix",
-                    query: query
+        return singleFieldTextSearch(ExposureEvidence, "samplingMatrix", query)
 
     searchUnits: (query) ->
-        check(query, String)
-        vals = singleFieldTextSearch
-                    Collection: ExposureEvidence,
-                    field: "units",
-                    query: query
+        vals = singleFieldTextSearch(ExposureEvidence, "units", query)
 
         # extra check for micro symbol
         if query[0] is "u"
-            extra = singleFieldTextSearch
-                        Collection: ExposureEvidence,
-                        field: "units",
-                        query: query.replace("u", "μ")
+            extra = singleFieldTextSearch(ExposureEvidence, "units", query.replace("u", "μ"))
             vals = _.union(extra, vals)
 
         # extra check for pico symbol
         if query[0] is "p"
-            extra = singleFieldTextSearch
-                        Collection: ExposureEvidence,
-                        field: "units",
-                        query: query.replace("p", "ρ")
+            extra = singleFieldTextSearch(ExposureEvidence, "units", query.replace("p", "ρ"))
+            vals = _.union(extra, vals)
+
+        return vals
+
+    # genotox evidence auto-complete
+    searchGenotoxAgents: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "agent", query)
+
+    searchGenotoxTestSystem: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "testSystem", query)
+
+    searchSpeciesNonMamm: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "speciesNonMamm", query)
+
+    searchStrainNonMamm: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "strainNonMamm", query)
+
+    searchSpeciesMamm: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "speciesMamm", query)
+
+    searchGenotoxSpecies: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "species", query)
+
+    searchGenotoxStrain: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "strain", query)
+
+    searchTissueCellLine: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "tissueCellLine", query)
+
+    searchGenotoxTissueAnimal: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "tissueAnimal", query)
+
+    searchGenotoxTissueHuman: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "tissueHuman", query)
+
+    searchGenotoxCellType: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "cellType", query)
+
+    searchGenotoxDosingRoute: (query) ->
+        return singleFieldTextSearch(GenotoxEvidence, "dosingRoute", query)
+
+    searchGenotoxDosingUnits: (query) ->
+        vals = singleFieldTextSearch(GenotoxEvidence, "units", query)
+
+        # extra check for micro symbol
+        if query[0] is "u"
+            extra = singleFieldTextSearch(GenotoxEvidence, "units", query.replace("u", "μ"))
+            vals = _.union(extra, vals)
+
+        # extra check for pico symbol
+        if query[0] is "p"
+            extra = singleFieldTextSearch(GenotoxEvidence, "units", query.replace("p", "ρ"))
             vals = _.union(extra, vals)
 
         return vals

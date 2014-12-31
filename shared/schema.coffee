@@ -653,7 +653,7 @@ Meteor.startup ->
 
         led:
             label: "LED or HID"
-            type: Number
+            type: String
             optional: true
 
         units:
