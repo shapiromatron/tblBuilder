@@ -124,16 +124,84 @@ share.getFlattenedAnimalData = (tbl_id) ->
     for v in vals
         reference = Reference.findOne({_id: v.referenceID}).name
         row = [v._id, reference]
+        data.push(row)
+
     return data
 
 
 share.getFlattenedGenotoxData = (tbl_id) ->
     vals = GenotoxEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
-    header = ["Genotoxicity ID", "Reference"]
+    header = [
+        "Genotoxicity ID",
+        "Reference"
+        "Data class",
+        "Agent",
+        "Plylogenetic class",
+        "Test system",
+        "Non-mammalian species",
+        "Non-mammalian strain",
+        "Mammalian species",
+        "Mammalian strain",
+        "Tissue/Cell line",
+        "Species",
+        "Strain",
+        "Sex",
+        "Tissue, animal",
+        "Tissue, human",
+        "Cell type",
+        "Exposure description",
+        "Endpoint",
+        "Endpoint test",
+        "Dosing route",
+        "Dosing duration",
+        "Dosing regime",
+        "Doses tested",
+        "Units",
+        "Result",
+        "Result, metabolic activation",
+        "Result, no metabolic activation",
+        "LED/HID",
+        "Significance",
+        "Comments"
+    ]
     data = [header]
     for v in vals
         reference = Reference.findOne({_id: v.referenceID}).name
-        row = [v._id, reference]
+        row = [
+            v._id,
+            reference,
+            v.dataClass,
+            v.agent,
+            v.phylogeneticClass,
+            v.testSystem,
+            v.speciesNonMamm,
+            v.strainNonMamm,
+            v.testSpeciesMamm,
+            v.speciesMamm,
+            v.tissueCellLine,
+            v.species,
+            v.strain,
+            v.sex,
+            v.tissueAnimal,
+            v.tissueHuman,
+            v.cellType,
+            v.exposureDescription,
+            v.endpoint,
+            v.endpointTest,
+            v.dosingRoute,
+            v.dosingDuration,
+            v.dosingRegimen,
+            v.dosesTested,
+            v.units,
+            v.result,
+            v.led,
+            v.resultMetabolic,
+            v.resultNoMetabolic,
+            v.significance,
+            v.comments
+        ]
+        data.push(row)
+
     return data
 
 
@@ -144,6 +212,8 @@ share.getFlattenedMechQuantData = (tbl_id) ->
     for v in vals
         reference = Reference.findOne({_id: v.referenceID}).name
         row = [v._id, reference]
+        data.push(row)
+
     return data
 
 
