@@ -694,7 +694,6 @@ Meteor.startup ->
             type: String
             optional: true
 
-
     mech_quant_schema =
 
         referenceID:

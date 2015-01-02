@@ -327,6 +327,7 @@ share.getGenotoxTestSystemDesc = (d) ->
     return txt
 
 share.setGenotoxColumns = (d) ->
+    # set HTML attributes for online tabular display
     # data class
     d.col1 = d.dataClass
 
@@ -358,3 +359,23 @@ share.setGenotoxColumns = (d) ->
 
     # comments
     d.col7 = d.comments
+
+share.setGenotoxWordFields = (d) ->
+    # set additional attributes for generating a Word-report
+    d.comments = d.comments or ""
+    d.led = d.led or ""
+    d.significance = d.significance or ""
+
+    switch d.dataClass
+        when "Non-mammalian in vitro"
+            if share.isGenotoxAcellular(d.dataClass, d.phylogeneticClass)
+                d._testSystem = d.testSystem
+            else
+                d._testSystem = "#{ d.speciesNonMamm} #{ d.strainNonMamm}"
+
+            if share.hasGenotoxDualResult(d.dataClass, d.phylogeneticClass)
+                d.resultA = d.resultNoMetabolic
+                d.resultB = d.resultMetabolic
+            else
+                d.resultA = d.result
+                d.resultB = "NA"

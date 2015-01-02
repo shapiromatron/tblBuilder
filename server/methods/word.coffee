@@ -135,7 +135,7 @@ mechanisticWordReport = (tbl_id, filename) ->
             getReferences(child)
             getChildren(child)
 
-    data = {"sections": [], "table":Tables.findOne({_id: tbl_id})}
+    data = {"sections": [], "table": Tables.findOne({_id: tbl_id})}
     for section in mechanisticEvidenceSections
         children = MechanisticEvidence.find({tbl_id: tbl_id, section: section.section},
                                             {sort: {sortIdx: 1}}).fetch()
@@ -151,6 +151,39 @@ mechanisticWordReport = (tbl_id, filename) ->
     docx.applyTags()
     docx.output({type: "string"})
 
+# GENOTOXICITY REPORT ----------------------------------------------------------
+genotoxWordReport = (tbl_id, filename) ->
+
+    getData = () ->
+        tbl = Tables.findOne(tbl_id)
+        d =
+            "monographAgent": tbl.monographAgent
+            "volumeNumber": tbl.volumeNumber
+            "hasTable": true
+            "table": tbl
+
+        vals = GenotoxEvidence
+            .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
+            .fetch()
+
+        for val in vals
+            val.reference = Reference.findOne(_id: val.referenceID)
+            share.setGenotoxWordFields(val)
+
+        d.nonMammalianInVitro = _.filter(vals, (v) -> return v.dataClass == "Non-mammalian in vitro")
+        d.mammalianInVitro = _.filter(vals, (v) -> return v.dataClass == "Mammalian and human in vitro")
+        d.animalInVivo = _.filter(vals, (v) -> return v.dataClass == "Animal in vivo")
+        d.humanInVivo = _.filter(vals, (v) -> return v.dataClass == "Human in vivo")
+        return d
+
+    data = getData()
+    path = share.getWordTemplatePath(filename)
+    docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
+    docx.setTags(data)
+    docx.applyTags()
+    docx.output({type: "string"})
+
+
 Meteor.methods
     downloadWordReport: (tbl_id, filename) ->
         tbl = Tables.findOne(tbl_id)
@@ -159,6 +192,8 @@ Meteor.methods
                 mechanisticWordReport(tbl_id, filename)
             when "Epidemiology Evidence"
                 epiWordReport(tbl_id, filename)
+            when "Genetic and Related Effects"
+                genotoxWordReport(tbl_id, filename)
 
     monographAgentEpiReport: (d) ->
         epiWordReportMultiTable(d.templateFN, d.monographagent, d.volumenumber)
