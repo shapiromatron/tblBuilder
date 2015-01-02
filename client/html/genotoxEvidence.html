@@ -44,21 +44,21 @@
   <table class="evidenceTable table table-compressed">
     <colgroup>
       <col width="15%">
+      <col width="20%">
       <col width="15%">
-      <col width="15%">
       <col width="10%">
       <col width="10%">
       <col width="10%">
-      <col width="25%">
+      <col width="20%">
     </colgroup>
     <thead>
       <tr>
         <th>Reference</th>
-        <th>Test System</th>
-        <th>Endpoint/test</th>
-        <th>Results/ Results with metabolic activation</th>
-        <th>Results without metabolic activation</th>
-        <th>Agent, dose/units<br>(LED or HID)</th>
+        <th>Test system</th>
+        <th>Endpoint test</th>
+        <th>Results</th>
+        <th>Results<br>(with metabolic activation)</th>
+        <th>Agent,<br>LED/HID dose</th>
         <th>Comments</th>
       </tr>
     </thead>
@@ -122,26 +122,25 @@
     {{/if}}
     {{qaMark isQA}}
     {{>printReference id=referenceID}}<br>
+    {{{col1}}}
   </td>
   <td>
-    {{col2}}
+    {{{col2}}}
   </td>
   <td>
-    {{endpoint}}<br>
-    {{endpointTest}}
+    {{{col3}}}
   </td>
   <td>
-    {{result}}
+    {{{col4}}}
   </td>
   <td>
-    {{resultNoMetabolic}}
+    {{{col5}}}
   </td>
   <td>
-    {{agent}},<br>
-    {{# if led }}{{led}}&nbsp;{{/if}}{{units}}
+    {{{col6}}}
   </td>
   <td>
-    {{comments}}
+    {{{col7}}}
   </td>
   <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
 </template>

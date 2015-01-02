@@ -223,5 +223,68 @@ share.mechanisticTestCrosswalk =
             "DNA repair": ["Other"]
 
 
-share.setGenotoxColumns = (data) ->
-    data.col2 = "foo" + data._id
+
+share.hasGenotoxDualResult = (dataClass, phylogeneticClass) ->
+    dcls = "Non-mammalian in vitro"
+    duals = [
+        "Acellular systems",
+        "Prokaryote (bacteria)",
+        "Lower eukaryote (yeast, mold)"
+    ]
+    return ((dataClass is dcls) and (phylogeneticClass in duals))
+
+share.isGenotoxAcellular = (dataClass, phylogeneticClass) ->
+    dcls = "Non-mammalian in vitro"
+    acell = "Acellular systems"
+    return ((dataClass is dcls) and (phylogeneticClass is acell))
+
+share.getGenotoxTestSystemDesc = (d) ->
+    switch d.dataClass
+        when "Non-mammalian in vitro"
+            if share.isGenotoxAcellular(d.dataClass, d.phylogeneticClass)
+                txt = "#{ d.phylogeneticClass }<br>#{ d.testSystem}"
+            else
+                txt = "#{ d.phylogeneticClass }<br>#{ d.speciesNonMamm}&nbsp;#{ d.strainNonMamm}"
+        when "Mammalian and human in vitro"
+            txt = "#{d.speciesMamm}<br>#{d.tissueCellLine}"
+        when "Animal in vivo"
+            txt = "#{d.species}&nbsp;#{d.strain}&nbsp;#{d.sex}<br>#{d.tissueAnimal}"
+            txt += "<br>#{d.dosingRoute};&nbsp;#{d.dosingDuration};&nbsp;#{d.dosingRegimen}"
+        when "Human in vivo"
+            txt = "#{d.tissueHuman}, #{d.cellType}<br>#{d.exposureDescription}"
+        else
+            console.log("unknown data-type")
+    return txt
+
+share.setGenotoxColumns = (d) ->
+    # data class
+    d.col1 = d.dataClass
+
+    # test-system
+    d.col2 = share.getGenotoxTestSystemDesc(d)
+
+    # endpoint
+    d.col3 = d.endpoint + "/<br>" + d.endpointTest
+
+    # result, result with metabolic activation
+    if share.hasGenotoxDualResult(d.dataClass, d.phylogeneticClass)
+        d.col4 = d.resultNoMetabolic
+        d.col5 = d.resultMetabolic
+    else
+        d.col4 = d.result
+        d.col5 = "NA"
+
+    if d.dataClass is "Human in vivo" and d.significance
+        d.col4 +=  "&nbsp;" + d.significance
+
+    # agent, critical dose, and doses units
+    d.col6 = d.agent + ",<br>"
+    if d.led
+        d.col6 += d.led + "&nbsp"
+    d.col6 += d.units
+
+    if d.dataClass is "Animal in vivo"
+        d.col6 += "<br>[#{d.dosesTested}&nbsp;#{d.units}]"
+
+    # comments
+    d.col7 = d.comments

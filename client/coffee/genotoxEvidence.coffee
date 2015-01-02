@@ -42,6 +42,7 @@ Template.genotoxForm.helpers
     getGenotoxResultOptions: ->
         return genotoxResultOptions
 
+
 toggleDataClassFields = (tmpl) ->
     # toggle between required fields for multiple data types
     selector = tmpl.find('select[name="dataClass"]')
@@ -67,10 +68,13 @@ toggleDataClassFields = (tmpl) ->
     $(tmpl.findAll(hides)).hide()
 
 togglePhyloFields = (tmpl) ->
-    if tmpl.find('select[name="dataClass"] option:selected').value isnt "Non-mammalian in vitro"
+    dataClass = tmpl.find('select[name="dataClass"]').value
+    phylo = tmpl.find('select[name="phylogeneticClass"]').value
+
+    if dataClass isnt "Non-mammalian in vitro"
         return
 
-    if tmpl.find('select[name="phylogeneticClass"]').value is "Acellular systems"
+    if share.isGenotoxAcellular(dataClass, phylo)
         $(tmpl.findAll('.isAcellular')).show()
         $(tmpl.findAll('.isntAcellular')).hide()
     else
@@ -78,20 +82,20 @@ togglePhyloFields = (tmpl) ->
         $(tmpl.findAll('.isntAcellular')).show()
 
 toggleEndpointOptions = (tmpl) ->
-    dataType = tmpl.find('select[name="dataClass"]').value
+    dataClass = tmpl.find('select[name="dataClass"]').value
     phylo = tmpl.find('select[name="phylogeneticClass"]').value
     mamm = tmpl.find('select[name="testSpeciesMamm"]').value
     tox = "Genotox"  # todo: fix
 
-    switch dataType
+    switch dataClass
         when "Non-mammalian in vitro"
-            obj = share.mechanisticTestCrosswalk[dataType][phylo][tox]
+            obj = share.mechanisticTestCrosswalk[dataClass][phylo][tox]
         when "Mammalian and human in vitro"
-            obj = share.mechanisticTestCrosswalk[dataType][mamm][tox]
+            obj = share.mechanisticTestCrosswalk[dataClass][mamm][tox]
         when "Animal in vivo"
-            obj = share.mechanisticTestCrosswalk[dataType][tox]
+            obj = share.mechanisticTestCrosswalk[dataClass][tox]
         when "Human in vivo"
-            obj = share.mechanisticTestCrosswalk[dataType][tox]
+            obj = share.mechanisticTestCrosswalk[dataClass][tox]
         else
             console.log("unknown data-type")
 
@@ -113,21 +117,21 @@ toggleEndpointOptions = (tmpl) ->
     toggleEndpointTestOptions(tmpl)
 
 toggleEndpointTestOptions = (tmpl) ->
-    dataType = tmpl.find('select[name="dataClass"]').value
+    dataClass = tmpl.find('select[name="dataClass"]').value
     phylo = tmpl.find('select[name="phylogeneticClass"]').value
     mamm = tmpl.find('select[name="testSpeciesMamm"]').value
     tox = "Genotox"  # todo: fix
     endpoint = tmpl.find('select[name="endpoint"]').value
 
-    switch dataType
+    switch dataClass
         when "Non-mammalian in vitro"
-            vals = share.mechanisticTestCrosswalk[dataType][phylo][tox][endpoint]
+            vals = share.mechanisticTestCrosswalk[dataClass][phylo][tox][endpoint]
         when "Mammalian and human in vitro"
-            vals = share.mechanisticTestCrosswalk[dataType][mamm][tox][endpoint]
+            vals = share.mechanisticTestCrosswalk[dataClass][mamm][tox][endpoint]
         when "Animal in vivo"
-            vals = share.mechanisticTestCrosswalk[dataType][tox][endpoint]
+            vals = share.mechanisticTestCrosswalk[dataClass][tox][endpoint]
         when "Human in vivo"
-            vals = share.mechanisticTestCrosswalk[dataType][tox][endpoint]
+            vals = share.mechanisticTestCrosswalk[dataClass][tox][endpoint]
         else
             console.log("unknown data-type")
 
@@ -146,11 +150,9 @@ toggleEndpointTestOptions = (tmpl) ->
         found.prop('selected', true)
 
 toggleDualResult = (tmpl) ->
-    dataType = tmpl.find('select[name="dataClass"]').value
+    dataClass = tmpl.find('select[name="dataClass"]').value
     phylo = tmpl.find('select[name="phylogeneticClass"]').value
-    duals = ["Acellular systems", "Prokaryote (bacteria)", "Lower eukaryote (yeast, mold)"]
-
-    if dataType is "Non-mammalian in vitro" and phylo in duals
+    if share.hasGenotoxDualResult(dataClass, phylo)
         $(tmpl.findAll('.isDualResult')).show()
         $(tmpl.findAll('.isntDualResult')).hide()
     else
