@@ -662,6 +662,11 @@ Meteor.startup ->
             min: 1
 
         # (isDualResult only)
+        resultMetabolic:
+            label: "Result (no metabolic activation)"
+            type: String
+            allowedValues: genotoxResultOptions
+
         resultNoMetabolic:
             label: "Result (no metabolic activation)"
             type: String

@@ -330,14 +330,18 @@
     <!-- Fourth row. Results. -->
     <div class="form-group row">
 
-      <div class="col-xs-3">
-        <label class="isntDualResult helpPopovers" data-toggle="popover"
+      <div class="isntDualResult col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               <br>Result*</label>
-        <label class="isDualResult helpPopovers" data-toggle="popover"
+        {{> selectList options=getGenotoxResultOptions selected=result selectName="result" }}
+      </div>
+
+      <div class="isDualResult col-xs-3">
+        <label class=" helpPopovers" data-toggle="popover"
               data-content="<add>">
               Result*<br>(with metabolic activation)</label>
-        {{> selectList options=getGenotoxResultOptions selected=result selectName="result" }}
+        {{> selectList options=getGenotoxResultOptions selected=resultMetabolic selectName="resultMetabolic" }}
       </div>
 
       <div class="col-xs-3 isDualResult">
