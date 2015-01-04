@@ -118,14 +118,92 @@ share.getFlattenedExposureData = (tbl_id) ->
 
 
 share.getFlattenedAnimalData = (tbl_id) ->
+
+    getEndpointData = (parent_id, row) ->
+        vals = AnimalEndpointEvidence.find({parent_id: parent_id}, {sort: {sortIdx: 1}}).fetch()
+        rows = []
+        # multiple results
+        for v in vals
+            row2 = row.slice()  # shallow copy
+            row2.push(
+                v._id,
+                v.tumourSite,
+                v.histology,
+                v.units,
+                v.significance
+            )
+
+            # multiple risk-estimates per cancer site (low-exp group, high-exp group, etc.)
+            for eg in v.endpointGroups
+                row3 = row2.slice()  # shallow copy
+                row3.push(
+                    eg.dose,
+                    eg.nStart,
+                    eg.nSurviving,
+                    eg.incidence,
+                    eg.multiplicity,
+                    eg.totalTumours
+                )
+                rows.push(row3)
+        return rows
+
     vals = AnimalEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
-    header = ["Animal Bioassay ID", "Reference"]
+    header = [
+        "Evidence ID",
+        "Reference",
+        "Study design",
+        "Species",
+        "Strain",
+        "Sex",
+        "Agent",
+        "Purity",
+        "Dosing route",
+        "Vehicle",
+        "Age at start",
+        "Duration",
+        "Dosing Regimen",
+        "Strengths",
+        "Limitations",
+        "Comments",
+
+        "Endpoint ID",
+        "Tumour site",
+        "Histology",
+        "Units",
+        "Significance",
+
+        "Dose",
+        "N at Start",
+        "N Surviving",
+        "Incidence",
+        "Multiplicity",
+        "Total Tumours"
+    ]
     data = [header]
     for v in vals
         reference = Reference.findOne({_id: v.referenceID}).name
-        row = [v._id, reference]
-        data.push(row)
-
+        strengths = v.strengths.join(', ')
+        limitations = v.limitations.join(', ')
+        row = [
+            v._id
+            reference
+            v.studyDesign
+            v.species
+            v.strain
+            v.sex
+            v.agent
+            v.purity
+            v.dosingRoute
+            v.vehicle
+            v.ageAtStart
+            v.duration
+            v.dosingRegimen
+            strengths
+            limitations
+            v.comments
+        ]
+        rows = getEndpointData(v._id, row)
+        data.push.apply(data, rows)
     return data
 
 
