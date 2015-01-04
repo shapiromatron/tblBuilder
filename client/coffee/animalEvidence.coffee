@@ -19,7 +19,34 @@ Template.animalTbl.rendered = ->
 
 
 # ANIMAL ROW -------------------------------------------------------------------
-Template.animalRow.helpers(share.abstractRowHelpers)
+getFirstEndpoint = (parent_id) ->
+    # reactive source; use the values from the first endpoint-group
+    return AnimalEndpointEvidence.findOne({parent_id: parent_id})
+
+animalEndpointRowHelperExtension =
+    getDoses: () ->
+        e = getFirstEndpoint(@_id)
+        if e
+            return e.endpointGroups.map((v) -> v.dose).join(", ") + " " + e.units
+        else
+            return "NR"
+
+    getNStarts: () ->
+        e = getFirstEndpoint(@_id)
+        if e
+            return e.endpointGroups.map((v) -> v.nStart).join(", ")
+        else
+            return "NR"
+
+    getNSurvivings: () ->
+        e = getFirstEndpoint(@_id)
+        if e
+            return e.endpointGroups.map((v) -> v.nSurviving).join(", ")
+        else
+            return "NR"
+
+animalRowHelpers = $.extend(true, {}, share.abstractRowHelpers, animalEndpointRowHelperExtension)
+Template.animalRow.helpers(animalRowHelpers)
 Template.animalRow.events(share.abstractRowEvents)
 
 Template.animalRow.rendered = ->
@@ -48,7 +75,16 @@ Template.animalForm.rendered = ->
 
 
 # ANIMAL ENDPOINT TBL ----------------------------------------------------------
-Template.animalEndpointTbl.helpers(share.abstractNestedTableHelpers)
+animalEndpointTblHelpersExtension =
+    getIncidents: () ->
+        @endpointGroups.map((v) -> v.incidence).join(", ")
+
+    getMultiplicities: () ->
+        @endpointGroups.map((v) -> v.multiplicity or "NR").join(", ")
+
+animalEndpointTblHelpers = $.extend(true, {}, share.abstractNestedTableHelpers, animalEndpointTblHelpersExtension)
+
+Template.animalEndpointTbl.helpers(animalEndpointTblHelpers)
 Template.animalEndpointTbl.events(share.abstractNestedTableEvents)
 
 
@@ -80,7 +116,6 @@ animalEndpointFormExtension =
         NestedCollection = share.evidenceType[key].nested_collection
         obj = share.newValues(tmpl.find('#nestedModalForm'))
         getEndpointGroupRows(tmpl, obj)  # (override)
-        console.log(obj)
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['parent_id'] = tmpl.data.parent._id
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom

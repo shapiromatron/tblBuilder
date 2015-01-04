@@ -45,17 +45,33 @@
     <colgroup>
       <col width="20%">
       <col width="20%">
-      <col width="20%">
-      <col width="20%">
-      <col width="20%">
+      <col width="21%">
+      <col width="14%">
+      <col width="25%">
     </colgroup>
     <thead>
       <tr>
-        <th>Reference</th>
-        <th>A</th>
-        <th>B</th>
-        <th>C</th>
-        <th>D</th>
+        <th>
+          Study design<br>
+          Species, strain (sex)<br>
+          Age at start<br>
+          Duration<br>
+          Reference</th>
+
+        <th>
+          Route<br>
+          Agent tested, purity<br>
+          Vehicle<br>
+          Dose(s)<br>
+          # animals at start<br>
+          # surviving animals</th>
+
+        <th>
+          Results</th>
+        <th>
+          Significance</th>
+        <th>
+          Comments</th>
       </tr>
     </thead>
     <tbody id="sortable">
@@ -123,27 +139,54 @@
       </div>
     {{/if}}
     {{qaMark isQA}}
-    {{>printReference id=referenceID}}<br>
-    A
-  </td>
-  <td id="sortableInner">
+    <strong>{{studyDesign}}</strong><br>
+    <strong>{{species}}</strong>, {{strain}} ({{sex}})<br>
+    {{ageAtStart}}<br>
+    {{duration}}<br>
+    {{>printReference id=referenceID}}</td>
+
+  <td>
+    {{dosingRoute}}<br>
+    {{agent}}, {{purity}}<br>
+    {{vehicle}}<br>
+    {{getDoses}}<br>
+    {{dosingRegimen}}<br>
+    {{getNStarts}}<br>
+    {{getNSurvivings}}</td>
+
+  <td id="sortableInner" colspan="2">
     {{#each getChildren}}
       {{> animalEndpointTbl}}
     {{else}}
       <p class="help-block">No endpoints have been created.
         {{#if userCanEdit}}
-          <a href="#"
-             class="btn btn-primary btn-sm add-nested pull-right"
+          <br><a href="#"
+             class="btn btn-primary btn-sm add-nested"
              title="Display modal for entering endpoints">
             <span class="fa fa-medkit"></span> Add endpoint</a>
         {{/if}}
       </p>
-    {{/each }}
-  </td>
-  <td>C</td>
-  <td>D</td>
-  <td>E</td>
+    {{/each }}</td>
+
+  <td>
+    <strong>Principal strengths:</strong>{{> listOrNone list=strengths}}
+    <strong>Principal limitations:</strong>{{> listOrNone list=limitations}}
+    <strong>Other comments:</strong><br>{{comments}}</td>
+
   <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
+</template>
+
+<template name="listOrNone">
+  <br>
+  {{# if list}}
+    <ul>
+      {{#each list}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p><i>None</i></p>
+  {{/if}}
 </template>
 
 
@@ -357,7 +400,8 @@
         data-sortIdx="{{sortIdx}}">
       <table class="table table-condensed nestedTbl">
         <colgroup>
-          <col width="100%">
+          <col width="60%">
+          <col width="40%">
         </colgroup>
         <tbody>
           <tr>
@@ -381,7 +425,15 @@
                   </ul>
                 </div>
               {{/if}}
-              {{qaMark isQA}}{{tumourSite}}
+              {{qaMark isQA}}
+              <strong>{{tumourSite}}: {{histology}}</strong><br><br>
+              Tumour incidence:<br>
+              {{getIncidents}}<br><br>
+              Tumour multiplicity:<br>
+              {{getMultiplicities}}
+            </td>
+            <td>
+              {{significance}}
             </td>
             <td class="dragHandle dhInner"
                 style="display: none"
