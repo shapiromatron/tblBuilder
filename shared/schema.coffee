@@ -469,6 +469,77 @@ Meteor.startup ->
             label: "Reference"
             type: SimpleSchema.RegEx.Id
 
+        studyDesign:
+            label: "Study design"
+            type: String
+            allowedValues: animalStudyDesigns
+
+        species:
+            label: "Species"
+            type: String
+            min: 1
+
+        strain:
+            label: "Strain"
+            type: String
+            min: 1
+
+        sex:
+            label: "Sex"
+            type: String
+            allowedValues: animalSexes
+
+        agent:
+            label: "Agent"
+            type: String
+            min: 1
+
+        purity:
+            label: "Purity"
+            type: String
+            min: 1
+
+        dosingRoute:
+            label: "Dosing route"
+            type: String
+            min: 1
+
+        vehicle:
+            label: "Vehicle"
+            type: String
+            min: 1
+
+        ageAtStart:
+            label: "Age at start"
+            type: String
+            min: 1
+
+        duration:
+            label: "Duration"
+            type: String
+            min: 1
+
+        dosingRegimen:
+            label: "Dosing regimen"
+            type: String
+            min: 1
+
+        strengths:
+            label: "Principal strengths"
+            type: [String]
+            minCount: 0
+
+        limitations:
+            label: "Principal limitations"
+            type: [String]
+            minCount: 0
+
+        comments:
+            label: "Other comments"
+            type: String
+            optional: true
+
+
 
     reqNonMammVitro = () ->
         isRequired = ((@field('dataClass').value is "Non-mammalian in vitro") and

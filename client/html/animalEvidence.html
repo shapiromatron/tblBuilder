@@ -154,10 +154,139 @@
 
     <!-- First row -->
     <div class="form-group row">
+
       <div class="col-xs-3">
         {{> referenceSingleSelect}}
       </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Data class*</label>
+        {{> selectList options=getStudyDesigns selected=studyDesign selectName="studyDesign" }}
+      </div>
+
+      <div class="col-xs-2">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Species*</label>
+        {{> typeaheadInput name="species" value=species methodName="searchAnimalSpecies" placeholder="Mouse, Rat, Hamster"}}
+      </div>
+
+      <div class="col-xs-2">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Strain*</label>
+        {{> typeaheadInput name="strain" value=strain methodName="searchAnimalStrain" placeholder="B6C3F1, F344"}}
+      </div>
+
+      <div class="col-xs-2">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Sex*</label>
+        {{> selectList options=getSexes selected=sex selectName="sex" }}
+      </div>
+
     </div>
+
+
+    <!-- Second row. Agent tested. -->
+    <div class="form-group row">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Agent tested*</label>
+        {{> typeaheadInput name="agent" value=agent methodName="searchAnimalAgent" placeholder="Trichloroethylene, Asbestos"}}
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Purity*</label>
+        {{> typeaheadInput name="purity" value=purity methodName="searchAnimalPurity" placeholder=">99.9%, technical grade"}}
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Route*</label>
+        {{> typeaheadInput name="dosingRoute" value=dosingRoute methodName="searchAnimalDosingRoute" placeholder="Drinking water"}}
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Vehicle*</label>
+        {{> typeaheadInput name="vehicle" value=vehicle methodName="searchAnimalVehicle" placeholder="distilled water, PBS, saline, air"}}
+      </div>
+
+    </div>
+
+
+    <!-- Third row. Experimental design. -->
+    <div class="form-group row">
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Age at start*</label>
+        <input class="form-control" type="text"
+               name='ageAtStart'
+               value="{{ageAtStart}}"
+               placeholder="6-8 wk old, 2 mo old, newborn"/>
+      </div>
+
+      <div class="col-xs-3">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Duration*</label>
+        <input class="form-control" type="text"
+               name='duration'
+               value="{{duration}}"
+               placeholder="110 wk, 24 mo, lifetime"/>
+      </div>
+
+      <div class="col-xs-6">
+        <label class="helpPopovers" data-toggle="popover"
+              data-content="<add>">
+              Dosing regimen*</label>
+        <input class="form-control" type="text"
+               name='dosingRegimen'
+               value="{{dosingRegimen}}"
+               placeholder="2x/d for 103 wk; 2x/wk for 20 mo"/>
+      </div>
+
+    </div>
+
+
+    <!-- Fourth row. Comments. -->
+    <div class="form-group row">
+
+      <div class="col-xs-4">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="<add>">
+              Principal strengths</label>
+        {{> typeaheadSelectList name="strengths" values=strengths methodName="searchAnimalStrengths"}}
+      </div>
+
+      <div class="col-xs-4">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="<add>">
+              Principal limitations</label>
+        {{> typeaheadSelectList name="limitations" values=limitations methodName="searchAnimalLimitations"}}
+      </div>
+
+      <div class="col-xs-4">
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="<add>">
+              Other comments</label>
+        <textarea class="form-control" type="text"
+                  rows="3" name="comments">{{comments}}</textarea>
+      </div>
+
+    </div>
+
 
     <div id="errors"></div>
 
@@ -220,6 +349,7 @@
   {{> referenceQuickAddModal}}
 </template>
 
+
 <template name="animalEndpointTbl">
   {{#if showRow isHidden}}
     <div class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
@@ -262,6 +392,7 @@
     </div>
   {{/if}}
 </template>
+
 
 <template name="animalEndpointForm">
   <div class="modal fade" id="nestedModalDiv" tabindex="-1" role="dialog"

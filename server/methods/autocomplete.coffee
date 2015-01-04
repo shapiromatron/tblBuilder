@@ -199,3 +199,28 @@ Meteor.methods
             vals = _.union(extra, vals)
 
         return vals
+
+    # animal evidence auto-complete
+    searchAnimalSpecies: (query) ->
+        return singleFieldTextSearch(AnimalEvidence, "species", query)
+
+    searchAnimalStrain: (query) ->
+        return singleFieldTextSearch(AnimalEvidence, "strain", query)
+
+    searchAnimalAgent: (query) ->
+        return singleFieldTextSearch(AnimalEvidence, "agent", query)
+
+    searchAnimalPurity: (query) ->
+        return singleFieldTextSearch(AnimalEvidence, "purity", query)
+
+    searchAnimalVehicle: (query) ->
+        return singleFieldTextSearch(AnimalEvidence, "vehicle", query)
+
+    searchAnimalDosingRoute: (query) ->
+        return singleFieldTextSearch(AnimalEvidence, "dosingRoute", query)
+
+    searchAnimalStrengths: (query) ->
+        return singleFieldTextSearch(AnimalEvidence, "strengths", query)
+
+    searchAnimalLimitations: (query) ->
+        return singleFieldTextSearch(AnimalEvidence, "limitations", query)

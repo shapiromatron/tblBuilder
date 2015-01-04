@@ -32,6 +32,13 @@ Template.animalRow.rendered = ->
 # ANIMAL FORM ------------------------------------------------------------------
 Template.animalForm.events(share.abstractFormEvents)
 
+Template.animalForm.helpers
+    getStudyDesigns: ->
+        return animalStudyDesigns
+
+    getSexes: ->
+        return animalSexes
+
 Template.animalForm.rendered = ->
     share.toggleQA(@, @.data.isQA)
     $(@.findAll('.helpPopovers')).popover

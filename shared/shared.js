@@ -139,3 +139,20 @@ genotoxResultOptions = [
     " - ",
     "Not tested"
 ];
+
+
+// animal-evidence -options
+animalStudyDesigns = [
+    "Full carcinogenicity",
+    "Initiation-promotion (tested as initiator)",
+    "Initiation-promotion (tested as promoter)",
+    "Co-carcinogenicity",
+    "Carcinogenicity with other modifying factor"
+];
+
+animalSexes = [
+    "M",
+    "F",
+    "M+F",
+    "NR"
+];
