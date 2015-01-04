@@ -36,7 +36,8 @@
     <input class="form-control typeahead multiSelectList" name="{{name}}" type="text"
          placeholder="Add to list by pressing <enter>"
          autocomplete="off" spellcheck="off"
-         data-source="{{data_source}}"/>
+         data-source="getOptions"
+         data-methodname="{{methodName}}"/>
     <ul class="selectList">
       {{#each values }}
         {{> typeaheadSelectListLI}}

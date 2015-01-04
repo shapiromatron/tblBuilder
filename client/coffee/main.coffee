@@ -227,17 +227,14 @@ Template.typeaheadInput.rendered = ->
 
 
 # typeaheadSelectList
-Template.typeaheadSelectList.searchCovariates = (qry, cb) ->
-    Meteor.call "searchCovariates", qry, (err, res) ->
-        if err then return console.log(err)
-        map = ({value: v} for v in res)
-        cb(map)
+Template.typeaheadSelectList.helpers
 
-Template.typeaheadSelectList.searchCoexposures = (qry, cb) ->
-    Meteor.call "searchCoexposures", qry, (err, res) ->
-        if err then return console.log(err)
-        map = ({value: v} for v in res)
-        return cb(map)
+    getOptions: (qry, cb) ->
+        methodName = @$el.parent().parent().find('input').data('methodname')
+        Meteor.call methodName, qry, (err, res) ->
+            if err then return console.log(err)
+            map = ({value: v} for v in res)
+            return cb(map)
 
 Template.typeaheadSelectList.events
 
