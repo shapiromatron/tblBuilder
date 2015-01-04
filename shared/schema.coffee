@@ -371,7 +371,6 @@ Meteor.startup ->
             type: String
             optional: true
 
-
     requiredOccupational = () ->
         isRequired = ((@field('exposureScenario').value in exposureScenariosOccupational) and (@value is ""))
         if isRequired then return "required"
@@ -538,8 +537,6 @@ Meteor.startup ->
             label: "Other comments"
             type: String
             optional: true
-
-
 
     reqNonMammVitro = () ->
         isRequired = ((@field('dataClass').value is "Non-mammalian in vitro") and
@@ -777,11 +774,62 @@ Meteor.startup ->
             type: SimpleSchema.RegEx.Id
             denyUpdate: true
 
-        endpoint_name:
-            label: "Endpoint name"
+        tumourSite:
+            label: "Tumour site"
             type: String
             min: 1
 
+        histology:
+            label: "Histology"
+            type: String
+            min: 1
+
+        units:
+            label: "Dosing units"
+            type: String
+            min: 1
+
+        endpointGroups:
+            label: "Endpoint groups"
+            type: [Object]
+            minCount: 1
+
+        "endpointGroups.$.dose":
+            label: "Dose"
+            type: Number
+            decimal: true
+
+        "endpointGroups.$.nStart":
+            label: "N at start"
+            type: Number
+            decimal: false
+
+        "endpointGroups.$.nSurviving":
+            label: "N surviving"
+            type: Number
+            decimal: false
+
+        "endpointGroups.$.incidence":
+            label: "Tumour incidence"
+            type: String
+            min: 1
+
+        "endpointGroups.$.multiplicity":
+            label: "Tumour multiplicity"
+            type: Number
+            decimal: true
+            optional: true
+
+        "endpointGroups.$.totalTumours":
+            label: "Total tumours"
+            type: Number
+            decimal: false
+            optional: true
+
+        significance:
+            label: "Significance notes"
+            type: String
+            min: 1
 
     # extend content between base base-content objects
     _.extend(tbl_schema, base_content)

@@ -224,3 +224,25 @@ Meteor.methods
 
     searchAnimalLimitations: (query) ->
         return singleFieldTextSearch(AnimalEvidence, "limitations", query)
+
+    # animal endpoint evidence auto-complete
+    searchAnimalTumourSite: (query) ->
+        return singleFieldTextSearch(AnimalEndpointEvidence, "tumourSite", query)
+
+    searchAnimalHistology: (query) ->
+        return singleFieldTextSearch(AnimalEndpointEvidence, "histology", query)
+
+    searchAnimalUnits: (query) ->
+        vals = singleFieldTextSearch(AnimalEndpointEvidence, "units", query)
+
+        # extra check for micro symbol
+        if query[0] is "u"
+            extra = singleFieldTextSearch(AnimalEndpointEvidence, "units", query.replace("u", "μ"))
+            vals = _.union(extra, vals)
+
+        # extra check for pico symbol
+        if query[0] is "p"
+            extra = singleFieldTextSearch(AnimalEndpointEvidence, "units", query.replace("p", "ρ"))
+            vals = _.union(extra, vals)
+
+        return vals

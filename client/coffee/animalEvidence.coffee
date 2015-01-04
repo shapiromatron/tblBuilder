@@ -54,7 +54,66 @@ Template.animalEndpointTbl.events(share.abstractNestedTableEvents)
 
 # ANIMAL ENDPOINT FORM ---------------------------------------------------------
 Template.animalEndpointForm.helpers(share.abstractNestedFormHelpers)
-Template.animalEndpointForm.events(share.abstractNestedFormEvents)
+
+getEndpointGroupRows = (tmpl, obj) ->
+    delete obj.dose
+    delete obj.nStart
+    delete obj.nSurviving
+    delete obj.incidence
+    delete obj.multiplicity
+    delete obj.totalTumours
+    obj.endpointGroups = []
+    tbody = tmpl.find('.endpointGroupTbody')
+    for row in $(tbody).find('tr')
+        obj.endpointGroups.push(share.newValues(row))
+
+# copy but override abstract object
+animalEndpointFormExtension =
+
+    'click #inner-addEndpointGroup': (evt, tmpl) ->
+        tbody = tmpl.find('.endpointGroupTbody')
+        Blaze.renderWithData(Template.animalEndpointGroupForm, {}, tbody)
+
+    'click #inner-create': (evt, tmpl) ->
+        # override required to get riskRow information
+        key = Session.get('evidenceType')
+        NestedCollection = share.evidenceType[key].nested_collection
+        obj = share.newValues(tmpl.find('#nestedModalForm'))
+        getEndpointGroupRows(tmpl, obj)  # (override)
+        console.log(obj)
+        obj['tbl_id'] = Session.get('Tbl')._id
+        obj['parent_id'] = tmpl.data.parent._id
+        obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
+        obj['isHidden'] = false
+
+        isValid = NestedCollection.simpleSchema().namedContext().validate(obj)
+        if isValid
+            NestedCollection.insert(obj)
+            share.removeNestedFormModal(tmpl)
+        else
+            errorDiv = share.createErrorDiv(NestedCollection.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
+
+    'click #inner-update': (evt, tmpl) ->
+        # override required to get riskRow information
+        key = Session.get('evidenceType')
+        NestedCollection = share.evidenceType[key].nested_collection
+        vals = share.updateValues(tmpl.find('#nestedModalForm'), @)
+        getEndpointGroupRows(tmpl, vals)  # (override)
+        modifier = {$set: vals}
+
+        isValid = NestedCollection.simpleSchema().namedContext().validate(modifier, {modifier: true})
+        if isValid
+            NestedCollection.update(@_id, modifier)
+            Session.set("nestedEvidenceEditingId", null)
+            share.removeNestedFormModal(tmpl)
+        else
+            errorDiv = share.createErrorDiv(NestedCollection.simpleSchema().namedContext())
+            $(tmpl.find("#errors")).html(errorDiv)
+
+animalEndpointFormEvents = $.extend(true, {}, share.abstractNestedFormEvents, animalEndpointFormExtension)
+Template.animalEndpointForm.events(animalEndpointFormEvents)
+
 
 Template.animalEndpointForm.rendered = ->
     share.toggleQA(@, @.data.isQA)
@@ -63,3 +122,10 @@ Template.animalEndpointForm.rendered = ->
         delay: {show: 500, hide: 100}
         trigger: "hover"
         placement: "auto"
+
+
+# ANIMAL ENDPOINT GROUP FORM ROW -----------------------------------------------
+Template.animalEndpointGroupForm.events
+    'click #endpointGroup-delete': (evt, tmpl) ->
+        Blaze.remove(tmpl.view)
+        $(tmpl.view._domrange.members).remove()
