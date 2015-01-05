@@ -5,6 +5,51 @@ angularParser = (tag) ->
     expr = angular_expressions.compile(tag)
     return get: expr
 
+# EXPOSURE REPORT -------------------------------------------------------
+exposureWordReport = (tbl_id, filename) ->
+
+    getData = () ->
+        tbl = Tables.findOne(tbl_id)
+        occupationals = ExposureEvidence
+            .find({
+                    tbl_id: tbl_id,
+                    exposureScenario: "Occupational"
+                  }, {sort: {sortIdx: 1}})
+            .fetch()
+        environmentals = ExposureEvidence
+            .find({
+                    tbl_id: tbl_id,
+                    exposureScenario: "Environmental"
+                  }, {sort: {sortIdx: 1}})
+            .fetch()
+
+        for study in occupationals
+            study.reference = Reference.findOne(_id: study.referenceID)
+            share.setExposureWordFields(study)
+
+        for study in environmentals
+            study.reference = Reference.findOne(_id: study.referenceID)
+            share.setExposureWordFields(study)
+
+        d =
+            "monographAgent": tbl.monographAgent
+            "volumeNumber": tbl.volumeNumber
+            "hasTable": true
+            "table": tbl
+            "occupationals": occupationals
+            "environmentals": environmentals
+
+        return d
+
+    data = getData()
+    path = share.getWordTemplatePath(filename)
+    docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
+    docx.setTags(data)
+    docx.applyTags()
+    docx.output({type: "string"})
+
+
+# EPI REPORTS ------------------------------------------------------------------
 prepareEpiDescriptive = (desc) ->
     desc.reference = Reference.findOne(_id: desc.referenceID)
     desc.coexposuresList = desc.coexposures.join(', ')
@@ -219,17 +264,18 @@ Meteor.methods
         tbl = Tables.findOne(tbl_id)
         switch tbl.tblType
             when "Exposure Evidence"
-                console.error("not implemented")
+                fn = exposureWordReport
             when "Epidemiology Evidence"
-                epiWordReport(tbl_id, filename)
+                fn = epiWordReport
             when "Animal Bioassay Evidence"
-                animalWordReport(tbl_id, filename)
+                fn = animalWordReport
             when "Genetic and Related Effects"
-                genotoxWordReport(tbl_id, filename)
+                fn = genotoxWordReport
             when "Mechanistic Evidence Summary"
-                mechanisticWordReport(tbl_id, filename)
+                fn = mechanisticWordReport
             else
-                console.error("unknown table type: " + tbl.tblType)
+                return console.error("unknown table type: " + tbl.tblType)
+        fn(tbl_id, filename)
 
     monographAgentEpiReport: (d) ->
         epiWordReportMultiTable(d.templateFN, d.monographagent, d.volumenumber)

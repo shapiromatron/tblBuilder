@@ -295,6 +295,12 @@ share.getFlattenedMechQuantData = (tbl_id) ->
     return data
 
 
+share.setExposureWordFields = (d) ->
+    d.location = d.location or "Not-reported"
+    d.occupationInfo = d.occupationInfo or ""
+    d.comments = d.comments or ""
+
+
 share.defaultEpiVisible = [
     "Reference",
     "Study design",
@@ -369,8 +375,6 @@ share.mechanisticTestCrosswalk =
             "Mutation": ["Oncogene", "Tumour suppressor", "Other"]
             "Chromosomal damage": ["Chromosomal aberrations", "Micronuclei", "Sister Chromatid Exchange", "Aneuploidy", "Other"]
             "DNA repair": ["Other"]
-
-
 
 share.hasGenotoxDualResult = (dataClass, phylogeneticClass) ->
     dcls = "Non-mammalian in vitro"
