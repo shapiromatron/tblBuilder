@@ -119,6 +119,36 @@ epiWordReportMultiTable = (filename, monographAgent, volumeNumber) ->
             data = getEpiDataByOrganSiteMonographAgent(monographAgent, volumeNumber)
     return createWordReport(filename, data)
 
+# ANIMAL BIOASSAY REPORT -------------------------------------------------------
+animalWordReport = (tbl_id, filename) ->
+
+    getData = () ->
+        tbl = Tables.findOne(tbl_id)
+        studies = AnimalEvidence
+            .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
+            .fetch()
+
+        for study in studies
+            study.reference = Reference.findOne(_id: study.referenceID)
+            share.setAnimalWordFields(study)
+
+        d =
+            "monographAgent": tbl.monographAgent
+            "volumeNumber": tbl.volumeNumber
+            "hasTable": true
+            "table": tbl
+            "studies": studies
+
+        return d
+
+    data = getData()
+    path = share.getWordTemplatePath(filename)
+    docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
+    docx.setTags(data)
+    docx.applyTags()
+    docx.output({type: "string"})
+
+
 # MECHANISTIC REPORT -----------------------------------------------------------
 mechanisticWordReport = (tbl_id, filename) ->
 
@@ -188,12 +218,18 @@ Meteor.methods
     downloadWordReport: (tbl_id, filename) ->
         tbl = Tables.findOne(tbl_id)
         switch tbl.tblType
-            when "Mechanistic Evidence Summary"
-                mechanisticWordReport(tbl_id, filename)
+            when "Exposure Evidence"
+                console.error("not implemented")
             when "Epidemiology Evidence"
                 epiWordReport(tbl_id, filename)
+            when "Animal Bioassay Evidence"
+                animalWordReport(tbl_id, filename)
             when "Genetic and Related Effects"
                 genotoxWordReport(tbl_id, filename)
+            when "Mechanistic Evidence Summary"
+                mechanisticWordReport(tbl_id, filename)
+            else
+                console.error("unknown table type: " + tbl.tblType)
 
     monographAgentEpiReport: (d) ->
         epiWordReportMultiTable(d.templateFN, d.monographagent, d.volumenumber)

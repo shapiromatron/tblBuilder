@@ -457,3 +457,36 @@ share.setGenotoxWordFields = (d) ->
             else
                 d.resultA = d.result
                 d.resultB = "NA"
+
+
+share.getAnimalDoses = (e) ->
+    if e then e.endpointGroups.map((v) -> v.dose).join(", ") + " " + e.units else "NR"
+
+share.getAnimalNStarts = (e) ->
+    if e then e.endpointGroups.map((v) -> v.nStart).join(", ") else "NR"
+
+share.getAnimalNSurvivings = (e) ->
+    if e then  e.endpointGroups.map((v) -> v.nSurviving).join(", ") else "NR"
+
+share.getAnimalEndpointIncidents = (egs) ->
+    return egs.map((v) -> v.incidence).join(", ")
+
+share.getAnimalEndpointMultiplicities = (egs) ->
+    return egs.map((v) -> v.multiplicity or "NR").join(", ")
+
+share.setAnimalWordFields = (d) ->
+    # set additional attributes for generating a Word-report
+    d.strengths = d.strengths.join(", ") or "None"
+    d.limitations = d.limitations.join(", ") or "None"
+    d.comments = d.comments or "None"
+    d.endpoints = AnimalEndpointEvidence.find({parent_id: d._id}).fetch()
+
+    for e in d.endpoints
+        e.incidents = share.getAnimalEndpointIncidents(e.endpointGroups)
+        e.multiplicities = share.getAnimalEndpointMultiplicities(e.endpointGroups)
+        e.significance = e.significance + "\n\n\n\n\n"  # estimation/depends on spacing
+
+    e = if (d.endpoints.length > 0) then d.endpoints[0] else undefined
+    d.doses = share.getAnimalDoses(e)
+    d.nStarts = share.getAnimalNStarts(e)
+    d.nSurvivings = share.getAnimalNSurvivings(e)

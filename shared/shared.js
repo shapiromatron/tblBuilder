@@ -15,11 +15,11 @@ tblRoleOptions = ["projectManagers", "teamMembers", "reviewers"];
 browserWhitelist = ["Chrome", "Firefox", "Mozilla"];
 
 tblTypeOptions = [
-    "Mechanistic Evidence Summary",
-    "Epidemiology Evidence",
     "Exposure Evidence",
+    "Epidemiology Evidence",
+    "Animal Bioassay Evidence",
     "Genetic and Related Effects",
-    // "Animal Bioassay Evidence",
+    "Mechanistic Evidence Summary",
     // "Mechanistic Quantitative Evidence"
 ];
 

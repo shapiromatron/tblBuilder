@@ -25,25 +25,13 @@ getFirstEndpoint = (parent_id) ->
 
 animalEndpointRowHelperExtension =
     getDoses: () ->
-        e = getFirstEndpoint(@_id)
-        if e
-            return e.endpointGroups.map((v) -> v.dose).join(", ") + " " + e.units
-        else
-            return "NR"
+        return share.getAnimalDoses(getFirstEndpoint(@_id))
 
     getNStarts: () ->
-        e = getFirstEndpoint(@_id)
-        if e
-            return e.endpointGroups.map((v) -> v.nStart).join(", ")
-        else
-            return "NR"
+        return share.getAnimalNStarts(getFirstEndpoint(@_id))
 
     getNSurvivings: () ->
-        e = getFirstEndpoint(@_id)
-        if e
-            return e.endpointGroups.map((v) -> v.nSurviving).join(", ")
-        else
-            return "NR"
+        return share.getAnimalNSurvivings(getFirstEndpoint(@_id))
 
 animalRowHelpers = $.extend(true, {}, share.abstractRowHelpers, animalEndpointRowHelperExtension)
 Template.animalRow.helpers(animalRowHelpers)
@@ -77,10 +65,10 @@ Template.animalForm.rendered = ->
 # ANIMAL ENDPOINT TBL ----------------------------------------------------------
 animalEndpointTblHelpersExtension =
     getIncidents: () ->
-        @endpointGroups.map((v) -> v.incidence).join(", ")
+        return share.getAnimalEndpointIncidents(@endpointGroups)
 
     getMultiplicities: () ->
-        @endpointGroups.map((v) -> v.multiplicity or "NR").join(", ")
+        return share.getAnimalEndpointMultiplicities(@endpointGroups)
 
 animalEndpointTblHelpers = $.extend(true, {}, share.abstractNestedTableHelpers, animalEndpointTblHelpersExtension)
 
