@@ -5,48 +5,41 @@ angularParser = (tag) ->
     expr = angular_expressions.compile(tag)
     return get: expr
 
+
 # EXPOSURE REPORT -------------------------------------------------------
-exposureWordReport = (tbl_id, filename) ->
+exposureWordReport = (tbl_id) ->
 
-    getData = () ->
-        tbl = Tables.findOne(tbl_id)
-        occupationals = ExposureEvidence
-            .find({
-                    tbl_id: tbl_id,
-                    exposureScenario: "Occupational"
-                  }, {sort: {sortIdx: 1}})
-            .fetch()
-        environmentals = ExposureEvidence
-            .find({
-                    tbl_id: tbl_id,
-                    exposureScenario: "Environmental"
-                  }, {sort: {sortIdx: 1}})
-            .fetch()
+    tbl = Tables.findOne(tbl_id)
+    occupationals = ExposureEvidence
+        .find({
+                tbl_id: tbl_id,
+                exposureScenario: "Occupational"
+              }, {sort: {sortIdx: 1}})
+        .fetch()
+    environmentals = ExposureEvidence
+        .find({
+                tbl_id: tbl_id,
+                exposureScenario: "Environmental"
+              }, {sort: {sortIdx: 1}})
+        .fetch()
 
-        for study in occupationals
-            study.reference = Reference.findOne(_id: study.referenceID)
-            share.setExposureWordFields(study)
+    for study in occupationals
+        study.reference = Reference.findOne(_id: study.referenceID)
+        share.setExposureWordFields(study)
 
-        for study in environmentals
-            study.reference = Reference.findOne(_id: study.referenceID)
-            share.setExposureWordFields(study)
+    for study in environmentals
+        study.reference = Reference.findOne(_id: study.referenceID)
+        share.setExposureWordFields(study)
 
-        d =
-            "monographAgent": tbl.monographAgent
-            "volumeNumber": tbl.volumeNumber
-            "hasTable": true
-            "table": tbl
-            "occupationals": occupationals
-            "environmentals": environmentals
+    d =
+        "monographAgent": tbl.monographAgent
+        "volumeNumber": tbl.volumeNumber
+        "hasTable": true
+        "table": tbl
+        "occupationals": occupationals
+        "environmentals": environmentals
 
-        return d
-
-    data = getData()
-    path = share.getWordTemplatePath(filename)
-    docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
-    docx.setTags(data)
-    docx.applyTags()
-    docx.output({type: "string"})
+    return d
 
 
 # EPI REPORTS ------------------------------------------------------------------
@@ -146,14 +139,14 @@ createWordReport = (templateFilename, data) ->
     docx.applyTags()
     return docx.output({type: "string"})
 
-epiWordReport = (tbl_id, filename) ->
-    epiSortOrder = ReportTemplate.findOne({filename: filename}).epiSortOrder
+epiWordReport = (tbl_id, epiSortOrder) ->
     switch epiSortOrder
         when "Reference"
-            data = getEpiDataByReference(tbl_id)
+            return getEpiDataByReference(tbl_id)
         when "Organ-site"
-            data = getEpiDataByOrganSite(tbl_id)
-    return createWordReport(filename, data)
+            return getEpiDataByOrganSite(tbl_id)
+        else
+            console.error("unknown epiSortOrder")
 
 epiWordReportMultiTable = (filename, monographAgent, volumeNumber) ->
     epiSortOrder = ReportTemplate.findOne({filename: filename}).epiSortOrder
@@ -165,37 +158,27 @@ epiWordReportMultiTable = (filename, monographAgent, volumeNumber) ->
     return createWordReport(filename, data)
 
 # ANIMAL BIOASSAY REPORT -------------------------------------------------------
-animalWordReport = (tbl_id, filename) ->
+animalWordReport = (tbl_id) ->
+    tbl = Tables.findOne(tbl_id)
+    studies = AnimalEvidence
+        .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
+        .fetch()
 
-    getData = () ->
-        tbl = Tables.findOne(tbl_id)
-        studies = AnimalEvidence
-            .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
-            .fetch()
+    for study in studies
+        study.reference = Reference.findOne(_id: study.referenceID)
+        share.setAnimalWordFields(study)
 
-        for study in studies
-            study.reference = Reference.findOne(_id: study.referenceID)
-            share.setAnimalWordFields(study)
+    d =
+        "monographAgent": tbl.monographAgent
+        "volumeNumber": tbl.volumeNumber
+        "hasTable": true
+        "table": tbl
+        "studies": studies
 
-        d =
-            "monographAgent": tbl.monographAgent
-            "volumeNumber": tbl.volumeNumber
-            "hasTable": true
-            "table": tbl
-            "studies": studies
-
-        return d
-
-    data = getData()
-    path = share.getWordTemplatePath(filename)
-    docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
-    docx.setTags(data)
-    docx.applyTags()
-    docx.output({type: "string"})
-
+    return d
 
 # MECHANISTIC REPORT -----------------------------------------------------------
-mechanisticWordReport = (tbl_id, filename) ->
+mechanisticWordReport = (tbl_id) ->
 
     getReferences = (obj) ->
         refs = Reference.find({_id: {$in: obj.references}}).fetch()
@@ -220,62 +203,57 @@ mechanisticWordReport = (tbl_id, filename) ->
             getReferences(child)
             getChildren(child)
 
-    path = share.getWordTemplatePath(filename)
-    docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
-    docx.setTags(data)
-    docx.applyTags()
-    docx.output({type: "string"})
+    return data
+
 
 # GENOTOXICITY REPORT ----------------------------------------------------------
-genotoxWordReport = (tbl_id, filename) ->
+genotoxWordReport = (tbl_id) ->
 
-    getData = () ->
-        tbl = Tables.findOne(tbl_id)
-        d =
-            "monographAgent": tbl.monographAgent
-            "volumeNumber": tbl.volumeNumber
-            "hasTable": true
-            "table": tbl
+    tbl = Tables.findOne(tbl_id)
+    d =
+        "monographAgent": tbl.monographAgent
+        "volumeNumber": tbl.volumeNumber
+        "hasTable": true
+        "table": tbl
 
-        vals = GenotoxEvidence
-            .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
-            .fetch()
+    vals = GenotoxEvidence
+        .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
+        .fetch()
 
-        for val in vals
-            val.reference = Reference.findOne(_id: val.referenceID)
-            share.setGenotoxWordFields(val)
+    for val in vals
+        val.reference = Reference.findOne(_id: val.referenceID)
+        share.setGenotoxWordFields(val)
 
-        d.nonMammalianInVitro = _.filter(vals, (v) -> return v.dataClass == "Non-mammalian in vitro")
-        d.mammalianInVitro = _.filter(vals, (v) -> return v.dataClass == "Mammalian and human in vitro")
-        d.animalInVivo = _.filter(vals, (v) -> return v.dataClass == "Animal in vivo")
-        d.humanInVivo = _.filter(vals, (v) -> return v.dataClass == "Human in vivo")
-        return d
-
-    data = getData()
-    path = share.getWordTemplatePath(filename)
-    docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
-    docx.setTags(data)
-    docx.applyTags()
-    docx.output({type: "string"})
+    d.nonMammalianInVitro = _.filter(vals, (v) -> return v.dataClass == "Non-mammalian in vitro")
+    d.mammalianInVitro = _.filter(vals, (v) -> return v.dataClass == "Mammalian and human in vitro")
+    d.animalInVivo = _.filter(vals, (v) -> return v.dataClass == "Animal in vivo")
+    d.humanInVivo = _.filter(vals, (v) -> return v.dataClass == "Human in vivo")
+    return d
 
 
 Meteor.methods
     downloadWordReport: (tbl_id, filename) ->
         tbl = Tables.findOne(tbl_id)
+        template = ReportTemplate.findOne({filename: filename})
         switch tbl.tblType
             when "Exposure Evidence"
-                fn = exposureWordReport
+                data = exposureWordReport(tbl_id)
             when "Epidemiology Evidence"
-                fn = epiWordReport
+                data = epiWordReport(tbl_id, template.epiSortOrder)
             when "Animal Bioassay Evidence"
-                fn = animalWordReport
+                data = animalWordReport(tbl_id)
             when "Genetic and Related Effects"
-                fn = genotoxWordReport
+                data = genotoxWordReport(tbl_id)
             when "Mechanistic Evidence Summary"
-                fn = mechanisticWordReport
+                data = mechanisticWordReport(tbl_id)
             else
                 return console.error("unknown table type: " + tbl.tblType)
-        fn(tbl_id, filename)
+
+        path = share.getWordTemplatePath(filename)
+        docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
+        docx.setTags(data)
+        docx.applyTags()
+        return docx.output({type: "string"})
 
     monographAgentEpiReport: (d) ->
         epiWordReportMultiTable(d.templateFN, d.monographagent, d.volumenumber)
