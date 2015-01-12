@@ -103,13 +103,6 @@ GenotoxEvidence.before.insert (userId, doc) ->
     doc['sortIdx'] = getNewIdx(GenotoxEvidence, doc.tbl_id)
     return userCanEditTblContent(doc.tbl_id, userId)
 
-MechQuantEvidence.before.insert (userId, doc) ->
-    doc = addTimestampAndUserID(userId, doc)
-    doc = addQAmarks(doc)
-    doc['isHidden'] = false
-    doc['sortIdx'] = getNewIdx(MechQuantEvidence, doc.tbl_id)
-    return userCanEditTblContent(doc.tbl_id, userId)
-
 
 # Update hooks
 userCanEditTblContentCheck = (userId, doc, fieldNames, modifier, options) ->
@@ -130,8 +123,6 @@ AnimalEvidence.before.update userCanEditTblContentCheck
 AnimalEndpointEvidence.before.update userCanEditTblContentCheck
 
 GenotoxEvidence.before.update userCanEditTblContentCheck
-
-MechQuantEvidence.before.update userCanEditTblContentCheck
 
 
 # Remove hooks
@@ -167,8 +158,6 @@ AnimalEvidence.before.remove userCanRemoveTblContentCheck
 AnimalEndpointEvidence.before.remove userCanRemoveTblContentCheck
 
 GenotoxEvidence.before.remove userCanRemoveTblContentCheck
-
-MechQuantEvidence.before.remove userCanRemoveTblContentCheck
 
 
 # After insert hook
