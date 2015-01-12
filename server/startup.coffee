@@ -19,26 +19,3 @@ Meteor.startup ->
             Accounts.sendEnrollmentEmail(_id)
         else
             console.log("Create an admin user by setting the 'superuser_email' field in meteor settings")
-
-    # create basic report template objects in database
-    if ReportTemplate.find().count() is 0
-        user = Meteor.users.findOne()._id
-        timestamp = (new Date()).getTime()
-
-        templates = [
-            {
-                filename: "mechanistic-v1.docx"
-                tblType: "Mechanistic Evidence Summary"
-                timestamp: timestamp
-                user_id: user
-            },
-            {
-                filename: "epi-v1.docx"
-                tblType: "Epidemiology Evidence"
-                timestamp: timestamp
-                user_id: user
-            }
-        ]
-
-        for template in templates
-            ReportTemplate.insert(template)

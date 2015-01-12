@@ -119,15 +119,6 @@ Meteor.methods
         wb.Sheets[ws_name] = ws
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
-    mechQuantEvidenceDownload: (tbl_id) ->
-        data = share.getFlattenedMechQuantData(tbl_id)
-        ws_name = "Mech Quant Results"
-        wb = new Workbook()
-        ws = sheet_from_array_of_arrays(data)
-        wb.SheetNames.push(ws_name)
-        wb.Sheets[ws_name] = ws
-        XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
-
     referenceExcelDownload: (monographAgent) ->
 
         getDataRow = (v) ->

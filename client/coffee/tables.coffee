@@ -41,8 +41,6 @@ Template.TablesByMonograph.helpers
                 url = Router.path('animalMain', {_id: @_id})
             when "Genetic and Related Effects"
                 url = Router.path('genotoxMain', {_id: @_id})
-            when "Mechanistic Quantitative Evidence"
-                url = Router.path('mechQuantMain', {_id: @_id})
             else
                 url = Router.path('404')
 

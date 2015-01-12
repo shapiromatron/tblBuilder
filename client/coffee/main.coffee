@@ -111,19 +111,6 @@ Router.map ->
 
         controller: TblRouterController
 
-    this.route 'mechQuantMain',
-        path: '/mechanistic-quantitative/:_id'
-
-        waitOn: ->
-            if share.TablesHandler.ready()
-                tbl = Tables.findOne({_id: this.params._id})
-                Session.set('Tbl', tbl)
-                if tbl
-                    Session.set('monographAgent', tbl.monographAgent)
-                    return Meteor.subscribe('mechQuantEvidence', tbl._id)
-
-        controller: TblRouterController
-
     this.route 'referencesMain',
         path: '/references/:monographAgent/',
 
@@ -307,11 +294,4 @@ share.evidenceType =
             collection_name: "genotoxEvidence"
             excel_method: "genotoxEvidenceDownload"
             excel_fn: "genotox.xlsx"
-            requiredUpdateFields: []
-
-        mechQuant:
-            collection: MechQuantEvidence
-            collection_name: "mechQuantEvidence"
-            excel_method: "mechQuantEvidenceDownload"
-            excel_fn: "mechQuant.xlsx"
             requiredUpdateFields: []

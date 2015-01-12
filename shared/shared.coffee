@@ -66,7 +66,6 @@ share.getFlattenedEpiData = (tbl_id) ->
         data.push.apply(data, rows)
     return data
 
-
 share.getFlattenedExposureData = (tbl_id) ->
     vals = ExposureEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
     header = [
@@ -115,7 +114,6 @@ share.getFlattenedExposureData = (tbl_id) ->
         data.push(row)
 
     return data
-
 
 share.getFlattenedAnimalData = (tbl_id) ->
 
@@ -206,7 +204,6 @@ share.getFlattenedAnimalData = (tbl_id) ->
         data.push.apply(data, rows)
     return data
 
-
 share.getFlattenedGenotoxData = (tbl_id) ->
     vals = GenotoxEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
     header = [
@@ -282,24 +279,10 @@ share.getFlattenedGenotoxData = (tbl_id) ->
 
     return data
 
-
-share.getFlattenedMechQuantData = (tbl_id) ->
-    vals = MechQuantEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch()
-    header = ["Mechanistic Quantitative ID", "Reference"]
-    data = [header]
-    for v in vals
-        reference = Reference.findOne({_id: v.referenceID}).name
-        row = [v._id, reference]
-        data.push(row)
-
-    return data
-
-
 share.setExposureWordFields = (d) ->
     d.location = d.location or "Not-reported"
     d.occupationInfo = d.occupationInfo or ""
     d.comments = d.comments or ""
-
 
 share.defaultEpiVisible = [
     "Reference",
@@ -310,7 +293,6 @@ share.defaultEpiVisible = [
     "Exposure category",
     "Risk"
 ]
-
 
 share.mechanisticTestCrosswalk =
     "Non-mammalian in vitro":
@@ -462,7 +444,6 @@ share.setGenotoxWordFields = (d) ->
             else
                 d.resultA = d.result
                 d.resultB = "NA"
-
 
 share.getAnimalDoses = (e) ->
     if e then e.endpointGroups.map((v) -> v.dose).join(", ") + " " + e.units else "NR"

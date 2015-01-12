@@ -762,12 +762,6 @@ Meteor.startup ->
             type: String
             optional: true
 
-    mech_quant_schema =
-
-        referenceID:
-            label: "Reference"
-            type: SimpleSchema.RegEx.Id
-
     animal_endpoint_schema =
 
         parent_id:
@@ -842,7 +836,6 @@ Meteor.startup ->
     _.extend(animal_schema, tbl_content_base)
     _.extend(animal_endpoint_schema, tbl_content_base)
     _.extend(genotox_schema, tbl_content_base)
-    _.extend(mech_quant_schema, tbl_content_base)
 
 
     # Override simple-schema defaults
@@ -859,7 +852,6 @@ Meteor.startup ->
     share.animalEvidenceSchema = new SimpleSchema(animal_schema)
     share.animalEndpointEvidenceSchema = new SimpleSchema(animal_endpoint_schema)
     share.genotoxEvidenceSchema = new SimpleSchema(genotox_schema)
-    share.mechQuantEvidenceSchema = new SimpleSchema(mech_quant_schema)
 
 
     # attach schema to collections
@@ -872,4 +864,3 @@ Meteor.startup ->
     AnimalEvidence.attachSchema(share.animalEvidenceSchema)
     AnimalEndpointEvidence.attachSchema(share.animalEndpointEvidenceSchema)
     GenotoxEvidence.attachSchema(share.genotoxEvidenceSchema)
-    MechQuantEvidence.attachSchema(share.mechQuantEvidenceSchema)

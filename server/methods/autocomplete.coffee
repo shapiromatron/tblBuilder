@@ -49,7 +49,6 @@ Meteor.methods
             when model is "animalEvidence" then AnimalEvidence
             when model is "animalEndpointEvidence" then AnimalEndpointEvidence
             when model is "genotoxEvidence" then GenotoxEvidence
-            when model is "mechQuantEvidence" then MechQuantEvidence
             else undefined
 
         if collection

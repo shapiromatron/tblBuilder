@@ -5,7 +5,6 @@ ExposureEvidence = new Meteor.Collection('exposureEvidence');
 AnimalEvidence = new Meteor.Collection('animalEvidence');
 AnimalEndpointEvidence = new Meteor.Collection('animalEndpointEvidence');
 GenotoxEvidence = new Meteor.Collection('genotoxEvidence');
-MechQuantEvidence = new Meteor.Collection('mechQuantEvidence');
 EpiDescriptive = new Meteor.Collection('epiDescriptive');
 EpiResult = new Meteor.Collection('epiResult');
 ReportTemplate = new Meteor.Collection('reportTemplate');
@@ -20,7 +19,6 @@ tblTypeOptions = [
     "Animal Bioassay Evidence",
     "Genetic and Related Effects",
     "Mechanistic Evidence Summary",
-    // "Mechanistic Quantitative Evidence"
 ];
 
 
