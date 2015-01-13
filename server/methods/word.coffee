@@ -10,34 +10,24 @@ angularParser = (tag) ->
 exposureWordReport = (tbl_id) ->
 
     tbl = Tables.findOne(tbl_id)
-    occupationals = ExposureEvidence
-        .find({
-                tbl_id: tbl_id,
-                exposureScenario: "Occupational"
-              }, {sort: {sortIdx: 1}})
-        .fetch()
-    environmentals = ExposureEvidence
-        .find({
-                tbl_id: tbl_id,
-                exposureScenario: "Environmental"
-              }, {sort: {sortIdx: 1}})
+    exposures = ExposureEvidence
+        .find({tbl_id: tbl_id},
+              {sort: {sortIdx: 1}})
         .fetch()
 
-    for study in occupationals
-        study.reference = Reference.findOne(_id: study.referenceID)
-        share.setExposureWordFields(study)
-
-    for study in environmentals
-        study.reference = Reference.findOne(_id: study.referenceID)
-        share.setExposureWordFields(study)
+    for exp in exposures
+        exp.reference = Reference.findOne(_id: exp.referenceID)
+        share.setExposureWordFields(exp)
 
     d =
         "monographAgent": tbl.monographAgent
         "volumeNumber": tbl.volumeNumber
         "hasTable": true
         "table": tbl
-        "occupationals": occupationals
-        "environmentals": environmentals
+        "exposures": exposures
+        "occupationals": _.filter(exposures, (d) -> return d.exposureScenario is "Occupational")
+        "environmentals": _.filter(exposures, (d) -> return d.exposureScenario is "Environmental")
+        "mixed": _.filter(exposures, (d) -> return d.exposureScenario is "Integrated/mixed")
 
     return d
 

@@ -29,7 +29,8 @@ referenceTypeOptions = ["PubMed", "Other"];
 // Exposure evidence shared options
 exposureScenarios = [
     "Occupational",
-    "Environmental"
+    "Environmental",
+    "Integrated/mixed"
 ];
 
 exposureScenariosOccupational = [
