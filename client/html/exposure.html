@@ -46,15 +46,17 @@
       <col width="15%">
       <col width="10%">
       <col width="10%">
+      <col width="10%">
       <col width="15%">
       <col width="10%">
-      <col width="40%">
+      <col width="30%">
     </colgroup>
     <thead>
       <tr>
-        <th>Reference,<br>agent collected</th>
+        <th>Reference,<br>agent collected,<br>exposure-scenario</th>
         <th>Location, <br>collection date</th>
         <th>Occupation description</th>
+        <th>Sampling<br>matrix</th>
         <th>Exposure level</th>
         <th>Exposure range</th>
         <th>Comments/additional data</th>
@@ -123,7 +125,8 @@
     {{/if}}
     {{qaMark isQA}}
     {{>printReference id=referenceID}}<br>
-    <span class="text-muted">{{agent}}</span>
+    <span class="text-muted">{{exposureScenario}}</span><br>
+    {{agent}}
   </td>
   <td>
     {{country}}<br>
@@ -142,6 +145,9 @@
     {{else}}
       N/A
     {{/if}}
+  </td>
+  <td>
+    {{samplingMatrix}}
   </td>
   <td>
     {{exposureLevel}} {{units}}<br>
