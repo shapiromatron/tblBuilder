@@ -460,6 +460,9 @@ share.getAnimalEndpointIncidents = (egs) ->
 share.getAnimalEndpointMultiplicities = (egs) ->
     return egs.map((v) -> v.multiplicity or "NR").join(", ")
 
+share.getAnimalTotalTumours = (egs) ->
+    return egs.map((v) -> v.totalTumours or "NR").join(", ")
+
 share.setAnimalWordFields = (d) ->
     # set additional attributes for generating a Word-report
     d.strengths = d.strengths.join(", ") or "None"

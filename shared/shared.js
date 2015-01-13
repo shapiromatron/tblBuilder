@@ -153,5 +153,6 @@ animalSexes = [
     "M",
     "F",
     "M+F",
+    "M+F (combined)",
     "NR"
 ];

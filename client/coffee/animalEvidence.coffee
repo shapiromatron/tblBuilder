@@ -65,10 +65,31 @@ Template.animalForm.rendered = ->
 # ANIMAL ENDPOINT TBL ----------------------------------------------------------
 animalEndpointTblHelpersExtension =
     getIncidents: () ->
-        return share.getAnimalEndpointIncidents(@endpointGroups)
+        if _.pluck(@endpointGroups, "incidence").join("").length>0
+            inc = share.getAnimalEndpointIncidents(@endpointGroups)
+            return "Tumour incidence<br>#{inc}<br>"
 
     getMultiplicities: () ->
-        return share.getAnimalEndpointMultiplicities(@endpointGroups)
+        if _.pluck(@endpointGroups, "multiplicity").join("").length>0
+            mult = share.getAnimalEndpointMultiplicities(@endpointGroups)
+            return "Tumour multiplicity:<br>#{mult}<br>"
+
+    getTotalTumours: () ->
+        if _.pluck(@endpointGroups, "totalTumours").join("").length>0
+            tumours = share.getAnimalTotalTumours(@endpointGroups)
+            return "Total tumours:<br>#{tumours}<br>"
+
+    getIncidenceSignificance: () ->
+        if @incidence_significance
+            return "#{@incidence_significance}</br>"
+
+    getMultiplicitySignificance: () ->
+        if @multiplicity_significance
+            return "#{@multiplicity_significance}</br>"
+
+    getTotalTumoursSignificance: () ->
+        if @total_tumours_significance
+            return "#{@total_tumours_significance}</br>"
 
 animalEndpointTblHelpers = $.extend(true, {}, share.abstractNestedTableHelpers, animalEndpointTblHelpersExtension)
 

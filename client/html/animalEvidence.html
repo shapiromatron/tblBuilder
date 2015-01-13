@@ -109,7 +109,6 @@
   {{/if}}
 
   <div id="modalHolder"></div>
-
 </template>
 
 
@@ -178,6 +177,7 @@
 
   <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
 </template>
+
 
 <template name="listOrNone">
   <br>
@@ -430,13 +430,15 @@
               {{/if}}
               {{qaMark isQA}}
               <strong>{{tumourSite}}: {{histology}}</strong><br><br>
-              Tumour incidence:<br>
-              {{getIncidents}}<br><br>
-              Tumour multiplicity:<br>
-              {{getMultiplicities}}
+              {{{getIncidents}}}
+              {{{getMultiplicities}}}
+              {{{getTotalTumours}}}
             </td>
             <td>
-              {{significance}}
+              <br><br><br>
+              {{{getIncidenceSignificance}}}
+              {{{getMultiplicitySignificance}}}
+              {{{getTotalTumoursSignificance}}}
             </td>
             <td class="dragHandle dhInner"
                 style="display: none"
@@ -519,11 +521,11 @@
                   <th class="text-center">
                     <span class="helpPopovers" data-toggle="popover"
                           data-content="<add>">
-                          N<br>surviving*</span></th>
+                          N<br>surviving</span></th>
                   <th class="text-center">
                     <span class="helpPopovers" data-toggle="popover"
                           data-content="<add>">
-                          Tumour<br>incidence*</span></th>
+                          Tumour<br>incidence</span></th>
                   <th class="text-center">
                     <span class="helpPopovers" data-toggle="popover"
                           data-content="<add>">
@@ -549,13 +551,31 @@
             <!-- Final row -->
             <div class="form-group row">
 
-              <div class="col-xs-12">
+              <div class="col-xs-4">
                 <label class="helpPopovers" data-toggle="popover"
                        data-content="<add>">
-                      Significance notes*</label>
+                      Incidence significance notes</label>
                 <textarea class="form-control"
-                          name='significance'
-                          rows="3">{{significance}}</textarea>
+                          name='incidence_significance'
+                          rows="3">{{incidence_significance}}</textarea>
+              </div>
+
+              <div class="col-xs-4">
+                <label class="helpPopovers" data-toggle="popover"
+                       data-content="<add>">
+                      Multiplicity significance notes</label>
+                <textarea class="form-control"
+                          name='multiplicity_significance'
+                          rows="3">{{multiplicity_significance}}</textarea>
+              </div>
+
+              <div class="col-xs-4">
+                <label class="helpPopovers" data-toggle="popover"
+                       data-content="<add>">
+                      Total tumours significance notes</label>
+                <textarea class="form-control"
+                          name='total_tumours_significance'
+                          rows="3">{{total_tumours_significance}}</textarea>
               </div>
 
             </div>
@@ -636,7 +656,7 @@
              value="{{nStart}}"/>
     </td>
     <td>
-      <input class="form-control" type="number"
+      <input class="form-control" type="text"
              name='nSurviving'
              value="{{nSurviving}}"/>
     </td>
@@ -646,12 +666,12 @@
              value="{{incidence}}"/>
     </td>
     <td>
-      <input class="form-control" type="number" step="any"
+      <input class="form-control" type="text"
              name='multiplicity'
              value="{{multiplicity}}"/>
     </td>
     <td>
-      <input class="form-control" type="number"
+      <input class="form-control" type="text"
              name='totalTumours'
              value="{{totalTumours}}"/>
     </td>

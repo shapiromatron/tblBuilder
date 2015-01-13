@@ -783,11 +783,6 @@ Meteor.startup ->
             type: String
             min: 1
 
-        endpointGroups:
-            label: "Endpoint groups"
-            type: [Object]
-            minCount: 1
-
         "endpointGroups.$.dose":
             label: "Dose"
             type: Number
@@ -800,30 +795,38 @@ Meteor.startup ->
 
         "endpointGroups.$.nSurviving":
             label: "N surviving"
-            type: Number
-            decimal: false
+            type: String
+            optional: true
 
         "endpointGroups.$.incidence":
             label: "Tumour incidence"
             type: String
-            min: 1
+            optional: true
 
         "endpointGroups.$.multiplicity":
             label: "Tumour multiplicity"
-            type: Number
-            decimal: true
+            type: String
             optional: true
 
         "endpointGroups.$.totalTumours":
             label: "Total tumours"
-            type: Number
-            decimal: false
+            type: String
             optional: true
 
-        significance:
-            label: "Significance notes"
+        incidence_significance:
+            label: "Incidence significance notes"
             type: String
-            min: 1
+            optional: true
+
+        multiplicity_significance:
+            label: "Multiplicity significance notes"
+            type: String
+            optional: true
+
+        total_tumours_significance:
+            label: "Total tumours significance notes"
+            type: String
+            optional: true
 
     # extend content between base base-content objects
     _.extend(tbl_schema, base_content)
