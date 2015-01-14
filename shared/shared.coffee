@@ -128,8 +128,13 @@ share.getFlattenedAnimalData = (tbl_id) ->
                 v.tumourSite,
                 v.histology,
                 v.units,
-                v.significance
             )
+
+            signifs = [
+                v.incidence_significance,
+                v.multiplicity_significance,
+                v.total_tumours_significance
+            ]
 
             # multiple risk-estimates per cancer site (low-exp group, high-exp group, etc.)
             for eg in v.endpointGroups
@@ -142,6 +147,7 @@ share.getFlattenedAnimalData = (tbl_id) ->
                     eg.multiplicity,
                     eg.totalTumours
                 )
+                row3.push.apply(row3, signifs)  # aka extend
                 rows.push(row3)
         return rows
 
@@ -168,7 +174,6 @@ share.getFlattenedAnimalData = (tbl_id) ->
         "Tumour site",
         "Histology",
         "Units",
-        "Significance",
 
         "Dose",
         "N at Start",
@@ -176,6 +181,10 @@ share.getFlattenedAnimalData = (tbl_id) ->
         "Incidence",
         "Multiplicity",
         "Total Tumours"
+
+        "Incidence significance",
+        "Multiplicity significance",
+        "Total tumours significance",
     ]
     data = [header]
     for v in vals
@@ -455,13 +464,25 @@ share.getAnimalNSurvivings = (e) ->
     if e then  e.endpointGroups.map((v) -> v.nSurviving).join(", ") else "NR"
 
 share.getAnimalEndpointIncidents = (egs) ->
-    return egs.map((v) -> v.incidence).join(", ")
+    if _.pluck(egs, "incidence").join("").length>0
+        val = egs.map((v) -> v.incidence).join(", ")
+        return "Tumour incidence<br>#{val}<br>"
+    else
+        return ""
 
 share.getAnimalEndpointMultiplicities = (egs) ->
-    return egs.map((v) -> v.multiplicity or "NR").join(", ")
+    if _.pluck(egs, "multiplicity").join("").length>0
+        val = egs.map((v) -> v.multiplicity or "NR").join(", ")
+        return "Tumour multiplicity:<br>#{val}<br>"
+    else
+        return ""
 
 share.getAnimalTotalTumours = (egs) ->
-    return egs.map((v) -> v.totalTumours or "NR").join(", ")
+    if _.pluck(egs, "totalTumours").join("").length>0
+        val = egs.map((v) -> v.totalTumours or "NR").join(", ")
+        return "Total tumours:<br>#{val}<br>"
+    else
+        return ""
 
 share.setAnimalWordFields = (d) ->
     # set additional attributes for generating a Word-report
@@ -472,8 +493,15 @@ share.setAnimalWordFields = (d) ->
 
     for e in d.endpoints
         e.incidents = share.getAnimalEndpointIncidents(e.endpointGroups)
+                           .replace(/\<br\>/g, "\n")
         e.multiplicities = share.getAnimalEndpointMultiplicities(e.endpointGroups)
-        e.significance = e.significance + "\n\n\n\n\n"  # estimation/depends on spacing
+                                .replace(/\<br\>/g, "\n")
+        e.total_tumours = share.getAnimalTotalTumours(e.endpointGroups)
+                               .replace(/\<br\>/g, "\n")
+
+        e.incidence_significance = e.incidence_significance or ""
+        e.multiplicity_significance = e.multiplicity_significance or ""
+        e.total_tumours_significance = e.total_tumours_significance or ""
 
     e = if (d.endpoints.length > 0) then d.endpoints[0] else undefined
     d.doses = share.getAnimalDoses(e)

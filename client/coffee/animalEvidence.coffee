@@ -65,19 +65,13 @@ Template.animalForm.rendered = ->
 # ANIMAL ENDPOINT TBL ----------------------------------------------------------
 animalEndpointTblHelpersExtension =
     getIncidents: () ->
-        if _.pluck(@endpointGroups, "incidence").join("").length>0
-            inc = share.getAnimalEndpointIncidents(@endpointGroups)
-            return "Tumour incidence<br>#{inc}<br>"
+        return share.getAnimalEndpointIncidents(@endpointGroups)
 
     getMultiplicities: () ->
-        if _.pluck(@endpointGroups, "multiplicity").join("").length>0
-            mult = share.getAnimalEndpointMultiplicities(@endpointGroups)
-            return "Tumour multiplicity:<br>#{mult}<br>"
+        return share.getAnimalEndpointMultiplicities(@endpointGroups)
 
     getTotalTumours: () ->
-        if _.pluck(@endpointGroups, "totalTumours").join("").length>0
-            tumours = share.getAnimalTotalTumours(@endpointGroups)
-            return "Total tumours:<br>#{tumours}<br>"
+        return share.getAnimalTotalTumours(@endpointGroups)
 
     getIncidenceSignificance: () ->
         if @incidence_significance
