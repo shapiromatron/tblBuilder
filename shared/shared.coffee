@@ -400,39 +400,6 @@ share.getGenotoxTestSystemDesc = (d) ->
             console.log("unknown data-type")
     return txt
 
-share.setGenotoxColumns = (d) ->
-    # set HTML attributes for online tabular display
-    # data class
-    d.col1 = d.dataClass
-
-    # test-system
-    d.col2 = share.getGenotoxTestSystemDesc(d)
-
-    # endpoint
-    d.col3 = d.endpoint + "/<br>" + d.endpointTest
-
-    # result, result with metabolic activation
-    if share.hasGenotoxDualResult(d.dataClass, d.phylogeneticClass)
-        d.col4 = d.resultNoMetabolic
-        d.col5 = d.resultMetabolic
-    else
-        d.col4 = d.result
-        d.col5 = "NA"
-
-    if d.dataClass is "Human in vivo" and d.significance
-        d.col4 +=  "&nbsp;" + d.significance
-
-    # agent, critical dose, and doses units
-    d.col6 = d.agent + ",<br>"
-    if d.led
-        d.col6 += d.led + "&nbsp"
-    d.col6 += d.units
-
-    if d.dataClass is "Animal in vivo"
-        d.col6 += "<br>[#{d.dosesTested}&nbsp;#{d.units}]"
-
-    # comments
-    d.col7 = d.comments
 
 share.setGenotoxWordFields = (d) ->
     # set additional attributes for generating a Word-report

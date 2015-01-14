@@ -21,8 +21,49 @@ Template.genotoxTbl.rendered = ->
 # GENOTOX ROW ------------------------------------------------------------------
 Template.genotoxRow.events(share.abstractRowEvents)
 
-Template.genotoxRow.created = ->
-    share.setGenotoxColumns(@data)
+Template.genotoxRow.helpers
+
+    getCol1: () ->
+        return @dataClass
+
+    getCol2: () ->
+        return share.getGenotoxTestSystemDesc(@)
+
+    getCol3: () ->
+        return @endpoint + "/<br>" + @endpointTest
+
+    getCol4: () ->
+        if share.hasGenotoxDualResult(@dataClass, @phylogeneticClass)
+            txt = @resultNoMetabolic
+        else
+            txt = @result
+
+        if @dataClass is "Human in vivo" and @significance
+            txt +=  "&nbsp;" + @significance
+
+        return txt
+
+    getCol5: () ->
+        if share.hasGenotoxDualResult(@dataClass, @phylogeneticClass)
+            txt = @resultMetabolic
+        else
+            txt = "NA"
+
+        return txt
+
+    getCol6: () ->
+        txt = @agent + ",<br>"
+        if @led
+            txt += @led + "&nbsp"
+        txt += @units
+
+        if @dataClass is "Animal in vivo"
+            txt += "<br>[#{d.dosesTested}&nbsp;#{d.units}]"
+
+        return txt
+
+    getCol7: () ->
+        return @comments
 
 
 # GENOTOX FORM -----------------------------------------------------------------
