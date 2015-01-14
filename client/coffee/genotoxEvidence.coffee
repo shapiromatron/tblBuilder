@@ -30,10 +30,10 @@ Template.genotoxRow.helpers
         return share.getGenotoxTestSystemDesc(@)
 
     getCol3: () ->
-        return @endpoint + "/<br>" + @endpointTest
+        return "#{@endpoint}/<br>#{@endpointTest}"
 
     getCol4: () ->
-        if share.hasGenotoxDualResult(@dataClass, @phylogeneticClass)
+        if @dualResult
             txt = @resultNoMetabolic
         else
             txt = @result
@@ -44,10 +44,13 @@ Template.genotoxRow.helpers
         return txt
 
     getCol5: () ->
-        if share.hasGenotoxDualResult(@dataClass, @phylogeneticClass)
+        if @dualResult
             txt = @resultMetabolic
         else
-            txt = "NA"
+            if @dataClass.indexOf('vitro')>0
+                txt = ""
+            else
+                txt = "NA"
 
         return txt
 
@@ -58,7 +61,7 @@ Template.genotoxRow.helpers
         txt += @units
 
         if @dataClass is "Animal in vivo"
-            txt += "<br>[#{d.dosesTested}&nbsp;#{d.units}]"
+            txt += "<br>[#{@dosesTested}&nbsp;#{@units}]"
 
         return txt
 
@@ -91,17 +94,17 @@ toggleDataClassFields = (tmpl) ->
     hides = ""
     switch $(selector).find('option:selected')[0].value
         when "Non-mammalian in vitro"
-            shows = ".non_mamm_vitro, .doses"
+            shows = ".non_mamm_vitro, .doses, .vitro"
             hides = ".mamm_vitro, .ani_vivo, .human_vivo, .concs"
         when "Mammalian and human in vitro"
-            shows = ".mamm_vitro, .doses"
+            shows = ".mamm_vitro, .doses, .vitro"
             hides = ".non_mamm_vitro, .ani_vivo, .human_vivo, .concs"
         when "Animal in vivo"
             shows = ".ani_vivo, .concs"
-            hides = ".non_mamm_vitro, .mamm_vitro, .human_vivo, .doses"
+            hides = ".non_mamm_vitro, .mamm_vitro, .human_vivo, .doses, .vitro"
         when "Human in vivo"
             shows = ".human_vivo, .concs"
-            hides = ".non_mamm_vitro, .mamm_vitro, .ani_vivo, .doses"
+            hides = ".non_mamm_vitro, .mamm_vitro, .ani_vivo, .doses, .vitro"
         else
             console.log("unknown data-type")
 
@@ -191,9 +194,9 @@ toggleEndpointTestOptions = (tmpl) ->
         found.prop('selected', true)
 
 toggleDualResult = (tmpl) ->
-    dataClass = tmpl.find('select[name="dataClass"]').value
-    phylo = tmpl.find('select[name="phylogeneticClass"]').value
-    if share.hasGenotoxDualResult(dataClass, phylo)
+    dual = $(tmpl.find('input[name="dualResult"]')).prop('checked')
+    cls = tmpl.find('select[name="dataClass"]').value
+    if dual and cls in ["Non-mammalian in vitro", "Mammalian and human in vitro"]
         $(tmpl.findAll('.isDualResult')).show()
         $(tmpl.findAll('.isntDualResult')).hide()
     else
@@ -212,6 +215,8 @@ genotoxFormExtension =
     'change select[name="phylogeneticClass"]': (evt, tmpl) ->
         togglePhyloFields(tmpl)
         toggleEndpointOptions(tmpl)
+
+    'click input[name="dualResult"]': (evt, tmpl) ->
         toggleDualResult(tmpl)
 
     'change select[name="testSpeciesMamm"]': (evt, tmpl) ->

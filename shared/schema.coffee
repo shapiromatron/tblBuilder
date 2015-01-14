@@ -697,6 +697,12 @@ Meteor.startup ->
             type: String
             min: 1
 
+        # in-vitro only
+        dualResult:
+            label: "Dual result"
+            type: Boolean
+            defaultValue: false
+
         #ani_vivo
         dosingRoute:
             label: "Route"

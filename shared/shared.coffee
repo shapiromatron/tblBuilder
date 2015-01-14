@@ -241,6 +241,7 @@ share.getFlattenedGenotoxData = (tbl_id) ->
         "Dosing regime",
         "Doses tested",
         "Units",
+        "Dual results?",
         "Result",
         "Result, metabolic activation",
         "Result, no metabolic activation",
@@ -277,6 +278,7 @@ share.getFlattenedGenotoxData = (tbl_id) ->
             v.dosingRegimen,
             v.dosesTested,
             v.units,
+            v.dualResult,
             v.result,
             v.led,
             v.resultMetabolic,
@@ -368,15 +370,6 @@ share.mechanisticTestCrosswalk =
             "Chromosomal damage": ["Chromosomal aberrations", "Micronuclei", "Sister Chromatid Exchange", "Aneuploidy", "Other"]
             "DNA repair": ["Other"]
 
-share.hasGenotoxDualResult = (dataClass, phylogeneticClass) ->
-    dcls = "Non-mammalian in vitro"
-    duals = [
-        "Acellular systems",
-        "Prokaryote (bacteria)",
-        "Lower eukaryote (yeast, mold)"
-    ]
-    return ((dataClass is dcls) and (phylogeneticClass in duals))
-
 share.isGenotoxAcellular = (dataClass, phylogeneticClass) ->
     dcls = "Non-mammalian in vitro"
     acell = "Acellular systems"
@@ -400,7 +393,6 @@ share.getGenotoxTestSystemDesc = (d) ->
             console.log("unknown data-type")
     return txt
 
-
 share.setGenotoxWordFields = (d) ->
     # set additional attributes for generating a Word-report
     d.comments = d.comments or ""
@@ -414,12 +406,16 @@ share.setGenotoxWordFields = (d) ->
             else
                 d._testSystem = "#{ d.speciesNonMamm} #{ d.strainNonMamm}"
 
-            if share.hasGenotoxDualResult(d.dataClass, d.phylogeneticClass)
-                d.resultA = d.resultNoMetabolic
-                d.resultB = d.resultMetabolic
-            else
-                d.resultA = d.result
-                d.resultB = "NA"
+    if d.dualResult
+        d.resultA = d.resultNoMetabolic
+        d.resultB = d.resultMetabolic
+    else
+        d.resultA = d.result
+        if d.dataClass.indexOf('vitro')>0
+            d.resultB = ""
+        else
+            d.resultB = "NA"
+
 
 share.getAnimalDoses = (e) ->
     if e then e.endpointGroups.map((v) -> v.dose).join(", ") + " " + e.units else "NR"

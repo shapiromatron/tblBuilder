@@ -307,6 +307,17 @@
         {{> typeaheadInput name="dosingRoute" value=dosingRoute methodName="searchGenotoxDosingRoute" placeholder="Drinking water"}}
       </div>
 
+      <div class="col-xs-2 vitro">
+        <label class="helpPopovers" data-toggle="popover"
+            data-content="Check if two-results are available: with and without exogenous metabolic activation">
+            Dual results?</label>
+        <div class="checkbox">
+          <input style="{margin-left: 10px}"
+                 type="checkbox" name='dualResult'
+                 checked="{{dualResult}}"/>
+        </div>
+      </div>
+
       <div class="col-xs-2 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
