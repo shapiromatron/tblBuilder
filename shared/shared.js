@@ -101,6 +101,13 @@ mechanisticEvidenceCategories = [
     "Other"
 ];
 
+mechanisticEvidenceOptions = [
+    "++",
+    "+",
+    "+/-",
+    "-",
+    "I"
+];
 
 // Genotoxicity shared-classes
 genotoxDataClass = [

@@ -129,19 +129,23 @@ Meteor.startup ->
 
         animalInVitro:
             label: "Animal in vitro"
-            type: Boolean
+            type: String
+            allowedValues: mechanisticEvidenceOptions
 
         animalInVivo:
             label: "Animal in vivo"
-            type: Boolean
+            type: String
+            allowedValues: mechanisticEvidenceOptions
 
         humanInVitro:
             label: "Human in vitro"
-            type: Boolean
+            type: String
+            allowedValues: mechanisticEvidenceOptions
 
         humanInVivo:
             label: "Human in vivo"
-            type: Boolean
+            type: String
+            allowedValues: mechanisticEvidenceOptions
 
         section:
             type: String

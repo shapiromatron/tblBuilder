@@ -148,6 +148,18 @@ Template.mechanisticEvidenceForm.events
         Session.set("mechanisticEditingId", null)
         Session.set('mechanisticNewChild', null)
 
+
 Template.mechanisticEvidenceForm.helpers
-    displaySubheading : ->
+
+    displaySubheading: ->
         return @section?
+
+    getMechanisticEvidenceOptions: ->
+        return mechanisticEvidenceOptions
+
+
+Template.mechanisticEvidenceForm.rendered = ->
+    $(@.findAll('.helpPopovers')).popover
+            delay: {show: 500, hide: 100}
+            trigger: "hover"
+            placement: "auto"
