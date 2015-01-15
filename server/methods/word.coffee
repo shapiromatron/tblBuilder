@@ -170,17 +170,19 @@ animalWordReport = (tbl_id) ->
 # MECHANISTIC REPORT -----------------------------------------------------------
 mechanisticWordReport = (tbl_id) ->
 
-    getReferences = (obj) ->
+    formatEvidence = (obj) ->
         refs = Reference.find({_id: {$in: obj.references}}).fetch()
         obj.references = _.pluck(refs, 'name').join(', ')
         if obj.references isnt "" then obj.references = "(#{obj.references})"
+        obj.text = obj.text or ""
+        obj.subheading = obj.subheading or ""
 
     getChildren = (parent) ->
         children = MechanisticEvidence.find({parent: parent._id},
                                              {sort: {sortIdx: 1}}).fetch()
         parent.children = children
         for child in children
-            getReferences(child)
+            formatEvidence(child)
             getChildren(child)
 
     data = {"sections": [], "table": Tables.findOne({_id: tbl_id})}
@@ -190,7 +192,7 @@ mechanisticWordReport = (tbl_id) ->
         data.sections.push({"description": section.sectionDesc, "children": children})
         for child in children
             child.hasSubheading = child.subheading? and child.subheading isnt ""
-            getReferences(child)
+            formatEvidence(child)
             getChildren(child)
 
     return data

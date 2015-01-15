@@ -62,14 +62,32 @@ Meteor.methods
         getDataRow = (v) ->
             refs = _.pluck(Reference.find({_id: {$in : v.references}},
                                           {fields: {name: 1}}).fetch(), 'name')
-            return [v.section, v._id, v.subheading, v.text,
-                    refs.join('; '), v.humanInVivo, v.humanInVitro,
-                    v.animalInVivo, v.animalInVitro]
+            return [
+                v._id,
+                v.section,
+                v.parent,
+                v.subheading or "",
+                v.text or "",
+                refs.join('; '),
+                v.humanInVivo,
+                v.humanInVitro,
+                v.animalInVivo,
+                v.animalInVitro
+            ]
 
         getData = (tbl_id) ->
-            header = ['section', '_id', 'subheading', 'text',
-                      'references', 'humanInVivo', 'humanInVitro',
-                      'animalInVivo', 'animalInVitro']
+            header = [
+                '_id',
+                'section',
+                'parent',
+                'subheading',
+                'text',
+                'references',
+                'humanInVivo',
+                'humanInVitro',
+                'animalInVivo',
+                'animalInVitro'
+            ]
             data = [header]
 
             addEvidence = (evidence) ->

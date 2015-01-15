@@ -416,7 +416,6 @@ share.setGenotoxWordFields = (d) ->
         else
             d.resultB = "NA"
 
-
 share.getAnimalDoses = (e) ->
     if e then e.endpointGroups.map((v) -> v.dose).join(", ") + " " + e.units else "NR"
 
