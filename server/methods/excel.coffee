@@ -15,8 +15,9 @@ excel_datenum = (v, date1904) ->
     (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000)
 
 class Workbook
-    SheetNames: []
-    Sheets: {}
+    constructor: () ->
+        @SheetNames = []
+        @Sheets = {}
 
 sheet_from_array_of_arrays = (data) ->
     ws = {}
