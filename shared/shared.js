@@ -81,11 +81,11 @@ exposureAssessmentTypeOptions = [
 
 // Mechanistic evidence shared options
 mechanisticEvidenceSections = [
-    {section: "toxicokinetics", sectionDesc: "Toxicokinetics"},
-    {section: "mechanisms",     sectionDesc: "Major mechanisms"},
-    {section: "targetSites",    sectionDesc: "Toxicity confirming target tissue/site"},
-    {section: "susceptibility", sectionDesc: "Susceptibility"},
-    {section: "other",          sectionDesc: "Additional relevant data"}
+    {section: "toxicokinetics",     sectionDesc: "Toxicokinetics"},
+    {section: "characteristics",    sectionDesc: "Key characteristics"},
+    {section: "targetSites",        sectionDesc: "Toxicity confirming target tissue/site"},
+    {section: "susceptibility",     sectionDesc: "Susceptibility"},
+    {section: "other",              sectionDesc: "Additional relevant data"}
 ];
 
 mechanisticEvidenceCategories = [

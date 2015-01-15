@@ -170,7 +170,7 @@ Tables.after.insert (userId, doc) ->
         for category in mechanisticEvidenceCategories
             mech =
                 tbl_id: doc._id
-                section: "mechanisms"
+                section: "characteristics"
                 text: ""
                 subheading: category
                 humanInVivo: false
