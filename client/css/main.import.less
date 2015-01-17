@@ -46,6 +46,23 @@ a.noUnderline {
   transition: all 0.1s;
 }
 
+.moveTableHolder {
+  position: relative;
+}
+
+.moveTableHandle {
+  background-color:#D4D8FC;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  width: 25px;
+  z-index: 1100 !important;
+  cursor: pointer;
+}
+
+.moveTableHandle:hover {
+  border: 2px solid gray;
+}
 
 /* Disable html5 number spinners in Chrome */
 input[type=number]::-webkit-inner-spin-button,

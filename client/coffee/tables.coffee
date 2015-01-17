@@ -26,7 +26,8 @@ Template.TablesByMonograph.helpers
         return _.uniq(_.pluck(tbls, "monographAgent"))
 
     getTables: (volumeNumber, monographAgent) ->
-        tbls = Tables.find({"volumeNumber": volumeNumber, "monographAgent": monographAgent}).fetch()
+        tbls = Tables.find({"volumeNumber": volumeNumber, "monographAgent": monographAgent},
+                           sort: {"sortIdx": -1}).fetch()
         return tbls
 
     getURL: () ->
@@ -74,6 +75,20 @@ Template.TablesByMonograph.events
         val.multiTable = true
         div = tmpl.find('#modalHolder')
         Blaze.renderWithData(Template.reportTemplateModal, val, div)
+
+    'click #reorderRows': (evt, tmpl) ->
+        val = not Session.get('reorderRows')
+        Session.set('reorderRows', val)
+        share.toggleRowVisibilty(Session.get('reorderRows'), $('.moveTableHandle'))
+
+Template.TablesByMonograph.rendered = ->
+    Session.set('reorderRows', false)
+    @findAll('.sortables').forEach (v) ->
+        new Sortable(v,
+                handle: ".moveTableHandle",
+                onUpdate: share.moveRowCheck,
+                Cls: Tables)
+
 
 Template.tablesForm.helpers
     searchUsers: (query, callback) ->

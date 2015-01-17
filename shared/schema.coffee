@@ -73,6 +73,12 @@ Meteor.startup ->
             type: String
             allowedValues: tblRoleOptions
 
+        sortIdx:
+            type: Number
+            decimal: true
+            optional: true
+
+
     ref_schema =
         name:
             label: "Reference Short Name"

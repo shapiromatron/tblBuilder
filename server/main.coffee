@@ -29,6 +29,11 @@ userCanEditTblContent = (tbl_id, editorId) ->
 # Create hooks
 Tables.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
+    currentMaxTable = Tables.findOne(
+        {"volumeNumber": doc.volumeNumber,"monographAgent": doc.monographAgent},
+        {"sort": {"sortIdx": -1}})
+    currentMax = if currentMaxTable then currentMaxTable.sortIdx else 0
+    doc.sortIdx = currentMax+1
     return share.isStaffOrHigher(userId)
 
 ReportTemplate.before.insert (userId, doc) ->
