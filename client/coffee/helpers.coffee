@@ -85,12 +85,15 @@ share.toggleRowVisibilty = (display, $els) ->
     if display then $els.fadeIn() else $els.fadeOut()
 
 share.moveRowCheck = (evt) ->
-    this_pos = $(evt.target).data('sortidx')
-    prev_pos = $(evt.target).prev().data('sortidx') or 0
-    next_pos = $(evt.target).next().data('sortidx') or prev_pos+1
+    self = $(evt.target)
+    this_pos = self.data('sortidx')
+    prev_pos = self.prev().data('sortidx') or 0
+    next_pos = self.next().data('sortidx') or prev_pos+1
     if (this_pos < prev_pos) or (this_pos > next_pos)
         data = UI.getData(evt.target)
-        @options.Cls.update(data._id, {$set: {sortIdx: d3.mean([prev_pos, next_pos])}})
+        newIdx = d3.mean([prev_pos, next_pos])
+        @options.Cls.update(data._id, {$set: {sortIdx: newIdx}})
+        self.data('sortidx', newIdx)
 
 share.copyAsNew = (obj) ->
     for key, val of obj

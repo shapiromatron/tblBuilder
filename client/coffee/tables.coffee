@@ -1,8 +1,5 @@
 Users = new Meteor.Collection('userLookup');
 
-Session.setDefault("tablesShowNew", false)
-Session.setDefault('tablesEditingId', null)
-
 getTablesHandle = ->
     tablesId = Session.get('tablesEditingId')
     if tablesId
@@ -14,6 +11,14 @@ userHandle = getTablesHandle()
 Tracker.autorun(getTablesHandle)
 
 
+# TABLES MAIN ------------------------------------------------------------------
+Template.home.rendered = ->
+    Session.set("tablesShowNew", false)
+    Session.set("tablesEditingId", null)
+    Session.set("reorderRows", false)
+
+
+# TABLES -----------------------------------------------------------------------
 Template.TablesByMonograph.helpers
 
     getMonographs: ->
@@ -27,7 +32,7 @@ Template.TablesByMonograph.helpers
 
     getTables: (volumeNumber, monographAgent) ->
         tbls = Tables.find({"volumeNumber": volumeNumber, "monographAgent": monographAgent},
-                           sort: {"sortIdx": -1}).fetch()
+                           sort: {"sortIdx": 1}).fetch()
         return tbls
 
     getURL: () ->
@@ -77,19 +82,22 @@ Template.TablesByMonograph.events
         Blaze.renderWithData(Template.reportTemplateModal, val, div)
 
     'click #reorderRows': (evt, tmpl) ->
-        val = not Session.get('reorderRows')
-        Session.set('reorderRows', val)
-        share.toggleRowVisibilty(Session.get('reorderRows'), $('.moveTableHandle'))
+        isReorder = not Session.get('reorderRows')
+        Session.set('reorderRows', isReorder)
+        if isReorder
+            tmpl.sortables = []
+            $('.sortables').each (i,v) ->
+                tmpl.sortables.push(
+                    new Sortable(v,
+                        handle: ".moveTableHandle",
+                        onUpdate: share.moveRowCheck,
+                        Cls: Tables))
+        else
+            tmpl.sortables.forEach((v) -> v.destroy())
+        share.toggleRowVisibilty(isReorder, $('.moveTableHandle'))
 
-Template.TablesByMonograph.rendered = ->
-    Session.set('reorderRows', false)
-    @findAll('.sortables').forEach (v) ->
-        new Sortable(v,
-                handle: ".moveTableHandle",
-                onUpdate: share.moveRowCheck,
-                Cls: Tables)
 
-
+# TABLES FORM ------------------------------------------------------------------
 Template.tablesForm.helpers
     searchUsers: (query, callback) ->
         Meteor.call 'searchUsers', query, {}, (err, res) ->
