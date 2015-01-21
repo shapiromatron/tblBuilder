@@ -548,6 +548,72 @@ Meteor.startup ->
             type: String
             optional: true
 
+    animal_endpoint_schema =
+
+        parent_id:
+            type: SimpleSchema.RegEx.Id
+            denyUpdate: true
+
+        tumourSite:
+            label: "Tumour site"
+            type: String
+            min: 1
+
+        histology:
+            label: "Histology"
+            type: String
+            min: 1
+
+        units:
+            label: "Dosing units"
+            type: String
+            min: 1
+
+        "endpointGroups.$.dose":
+            label: "Dose"
+            type: Number
+            decimal: true
+
+        "endpointGroups.$.nStart":
+            label: "N at start"
+            type: Number
+            decimal: false
+
+        "endpointGroups.$.nSurviving":
+            label: "N surviving"
+            type: String
+            optional: true
+
+        "endpointGroups.$.incidence":
+            label: "Tumour incidence"
+            type: String
+            optional: true
+
+        "endpointGroups.$.multiplicity":
+            label: "Tumour multiplicity"
+            type: String
+            optional: true
+
+        "endpointGroups.$.totalTumours":
+            label: "Total tumours"
+            type: String
+            optional: true
+
+        incidence_significance:
+            label: "Incidence significance notes"
+            type: String
+            optional: true
+
+        multiplicity_significance:
+            label: "Multiplicity significance notes"
+            type: String
+            optional: true
+
+        total_tumours_significance:
+            label: "Total tumours significance notes"
+            type: String
+            optional: true
+
     reqNonMammVitro = () ->
         isRequired = ((@field('dataClass').value is "Non-mammalian in vitro") and
                       (@value is ""))
@@ -778,71 +844,6 @@ Meteor.startup ->
             type: String
             optional: true
 
-    animal_endpoint_schema =
-
-        parent_id:
-            type: SimpleSchema.RegEx.Id
-            denyUpdate: true
-
-        tumourSite:
-            label: "Tumour site"
-            type: String
-            min: 1
-
-        histology:
-            label: "Histology"
-            type: String
-            min: 1
-
-        units:
-            label: "Dosing units"
-            type: String
-            min: 1
-
-        "endpointGroups.$.dose":
-            label: "Dose"
-            type: Number
-            decimal: true
-
-        "endpointGroups.$.nStart":
-            label: "N at start"
-            type: Number
-            decimal: false
-
-        "endpointGroups.$.nSurviving":
-            label: "N surviving"
-            type: String
-            optional: true
-
-        "endpointGroups.$.incidence":
-            label: "Tumour incidence"
-            type: String
-            optional: true
-
-        "endpointGroups.$.multiplicity":
-            label: "Tumour multiplicity"
-            type: String
-            optional: true
-
-        "endpointGroups.$.totalTumours":
-            label: "Total tumours"
-            type: String
-            optional: true
-
-        incidence_significance:
-            label: "Incidence significance notes"
-            type: String
-            optional: true
-
-        multiplicity_significance:
-            label: "Multiplicity significance notes"
-            type: String
-            optional: true
-
-        total_tumours_significance:
-            label: "Total tumours significance notes"
-            type: String
-            optional: true
 
     # extend content between base base-content objects
     _.extend(tbl_schema, base_content)
