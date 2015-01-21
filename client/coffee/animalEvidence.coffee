@@ -142,7 +142,7 @@ animalEndpointFormExtension =
 
         isValid = NestedCollection.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid
-            NestedCollection.update(@_id, modifier)
+            NestedCollection.update(@_id, modifier, {removeEmptyStrings: false})
             Session.set("nestedEvidenceEditingId", null)
             share.removeNestedFormModal(tmpl)
         else
