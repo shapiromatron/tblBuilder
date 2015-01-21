@@ -423,7 +423,15 @@ share.getAnimalNStarts = (e) ->
     if e then e.endpointGroups.map((v) -> v.nStart).join(", ") else "NR"
 
 share.getAnimalNSurvivings = (e) ->
-    if e then  e.endpointGroups.map((v) -> v.nSurviving).join(", ") else "NR"
+    if not e? or not e.endpointGroups? then return "NR"
+    numeric = false
+    survivings = e.endpointGroups.map (eg) ->
+        if eg.nSurviving? and eg.nSurviving isnt ""
+            numeric = true
+            return eg.nSurviving
+        else
+            return "NR"
+    return if numeric then survivings.join(", ") else "NR"
 
 share.getAnimalEndpointIncidents = (egs) ->
     if _.pluck(egs, "incidence").join("").length>0
