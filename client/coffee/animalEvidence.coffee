@@ -154,7 +154,9 @@ Template.animalEndpointForm.events(animalEndpointFormEvents)
 
 
 Template.animalEndpointForm.rendered = ->
-    share.toggleQA(@, @.data.isQA)
+    aniResult = AnimalEndpointEvidence.findOne({_id: Session.get('nestedEvidenceEditingId')})
+    if aniResult?
+        share.toggleQA(@, aniResult.isQA)
     $(@.find('#nestedModalDiv')).modal('toggle')
     $(@.findAll('.helpPopovers')).popover
         delay: {show: 500, hide: 100}
