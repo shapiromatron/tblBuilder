@@ -247,7 +247,9 @@ Template.typeaheadSelectList.rendered = ->
 Template.browserDetect.helpers
 
     isSupportedBrowser: ->
-        return true
+        isChrome = window.chrome?
+        isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+        return isChrome or isFirefox
 
     getErrorMessage: ->
         return "<b>Warning:</b> Your current browser
