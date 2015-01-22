@@ -23,7 +23,7 @@ Meteor.methods
     adminUserCreateProfile: (obj) ->
         unless share.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
-
+        obj.emails[0].address = obj.emails[0].address.trim()
         opts = {email: obj.emails[0].address}
         _id = Accounts.createUser(opts)
         Meteor.users.update(_id, {$set: obj})
