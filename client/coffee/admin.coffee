@@ -2,11 +2,11 @@ Session.setDefault('adminUserEditingId', null)
 Session.set("adminUserShowNew", false)
 
 
-setAdminNotification = (message) ->
+setAdminNotification = (message, type) ->
     # notify Admin password reset sent
     div = $('#messages')[0]
     data = {
-        alertType: "success"
+        alertType: type
         message: message
     }
     Blaze.renderWithData(Template.dismissableAlert, data, div)
@@ -45,13 +45,23 @@ Template.adminUserRow.events
         Meteor.call('adminUserResetPassword', @_id)
         email = @.emails[0].address
         message = "An password-reset email was just sent to #{email}"
-        setAdminNotification(message)
+        setAdminNotification(message, "success")
 
     'click #adminUser-removeUser': (evt, tmpl) ->
         Meteor.users.remove(@_id)
         message = "User removed"
-        setAdminNotification(message)
+        setAdminNotification(message, "success")
 
+    'click #adminUser-setPassword': (evt, tmpl) ->
+        passwd = tmpl.find("input[name='password']").value
+        if passwd.length<6
+            return setAdminNotification("Must be at least six-characters", "danger")
+
+        Meteor.call('adminSetPassword', @_id, passwd, (error, result)->
+            if result? and result.success
+                setAdminNotification("Password successfully changed", "success")
+            else
+                setAdminNotification("An error occurred", "danger"))
 
 Template.adminUserRowForm.helpers
     getEmail: ->
@@ -91,7 +101,7 @@ Template.adminUserRowForm.events
         Meteor.call('adminUserCreateProfile', vals)
         Session.set("adminUserShowNew", false)
         message = "User created- an email was sent to user to create password."
-        setAdminNotification(message)
+        setAdminNotification(message, "success")
 
     'click #adminUser-create-cancel': (evt, tmpl) ->
         Session.set("adminUserShowNew", false)

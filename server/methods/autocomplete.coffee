@@ -65,6 +65,17 @@ Meteor.methods
                 return {success: true, QAd: not qad}
         return {success: false}
 
+    adminSetPassword: (_id, passwd) ->
+        unless share.isStaffOrHigher(this.userId)
+            throw new Meteor.Error(403, "Nice try wise-guy.")
+
+        try
+            Accounts.setPassword(_id, passwd)
+            return {success: true}
+        catch
+            return {success: false}
+
+
     # users
     searchUsers: (str) ->
         check(str, String)
