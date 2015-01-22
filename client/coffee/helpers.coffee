@@ -227,6 +227,12 @@ UI.registerHelper "qaMark", (isQA) ->
         return Spacebars.SafeString("""<span title="#{title}" class="btn-xs text-muted pull-right glyphicon #{icon}"></span>""")
 
 
+UI.registerHelper "hasContactEmail", () ->
+    return Meteor.settings? and Meteor.settings.public? and Meteor.settings.public.contact_email?
+
+UI.registerHelper "contactEmail", () ->
+    return "#{Meteor.settings.public.contact_email}?subject=[IARC Table Builder]"
+
 Template.formLegendPulldown.rendered = ->
     # prevent pull-down from closing when clicking special characters
     $(@.findAll('pre')).click (e) ->

@@ -12,6 +12,9 @@
              specific assessment, after logging-in, key evidence tables will be
              available.</p>
           <p><strong>Access is controlled; you'll need to login in order to view or edit documents.</strong></p>
+          {{# if hasContactEmail}}
+            <p>For technical help, please <a target="_blank" href="mailto:{{contactEmail}}">contact us</a>.</p>
+          {{/if}}
       </div>
       </div>
     {{/if}}
