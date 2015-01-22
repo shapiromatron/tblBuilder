@@ -56,8 +56,15 @@
             <span class="caret" title="Editing options"></span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="#" id="adminUser-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-            <li><a href="#" id="adminUser-resetPassword"><span class="fa fa-envelope-o"></span> Send reset password email</a></li>
+            <li>
+              <a href="#" id="adminUser-show-edit">
+                <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+            <li>
+              <a href="#" id="adminUser-resetPassword">
+                <span class="fa fa-envelope-o"></span> Send reset password email</a></li>
+            <li>
+              <a href="#" data-toggle="modal" data-target=".removeUser{{_id}}">
+                <span class="fa fa-trash"></span> Remove user</a></li>
           </ul>
         </div>
       </td>
@@ -70,6 +77,23 @@
       </td>
     {{/if}}
   </tr>
+
+  <div class="modal fade removeUser{{_id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Remove {{this.profile.fullName}}?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" id="adminUser-removeUser">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <template name="adminUserRowForm">

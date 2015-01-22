@@ -30,7 +30,17 @@ tblContentAllowRules =
 
 Meteor.startup ->
 
-    # Set rules for create, update, destroy operations
+    Meteor.users.allow
+        insert: (userId, doc) ->
+            return share.isStaffOrHigher(userId)
+
+        update: (userId, doc, fieldNames, modifier) ->
+            return share.isStaffOrHigher(userId)
+
+        remove: (userId, doc) ->
+            return share.isStaffOrHigher(userId)
+
+
     Tables.allow
         insert: (userId, doc) ->
             return share.isStaffOrHigher(userId)

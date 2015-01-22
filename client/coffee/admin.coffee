@@ -47,6 +47,12 @@ Template.adminUserRow.events
         message = "An password-reset email was just sent to #{email}"
         setAdminNotification(message)
 
+    'click #adminUser-removeUser': (evt, tmpl) ->
+        Meteor.users.remove(@_id)
+        message = "User removed"
+        setAdminNotification(message)
+
+
 Template.adminUserRowForm.helpers
     getEmail: ->
         if @emails? then return @emails[0].address
