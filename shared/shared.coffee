@@ -337,7 +337,10 @@ share.mechanisticTestCrosswalk =
 
         "Other (fish, worm, bird, etc)":
             "Genotox":
-                "Mutation": ["Forward mutation", "Reverse mutation", "Other"]
+                "DNA damage": ["DNA adducts", "DNA strand breaks", "DNA cross-links", "DNA oxidation", "Unscheduled DNA synthesis", "Other"]
+                "Mutation": ["Oncogene", "Tumour suppressor", "Other"]
+                "Chromosomal damage": ["Chromosomal aberrations", "Micronuclei", "Sister Chromatid Exchange", "Aneuploidy", "Other"]
+                "DNA repair": ["Other"]
 
     "Mammalian and human in vitro":
         "Human":
