@@ -217,7 +217,7 @@ genotoxWordReport = (tbl_id) ->
         val.reference = Reference.findOne(_id: val.referenceID)
         share.setGenotoxWordFields(val)
 
-    d.nonMammalianInVitro = _.filter(vals, (v) -> return v.dataClass == "Non-mammalian in vitro")
+    d.nonMammalianInVitro = _.filter(vals, (v) -> return v.dataClass == "Non-mammalian")
     d.mammalianInVitro = _.filter(vals, (v) -> return v.dataClass == "Mammalian and human in vitro")
     d.animalInVivo = _.filter(vals, (v) -> return v.dataClass == "Animal in vivo")
     d.humanInVivo = _.filter(vals, (v) -> return v.dataClass == "Human in vivo")

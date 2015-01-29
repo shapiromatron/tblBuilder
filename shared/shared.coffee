@@ -306,7 +306,7 @@ share.defaultEpiVisible = [
 ]
 
 share.mechanisticTestCrosswalk =
-    "Non-mammalian in vitro":
+    "Non-mammalian":
         "Acellular systems":
             "Genotox":
                 "DNA damage": ["DNA adducts", "DNA strand breaks", "DNA cross-links", "Intercalation", "Other"],
@@ -374,13 +374,13 @@ share.mechanisticTestCrosswalk =
             "DNA repair": ["Other"]
 
 share.isGenotoxAcellular = (dataClass, phylogeneticClass) ->
-    dcls = "Non-mammalian in vitro"
+    dcls = "Non-mammalian"
     acell = "Acellular systems"
     return ((dataClass is dcls) and (phylogeneticClass is acell))
 
 share.getGenotoxTestSystemDesc = (d) ->
     switch d.dataClass
-        when "Non-mammalian in vitro"
+        when "Non-mammalian"
             if share.isGenotoxAcellular(d.dataClass, d.phylogeneticClass)
                 txt = "#{ d.phylogeneticClass }<br>#{ d.testSystem}"
             else
@@ -393,7 +393,7 @@ share.getGenotoxTestSystemDesc = (d) ->
         when "Human in vivo"
             txt = "#{d.tissueHuman}, #{d.cellType}<br>#{d.exposureDescription}"
         else
-            console.log("unknown data-type")
+            console.log("unknown data-type: {#d.dataClass}")
     return txt
 
 share.setGenotoxWordFields = (d) ->
@@ -403,7 +403,7 @@ share.setGenotoxWordFields = (d) ->
     d.significance = d.significance or ""
 
     switch d.dataClass
-        when "Non-mammalian in vitro"
+        when "Non-mammalian"
             if share.isGenotoxAcellular(d.dataClass, d.phylogeneticClass)
                 d._testSystem = d.testSystem
             else
@@ -414,7 +414,7 @@ share.setGenotoxWordFields = (d) ->
         d.resultB = d.resultMetabolic
     else
         d.resultA = d.result
-        if d.dataClass.indexOf('vitro')>0
+        if d.dataClass.indexOf('vitro')>=0 or d.dataClass.indexOf('Non-mammalian')>=0
             d.resultB = ""
         else
             d.resultB = "NA"

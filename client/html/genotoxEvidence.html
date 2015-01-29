@@ -180,28 +180,28 @@
     <!-- Second row. Test-system description. -->
     <div class="form-group row">
 
-      <div class="col-xs-3 non_mamm_vitro">
+      <div class="col-xs-3 non_mamm">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Phylogenetic class*</label>
         {{> selectList options=getPhylogeneticClasses selected=phylogeneticClass selectName="phylogeneticClass" }}
       </div>
 
-      <div class="col-xs-3 non_mamm_vitro isAcellular">
+      <div class="col-xs-3 non_mamm isAcellular">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Test system*</label>
         {{> typeaheadInput name="testSystem" value=testSystem methodName="searchGenotoxTestSystem" placeholder="Calf thymus DNA"}}
       </div>
 
-      <div class="col-xs-3 non_mamm_vitro isntAcellular">
+      <div class="col-xs-3 non_mamm isntAcellular">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Species*</label>
         {{> typeaheadInput name="speciesNonMamm" value=speciesNonMamm methodName="searchSpeciesNonMamm" placeholder="Salmonella typhimurium"}}
       </div>
 
-      <div class="col-xs-3 non_mamm_vitro isntAcellular">
+      <div class="col-xs-3 non_mamm isntAcellular">
         <label class="helpPopovers" data-toggle="popover"
               data-content="<add>">
               Strain*</label>

@@ -111,7 +111,7 @@ mechanisticEvidenceOptions = [
 
 // Genotoxicity shared-classes
 genotoxDataClass = [
-    "Non-mammalian in vitro",
+    "Non-mammalian",
     "Mammalian and human in vitro",
     "Animal in vivo",
     "Human in vivo"

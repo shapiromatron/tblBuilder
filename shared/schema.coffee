@@ -614,19 +614,19 @@ Meteor.startup ->
             type: String
             optional: true
 
-    reqNonMammVitro = () ->
-        isRequired = ((@field('dataClass').value is "Non-mammalian in vitro") and
+    reqNonMamm = () ->
+        isRequired = ((@field('dataClass').value is "Non-mammalian") and
                       (@value is ""))
         if isRequired then return "required"
 
     reqAcellular = () ->
-        isRequired = ((@field('dataClass').value is "Non-mammalian in vitro") and
+        isRequired = ((@field('dataClass').value is "Non-mammalian") and
             (@field('phylogeneticClass').value is "Acellular systems") and
             (@value is ""))
         if isRequired then return "required"
 
     reqNotAcellular = () ->
-        isRequired = ((@field('dataClass').value is "Non-mammalian in vitro") and
+        isRequired = ((@field('dataClass').value is "Non-mammalian") and
             (@field('phylogeneticClass').value isnt "Acellular systems") and
             (@value is ""))
         if isRequired then return "required"
@@ -665,13 +665,13 @@ Meteor.startup ->
 
 
         # SECOND ROW
-        # (non_mamm_vitro)
+        # (non_mamm)
         phylogeneticClass:
             label: "Data class"
             type: String
             allowedValues: phylogeneticClasses
             optional: true
-            custom: reqNonMammVitro
+            custom: reqNonMamm
 
         # (isAcellular only)
         testSystem:
