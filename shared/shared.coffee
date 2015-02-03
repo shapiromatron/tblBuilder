@@ -396,6 +396,17 @@ share.getGenotoxTestSystemDesc = (d) ->
             console.log("unknown data-type: {#d.dataClass}")
     return txt
 
+share.setNonMammalianExperimentText = (d) ->
+    txt = "#{d.agent}"
+    if d.led? and d.led isnt ""
+        txt += "\n#{d.led}"
+    txt += " #{d.units}"
+    if d.dosesTested?
+        txt += "\n[#{d.dosesTested} #{d.units}]"
+    if d.dosingDuration?
+        txt += "\n#{d.dosingDuration}"
+    return txt
+
 share.setGenotoxWordFields = (d) ->
     # set additional attributes for generating a Word-report
     d.comments = d.comments or ""
@@ -408,6 +419,7 @@ share.setGenotoxWordFields = (d) ->
                 d._testSystem = d.testSystem
             else
                 d._testSystem = "#{ d.speciesNonMamm} #{ d.strainNonMamm}"
+            d._experimental = share.setNonMammalianExperimentText(d)
 
     if d.dualResult
         d.resultA = d.resultNoMetabolic

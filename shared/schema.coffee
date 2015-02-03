@@ -646,6 +646,13 @@ Meteor.startup ->
                       (@value is ""))
         if isRequired then return "required"
 
+    reqExpVivo = () ->
+        isRequired = (((@field('dataClass').value is "Animal in vivo") or
+                       (@field('dataClass').value is "Non-mammalian" and
+                        @field('phylogeneticClass').value is "Other (fish, worm, bird, etc)")) and
+                     (@value is ""))
+        if isRequired then return "required"
+
     genotox_schema =
 
         # FIRST ROW
@@ -769,21 +776,22 @@ Meteor.startup ->
             type: String
             min: 1
 
-        # in-vitro only
+        # (in-vitro only)
         dualResult:
             label: "Dual result"
             type: Boolean
             defaultValue: false
 
-        #ani_vivo
-        dosingRoute:
-            label: "Route"
-            type: String
-            optional: true
-            custom: reqAniVivo
-
+        # (exp_vivo only)
         dosingDuration:
             label: "Duration"
+            type: String
+            optional: true
+            custom: reqExpVivo
+
+        # (ani_vivo only)
+        dosingRoute:
+            label: "Route"
             type: String
             optional: true
             custom: reqAniVivo
@@ -823,12 +831,12 @@ Meteor.startup ->
             allowedValues: genotoxResultOptions
 
 
-        # (ani_vivo only)
+        # (exp_vivo only)
         dosesTested:
             label: "Doses tested"
             type: String
             optional: true
-            custom: reqAniVivo
+            custom: reqExpVivo
 
 
         # (human_vivo only)

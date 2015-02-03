@@ -55,13 +55,12 @@ Template.genotoxRow.helpers
         return txt
 
     getCol6: () ->
-        txt = @agent + ",<br>"
+        txt = @agent
         if @led
-            txt += @led + "&nbsp"
-        txt += @units
+            txt += ",<br>#{@led} #{@units}"
 
-        if @dataClass is "Animal in vivo"
-            txt += "<br>[#{@dosesTested}&nbsp;#{@units}]"
+        if @dosesTested?
+            txt += ",<br>[#{@dosesTested}&nbsp;#{@units}]"
 
         return txt
 
@@ -86,25 +85,29 @@ Template.genotoxForm.helpers
     getGenotoxResultOptions: ->
         return genotoxResultOptions
 
-
 toggleDataClassFields = (tmpl) ->
     # toggle between required fields for multiple data types
     dataClass = tmpl.find('select[name="dataClass"]').value
+    phylo = tmpl.find('select[name="phylogeneticClass"]').value
     shows = ""
     hides = ""
     switch dataClass
         when "Non-mammalian"
             shows = ".non_mamm, .doses, .vitro"
             hides = ".mamm_vitro, .ani_vivo, .human_vivo, .concs"
+            if phylo is "Other (fish, worm, bird, etc)"
+                shows += ", .expvivo"
+            else
+                hides += ", .expvivo"
         when "Mammalian and human in vitro"
             shows = ".mamm_vitro, .doses, .vitro"
-            hides = ".non_mamm, .ani_vivo, .human_vivo, .concs"
+            hides = ".non_mamm, .ani_vivo, .human_vivo, .concs, .expvivo"
         when "Animal in vivo"
-            shows = ".ani_vivo, .concs"
+            shows = ".ani_vivo, .concs, .expvivo"
             hides = ".non_mamm, .mamm_vitro, .human_vivo, .doses, .vitro"
         when "Human in vivo"
             shows = ".human_vivo, .concs"
-            hides = ".non_mamm, .mamm_vitro, .ani_vivo, .doses, .vitro"
+            hides = ".non_mamm, .mamm_vitro, .ani_vivo, .doses, .vitro, .expvivo"
         else
             console.log("unknown data-type: {#dataClass}")
 
@@ -213,6 +216,7 @@ genotoxFormExtension =
         toggleDualResult(tmpl)
 
     'change select[name="phylogeneticClass"]': (evt, tmpl) ->
+        toggleDataClassFields(tmpl)
         togglePhyloFields(tmpl)
         toggleEndpointOptions(tmpl)
 
