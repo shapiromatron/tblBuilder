@@ -451,21 +451,21 @@ share.getAnimalNSurvivings = (e) ->
 share.getAnimalEndpointIncidents = (egs) ->
     if _.pluck(egs, "incidence").join("").length>0
         val = egs.map((v) -> v.incidence).join(", ")
-        return "Tumour incidence<br>#{val}<br>"
+        return "Tumour incidence: #{val}<br>"
     else
         return ""
 
 share.getAnimalEndpointMultiplicities = (egs) ->
     if _.pluck(egs, "multiplicity").join("").length>0
         val = egs.map((v) -> v.multiplicity or "NR").join(", ")
-        return "Tumour multiplicity:<br>#{val}<br>"
+        return "Tumour multiplicity: #{val}<br>"
     else
         return ""
 
 share.getAnimalTotalTumours = (egs) ->
     if _.pluck(egs, "totalTumours").join("").length>0
         val = egs.map((v) -> v.totalTumours or "NR").join(", ")
-        return "Total tumours:<br>#{val}<br>"
+        return "Total tumours: #{val}<br>"
     else
         return ""
 

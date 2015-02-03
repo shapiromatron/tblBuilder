@@ -43,9 +43,9 @@
 
   <table class="evidenceTable table table-compressed">
     <colgroup>
+      <col width="15%">
       <col width="20%">
-      <col width="20%">
-      <col width="21%">
+      <col width="26%">
       <col width="14%">
       <col width="25%">
     </colgroup>
@@ -206,30 +206,26 @@
       </div>
 
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
-              Data class*</label>
+        <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+          Data class*</label>
         {{> selectList options=getStudyDesigns selected=studyDesign selectName="studyDesign" }}
       </div>
 
       <div class="col-xs-2">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
-              Species*</label>
+        <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+          Species*</label>
         {{> typeaheadInput name="species" value=species methodName="searchAnimalSpecies" placeholder="Mouse, Rat, Hamster"}}
       </div>
 
       <div class="col-xs-2">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
-              Strain*</label>
+        <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+          Strain*</label>
         {{> typeaheadInput name="strain" value=strain methodName="searchAnimalStrain" placeholder="B6C3F1, F344"}}
       </div>
 
       <div class="col-xs-2">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
-              Sex*</label>
+        <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+          Sex*</label>
         {{> selectList options=getSexes selected=sex selectName="sex" }}
       </div>
 
@@ -240,30 +236,26 @@
     <div class="form-group row">
 
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
-              Agent tested*</label>
+        <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+          Agent tested*</label>
         {{> typeaheadInput name="agent" value=agent methodName="searchAnimalAgent" placeholder="Trichloroethylene, Asbestos"}}
       </div>
 
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
-              Purity*</label>
+        <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+          Purity*</label>
         {{> typeaheadInput name="purity" value=purity methodName="searchAnimalPurity" placeholder=">99.9%, technical grade"}}
       </div>
 
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
-              Route*</label>
-        {{> typeaheadInput name="dosingRoute" value=dosingRoute methodName="searchAnimalDosingRoute" placeholder="Drinking water"}}
+        <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+          Route*</label>
+        {{> typeaheadInput name="dosingRoute" value=dosingRoute methodName="searchAnimalDosingRoute" placeholder="Gavage, feed, i.p."}}
       </div>
 
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
-              Vehicle*</label>
+        <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+          Vehicle*</label>
         {{> typeaheadInput name="vehicle" value=vehicle methodName="searchAnimalVehicle" placeholder="distilled water, PBS, saline, air"}}
       </div>
 
@@ -275,7 +267,7 @@
 
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="Age at start of exposure">
               Age at start*</label>
         <input class="form-control" type="text"
                name='ageAtStart'
@@ -285,7 +277,7 @@
 
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="Exposure duration including additional observation time (if any)">
               Duration*</label>
         <input class="form-control" type="text"
                name='duration'
@@ -295,7 +287,10 @@
 
       <div class="col-xs-6">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="Dosing regimen of the agent tested, and (if any)
+              information on any co-exposure or modifying factors (e.g., NDEA,
+              TPA, Aflatoxin B1, UV) including route, concentration and
+              dosing regimen">
               Dosing regimen*</label>
         <input class="form-control" type="text"
                name='dosingRegimen'
@@ -311,22 +306,25 @@
 
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
-               data-content="<add>">
+               data-content="e.g., GLP study, multiple doses tested,
+               high number of animals per group">
               Principal strengths</label>
         {{> typeaheadSelectList name="strengths" values=strengths methodName="searchAnimalStrengths"}}
       </div>
 
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
-               data-content="<add>">
+               data-content="e.g., inadequate duration, no controls,
+               small number of animals per group,
+               inadequate reporting of exposure or results,
+               high mortality, MTD not reached">
               Principal limitations</label>
         {{> typeaheadSelectList name="limitations" values=limitations methodName="searchAnimalLimitations"}}
       </div>
 
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="<add>">
-              Other comments</label>
+        <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+          Other comments</label>
         <textarea class="form-control" type="text"
                   rows="3" name="comments">{{comments}}</textarea>
       </div>
@@ -403,8 +401,7 @@
         data-sortIdx="{{sortIdx}}">
       <table class="table table-condensed nestedTbl">
         <colgroup>
-          <col width="60%">
-          <col width="40%">
+          <col width="100%">
         </colgroup>
         <tbody>
           <tr>
@@ -429,16 +426,18 @@
                 </div>
               {{/if}}
               {{qaMark isQA}}
-              <strong>{{tumourSite}}: {{histology}}</strong><br><br>
-              {{{getIncidents}}}
-              {{{getMultiplicities}}}
-              {{{getTotalTumours}}}
-            </td>
-            <td>
-              <br><br><br>
-              {{{getIncidenceSignificance}}}
-              {{{getMultiplicitySignificance}}}
-              {{{getTotalTumoursSignificance}}}
+              <strong>{{tumourSite}}: {{histology}}</strong><br>
+              <table class="aniEvidenceTbl">
+                <colgroup>
+                  <col width="70%">
+                  <col width="30%">
+                </colgroup>
+                <tbody>
+                  {{{getIncidents}}}
+                  {{{getMultiplicities}}}
+                  {{{getTotalTumours}}}
+                </tbody>
+              </table>
             </td>
             <td class="dragHandle dhInner"
                 style="display: none"
@@ -471,23 +470,20 @@
             <div class="form-group row">
 
               <div class="col-xs-4">
-                <label class="helpPopovers" data-toggle="popover"
-                      data-content="<add>">
-                      Tumour site*</label>
+                <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+                  Tumour site*</label>
                 {{> typeaheadInput name="tumourSite" value=tumourSite methodName="searchAnimalTumourSite" placeholder="Skin, lung, bronchio alveolar"}}
               </div>
 
               <div class="col-xs-4">
-                <label class="helpPopovers" data-toggle="popover"
-                      data-content="<add>">
-                      Histology*</label>
+                <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+                  Histology*</label>
                 {{> typeaheadInput name="histology" value=histology methodName="searchAnimalHistology" placeholder="squamous cell carcinoma, adenoma"}}
               </div>
 
               <div class="col-xs-4">
-                <label class="helpPopovers" data-toggle="popover"
-                      data-content="<add>">
-                      Dosing units*</label>
+                <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+                  Dosing units*</label>
                 {{> typeaheadInput name="units" value=units methodName="searchAnimalUnits" placeholder="mg/kg bw"}}
               </div>
 
@@ -512,27 +508,27 @@
                               <span class="glyphicon glyphicon-plus"></span></button></th>
                   <th class="text-center">
                     <span class="helpPopovers" data-toggle="popover"
-                          data-content="<add>">
+                          data-content="No help-text provided">
                           <br>Dose*</span></th>
                   <th class="text-center">
                     <span class="helpPopovers" data-toggle="popover"
-                          dataa-content="<add>">
+                          data-content="No help-text provided">
                           N<br>at start*</span></th>
                   <th class="text-center">
                     <span class="helpPopovers" data-toggle="popover"
-                          data-content="<add>">
+                          data-content="No help-text provided">
                           N<br>surviving</span></th>
                   <th class="text-center">
                     <span class="helpPopovers" data-toggle="popover"
-                          data-content="<add>">
+                          data-content="No help-text provided">
                           Tumour<br>incidence</span></th>
                   <th class="text-center">
                     <span class="helpPopovers" data-toggle="popover"
-                          data-content="<add>">
+                          data-content="No help-text provided">
                           Tumour<br>multiplicity</span></th>
                   <th class="text-center">
                     <span class="helpPopovers" data-toggle="popover"
-                          data-content="<add>">
+                          data-content="No help-text provided">
                           Total<br>Tumours</span></th>
                 </tr>
               </thead>
@@ -552,27 +548,24 @@
             <div class="form-group row">
 
               <div class="col-xs-4">
-                <label class="helpPopovers" data-toggle="popover"
-                       data-content="<add>">
-                      Incidence significance notes</label>
+                <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+                  Incidence significance notes</label>
                 <textarea class="form-control"
                           name='incidence_significance'
                           rows="3">{{incidence_significance}}</textarea>
               </div>
 
               <div class="col-xs-4">
-                <label class="helpPopovers" data-toggle="popover"
-                       data-content="<add>">
-                      Multiplicity significance notes</label>
+                <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+                  Multiplicity significance notes</label>
                 <textarea class="form-control"
                           name='multiplicity_significance'
                           rows="3">{{multiplicity_significance}}</textarea>
               </div>
 
               <div class="col-xs-4">
-                <label class="helpPopovers" data-toggle="popover"
-                       data-content="<add>">
-                      Total tumours significance notes</label>
+                <label class="helpPopovers" data-toggle="popover" data-content="No help-text provided">
+                  Total tumours significance notes</label>
                 <textarea class="form-control"
                           name='total_tumours_significance'
                           rows="3">{{total_tumours_significance}}</textarea>
