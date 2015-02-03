@@ -1,5 +1,5 @@
 {
-  "xlsx": "0.7.5",
-  "docxtemplater": "0.6.0",
+  "xlsx": "0.7.12",
+  "docxtemplater": "1.0.4",
   "angular-expressions": "0.2.1"
 }

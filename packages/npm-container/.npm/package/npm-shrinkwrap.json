@@ -4,27 +4,29 @@
       "version": "0.2.1"
     },
     "docxtemplater": {
-      "version": "0.6.0",
+      "version": "1.0.4",
       "dependencies": {
-        "xmldom": {
-          "version": "0.1.19"
-        },
-        "angular-expressions": {
-          "version": "0.2.1"
+        "jszip": {
+          "version": "2.4.0",
+          "dependencies": {
+            "pako": {
+              "version": "0.2.5"
+            }
+          }
         }
       }
     },
     "xlsx": {
-      "version": "0.7.5",
+      "version": "0.7.12",
       "dependencies": {
         "ssf": {
-          "version": "0.7.1",
+          "version": "0.8.2",
           "dependencies": {
             "voc": {
               "version": "0.5.0"
             },
             "colors": {
-              "version": "1.0.3"
+              "version": "0.6.2"
             },
             "frac": {
               "version": "0.3.1"
@@ -32,26 +34,57 @@
           }
         },
         "codepage": {
-          "version": "1.2.0",
+          "version": "1.3.8",
           "dependencies": {
             "voc": {
               "version": "0.5.0"
+            },
+            "concat-stream": {
+              "version": "1.4.7",
+              "dependencies": {
+                "inherits": {
+                  "version": "2.0.1"
+                },
+                "typedarray": {
+                  "version": "0.0.6"
+                },
+                "readable-stream": {
+                  "version": "1.1.13",
+                  "dependencies": {
+                    "core-util-is": {
+                      "version": "1.0.1"
+                    },
+                    "isarray": {
+                      "version": "0.0.1"
+                    },
+                    "string_decoder": {
+                      "version": "0.10.31"
+                    }
+                  }
+                }
+              }
             }
           }
         },
         "cfb": {
-          "version": "0.10.1"
+          "version": "0.10.3"
         },
         "jszip": {
-          "version": "2.2.2",
+          "version": "2.4.0",
           "dependencies": {
             "pako": {
               "version": "0.2.5"
             }
           }
         },
+        "crc-32": {
+          "version": "0.2.2"
+        },
+        "adler-32": {
+          "version": "0.2.1"
+        },
         "commander": {
-          "version": "2.3.0"
+          "version": "2.6.0"
         }
       }
     }

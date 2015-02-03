@@ -1,9 +1,21 @@
 fs = Meteor.npmRequire('fs')
-DocXTemplater = Meteor.npmRequire('docxtemplater')
+DocxGen = Meteor.npmRequire('docxtemplater')
 
 
 cleanFilename = (str) ->
     return str.replace(/\.\./g,'').replace(/\//g,'')
+
+saveFile = (blob, fn) ->
+    # help from:  https://gist.github.com/dariocravero/3922137
+    path = share.getWordTemplatePath(fn)
+    fs.writeFile path, blob, 'binary', (err) ->
+        if (err)
+            console.log(path, err)
+            throw new Meteor.Error(500, 'Failed to save file.', err)
+
+removeFile = (fn) ->
+    fs.unlinkSync(fn)
+
 
 Meteor.methods
 
@@ -48,17 +60,6 @@ Meteor.methods
             throw new Meteor.Error(403, "Nice try wise-guy.")
         fn = ReportTemplate.findOne({_id: _id}).filename
         path = share.getWordTemplatePath(fn)
-        docx = new DocxGen().loadFromFile(path, {async: false})
-        docx.output({type: "string"})
-
-
-saveFile = (blob, fn) ->
-    # help from:  https://gist.github.com/dariocravero/3922137
-    path = share.getWordTemplatePath(fn)
-    fs.writeFile path, blob, 'binary', (err) ->
-        if (err)
-            console.log(path, err)
-            throw new Meteor.Error(500, 'Failed to save file.', err)
-
-removeFile = (fn) ->
-    fs.unlinkSync(fn)
+        blob = fs.readFileSync(path, "binary")
+        docx = new DocxGen(blob)
+        return docx.getZip().generate({type: "string"})

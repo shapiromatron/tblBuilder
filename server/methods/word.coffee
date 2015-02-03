@@ -1,9 +1,19 @@
-DocXTemplater = Meteor.npmRequire('docxtemplater')
-angular_expressions= Meteor.npmRequire('angular-expressions')
+fs = Meteor.npmRequire('fs')
+DocxGen = Meteor.npmRequire('docxtemplater')
+expressions = Meteor.npmRequire('angular-expressions')
 
-angularParser = (tag) ->
-    expr = angular_expressions.compile(tag)
-    return get: expr
+
+createWordReport = (templateFilename, data) ->
+    angularParser = (tag) ->
+        return {get: expressions.compile(tag)}
+
+    path = share.getWordTemplatePath(templateFilename)
+    blob = fs.readFileSync(path, "binary")
+    docx = new DocxGen(blob)
+    docx.setOptions({parser: angularParser})
+    docx.setData(data)
+    docx.render()
+    return docx.getZip().generate({type: "string"})
 
 
 # EXPOSURE REPORT -------------------------------------------------------
@@ -123,13 +133,6 @@ getOrganSitesObject = (tbl_ids) ->
     return organSites
 
 # EPI REPORT BY REFERENCE ------------------------------------------------------
-createWordReport = (templateFilename, data) ->
-    path = share.getWordTemplatePath(templateFilename)
-    docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
-    docx.setTags(data)
-    docx.applyTags()
-    return docx.output({type: "string"})
-
 epiWordReport = (tbl_id, epiSortOrder) ->
     switch epiSortOrder
         when "Reference"
@@ -206,7 +209,6 @@ genotoxWordReport = (tbl_id) ->
     d =
         "monographAgent": tbl.monographAgent
         "volumeNumber": tbl.volumeNumber
-        "hasTable": true
         "table": tbl
 
     vals = GenotoxEvidence
@@ -241,12 +243,7 @@ Meteor.methods
                 data = mechanisticWordReport(tbl_id)
             else
                 return console.error("unknown table type: " + tbl.tblType)
-
-        path = share.getWordTemplatePath(filename)
-        docx = new DocxGen().loadFromFile(path, {async: false, parser: angularParser})
-        docx.setTags(data)
-        docx.applyTags()
-        return docx.output({type: "string"})
+        return createWordReport(filename, data)
 
     monographAgentEpiReport: (d) ->
         epiWordReportMultiTable(d.templateFN, d.monographagent, d.volumenumber)
