@@ -62,6 +62,9 @@ Template.genotoxRow.helpers
         if @dosesTested?
             txt += ",<br>[#{@dosesTested}&nbsp;#{@units}]"
 
+        if @dosingDuration
+            txt += ", #{@dosingDuration}"
+
         return txt
 
     getCol7: () ->
