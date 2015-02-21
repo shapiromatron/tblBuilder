@@ -152,7 +152,9 @@ share.toggleRiskPlot = ->
                            .attr('class', 'epiRiskAxes')
                            .attr('height', height+yPlotBuffer)
                            .attr('width', width+2*xPlotBuffer)
-                           .style({top: y_top, left: x_left-xPlotBuffer})
+                           .style({
+                                top: parseInt(y_top) + "px",
+                                left: parseInt(x_left-xPlotBuffer) + "px"})
 
     xscale = d3.scale.log().range([0, width]).domain([0.05, 50]).clamp(true)
     yscale = d3.scale.linear().range([0, height-yPlotBuffer]).domain([0, 1]).clamp(true)

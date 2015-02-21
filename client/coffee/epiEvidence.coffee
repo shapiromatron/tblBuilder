@@ -252,9 +252,11 @@ Template.riskEstimateForm.events
 Template.forestPlot.rendered = ->
     data = @data.parent.riskEstimates[@data.index]
     svg = d3.select(@.find('svg'))
-    svg.attr('viewBox', "0 0 #{svg.node().clientWidth} #{svg.node().clientHeight}")
-    xscale = d3.scale.log().range([0, svg.node().clientWidth]).domain([0.05, 50]).clamp(true)
-    yscale = d3.scale.linear().range([0, svg.node().clientHeight]).domain([0, 1]).clamp(true)
+    width = parseInt(svg.node().getBoundingClientRect().width)
+    height = parseInt(svg.node().getBoundingClientRect().height)
+    svg.attr('viewBox', "0 0 #{width} #{height}")
+    xscale = d3.scale.log().range([0, width]).domain([0.05, 50]).clamp(true)
+    yscale = d3.scale.linear().range([0, height]).domain([0, 1]).clamp(true)
     riskStr = "Effect measure #{@data.parent.effectMeasure}: #{data.riskMid} (#{data.riskLow}-#{data.riskHigh})"
     group = svg.append('g').attr('class', 'riskBar')
     group.append("svg:title").text(riskStr)
