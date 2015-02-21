@@ -20,7 +20,7 @@ getValue = (inp) ->
             val = inp.value
         when "number"
             val = parseFloat(inp.value, 10)
-            if isNaN(val) then val = null
+            if isNaN(val) then val = undefined
         when "checkbox"
             val = inp.checked
         when "select-one"

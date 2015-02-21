@@ -101,8 +101,9 @@ Meteor.startup ->
             type: Number
             optional: true
             custom: () ->
-                needsPMID = (this.field('referenceType').value is "PubMed")
-                if needsPMID and this.value<=0 then return "required"
+                needsPMID = (@field('referenceType').value is "PubMed")
+                isPositive = @value>0
+                if (needsPMID and not isPositive) then return "required"
             denyUpdate: true
 
         fullCitation:
