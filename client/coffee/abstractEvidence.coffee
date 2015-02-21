@@ -20,8 +20,9 @@ share.abstractTblHelpers =
 
     object_list: ->
         key = Session.get('evidenceType')
-        Collection = share.evidenceType[key].collection
-        return Collection.find({}, {sort: {sortIdx: 1}})
+        if key?
+            Collection = share.evidenceType[key].collection
+            return Collection.find({}, {sort: {sortIdx: 1}})
 
 share.abstractTblEvents =
 
