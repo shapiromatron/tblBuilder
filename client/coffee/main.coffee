@@ -248,8 +248,10 @@ Template.browserDetect.helpers
 
     isSupportedBrowser: ->
         isChrome = window.chrome?
-        isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1
-        return isChrome or isFirefox
+        ua = navigator.userAgent.toLowerCase()
+        isFirefox = ua.indexOf('firefox') > -1
+        isSafari = ua.indexOf('safari') > -1
+        return isChrome or isFirefox or isSafari
 
     getErrorMessage: ->
         return "<b>Warning:</b> Your current browser
@@ -259,6 +261,7 @@ Template.browserDetect.helpers
                 <ul>
                     <li><a href='https://www.google.com/chrome/' target='_blank'>Google Chrome</a> (preferred)</li>
                     <li><a href='https://www.mozilla.org/firefox/' target='_blank'>Mozilla Firefox</a></li>
+                    <li><a href='https://www.apple.com/safari/' target='_blank'>Apple Safari</a></li>
                 </ul><br>
                 Please use a different browser for an optimal experience."
 
