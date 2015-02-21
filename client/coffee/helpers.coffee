@@ -204,7 +204,7 @@ UI.registerHelper "userCanEdit", ->
     tbl = Session.get('Tbl')
     thisId = Meteor.userId()
     if not thisId? or not tbl? then return false
-    if "superuser" in Meteor.user().roles then return true
+    if Meteor.user() and "superuser" in Meteor.user().roles then return true
     if thisId is tbl.user_id then return true
     for user in tbl.user_roles
         if thisId is user.user_id and user.role isnt "reviewers" then return true
