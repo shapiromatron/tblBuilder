@@ -420,6 +420,8 @@ share.setGenotoxWordFields = (d) ->
             else
                 d._testSystem = "#{ d.speciesNonMamm} #{ d.strainNonMamm}"
             d._experimental = share.setNonMammalianExperimentText(d)
+        when "Mammalian and human in vitro"
+            d.colA = if (d.testSpeciesMamm is "Human") then d.testSpeciesMamm else d.speciesMamm
 
     if d.dualResult
         d.resultA = d.resultNoMetabolic

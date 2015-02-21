@@ -221,6 +221,7 @@ genotoxWordReport = (tbl_id) ->
 
     d.nonMammalian = _.filter(vals, (v) -> return v.dataClass == "Non-mammalian")
     d.mammalianInVitro = _.filter(vals, (v) -> return v.dataClass == "Mammalian and human in vitro")
+    d.mammalianInVitro = _.sortBy(d.mammalianInVitro, (v) -> return v.testSpeciesMamm + v.speciesMamm)
     d.animalInVivo = _.filter(vals, (v) -> return v.dataClass == "Animal in vivo")
     d.humanInVivo = _.filter(vals, (v) -> return v.dataClass == "Human in vivo")
     return d
