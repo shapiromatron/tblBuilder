@@ -244,4 +244,5 @@ Template.genotoxForm.rendered = ->
     $(@.findAll('.helpPopovers')).popover
             delay: {show: 500, hide: 100}
             trigger: "hover"
+            html: true
             placement: "auto"

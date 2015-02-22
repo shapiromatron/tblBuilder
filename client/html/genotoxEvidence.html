@@ -163,14 +163,14 @@
 
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Data class*</label>
         {{> selectList options=getGenotoxDataClass selected=dataClass selectName="dataClass" }}
       </div>
 
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Agent*</label>
         {{> typeaheadInput name="agent" value=agent methodName="searchGenotoxAgents" placeholder="Trichloroethylene"}}
       </div>
@@ -182,98 +182,98 @@
 
       <div class="col-xs-3 non_mamm">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Phylogenetic class*</label>
         {{> selectList options=getPhylogeneticClasses selected=phylogeneticClass selectName="phylogeneticClass" }}
       </div>
 
       <div class="col-xs-3 non_mamm isAcellular">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Test system*</label>
         {{> typeaheadInput name="testSystem" value=testSystem methodName="searchGenotoxTestSystem" placeholder="Calf thymus DNA"}}
       </div>
 
       <div class="col-xs-3 non_mamm isntAcellular">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Species*</label>
         {{> typeaheadInput name="speciesNonMamm" value=speciesNonMamm methodName="searchSpeciesNonMamm" placeholder="Salmonella typhimurium"}}
       </div>
 
       <div class="col-xs-3 non_mamm isntAcellular">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Strain*</label>
         {{> typeaheadInput name="strainNonMamm" value=strainNonMamm methodName="searchStrainNonMamm" placeholder="TA98"}}
       </div>
 
       <div class="col-xs-3 mamm_vitro">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
-              Test species class*</label>
+              data-content="As reported">
+              Test species*</label>
         {{> selectList options=getMammalianTestSpecies selected=testSpeciesMamm selectName="testSpeciesMamm" }}
       </div>
 
       <div class="col-xs-3 mamm_vitro">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Species*</label>
         {{> typeaheadInput name="speciesMamm" value=speciesMamm methodName="searchSpeciesMamm" placeholder="Human"}}
       </div>
 
       <div class="col-xs-3 mamm_vitro">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Tissue, cell line*</label>
         {{> typeaheadInput name="tissueCellLine" value=tissueCellLine methodName="searchTissueCellLine" placeholder="Liver/HepG2"}}
       </div>
 
       <div class="col-xs-3 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Species*</label>
         {{> typeaheadInput name="species" value=species methodName="searchGenotoxSpecies" placeholder="Mouse"}}
       </div>
 
       <div class="col-xs-3 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="If no strain specified, add common name in parentheses">
               Strain*</label>
         {{> typeaheadInput name="strain" value=strain methodName="searchGenotoxStrain" placeholder="B6C3F1"}}
       </div>
 
       <div class="col-xs-3 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Sex*</label>
         {{> selectList options=getSexes selected=sex selectName="sex" }}
       </div>
 
       <div class="col-xs-3 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Tissue*</label>
         {{> typeaheadInput name="tissueAnimal" value=tissueAnimal methodName="searchGenotoxTissueAnimal" placeholder="bone marrow"}}
       </div>
 
       <div class="col-xs-3 human_vivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Tissue*</label>
         {{> typeaheadInput name="tissueHuman" value=tissueHuman methodName="searchGenotoxTissueHuman" placeholder="skin"}}
       </div>
 
       <div class="col-xs-3 human_vivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Cell type (if specified)</label>
         {{> typeaheadInput name="cellType" value=cellType methodName="searchGenotoxCellType" placeholder="endothelial"}}
       </div>
 
       <div class="col-xs-6 human_vivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Description of exposed and controls*</label>
         <input class="form-control" type="text"
                name='exposureDescription'
@@ -288,21 +288,21 @@
 
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Endpoint*</label>
         <select class="form-control" name='endpoint' value="{{endpoint}}"></select>
       </div>
 
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Endpoint test*</label>
         <select class="form-control" name='endpointTest' value="{{endpointTest}}"></select>
       </div>
 
       <div class="col-xs-2 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Route*</label>
         {{> typeaheadInput name="dosingRoute" value=dosingRoute methodName="searchGenotoxDosingRoute" placeholder="Drinking water"}}
       </div>
@@ -310,7 +310,7 @@
       <div class="col-xs-2 vitro">
         <label class="helpPopovers" data-toggle="popover"
             data-content="Check if two-results are available: with and without exogenous metabolic activation">
-            Dual results?</label>
+            Metabolic activation tested?</label>
         <div class="checkbox">
           <input style="{margin-left: 10px}"
                  type="checkbox" name='dualResult'
@@ -320,7 +320,7 @@
 
       <div class="col-xs-2 expvivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Duration*</label>
         <input class="form-control" type="text"
                name='dosingDuration'
@@ -330,7 +330,7 @@
 
       <div class="col-xs-2 ani_vivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               Dosing regimen*</label>
         <input class="form-control" type="text"
                name='dosingRegimen'
@@ -345,31 +345,64 @@
 
       <div class="isntDualResult col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="
+                <strong>Working Group judgment:</strong>
+                <ul>
+                <li>+, positive</li>
+                <li>–, negative</li>
+                <li>+/–, equivocal (variable response in several experiments
+                    within an adequate study)</li>
+                 <li>(+) or (–), positive/negative in a study of limited quality
+                      (specify reason in comments, e.g. only a singe dose tested;
+                      data or methods not fully reported; confounding exposures, etc.)</li>
+                 </ul>
+              ">
               <br>Result*</label>
         {{> selectList options=getGenotoxResultOptions selected=result selectName="result" }}
       </div>
 
       <div class="isDualResult col-xs-3">
         <label class=" helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="
+                <strong>Working Group judgment:</strong>
+                <ul>
+                <li>+, positive</li>
+                <li>–, negative</li>
+                <li>+/–, equivocal (variable response in several experiments
+                    within an adequate study)</li>
+                 <li>(+) or (–), positive/negative in a study of limited quality
+                      (specify reason in comments, e.g. only a singe dose tested;
+                      data or methods not fully reported; confounding exposures, etc.)</li>
+                 </ul>
+              ">
               Result*<br>(with metabolic activation)</label>
         {{> selectList options=getGenotoxResultOptions selected=resultMetabolic selectName="resultMetabolic" }}
       </div>
 
       <div class="col-xs-3 isDualResult">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="
+                <strong>Working Group judgment:</strong>
+                <ul>
+                <li>+, positive</li>
+                <li>–, negative</li>
+                <li>+/–, equivocal (variable response in several experiments
+                    within an adequate study)</li>
+                 <li>(+) or (–), positive/negative in a study of limited quality
+                      (specify reason in comments, e.g. only a singe dose tested;
+                      data or methods not fully reported; confounding exposures, etc.)</li>
+                 </ul>
+              ">
               Result*<br>(without metabolic activation)</label>
         {{> selectList options=getGenotoxResultOptions selected=resultNoMetabolic selectName="resultNoMetabolic" }}
       </div>
 
       <div class="col-xs-3">
         <label class="doses helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               <br>LED or HID</label>
         <label class="concs helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               <br>LEC or HIC</label>
         <input class="form-control" type="text"
                name="led"
@@ -379,14 +412,14 @@
 
       <div class="col-xs-3">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               <br>Dosing units*</label>
         {{> typeaheadInput name="units" value=units methodName="searchGenotoxDosingUnits" placeholder="μM"}}
       </div>
 
       <div class="col-xs-3 expvivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               <br>Doses tested*</label>
         <input class="form-control" type="text"
                name='dosesTested'
@@ -396,7 +429,7 @@
 
       <div class="col-xs-3 human_vivo">
         <label class="helpPopovers" data-toggle="popover"
-              data-content="<add>">
+              data-content="As reported">
               <br>Significance</label>
         <input class="form-control" type="text"
                name='significance'
