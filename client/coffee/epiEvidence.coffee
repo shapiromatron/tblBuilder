@@ -69,6 +69,12 @@ epiDescriptiveTblEvents =
         Session.set('epiRiskShowPlots', val)
         share.toggleRiskPlot()
 
+    'click #pyWordReport': (evt, tmpl) ->
+        tbl_id = Session.get('Tbl')._id
+        fn = "report.docx"
+        Meteor.call "pyWordReport", tbl_id, (err, response) ->
+            share.returnWordFile(response, fn)
+
 _.extend(epiDescriptiveTblHelpers, share.abstractTblHelpers)
 _.extend(epiDescriptiveTblEvents, share.abstractTblEvents)
 
