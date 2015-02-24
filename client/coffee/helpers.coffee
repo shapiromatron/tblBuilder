@@ -81,6 +81,32 @@ share.returnWordFile = (raw_data, fn) ->
     blob = new Blob([s2ab(raw_data)], {type: "application/octet-stream"})
     saveAs(blob, fn)
 
+b64toBlob = (b64, contentType, sliceSize) ->
+    contentType = contentType or ''
+    sliceSize = sliceSize or 512
+    byteCharacters = window.atob(b64)
+    byteArrays = []
+
+    offset = 0
+    while offset < byteCharacters.length
+        slice = byteCharacters.slice(offset, offset + sliceSize)
+        byteNumbers = new Array(slice.length)
+        i = 0
+        while i < slice.length
+            byteNumbers[i] = slice.charCodeAt(i)
+            i++
+        byteArray = new Uint8Array(byteNumbers)
+        byteArrays.push byteArray
+        offset += sliceSize
+
+    blob = new Blob(byteArrays, {type: contentType})
+    return blob
+
+share.b64toWord = (b64, fn) ->
+    fn = fn or "download.docx"
+    blob = b64toBlob(b64, "application/octet-stream")
+    saveAs(blob, fn)
+
 share.toggleRowVisibilty = (display, $els) ->
     if display then $els.fadeIn() else $els.fadeOut()
 

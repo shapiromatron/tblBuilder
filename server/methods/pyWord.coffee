@@ -1,36 +1,17 @@
-fs = Meteor.npmRequire('fs')
-exec = Meteor.npmRequire("child_process").exec
-Fiber = Meteor.npmRequire('fibers')
 Future = Meteor.npmRequire('fibers/future')
-DocxGen = Meteor.npmRequire('docxtemplater')
+zerorpc = Meteor.npmRequire("zerorpc");
 
-
-downloadTemplate = (temp_docx) ->
-    blob = fs.readFileSync(temp_docx, "binary")
-    docx = new DocxGen(blob)
-    return docx.getZip().generate({type: "string"})
-
+client = undefined
+Meteor.startup ->
+    client = new zerorpc.Client({"timeout": 60})
+    client.connect("tcp://127.0.0.1:4242")
 
 Meteor.methods
 
     pyWordReport: (tbl_id) ->
         @unblock()
-
-        py = Meteor.settings.python_path
-        fn = Meteor.settings.python_scripts_path + "/epi.py"
-        temp_path = Meteor.settings.temp_path
-        temp_root = Math.random().toString(36).replace(/[^a-zA-Z0-9]+/g, '')
-        temp_json = "#{temp_path}/#{temp_root}.json"
-        temp_docx = "#{temp_path}/#{temp_root}.docx"
-
-        cmd = "#{py} #{fn} #{temp_json} #{temp_docx}"
-
-        fs.writeFileSync(temp_json, '{"input": "one"}')
-
+        tbl_data = JSON.stringify({title: "jazz"})
         fut = new Future()
-        exec cmd, (error, stdout, stderr) ->
-            fib = new Fiber () ->
-                fut.return(downloadTemplate(temp_docx))
-            fib.run()
-
+        client.invoke "createReport", tbl_data, (error, res, more) ->
+            fut.return(res)
         return fut.wait()
