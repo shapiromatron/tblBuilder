@@ -2,5 +2,5 @@
   "xlsx": "0.7.12",
   "docxtemplater": "1.0.4",
   "angular-expressions": "0.2.1",
-  "zerorpc": "0.9.3"
+  "python-shell": "0.0.3"
 }

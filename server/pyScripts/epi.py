@@ -1,29 +1,25 @@
-import os, sys
+import sys
 import json
+from StringIO import StringIO
 
 from docx import Document
 
-def getContext(inpfn):
-    if os.path.exists(inpfn):
-        with open(inpfn, 'r') as f:
-            context = f.read()
-        return json.loads(context)
+def getContext(context):
+    return json.loads(context)
 
 def createReport(context):
     document = Document()
-    document.add_heading(context.get("input", "None!"), 0)
+    document.add_heading(context.get("test", "None!"), 0)
     return document
 
-def writeReport(document, outfn):
-    if os.path.exists(outfn):
-        os.remove(outfn)
-
-    document.save(outfn)
+def writeReport(document):
+    docx = StringIO()
+    document.save(docx)
+    docx.seek(0)
+    print docx.read().encode('base64')
 
 
 if __name__ == "__main__":
-    inpfn = sys.argv[1]
-    outfn = sys.argv[2]
-    context = getContext(inpfn)
+    context = getContext(sys.argv[1].decode('utf8'))
     report = createReport(context)
-    writeReport(report, outfn)
+    writeReport(report)

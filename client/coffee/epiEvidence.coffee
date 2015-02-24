@@ -73,7 +73,9 @@ epiDescriptiveTblEvents =
         tbl_id = Session.get('Tbl')._id
         fn = "report.docx"
         Meteor.call "pyWordReport", tbl_id, (err, response) ->
-            share.b64toWord(response, fn)
+            if (response) then return share.b64toWord(response, fn)
+            return alert("An error occurred.")
+
 
 _.extend(epiDescriptiveTblHelpers, share.abstractTblHelpers)
 _.extend(epiDescriptiveTblEvents, share.abstractTblEvents)

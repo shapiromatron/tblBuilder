@@ -1,17 +1,29 @@
 Future = Meteor.npmRequire('fibers/future')
-zerorpc = Meteor.npmRequire("zerorpc");
+PythonShell = Meteor.npmRequire('python-shell')
 
-client = undefined
-Meteor.startup ->
-    client = new zerorpc.Client({"timeout": 60})
-    client.connect("tcp://127.0.0.1:4242")
+
+pyWordHelper = (script, context, fut) ->
+    # Helper function to run a python script and return the result.
+    options =
+        scriptPath: Meteor.settings.python_scripts_path
+        args: [context]
+        pythonPath: Meteor.settings.python_path
+
+    cb = (err, res) ->
+        if err
+            console.log("An error occurred: ")
+            console.log(err)
+            return undefined
+        return res.join("")
+
+    PythonShell.run(script, options, (err, res) -> fut.return(cb(err, res)))
+
 
 Meteor.methods
 
     pyWordReport: (tbl_id) ->
         @unblock()
-        tbl_data = JSON.stringify({title: "jazz"})
         fut = new Future()
-        client.invoke "createReport", tbl_data, (error, res, more) ->
-            fut.return(res)
+        context = JSON.stringify({test: "Go-carts are ♀♂ fun.", array: [1,23,123123,11321]})
+        pyWordHelper("epi.py", context, fut)
         return fut.wait()
