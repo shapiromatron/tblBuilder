@@ -1,3 +1,5 @@
+Future = Meteor.npmRequire('fibers/future')
+PythonShell = Meteor.npmRequire('python-shell')
 fs = Meteor.npmRequire('fs')
 DocxGen = Meteor.npmRequire('docxtemplater')
 expressions = Meteor.npmRequire('angular-expressions')
@@ -226,7 +228,33 @@ genotoxWordReport = (tbl_id) ->
     d.humanInVivo = _.filter(vals, (v) -> return v.dataClass == "Human in vivo")
     return d
 
+# pyWord REPORTS ---------------------------------------------------------------
+pyWordHelper = (report_type, context, fut) ->
+    # Helper function to run a python script and return the result.
+    options =
+        scriptPath: Meteor.settings.python_scripts_path
+        args: [report_type, context]
+        pythonPath: Meteor.settings.python_path
 
+    cb = (err, res) ->
+        if err
+            console.log("An error occurred: ")
+            console.log(err)
+            return undefined
+        return res.join("")
+
+    PythonShell.run("generateReport.py", options, (err, res) -> fut.return(cb(err, res)))
+
+getContext = (report_type, tbl_id) ->
+    d = {}
+    switch report_type
+        when "NtpEpiDescriptive"
+            d = getEpiDataByReference(tbl_id)
+        when "NtpEpiResults"
+            d = getEpiDataByOrganSite(tbl_id)
+    return JSON.stringify(d)
+
+# Public Meteor Methods --------------------------------------------------------
 Meteor.methods
     downloadWordReport: (tbl_id, filename) ->
         tbl = Tables.findOne(tbl_id)
@@ -248,3 +276,10 @@ Meteor.methods
 
     monographAgentEpiReport: (d) ->
         epiWordReportMultiTable(d.templateFN, d.monographagent, d.volumenumber)
+
+    pyWordReport: (tbl_id, report_type) ->
+        @unblock()
+        fut = new Future()
+        context = getContext(report_type, tbl_id)
+        pyWordHelper(report_type, context, fut)
+        return fut.wait()
