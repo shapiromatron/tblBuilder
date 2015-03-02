@@ -59,6 +59,20 @@ $.extend $.fn.dataTableExt.oSort,
 # EPI DESCRIPTIVE TABLE --------------------------------------------------------
 epiDescriptiveTblHelpers =
 
+    getReportTypes: ->
+        reports = []
+        switch Meteor.settings.public.context
+            when "ntp"
+                reports = [
+                    {"type": "NtpEpiDescriptive", "fn": "epi-descriptive", "text": "Download Word: study descriptions"},
+                    {"type": "NtpEpiResults",     "fn": "epi-result",      "text": "Download Word: results by organ-site"},
+                ]
+            when "iarc"
+                reports = []
+            else
+                console.log("Unknown site context.")
+        return reports
+
     showPlots: ->
         Session.get('epiRiskShowPlots')
 
@@ -69,10 +83,11 @@ epiDescriptiveTblEvents =
         Session.set('epiRiskShowPlots', val)
         share.toggleRiskPlot()
 
-    'click #pyWordReport': (evt, tmpl) ->
+    'click .wordReport': (evt, tmpl) ->
         tbl_id = Session.get('Tbl')._id
-        fn = "report.docx"
-        Meteor.call "pyWordReport", tbl_id, (err, response) ->
+        report_type = evt.target.dataset.type
+        fn = evt.target.dataset.fn + ".docx"
+        Meteor.call "pyWordReport", tbl_id, report_type, (err, response) ->
             if (response) then return share.b64toWord(response, fn)
             return alert("An error occurred.")
 

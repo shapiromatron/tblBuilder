@@ -1,2 +1,3 @@
 deploy
 *settings.json
+*.py[co]
