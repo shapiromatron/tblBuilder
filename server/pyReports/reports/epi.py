@@ -4,13 +4,25 @@ from docx.enum.section import WD_ORIENT
 from utils import DOCXReport
 
 
-def build_header_cell(row, col, width, text, colspan=1):
-    return {
+def make_landscape(doc):
+    section = doc.sections[-1]
+    section.orientation = WD_ORIENT.LANDSCAPE
+    section.left_margin = Inches(0.5)
+    section.right_margin = Inches(0.5)
+    section.page_width  = Inches(11)
+    section.page_height  = Inches(8.5)
+
+def build_header_cell(row, col, width, text, colspan=None, rowspan=None):
+    cell = {
         "row": row,
         "col": col,
         "width": width,
-        "colspan": colspan,
         "runs": [{ "text": text, "bold": True, "italic": False }]}
+    if rowspan:
+        cell["rowspan"] = rowspan
+    if colspan:
+        cell["colspan"] = colspan
+    return cell
 
 def build_text_cell(row, col, text, rowspan=None, colspan=None):
     cell = {"row": row, "col": col, "text": text}
@@ -32,19 +44,143 @@ def run_maker(txt, newline=True, b=False, i=False):
     if newline: txt += u"\n"
     return {"text": txt, "bold": b, "italic": i}
 
+def build_dual_field(row, header, text="", runs=None, colspan=None):
+    h = build_header_cell(row, 0, 2, header)
+    if runs:
+        d = build_run_cell(row, 1, runs, colspan=colspan)
+    else:
+        d = build_text_cell(row, 1, text, colspan=colspan)
+    return [h, d]
+
 
 class NtpEpiDescriptive(DOCXReport):
 
+    def build_desc_tbl(self, d):
+        rows = 2
+        cols = 5
+
+        # write header
+        txt = u"Table X: Study description and methodologies: {}".format(d["reference"]["name"])
+        cells = [
+            build_header_cell(0, 0, 10, txt, colspan=5),
+            build_header_cell(1, 0, 1.5, "Field"),
+            build_header_cell(1, 1, 1.0, "Description", colspan=4),
+            build_header_cell(1, 2, 1.5, ""),
+            build_header_cell(1, 3, 1.5, ""),
+            build_header_cell(1, 4, 4.5, ""),
+        ]
+
+        # write data-rows
+        runs = [
+            run_maker(d["reference"]["name"], i=True),
+            run_maker(d["reference"]["fullCitation"], newline=False)
+        ]
+        cells.extend(build_dual_field(rows, "Reference", runs=runs, colspan=4))
+        rows += 1
+
+        txt = d["studyDesign"]
+        cells.extend(build_dual_field(rows, "Study-design type", text=txt, colspan=4))
+        rows += 1
+
+        txt = u"{}; {}".format(d["location"], d["enrollmentDates"])
+        cells.extend(build_dual_field(rows, "Location and enrollment dates", text=txt, colspan=4))
+        rows += 1
+
+        txt = d.get("populationDescription", "")
+        cells.extend(build_dual_field(rows, "Population description", text=txt, colspan=4))
+        rows += 1
+
+        if d["isCaseControl"]:
+
+            # build specialized table
+            txt = "Case-control description and eligibility criteria"
+            cells.append(build_header_cell(rows, 0, 2, txt, rowspan=3))
+
+            cells.append(build_run_cell(rows, 2, [run_maker("Population size", i=True, newline=False)]))
+            cells.append(build_run_cell(rows, 3, [run_maker("Response rates", i=True, newline=False)]))
+            cells.append(build_run_cell(rows, 4, [run_maker("Source", i=True, newline=False)]))
+            rows +=1
+
+            cells.append(build_text_cell(rows, 1, "Cases"))
+            cells.append(build_text_cell(rows, 2, d["populationSizeCase"]))
+            cells.append(build_text_cell(rows, 3, d["responseRateCase"]))
+            cells.append(build_text_cell(rows, 4, d["sourceCase"]))
+            rows +=1
+
+            cells.append(build_text_cell(rows, 1, "Controls"))
+            cells.append(build_text_cell(rows, 2, d["populationSizeControl"]))
+            cells.append(build_text_cell(rows, 3, d["responseRateControl"]))
+            cells.append(build_text_cell(rows, 4, d["sourceControl"]))
+            rows +=1
+
+        else:
+            txt = d.get("eligibilityCriteria", "")
+            cells.extend(build_dual_field(rows, "Eligibility criteria", text=txt, colspan=4))
+            rows += 1
+
+            runs = [
+                run_maker("Population size: ", i=True, newline=False),
+                run_maker(unicode(d.get("populationSize", ""))),
+                run_maker("Loss-to-follow-up: ", i=True, newline=False),
+                run_maker(unicode(d.get("lossToFollowUp", ""))),
+                run_maker("Referent Group: ", i=True, newline=False),
+                run_maker(d.get("referentGroup", ""), newline=False),
+            ]
+            cells.extend(build_dual_field(rows, "Cohort details", runs=runs, colspan=4))
+            rows += 1
+
+            txt = d.get("outcomeDataSource", "")
+            cells.extend(build_dual_field(rows, "Outcome data source", text=txt, colspan=4))
+            rows += 1
+
+        txt = d["exposureAssessmentType"]
+        cells.extend(build_dual_field(rows, "Exposure assessment", text=txt, colspan=4))
+        rows += 1
+
+        txt = d.get("exposureAssessmentNotes", "")
+        cells.extend(build_dual_field(rows, "Exposure assessment notes", text=txt, colspan=4))
+        rows += 1
+
+        txt = d.get("exposureLevel", "")
+        cells.extend(build_dual_field(rows, "Exposure-level", text=txt, colspan=4))
+        rows += 1
+
+        txt = d.get("coexposuresList", "")
+        cells.extend(build_dual_field(rows, "Coexposures", text=txt, colspan=4))
+        rows += 1
+
+        runs = [
+            run_maker("Analytical methods: ", i=True, newline=False),
+            run_maker(d.get("notes", "")),
+            run_maker("Covariates: ", i=True, newline=False),
+            run_maker("{add}"),
+            run_maker("Confounder consideration: ", i=True, newline=False),
+            run_maker("{add}", newline=False),
+        ]
+        cells.extend(build_dual_field(rows, "Analysis methods and control for confounding", runs=runs, colspan=4))
+        rows += 1
+
+        self.build_table(rows, cols, cells)
+
     def create_content(self):
+        doc = self.doc
         d = self.context
 
-        header = "{} {}: Study descriptions and methodologies".format(d["volumeNumber"], d["monographAgent"])
-        self.doc.add_heading(header, 0)
+        make_landscape(doc)
+
+        # title
+        txt = "{} {}: Study descriptions and methodologies".format(d["volumeNumber"], d["monographAgent"])
+        doc.add_heading(txt, 0)
+
+        # build table for each organ-site
+        for desc in d["descriptions"]:
+            self.build_desc_tbl(desc)
+            self.doc.add_page_break()
 
 
 class NtpEpiResults(DOCXReport):
 
-    def build_tbl_cells(self, caption, results):
+    def build_res_tbl(self, caption, results):
         rows = 2
         cols = 7
 
@@ -112,19 +248,12 @@ class NtpEpiResults(DOCXReport):
             rows += rowspan
 
         self.build_table(rows, cols, cells)
-        self.doc.add_paragraph("\n")
 
     def create_content(self):
         doc = self.doc
         d = self.context
 
-        # make landscape
-        section = doc.sections[-1]
-        section.orientation = WD_ORIENT.LANDSCAPE
-        section.left_margin = Inches(0.5)
-        section.right_margin = Inches(0.5)
-        section.page_width  = Inches(11)
-        section.page_height  = Inches(8.5)
+        make_landscape(doc)
 
         # title
         txt = "{} {}: Results by organ-site".format(d["volumeNumber"], d["monographAgent"])
@@ -132,7 +261,6 @@ class NtpEpiResults(DOCXReport):
 
         # build table for each organ-site
         for organSite in d["organSites"]:
-
             txt = "Table X: Epidemiological exposure to {}: {}".format(d["monographAgent"], organSite["organSite"])
-            self.build_tbl_cells(txt, organSite["results"])
-
+            self.build_res_tbl(txt, organSite["results"])
+            self.doc.add_page_break()
