@@ -49,7 +49,7 @@ class DOCXReport(object):
 
         """
 
-        tbl = self.doc.add_table(rows=numRows, cols=numCols, style='Light Shading')
+        tbl = self.doc.add_table(rows=numRows, cols=numCols, style=None)
         tbl.autofit = False
 
         for cell in cells:

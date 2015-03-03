@@ -62,24 +62,27 @@ class NtpEpiResults(DOCXReport):
 
         # write additional rows
         for res in results:
+
             rowspan = len(res["riskEstimates"])
+            if res["hasTrendTest"]:
+                rowspan += 1
 
             # Column A
-            txt = "{}\n{}\n{}\n{}".format(
+            txt = u"{}\n{}\n{}\n{}".format(
                 res["descriptive"]["reference"]["name"],
                 res["descriptive"]["studyDesign"],
                 res["descriptive"]["location"],
                 res["descriptive"]["enrollmentDates"]
             )
-            colA = build_text_cell(rows, 0, txt, rowspan=rowspan)
+            cells.append(build_text_cell(rows, 0, txt, rowspan=rowspan))
 
             # Column B
             runs = [
-                run_maker("{descriptive other population descriptors}"),
-                run_maker("Exposure assessment method", b=True),
+                run_maker(res["descriptive"].get("eligibilityCriteria", "")),
+                run_maker("Exposure assessment method: ", b=True, newline=False),
                 run_maker(res["descriptive"]["exposureAssessmentType"], newline=False)
             ]
-            colB = build_run_cell(rows, 1, runs, rowspan=rowspan)
+            cells.append(build_run_cell(rows, 1, runs, rowspan=rowspan))
 
             # Columns C,D,E
             for i, est in enumerate(res["riskEstimates"]):
@@ -87,31 +90,25 @@ class NtpEpiResults(DOCXReport):
                 cells.append(build_text_cell(rows+i, 3, unicode(est["numberExposed"])))
                 cells.append(build_text_cell(rows+i, 4, unicode(est["riskFormatted"])))
 
-            # Column F
-            runs = [
-                run_maker(res["covariatesList"]),
-            ]
             if res["hasTrendTest"]:
-                runs.append(run_maker("Trend-test p-value:", b=True))
-                runs.append(run_maker(unicode(res["trendTest"]), newline=False))
-            colF = build_run_cell(rows, 5, runs, rowspan=rowspan)
+                txt = u"Trend-test p-value: {}".format(res["trendTest"])
+                cells.append(build_text_cell(rows+i+1, 2, txt, colspan=3))
+
+            # Column F
+            txt = res["covariatesList"]
+            cells.append(build_text_cell(rows, 5, txt, rowspan=rowspan))
 
             # Column G
             runs = [
-                run_maker("{descriptive quantitative exposure}"),
+                run_maker(res["descriptive"].get("exposureLevel", "")),
                 run_maker("Confounding:", b=True),
-                run_maker("{results covariates controlled notes}"),
+                run_maker(res.get("covariatesControlledText", "")),
                 run_maker("Strengths:", b=True),
                 run_maker(res["descriptive"]["strengths"]),
                 run_maker("Limitations:", b=True),
                 run_maker(res["descriptive"]["limitations"], newline=False)
             ]
-            colG = build_run_cell(rows, 6, runs, rowspan=rowspan)
-
-            cells.append(colA)
-            cells.append(colB)
-            cells.append(colF)
-            cells.append(colG)
+            cells.append(build_run_cell(rows, 6, runs, rowspan=rowspan))
             rows += rowspan
 
         self.build_table(rows, cols, cells)
