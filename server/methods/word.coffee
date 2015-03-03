@@ -49,7 +49,7 @@ prepareEpiDescriptive = (desc) ->
     desc.reference = Reference.findOne(_id: desc.referenceID)
     desc.coexposuresList = desc.coexposures.join(', ')
     desc.isCaseControl = desc.studyDesign in CaseControlTypes
-    desc.notes = desc.comments or ""
+    desc.notes = desc.notes or ""
 
 prepareEpiResult = (res) ->
     res.covariatesList = share.capitalizeFirst(res.covariates.join(', '))
