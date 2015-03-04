@@ -135,6 +135,22 @@ Template.epiDescriptiveForm.helpers
     getExposureAssessmentTypeOptions: ->
         return exposureAssessmentTypeOptions
 
+    createPreValidate: (tmpl, obj, data) ->
+        return getEligibilityCriteria(tmpl, obj, data)
+
+    updatePreValidate: (tmpl, obj, data) ->
+        return getEligibilityCriteria(tmpl, obj, data)
+
+
+getEligibilityCriteria = (tmpl, obj, data) ->
+    # There are two eligibility criteria fields in HTML document; we want to
+    # use whichever field is being input (case-control or cohort)
+    fields = tmpl.findAll('textarea[name="eligibilityCriteria"]')
+    for fld in fields
+        if fld.value.length>0 then val = fld.value
+    if data.eligibilityCriteria isnt val then obj.eligibilityCriteria = val
+    return obj
+
 # copy but override abstract object
 epiDescriptiveFormExtension =
 

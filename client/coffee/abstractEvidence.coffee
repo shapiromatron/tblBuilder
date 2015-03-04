@@ -103,6 +103,11 @@ share.abstractFormEvents =
         obj = share.newValues(tmpl.find('#mainForm'))
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['sortIdx'] = 1e10  # temporary, make sure to place at bottom
+
+        # optional hook to for modifying value-object before validating
+        createPreValidate = tmpl.view.template.__helpers[" createPreValidate"]
+        if createPreValidate then obj = createPreValidate(tmpl, obj, @)
+
         # obj = Collection.simpleSchema().clean(obj)
         isValid = Collection.simpleSchema().namedContext().validate(obj)
         if isValid
@@ -119,9 +124,13 @@ share.abstractFormEvents =
         key = Session.get('evidenceType')
         for fld in share.evidenceType[key].requiredUpdateFields
             vals[fld] = tmpl.find('select[name="' + fld + '"]').value  # add for conditional schema-logic
+
+        # optional hook to for modifying value-object before validating
+        updatePreValidate = tmpl.view.template.__helpers[" updatePreValidate"]
+        if updatePreValidate? then vals = updatePreValidate(tmpl, vals, @)
+
         # vals = Collection.simpleSchema().clean(vals)
         modifier = {$set: vals}
-
         isValid = Collection.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid
             Collection.update(@_id, {$set: vals})
