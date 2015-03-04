@@ -80,8 +80,8 @@
     </colgroup>
     <thead>
       <tr>
-        <th>Reference,<br>location, year,<br> &amp; study-design</th>
-        <th>Population description &amp; exposure assessment method</th>
+        <th>Reference, location, follow-up/enrollment period, study-design</th>
+        <th>Population size, description, exposure assessment method</th>
         <th>Organ site<br>(ICD code)</th>
         <th>Exposure category<br> or level</th>
         <th>Exposed<br>cases/<br>deaths</th>
@@ -161,7 +161,7 @@
     {{enrollmentDates}}<br>
     {{studyDesign}}
   </td>
-  <td>{{eligibilityCriteria}}<br><strong>Exposure assess. method: </strong>{{exposureAssessmentType}}</td>
+  <td>{{{getCol2}}}</td>
   <td colspan="5" id="sortableInner">
     {{#each getChildren}}
       {{> epiResultTbl}}

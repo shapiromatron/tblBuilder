@@ -87,6 +87,34 @@ Template.epiDescriptiveTbl.rendered = ->
 # EPI DESCRIPTIVE ROW ----------------------------------------------------------
 epiDescriptiveRowHelpers =
 
+    getCol2: ->
+        html = ""
+
+        if @studyDesign in CaseControlTypes
+            # add percentages to display if numeric
+            rrCase = @responseRateCase
+            if (@responseRateCase.search(/(\d)+/) >= 0) then rrCase += "%"
+            rrCtrl = @responseRateControl
+            if (@responseRateControl.search(/(\d)+/) >= 0) then rrCtrl += "%"
+            html += "<strong>Cases: </strong>#{@populationSizeCase} (#{rrCase}); #{@sourceCase}<br>"
+            html += "<strong>Controls: </strong>#{@populationSizeControl} (#{rrCtrl}); #{@sourceControl}"
+        else
+            html += "#{@populationSize}; #{@eligibilityCriteria}"
+
+        html += "<br><strong>Exposure assess. method: </strong>"
+        if @exposureAssessmentType.toLowerCase().search("other") >= 0
+            html += "other"
+        else
+            html += "#{@exposureAssessmentType}"
+
+        if @exposureAssessmentNotes?
+            html += "; #{@exposureAssessmentNotes}"
+
+        if @outcomeDataSource?
+            html += "<br>#{@outcomeDataSource}"
+
+        return html
+
     getStudyDesign: (evt, tmpl) ->
         if @studyDesign is "Nested Case-Control" then return "#{@studyDesign}<br>"
 
