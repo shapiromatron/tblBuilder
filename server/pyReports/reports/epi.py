@@ -160,7 +160,7 @@ class NtpEpiDescriptive(DOCXReport):
         cells.extend(build_dual_field(rows, "Analysis methods and control for confounding", runs=runs, colspan=4))
         rows += 1
 
-        self.build_table(rows, cols, cells)
+        self.build_table(rows, cols, cells, numHeaders=2, style="ntpTbl")
 
     def create_content(self):
         doc = self.doc
@@ -247,7 +247,7 @@ class NtpEpiResults(DOCXReport):
             cells.append(build_run_cell(rows, 6, runs, rowspan=rowspan))
             rows += rowspan
 
-        self.build_table(rows, cols, cells)
+        self.build_table(rows, cols, cells, numHeaders=2, style="ntpTbl")
 
     def create_content(self):
         doc = self.doc
