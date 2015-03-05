@@ -31,7 +31,7 @@ class DOCXReport(object):
         """
         pass
 
-    def build_table(self, numRows, numCols, cells,
+    def build_table(self, numRows, numCols, widths, cells,
                     numHeaders=1, style=None, firstRowCaption=True):
         """
         Helper function to build a table.
@@ -52,8 +52,13 @@ class DOCXReport(object):
         """
 
         tbl = self.doc.add_table(rows=numRows, cols=numCols, style=style)
-        tbl.autofit = False
 
+        # set column widths
+        tbl.autofit = False
+        for i, col in enumerate(tbl.columns):
+            col.width = docx.shared.Inches(widths[i])
+
+        # build cells
         for cell in cells:
             cellD = tbl.cell(cell["row"], cell["col"])
             p = cellD.paragraphs[0]
