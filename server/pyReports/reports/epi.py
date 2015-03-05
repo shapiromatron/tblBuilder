@@ -275,3 +275,93 @@ class NtpEpiResults(DOCXReport):
             txt = "Table X: Epidemiological exposure to {}: {}".format(d["monographAgent"], organSite["organSite"])
             self.build_res_tbl(txt, organSite["results"])
             self.doc.add_page_break()
+
+
+class NtpEpiAniResults(DOCXReport):
+
+    def build_res_tbl(self, caption, results):
+        rows = 2
+        cols = 7
+        wds = [1.5, 1.5, 1.5, 1.0, 1.0, 1.0, 2.5]
+
+        # write header
+        cells = [
+            build_header_cell(0, 0, wds, caption, colspan=7),
+            build_header_cell(1, 0, wds, "Reference & year, animal, substance administered"),
+            build_header_cell(1, 1, wds, "Substance & purity"),
+            build_header_cell(1, 2, wds, "Dosing regimen"),
+            build_header_cell(1, 3, wds, "Dose levels"),
+            build_header_cell(1, 4, wds, "# animals at sacrifice"),
+            build_header_cell(1, 5, wds, "Tumor incidence (n/N) (%)"),
+            build_header_cell(1, 6, wds, "Comments, strengths, and limitations"),
+        ]
+
+        # write additional rows
+        for res in results:
+            rowspan = len(res["riskEstimates"])+1
+            if res["hasTrendTest"]:
+                rowspan += 1
+
+            # Column A
+            runs = [
+                run_maker(res["descriptive"]["reference"]["name"], b=True),
+                run_maker(res["descriptive"].get("eligibilityCriteria", "")),
+                run_maker(res["descriptive"]["location"], newline=False)
+            ]
+            cells.append(build_run_cell(rows, 0, wds, runs, rowspan=rowspan))
+
+            # Column B
+            runs = [
+                run_maker(res["descriptive"]["location"]),
+                run_maker(res["descriptive"]["coexposuresList"]),
+            ]
+            cells.append(build_run_cell(rows, 1, wds, runs, rowspan=rowspan))
+
+            # Column C
+            runs = [
+                run_maker(res.get("exposureAssessmentNotes", ""))
+            ]
+            cells.append(build_run_cell(rows, 2, wds, runs, rowspan=rowspan))
+
+            # Columns D, E, F
+            cells.append(build_text_cell(rows, 3, wds, res["riskEstimates"][0].get("covariatesControlledText", ""), colspan=3))
+            for i, est in enumerate(res["riskEstimates"]):
+                cells.append(build_text_cell(rows+i+1, 3, wds, est["exposureCategory"]))
+                cells.append(build_text_cell(rows+i+1, 4, wds, unicode(est["numberExposed"])))
+                cells.append(build_text_cell(rows+i+1, 5, wds, unicode(est["riskFormatted"])))
+
+            if res["hasTrendTest"]:
+                txt = u"Trend-test p-value: {}".format(res["trendTest"])
+                cells.append(build_text_cell(rows+i+2, 3, wds, txt, colspan=3))
+
+            # Column G
+            runs = [
+                run_maker("{to add}"),  # res["riskEstimates"][0]["covariatesList"]
+                run_maker("Strengths: ", b=True, newline=False),
+                run_maker(res["descriptive"]["strengths"]),
+                run_maker("Limitations: ", b=True, newline=False),
+                run_maker(res["descriptive"]["limitations"]),
+                run_maker("Other comments: ", b=True, newline=False),
+                run_maker(res["descriptive"]["notes"], newline=False),
+            ]
+            cells.append(build_run_cell(rows, 6, wds, runs, rowspan=rowspan))
+
+            rows += rowspan
+
+        self.build_table(rows, cols, wds, cells, numHeaders=2, style="ntpTbl")
+
+    def create_content(self):
+        doc = self.doc
+        d = self.context
+
+        make_landscape(doc)
+
+        # title
+        txt = "{} {}: Results by organ-site".format(d["volumeNumber"], d["monographAgent"])
+        doc.add_heading(txt, 0)
+
+        # build table for each organ-site
+        for organSite in d["organSites"]:
+            txt = "Table X: Animal-bioassay exposure to {}: {}".format(d["monographAgent"], organSite["organSite"])
+            self.build_res_tbl(txt, organSite["results"])
+            self.doc.add_page_break()

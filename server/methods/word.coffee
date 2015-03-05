@@ -250,7 +250,7 @@ getContext = (report_type, tbl_id) ->
     switch report_type
         when "NtpEpiDescriptive"
             d = getEpiDataByReference(tbl_id)
-        when "NtpEpiResults"
+        when "NtpEpiResults", "NtpEpiAniResults"
             d = getEpiDataByOrganSite(tbl_id)
     return JSON.stringify(d)
 
