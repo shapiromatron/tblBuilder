@@ -50,16 +50,19 @@ share.activateInput = (input) ->
 share.updateValues = (form, obj) ->
     updates = {}
     for inp in $(form).find("select,input,textarea")
-        val = getValue(inp)
         key = inp.name
-        if obj[key] isnt val then updates[key] = val
+        if key.length>0
+            val = getValue(inp)
+            if obj[key] isnt val then updates[key] = val
     return updates
 
 share.newValues = (form) ->
-  obj = {}
-  for inp in $(form).find("select,input,textarea")
-    obj[inp.name] = getValue(inp)
-  return obj
+    obj = {}
+    for inp in $(form).find("select,input,textarea")
+        key = inp.name
+        if key.length>0
+            obj[key] = getValue(inp)
+    return obj
 
 share.returnExcelFile = (raw_data, fn) ->
     fn = fn or "download.xlsx"
