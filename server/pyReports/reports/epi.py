@@ -159,13 +159,23 @@ class NtpEpiDescriptive(DOCXReport):
         cells.extend(build_dual_field(rows, wds, "Coexposures", text=txt, colspan=4))
         rows += 1
 
+        covariates = []
+        ccTxt = set()
+        for res in d.get("results", []):
+            covariates.extend(res["covariates"])
+            txt = res.get("covariatesControlledText")
+            if txt:
+                ccTxt.add(txt)
+        covariates = u", ".join(sorted(set(covariates)))
+        ccTxt = u", ".join(sorted(ccTxt))
+
         runs = [
             run_maker("Analytical methods: ", i=True, newline=False),
             run_maker(d.get("notes", "")),
             run_maker("Covariates: ", i=True, newline=False),
-            run_maker("{add}"),
+            run_maker(covariates),
             run_maker("Confounder consideration: ", i=True, newline=False),
-            run_maker("{add}", newline=False),
+            run_maker(ccTxt, newline=False),
         ]
         cells.extend(build_dual_field(rows, wds, "Analysis methods and control for confounding", runs=runs, colspan=4))
         rows += 1
@@ -279,7 +289,7 @@ class NtpEpiResults(DOCXReport):
 
 class NtpEpiAniResults(DOCXReport):
 
-    def build_res_tbl(self, caption, results):
+    def build_res_tbl(self, caption, studies):
         rows = 2
         cols = 7
         wds = [1.5, 1.5, 1.5, 1.0, 1.0, 1.0, 2.5]
@@ -297,60 +307,72 @@ class NtpEpiAniResults(DOCXReport):
         ]
 
         # write additional rows
-        for res in results:
-            rowspan = len(res["riskEstimates"])+1
-            if res["hasTrendTest"]:
-                rowspan += 1
+        for st in studies:
+
+            # get row-span for each study
+            for res in st["results"]:
+                res["_rowspan"] = len(res["riskEstimates"])+1
+                if res["hasTrendTest"]:
+                    res["_rowspan"] += 1
+
+            st_rowspan = sum(res["_rowspan"] for res in st["results"])
 
             # Column A
             runs = [
-                run_maker(res["descriptive"]["reference"]["name"], b=True),
-                run_maker(res["descriptive"].get("eligibilityCriteria", "")),
-                run_maker(res["descriptive"]["location"], newline=False)
+                run_maker(st["reference"]["name"], b=True),
+                run_maker(st.get("eligibilityCriteria", "")),
+                run_maker(st["location"], newline=False)
             ]
-            cells.append(build_run_cell(rows, 0, wds, runs, rowspan=rowspan))
+            cells.append(build_run_cell(rows, 0, wds, runs, rowspan=st_rowspan))
 
             # Column B
             runs = [
-                run_maker(res["descriptive"]["location"]),
-                run_maker(res["descriptive"]["coexposuresList"]),
+                run_maker(st["location"]),
+                run_maker(st["coexposuresList"]),
             ]
-            cells.append(build_run_cell(rows, 1, wds, runs, rowspan=rowspan))
+            cells.append(build_run_cell(rows, 1, wds, runs, rowspan=st_rowspan))
 
             # Column C
             runs = [
-                run_maker(res["descriptive"].get("exposureAssessmentNotes", ""))
+                run_maker(st.get("exposureAssessmentNotes", ""))
             ]
-            cells.append(build_run_cell(rows, 2, wds, runs, rowspan=rowspan))
+            cells.append(build_run_cell(rows, 2, wds, runs, rowspan=st_rowspan))
 
             # Columns D, E, F
-            runs = [
-                run_maker(res.get("covariatesControlledText", ""), b=True, newline=False),
-            ]
-            cells.append(build_run_cell(rows, 3, wds, runs, colspan=3))
+            irows = rows
+            covariates = []
+            for res in st["results"]:
+                runs = [
+                    run_maker(res.get("covariatesControlledText", ""), b=True, newline=False),
+                ]
+                cells.append(build_run_cell(irows, 3, wds, runs, colspan=3))
 
-            for i, est in enumerate(res["riskEstimates"]):
-                cells.append(build_text_cell(rows+i+1, 3, wds, est["exposureCategory"]))
-                cells.append(build_text_cell(rows+i+1, 4, wds, unicode(est["numberExposed"])))
-                cells.append(build_text_cell(rows+i+1, 5, wds, unicode(est["riskFormatted"])))
+                for i, est in enumerate(res["riskEstimates"]):
+                    cells.append(build_text_cell(irows+i+1, 3, wds, est["exposureCategory"]))
+                    cells.append(build_text_cell(irows+i+1, 4, wds, unicode(est["numberExposed"])))
+                    cells.append(build_text_cell(irows+i+1, 5, wds, unicode(est["riskFormatted"])))
 
-            if res["hasTrendTest"]:
-                txt = u"Trend-test p-value: {}".format(res["trendTest"])
-                cells.append(build_text_cell(rows+i+2, 3, wds, txt, colspan=3))
+                if res["hasTrendTest"]:
+                    txt = u"Trend-test p-value: {}".format(res["trendTest"])
+                    cells.append(build_text_cell(irows+i+2, 3, wds, txt, colspan=3))
+
+                covariates.extend(res["covariates"])
+                irows += res["_rowspan"]
 
             # Column G
+            covariates = u", ".join(set(covariates))
             runs = [
-                run_maker("{to add}"),  # res["riskEstimates"][0]["covariatesList"]
+                run_maker(covariates),
                 run_maker("Strengths: ", b=True, newline=False),
-                run_maker(res["descriptive"]["strengths"]),
+                run_maker(st["strengths"]),
                 run_maker("Limitations: ", b=True, newline=False),
-                run_maker(res["descriptive"]["limitations"]),
+                run_maker(st["limitations"]),
                 run_maker("Other comments: ", b=True, newline=False),
-                run_maker(res["descriptive"]["notes"], newline=False),
+                run_maker(st["notes"], newline=False),
             ]
-            cells.append(build_run_cell(rows, 6, wds, runs, rowspan=rowspan))
+            cells.append(build_run_cell(rows, 6, wds, runs, rowspan=st_rowspan))
 
-            rows += rowspan
+            rows += st_rowspan
 
         self.build_table(rows, cols, wds, cells, numHeaders=2, style="ntpTbl")
 
@@ -367,5 +389,5 @@ class NtpEpiAniResults(DOCXReport):
         # build table for each organ-site
         for organSite in d["organSites"]:
             txt = "Table X: Animal-bioassay exposure to {}: {}".format(d["monographAgent"], organSite["organSite"])
-            self.build_res_tbl(txt, organSite["results"])
+            self.build_res_tbl(txt, organSite["studies"])
             self.doc.add_page_break()

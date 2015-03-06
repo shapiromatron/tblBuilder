@@ -57,6 +57,7 @@ prepareEpiResult = (res) ->
     for riskEst in res.riskEstimates
         riskEst.riskFormatted = share.riskFormatter(riskEst)
         riskEst.exposureCategory = share.capitalizeFirst(riskEst.exposureCategory)
+    return res
 
 
 # EPI REPORT BY REFERENCE ------------------------------------------------------
@@ -133,6 +134,48 @@ getOrganSitesObject = (tbl_ids) ->
         organSites.push({"organSite": site, "results": data})
 
     return organSites
+
+getEpiDataByOrganSiteAni = (tbl_id) ->
+    # builds hierarchy of organSites -> studies -> results
+    tbl = Tables.findOne(tbl_id)
+
+    # get unique sites
+    organSites = []
+    epiResults = EpiResult.find({"tbl_id": tbl_id}, {sort: {"sortIdx": 1}}).fetch()
+    epiDescs = EpiDescriptive.find({"tbl_id": tbl_id}, {sort: {"sortIdx": 1}}).fetch()
+
+    sites = _.chain(epiResults).pluck("organSite").unique(false).value()
+
+    # loop through unique sites
+    for site in sites
+
+        desc_ids =  _.chain(epiResults)
+                     .where({"organSite": site})
+                     .pluck("parent_id")
+                     .uniq(false)
+                     .value()
+
+        studies = []
+        for desc_id in desc_ids
+            study = _.findWhere(epiDescs, {"_id": desc_id})
+            prepareEpiDescriptive(study)
+            study.results = _.chain(epiResults)
+                             .where({"organSite": site, "parent_id": desc_id})
+                             .map(prepareEpiResult)
+                             .value()
+            studies.push study
+
+        organSites.push({"organSite": site, "studies": studies})
+
+    data =
+        "organSites": organSites
+        "monographAgent": tbl.monographAgent
+        "volumeNumber": tbl.volumeNumber
+        "hasTable": true
+        "table": tbl
+
+    return data
+
 
 # EPI REPORT BY REFERENCE ------------------------------------------------------
 epiWordReport = (tbl_id, epiSortOrder) ->
@@ -275,8 +318,10 @@ getContext = (report_type, tbl_id) ->
     switch report_type
         when "NtpEpiDescriptive"
             d = getEpiDataByReference(tbl_id)
-        when "NtpEpiResults", "NtpEpiAniResults"
+        when "NtpEpiResults"
             d = getEpiDataByOrganSite(tbl_id)
+        when "NtpEpiAniResults"
+            d = getEpiDataByOrganSiteAni(tbl_id)
     return d
 
 # Public Meteor Methods --------------------------------------------------------
