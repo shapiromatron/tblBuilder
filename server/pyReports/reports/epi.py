@@ -324,7 +324,11 @@ class NtpEpiAniResults(DOCXReport):
             cells.append(build_run_cell(rows, 2, wds, runs, rowspan=rowspan))
 
             # Columns D, E, F
-            cells.append(build_text_cell(rows, 3, wds, res["riskEstimates"][0].get("covariatesControlledText", ""), colspan=3))
+            runs = [
+                run_maker(res.get("covariatesControlledText", ""), b=True, newline=False),
+            ]
+            cells.append(build_run_cell(rows, 3, wds, runs, colspan=3))
+
             for i, est in enumerate(res["riskEstimates"]):
                 cells.append(build_text_cell(rows+i+1, 3, wds, est["exposureCategory"]))
                 cells.append(build_text_cell(rows+i+1, 4, wds, unicode(est["numberExposed"])))
