@@ -319,7 +319,7 @@ class NtpEpiAniResults(DOCXReport):
 
             # Column C
             runs = [
-                run_maker(res.get("exposureAssessmentNotes", ""))
+                run_maker(res["descriptive"].get("exposureAssessmentNotes", ""))
             ]
             cells.append(build_run_cell(rows, 2, wds, runs, rowspan=rowspan))
 
