@@ -229,11 +229,12 @@ genotoxWordReport = (tbl_id) ->
     return d
 
 # pyWord REPORTS ---------------------------------------------------------------
-pyWordHelper = (report_type, context, fut) ->
+pyWordHelperArgs = (report_type, context, fut) ->
     # Helper function to run a python script and return the result.
+    # Passes parameters to script via arguments
     options =
         scriptPath: Meteor.settings.python_scripts_path
-        args: [report_type, context]
+        args: [report_type, JSON.stringify(context)]
         pythonPath: Meteor.settings.python_path
 
     cb = (err, res) ->
@@ -245,6 +246,30 @@ pyWordHelper = (report_type, context, fut) ->
 
     PythonShell.run("generateReport.py", options, (err, res) -> fut.return(cb(err, res)))
 
+pyWordHelperStdin = (report_type, context, fut) ->
+    # Helper function to run a python script and return the result.
+    # Passes parameters to script via a single stdin JSON call.
+    options =
+        mode: "json"
+        scriptPath: Meteor.settings.python_scripts_path
+        pythonPath: Meteor.settings.python_path
+
+    shell = new PythonShell("generateReport.py", options)
+
+    inputs =
+        report_type: report_type
+        context: context
+
+    report = undefined
+
+    shell.on 'message', (msg) -> report = msg.report
+
+    shell.send(inputs)
+
+    shell.end (err) ->
+        if (err) then console.log(err)
+        fut.return(report)
+
 getContext = (report_type, tbl_id) ->
     d = {}
     switch report_type
@@ -252,7 +277,7 @@ getContext = (report_type, tbl_id) ->
             d = getEpiDataByReference(tbl_id)
         when "NtpEpiResults", "NtpEpiAniResults"
             d = getEpiDataByOrganSite(tbl_id)
-    return JSON.stringify(d)
+    return d
 
 # Public Meteor Methods --------------------------------------------------------
 Meteor.methods
@@ -281,5 +306,5 @@ Meteor.methods
         @unblock()
         fut = new Future()
         context = getContext(report_type, tbl_id)
-        pyWordHelper(report_type, context, fut)
+        pyWordHelperStdin(report_type, context, fut)
         return fut.wait()
