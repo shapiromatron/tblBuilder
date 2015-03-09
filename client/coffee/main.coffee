@@ -277,36 +277,36 @@ Template.browserDetect.helpers
 
 share.evidenceType =
 
-        epi:
-            collection: EpiDescriptive
-            collection_name: "epiDescriptive"
-            excel_method: "epiEvidenceDownload"
-            excel_fn: "epi.xlsx"
-            nested_template: Template.epiResultForm
-            nested_collection: EpiResult
-            nested_collection_name: "epiResult"
-            requiredUpdateFields: ["studyDesign"]
+    epi:
+        collection: EpiDescriptive
+        collection_name: "epiDescriptive"
+        excel_method: "epiEvidenceDownload"
+        excel_fn: "epi.xlsx"
+        nested_template: Template.epiResultForm
+        nested_collection: EpiResult
+        nested_collection_name: "epiResult"
+        requiredUpdateFields: ["studyDesign"]
 
-        animal:
-            collection: AnimalEvidence
-            collection_name: "animalEvidence"
-            excel_method: "animalEvidenceDownload"
-            excel_fn: "animal.xlsx"
-            nested_template: Template.animalEndpointForm
-            nested_collection: AnimalEndpointEvidence
-            nested_collection_name: "animalEndpointEvidence"
-            requiredUpdateFields: []
+    animal:
+        collection: AnimalEvidence
+        collection_name: "animalEvidence"
+        excel_method: "animalEvidenceDownload"
+        excel_fn: "animal.xlsx"
+        nested_template: Template.animalEndpointForm
+        nested_collection: AnimalEndpointEvidence
+        nested_collection_name: "animalEndpointEvidence"
+        requiredUpdateFields: []
 
-        exposure:
-            collection: ExposureEvidence
-            collection_name: "exposureEvidence"
-            excel_method: "exposureEvidenceDownload"
-            excel_fn: "exposure.xlsx"
-            requiredUpdateFields: ["exposureScenario"]
+    exposure:
+        collection: ExposureEvidence
+        collection_name: "exposureEvidence"
+        excel_method: "exposureEvidenceDownload"
+        excel_fn: "exposure.xlsx"
+        requiredUpdateFields: ["exposureScenario"]
 
-        genotox:
-            collection: GenotoxEvidence
-            collection_name: "genotoxEvidence"
-            excel_method: "genotoxEvidenceDownload"
-            excel_fn: "genotox.xlsx"
-            requiredUpdateFields: []
+    genotox:
+        collection: GenotoxEvidence
+        collection_name: "genotoxEvidence"
+        excel_method: "genotoxEvidenceDownload"
+        excel_fn: "genotox.xlsx"
+        requiredUpdateFields: []
