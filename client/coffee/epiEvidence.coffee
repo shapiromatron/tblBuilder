@@ -70,8 +70,7 @@ epiDescriptiveTblHelpers =
                 ]
             when "iarc"
                 reports = [
-                    {"type": "NtpEpiDescriptive", "fn": "epi-descriptive", "text": "Download Word: study descriptions"},
-                    {"type": "NtpEpiResults",     "fn": "epi-result",      "text": "Download Word: results by organ-site"},
+                    {"type": "HtmlTblRecreation", "fn": "epi-results", "text": "Download Word: HTML table recreation"},
                 ]
             else
                 console.log("Unknown site context.")

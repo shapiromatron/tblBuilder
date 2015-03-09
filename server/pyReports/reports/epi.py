@@ -61,6 +61,131 @@ def build_dual_field(row, widths, header, text="", runs=None, colspan=None):
     return [h, d]
 
 
+class HtmlTblRecreation(DOCXReport):
+    """
+    Attempt to recreate HTML table in a Word-report.
+    """
+
+    def getCol2(self, d):
+        # recreation of table-helper
+        runs = []
+        if d["isCaseControl"]:
+            runs.append(run_maker("Cases: ", b=True))
+            runs.append(run_maker(u"{} ({}); {}".format(
+                            d["populationSizeCase"],
+                            d["responseRateCase"],
+                            d["sourceCase"])))
+            runs.append(run_maker("Controls: ", b=True))
+            runs.append(run_maker(u"{} ({}); {}".format(
+                        d["populationSizeControl"],
+                        d["responseRateControl"],
+                        d["sourceControl"])))
+        else:
+            runs.append(run_maker(u"{}; {}".format(
+                        d["populationSize"],
+                        d["eligibilityCriteria"])))
+
+        runs.append(run_maker("Exposure assessment method: ", b=True))
+        if d["exposureAssessmentType"].lower().find("other")>=0:
+            runs.append(run_maker("other", newline=False))
+        else:
+            runs.append(run_maker(d["exposureAssessmentType"], newline=False))
+
+        if d.get("exposureAssessmentNotes"):
+            runs.append(run_maker(u"; " + d.get("exposureAssessmentNotes")))
+
+        if d.get("outcomeDataSource"):
+            runs.append(run_maker(d.get("outcomeDataSource"), newline=False))
+
+        return runs
+
+    def build_desc_tbl(self, data):
+        rows = 1
+        cols = 8
+        wds = [1.5, 2.0, 0.8, 1.1, 0.6, 1.0, 0.8, 2.0]
+
+        # write header
+        cells = [
+            build_header_cell(0, 0, wds, "Reference, location follow-up/enrollment period, study-design"),
+            build_header_cell(0, 1, wds, "Population size, description, exposure assessment method"),
+            build_header_cell(0, 2, wds, "Organ site (ICD code)"),
+            build_header_cell(0, 3, wds, "Exposure category or level"),
+            build_header_cell(0, 4, wds, "Exposed cases/ deaths"),
+            build_header_cell(0, 5, wds, "Risk estimate (95% CI)"),
+            build_header_cell(0, 6, wds, "Covariates controlled"),
+            build_header_cell(0, 7, wds, "Comments"),
+        ]
+
+        # write additional rows
+        for d in data["descriptions"]:
+
+            for res in d["results"]:
+                res["_rowspan"] = max(len(res["riskEstimates"]), 1)
+                if res["hasTrendTest"]:
+                    res["_rowspan"] += 1
+
+            st_rowspan = sum(res["_rowspan"] for res in d["results"])
+
+            # Column A
+            runs = [
+                run_maker(d["reference"]["name"]),
+                run_maker(d["location"]),
+                run_maker(d["enrollmentDates"]),
+                run_maker(d["studyDesign"]),
+            ]
+            cells.append(build_run_cell(rows, 0, wds, runs, rowspan=st_rowspan))
+
+            # Column B
+            runs = self.getCol2(d)
+            cells.append(build_run_cell(rows, 1, wds, runs, rowspan=st_rowspan))
+
+            # Columns C, D, E, F, G
+            irows = rows
+            for res in d["results"]:
+                cells.append(build_text_cell(irows, 2, wds, res["organSite"], rowspan=res["_rowspan"]))
+                for i, est in enumerate(res["riskEstimates"]):
+                    cells.append(build_text_cell(irows+i, 3, wds, est["exposureCategory"]))
+                    cells.append(build_text_cell(irows+i, 4, wds, unicode(est["numberExposed"])))
+                    cells.append(build_text_cell(irows+i, 5, wds, unicode(est["riskFormatted"])))
+
+                cells.append(build_text_cell(irows, 6, wds, res["covariatesList"], rowspan=res["_rowspan"]))
+
+                if res["hasTrendTest"]:
+                    txt = u"Trend-test p-value: {}".format(res["trendTest"])
+                    cells.append(build_text_cell(irows+i+1, 3, wds, txt, colspan=3))
+
+                irows += res["_rowspan"]
+
+            # Column H
+            runs = [
+                run_maker(d.get("notes")),
+                run_maker("Strengths: ", b=True, newline=False),
+                run_maker(d.get("strengths")),
+                run_maker("Limitations: ", b=True, newline=False),
+                run_maker(d.get("limitations")),
+            ]
+            cells.append(build_run_cell(rows, 7, wds, runs, rowspan=st_rowspan))
+
+            rows += st_rowspan
+
+        self.build_table(rows, cols, wds, cells, numHeaders=1, firstRowCaption=False, style="ntpTbl")
+
+    def create_content(self):
+        doc = self.doc
+        d = self.context
+
+        make_landscape(doc)
+
+        # title
+        txt = "{} {}: {}".format(
+            d["table"]["volumeNumber"],
+            d["table"]["monographAgent"],
+            d["table"]["name"]
+        )
+        doc.add_heading(txt, 0)
+        self.build_desc_tbl(d)
+
+
 class NtpEpiDescriptive(DOCXReport):
 
     def build_desc_tbl(self, d):
