@@ -1,4 +1,6 @@
 # ANIMAL MAIN ------------------------------------------------------------------
+Template.animalMain.helpers(share.abstractMainHelpers)
+
 Template.animalMain.rendered = ->
     Session.set('evidenceShowNew', false)
     Session.set('evidenceEditingId', null)

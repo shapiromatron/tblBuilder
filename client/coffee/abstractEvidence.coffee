@@ -4,6 +4,11 @@ Session.setDefault('nestedEvidenceEditingId', null)
 Session.setDefault('evidenceShowAll', false)
 Session.setDefault('evidenceType', null)
 
+share.abstractMainHelpers =
+
+    getContainerClass: () ->
+        if Session.get("isFullScreen") then "container-fluid" else "container"
+
 share.abstractTblHelpers =
 
     showNew: ->
@@ -23,6 +28,9 @@ share.abstractTblHelpers =
         if key?
             Collection = share.evidenceType[key].collection
             return Collection.find({}, {sort: {sortIdx: 1}})
+
+    isFullScreen: ->
+        Session.get("isFullScreen")
 
 share.abstractTblEvents =
 
@@ -55,6 +63,10 @@ share.abstractTblEvents =
         fn = share.evidenceType[key].excel_fn
         Meteor.call method, tbl_id, (err, response) ->
             share.returnExcelFile(response, fn)
+
+    'click #toggleFullScreen': (evt, tmpl) ->
+        evt.preventDefault()
+        Session.set("isFullScreen", (!Session.get("isFullScreen")))
 
 share.abstractRowHelpers =
 

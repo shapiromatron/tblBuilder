@@ -1,4 +1,6 @@
 # EXPOSURE MAIN ------------------------------------------------------------------
+Template.exposureMain.helpers(share.abstractMainHelpers)
+
 Template.exposureMain.rendered = ->
     Session.set('evidenceShowNew', false)
     Session.set('evidenceEditingId', null)

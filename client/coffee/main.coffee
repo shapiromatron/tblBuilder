@@ -1,5 +1,6 @@
 Session.setDefault('showQAflags', false)
 Session.setDefault('monographAgent', null)
+Session.setDefault('isFullScreen', false)
 
 Meteor.subscribe('reportTemplate')
 

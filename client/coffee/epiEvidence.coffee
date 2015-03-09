@@ -1,6 +1,8 @@
 Session.setDefault('epiResultEditingId', null) # required?
 
 # EPI MAIN ------------------------------------------------------------------
+Template.epiMain.helpers(share.abstractMainHelpers)
+
 Template.epiMain.rendered = ->
     Session.set('evidenceShowNew', false)
     Session.set('evidenceEditingId', null)

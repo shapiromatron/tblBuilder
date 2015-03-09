@@ -1,4 +1,6 @@
 # GENOTOX MAIN -----------------------------------------------------------------
+Template.genotoxMain.helpers(share.abstractMainHelpers)
+
 Template.genotoxMain.rendered = ->
     Session.set('evidenceShowNew', false)
     Session.set('evidenceEditingId', null)
