@@ -578,13 +578,14 @@ div.ColVis_catcher {
     page-break-inside: auto;
   }
 
-  tr {
+  td,th {
     page-break-inside: avoid;
-    page-break-after: auto
+    page-break-after: auto;
+    padding: 2px !important;
   }
 
-  td,th {
-    padding: 2px !important;
+  thead {
+    display: table-header-group;
   }
 
   .btn {
