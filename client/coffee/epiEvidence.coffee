@@ -69,7 +69,10 @@ epiDescriptiveTblHelpers =
                     {"type": "NtpEpiAniResults",  "fn": "animal-bioassay", "text": "Download Word: animal-bioassay"},
                 ]
             when "iarc"
-                reports = []
+                reports = [
+                    {"type": "NtpEpiDescriptive", "fn": "epi-descriptive", "text": "Download Word: study descriptions"},
+                    {"type": "NtpEpiResults",     "fn": "epi-result",      "text": "Download Word: results by organ-site"},
+                ]
             else
                 console.log("Unknown site context.")
         return reports
