@@ -1,3 +1,12 @@
+share.getHTMLTitleBase = ->
+    context = Meteor.settings.public.context.toUpperCase()
+    document.title = "#{context} Table Builder"
+
+share.getHTMLTitleTbl = () ->
+    base = share.getHTMLTitleBase()
+    tbl = Session.get('Tbl')
+    document.title = "#{base} | #{tbl.tblType} | #{tbl.name}"
+
 share.capitalizeFirst = (str) ->
     if str? and str.length>0
         str = str[0].toUpperCase() + str.slice(1)

@@ -15,12 +15,14 @@ class TblRouterController extends RouteController
     action: ->
         if @.ready()
             if Session.get('Tbl') is undefined then return @.render('404')
+            share.getHTMLTitleTbl()
             @.render()
         else @.render("isLoading")
 
     onStop: ->
         Session.set('monographAgent', null)
         Session.set('Tbl', null)
+        share.getHTMLTitleBase()
 
 Router.map ->
 
@@ -181,6 +183,13 @@ Template._loginButtonsLoggedInDropdown.events
         Template._loginButtons.toggleDropdown()
         Router.go('profileEdit')
 
+
+# navBar
+Template.navBar.helpers
+    getTitle: () -> return Meteor.settings.public.context.toUpperCase()
+
+Template.navBar.rendered = ->
+    share.getHTMLTitleBase()
 
 ###
 Based on loading order issues, the following content must be kept in the "main"

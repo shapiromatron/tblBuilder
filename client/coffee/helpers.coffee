@@ -258,7 +258,6 @@ UI.registerHelper "qaMark", (isQA) ->
         title = if (isQA) then "QA'd" else "Not QA'd"
         return Spacebars.SafeString("""<span title="#{title}" class="btn-xs text-muted pull-right glyphicon #{icon}"></span>""")
 
-
 UI.registerHelper "hasContactEmail", () ->
     return Meteor.settings? and Meteor.settings.public? and Meteor.settings.public.contact_email?
 
