@@ -22,6 +22,19 @@ share.riskFormatter = (obj) ->
     if obj.riskEstimated then txt = "[#{txt}]"
     return txt
 
+share.cloneObject = (oldObj, Collection, NestedCollection) ->
+    # deep-copy object
+    newObj = $.extend(true, {}, oldObj)
+    new_parent_id = Collection.insert(newObj)
+
+    # deep-copy nested objects
+    if NestedCollection?
+        for oldNest in NestedCollection.find({parent_id: oldObj._id}).fetch()
+            # deep-copy children
+            newNest = $.extend(true, {}, oldNest)
+            newNest.parent_id = new_parent_id
+            NestedCollection.insert(newNest)
+
 share.getFlattenedEpiData = (tbl_id) ->
 
     getResultData = (parent_id, row) ->

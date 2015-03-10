@@ -107,6 +107,10 @@ share.abstractRowEvents =
         key = Session.get('evidenceType')
         Blaze.renderWithData(Template.moveModalHolder, {content: @}, div)
 
+    'click #clone-content': (evt, tmpl) ->
+        ET = share.evidenceType[Session.get("evidenceType")]
+        share.cloneObject(@, ET.collection, ET.nested_collection)
+
 
 share.abstractFormEvents =
 
@@ -203,6 +207,12 @@ share.abstractNestedTableEvents =
 
         div = tmpl.find('#nestedModalHolder')
         Blaze.renderWithData(NestedTemplate, data, div)
+
+    'click #clone-nested-content': (evt, tmpl) ->
+        data = tmpl.view.parentView.dataVar.curValue
+        ET = share.evidenceType[Session.get("evidenceType")]
+        share.cloneObject(data, ET.nested_collection)
+
 
 share.abstractNestedFormHelpers =
 
