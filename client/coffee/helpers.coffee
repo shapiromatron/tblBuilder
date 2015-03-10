@@ -124,32 +124,6 @@ share.moveRowCheck = (evt) ->
         @options.Cls.update(data._id, {$set: {sortIdx: newIdx}})
         self.data('sortidx', newIdx)
 
-share.copyAsNew = (obj) ->
-    for key, val of obj
-        switch key
-            when "referenceID"
-                $div = $("input[name=#{key}]").parent().next()
-                $div.empty()
-                Blaze.renderWithData(Template.referenceSingleSelectSelected, {referenceID: val}, $div[0])
-            when "coexposures"
-                $ul = $('input[name="coexposures"]').parent().next()
-                for key in val
-                    share.typeaheadSelectListAddLI($ul, key)
-            else
-                switch typeof(val)
-                    when "object"
-                        # special case of typeaheadSelectList
-                        if val is not null
-                            $ul = $("input[name=#{key}]").parent().next()
-                            share.typeaheadSelectListAddLI($ul, v) for v in val
-                    when "boolean"
-                        $("input[name=#{key}]").prop('checked', val)
-                    else
-                        $("input[name=#{key}]").val(val)
-                        $("textarea[name=#{key}]").val(val)
-                        $("select[name=#{key}] option[value='#{val}']").prop('selected', true)
-                        $("select[name=#{key}]").trigger('change')
-
 share.typeaheadSelectListAddLI = ($ul, val) ->
     txts = share.typeaheadSelectListGetLIs($ul)
     if ((val not in txts) and (val isnt ""))

@@ -137,19 +137,16 @@
                title="Display modal for entering results">
               <span class="fa fa-medkit"></span> Add results</a></li>
           <li>
-            <a href="#" id="copy-as-new">
-              <span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
-          <li>
-              <a href="#" id="toggle-hidden">{{#if isHidden}}
-                <span class="glyphicon glyphicon-plus"></span> Show row
-                {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
-                {{/if}}</a></li>
-          <li>
             <a href="#" id="clone-content">
               <span class="fa fa-copy"></span> Create a clone</a></li>
           <li>
             <a href="#" id="move-content">
               <span class="fa fa-arrow-circle-right"></span> Move to a different table</a></li>
+          <li>
+              <a href="#" id="toggle-hidden">{{#if isHidden}}
+                <span class="glyphicon glyphicon-plus"></span> Show row
+                {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+                {{/if}}</a></li>
         </ul>
       </div>
     {{/if}}
@@ -430,16 +427,13 @@
                       <a href="#" id="inner-show-edit">
                         <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
                     <li>
+                      <a href="#" id="clone-nested-content">
+                        <span class="fa fa-copy"></span> Create a clone</a></li>
+                    <li>
                       <a href="#" id="inner-toggle-hidden">{{#if isHidden}}
                         <span class="glyphicon glyphicon-plus"></span> Show row
                         {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
                         {{/if}}</a></li>
-                    <li>
-                      <a href="#" id="inner-copy-as-new">
-                        <span class="glyphicon glyphicon-repeat"></span> Copy as new</a></li>
-                    <li>
-                      <a href="#" id="clone-nested-content">
-                        <span class="fa fa-copy"></span> Create a clone</a></li>
                   </ul>
                 </div>
               {{/if}}

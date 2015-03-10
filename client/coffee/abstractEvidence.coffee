@@ -82,12 +82,6 @@ share.abstractRowEvents =
         Tracker.flush() # update DOM before focus
         share.activateInput($("input[name=referenceID]")[0])
 
-    'click #copy-as-new': (evt, tmpl) ->
-        Session.set("evidenceShowNew", true)
-        Tracker.flush() # update DOM before focus
-        share.activateInput($("input[name=referenceID]")[0])
-        share.copyAsNew(@)
-
     'click #toggle-hidden': (evt, tmpl) ->
         key = Session.get('evidenceType')
         Collection = share.evidenceType[key].collection
@@ -193,20 +187,6 @@ share.abstractNestedTableEvents =
         NestedCollection = share.evidenceType[key].nested_collection
         data = tmpl.view.parentView.dataVar.curValue
         NestedCollection.update(data._id, {$set: {isHidden: !data.isHidden}})
-
-    'click #inner-copy-as-new': (evt, tmpl) ->
-        key = Session.get('evidenceType')
-        NestedTemplate = share.evidenceType[key].nested_template
-
-        # copy data from existing and set QA flags to false
-        data = $.extend(true, {}, tmpl.view.parentView.dataVar.curValue)
-        data.parent = {_id: data.parent_id}
-        data.isQA = false;
-        data.timestampQA = null;
-        data.user_id_QA = null;
-
-        div = tmpl.find('#nestedModalHolder')
-        Blaze.renderWithData(NestedTemplate, data, div)
 
     'click #clone-nested-content': (evt, tmpl) ->
         data = tmpl.view.parentView.dataVar.curValue
