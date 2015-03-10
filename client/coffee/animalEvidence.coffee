@@ -70,21 +70,24 @@ animalEndpointTblHelpersExtension =
         txt = ""
         val = share.getAnimalEndpointIncidents(@endpointGroups)
         if val isnt ""
-            txt = "<tr><td>#{val}</td><td>#{@incidence_significance}</td></tr>"
+            sig = @incidence_significance or ""
+            txt = "<tr><td>#{val}</td><td>#{sig}</td></tr>"
         return txt
 
     getMultiplicities: () ->
         txt = ""
         val = share.getAnimalEndpointMultiplicities(@endpointGroups)
         if val isnt ""
-            txt = "<tr><td>#{val}</td><td>#{@multiplicity_significance}</td></tr>"
+            sig = @multiplicity_significance or ""
+            txt = "<tr><td>#{val}</td><td>#{sig}</td></tr>"
         return txt
 
     getTotalTumours: () ->
         txt = ""
         val = share.getAnimalTotalTumours(@endpointGroups)
         if val isnt ""
-            txt = "<tr><td>#{val}</td><td>#{@total_tumours_significance}</td></tr>"
+            sig = @total_tumours_significance or ""
+            txt = "<tr><td>#{val}</td><td>#{sig}</td></tr>"
         return txt
 
 
