@@ -210,6 +210,15 @@ share.toggleRiskPlot = ->
 share.toggleQA = (tmpl, isQA) ->
    $(tmpl.findAll('input,select,textarea')).prop('disabled', isQA)
 
+share.userCanEdit = (tbl) ->
+    userId = Meteor.userId()
+    if not userId? or not tbl? then return false
+    if Meteor.user() and "superuser" in Meteor.user().roles then return true
+    if userId is tbl.user_id then return true
+    for user in tbl.user_roles
+        if userId is user.user_id and user.role isnt "reviewers" then return true
+    return false
+
 timestamp_format = 'MMM Do YYYY, h:mm a'
 
 UI.registerHelper "tableTitle", () ->
@@ -231,13 +240,7 @@ UI.registerHelper "QAstampFormat", (datetime, userID) ->
 
 UI.registerHelper "userCanEdit", ->
     tbl = Session.get('Tbl')
-    thisId = Meteor.userId()
-    if not thisId? or not tbl? then return false
-    if Meteor.user() and "superuser" in Meteor.user().roles then return true
-    if thisId is tbl.user_id then return true
-    for user in tbl.user_roles
-        if thisId is user.user_id and user.role isnt "reviewers" then return true
-    return false
+    return share.userCanEdit(tbl)
 
 UI.registerHelper "ballotBoolean", (bool) ->
     icon = if (bool.hash.bool) then "glyphicon-ok" else "glyphicon-remove"

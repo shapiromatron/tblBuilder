@@ -17,7 +17,6 @@ Meteor.startup ->
 
         tbl_id:
             type: SimpleSchema.RegEx.Id
-            denyUpdate: true
 
         isHidden:
             type: Boolean
