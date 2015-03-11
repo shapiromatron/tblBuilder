@@ -139,33 +139,55 @@ getEpiDataByOrganSiteAni = (tbl_id) ->
     # builds hierarchy of organSites -> studies -> results
     tbl = Tables.findOne(tbl_id)
 
-    # get unique sites
+    # fetch the data that we need
     organSites = []
-    epiResults = EpiResult.find({"tbl_id": tbl_id}, {sort: {"sortIdx": 1}}).fetch()
-    epiDescs = EpiDescriptive.find({"tbl_id": tbl_id}, {sort: {"sortIdx": 1}}).fetch()
+    epiDescs = EpiDescriptive.find({"tbl_id": tbl_id}).fetch()
+    epiResults = EpiResult.find({"tbl_id": tbl_id}).fetch()
 
-    sites = _.chain(epiResults).pluck("organSite").unique(false).value()
+    # get fields ready for reporting
+    _.map(epiDescs, prepareEpiDescriptive)
+    _.map(epiResults, prepareEpiResult)
 
-    # loop through unique sites
-    for site in sites
+    # get unique study-types
+    studyTypes = _.chain(epiDescs)
+                  .pluck("populationSize")
+                  .unique(false)
+                  .value()
 
-        desc_ids =  _.chain(epiResults)
-                     .where({"organSite": site})
-                     .pluck("parent_id")
-                     .uniq(false)
-                     .value()
+    # get unique sites
+    sites = _.chain(epiResults)
+             .pluck("organSite")
+             .unique(false)
+             .value()
 
-        studies = []
-        for desc_id in desc_ids
-            study = _.findWhere(epiDescs, {"_id": desc_id})
-            prepareEpiDescriptive(study)
-            study.results = _.chain(epiResults)
-                             .where({"organSite": site, "parent_id": desc_id})
-                             .map(prepareEpiResult)
-                             .value()
-            studies.push study
+    for st in studyTypes
 
-        organSites.push({"organSite": site, "studies": studies})
+        valid_studies = _.chain(epiDescs)
+                   .where({"populationSize": st})
+                   .pluck("_id")
+                   .value()
+
+        # loop through unique sites
+        for site in sites
+
+            # find results which match sort criteria
+            desc_ids =  _.chain(epiResults)
+                         .filter((d) -> d.parent_id in valid_studies)
+                         .where({"organSite": site})
+                         .sortBy((d) -> return d.eligibilityCriteria)
+                         .pluck("parent_id")
+                         .unique(false)
+                         .value()
+
+            studies = []
+            for desc_id in desc_ids
+                study = JSON.parse(JSON.stringify(_.findWhere(epiDescs, {"_id": desc_id})))
+                study.results = _.where(epiResults, {"organSite": site, "parent_id": desc_id})
+                studies.push(study)
+
+            if studies.length>0
+                caption  = "#{st}: #{site}"
+                organSites.push({"organSite": caption, "studies": studies})
 
     data =
         "organSites": organSites
