@@ -155,6 +155,11 @@ animalEndpointFormExtension =
             errorDiv = share.createErrorDiv(NestedCollection.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
+    'click #calculate-statistics': (evt, tmpl) ->
+        Meteor.call "getAnimalBioassayStatistics", @_id, (err, response) ->
+            if (response) then return console.log(response)
+            return alert("An error occurred.")
+
 animalEndpointFormEvents = $.extend(true, {}, share.abstractNestedFormEvents, animalEndpointFormExtension)
 Template.animalEndpointForm.events(animalEndpointFormEvents)
 

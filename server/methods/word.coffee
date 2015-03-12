@@ -298,7 +298,7 @@ pyWordHelperArgs = (report_type, context, fut) ->
     # Helper function to run a python script and return the result.
     # Passes parameters to script via arguments
     options =
-        scriptPath: Meteor.settings.python_scripts_path
+        scriptPath: Meteor.settings.scripts_path
         args: [report_type, JSON.stringify(context)]
         pythonPath: Meteor.settings.python_path
 
@@ -316,7 +316,7 @@ pyWordHelperStdin = (report_type, context, fut) ->
     # Passes parameters to script via a single stdin JSON call.
     options =
         mode: "json"
-        scriptPath: Meteor.settings.python_scripts_path
+        scriptPath: Meteor.settings.scripts_path
         pythonPath: Meteor.settings.python_path
 
     shell = new PythonShell("generateReport.py", options)
