@@ -235,23 +235,16 @@ Template.typeaheadSelectList.helpers
 
 Template.typeaheadSelectList.events
 
-    'keyup .form-control': (evt, tmpl) ->
-        if evt.which is 13
-            val = evt.target.value
-            $ul = $(tmpl.find('ul'))
-            if share.typeaheadSelectListAddLI($ul, val) then evt.target.value = ""
-
-    'typeahead:selected': (evt, tmpl) ->
-        $(tmpl.find(".typeahead")).typeahead("val", "")
+    'typeahead:selected': (evt, tmpl, v) ->
+        $ul = $(tmpl.find("ul"))
+        share.typeaheadSelectListAddLI($ul, v.value)
+        $(evt.target).typeahead("val", "")
 
     'click .selectListRemove': (evt, tmpl) ->
         $(evt.currentTarget).parent().remove()
 
 Template.typeaheadSelectList.rendered = ->
     Meteor.typeahead.inject("input[name=#{@.data.name}]")
-    $ul = $(@.find("ul"))
-    $(@.find("input")).on "typeahead:selected", (e, v) ->
-        share.typeaheadSelectListAddLI($ul, v.value)
 
 
 Template.browserDetect.helpers

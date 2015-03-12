@@ -153,33 +153,35 @@ Template.referenceSingleSelect.helpers
         return Session.get("monographAgent")
 
 Template.referenceSingleSelect.events
+
+    'typeahead:selected': (evt, tmpl, v) ->
+        div = $(tmpl.find('div.selectedReference')).empty()
+        Blaze.renderWithData(Template.referenceSingleSelectSelected, {referenceID:v._id}, div[0])
+        $(evt.target).typeahead("val", "")
+
     'click .selectListRemove': (evt, tmpl) ->
         $(evt.currentTarget).parent().remove()
 
 Template.referenceSingleSelect.rendered = ->
-    Meteor.typeahead.inject("input[name=referenceID]")
-    div = @.find('div.selectedReference')
-    $(@.find("input")).on 'typeahead:selected', (e, v) ->
-        $(div).empty()
-        Blaze.renderWithData(Template.referenceSingleSelectSelected, {referenceID:v._id}, div)
-        this.value = ""
+    Meteor.typeahead.inject()
 
 
 Template.referenceMultiSelect.searchReference = searchRefHelper
 
 Template.referenceMultiSelect.events
+
+    'typeahead:selected': (evt, tmpl, v) ->
+        $ul = $(tmpl.find('ul'))
+        ids = ($(li).data('id') for li in $ul.find('li'))
+        if v._id not in ids
+            Blaze.renderWithData(Template.referenceMultiSelectListLI, v._id, $ul[0])
+        $(evt.target).typeahead("val", "")
+
     'click .selectListRemove': (evt, tmpl) ->
         $(evt.currentTarget).parent().remove()
 
 Template.referenceMultiSelect.rendered = ->
-    Meteor.typeahead.inject("input[name=references]")
-    $ul = $(@.find('ul'))
-    $(@.find("input")).on 'typeahead:selected', (e, v) ->
-        ids = ($(li).data('id') for li in $ul.find('li'))
-        if v._id not in ids
-            ul = $ul[0]
-            Blaze.renderWithData(Template.referenceMultiSelectListLI, v._id, ul)
-        this.value = ""
+    Meteor.typeahead.inject()
 
 
 Template.printReference.helpers

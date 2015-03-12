@@ -160,13 +160,14 @@ Template.tablesForm.events
     'click .removeUser': (evt, tmpl) ->
         $(evt.currentTarget).parent().remove()
 
+    'typeahead:selected .userTypeahead': (evt, tmpl, v) ->
+        $ul = $(tmpl.find(".#{evt.target.name}"))
+        ids = ($(li).data('user_id') for li in $ul.find('li'))
+        if v._id not in ids
+            Blaze.renderWithData(Template.UserLI, v, $ul[0])
 
-Template.tablesForm.rendered = () ->
-    tmpl = @
-    Meteor.typeahead.inject('.userTypeahead');
-    $('.userTypeahead').on 'typeahead:selected', (e, v) ->
-        ul = $(tmpl.find(".#{e.target.name}"))
-        Blaze.renderWithData(Template.UserLI, v, ul[0])
+Template.tablesForm.rendered = ->
+    Meteor.typeahead.inject('.userTypeahead')
 
 getUserPermissionsObject = (tmpl)->
     # first filter objects so that each user has the higher permission
