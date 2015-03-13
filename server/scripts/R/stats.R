@@ -1,3 +1,18 @@
+# Calculate trend-test and pairwise tests for an input dataset containing
+# the incidence data in one vector and the number of animals in an second
+# vector.
+#
+# Inputs and outputs from the `getStats` functions are strings in the
+# JSON notation, for easier transport across languages.
+#
+# An example function-call may be:
+#
+# source("stats.R")
+# inp = '{"ns":[10,10,10],"incs":[0,0,5]}'
+# results = getStats(inp)
+# lst = fromJSON(results)
+#
+
 library("rjson")
 library("coin")
 
