@@ -571,8 +571,7 @@ Meteor.startup ->
 
         "endpointGroups.$.dose":
             label: "Dose"
-            type: Number
-            decimal: true
+            type: String
 
         "endpointGroups.$.nStart":
             label: "N at start"
