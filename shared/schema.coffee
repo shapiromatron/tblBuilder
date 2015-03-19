@@ -161,6 +161,12 @@ Meteor.startup ->
             type: SimpleSchema.RegEx.Id
             optional: true
 
+    isNumberOrNR = () ->
+        if ((@isSet) and (@value is "NR" or isFinite(@value)))
+            return undefined
+        else
+            return "numOrNR"
+
     epi_result_schema =
 
         organSite:
@@ -191,8 +197,8 @@ Meteor.startup ->
 
         "riskEstimates.$.numberExposed":
             label: "Exposed cases/deaths"
-            type: Number
-            decimal: false
+            type: String
+            custom: isNumberOrNR
 
         "riskEstimates.$.riskMid":
             label: "Risk estimate"
@@ -866,7 +872,10 @@ Meteor.startup ->
 
 
     # Override simple-schema defaults
-    SimpleSchema.messages({minCount: "[label] must specify at least [minCount] value(s) (press <enter> after typing to add to list)"})
+    SimpleSchema.messages({
+        minCount: "[label] must specify at least [minCount] value(s) (press <enter> after typing to add to list)",
+        numOrNR: '[label] must either be numeric or the string "NR"'
+    })
 
 
     # create simple schema objects
