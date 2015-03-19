@@ -1,6 +1,6 @@
 Session.setDefault('referenceShowNew', false)
 Session.setDefault('referenceEditingId', null)
-
+Session.setDefault("referenceNewObj", null)
 
 Template.referencesTbl.helpers
 
@@ -49,8 +49,9 @@ Template.referenceForm.events
         obj['monographAgent'] = [Session.get('monographAgent')]
         isValid = Reference.simpleSchema().namedContext().validate(obj)
         if isValid
-            Reference.insert(obj)
+            ref_id = Reference.insert(obj)
             Session.set("referenceShowNew", false)
+            Session.set("referenceNewObj", ref_id)
         else
             errorDiv = share.createErrorDiv(Reference.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
@@ -156,13 +157,23 @@ Template.referenceSingleSelect.events
 
     'typeahead:selected': (evt, tmpl, v) ->
         div = $(tmpl.find('div.selectedReference')).empty()
-        Blaze.renderWithData(Template.referenceSingleSelectSelected, {referenceID:v._id}, div[0])
+        Blaze.renderWithData(Template.referenceSingleSelectSelected, {referenceID: v._id}, div[0])
         $(evt.target).typeahead("val", "")
 
     'click .selectListRemove': (evt, tmpl) ->
         $(evt.currentTarget).parent().remove()
 
 Template.referenceSingleSelect.rendered = ->
+
+    # if a new reference is created, inject it into the input scope
+    div = $(@find('div.selectedReference'))
+    Tracker.autorun () ->
+        ref_id = Session.get("referenceNewObj")
+        if ref_id isnt null
+            div.empty()
+            Blaze.renderWithData(Template.referenceSingleSelectSelected, {referenceID: ref_id}, div[0])
+            Session.set("referenceNewObj", null)
+
     Meteor.typeahead.inject()
 
 
