@@ -110,6 +110,11 @@ Meteor.startup ->
             type: String
             min: 1
 
+        pdfURL:
+            label: "PDF URL"
+            type: SimpleSchema.RegEx.Url
+            optional: true
+
         monographAgent:
             type: [String]
             minCount: 1

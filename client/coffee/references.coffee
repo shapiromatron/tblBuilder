@@ -218,12 +218,13 @@ getImportWS = (wb, error) ->
     # Find Excel worksheet which matches the input requirements
     try
         for name in wb.SheetNames
-            if ((wb.Sheets[name]['A1'].v is "Name") and
-                    (wb.Sheets[name]['B1'].v is "PubMed ID") and
-                    (wb.Sheets[name]['C1'].v is "Other URL") and
-                    (wb.Sheets[name]['D1'].v is "Full Citation"))
-                if (error?) then error({isError: false, status: "Ready for import!"})
-                return wb.Sheets[name]
+            if ((wb.Sheets[name]['A1'].v is "PubMed ID") and
+                (wb.Sheets[name]['B1'].v is "Name") and
+                (wb.Sheets[name]['C1'].v is "Full Citation") and
+                (wb.Sheets[name]['D1'].v is "Other URL") and
+                (wb.Sheets[name]['E1'].v is "PDF URL"))
+                    if (error?) then error({isError: false, status: "Ready for import!"})
+                    return wb.Sheets[name]
 
         if (error?) then error({isError: true, status: "No worksheet matches the required format. Please use the proper spreadsheet format."})
 
@@ -299,6 +300,7 @@ Template.referenceBatchUpload.events
                                         otherURL: ""
                                         fullCitation: v.fullCitation
                                         monographAgent: [Session.get('monographAgent')]
+                                        pdfURL: row['PDF URL']
                                     Reference.insert(obj)
                                     status.append('success!')
                     else
@@ -310,6 +312,7 @@ Template.referenceBatchUpload.events
                         otherURL: row['Other URL']
                         fullCitation: row['Full Citation'] or "ADD DESCRIPTION"
                         monographAgent: [Session.get('monographAgent')]
+                        pdfURL: row['PDF URL']
                     status.append('success!')
                     Reference.insert(obj)
 

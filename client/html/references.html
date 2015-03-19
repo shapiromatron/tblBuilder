@@ -112,6 +112,16 @@
         </div>
     </div>
 
+    {{#if isInRole 'staff'}}
+    <div class="form-group row">
+      <div class="col-xs-12">
+          <label>Full-PDF URL (staff-only)</label>
+          <input class="form-control" name='pdfURL' type="text" value="{{pdfURL}}"
+                 placeholder='Insert link to full-text PDF, if available'/>
+        </div>
+    </div>
+    {{/if}}
+
     <div id="errors"></div>
 
     <div class="well well-sm pager">
@@ -201,6 +211,12 @@
     {{else}}
       <span data-toggle="popover" data-content="{{fullCitation}}">{{name}}</span>
     {{/if}}
+
+    {{# if pdfURL}}
+      <a href="{{pdfURL}}" target="_blank" title="Full-text PDF available">
+        <i class="fa fa-file-pdf-o"></i></a>
+    {{/if}}
+
   {{/with}}
 </template>
 
