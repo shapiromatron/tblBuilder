@@ -45,7 +45,7 @@ getTrendTest <- function(inp){
    ))
 }
 
-getFischerTest <- function(inp){
+getFisherTest <- function(inp){
     ns <- as.integer(inp$ns)
     incs <- as.integer(inp$incs)
     nds <- ns-incs
@@ -66,7 +66,7 @@ getStats <- function(json){
     inps <- fromJSON(json)
     outputs <- list(
        inputs = inps,
-       pairwise = getFischerTest(inps),
+       pairwise = getFisherTest(inps),
        trend = getTrendTest(inps)
     )
     return(toJSON(outputs))
