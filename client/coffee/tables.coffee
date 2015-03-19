@@ -12,6 +12,13 @@ Tracker.autorun(getTablesHandle)
 
 
 # TABLES MAIN ------------------------------------------------------------------
+Template.home.helpers
+
+    currentUser2: ->
+        # create new reactive-source since users report update not occurring
+        return Meteor.user()
+
+
 Template.home.rendered = ->
     Session.set("tablesShowNew", false)
     Session.set("tablesEditingId", null)

@@ -11,7 +11,14 @@
              IARC monographs. If a user is given permission to edit the data for a
              specific assessment, after logging-in, key evidence tables will be
              available.</p>
-          <p><strong>Access is controlled; you'll need to login in order to view or edit documents.</strong></p>
+
+          {{#if currentUser2 }}
+            <p><strong>Welcome {{currentUser2.profile.fullName}}!</strong></p>
+            <a class="btn btn-primary" href="/">View my tables.</a><br><br>
+          {{ else }}
+            <p><strong>Access is controlled; you'll need to login in order to view or edit documents.</strong></p>
+          {{/if}}
+
           {{# if hasContactEmail}}
             <p>For technical help, please <a target="_blank" href="mailto:{{contactEmail}}">contact us</a>.</p>
           {{/if}}
