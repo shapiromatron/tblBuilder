@@ -574,12 +574,12 @@
               <td>{{#if showPlots}}
                     {{> forestPlot parent=.. index=index }}
                   {{ else}}
-                    <span title="Effect measure: {{../effectMeasure}}">{{{riskFormat value}}}</span>
+                    <span title="Effect measure: {{../effectMeasure}}">{{{epiRiskFormat value}}}</span>
                   {{/if}}
               </td>
               {{#if isEqual current=index target=0 }}
                 <td rowspan="{{../riskEstimates.length}}">
-                  {{getCovariatesList ..}}
+                  {{commaList ../covariates}}
                 </td>
                 <td rowspan="{{../riskEstimates.length}}" class="dragHandle dhInner"
                     style="display: none" title="Drag to re-order rows"></td>

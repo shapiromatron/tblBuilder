@@ -70,6 +70,9 @@
                     <li>
                       <a href="#" id="agentEpiReport" data-volumeNumber="{{..}}" data-monographAgent="{{this}}">
                         <span class="fa fa-file-word-o"></span> Download epidemiological report</a></li>
+                    <li>
+                      <a href="{{pathFor 'epiOrganSiteMain' volumeNumber=.. monographAgent=this}}">
+                        <i class="fa fa-tachometer"></i> Epi data by organ-site</a></li>
                 </ul>
               </div>
             </h3>

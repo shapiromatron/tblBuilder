@@ -225,12 +225,6 @@ epiResultTblHelpers =
     showPlots: ->
         Session.get("epiRiskShowPlots")
 
-    getCovariatesList: (obj) ->
-        obj.covariates.join(", ")
-
-    riskFormat: (obj) ->
-        return share.riskFormatter(obj)
-
     displayTrendTest: ->
         return @trendTest?
 

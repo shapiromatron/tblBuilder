@@ -150,6 +150,26 @@ Router.map ->
         onStop: ->
             Session.set('monographAgent', null)
 
+
+    this.route 'epiOrganSiteMain',
+        path: '/epidemiology/:volumeNumber/:monographAgent/epi-site'
+
+        data: ->
+            return {
+                volumeNumber: @params.volumeNumber
+                monographAgent: @params.monographAgent
+            }
+
+        waitOn: ->
+            return share.TablesHandler.ready
+
+        action: ->
+            if @.ready() then @.render() else @.render("isLoading")
+
+        onStop: ->
+            Session.set('epiTbls', null)
+
+
     this.route 'profileEdit',
         path: '/user-profile/'
 

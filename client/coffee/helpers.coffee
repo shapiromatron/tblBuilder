@@ -241,6 +241,20 @@ UI.registerHelper "hasContactEmail", () ->
 UI.registerHelper "contactEmail", () ->
     return "#{Meteor.settings.public.contact_email}?subject=[IARC Table Builder]"
 
+UI.registerHelper "commaList", (lst) ->
+    return lst.join(", ")
+
+UI.registerHelper "addIndex", (lst) ->
+    # todo: replace eachIndex above
+    return _.map(lst, (v, i) ->
+        return {i: i, v: v})
+
+UI.registerHelper "equals", (a,b) ->
+    return a is b
+
+UI.registerHelper "epiRiskFormat", (obj) ->
+    return share.riskFormatter(obj)
+
 Template.formLegendPulldown.rendered = ->
     # prevent pull-down from closing when clicking special characters
     $(@.findAll('pre')).click (e) ->

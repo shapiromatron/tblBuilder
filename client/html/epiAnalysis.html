@@ -1,0 +1,92 @@
+<template name="epiOrganSiteMain">
+  <div class="{{getContainerClass}}">
+    {{#if Template.subscriptionsReady}}
+
+      <!-- Organ-site selector -->
+      <form role="form">
+        <div class="form-group row">
+          <div class="col-xs-12">
+            <label>Filter results by organ site (ICD code)</label><br>
+            <select multiple="true" id="organSiteSelector" style="height: 200px;">
+              {{{getOrganSiteOptions}}}
+            </select>
+            <p class="help-block">Select one or more organ-sites to view.</p>
+          </div>
+        </div>
+      </form>
+
+      <!-- Data-table -->
+      <table class="evidenceTable table table-compressed">
+        <colgroup>
+          <col width="20%">
+          <col width="15%">
+          <col width="17%">
+          <col width="8%">
+          <col width="20%">
+          <col width="20%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Reference, location, follow-up/enrollment period, study-design</th>
+            <th>Organ site<br>(ICD code)</th>
+            <th>Exposure category<br> or level</th>
+            <th>Exposed<br>cases/<br>deaths</th>
+            <th class="riskTR">Risk estimate<br>(95% CI)</th>
+            <th>Covariates controlled</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each object_list}}
+            {{#each addIndex riskEstimates}}
+              {{#if equals i 0}}
+
+                <tr>
+                  <td rowspan="{{../riskEstimates.length}}">
+                    {{>printReference id=../desc.referenceID}}<br>
+                    {{{../desc.getStudyDesign}}}
+                    {{../desc.location}}<br>
+                    {{../desc.enrollmentDates}}<br>
+                    {{../desc.studyDesign}}
+                  </td>
+                  <td rowspan="{{../riskEstimates.length}}">
+                    {{../organSite}}
+                  </td>
+                  <td>
+                    {{v.exposureCategory}}
+                  </td>
+                  <td>
+                    {{v.numberExposed}}
+                  </td>
+                  <td>
+                    {{{epiRiskFormat v}}}
+                  </td>
+                  <td rowspan="{{../riskEstimates.length}}">
+                    {{commaList ../covariates}}
+                  </td>
+                </tr>
+
+              {{else}}
+
+                <tr>
+                  <td>
+                    {{v.exposureCategory}}
+                  </td>
+                  <td>
+                    {{v.numberExposed}}
+                  </td>
+                  <td>
+                    {{{epiRiskFormat v}}}
+                  </td>
+                </tr>
+
+              {{/if}}
+            {{/each}}
+          {{/each}}
+        </tbody>
+      </table>
+
+    {{else}}
+      {{> isLoading}}
+    {{/if }}
+  </div>
+</template>

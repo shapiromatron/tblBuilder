@@ -31,6 +31,26 @@ Meteor.publish 'epiDescriptive', (tbl_id) ->
                 Reference.find({monographAgent: {$in: [tbl.monographAgent]}}) ]
     return this.ready()
 
+Meteor.publish 'epiCollective', (volumeNumber, monographAgent) ->
+    allTbls = Tables.find({
+                tblType: "Epidemiology Evidence",
+                volumeNumber: parseInt(volumeNumber, 10),
+                monographAgent: monographAgent
+            }).fetch()
+
+    tbls = []
+    for tbl in allTbls
+        if userCanView(tbl, this.userId) then tbls.push(tbl)
+
+    if tbls.length > 0
+        tbl_ids = _.pluck(tbls, "_id")
+        return [
+            EpiDescriptive.find({tbl_id: {$in: tbl_ids}}),
+            EpiResult.find({tbl_id: {$in: tbl_ids}}),
+            Reference.find({monographAgent: {$in: [monographAgent]}})
+        ]
+    return this.ready()
+
 Meteor.publish 'mechanisticEvidence', (tbl_id) ->
     check(tbl_id, String)
     tbl = Tables.findOne(_id: tbl_id)
