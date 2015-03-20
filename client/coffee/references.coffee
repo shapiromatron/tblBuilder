@@ -192,6 +192,17 @@ Template.referenceMultiSelect.events
         $(evt.currentTarget).parent().remove()
 
 Template.referenceMultiSelect.rendered = ->
+
+    # if a new reference is created, inject it into the input scope
+    $ul = $(@find('ul'))
+    Tracker.autorun () ->
+        ref_id = Session.get("referenceNewObj")
+        if ref_id isnt null
+            ids = ($(li).data('id') for li in $ul.find('li'))
+            if ref_id not in ids
+                Blaze.renderWithData(Template.referenceMultiSelectListLI, ref_id, $ul[0])
+            Session.set("referenceNewObj", null)
+
     Meteor.typeahead.inject()
 
 
