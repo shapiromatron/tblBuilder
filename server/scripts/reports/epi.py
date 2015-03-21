@@ -422,7 +422,7 @@ class NtpEpiAniResults(DOCXReport):
         # write header
         cells = [
             build_header_cell(0, 0, wds, caption, colspan=7),
-            build_header_cell(1, 0, wds, "Reference & year, animal, substance administered"),
+            build_header_cell(1, 0, wds, "Reference & year, animal, study duration"),
             build_header_cell(1, 1, wds, "Substance & purity"),
             build_header_cell(1, 2, wds, "Dosing regimen"),
             build_header_cell(1, 3, wds, "Dose levels"),
@@ -446,7 +446,7 @@ class NtpEpiAniResults(DOCXReport):
             runs = [
                 run_maker(st["reference"]["name"], b=True),
                 run_maker(st.get("eligibilityCriteria", "")),
-                run_maker(st["location"], newline=False)
+                run_maker(st.get("enrollmentDates", "")),
             ]
             cells.append(build_run_cell(rows, 0, wds, runs, rowspan=st_rowspan))
 
@@ -475,7 +475,8 @@ class NtpEpiAniResults(DOCXReport):
                 for i, est in enumerate(res["riskEstimates"]):
                     cells.append(build_text_cell(irows+i+1, 3, wds, est["exposureCategory"]))
                     cells.append(build_text_cell(irows+i+1, 4, wds, unicode(est["numberExposed"])))
-                    cells.append(build_text_cell(irows+i+1, 5, wds, unicode(est["riskFormatted"])))
+                    txt = u"{}/{} ({}%)".format(est["riskLow"], est["riskHigh"], est["riskMid"])
+                    cells.append(build_text_cell(irows+i+1, 5, wds, txt))
 
                 if res["hasTrendTest"]:
                     txt = u"Trend-test p-value: {}".format(res["trendTest"])

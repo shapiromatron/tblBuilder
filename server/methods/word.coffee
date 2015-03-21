@@ -141,8 +141,8 @@ getEpiDataByOrganSiteAni = (tbl_id) ->
 
     # fetch the data that we need
     organSites = []
-    epiDescs = EpiDescriptive.find({"tbl_id": tbl_id}).fetch()
-    epiResults = EpiResult.find({"tbl_id": tbl_id}).fetch()
+    epiDescs = EpiDescriptive.find({"tbl_id": tbl_id}, {sort: {sortIdx: 1}}).fetch()
+    epiResults = EpiResult.find({"tbl_id": tbl_id}, {sort: {sortIdx: 1}}).fetch()
 
     # get fields ready for reporting
     _.map(epiDescs, prepareEpiDescriptive)
@@ -182,7 +182,10 @@ getEpiDataByOrganSiteAni = (tbl_id) ->
             studies = []
             for desc_id in desc_ids
                 study = JSON.parse(JSON.stringify(_.findWhere(epiDescs, {"_id": desc_id})))
-                study.results = _.where(epiResults, {"organSite": site, "parent_id": desc_id})
+                study.results = _.chain(epiResults)
+                                 .where({"organSite": site, "parent_id": desc_id})
+                                 .sortBy((d) -> return d.sortIdx)
+                                 .value()
                 studies.push(study)
 
             if studies.length>0
