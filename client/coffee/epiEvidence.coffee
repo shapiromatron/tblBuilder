@@ -78,15 +78,8 @@ epiDescriptiveTblHelpers =
                 console.log("Unknown site context.")
         return reports
 
-    showPlots: ->
-        Session.get('epiRiskShowPlots')
 
 epiDescriptiveTblEvents =
-
-    'click #epiRiskShowPlots': (evt, tmpl) ->
-        val = not Session.get('epiRiskShowPlots')
-        Session.set('epiRiskShowPlots', val)
-        share.toggleRiskPlot()
 
     'click .wordReport': (evt, tmpl) ->
         tbl_id = Session.get('Tbl')._id

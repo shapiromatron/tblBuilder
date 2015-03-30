@@ -267,7 +267,20 @@ Template.optFullScreen.helpers
         return Session.get("isFullScreen")
 
 Template.optFullScreen.events
-
     'click #toggleFullScreen': (evt, tmpl) ->
         evt.preventDefault()
         Session.set("isFullScreen", (!Session.get("isFullScreen")))
+
+
+Template.optRiskPlot.helpers
+    showPlots : () ->
+        return Session.get("epiRiskShowPlots")
+
+Template.optRiskPlot.events
+    'click #epiRiskShowPlots': (evt, tmpl) ->
+        evt.preventDefault()
+        Session.set('epiRiskShowPlots', (!Session.get('epiRiskShowPlots')))
+        share.toggleRiskPlot()
+
+Template.optRiskPlot.onCreated () ->
+    Session.setDefault('epiRiskShowPlots', false)

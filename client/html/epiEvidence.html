@@ -52,12 +52,7 @@
             <a href="#" id="wordReport">
               <span class="fa fa-file-word-o"></span> Download Word</a></li>
         {{/each}}
-        <li>
-          <a href="#" id="epiRiskShowPlots">
-            {{#if showPlots}}<span class="glyphicon glyphicon-eye-close"></span> Hide risk plots
-            {{else}}<span class="glyphicon glyphicon-eye-open"></span> Show risk plots
-            {{/if}}</a></li>
-
+        <li> {{> optRiskPlot}} </li>
         <li>
           <a href="#" id="toggleShowAllRows">
             {{#if isShowAll}}<span class="glyphicon glyphicon-resize-small"></span> Hide rows
