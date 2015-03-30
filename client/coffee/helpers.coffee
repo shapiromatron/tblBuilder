@@ -135,18 +135,19 @@ share.typeaheadSelectListGetLIs = ($ul) ->
     ($(li).data('value') for li in $ul.find('li'))
 
 share.toggleRiskPlot = ->
-    # Draw log-axis for epi risk plot as needed
-    if not Session.get('epiRiskShowPlots')
-        return d3.select('.epiRiskAxes').remove()
+    # Draw log-axis for epi risk plot
+    d3.select('.epiRiskAxes').remove()
+    if not Session.get('epiRiskShowPlots') then return
 
+    Tracker.flush()
     header = $('.riskTR')
-    tbl = $(header.parent().parent().parent())
+    tbl = $('.evidenceTable')
     tbl_pos = tbl.position()
     header_pos = header.position()
     y_top = tbl_pos.top + header.outerHeight()
     x_left = header_pos.left
     width = header.width()
-    height = tbl.outerHeight()
+    height = tbl.height() - header.height()
 
     xPlotBuffer = 0   # make room for the text
     yPlotBuffer = 20  # make room for x-axis

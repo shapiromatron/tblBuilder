@@ -316,8 +316,9 @@ Template.forestPlot.rendered = ->
     svg.attr('viewBox', "0 0 #{width} #{height}")
     xscale = d3.scale.log().range([0, width]).domain([0.05, 50]).clamp(true)
     yscale = d3.scale.linear().range([0, height]).domain([0, 1]).clamp(true)
-    riskStr = "Effect measure #{@data.parent.effectMeasure}: #{data.riskMid} (#{data.riskLow}-#{data.riskHigh})"
     group = svg.append('g').attr('class', 'riskBar')
+
+    riskStr = "Effect measure #{@data.parent.effectMeasure}: #{data.riskMid} (#{data.riskLow}-#{data.riskHigh})"
     group.append("svg:title").text(riskStr)
 
     if data.riskMid?

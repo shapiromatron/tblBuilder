@@ -2,6 +2,19 @@
   <div class="{{getContainerClass}}">
     {{#if Template.subscriptionsReady}}
 
+      <!-- Header and pulldown list -->
+      <h1>Volume {{volumeNumber}} {{monographAgent}}: epidemiology evidence
+        <div class="btn-group pull-right">
+          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+            Actions <span class="caret" title="Editing options"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li> {{> optFullScreen}} </li>
+            <li> {{> optRiskPlot}} </li>
+          </ul>
+        </div>
+      </h1>
+
       <!-- Organ-site selector -->
       <form role="form">
         <div class="form-group row">
@@ -58,7 +71,11 @@
                     {{v.numberExposed}}
                   </td>
                   <td>
-                    {{{epiRiskFormat v}}}
+                    {{#if showPlots}}
+                      {{> forestPlot parent=.. index=i }}
+                    {{ else}}
+                      <span title="Effect measure: {{../effectMeasure}}">{{{epiRiskFormat v}}}</span>
+                    {{/if}}
                   </td>
                   <td rowspan="{{../riskEstimates.length}}">
                     {{commaList ../covariates}}
@@ -75,7 +92,11 @@
                     {{v.numberExposed}}
                   </td>
                   <td>
-                    {{{epiRiskFormat v}}}
+                    {{#if showPlots}}
+                      {{> forestPlot parent=.. index=i }}
+                    {{ else}}
+                      <span title="Effect measure: {{../effectMeasure}}">{{{epiRiskFormat v}}}</span>
+                    {{/if}}
                   </td>
                 </tr>
 

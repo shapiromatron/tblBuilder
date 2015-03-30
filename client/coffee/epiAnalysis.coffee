@@ -16,13 +16,23 @@ epiOrganSiteMainHelpers =
         results.forEach((d) -> d.desc = EpiDescriptive.findOne(d.parent_id))
         return results
 
+    showPlots: ->
+        Session.get("epiRiskShowPlots")
+
+
+_.extend(
+    epiOrganSiteMainHelpers,
+    share.abstractMainHelpers
+)
+Template.epiOrganSiteMain.helpers(epiOrganSiteMainHelpers)
+
+
 Template.epiOrganSiteMain.events
 
     'change #organSiteSelector': (evt, tmpl) ->
         tmpl.organSites.set($(evt.target).val() or [])
+        share.toggleRiskPlot()
 
-_.extend(epiOrganSiteMainHelpers, share.abstractMainHelpers)
-Template.epiOrganSiteMain.helpers(epiOrganSiteMainHelpers)
 
 Template.epiOrganSiteMain.created = () ->
     @subscribe('epiCollective', @data.volumeNumber, @data.monographAgent)
