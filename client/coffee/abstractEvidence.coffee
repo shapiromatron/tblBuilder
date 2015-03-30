@@ -29,9 +29,6 @@ share.abstractTblHelpers =
             Collection = share.evidenceType[key].collection
             return Collection.find({}, {sort: {sortIdx: 1}})
 
-    isFullScreen: ->
-        Session.get("isFullScreen")
-
 share.abstractTblEvents =
 
     'click #show-create': (evt, tmpl) ->
@@ -64,9 +61,6 @@ share.abstractTblEvents =
         Meteor.call method, tbl_id, (err, response) ->
             share.returnExcelFile(response, fn)
 
-    'click #toggleFullScreen': (evt, tmpl) ->
-        evt.preventDefault()
-        Session.set("isFullScreen", (!Session.get("isFullScreen")))
 
 share.abstractRowHelpers =
 

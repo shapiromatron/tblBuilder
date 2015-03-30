@@ -22,13 +22,7 @@
             <a href="#" id="reorderRows">
               <span class="glyphicon glyphicon-align-justify"></span> Reorder rows</a></li>
         {{/if}}
-        <li>
-          <a href="#" id="toggleFullScreen">
-            {{#if isFullScreen}}
-              <span class="fa fa-compress"></span> Make fixed-size
-            {{else}}
-              <span class="fa fa-expand"></span> Make full-screen
-            {{/if}}</a></li>
+        <li> {{> optFullScreen}} </li>
         <li>
           <a href="#" id="downloadExcel">
             <span class="fa fa-file-excel-o"></span> Download Excel</a></li>

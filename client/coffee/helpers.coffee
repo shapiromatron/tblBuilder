@@ -260,3 +260,14 @@ Template.formLegendPulldown.rendered = ->
     $(@.findAll('pre')).click (e) ->
         e.preventDefault()
         e.stopPropagation()
+
+
+Template.optFullScreen.helpers
+    isFullScreen : () ->
+        return Session.get("isFullScreen")
+
+Template.optFullScreen.events
+
+    'click #toggleFullScreen': (evt, tmpl) ->
+        evt.preventDefault()
+        Session.set("isFullScreen", (!Session.get("isFullScreen")))

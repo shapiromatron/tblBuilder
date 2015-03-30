@@ -113,3 +113,14 @@
     </div>
   </div>
 </template>
+
+
+<template name="optFullScreen">
+  <a href="#" id="toggleFullScreen">
+    {{#if isFullScreen}}
+      <span class="fa fa-compress"></span> Make fixed-size
+    {{else}}
+      <span class="fa fa-expand"></span> Make full-screen
+    {{/if}}
+  </a>
+</template>
