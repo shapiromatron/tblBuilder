@@ -612,6 +612,14 @@
 
             <!-- Submission -->
             <div class="well well-sm pager">
+
+              <!--
+              <button type="button"
+                  class="btn btn-sm btn-default"
+                  id="calculate-statistics"
+                  title="Get basic statistics">Get statistics</button>
+              -->
+
               {{#if isNew }}
                 <button type="button" class="btn btn-sm btn-primary"
                         id="inner-create" title="Save new">
@@ -619,10 +627,6 @@
                 <button type="button" class="btn btn-sm btn-default"
                         id="inner-create-cancel" title="Cancel">Cancel</button>
               {{else}}
-                <button type="button"
-                  class="btn btn-sm btn-default"
-                  id="calculate-statistics"
-                  title="Get basic statistics">Get statistics</button>
                 {{#if isQA }}
                   <button type="button"
                           class="btn btn-sm btn-default"
