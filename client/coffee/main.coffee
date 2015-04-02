@@ -263,6 +263,13 @@ Template.typeaheadSelectList.events
     'click .selectListRemove': (evt, tmpl) ->
         $(evt.currentTarget).parent().remove()
 
+    'keyup .form-control': (evt, tmpl) ->
+        if evt.which is 13   # add new input not found in list
+            val = evt.target.value
+            $ul = $(tmpl.find('ul'))
+            if share.typeaheadSelectListAddLI($ul, val) then evt.target.value = ""
+
+
 Template.typeaheadSelectList.rendered = ->
     Meteor.typeahead.inject("input[name=#{@.data.name}]")
 
