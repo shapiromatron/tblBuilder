@@ -77,7 +77,7 @@ class NtpEpiAniResults(DOCXReport):
                 if res["hasTrendTest"]:
                     runs = [
                         tbl.new_run("Trend-test ", newline=False),
-                        tbl.new_run("p", i=True, newline=False),
+                        tbl.new_run("P", i=True, newline=False),
                         tbl.new_run("-value: {}".format(res["trendTest"]), newline=False),
                     ]
                     tbl.new_td_run(irows+i+2, 3, runs, colspan=3)

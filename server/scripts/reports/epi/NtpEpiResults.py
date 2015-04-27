@@ -57,8 +57,12 @@ class NtpEpiResults(DOCXReport):
                 tbl.new_td_txt(rows+i, 4, unicode(est["riskFormatted"]))
 
             if res["hasTrendTest"]:
-                txt = u"Trend-test p-value: {}".format(res["trendTest"])
-                tbl.new_td_txt(rows+i+1, 2, txt, colspan=3)
+                runs = [
+                    tbl.new_run("Trend-test ", newline=False),
+                    tbl.new_run("P", i=True, newline=False),
+                    tbl.new_run("-value: {}".format(res["trendTest"]), newline=False),
+                ]
+                tbl.new_td_run(rows+i+1, 2, runs, colspan=3)
 
             # Column F
             txt = res["covariatesList"]
