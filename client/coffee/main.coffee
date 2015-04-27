@@ -234,7 +234,8 @@ Template.typeaheadInput.helpers
 
     getOptions: (qry, cb) ->
         methodName = @$el.parent().parent().find('input').data('methodname')
-        Meteor.call methodName, qry, (err, res) ->
+        tbl_id = Session.get("Tbl")._id
+        Meteor.call methodName, qry, tbl_id, (err, res) ->
             if err then return console.log(err)
             map = ({value: v} for v in res)
             return cb(map)

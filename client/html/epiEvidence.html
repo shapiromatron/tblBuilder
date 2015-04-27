@@ -731,6 +731,33 @@
               </div>
             </div>
 
+            <!-- NTP-only fields -->
+            {{#if isNTP }}
+            <div class="form-group row">
+
+              <div class="col-xs-8">
+                <label class="helpPopovers" data-toggle="popover"
+                       data-content="Microsoft Word report table caption name.
+                       If left-blank, results will not be printed.">
+                        Table caption</label>
+                {{> typeaheadInput name="printCaption" value=printCaption methodName="searchPrintCaption"}}
+              </div>
+
+              <div class="col-xs-4">
+                <label class="helpPopovers" data-toggle="popover"
+                       data-content="Microsoft Word report table order. Rows
+                       will be printed in ascending order using this field
+                       (decimals allowed). If left-blank or negative,
+                       results will not be printed.">
+                        Table print-order</label>
+                <input class="form-control" type="number" step="any"
+                       name='printOrder'
+                       value="{{printOrder}}"/>
+              </div>
+
+            </div>
+            {{/if}}
+
             <div id="errors"></div>
 
             <!-- QA notice -->

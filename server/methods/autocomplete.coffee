@@ -1,8 +1,9 @@
-singleFieldTextSearch = (Collection, field, qrystr) ->
+singleFieldTextSearch = (Collection, field, qrystr, tbl_id) ->
     # Perform a search of a single field, and return unique values.
     check(qrystr, String)
     query = {}
     query[field] = {$regex: new RegExp(qrystr, "i")}
+    if tbl_id? then query["tbl_id"] = tbl_id
     options = {fields: {}, limit: 1000, sort: []}
     options.fields[field] = 1
     options.sort.push(field)
@@ -132,6 +133,9 @@ Meteor.methods
         coexposures = _.flatten(_.pluck(queryset, 'coexposures'))
         coexposures = _.filter(coexposures, (v) -> v.match(querystr))
         return _.uniq(coexposures, false)
+
+    searchPrintCaption: (query, tbl_id) ->
+        return singleFieldTextSearch(EpiResult, "printCaption", query, tbl_id)
 
     # exposure evidence auto-complete
     searchCountries: (query) ->

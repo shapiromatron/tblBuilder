@@ -256,6 +256,9 @@ UI.registerHelper "equals", (a,b) ->
 UI.registerHelper "epiRiskFormat", (obj) ->
     return share.riskFormatter(obj)
 
+UI.registerHelper "isNTP", () ->
+    return Meteor.settings.public.context is "ntp"
+
 Template.formLegendPulldown.rendered = ->
     # prevent pull-down from closing when clicking special characters
     $(@.findAll('pre')).click (e) ->

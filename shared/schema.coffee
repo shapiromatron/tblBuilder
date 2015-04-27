@@ -250,6 +250,22 @@ Meteor.startup ->
             type: SimpleSchema.RegEx.Id
             denyUpdate: true
 
+    if Meteor.settings.public.context is "ntp"
+
+        _.extend(epi_result_schema,
+
+            printCaption:
+                label: "Table caption"
+                type: String
+                optional: true
+
+            printOrder:
+                label: "Table print order"
+                type: Number
+                decimal: true
+                optional: true
+        )
+
     requiredCC = () ->
         isRequired = ((@field('studyDesign').value in CaseControlTypes) and (@value is ""))
         if isRequired then return "required"
