@@ -18,7 +18,7 @@ createWordReport = (templateFilename, data) ->
     return docx.getZip().generate({type: "string"})
 
 
-# EXPOSURE REPORT -------------------------------------------------------
+# EXPOSURE REPORT --------------------------------------------------------------
 exposureWordReport = (tbl_id) ->
 
     tbl = Tables.findOne(tbl_id)
@@ -92,6 +92,7 @@ getDescriptionObjects = (tbl_ids) ->
             prepareEpiResult(res)
     return vals
 
+
 # EPI REPORT BY ORGAN-SITE -----------------------------------------------------
 getEpiDataByOrganSite = (tbl_id) ->
     tbl = Tables.findOne(tbl_id)
@@ -135,12 +136,12 @@ getOrganSitesObject = (tbl_ids) ->
 
     return organSites
 
-getEpiDataByOrganSiteAni = (tbl_id) ->
-    # builds hierarchy of organSites -> studies -> results
+getEpiDataByTableCaptionRes = (tbl_id) ->
+    # builds hierarchy of Tables -> Description (Study) -> Results
     tbl = Tables.findOne(tbl_id)
 
     # fetch the data that we need
-    organSites = []
+    tables = []
     epiDescs = EpiDescriptive.find({"tbl_id": tbl_id}, {sort: {sortIdx: 1}}).fetch()
     epiResults = EpiResult.find({"tbl_id": tbl_id}, {sort: {sortIdx: 1}}).fetch()
 
@@ -149,54 +150,79 @@ getEpiDataByOrganSiteAni = (tbl_id) ->
     _.map(epiResults, prepareEpiResult)
 
     # get unique study-types
-    studyTypes = _.chain(epiDescs)
-                  .pluck("populationSize")
+    tblCaptions = _.chain(epiResults)
+                  .pluck("printCaption")
+                  .without(undefined)
                   .unique(false)
                   .value()
 
-    # get unique sites
-    sites = _.chain(epiResults)
-             .pluck("organSite")
-             .unique(false)
-             .value()
+    for caption in tblCaptions
 
-    for st in studyTypes
+        results = _.chain(epiResults)
+                       .where({"printCaption": caption})
+                       .filter((d) -> return d.printOrder>=0)
+                       .sortBy('printOrder')
+                       .map((d) ->
+                            d.descriptive = _.findWhere(epiDescs, {"_id": d.parent_id})
+                            return d
+                       ).value()
 
-        valid_studies = _.chain(epiDescs)
-                   .where({"populationSize": st})
-                   .pluck("_id")
-                   .value()
-
-        # loop through unique sites
-        for site in sites
-
-            # find results which match sort criteria
-            desc_ids =  _.chain(epiResults)
-                         .filter((d) -> d.parent_id in valid_studies)
-                         .where({"organSite": site})
-                         .sortBy((d) -> return d.eligibilityCriteria)
-                         .pluck("parent_id")
-                         .unique(false)
-                         .value()
-
-            studies = []
-            for desc_id in desc_ids
-                study = JSON.parse(JSON.stringify(_.findWhere(epiDescs, {"_id": desc_id})))
-                study.results = _.chain(epiResults)
-                                 .where({"organSite": site, "parent_id": desc_id})
-                                 .sortBy((d) -> return d.sortIdx)
-                                 .value()
-                studies.push(study)
-
-            if studies.length>0
-                caption  = "#{st}: #{site}"
-                organSites.push({"organSite": caption, "studies": studies})
+        tables.push({"caption": caption, "results": results})
+        console.log(results)
 
     data =
-        "organSites": organSites
-        "monographAgent": tbl.monographAgent
-        "volumeNumber": tbl.volumeNumber
-        "hasTable": true
+        "tables": tables
+        "table": tbl
+    console.log(data)
+    return data
+
+
+getEpiDataByTableCaptionDesc = (tbl_id) ->
+    # builds hierarchy of Tables -> Description (Study) -> Results
+    tbl = Tables.findOne(tbl_id)
+
+    # fetch the data that we need
+    tables = []
+    epiDescs = EpiDescriptive.find({"tbl_id": tbl_id}, {sort: {sortIdx: 1}}).fetch()
+    epiResults = EpiResult.find({"tbl_id": tbl_id}, {sort: {sortIdx: 1}}).fetch()
+
+    # get fields ready for reporting
+    _.map(epiDescs, prepareEpiDescriptive)
+    _.map(epiResults, prepareEpiResult)
+
+    # get unique study-types
+    tblCaptions = _.chain(epiResults)
+                  .pluck("printCaption")
+                  .without(undefined)
+                  .unique(false)
+                  .value()
+
+    for caption in tblCaptions
+
+        # get results in this table
+        thisResults = _.chain(epiResults)
+                       .where({"printCaption": caption})
+                       .filter((d) -> return d.printOrder>=0)
+                       .sortBy('printOrder')
+                       .value()
+
+        studies = []
+        thisDescID = undefined
+        # group sequential results in same study in one study
+        for res in thisResults
+            if res.parent_id isnt thisDescID
+                thisDescID = res.parent_id
+                # deep copy description
+                study = JSON.parse(JSON.stringify(
+                           _.findWhere(epiDescs, {"_id": res.parent_id})))
+                study.results = []
+                studies.push(study)
+            study.results.push(res)
+
+        tables.push({"caption": caption, "studies": studies})
+
+    data =
+        "tables": tables
         "table": tbl
 
     return data
@@ -221,6 +247,7 @@ epiWordReportMultiTable = (filename, monographAgent, volumeNumber) ->
             data = getEpiDataByOrganSiteMonographAgent(monographAgent, volumeNumber)
     return createWordReport(filename, data)
 
+
 # ANIMAL BIOASSAY REPORT -------------------------------------------------------
 animalWordReport = (tbl_id) ->
     tbl = Tables.findOne(tbl_id)
@@ -240,6 +267,7 @@ animalWordReport = (tbl_id) ->
         "studies": studies
 
     return d
+
 
 # MECHANISTIC REPORT -----------------------------------------------------------
 mechanisticWordReport = (tbl_id) ->
@@ -346,10 +374,11 @@ getContext = (report_type, tbl_id) ->
         when "NtpEpiDescriptive"
             d = getEpiDataByReference(tbl_id)
         when "NtpEpiResults"
-            d = getEpiDataByOrganSite(tbl_id)
+            d = getEpiDataByTableCaptionRes(tbl_id)
         when "NtpEpiAniResults"
-            d = getEpiDataByOrganSiteAni(tbl_id)
+            d = getEpiDataByTableCaptionDesc(tbl_id)
     return d
+
 
 # Public Meteor Methods --------------------------------------------------------
 Meteor.methods

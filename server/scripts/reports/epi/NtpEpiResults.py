@@ -101,18 +101,15 @@ class NtpEpiResults(DOCXReport):
         self.setLandscape()
 
         # title
-        txt = "{} {}: Results by organ-site".format(d["volumeNumber"], d["monographAgent"])
+        txt = "{} {}: Results by organ-site".format(d["table"]["volumeNumber"], d["table"]["monographAgent"])
         p = doc.paragraphs[0]
         p.text = txt
         p.style = "Title"
 
         # build table for each organ-site
-        for organSite in sorted(
-            d["organSites"],
-            key=lambda d: d["organSite"]
-        ):
-            txt = "Table X: Epidemiological exposure to {}: {}".format(d["monographAgent"], organSite["organSite"])
-            self.build_res_tbl(txt, organSite["results"])
+        for tbl in sorted(d["tables"], key=lambda v: v["caption"]):
+            txt = "Table X: {}".format(tbl["caption"])
+            self.build_res_tbl(txt, tbl["results"])
             self.doc.add_page_break()
 
     def get_template_fn(self):
