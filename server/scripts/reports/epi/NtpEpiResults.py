@@ -43,8 +43,17 @@ class NtpEpiResults(DOCXReport):
             tbl.new_td_txt(rows, 0, txt, rowspan=rowspan)
 
             # Column B
+            if res["descriptive"]["isCaseControl"]:
+                popD = tbl.new_run(u"Cases: {}; Controls: {}".format(
+                    res["descriptive"].get("populationSizeCase", ""),
+                    res["descriptive"].get("populationSizeControl", "")))
+            else:
+                popD = tbl.new_run(u"{}; {}".format(
+                    res["descriptive"].get("populationDescription", ""),
+                    res["descriptive"].get("populationSize", "")))
+
             runs = [
-                tbl.new_run(res["descriptive"].get("eligibilityCriteria", "")),
+                popD,
                 tbl.new_run("Exposure assessment method: ", b=True, newline=False),
                 tbl.new_run(res["descriptive"]["exposureAssessmentType"], newline=False)
             ]
