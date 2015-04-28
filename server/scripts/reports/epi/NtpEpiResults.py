@@ -44,11 +44,12 @@ class NtpEpiResults(DOCXReport):
 
             # Column B
             if res["descriptive"]["isCaseControl"]:
-                popD = tbl.new_run(u"Cases: {}; Controls: {}".format(
+                popD = tbl.new_run(u"{}\nCases: {}; Controls: {}".format(
+                    res["descriptive"].get("eligibilityCriteria", ""),
                     res["descriptive"].get("populationSizeCase", ""),
                     res["descriptive"].get("populationSizeControl", "")))
             else:
-                popD = tbl.new_run(u"{}; {}".format(
+                popD = tbl.new_run(u"{}\n{}".format(
                     res["descriptive"].get("populationDescription", ""),
                     res["descriptive"].get("populationSize", "")))
 
