@@ -3,7 +3,7 @@ from ..utils import TableMaker, DOCXReport
 
 class NtpEpiResults(DOCXReport):
 
-    def build_res_tbl(self, caption, results):
+    def build_res_tbl(self, caption, studies):
         colWidths = [1.5, 1.5, 0.75, 0.75, 1.0, 1.5, 3.0]
         styles = {
             "title": "RoCTabletitle",
@@ -27,71 +27,87 @@ class NtpEpiResults(DOCXReport):
 
         # write additional rows
         rows = 2
-        for res in results:
+        for st in studies:
 
-            rowspan = len(res["riskEstimates"])
-            if res["hasTrendTest"]:
-                rowspan += 1
+            # get row-span for each study
+            for res in st["results"]:
+                res["_rowspan"] = len(res["riskEstimates"])+1
+                if res["hasTrendTest"]:
+                    res["_rowspan"] += 1
+
+            st_rowspan = sum(res["_rowspan"] for res in st["results"])
 
             # Column A
             txt = u"{}\n{}\n{}\n{}".format(
-                res["descriptive"]["reference"]["name"],
-                res["descriptive"]["studyDesign"],
-                res["descriptive"]["location"],
-                res["descriptive"]["enrollmentDates"]
+                st["reference"]["name"],
+                st["studyDesign"],
+                st["location"],
+                st["enrollmentDates"]
             )
-            tbl.new_td_txt(rows, 0, txt, rowspan=rowspan)
+            tbl.new_td_txt(rows, 0, txt, rowspan=st_rowspan)
 
             # Column B
-            if res["descriptive"]["isCaseControl"]:
+            if st["isCaseControl"]:
                 popD = tbl.new_run(u"{}\nCases: {}; Controls: {}".format(
-                    res["descriptive"].get("eligibilityCriteria", ""),
-                    res["descriptive"].get("populationSizeCase", ""),
-                    res["descriptive"].get("populationSizeControl", "")))
+                    st.get("eligibilityCriteria", ""),
+                    st.get("populationSizeCase", ""),
+                    st.get("populationSizeControl", "")))
             else:
                 popD = tbl.new_run(u"{}\n{}".format(
-                    res["descriptive"].get("populationDescription", ""),
-                    res["descriptive"].get("populationSize", "")))
+                    st.get("populationDescription", ""),
+                    st.get("populationSize", "")))
 
             runs = [
                 popD,
                 tbl.new_run("Exposure assessment method: ", b=True, newline=False),
-                tbl.new_run(res["descriptive"]["exposureAssessmentType"], newline=False)
+                tbl.new_run(st["exposureAssessmentType"], newline=False)
             ]
-            tbl.new_td_run(rows, 1, runs, rowspan=rowspan)
+            tbl.new_td_run(rows, 1, runs, rowspan=st_rowspan)
 
-            # Columns C,D,E
-            for i, est in enumerate(res["riskEstimates"]):
-                tbl.new_td_txt(rows+i, 2, est["exposureCategory"])
-                tbl.new_td_txt(rows+i, 3, unicode(est["numberExposed"]))
-                tbl.new_td_txt(rows+i, 4, unicode(est["riskFormatted"]))
+            # Columns C, D, E, F
+            irows = rows
+            covariates = []
+            for res in st["results"]:
 
-            if res["hasTrendTest"]:
                 runs = [
-                    tbl.new_run("Trend-test ", newline=False),
-                    tbl.new_run("P", i=True, newline=False),
-                    tbl.new_run("-value: {}".format(res["trendTest"]), newline=False),
+                    tbl.new_run(res.get("organSite", ""), b=True, newline=False),
                 ]
-                tbl.new_td_run(rows+i+1, 2, runs, colspan=3)
+                tbl.new_td_run(irows, 2, runs, colspan=4, style="Tablesubheadings")
 
-            # Column F
-            txt = res["covariatesList"]
-            tbl.new_td_txt(rows, 5, txt, rowspan=rowspan)
+                for i, est in enumerate(res["riskEstimates"]):
+                    tbl.new_td_txt(irows+i+1, 2, est["exposureCategory"])
+                    tbl.new_td_txt(irows+i+1, 3, unicode(est["numberExposed"]))
+                    tbl.new_td_txt(irows+i+1, 4, unicode(est["riskFormatted"]))
+
+                # Column F
+                txt = res["covariatesList"]
+                tbl.new_td_txt(irows+1, 5, txt, rowspan=len(res["riskEstimates"]))
+
+                if res["hasTrendTest"]:
+                    runs = [
+                        tbl.new_run("Trend-test ", newline=False),
+                        tbl.new_run("P", i=True, newline=False),
+                        tbl.new_run("-value: {}".format(res["trendTest"]), newline=False),
+                    ]
+                    tbl.new_td_run(irows+i+2, 2, runs, colspan=4)
+
+                covariates.append(res.get("covariatesControlledText", ""))
+                irows += res["_rowspan"]
 
             # Column G
+            covariates = u', '.join([ v for v in sorted(set(covariates)) if len(v) > 0 ])
             runs = [
-                tbl.new_run(res["descriptive"].get("exposureLevel", "")),
+                tbl.new_run(st.get("exposureLevel", "")),
                 tbl.new_run("Confounding:", b=True),
-                tbl.new_run(res.get("covariatesControlledText", "")),
+                tbl.new_run(covariates),
                 tbl.new_run("Strengths:", b=True),
-                tbl.new_run(res["descriptive"]["strengths"]),
+                tbl.new_run(st["strengths"]),
                 tbl.new_run("Limitations:", b=True),
-                tbl.new_run(res["descriptive"]["limitations"], newline=False)
+                tbl.new_run(st["limitations"], newline=False)
             ]
-            tbl.new_td_run(rows, 6, runs, rowspan=rowspan)
+            tbl.new_td_run(rows, 6, runs, rowspan=st_rowspan)
 
-            # increment rows
-            rows += rowspan
+            rows += st_rowspan
 
         tbl.render(self.doc)
 
@@ -110,7 +126,7 @@ class NtpEpiResults(DOCXReport):
         # build table for each organ-site
         for tbl in sorted(d["tables"], key=lambda v: v["caption"]):
             txt = "Table X: {}".format(tbl["caption"])
-            self.build_res_tbl(txt, tbl["results"])
+            self.build_res_tbl(txt, tbl["studies"])
             self.doc.add_page_break()
 
     def get_template_fn(self):

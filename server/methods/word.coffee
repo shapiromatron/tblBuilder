@@ -136,47 +136,6 @@ getOrganSitesObject = (tbl_ids) ->
 
     return organSites
 
-getEpiDataByTableCaptionRes = (tbl_id) ->
-    # builds hierarchy of Tables -> Description (Study) -> Results
-    tbl = Tables.findOne(tbl_id)
-
-    # fetch the data that we need
-    tables = []
-    epiDescs = EpiDescriptive.find({"tbl_id": tbl_id}, {sort: {sortIdx: 1}}).fetch()
-    epiResults = EpiResult.find({"tbl_id": tbl_id}, {sort: {sortIdx: 1}}).fetch()
-
-    # get fields ready for reporting
-    _.map(epiDescs, prepareEpiDescriptive)
-    _.map(epiResults, prepareEpiResult)
-
-    # get unique study-types
-    tblCaptions = _.chain(epiResults)
-                  .pluck("printCaption")
-                  .without(undefined)
-                  .unique(false)
-                  .value()
-
-    for caption in tblCaptions
-
-        results = _.chain(epiResults)
-                       .where({"printCaption": caption})
-                       .filter((d) -> return d.printOrder>=0)
-                       .sortBy('printOrder')
-                       .map((d) ->
-                            d.descriptive = _.findWhere(epiDescs, {"_id": d.parent_id})
-                            return d
-                       ).value()
-
-        tables.push({"caption": caption, "results": results})
-        console.log(results)
-
-    data =
-        "tables": tables
-        "table": tbl
-    console.log(data)
-    return data
-
-
 getEpiDataByTableCaptionDesc = (tbl_id) ->
     # builds hierarchy of Tables -> Description (Study) -> Results
     tbl = Tables.findOne(tbl_id)
@@ -374,7 +333,7 @@ getContext = (report_type, tbl_id) ->
         when "NtpEpiDescriptive"
             d = getEpiDataByReference(tbl_id)
         when "NtpEpiResults"
-            d = getEpiDataByTableCaptionRes(tbl_id)
+            d = getEpiDataByTableCaptionDesc(tbl_id)
         when "NtpEpiAniResults"
             d = getEpiDataByTableCaptionDesc(tbl_id)
     return d
