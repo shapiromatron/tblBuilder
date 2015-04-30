@@ -161,7 +161,7 @@ getEpiDataByTableCaptionDesc = (tbl_id) ->
         # get results in this table
         thisResults = _.chain(epiResults)
                        .where({"printCaption": caption})
-                       .filter((d) -> return d.printOrder>=0)
+                       .filter((d) -> return d.printOrder>0)
                        .sortBy('printOrder')
                        .value()
 
