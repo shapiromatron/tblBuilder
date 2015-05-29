@@ -475,21 +475,21 @@ share.getAnimalNSurvivings = (e) ->
 share.getAnimalEndpointIncidents = (egs) ->
     if _.pluck(egs, "incidence").join("").length>0
         val = egs.map((v) -> v.incidence).join(", ")
-        return "Tumour incidence: #{val}<br>"
+        return "Tumour incidence: #{val}"
     else
         return ""
 
 share.getAnimalEndpointMultiplicities = (egs) ->
     if _.pluck(egs, "multiplicity").join("").length>0
         val = egs.map((v) -> v.multiplicity or "NR").join(", ")
-        return "Tumour multiplicity: #{val}<br>"
+        return "Tumour multiplicity: #{val}"
     else
         return ""
 
 share.getAnimalTotalTumours = (egs) ->
     if _.pluck(egs, "totalTumours").join("").length>0
         val = egs.map((v) -> v.totalTumours or "NR").join(", ")
-        return "Total tumours: #{val}<br>"
+        return "Total tumours: #{val}"
     else
         return ""
 
@@ -502,11 +502,8 @@ share.setAnimalWordFields = (d) ->
 
     for e in d.endpoints
         e.incidents = share.getAnimalEndpointIncidents(e.endpointGroups)
-                           .replace(/\<br\>/g, "\n")
         e.multiplicities = share.getAnimalEndpointMultiplicities(e.endpointGroups)
-                                .replace(/\<br\>/g, "\n")
         e.total_tumours = share.getAnimalTotalTumours(e.endpointGroups)
-                               .replace(/\<br\>/g, "\n")
 
         e.incidence_significance = e.incidence_significance or ""
         e.multiplicity_significance = e.multiplicity_significance or ""
