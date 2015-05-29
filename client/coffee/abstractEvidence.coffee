@@ -216,7 +216,7 @@ share.removeNestedFormModal = (tmpl, options) ->
             NestedCollection.remove(options.remove)
 
     $(tmpl.find('#nestedModalDiv'))
-        .on('hidden.bs.modal', onHidden)
+        .on('hide.bs.modal', onHidden)
         .modal('hide')
 
 share.abstractNestedFormEvents =
