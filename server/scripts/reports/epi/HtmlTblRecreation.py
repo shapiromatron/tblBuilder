@@ -1,7 +1,7 @@
 from ..utils import TableMaker, DOCXReport
 
 
-class HtmlTblRecreation(DOCXReport):
+class EpiHtmlTblRecreation(DOCXReport):
     """
     Attempt to recreate HTML table in a Word-report.
     """

@@ -328,7 +328,7 @@ pyWordHelperStdin = (report_type, context, fut) ->
 getContext = (report_type, tbl_id) ->
     d = {}
     switch report_type
-        when "HtmlTblRecreation"
+        when "EpiHtmlTblRecreation"
             d = getEpiDataByReference(tbl_id)
         when "NtpEpiDescriptive"
             d = getEpiDataByReference(tbl_id)
