@@ -18,7 +18,7 @@ class NtpEpiDescriptive(DOCXReport):
             "title": "RoCTabletitle",
             "header": "RoCColumnheading",
             "body": "RoCTablebody",
-            "subheading" : None
+            "subheading": None
         }
         tbl = TableMaker(colWidths, styles=styles, numHeaders=2, tblStyle="ntpTbl")
 
@@ -65,19 +65,19 @@ class NtpEpiDescriptive(DOCXReport):
             tbl.new_td_run(row, 2, [tbl.new_run("Population size", i=True, newline=False)], style="RoCTablebody")
             tbl.new_td_run(row, 3, [tbl.new_run("Response rates", i=True, newline=False)], style="RoCTablebody")
             tbl.new_td_run(row, 4, [tbl.new_run("Source", i=True, newline=False)], style="RoCTablebody")
-            row +=1
+            row += 1
 
             tbl.new_td_txt(row, 1, "Cases", style="RoCTablebody")
             tbl.new_td_txt(row, 2, d["populationSizeCase"], style="RoCTablebody")
             tbl.new_td_txt(row, 3, d["responseRateCase"], style="RoCTablebody")
             tbl.new_td_txt(row, 4, d["sourceCase"], style="RoCTablebody")
-            row +=1
+            row += 1
 
             tbl.new_td_txt(row, 1, "Controls", style="RoCTablebody")
             tbl.new_td_txt(row, 2, d["populationSizeControl"], style="RoCTablebody")
             tbl.new_td_txt(row, 3, d["responseRateControl"], style="RoCTablebody")
             tbl.new_td_txt(row, 4, d["sourceControl"], style="RoCTablebody")
-            row +=1
+            row += 1
 
         else:
             txt = d.get("eligibilityCriteria", "")
@@ -137,7 +137,6 @@ class NtpEpiDescriptive(DOCXReport):
         row += 1
 
         tbl.render(self.doc)
-
 
     def create_content(self):
         doc = self.doc

@@ -126,6 +126,5 @@ class HtmlTblRecreation(DOCXReport):
 
         self.build_tbl(d)
 
-
     def get_template_fn(self):
         return "base.docx"

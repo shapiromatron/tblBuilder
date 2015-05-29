@@ -10,7 +10,7 @@ class NtpEpiAniResults(DOCXReport):
             "title": "RoCTabletitle",
             "header": "RoCColumnheading",
             "body": "RoCTablebody",
-            "subheading" : None
+            "subheading": None
         }
         tbl = TableMaker(colWidths, styles=styles, numHeaders=2, tblStyle="ntpTbl")
 

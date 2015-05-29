@@ -9,7 +9,7 @@ def generate_report(root_path, report_type, context):
     try:
         Reporter = getattr(reports, report_type)
     except AttributeError:
-        raise ValueError("Report name not found.")
+        raise ValueError("Report name not found: {}".format(report_type))
 
     report = Reporter(root_path, context)
     docx = report.build_report()
@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     root_path = os.path.dirname(os.path.abspath(__file__))
 
-    if len(sys.argv)>1:
+    if len(sys.argv) > 1:
         report_type = sys.argv[1]
         context = json.loads(sys.argv[2].decode('utf8'))
         b64 = generate_report(root_path, report_type, context)

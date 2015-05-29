@@ -9,7 +9,7 @@ class NtpEpiResults(DOCXReport):
             "title": "RoCTabletitle",
             "header": "RoCColumnheading",
             "body": "RoCTablebody",
-            "subheading" : None
+            "subheading": None
         }
         tbl = TableMaker(colWidths, styles=styles, numHeaders=2, tblStyle="ntpTbl")
 
@@ -95,7 +95,7 @@ class NtpEpiResults(DOCXReport):
                 irows += res["_rowspan"]
 
             # Column G
-            covariates = u', '.join([ v for v in sorted(set(covariates)) if len(v) > 0 ])
+            covariates = u', '.join([v for v in sorted(set(covariates)) if len(v) > 0])
             runs = [
                 tbl.new_run(st.get("exposureLevel", "")),
                 tbl.new_run("Confounding:", b=True),
