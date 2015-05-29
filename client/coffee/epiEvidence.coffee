@@ -218,10 +218,23 @@ epiResultTblHelpers =
     displayTrendTest: ->
         return @trendTest?
 
+    displayEffectUnits: (d) ->
+        return d.effectUnits?
+
+
 _.extend(epiResultTblHelpers, share.abstractNestedTableHelpers)
 
 Template.epiResultTbl.helpers(epiResultTblHelpers)
 Template.epiResultTbl.events(share.abstractNestedTableEvents)
+
+
+Template.organSiteTd.helpers
+
+    getRowspan: ->
+        rows = @riskEstimates.length
+        if @effectUnits?
+            return rows += 1
+        return rows
 
 
 # EPI RESULTS FORM -------------------------------------------------------------
