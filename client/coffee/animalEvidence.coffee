@@ -9,8 +9,30 @@ Template.animalMain.rendered = ->
 
 
 # ANIMAL TABLE -----------------------------------------------------------------
-Template.animalTbl.helpers(share.abstractTblHelpers)
-Template.animalTbl.events(share.abstractTblEvents)
+
+animalTblHelpers =
+
+    getReportTypes: ->
+        return [
+            {
+                "type": "AnimalHtmlTblRecreation",
+                "fn": "ani-results",
+                "text": "Download Word: HTML table recreation"
+            },
+        ]
+
+animalTblEvents =
+
+    'click .wordReport': (evt, tmpl) ->
+        tbl_id = Session.get('Tbl')._id
+        report_type = evt.target.dataset.type
+        fn = evt.target.dataset.fn + ".docx"
+        Meteor.call "pyWordReport", tbl_id, report_type, (err, response) ->
+            if (response) then return share.b64toWord(response, fn)
+            return alert("An error occurred.")
+
+Template.animalTbl.helpers _.extend(animalTblHelpers, share.abstractTblHelpers)
+Template.animalTbl.events _.extend(animalTblEvents, share.abstractTblEvents)
 
 Template.animalTbl.rendered = ->
     new Sortable(@.find('#sortable'),

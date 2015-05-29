@@ -336,6 +336,8 @@ getContext = (report_type, tbl_id) ->
             d = getEpiDataByTableCaptionDesc(tbl_id)
         when "NtpEpiAniResults"
             d = getEpiDataByTableCaptionDesc(tbl_id)
+        when "AnimalHtmlTblRecreation"
+            d = animalWordReport(tbl_id)
     return d
 
 
