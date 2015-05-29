@@ -136,9 +136,6 @@ epiDescriptiveRowHelpers =
 
         return html
 
-    getStudyDesign: (evt, tmpl) ->
-        if @studyDesign is "Nested Case-Control" then return "#{@studyDesign}<br>"
-
 _.extend(epiDescriptiveRowHelpers, share.abstractRowHelpers)
 
 Template.epiDescriptiveRow.helpers(epiDescriptiveRowHelpers)
