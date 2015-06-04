@@ -113,10 +113,8 @@ epiDescriptiveRowHelpers =
 
         if @studyDesign in CaseControlTypes
             # add percentages to display if numeric
-            rrCase = @responseRateCase
-            if (@responseRateCase.search(/(\d)+/) >= 0) then rrCase += "%"
-            rrCtrl = @responseRateControl
-            if (@responseRateControl.search(/(\d)+/) >= 0) then rrCtrl += "%"
+            rrCase = share.getPercentOrText(@responseRateCase)
+            rrCtrl = share.getPercentOrText(@responseRateControl)
             html += "<strong>Cases: </strong>#{@populationSizeCase} (#{rrCase}); #{@sourceCase}<br>"
             html += "<strong>Controls: </strong>#{@populationSizeControl} (#{rrCtrl}); #{@sourceControl}"
         else

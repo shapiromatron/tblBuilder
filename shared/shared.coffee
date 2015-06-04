@@ -35,6 +35,10 @@ share.cloneObject = (oldObj, Collection, NestedCollection) ->
             newNest.parent_id = new_parent_id
             NestedCollection.insert(newNest)
 
+share.getPercentOrText = (txt) ->
+    if (txt.search(/(\d)+/) >= 0) then txt += "%"
+    return txt
+
 share.getFlattenedEpiData = (tbl_id) ->
 
     getResultData = (parent_id, row) ->

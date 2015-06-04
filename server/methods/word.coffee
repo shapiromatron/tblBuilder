@@ -50,6 +50,8 @@ prepareEpiDescriptive = (desc) ->
     desc.coexposuresList = desc.coexposures.join(', ')
     desc.isCaseControl = desc.studyDesign in CaseControlTypes
     desc.notes = desc.notes or ""
+    desc.responseRateCase = share.getPercentOrText(desc.responseRateCase)
+    desc.responseRateControl = share.getPercentOrText(desc.responseRateControl)
 
 prepareEpiResult = (res) ->
     res.covariatesList = share.capitalizeFirst(res.covariates.join(', '))
