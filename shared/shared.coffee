@@ -36,6 +36,7 @@ share.cloneObject = (oldObj, Collection, NestedCollection) ->
             NestedCollection.insert(newNest)
 
 share.getPercentOrText = (txt) ->
+    if not txt? then return ""
     if (txt.search(/(\d)+/) >= 0) then txt += "%"
     return txt
 
