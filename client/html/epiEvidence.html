@@ -240,7 +240,7 @@
           <div class="col-xs-2">
             <label class="helpPopovers" data-toggle="popover"
                    data-content="Percent of eligible participants included">
-                   Response rates* (%)</label>
+                   Response rates (%)</label>
           </div>
           <div class="col-xs-4">
             <label class="helpPopovers" data-toggle="popover"
@@ -278,11 +278,11 @@
             <input class="form-control" type="text"
                    name='responseRateCase'
                    value="{{responseRateCase}}"
-                   placeholder='"NR" if not-reported'/><br>
+                   placeholder='blank if not-reported'/><br>
             <input class="form-control" type="text"
                    name='responseRateControl'
                    value="{{responseRateControl}}"
-                   placeholder='"NR" if not-reported'/>
+                   placeholder='blank if not-reported'/>
           </div>
           <div class="col-xs-4">
             <textarea class="form-control"
@@ -358,19 +358,20 @@
             <label class="helpPopovers" data-toggle="popover"
                    data-content="The proportion of enrolled subjects whose
                                  status was unknown at the end of follow-up">
-                   &nbsp;<br>Loss to follow-up* (%)</label>
+                   &nbsp;<br>Loss to follow-up (%)</label>
             <input class="form-control" type="text"
                    name='lossToFollowUp'
-                   placeholder='"NR" if not-reported'
+                   placeholder='blank if not-reported'
                    value="{{lossToFollowUp}}"/>
           </div>
 
           <div class="col-xs-4">
             <label class="helpPopovers" data-toggle="popover"
                    data-content=" ">
-                   Type of referent group*<br>(<i>i.e.</i>, external vs. internal analysis)</label>
+                   Type of referent group<br>(<i>i.e.</i>, external vs. internal analysis)</label>
             <input class="form-control" type="text"
                    name='referentGroup'
+                   placeholder='blank if not-reported'
                    value="{{referentGroup}}"/>
           </div>
 

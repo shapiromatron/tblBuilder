@@ -115,8 +115,10 @@ epiDescriptiveRowHelpers =
             # add percentages to display if numeric
             rrCase = share.getPercentOrText(@responseRateCase)
             rrCtrl = share.getPercentOrText(@responseRateControl)
-            html += "<strong>Cases: </strong>#{@populationSizeCase} (#{rrCase}); #{@sourceCase}<br>"
-            html += "<strong>Controls: </strong>#{@populationSizeControl} (#{rrCtrl}); #{@sourceControl}"
+            if rrCase.length > 0 then rrCase = " (#{rrCase})"
+            if rrCtrl.length > 0 then rrCtrl = " (#{rrCtrl})"
+            html += "<strong>Cases: </strong>#{@populationSizeCase}#{rrCase}; #{@sourceCase}<br>"
+            html += "<strong>Controls: </strong>#{@populationSizeControl}#{rrCtrl}; #{@sourceControl}"
         else
             html += "#{@populationSize}; #{@eligibilityCriteria}"
 

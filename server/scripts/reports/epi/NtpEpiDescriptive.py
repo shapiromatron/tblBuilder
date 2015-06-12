@@ -69,13 +69,13 @@ class NtpEpiDescriptive(DOCXReport):
 
             tbl.new_td_txt(row, 1, "Cases", style="RoCTablebody")
             tbl.new_td_txt(row, 2, d["populationSizeCase"], style="RoCTablebody")
-            tbl.new_td_txt(row, 3, d["responseRateCase"], style="RoCTablebody")
+            tbl.new_td_txt(row, 3, d.get("responseRateCase", ""), style="RoCTablebody")
             tbl.new_td_txt(row, 4, d["sourceCase"], style="RoCTablebody")
             row += 1
 
             tbl.new_td_txt(row, 1, "Controls", style="RoCTablebody")
             tbl.new_td_txt(row, 2, d["populationSizeControl"], style="RoCTablebody")
-            tbl.new_td_txt(row, 3, d["responseRateControl"], style="RoCTablebody")
+            tbl.new_td_txt(row, 3, d.get("responseRateControl", ""), style="RoCTablebody")
             tbl.new_td_txt(row, 4, d["sourceControl"], style="RoCTablebody")
             row += 1
 

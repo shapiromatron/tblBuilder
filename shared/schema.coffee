@@ -322,14 +322,12 @@ Meteor.startup ->
             label: "Loss to follow-up (%)"
             type: String
             optional: true
-            custom: requiredCohort
             defaultValue: null
 
         referentGroup:
             label: "Type of referent group"
             type: String
             optional: true
-            custom: requiredCohort
             defaultValue: null
 
         populationSizeCase:
@@ -350,14 +348,12 @@ Meteor.startup ->
             label: "Response rate (cases)"
             type: String
             optional: true
-            custom: requiredCC
             defaultValue: null
 
         responseRateControl:
             label: "Response rate (controls)"
             type: String
             optional: true
-            custom: requiredCC
             defaultValue: null
 
         sourceCase:

@@ -10,15 +10,24 @@ class EpiHtmlTblRecreation(DOCXReport):
         # recreation of table-helper
         runs = []
         if d["isCaseControl"]:
+
+            rrCase = d.get("responseRateCase", "")
+            if len(rrCase) > 0:
+                rrCase = " ({})".format(rrCase)
+
+            rrCtrl = d.get("responseRateControl", "")
+            if len(rrCtrl) > 0:
+                rrCtrl = " ({})".format(rrCtrl)
+
             runs.append(tbl.new_run("Cases: ", b=True))
-            runs.append(tbl.new_run(u"{} ({}); {}".format(
+            runs.append(tbl.new_run(u"{}{}; {}".format(
                             d["populationSizeCase"],
-                            d["responseRateCase"],
+                            rrCase,
                             d["sourceCase"])))
             runs.append(tbl.new_run("Controls: ", b=True))
-            runs.append(tbl.new_run(u"{} ({}); {}".format(
+            runs.append(tbl.new_run(u"{}{}; {}".format(
                         d["populationSizeControl"],
-                        d["responseRateControl"],
+                        rrCtrl,
                         d["sourceControl"])))
         else:
             runs.append(tbl.new_run(u"{}; {}".format(
