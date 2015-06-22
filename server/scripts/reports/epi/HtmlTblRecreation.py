@@ -68,6 +68,8 @@ class EpiHtmlTblRecreation(DOCXReport):
 
             for res in d["results"]:
                 res["_rowspan"] = max(len(res["riskEstimates"]), 1)
+                if len(res.get("effectUnits", "")) > 0:
+                    res["_rowspan"] += 1
                 if res["hasTrendTest"]:
                     res["_rowspan"] += 1
 
@@ -89,19 +91,26 @@ class EpiHtmlTblRecreation(DOCXReport):
             # Columns C, D, E, F, G
             irows = rows
             for res in d["results"]:
+                additionalRows = 0
                 tbl.new_td_txt(irows, 2, res["organSite"], rowspan=res["_rowspan"])
-                for i, est in enumerate(res["riskEstimates"]):
-                    tbl.new_td_txt(irows+i, 3, est["exposureCategory"])
-                    tbl.new_td_txt(irows+i, 4, unicode(est["numberExposed"]))
-                    tbl.new_td_txt(irows+i, 5, unicode(est["riskFormatted"]))
-
                 tbl.new_td_txt(irows, 6, res["covariatesList"], rowspan=res["_rowspan"])
+
+                if len(res.get("effectUnits", "")) > 0:
+                    tbl.new_td_txt(irows, 3, res["effectUnits"], colspan=3)
+                    additionalRows += 1
+
+                for i, est in enumerate(res["riskEstimates"]):
+                    tbl.new_td_txt(irows+additionalRows, 3, est["exposureCategory"])
+                    tbl.new_td_txt(irows+additionalRows, 4, unicode(est["numberExposed"]))
+                    tbl.new_td_txt(irows+additionalRows, 5, unicode(est["riskFormatted"]))
+                    additionalRows += 1
 
                 if res["hasTrendTest"]:
                     txt = u"Trend-test p-value: {}".format(res["trendTest"])
-                    tbl.new_td_txt(irows+i+1, 3, txt, colspan=3)
+                    tbl.new_td_txt(irows+additionalRows, 3, txt, colspan=3)
+                    additionalRows += 1
 
-                irows += res["_rowspan"]
+                irows += additionalRows
 
             # Column H
             runs = [
