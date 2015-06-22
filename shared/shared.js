@@ -71,6 +71,7 @@ exposureAssessmentTypeOptions = [
     "JEM",
     "questionnaire",
     "company records",
+    "food frequency questionnaire",
     "personal monitoring",
     "environmental monitoring",
     "modelling",
