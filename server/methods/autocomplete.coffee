@@ -16,13 +16,13 @@ Meteor.methods
 
     #admin-only methods
     adminUserEditProfile: (_id, obj) ->
-        unless share.isStaffOrHigher(this.userId)
+        unless serverShared.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
 
         Meteor.users.update(_id, {$set: obj})
 
     adminUserCreateProfile: (obj) ->
-        unless share.isStaffOrHigher(this.userId)
+        unless serverShared.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
         obj.emails[0].address = obj.emails[0].address.trim()
         opts = {email: obj.emails[0].address}
@@ -31,7 +31,7 @@ Meteor.methods
         Accounts.sendEnrollmentEmail(_id)
 
     adminUserResetPassword: (_id) ->
-        unless share.isStaffOrHigher(this.userId)
+        unless serverShared.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
 
         # This will work even if a user has not initially created
@@ -39,7 +39,7 @@ Meteor.methods
         Accounts.sendResetPasswordEmail(_id)
 
     adminToggleQAd: (_id, model) ->
-        unless share.isStaffOrHigher(this.userId)
+        unless serverShared.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
 
         collection = switch
@@ -67,7 +67,7 @@ Meteor.methods
         return {success: false}
 
     adminSetPassword: (_id, passwd) ->
-        unless share.isStaffOrHigher(this.userId)
+        unless serverShared.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
 
         try

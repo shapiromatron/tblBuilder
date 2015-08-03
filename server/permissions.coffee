@@ -32,18 +32,18 @@ Meteor.startup ->
 
     Meteor.users.allow
         insert: (userId, doc) ->
-            return share.isStaffOrHigher(userId)
+            return serverShared.isStaffOrHigher(userId)
 
         update: (userId, doc, fieldNames, modifier) ->
-            return share.isStaffOrHigher(userId)
+            return serverShared.isStaffOrHigher(userId)
 
         remove: (userId, doc) ->
-            return share.isStaffOrHigher(userId)
+            return serverShared.isStaffOrHigher(userId)
 
 
     Tables.allow
         insert: (userId, doc) ->
-            return share.isStaffOrHigher(userId)
+            return serverShared.isStaffOrHigher(userId)
 
         update: (userId, doc, fieldNames, modifier) ->
             return isCreatorOrProjectManager(doc, userId)
@@ -77,10 +77,10 @@ Meteor.startup ->
 
     ReportTemplate.allow
         insert: (userId, doc) ->
-            share.isStaffOrHigher(userId)
+            serverShared.isStaffOrHigher(userId)
 
         update: (userId, doc, fieldNames, modifier) ->
-            share.isStaffOrHigher(userId)
+            serverShared.isStaffOrHigher(userId)
 
         remove: (userId, doc) ->
-            share.isStaffOrHigher(userId)
+            serverShared.isStaffOrHigher(userId)

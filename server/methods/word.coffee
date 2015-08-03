@@ -9,7 +9,7 @@ createWordReport = (templateFilename, data) ->
     angularParser = (tag) ->
         return {get: expressions.compile(tag)}
 
-    path = share.getWordTemplatePath(templateFilename)
+    path = serverShared.getWordTemplatePath(templateFilename)
     blob = fs.readFileSync(path, "binary")
     docx = new DocxGen(blob)
     docx.setOptions({parser: angularParser})

@@ -7,7 +7,7 @@ cleanFilename = (str) ->
 
 saveFile = (blob, fn) ->
     # help from:  https://gist.github.com/dariocravero/3922137
-    path = share.getWordTemplatePath(fn)
+    path = serverShared.getWordTemplatePath(fn)
     fs.writeFile path, blob, 'binary', (err) ->
         if (err)
             console.log(path, err)
@@ -20,7 +20,7 @@ removeFile = (fn) ->
 Meteor.methods
 
     saveNewTemplate: (blob, fn, tblType, epiSortOrder) ->
-        unless share.isStaffOrHigher(this.userId)
+        unless serverShared.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
         fn = cleanFilename(fn)
 
@@ -34,7 +34,7 @@ Meteor.methods
         saveFile(blob, fn)
 
     updateExistingTemplate: (blob, fn, tblType, epiSortOrder, _id) ->
-        unless share.isStaffOrHigher(this.userId)
+        unless serverShared.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
         fn = cleanFilename(fn)
 
@@ -48,18 +48,18 @@ Meteor.methods
         saveFile(blob, fn)
 
     removeExistingTemplate: (_id) ->
-        unless share.isStaffOrHigher(this.userId)
+        unless serverShared.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
         obj = ReportTemplate.findOne(_id)
-        path = share.getWordTemplatePath(obj.filename)
+        path = serverShared.getWordTemplatePath(obj.filename)
         ReportTemplate.remove(_id)
         removeFile(path)
 
     downloadTemplate: (_id) ->
-        unless share.isStaffOrHigher(this.userId)
+        unless serverShared.isStaffOrHigher(this.userId)
             throw new Meteor.Error(403, "Nice try wise-guy.")
         fn = ReportTemplate.findOne({_id: _id}).filename
-        path = share.getWordTemplatePath(fn)
+        path = serverShared.getWordTemplatePath(fn)
         blob = fs.readFileSync(path, "binary")
         docx = new DocxGen(blob)
         return docx.getZip().generate({type: "string"})

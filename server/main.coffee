@@ -34,11 +34,11 @@ Tables.before.insert (userId, doc) ->
         {"sort": {"sortIdx": -1}})
     currentMax = if currentMaxTable then currentMaxTable.sortIdx else 0
     doc.sortIdx = currentMax+1
-    return share.isStaffOrHigher(userId)
+    return serverShared.isStaffOrHigher(userId)
 
 ReportTemplate.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)
-    return share.isStaffOrHigher(userId)
+    return serverShared.isStaffOrHigher(userId)
 
 Reference.before.insert (userId, doc) ->
     doc = addTimestampAndUserID(userId, doc)

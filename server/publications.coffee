@@ -6,7 +6,7 @@
 
 userCanView = (tbl, userId) ->
     # User-can view permissions check on a table-level basis.
-    if share.isStaffOrHigher(userId) then return true
+    if serverShared.isStaffOrHigher(userId) then return true
     if(tbl and userId)
         valid_ids = (v.user_id for v in tbl.user_roles)
         return ((userId is tbl.user_id) or (valid_ids.indexOf(userId)>=0))
@@ -15,7 +15,7 @@ userCanView = (tbl, userId) ->
 Meteor.publish 'tables', (user_id) ->
     if this.userId?
         options = {sort: [['volumeNumber', 'desc'], ['timestamp', 'desc']]}
-        if share.isStaffOrHigher(this.userId)
+        if serverShared.isStaffOrHigher(this.userId)
             return Tables.find({}, options)
         else
             return Tables.find({$or: [{user_id: this.userId},
@@ -94,7 +94,7 @@ Meteor.publish 'tblUsers', (tbl_id) ->
     return this.ready()
 
 Meteor.publish 'adminUsers', ->
-    if share.isStaffOrHigher(this.userId)
+    if serverShared.isStaffOrHigher(this.userId)
         return Meteor.users.find({},
                 {fields: {_id: 1, emails: 1, profile: 1, roles: 1, createdAt: 1}})
     else
