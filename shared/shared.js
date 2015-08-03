@@ -9,6 +9,16 @@ EpiDescriptive = new Meteor.Collection('epiDescriptive');
 EpiResult = new Meteor.Collection('epiResult');
 ReportTemplate = new Meteor.Collection('reportTemplate');
 
+tblContentTypes =[
+  ExposureEvidence,
+  EpiDescriptive,
+  EpiResult,
+  AnimalEvidence,
+  AnimalEndpointEvidence,
+  GenotoxEvidence,
+  MechanisticEvidence
+]
+
 // Project-level shared-options
 tblRoleOptions = ["projectManagers", "teamMembers", "reviewers"];
 browserWhitelist = ["Chrome", "Firefox", "Mozilla"];
