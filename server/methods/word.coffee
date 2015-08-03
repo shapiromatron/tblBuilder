@@ -29,7 +29,7 @@ exposureWordReport = (tbl_id) ->
 
     for exp in exposures
         exp.reference = Reference.findOne(_id: exp.referenceID)
-        share.setExposureWordFields(exp)
+        shared.setExposureWordFields(exp)
 
     d =
         "monographAgent": tbl.monographAgent
@@ -50,15 +50,15 @@ prepareEpiDescriptive = (desc) ->
     desc.coexposuresList = desc.coexposures.join(', ')
     desc.isCaseControl = desc.studyDesign in CaseControlTypes
     desc.notes = desc.notes or ""
-    desc.responseRateCase = share.getPercentOrText(desc.responseRateCase)
-    desc.responseRateControl = share.getPercentOrText(desc.responseRateControl)
+    desc.responseRateCase = shared.getPercentOrText(desc.responseRateCase)
+    desc.responseRateControl = shared.getPercentOrText(desc.responseRateControl)
 
 prepareEpiResult = (res) ->
-    res.covariatesList = share.capitalizeFirst(res.covariates.join(', '))
+    res.covariatesList = shared.capitalizeFirst(res.covariates.join(', '))
     res.hasTrendTest = res.trendTest?
     for riskEst in res.riskEstimates
-        riskEst.riskFormatted = share.riskFormatter(riskEst)
-        riskEst.exposureCategory = share.capitalizeFirst(riskEst.exposureCategory)
+        riskEst.riskFormatted = shared.riskFormatter(riskEst)
+        riskEst.exposureCategory = shared.capitalizeFirst(riskEst.exposureCategory)
     return res
 
 
@@ -218,7 +218,7 @@ animalWordReport = (tbl_id) ->
 
     for study in studies
         study.reference = Reference.findOne(_id: study.referenceID)
-        share.setAnimalWordFields(study)
+        shared.setAnimalWordFields(study)
 
     d =
         "monographAgent": tbl.monographAgent
@@ -276,7 +276,7 @@ genotoxWordReport = (tbl_id) ->
 
     for val in vals
         val.reference = Reference.findOne(_id: val.referenceID)
-        share.setGenotoxWordFields(val)
+        shared.setGenotoxWordFields(val)
 
     d.nonMammalian = _.filter(vals, (v) -> return v.dataClass == "Non-mammalian")
     d.mammalianInVitro = _.filter(vals, (v) -> return v.dataClass == "Mammalian and human in vitro")

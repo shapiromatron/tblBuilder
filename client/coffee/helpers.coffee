@@ -254,7 +254,7 @@ UI.registerHelper "equals", (a,b) ->
     return a is b
 
 UI.registerHelper "epiRiskFormat", (obj) ->
-    return share.riskFormatter(obj)
+    return shared.riskFormatter(obj)
 
 UI.registerHelper "isNTP", () ->
     return Meteor.settings.public.context is "ntp"

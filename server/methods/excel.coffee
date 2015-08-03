@@ -49,7 +49,7 @@ sheet_from_array_of_arrays = (data) ->
 
 Meteor.methods
     epiEvidenceDownload: (tbl_id) ->
-        data = share.getFlattenedEpiData(tbl_id)
+        data = shared.getFlattenedEpiData(tbl_id)
         ws_name = "epi Results"
         wb = new Workbook()
         ws = sheet_from_array_of_arrays(data)
@@ -112,7 +112,7 @@ Meteor.methods
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
     exposureEvidenceDownload: (tbl_id) ->
-        data = share.getFlattenedExposureData(tbl_id)
+        data = shared.getFlattenedExposureData(tbl_id)
         ws_name = "Exposure Results"
         wb = new Workbook()
         ws = sheet_from_array_of_arrays(data)
@@ -121,7 +121,7 @@ Meteor.methods
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
     animalEvidenceDownload: (tbl_id) ->
-        data = share.getFlattenedAnimalData(tbl_id)
+        data = shared.getFlattenedAnimalData(tbl_id)
         ws_name = "Bioassay Results"
         wb = new Workbook()
         ws = sheet_from_array_of_arrays(data)
@@ -130,7 +130,7 @@ Meteor.methods
         XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'})
 
     genotoxEvidenceDownload: (tbl_id) ->
-        data = share.getFlattenedGenotoxData(tbl_id)
+        data = shared.getFlattenedGenotoxData(tbl_id)
         ws_name = "Genotoxicity Results"
         wb = new Workbook()
         ws = sheet_from_array_of_arrays(data)

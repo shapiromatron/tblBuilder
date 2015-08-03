@@ -12,11 +12,11 @@ Template.epiMain.rendered = ->
 # EPI ANALYSIS TABLE -----------------------------------------------------------
 Template.epiAnalysisTbl.rendered = ->
     self = @
-    data = share.getFlattenedEpiData(Session.get("Tbl")._id)
+    data = shared.getFlattenedEpiData(Session.get("Tbl")._id)
     # build default columns to display
     columns = []
     for field in data.shift()
-        columns.push({"title": field, "visible": field in share.defaultEpiVisible})
+        columns.push({"title": field, "visible": field in shared.defaultEpiVisible})
 
     # create the dataTable object
     tbl = $(self.find('#analysisTbl'))
@@ -113,8 +113,8 @@ epiDescriptiveRowHelpers =
 
         if @studyDesign in CaseControlTypes
             # add percentages to display if numeric
-            rrCase = share.getPercentOrText(@responseRateCase)
-            rrCtrl = share.getPercentOrText(@responseRateControl)
+            rrCase = shared.getPercentOrText(@responseRateCase)
+            rrCtrl = shared.getPercentOrText(@responseRateControl)
             if rrCase.length > 0 then rrCase = " (#{rrCase})"
             if rrCtrl.length > 0 then rrCtrl = " (#{rrCtrl})"
             html += "<strong>Cases: </strong>#{@populationSizeCase}#{rrCase}; #{@sourceCase}<br>"

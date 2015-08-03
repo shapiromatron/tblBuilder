@@ -49,13 +49,13 @@ getFirstEndpoint = (parent_id) ->
 
 animalEndpointRowHelperExtension =
     getDoses: () ->
-        return share.getAnimalDoses(getFirstEndpoint(@_id))
+        return shared.getAnimalDoses(getFirstEndpoint(@_id))
 
     getNStarts: () ->
-        return share.getAnimalNStarts(getFirstEndpoint(@_id))
+        return shared.getAnimalNStarts(getFirstEndpoint(@_id))
 
     getNSurvivings: () ->
-        return share.getAnimalNSurvivings(getFirstEndpoint(@_id))
+        return shared.getAnimalNSurvivings(getFirstEndpoint(@_id))
 
 animalRowHelpers = $.extend(true, {}, share.abstractRowHelpers, animalEndpointRowHelperExtension)
 Template.animalRow.helpers(animalRowHelpers)
@@ -90,7 +90,7 @@ Template.animalForm.rendered = ->
 animalEndpointTblHelpersExtension =
     getIncidents: () ->
         txt = ""
-        val = share.getAnimalEndpointIncidents(@endpointGroups)
+        val = shared.getAnimalEndpointIncidents(@endpointGroups)
         if val isnt ""
             sig = @incidence_significance or ""
             txt = "<tr><td>#{val}</td><td>#{sig}</td></tr>"
@@ -98,7 +98,7 @@ animalEndpointTblHelpersExtension =
 
     getMultiplicities: () ->
         txt = ""
-        val = share.getAnimalEndpointMultiplicities(@endpointGroups)
+        val = shared.getAnimalEndpointMultiplicities(@endpointGroups)
         if val isnt ""
             sig = @multiplicity_significance or ""
             txt = "<tr><td>#{val}</td><td>#{sig}</td></tr>"
@@ -106,7 +106,7 @@ animalEndpointTblHelpersExtension =
 
     getTotalTumours: () ->
         txt = ""
-        val = share.getAnimalTotalTumours(@endpointGroups)
+        val = shared.getAnimalTotalTumours(@endpointGroups)
         if val isnt ""
             sig = @total_tumours_significance or ""
             txt = "<tr><td>#{val}</td><td>#{sig}</td></tr>"

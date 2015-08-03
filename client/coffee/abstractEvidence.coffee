@@ -97,7 +97,7 @@ share.abstractRowEvents =
 
     'click #clone-content': (evt, tmpl) ->
         ET = share.evidenceType[Session.get("evidenceType")]
-        share.cloneObject(@, ET.collection, ET.nested_collection)
+        shared.cloneObject(@, ET.collection, ET.nested_collection)
 
 
 share.abstractFormEvents =
@@ -185,7 +185,7 @@ share.abstractNestedTableEvents =
     'click #clone-nested-content': (evt, tmpl) ->
         data = tmpl.view.parentView.dataVar.curValue
         ET = share.evidenceType[Session.get("evidenceType")]
-        share.cloneObject(data, ET.nested_collection)
+        shared.cloneObject(data, ET.nested_collection)
 
 
 share.abstractNestedFormHelpers =

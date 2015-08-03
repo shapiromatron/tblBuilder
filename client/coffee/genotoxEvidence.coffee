@@ -29,7 +29,7 @@ Template.genotoxRow.helpers
         return @dataClass
 
     getCol2: () ->
-        return share.getGenotoxTestSystemDesc(@)
+        return shared.getGenotoxTestSystemDesc(@)
 
     getCol3: () ->
         return "#{@endpoint}/<br>#{@endpointTest}"
@@ -126,7 +126,7 @@ togglePhyloFields = (tmpl) ->
     if dataClass isnt "Non-mammalian"
         return
 
-    if share.isGenotoxAcellular(dataClass, phylo)
+    if shared.isGenotoxAcellular(dataClass, phylo)
         $(tmpl.findAll('.isAcellular')).show()
         $(tmpl.findAll('.isntAcellular')).hide()
     else
@@ -141,13 +141,13 @@ toggleEndpointOptions = (tmpl) ->
 
     switch dataClass
         when "Non-mammalian"
-            obj = share.mechanisticTestCrosswalk[dataClass][phylo][tox]
+            obj = shared.mechanisticTestCrosswalk[dataClass][phylo][tox]
         when "Mammalian and human in vitro"
-            obj = share.mechanisticTestCrosswalk[dataClass][mamm][tox]
+            obj = shared.mechanisticTestCrosswalk[dataClass][mamm][tox]
         when "Animal in vivo"
-            obj = share.mechanisticTestCrosswalk[dataClass][tox]
+            obj = shared.mechanisticTestCrosswalk[dataClass][tox]
         when "Human in vivo"
-            obj = share.mechanisticTestCrosswalk[dataClass][tox]
+            obj = shared.mechanisticTestCrosswalk[dataClass][tox]
         else
             console.log("unknown data-type: #{dataClass}")
 
@@ -177,13 +177,13 @@ toggleEndpointTestOptions = (tmpl) ->
 
     switch dataClass
         when "Non-mammalian"
-            vals = share.mechanisticTestCrosswalk[dataClass][phylo][tox][endpoint]
+            vals = shared.mechanisticTestCrosswalk[dataClass][phylo][tox][endpoint]
         when "Mammalian and human in vitro"
-            vals = share.mechanisticTestCrosswalk[dataClass][mamm][tox][endpoint]
+            vals = shared.mechanisticTestCrosswalk[dataClass][mamm][tox][endpoint]
         when "Animal in vivo"
-            vals = share.mechanisticTestCrosswalk[dataClass][tox][endpoint]
+            vals = shared.mechanisticTestCrosswalk[dataClass][tox][endpoint]
         when "Human in vivo"
-            vals = share.mechanisticTestCrosswalk[dataClass][tox][endpoint]
+            vals = shared.mechanisticTestCrosswalk[dataClass][tox][endpoint]
         else
             console.log("unknown data-type: {#dataClass}")
 
