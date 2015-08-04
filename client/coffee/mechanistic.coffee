@@ -1,7 +1,3 @@
-Session.setDefault('mechanisticEditingId', null)
-Session.setDefault('mechanisticNewChild', null)
-Session.setDefault('mechanisticAllCollapsed', true)
-
 initializeDraggable = (tmpl, options) ->
     id =  if options.isSection then tmpl.data.section else tmpl.data._id
     container = tmpl.find("#dragContainer_#{id}")
@@ -9,9 +5,9 @@ initializeDraggable = (tmpl, options) ->
         new Sortable(container,
                 draggable: ".dragObj_#{id}",
                 handle: ".dragHandle_#{id}",
-                onUpdate: share.moveRowCheck,
+                onUpdate: clientShared.moveRowCheck,
                 Cls: MechanisticEvidence)
-        share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
+        clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
 
 
 Template.mechanisticMain.helpers
@@ -27,7 +23,7 @@ Template.mechanisticMain.events
     'click #mechanistic-downloadExcel': (evt, tmpl) ->
         tbl_id = tmpl.data._id
         Meteor.call 'mechanisticEvidenceExcelDownload', tbl_id, (err, response) ->
-            share.returnExcelFile(response, "mechanisticEvidence.xlsx")
+            clientShared.returnExcelFile(response, "mechanisticEvidence.xlsx")
 
     'click #wordReport': (evt, tmpl) ->
         div = tmpl.firstNode
@@ -35,7 +31,7 @@ Template.mechanisticMain.events
 
     'click #mechanistic-reorderRows': (evt, tmpl) ->
         Session.set('reorderRows', not Session.get('reorderRows'))
-        share.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
+        clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'))
 
 Template.mechanisticMain.rendered = ->
     $(@.findAll('.collapse')).on 'show.bs.collapse', () ->
@@ -63,7 +59,7 @@ Template.mechanisticSectionTR.events
     'click #mechanistic-newSection': (evt, tmpl) ->
         Session.set('mechanisticEditingId', @section)
         Tracker.flush() # update DOM before focus
-        share.activateInput(tmpl.find("textarea[name=text]"))
+        clientShared.activateInput(tmpl.find("textarea[name=text]"))
 
 Template.mechanisticSectionTR.rendered = ->
     initializeDraggable(@, {isSection: true})
@@ -95,12 +91,12 @@ Template.mechanisticEvidenceDisplay.events
     'click #mechanistic-show-edit': (evt, tmpl) ->
         Session.set("mechanisticEditingId", @_id)
         Tracker.flush() # update DOM before focus
-        share.activateInput(tmpl.find("textarea[name=text]"))
+        clientShared.activateInput(tmpl.find("textarea[name=text]"))
 
     'click #mechanistic-newChild': (evt, tmpl) ->
         Session.set("mechanisticNewChild", @_id)
         Tracker.flush() # update DOM before focus
-        share.activateInput(tmpl.find("textarea[name=text]"))
+        clientShared.activateInput(tmpl.find("textarea[name=text]"))
 
 Template.mechanisticEvidenceDisplay.rendered = ->
     initializeDraggable(@, {isSection: false})
@@ -108,7 +104,7 @@ Template.mechanisticEvidenceDisplay.rendered = ->
 
 Template.mechanisticEvidenceForm.events
     'click #mechanisticEvidence-create': (evt, tmpl) ->
-        obj = share.newValues(tmpl.find('#mechanisticEvidenceForm'))
+        obj = clientShared.newValues(tmpl.find('#mechanisticEvidenceForm'))
         obj['tbl_id'] = Session.get('Tbl')._id
         obj['section'] = @section
         obj['parent'] = @parent
@@ -120,7 +116,7 @@ Template.mechanisticEvidenceForm.events
             Session.set("mechanisticEditingId", null)
             Session.set('mechanisticNewChild', null)
         else
-            errorDiv = share.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext())
+            errorDiv = clientShared.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #mechanisticEvidence-create-cancel': (evt, tmpl) ->
@@ -128,7 +124,7 @@ Template.mechanisticEvidenceForm.events
         Session.set('mechanisticNewChild', null)
 
     'click #mechanisticEvidence-update': (evt, tmpl) ->
-        vals = share.updateValues(tmpl.find('#mechanisticEvidenceForm'), @)
+        vals = clientShared.updateValues(tmpl.find('#mechanisticEvidenceForm'), @)
         modifier = {$set: vals}
         isValid = MechanisticEvidence.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid
@@ -136,7 +132,7 @@ Template.mechanisticEvidenceForm.events
             Session.set("mechanisticEditingId", null)
             Session.set('mechanisticNewChild', null)
         else
-            errorDiv = share.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext())
+            errorDiv = clientShared.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #mechanisticEvidence-update-cancel': (evt, tmpl) ->

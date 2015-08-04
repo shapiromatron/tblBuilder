@@ -1,7 +1,3 @@
-Session.setDefault('adminUserEditingId', null)
-Session.set("adminUserShowNew", false)
-
-
 setAdminNotification = (message, type) ->
     # notify Admin password reset sent
     div = $('#messages')[0]
@@ -39,7 +35,7 @@ Template.adminUserRow.events
     'click #adminUser-show-edit': (evt, tmpl) ->
         Session.set("adminUserEditingId", @_id)
         Tracker.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=fullName]"))
+        clientShared.activateInput(tmpl.find("input[name=fullName]"))
 
     'click #adminUser-resetPassword': (evt, tmpl) ->
         Meteor.call('adminUserResetPassword', @_id)

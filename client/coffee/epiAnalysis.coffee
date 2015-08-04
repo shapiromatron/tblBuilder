@@ -1,39 +1,41 @@
-# EPI ORGAN-SITE VIEW ----------------------------------------------------------
-epiOrganSiteMainHelpers =
 
-    getOrganSiteOptions: () ->
-        return _.chain(EpiResult.find().fetch())
-                .pluck("organSite")
-                .uniq()
-                .sort()
-                .map((d) -> return "<option>#{d}</option>")
-                .value()
+Meteor.startup ->
+    # EPI ORGAN-SITE VIEW ----------------------------------------------------------
+    epiOrganSiteMainHelpers =
 
-    object_list: () ->
-        tmpl = Template.instance()
-        organSites = tmpl.organSites.get()
-        results = EpiResult.find({"organSite": {$in: organSites}}).fetch()
-        results.forEach((d) -> d.desc = EpiDescriptive.findOne(d.parent_id))
-        return results
+        getOrganSiteOptions: () ->
+            return _.chain(EpiResult.find().fetch())
+                    .pluck("organSite")
+                    .uniq()
+                    .sort()
+                    .map((d) -> return "<option>#{d}</option>")
+                    .value()
 
-    showPlots: ->
-        Session.get("epiRiskShowPlots")
+        object_list: () ->
+            tmpl = Template.instance()
+            organSites = tmpl.organSites.get()
+            results = EpiResult.find({"organSite": {$in: organSites}}).fetch()
+            results.forEach((d) -> d.desc = EpiDescriptive.findOne(d.parent_id))
+            return results
 
-
-_.extend(
-    epiOrganSiteMainHelpers,
-    share.abstractMainHelpers
-)
-Template.epiOrganSiteMain.helpers(epiOrganSiteMainHelpers)
+        showPlots: ->
+            Session.get("epiRiskShowPlots")
 
 
-Template.epiOrganSiteMain.events
+    _.extend(
+        epiOrganSiteMainHelpers,
+        clientShared.abstractMainHelpers
+    )
+    Template.epiOrganSiteMain.helpers(epiOrganSiteMainHelpers)
 
-    'change #organSiteSelector': (evt, tmpl) ->
-        tmpl.organSites.set($(evt.target).val() or [])
-        share.toggleRiskPlot()
+
+    Template.epiOrganSiteMain.events
+
+        'change #organSiteSelector': (evt, tmpl) ->
+            tmpl.organSites.set($(evt.target).val() or [])
+            clientShared.toggleRiskPlot()
 
 
-Template.epiOrganSiteMain.created = () ->
-    @subscribe('epiCollective', @data.volumeNumber, @data.monographAgent)
-    @organSites = new ReactiveVar([])
+    Template.epiOrganSiteMain.created = () ->
+        @subscribe('epiCollective', @data.volumeNumber, @data.monographAgent)
+        @organSites = new ReactiveVar([])

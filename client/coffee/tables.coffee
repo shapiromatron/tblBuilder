@@ -75,12 +75,12 @@ Template.TablesByMonograph.events
     'click #tables-show-create': (evt, tmpl) ->
         Session.set("tablesShowNew", true)
         Tracker.flush()  # update DOM before focus
-        share.activateInput(tmpl.find("input[name=volumeNumber]"))
+        clientShared.activateInput(tmpl.find("input[name=volumeNumber]"))
 
     'click #tables-show-edit': (evt, tmpl) ->
         Session.set("tablesEditingId", this._id)
         Tracker.flush()  # update DOM before focus
-        share.activateInput(tmpl.find("input[name=volumeNumber]"))
+        clientShared.activateInput(tmpl.find("input[name=volumeNumber]"))
 
     'click #agentEpiReport': (evt, tmpl) ->
         val = $(evt.target).data()
@@ -97,11 +97,11 @@ Template.TablesByMonograph.events
                 tmpl.sortables.push(
                     new Sortable(v,
                         handle: ".moveTableHandle",
-                        onUpdate: share.moveRowCheck,
+                        onUpdate: clientShared.moveRowCheck,
                         Cls: Tables))
         else
             tmpl.sortables.forEach((v) -> v.destroy())
-        share.toggleRowVisibilty(isReorder, $('.moveTableHandle'))
+        clientShared.toggleRowVisibilty(isReorder, $('.moveTableHandle'))
 
 
 # TABLES FORM ------------------------------------------------------------------
@@ -126,7 +126,7 @@ Template.tablesForm.helpers
 
 Template.tablesForm.events
     'click #tables-create': (evt, tmpl) ->
-        obj = share.newValues(tmpl.find("#tablesForm"))
+        obj = clientShared.newValues(tmpl.find("#tablesForm"))
         obj['user_roles'] = getUserPermissionsObject(tmpl);
         delete obj['projectManagers']
         delete obj['teamMembers']
@@ -136,14 +136,14 @@ Template.tablesForm.events
             Tables.insert(obj)
             Session.set("tablesShowNew", false)
         else
-            errorDiv = share.createErrorDiv(Tables.simpleSchema().namedContext())
+            errorDiv = clientShared.createErrorDiv(Tables.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #tables-create-cancel': (evt, tmpl) ->
         Session.set("tablesShowNew", false)
 
     'click #tables-update': (evt, tmpl) ->
-        vals = share.updateValues(tmpl.find("#tablesForm"), this);
+        vals = clientShared.updateValues(tmpl.find("#tablesForm"), this);
         vals['user_roles'] = getUserPermissionsObject(tmpl);
         delete vals['projectManagers']
         delete vals['teamMembers']
@@ -154,7 +154,7 @@ Template.tablesForm.events
             Tables.update(this._id, modifier)
             Session.set("tablesEditingId", null)
         else
-            errorDiv = share.createErrorDiv(Tables.simpleSchema().namedContext())
+            errorDiv = clientShared.createErrorDiv(Tables.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #tables-update-cancel': (evt, tmpl) ->

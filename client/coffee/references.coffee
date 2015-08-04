@@ -1,7 +1,3 @@
-Session.setDefault('referenceShowNew', false)
-Session.setDefault('referenceEditingId', null)
-Session.setDefault("referenceNewObj", null)
-
 Template.referencesTbl.helpers
 
     referenceShowNew: ->
@@ -17,17 +13,17 @@ Template.referencesTbl.events
     'click #reference-show-create': (evt, tmpl) ->
         Session.set("referenceShowNew", true)
         Tracker.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=name]"))
+        clientShared.activateInput(tmpl.find("input[name=name]"))
 
     'click #reference-show-edit': (evt, tmpl) ->
         Session.set("referenceEditingId", @_id)
         Tracker.flush() # update DOM before focus
-        share.activateInput(tmpl.find("input[name=name]"))
+        clientShared.activateInput(tmpl.find("input[name=name]"))
 
     'click #reference-downloadExcel': (evt, tmpl) ->
         volumeNumber = Session.get('monographAgent')
         Meteor.call 'referenceExcelDownload', volumeNumber, (err, response) ->
-            share.returnExcelFile(response, "references.xlsx")
+            clientShared.returnExcelFile(response, "references.xlsx")
 
 
 toggleFieldDisplays = (tmpl) ->
@@ -45,7 +41,7 @@ Template.referenceForm.helpers
 Template.referenceForm.events
 
     'click #reference-create': (evt, tmpl) ->
-        obj = share.newValues(tmpl.find('#referenceForm'))
+        obj = clientShared.newValues(tmpl.find('#referenceForm'))
         obj['monographAgent'] = [Session.get('monographAgent')]
         isValid = Reference.simpleSchema().namedContext().validate(obj)
         if isValid
@@ -53,21 +49,21 @@ Template.referenceForm.events
             Session.set("referenceShowNew", false)
             Session.set("referenceNewObj", ref_id)
         else
-            errorDiv = share.createErrorDiv(Reference.simpleSchema().namedContext())
+            errorDiv = clientShared.createErrorDiv(Reference.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #reference-create-cancel': (evt, tmpl) ->
         Session.set("referenceShowNew", false)
 
     'click #reference-update': (evt, tmpl) ->
-        vals = share.updateValues(tmpl.find('#referenceForm'), @)
+        vals = clientShared.updateValues(tmpl.find('#referenceForm'), @)
         modifier = {$set: vals}
         isValid = Reference.simpleSchema().namedContext().validate(modifier, {modifier: true})
         if isValid
             Reference.update(@_id, modifier)
             Session.set("referenceEditingId", null)
         else
-            errorDiv = share.createErrorDiv(Reference.simpleSchema().namedContext())
+            errorDiv = clientShared.createErrorDiv(Reference.simpleSchema().namedContext())
             $(tmpl.find("#errors")).html(errorDiv)
 
     'click #reference-update-cancel': (evt, tmpl) ->

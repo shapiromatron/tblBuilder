@@ -1,9 +1,23 @@
+Session.setDefault('adminUserEditingId', null)
+Session.setDefault('mechanisticEditingId', null)
+Session.setDefault('mechanisticNewChild', null)
+Session.setDefault('mechanisticAllCollapsed', true)
+Session.setDefault('referenceShowNew', false)
+Session.setDefault('referenceEditingId', null)
+Session.setDefault("referenceNewObj", null)
+Session.setDefault('reportTemplateEditingId', null)
 Session.setDefault('showQAflags', false)
 Session.setDefault('monographAgent', null)
 Session.setDefault('isFullScreen', false)
+Session.setDefault('evidenceShowNew', false)
+Session.setDefault('evidenceEditingId', null)
+Session.setDefault('nestedEvidenceEditingId', null)
+Session.setDefault('evidenceShowAll', false)
+Session.setDefault('evidenceType', null)
+Session.setDefault("adminUserShowNew", false)
+Session.setDefault("reportTemplateShowNew", false)
 
 Meteor.subscribe('reportTemplate')
-
 share.TablesHandler = null;
 Tracker.autorun ->
     share.TablesHandler = Meteor.subscribe('tables', Meteor.userId())
@@ -258,7 +272,7 @@ Template.typeaheadSelectList.events
 
     'typeahead:selected': (evt, tmpl, v) ->
         $ul = $(tmpl.find("ul"))
-        share.typeaheadSelectListAddLI($ul, v.value)
+        clientShared.typeaheadSelectListAddLI($ul, v.value)
         $(evt.target).typeahead("val", "")
 
     'click .selectListRemove': (evt, tmpl) ->
@@ -268,7 +282,7 @@ Template.typeaheadSelectList.events
         if evt.which is 13   # add new input not found in list
             val = evt.target.value
             $ul = $(tmpl.find('ul'))
-            if share.typeaheadSelectListAddLI($ul, val) then evt.target.value = ""
+            if clientShared.typeaheadSelectListAddLI($ul, val) then evt.target.value = ""
 
 
 Template.typeaheadSelectList.rendered = ->
@@ -295,39 +309,3 @@ Template.browserDetect.helpers
                     <li><a href='https://www.apple.com/safari/' target='_blank'>Apple Safari</a></li>
                 </ul><br>
                 Please use a different browser for an optimal experience."
-
-share.evidenceType =
-
-    epi:
-        collection: EpiDescriptive
-        collection_name: "epiDescriptive"
-        excel_method: "epiEvidenceDownload"
-        excel_fn: "epi.xlsx"
-        nested_template: Template.epiResultForm
-        nested_collection: EpiResult
-        nested_collection_name: "epiResult"
-        requiredUpdateFields: ["studyDesign"]
-
-    animal:
-        collection: AnimalEvidence
-        collection_name: "animalEvidence"
-        excel_method: "animalEvidenceDownload"
-        excel_fn: "animal.xlsx"
-        nested_template: Template.animalEndpointForm
-        nested_collection: AnimalEndpointEvidence
-        nested_collection_name: "animalEndpointEvidence"
-        requiredUpdateFields: []
-
-    exposure:
-        collection: ExposureEvidence
-        collection_name: "exposureEvidence"
-        excel_method: "exposureEvidenceDownload"
-        excel_fn: "exposure.xlsx"
-        requiredUpdateFields: ["exposureScenario"]
-
-    genotox:
-        collection: GenotoxEvidence
-        collection_name: "genotoxEvidence"
-        excel_method: "genotoxEvidenceDownload"
-        excel_fn: "genotox.xlsx"
-        requiredUpdateFields: []

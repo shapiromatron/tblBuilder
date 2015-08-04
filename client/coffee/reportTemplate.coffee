@@ -1,6 +1,3 @@
-Session.setDefault('reportTemplateEditingId', null)
-Session.set("reportTemplateShowNew", false)
-
 # REPORT TEMPLATE MODAL --------------------------------------------------------
 Template.reportTemplateModal.helpers
     getTemplateOptions : ->
@@ -18,12 +15,12 @@ Template.reportTemplateModal.events
             @templateFN = templateFN
             fn = "#{@volumenumber}-#{@monographagent}.docx"
             Meteor.call 'monographAgentEpiReport', @, (err, response) ->
-                share.returnWordFile(response, fn)
+                clientShared.returnWordFile(response, fn)
 
         else
             tbl_id = Session.get('Tbl')._id
             Meteor.call 'downloadWordReport', tbl_id, templateFN, (err, response) ->
-                share.returnWordFile(response, "report.docx")
+                clientShared.returnWordFile(response, "report.docx")
 
 Template.reportTemplateModal.rendered = ->
     $(@.find('#reportTemplateModal')).modal('show')
@@ -59,7 +56,7 @@ Template.reportTemplateRow.events
     'click #downloadTemplate': (evt, tmpl) ->
         fn = @filename
         Meteor.call 'downloadTemplate', @._id, (err, response) ->
-            share.returnWordFile(response, fn)
+            clientShared.returnWordFile(response, fn)
 
 # REPORT TEMPLATE FORM ---------------------------------------------------------
 Template.reportTemplateForm.helpers
