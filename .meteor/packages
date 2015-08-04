@@ -8,7 +8,6 @@ mrt:filesaver@0.0.3
 accounts-base
 accounts-password
 mrt:moment@2.6.0
-coffeescript
 sergeyt:typeahead@0.0.10
 email
 d3
