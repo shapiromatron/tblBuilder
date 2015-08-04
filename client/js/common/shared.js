@@ -1,84 +1,84 @@
 var getValue = function(inp) {
-      var $val = undefined;
+  var $val = undefined;
 
-      // special case for our multi-select list object
-      if ($(inp).hasClass("multiSelectList")) {
-        var $ul = $(inp).parent().next();
-        return clientShared.typeaheadSelectListGetLIs($ul);
-      }
+  // special case for our multi-select list object
+  if ($(inp).hasClass("multiSelectList")) {
+    var $ul = $(inp).parent().next();
+    return clientShared.typeaheadSelectListGetLIs($ul);
+  }
 
-      // special case for single-reference selector
-      if ($(inp).hasClass("referenceSingleSelect")) {
-        var $div = $(inp).parent().next();
-        return $div.find('p').data('id');
-      }
+  // special case for single-reference selector
+  if ($(inp).hasClass("referenceSingleSelect")) {
+    var $div = $(inp).parent().next();
+    return $div.find('p').data('id');
+  }
 
-      // special case for multiple-reference selector
-      if ($(inp).hasClass("referenceMultiSelect")) {
-        var results = [],
-            $ul = $(inp).parent().next();
-        $ul.find('li').each(function(i, li){
-          results.push($(li).data('id'));
-        })
-        return results;
-      }
+  // special case for multiple-reference selector
+  if ($(inp).hasClass("referenceMultiSelect")) {
+    var results = [],
+        $ul = $(inp).parent().next();
+    $ul.find('li').each(function(i, li){
+      results.push($(li).data('id'));
+    })
+    return results;
+  }
 
-      // otherwise it's a standard html input
-      val = undefined;
-      switch (inp.type) {
-        case "text":
-        case "hidden":
-        case "textarea":
-        case "url":
-          val = inp.value;
-          break;
-        case "number":
-          val = parseFloat(inp.value, 10);
-          if (isNaN(val)) val = undefined;
-          break;
-        case "checkbox":
-          val = inp.checked;
-          break;
-        case "select-one":
-          val = $(inp).find('option:selected').val();
-          break;
-        default:
-          console.log('input not recognized');
-      }
-      return val;
-    },
-    b64toBlob = function(b64, contentType, sliceSize) {
-      var byteArray, byteArrays, byteCharacters, byteNumbers, i, offset, slice;
-      contentType = contentType || '';
-      sliceSize = sliceSize || 512;
-      byteCharacters = window.atob(b64);
-      byteArrays = [];
-      offset = 0;
+  // otherwise it's a standard html input
+  val = undefined;
+  switch (inp.type) {
+    case "text":
+    case "hidden":
+    case "textarea":
+    case "url":
+      val = inp.value;
+      break;
+    case "number":
+      val = parseFloat(inp.value, 10);
+      if (isNaN(val)) val = undefined;
+      break;
+    case "checkbox":
+      val = inp.checked;
+      break;
+    case "select-one":
+      val = $(inp).find('option:selected').val();
+      break;
+    default:
+      console.log('input not recognized');
+  }
+  return val;
+},
+b64toBlob = function(b64, contentType, sliceSize) {
+  var byteArray, byteArrays, byteCharacters, byteNumbers, i, offset, slice;
+  contentType = contentType || '';
+  sliceSize = sliceSize || 512;
+  byteCharacters = window.atob(b64);
+  byteArrays = [];
+  offset = 0;
 
-      while (offset < byteCharacters.length) {
-        slice = byteCharacters.slice(offset, offset + sliceSize);
-        byteNumbers = new Array(slice.length);
-        i = 0;
-        while (i < slice.length) {
-          byteNumbers[i] = slice.charCodeAt(i);
-          i++;
-        }
-        byteArray = new Uint8Array(byteNumbers);
-        byteArrays.push(byteArray);
-        offset += sliceSize;
-      }
+  while (offset < byteCharacters.length) {
+    slice = byteCharacters.slice(offset, offset + sliceSize);
+    byteNumbers = new Array(slice.length);
+    i = 0;
+    while (i < slice.length) {
+      byteNumbers[i] = slice.charCodeAt(i);
+      i++;
+    }
+    byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+    offset += sliceSize;
+  }
 
-      return new Blob(byteArrays, {type: contentType});
-    },
-    s2ab = function(s) {
-      var buf = new ArrayBuffer(s.length),
-          view = new Uint8Array(buf),
-          i, j, ref;
-      for (i = j = 0, ref = s.length; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
-        view[i] = s.charCodeAt(i) & 0xFF;
-      }
-      return buf;
-    };
+  return new Blob(byteArrays, {type: contentType});
+},
+s2ab = function(s) {
+  var buf = new ArrayBuffer(s.length),
+      view = new Uint8Array(buf),
+      i, j, ref;
+  for (i = j = 0, ref = s.length; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    view[i] = s.charCodeAt(i) & 0xFF;
+  }
+  return buf;
+};
 
 // general utility functions
 clientShared = {

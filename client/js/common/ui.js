@@ -85,3 +85,11 @@ UI.registerHelper("isNTP", function() {
 UI.registerHelper("getContainerClass", function() {
   return (Session.get("isFullScreen")) ? "container-fluid" : "container";
 });
+
+UI.registerHelper("getUserDescription", function() {
+  if (this.profile && this.profile.fullName){
+    return this.profile.fullName;
+  } else {
+    return _.pluck(this.emails, "address").join(", ");
+  }
+});
