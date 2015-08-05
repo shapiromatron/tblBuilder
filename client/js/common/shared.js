@@ -80,7 +80,7 @@ s2ab = function(s) {
   return buf;
 };
 
-// general utility functions
+// template-utility functions
 clientShared = {
   createErrorDiv: function(context) {
     var  msg, ul = $("<ul>");
