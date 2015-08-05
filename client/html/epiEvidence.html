@@ -1,25 +1,37 @@
 <template name="epiMain">
-  <div class="{{getContainerClass}}">
-    {{> epiDescriptiveTbl}}
-  </div>
+  {{#if Template.subscriptionsReady}}
+    <div class="{{getContainerClass}}">
+      {{> epiDescriptiveTbl}}
+    </div>
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>
+
+<template name="epiAnalysisMain">
+  {{#if Template.subscriptionsReady}}
+    <div class="{{getContainerClass}}">
+      {{> epiAnalysisTbl}}
+    </div>
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
 </template>
 
 <template name="epiAnalysisTbl">
-  <div class="container">
-    <h1>{{name}}
-      <div class="btn-group pull-right">
-        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-          <span class="caret" title="Editing options"></span>
-        </button>
-        <ul class="dropdown-menu">
-        <li>
-          <a href="{{pathFor 'epiMain' _id=this._id}}">
-            <span class="fa fa-table"></span> Data editing</a></li>
-        </ul>
-      </div>
-    </h1>
-    <table id="analysisTbl" class="display" cellspacing="0" width="100%"></table>
-  </div>
+  <h1>{{name}}
+    <div class="btn-group pull-right">
+      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+        <span class="caret" title="Editing options"></span>
+      </button>
+      <ul class="dropdown-menu">
+      <li>
+        <a href="{{pathFor 'epiMain' _id=this._id}}">
+          <span class="fa fa-table"></span> Data editing</a></li>
+      </ul>
+    </div>
+  </h1>
+  <table id="analysisTbl" class="display" cellspacing="0" width="100%"></table>
 </template>
 
 <template name="epiDescriptiveTbl">
@@ -62,7 +74,7 @@
           <a href="#" id="toggleQAflags">
             <span class="fa fa-flag-o"></span> Toggle QA flags</a></li>
         <li>
-          <a href="{{pathFor 'epiAnalysisTbl' _id=this._id}}">
+          <a href="{{pathFor 'epiAnalysisMain' _id=this._id}}">
             <span class="fa fa-table"></span> Data exploration</a></li>
       </ul>
     </div>

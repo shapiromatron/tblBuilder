@@ -1,4 +1,7 @@
 Template.animalMain.helpers(clientShared.abstractMainHelpers);
+Template.animalMain.created = function() {
+  this.subscribe('animalEvidence', Session.get('Tbl')._id);
+};
 Template.animalMain.rendered = function() {
   Session.set('evidenceShowNew', false);
   Session.set('evidenceEditingId', null);

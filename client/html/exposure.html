@@ -1,7 +1,11 @@
 <template name="exposureMain">
-  <div class="{{getContainerClass}}">
-    {{> exposureTbl}}
-  </div>
+  {{#if Template.subscriptionsReady}}
+    <div class="{{getContainerClass}}">
+      {{> exposureTbl}}
+    </div>
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
 </template>
 
 

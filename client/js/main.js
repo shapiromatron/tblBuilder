@@ -1,5 +1,3 @@
-var TblRouterController, tablesHandler = null;
-
 // set session-variables
 Session.setDefault('adminUserEditingId', null);
 Session.setDefault("adminUserShowNew", false);
@@ -27,19 +25,26 @@ Session.setDefault('evidenceShowAll', false);
 Session.setDefault('evidenceType', null);
 
 // setup subscriptions
+var tablesHandler = null;
 Meteor.subscribe('reportTemplate');
 Tracker.autorun(function() {
   tablesHandler = Meteor.subscribe('tables', Meteor.userId());
 });
 
+
 // setup router
-TblRouterController = RouteController.extend({
+var TblRouterController = RouteController.extend({
+  waitOn: function(){
+    return tablesHandler;
+  },
   data: function() {
     return Tables.findOne(this.params._id);
   },
   action: function() {
     if (this.ready()) {
-      if (Session.get('Tbl') === undefined) return this.render('404');
+      var tbl = this.data();
+      Session.set('Tbl', tbl);
+      Session.set('monographAgent', tbl.monographAgent);
       shared.getHTMLTitleTbl();
       return this.render();
     } else {
@@ -47,113 +52,54 @@ TblRouterController = RouteController.extend({
     }
   },
   onStop: function() {
-    Session.set('monographAgent', null);
     Session.set('Tbl', null);
+    Session.set('monographAgent', null);
     shared.getHTMLTitleBase();
+  }
+}),
+AdminRouteController = RouteController.extend({
+  action: function () {
+    if (Roles.userIsInRole(Meteor.userId(), ['staff'])){
+      this.render();
+    } else {
+      this.render('404');
+    }
   }
 });
 
-// map routes
 Router.map(function() {
 
   this.route('home', {
     path: '/',
-    action: function() {
-      if (this.ready()) {
-        return this.render();
-      } else {
-        return this.render("isLoading");
-      }
-    }
   });
 
   this.route('epiMain', {
     path: '/epidemiology/:_id',
-    waitOn: function() {
-      if (tablesHandler.ready()) {
-        var tbl = Tables.findOne({_id: this.params._id});
-        Session.set('Tbl', tbl);
-        if (tbl) {
-          Session.set('monographAgent', tbl.monographAgent);
-          Meteor.subscribe('epiDescriptive', tbl._id);
-        }
-      }
-    },
     controller: TblRouterController
   });
 
-  this.route('epiAnalysisTbl', {
+  this.route('epiAnalysisMain', {
     path: '/epidemiology/:_id/analysis',
-    waitOn: function() {
-      if (tablesHandler.ready()) {
-        var tbl = Tables.findOne({_id: this.params._id});
-        Session.set('Tbl', tbl);
-        if (tbl) {
-          Session.set('monographAgent', tbl.monographAgent);
-          Meteor.subscribe('epiDescriptive', tbl._id);
-        }
-      }
-    },
     controller: TblRouterController
   });
 
   this.route('mechanisticMain', {
     path: '/mechanistic/:_id/',
-    waitOn: function() {
-      if (tablesHandler.ready()) {
-        var tbl = Tables.findOne({_id: this.params._id});
-        Session.set('Tbl', tbl);
-        if (tbl) {
-          Session.set('monographAgent', tbl.monographAgent);
-          Meteor.subscribe('mechanisticEvidence', tbl._id);
-        }
-      }
-    },
     controller: TblRouterController
   });
 
   this.route('exposureMain', {
     path: '/exposure/:_id',
-    waitOn: function() {
-      if (tablesHandler.ready()) {
-        var tbl = Tables.findOne({_id: this.params._id});
-        Session.set('Tbl', tbl);
-        if (tbl) {
-          Session.set('monographAgent', tbl.monographAgent);
-          Meteor.subscribe('exposureEvidence', tbl._id);
-        }
-      }
-    },
     controller: TblRouterController
   });
 
   this.route('animalMain', {
     path: '/animal/:_id',
-    waitOn: function() {
-      if (tablesHandler.ready()) {
-        var tbl = Tables.findOne({_id: this.params._id});
-        Session.set('Tbl', tbl);
-        if (tbl) {
-          Session.set('monographAgent', tbl.monographAgent);
-          Meteor.subscribe('animalEvidence', tbl._id);
-        }
-      }
-    },
     controller: TblRouterController
   });
 
   this.route('genotoxMain', {
     path: '/genotoxicity/:_id',
-    waitOn: function() {
-      if (tablesHandler.ready()) {
-        var tbl = Tables.findOne({_id: this.params._id});
-        Session.set('Tbl', tbl);
-        if (tbl) {
-          Session.set('monographAgent', tbl.monographAgent);
-          Meteor.subscribe('genotoxEvidence', tbl._id);
-        }
-      }
-    },
     controller: TblRouterController
   });
 
@@ -161,45 +107,13 @@ Router.map(function() {
     path: '/references/:monographAgent/',
     data: function() {
       return {monographAgent: this.params.monographAgent};
-    },
-    waitOn: function() {
-      if (tablesHandler.ready()) {
-        var monographAgent = this.params.monographAgent;
-        Session.set('monographAgent', monographAgent);
-        Meteor.subscribe('monographReference', monographAgent);
-      }
-    },
-    action: function() {
-      if (this.ready()) {
-        return this.render();
-      } else {
-        return this.render("isLoading");
-      }
-    },
-    onStop: function() {return Session.set('monographAgent', null);}
+    }
   });
 
   this.route('referenceBatchUpload', {
     path: '/references/:monographAgent/upload/',
     data: function() {
       return {monographAgent: this.params.monographAgent};
-    },
-    waitOn: function() {
-      if (tablesHandler.ready()) {
-        var monographAgent = this.params.monographAgent;
-        Session.set('monographAgent', monographAgent);
-        Meteor.subscribe('monographReference', monographAgent);
-      }
-    },
-    action: function() {
-      if (this.ready()) {
-        return this.render();
-      } else {
-        return this.render("isLoading");
-      }
-    },
-    onStop: function() {
-      return Session.set('monographAgent', null);
     }
   });
 
@@ -210,19 +124,6 @@ Router.map(function() {
         volumeNumber: this.params.volumeNumber,
         monographAgent: this.params.monographAgent
       };
-    },
-    waitOn: function() {
-      return tablesHandler.ready;
-    },
-    action: function() {
-      if (this.ready()) {
-        return this.render();
-      } else {
-        return this.render("isLoading");
-      }
-    },
-    onStop: function() {
-      return Session.set('epiTbls', null);
     }
   });
 
@@ -230,31 +131,16 @@ Router.map(function() {
     path: '/user-profile/'
   });
 
-  this.route('isLoading', {
-    path: '/loading/'
-  });
-
-  this.route('admin', {
-    waitOn: function() {
-      this.viewHandles = Meteor.subscribe('adminUsers');
-      return this.viewHandles;
-    },
-    action: function() {
-      if (this.ready()) {
-        return this.render();
-      } else {
-        return this.render("isLoading");
-      }
-    },
-    onStop: function() {
-      return this.viewHandles.stop();
-    }
+  this.route('adminMain', {
+    path: '/admin/',
+    controller: AdminRouteController
   });
 });
 
-// router configuration
 Router.configure({
   layoutTemplate: 'layout',
   notFoundTemplate: '404',
   loadingTemplate: 'isLoading'
 });
+
+Router.plugin('dataNotFound', {notFoundTemplate: '404'});

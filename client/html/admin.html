@@ -1,5 +1,13 @@
 <template name="adminNav">
-  <li><a href="{{pathFor 'admin'}}">Admin</a></li>
+  <li><a href="{{pathFor 'adminMain'}}">Admin</a></li>
+</template>
+
+<template name="adminMain">
+  {{#if Template.subscriptionsReady}}
+    {{> admin}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
 </template>
 
 <template name="admin">

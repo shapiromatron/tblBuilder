@@ -1,3 +1,9 @@
+Template.referencesMain.created = function() {
+  Session.set('monographAgent', this.data.monographAgent);
+  this.subscribe('monographReference', this.data.monographAgent);
+};
+
+
 Template.referencesTbl.helpers({
   referenceShowNew: function() {
     return Session.get("referenceShowNew");
@@ -419,6 +425,10 @@ Template.referenceBatchUpload.events({
     fr.readAsBinaryString(file);
   }
 });
+Template.referenceBatchUpload.created = function() {
+  Session.set('monographAgent', this.data.monographAgent);
+  this.subscribe('monographReference', this.data.monographAgent);
+};
 Template.referenceBatchUpload.rendered = function() {
   return $.getScript("//cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.full.min.js");
 };

@@ -1,32 +1,35 @@
 <template name="mechanisticMain">
-  <div class="container">
-    <h1>{{name}}
-      <div class="btn-group pull-right">
-        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-          Actions <span class="caret" title="Editing options"></span>
-        </button>
-        <ul class="dropdown-menu">
-          {{#if userCanEdit}}
-            <li><a href="#" id="mechanistic-reorderRows"><span class="glyphicon glyphicon-align-justify"></span> Reorder rows</a></li>
-          {{/if}}
-          <li><a href="#" id="mechanistic-downloadExcel">
-                <span class="fa fa-file-excel-o"></span> Download Excel</a></li>
-          <li>
-            <a href="#" id="wordReport">
-              <span class="fa fa-file-word-o"></span> Download Word</a></li>
-          <li><a href="#" id="mechanistic-toggleShowAllRows">
-            {{#if isAllCollapsed}}<span class="glyphicon glyphicon-resize-full"></span> Show all details
-            {{else}}<span class="glyphicon glyphicon-resize-small"></span> Hide all details
-            {{/if}}</a>
-          </li>
-        </ul>
-      </div>
-    </h1>
-    <p class="help-block">{{tableTitle}}</p>
-    {{> mechanisticTbl}}
-  </div>
-
-  <div id="modalHolder"></div>
+  {{#if Template.subscriptionsReady}}
+    <div class="{{getContainerClass}}">
+      <h1>{{name}}
+        <div class="btn-group pull-right">
+          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+            Actions <span class="caret" title="Editing options"></span>
+          </button>
+          <ul class="dropdown-menu">
+            {{#if userCanEdit}}
+              <li><a href="#" id="mechanistic-reorderRows"><span class="glyphicon glyphicon-align-justify"></span> Reorder rows</a></li>
+            {{/if}}
+            <li><a href="#" id="mechanistic-downloadExcel">
+                  <span class="fa fa-file-excel-o"></span> Download Excel</a></li>
+            <li>
+              <a href="#" id="wordReport">
+                <span class="fa fa-file-word-o"></span> Download Word</a></li>
+            <li><a href="#" id="mechanistic-toggleShowAllRows">
+              {{#if isAllCollapsed}}<span class="glyphicon glyphicon-resize-full"></span> Show all details
+              {{else}}<span class="glyphicon glyphicon-resize-small"></span> Hide all details
+              {{/if}}</a>
+            </li>
+          </ul>
+        </div>
+      </h1>
+      <p class="help-block">{{tableTitle}}</p>
+      {{> mechanisticTbl}}
+    </div>
+    <div id="modalHolder"></div>
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
 </template>
 
 <template name="mechanisticTbl">

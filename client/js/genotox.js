@@ -1,4 +1,7 @@
 Template.genotoxMain.helpers(clientShared.abstractMainHelpers);
+Template.genotoxMain.created = function() {
+  this.subscribe('genotoxEvidence', Session.get('Tbl')._id);
+};
 Template.genotoxMain.rendered = function() {
   Session.set('evidenceShowNew', false);
   Session.set('evidenceEditingId', null);

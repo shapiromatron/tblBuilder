@@ -29,6 +29,11 @@ getAdminUserValues = function(tmpl) {
 };
 
 
+Template.adminMain.created = function() {
+  this.subscribe('adminUsers');
+};
+
+
 Template.admin.helpers({
   getUsers: function() {
     return Meteor.users.find({}, {sort: {createdAt: -1}});

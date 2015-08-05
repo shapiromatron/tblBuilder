@@ -1,7 +1,11 @@
 <template name="animalMain">
-  <div class="{{getContainerClass}}">
-    {{> animalTbl}}
-  </div>
+  {{#if Template.subscriptionsReady}}
+    <div class="{{getContainerClass}}">
+      {{> animalTbl}}
+    </div>
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
 </template>
 
 

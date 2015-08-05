@@ -44,6 +44,9 @@ Template.mechanisticMain.events({
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
   }
 });
+Template.mechanisticMain.created = function() {
+  this.subscribe('mechanisticEvidence', Session.get('Tbl')._id);
+};
 Template.mechanisticMain.rendered = function() {
   $(this.findAll('.collapse')).on('show.bs.collapse', function() {
     $(this).parent().addClass('evidenceExpanded');

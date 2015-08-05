@@ -1,4 +1,7 @@
 Template.exposureMain.helpers(clientShared.abstractMainHelpers);
+Template.exposureMain.created = function() {
+  this.subscribe('exposureEvidence', Session.get('Tbl')._id);
+};
 Template.exposureMain.rendered = function() {
   Session.set('evidenceShowNew', false);
   Session.set('evidenceEditingId', null);

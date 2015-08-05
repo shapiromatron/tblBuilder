@@ -1,9 +1,17 @@
 Template.epiMain.helpers(clientShared.abstractMainHelpers);
+Template.epiMain.created = function() {
+  this.subscribe('epiDescriptive', Session.get('Tbl')._id);
+};
 Template.epiMain.rendered = function() {
   Session.set('evidenceShowNew', false);
   Session.set('evidenceEditingId', null);
   Session.set('evidenceShowAll', false);
   Session.set('evidenceType', 'epi');
+};
+
+
+Template.epiAnalysisMain.created = function() {
+  this.subscribe('epiDescriptive', Session.get('Tbl')._id);
 };
 
 
