@@ -41,7 +41,7 @@ var toggleFieldDisplays = function(tmpl) {
 };
 Template.referenceForm.helpers({
   getReferenceTypeOptions: function() {
-    return referenceTypeOptions;
+    return Reference.typeOptions;
   }
 });
 Template.referenceForm.events({

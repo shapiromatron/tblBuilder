@@ -56,7 +56,7 @@ Template.mechanisticMain.rendered = function() {
 
 Template.mechanisticTbl.helpers({
   getMechanisticEvidenceSections: function() {
-    return mechanisticEvidenceSections;
+    return MechanisticEvidence.evidenceSections;
   }
 });
 
@@ -180,8 +180,8 @@ Template.mechanisticEvidenceForm.helpers({
   displaySubheading: function() {
     return this.section != null;
   },
-  getMechanisticEvidenceOptions: function() {
-    return mechanisticEvidenceOptions;
+  getEvidenceOptions: function() {
+    return MechanisticEvidence.evidenceOptions;
   }
 });
 Template.mechanisticEvidenceForm.rendered = function() {

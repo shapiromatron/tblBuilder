@@ -44,7 +44,7 @@ var Future = Meteor.npmRequire('fibers/future'),
     prepareEpiDescriptive = function(desc) {
       desc.reference = Reference.findOne({_id: desc.referenceID});
       desc.coexposuresList = desc.coexposures.join(', ');
-      desc.isCaseControl = (CaseControlTypes.indexOf(desc.studyDesign) >= 0);
+      desc.isCaseControl = desc.isCaseControl();
       desc.notes = desc.notes || "";
       desc.responseRateCase = shared.getPercentOrText(desc.responseRateCase);
       desc.responseRateControl = shared.getPercentOrText(desc.responseRateControl);
@@ -236,7 +236,7 @@ var Future = Meteor.npmRequire('fibers/future'),
             "table": Tables.findOne({_id: tbl_id})
           };
 
-      data.sections = mechanisticEvidenceSections.map(function(section){
+      data.sections = MechanisticEvidence.evidenceSections.map(function(section){
         var children = MechanisticEvidence.find(
           {tbl_id: tbl_id,section: section.section},
           {sort: {sortIdx: 1}}).fetch();

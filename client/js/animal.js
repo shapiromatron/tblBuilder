@@ -69,10 +69,10 @@ Template.animalRow.rendered = function() {
 
 Template.animalForm.helpers({
   getStudyDesigns: function() {
-    return animalStudyDesigns;
+    return AnimalEvidence.studyDesigns;
   },
   getSexes: function() {
-    return animalSexes;
+    return AnimalEvidence.sexes;
   }
 });
 Template.animalForm.events(clientShared.abstractFormEvents);

@@ -19,19 +19,13 @@ Template.exposureTbl.rendered = function() {
 };
 
 
-Template.exposureRow.helpers({
-  isOccupational: function() {
-    return exposureScenariosOccupational.indexOf(this.exposureScenario) >= 0;
-  }
-});
 Template.exposureRow.events(clientShared.abstractRowEvents);
 
 
 var toggleOccFields = function(tmpl) {
   var selector = tmpl.find('select[name="exposureScenario"]'),
       scen = $(selector).find('option:selected')[0].value;
-
-  if (exposureScenariosOccupational.indexOf(scen) >= 0) {
+  if (ExposureEvidence.isOccupational(scen)) {
     $(tmpl.findAll('.isOcc')).show();
     $(tmpl.findAll('.isNotOcc')).hide();
   } else {
@@ -40,9 +34,9 @@ var toggleOccFields = function(tmpl) {
   }
 };
 Template.exposureForm.helpers({
-  getExposureScenario: function() {return exposureScenarios;},
-  getSamplingApproach: function() {return samplingApproaches;},
-  getExposureLevelDescription: function() {return exposureLevelDescriptions;}
+  getExposureScenario: function() {return ExposureEvidence.exposureScenarios;},
+  getSamplingApproach: function() {return ExposureEvidence.samplingApproaches;},
+  getExposureLevelDescription: function() {return ExposureEvidence.exposureLevelDescriptions;}
 });
 Template.exposureForm.events(_.extend({
     'change select[name="exposureScenario"]': function(evt, tmpl) {

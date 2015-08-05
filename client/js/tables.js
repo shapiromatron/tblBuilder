@@ -139,7 +139,7 @@ Template.tablesForm.helpers({
     return Meteor.users.find({_id: {$in: ids}});
   },
   getTblTypeOptions: function() {
-    return tblTypeOptions;
+    return Tables.typeOptions;
   }
 });
 Template.tablesForm.events({

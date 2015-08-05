@@ -120,8 +120,7 @@ Template.epiDescriptiveRow.helpers(_.extend({
     getCol2: function() {
       var html = "",
           ref, rrCase, rrCtrl;
-      if (CaseControlTypes.indexOf(this.studyDesign) >= 0) {
-
+      if (this.isCaseControl()) {
         rrCase = shared.getPercentOrText(this.responseRateCase);
         rrCtrl = shared.getPercentOrText(this.responseRateControl);
         if (rrCase.length > 0) rrCase = " (" + rrCase + ")";
@@ -129,7 +128,6 @@ Template.epiDescriptiveRow.helpers(_.extend({
 
         html += "<strong>Cases: </strong>" + this.populationSizeCase + rrCase + "; " + this.sourceCase + "<br>";
         html += "<strong>Controls: </strong>" + this.populationSizeControl + rrCtrl + "; " + this.sourceControl;
-
       } else {
         html += this.populationSize + "; " + this.eligibilityCriteria;
       }
@@ -168,10 +166,10 @@ var getEligibilityCriteria = function(tmpl, obj, data) {
 };
 Template.epiDescriptiveForm.helpers({
   getStudyDesignOptions: function() {
-    return epiStudyDesignOptions;
+    return EpiDescriptive.studyDesignOptions;
   },
   getExposureAssessmentTypeOptions: function() {
-    return exposureAssessmentTypeOptions;
+    return EpiDescriptive.exposureAssessmentTypeOptions;
   },
   createPreValidate: function(tmpl, obj, data) {
     return getEligibilityCriteria(tmpl, obj, data);
@@ -203,7 +201,7 @@ Template.epiDescriptiveForm.rendered = function() {
 var toggleCCfields = function(tmpl) {
   var selector = tmpl.find('select[name="studyDesign"]'),
       studyD = $(selector).find('option:selected')[0].value;
-  if (CaseControlTypes.indexOf(studyD) >= 0) {
+  if (EpiDescriptive.isCaseControl(studyD)) {
     $(tmpl.findAll('.isNotCCinput')).hide();
     $(tmpl.findAll('.isCCinput')).show();
   } else {

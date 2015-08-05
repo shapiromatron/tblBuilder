@@ -111,14 +111,13 @@ Meteor.methods({
         children = MechanisticEvidence.find({parent: evidence._id}, {sort: {sortIdx: 1}});
         children.forEach(function(child) {addEvidence(child);});
       };
-      for (i = 0; i < mechanisticEvidenceSections.length; i++) {
-        section = mechanisticEvidenceSections[i];
+      MechanisticEvidence.evidenceSections.forEach(function(section){
         sectionEvidences = MechanisticEvidence.find(
           {tbl_id: tbl_id, section: section.section},
           {sort: {sortIdx: 1}}
         );
         sectionEvidences.forEach(function(evidence) {addEvidence(evidence);});
-      }
+      });
       return data;
     };
     data = getData(tbl_id);

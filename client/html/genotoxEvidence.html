@@ -169,7 +169,7 @@
         <label class="helpPopovers" data-toggle="popover"
               data-content="As reported">
               Data class*</label>
-        {{> selectList options=getGenotoxDataClass selected=dataClass selectName="dataClass" }}
+        {{> selectList options=getDataClass selected=dataClass selectName="dataClass" }}
       </div>
 
       <div class="col-xs-4">
@@ -362,7 +362,7 @@
                  </ul>
               ">
               <br>Result*</label>
-        {{> selectList options=getGenotoxResultOptions selected=result selectName="result" }}
+        {{> selectList options=getResultOptions selected=result selectName="result" }}
       </div>
 
       <div class="isDualResult col-xs-3">
@@ -380,7 +380,7 @@
                  </ul>
               ">
               Result*<br>(with metabolic activation)</label>
-        {{> selectList options=getGenotoxResultOptions selected=resultMetabolic selectName="resultMetabolic" }}
+        {{> selectList options=getResultOptions selected=resultMetabolic selectName="resultMetabolic" }}
       </div>
 
       <div class="col-xs-3 isDualResult">
@@ -398,7 +398,7 @@
                  </ul>
               ">
               Result*<br>(without metabolic activation)</label>
-        {{> selectList options=getGenotoxResultOptions selected=resultNoMetabolic selectName="resultNoMetabolic" }}
+        {{> selectList options=getResultOptions selected=resultNoMetabolic selectName="resultNoMetabolic" }}
       </div>
 
       <div class="col-xs-3">

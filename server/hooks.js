@@ -88,7 +88,7 @@ Meteor.startup(function() {
   Tables.after.insert(function(userId, doc) {
     if (doc.tblType === "Mechanistic Evidence Summary") {
       // todo: move to collection-level method
-      mechanisticEvidenceCategories.forEach(function(category){
+      MechanisticEvidence.evidenceCategories.forEach(function(category){
         MechanisticEvidence.insert({
           tbl_id: doc._id,
           section: "characteristics",

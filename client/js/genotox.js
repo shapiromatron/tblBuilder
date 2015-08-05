@@ -215,20 +215,20 @@ var toggleDataClassFields = function(tmpl) {
     }
   };
 Template.genotoxForm.helpers({
-  getGenotoxDataClass: function() {
-    return genotoxDataClass;
+  getDataClass: function() {
+    return GenotoxEvidence.dataClass;
   },
   getPhylogeneticClasses: function() {
-    return phylogeneticClasses;
+    return GenotoxEvidence.phylogeneticClasses;
   },
   getMammalianTestSpecies: function() {
-    return mammalianTestSpecies;
+    return GenotoxEvidence.mammalianTestSpecies;
   },
   getSexes: function() {
-    return sexes;
+    return GenotoxEvidence.sexes;
   },
-  getGenotoxResultOptions: function() {
-    return genotoxResultOptions;
+  getResultOptions: function() {
+    return GenotoxEvidence.resultOptions;
   }
 });
 Template.genotoxForm.events(_.extend({

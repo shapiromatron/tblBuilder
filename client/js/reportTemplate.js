@@ -123,7 +123,7 @@ var toggleEpiFields = function(tmpl) {
   };
 Template.reportTemplateForm.helpers({
   getTblTypeOptions: function() {
-    return tblTypeOptions;
+    return Tbls.typeOptions;
   },
   isNew: function() {
     return Session.get('reportTemplateEditingId') === null;
