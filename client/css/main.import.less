@@ -1,42 +1,32 @@
-/*
- * Base template CSS
- */
+// Navbar logo
 #navbar-brand-logo{
   display: inline-block;
 }
 
 
-/*
- * Home-page CSS
- */
+// Home-page CSS
 a.noUnderline {
   text-decoration: none;
 }
-
 .monographBanner {
   margin-top: 20px;
   background-color: #738ffe;
 }
-
 .monographBanner h1,h2,h3, h4 {
   margin: 0px 10px;
   padding-top: 5px;
   padding-bottom: 15px;
 }
-
 .agentBanner {
   padding-left: 20px;
   background-color: #91a7ff;
 }
-
 .tableDiv {
   padding-left: 50px;
 }
-
 .tableDiv{
   background-color: #e7e9fd;
 }
-
 .tableDiv:hover {
   box-shadow: inset 0 0 0 2px #738ffe;
   background-color: #d0d9ff;
@@ -45,11 +35,9 @@ a.noUnderline {
   -o-transition: all 0.1s;
   transition: all 0.1s;
 }
-
 .moveTableHolder {
   position: relative;
 }
-
 .moveTableHandle {
   background-color:#D4D8FC;
   height: 100%;
@@ -59,93 +47,80 @@ a.noUnderline {
   z-index: 1100 !important;
   cursor: pointer;
 }
-
 .moveTableHandle:hover {
   border: 2px solid gray;
 }
 
 
-/* Disable html5 number spinners in Chrome */
+// html5 number spinners
+// disable chrome
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-
-/* Disable html5 number spinners in Firefox */
+// disable firefox
 input[type=number] {
-    -moz-appearance:textfield;
+  -moz-appearance:textfield;
 }
 
 
-/*
- * Menu auto-hide functionality
- */
+// Menu auto-hide functionality
 .menu-autohide > td >.rowOptions,
 .menu-autohide > .rowOptions,
 .menu-autohide > table .rowOptions {
-    opacity:0;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
+  opacity:0;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
-
 .menu-autohide:hover > td > .rowOptions,
 .menu-autohide:hover > .rowOptions,
 .menu-autohide:hover > table .rowOptions {
-    opacity:1.0;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
+  opacity:1.0;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
-
 .rowOptions > .btn {
   line-height: 0.95;  /* required for mechanistic data for pulldowns to not overlap*/
 }
 
 
-/*
- * Edit options form
- */
+// Edit options form
 .editForm {
-    padding: 10px;
-    background-color: #B7C7E8;
+  padding: 10px;
+  background-color: #B7C7E8;
 }
-
 .well-sm {
-    background-color: #6A7487;
+  background-color: #6A7487;
 }
-
 #editingRow {
-    border: 5px solid #6A7487;
-    background-color: #E6E6FA;
+  border: 5px solid #6A7487;
+  background-color: #E6E6FA;
 }
 
 
-/*
- * Table visualization
- */
+// Table visualization
 .evidenceTable > tbody > tr:hover {
-    background-color: #E6E6FA;
+  background-color: #E6E6FA;
 }
-
 .evidenceTable .nestedTbl {
-    margin-bottom: 0;
-    background-color: inherit;
+  margin-bottom: 0;
+  background-color: inherit;
 }
-
 .evidenceTable .nestedTbl td {
-    border-top: none;
+  border-top: none;
 }
-
 .hiddenRow {
-    color: gray;
-    background-color: #eee;
+  color: gray;
+  background-color: #eee;
 }
 
+
+// Drag handles
 .dragHandle {
   border-left: 2px solid #dedede;
   margin-top: -2px;
@@ -155,40 +130,31 @@ input[type=number] {
   background-color: #deeeee !important;
   cursor: pointer;
 }
-
 .dragHandle:hover {
   border-left: 2px solid gray;
   background-color: #b1eeee !important;
 }
 
 
-/*
- * Twitter typeahead.js
- */
+// Twitter typeahead.js
 .twitter-typeahead {
-    display: block!important;
+  display: block!important;
 }
-
 .tt-query,
 .tt-hint {
-
   -webkit-border-radius: 8px;
      -moz-border-radius: 8px;
           border-radius: 8px;
   outline: none;
 }
-
-
 .tt-query {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
      -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
-
 .tt-hint {
   color: #999
 }
-
 .tt-dropdown-menu {
   width: 100%;
   margin-top: 3px;
@@ -203,170 +169,148 @@ input[type=number] {
      -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
           box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
-
 .tt-suggestion {
   padding: 3px 20px;
 }
-
 .tt-suggestion.tt-cursor {
   color: #fff;
   background-color: #0097cf;
 }
-
 .tt-suggestion p {
   margin: 0;
 }
 
 
-/*
- * Multi-select list setting
- */
+// Multi-select list setting
  .selectListItem {
-    line-height: 1.65;
-    padding: 3px;
-    border: 2px solid transparent;
+  line-height: 1.65;
+  padding: 3px;
+  border: 2px solid transparent;
 }
-
 a.selectListRemove {
-    display: none;
+  display: none;
 }
-
 .selectListItem:hover {
-    border: 2px solid #6A7487;
-    background-color: rgba(255,255,0,0.25);
+  border: 2px solid #6A7487;
+  background-color: rgba(255,255,0,0.25);
 }
-
 .selectListItem:hover > a {
-    display: inline;
+  display: inline;
 }
 
 
-/*
- * Risk SVG
- */
+// Forest plot SVG
 .epiRiskPlot {
-    width:100%;
-    height:100%;
-    top:0;left:0;bottom:0;right:0;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
 }
-
 .epiRiskPlot circle {
-    fill: black;
-    cursor: pointer;
+  fill: black;
+  cursor: pointer;
 }
-
 .epiRiskPlot line {
-    stroke: black;
-    stroke-width: 2;
-    cursor: pointer;
+  stroke: black;
+  stroke-width: 2;
+  cursor: pointer;
 }
-
 .riskBar:hover circle {
   fill: red;
 }
-
 .riskBar:hover line {
   stroke: red;
 }
 
 
-/*
- * Loading spinner
- * http://stackoverflow.com/questions/14859322/
- */
-.spinner {
-  opacity: 0;
-}
-
-.spinner-active {
-  opacity: 1;
-  -webkit-animation: spin 1s infinite linear;
-}
-
-@-moz-keyframes spin {
-    from { -moz-transform: rotate(0deg); }
-    to { -moz-transform: rotate(360deg); }
-}
-
-@-webkit-keyframes spin {
-    from { -webkit-transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-    from {transform:rotate(0deg);}
-    to {transform:rotate(360deg);}
-}
-
-
-/*
- * Plot axis details
- */
+// Plot axis details
 .epiRiskAxes {
-    position: absolute;
-    pointer-events: none;
+  position: absolute;
+  pointer-events: none;
 }
-
 g.gridlines > line {
   stroke: #b3b3b3;
 }
-
 g.gridlines > .major {
   opacity: 0.7;
   stroke-width: 1px;
 }
-
 g.gridlines > .minor {
   opacity: 0.3;
   stroke-width: 1px;
 }
-
 .axis path,
 .axis line {
   fill: none;
   stroke: black;
 }
-
 .axis text {
   font-size: 10px;
 }
 
 
-/*
- * Mechanistic evidence styles
- */
+// Loading spinner
+// http://stackoverflow.com/questions/14859322/
+.spinner {
+  opacity: 0;
+}
+.spinner-active {
+  opacity: 1;
+  -webkit-animation: spin 1s infinite linear;
+}
+@-moz-keyframes spin {
+  from { -moz-transform: rotate(0deg); }
+  to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
+
+
+// Mechanistic evidence styles
 .accordianHeader {
   cursor: pointer;
 }
-
 .accordianHeader:hover {
   background-color: #efefef
 }
 
-
-/* Comma-separated list */
-.comma-list { list-style-type: none }
-.comma-list > li { display: inline }
-.comma-list > li:after { content: ", " }
-.comma-list > li:last-child:after { content: "" }
-
+// Mechanistic evidence stream
 .evidenceStream {
   width: 250px;
   margin-right:25px;
 }
-
 .evidenceExpanded {
   background: rgba(180, 180, 180, 0.2);
 }
-
 .evidenceExpanded > .accordianHeader{
   background-color: #ccc
 }
 
 
-/*
- * Help popover text
- */
+/* Comma-separated list */
+.comma-list {
+  list-style-type: none
+}
+.comma-list > li {
+  display: inline
+}
+.comma-list > li:after {
+  content: ", "
+}
+.comma-list > li:last-child:after {
+  content: ""
+}
+
+
+// Help popover text
 .helpPopovers {
   cursor: pointer;
   color: inherit;
@@ -385,13 +329,10 @@ g.gridlines > .minor {
 }
 
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * ColVis styles
- */
+// jQuery dataTables
 div.ColVis {
   margin-bottom: 1em;
 }
-
 button.ColVis_Button,
 ul.ColVis_collection li {
   position: relative;
@@ -414,7 +355,6 @@ ul.ColVis_collection li {
   background:         linear-gradient(top, #ffffff 0%,#f3f3f3 89%,#f9f9f9 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f9f9f9',GradientType=0 ); /* IE6-9 */
 }
-
 .ColVis_Button:hover,
 ul.ColVis_collection li:hover {
   border: 1px solid #666;
@@ -434,21 +374,17 @@ ul.ColVis_collection li:hover {
   background:         linear-gradient(top, #f3f3f3 0%,#e2e2e2 89%,#f4f4f4 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#f4f4f4',GradientType=0 ); /* IE6-9 */
 }
-
 button.ColVis_Button {
   height: 30px;
   padding: 3px 8px;
 }
-
 button.ColVis_Button::-moz-focus-inner {
   border: none !important;
   padding: 0;
 }
-
 button.ColVis_Button:active {
   outline: none;
 }
-
 div.ColVis_collectionBackground {
   position: fixed;
   top: 0;
@@ -458,7 +394,6 @@ div.ColVis_collectionBackground {
   background-color: black;
   z-index: 1100;
 }
-
 ul.ColVis_collection {
   list-style: none;
   width: 250px;
@@ -483,7 +418,6 @@ ul.ColVis_collection {
        -o-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
           box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
 }
-
 ul.ColVis_collection li {
   position: relative;
   height: auto;
@@ -500,22 +434,18 @@ ul.ColVis_collection li {
        -o-box-shadow: 1px 1px 3px #999;
           box-shadow: 1px 1px 3px #999;
 }
-
 ul.ColVis_collection li {
   text-align: left;
 }
-
 ul.ColVis_collection li.ColVis_Button:hover {
   border: 1px solid #999;
   background-color: #f0f0f0;
 }
-
 ul.ColVis_collection li span {
   display: inline-block;
   padding-left: 0.5em;
   cursor: pointer;
 }
-
 ul.ColVis_collection li.ColVis_Special {
   border-color: #555;
   background: rgb(237,237,237); /* Old browsers */
@@ -526,7 +456,6 @@ ul.ColVis_collection li.ColVis_Special {
   background:         linear-gradient(to bottom, rgba(237,237,237,1) 0%,rgba(214,214,214,1) 77%,rgba(232,232,232,1) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#e8e8e8',GradientType=0 ); /* IE6-9 */
 }
-
 ul.ColVis_collection li.ColVis_Special:hover {
   background: #e2e2e2; /* Old browsers */
   background: -webkit-linear-gradient(top, #d0d0d0 0%,#d5d5d5 89%,#e2e2e2 100%); /* Chrome10+,Safari5.1+ */
@@ -536,58 +465,48 @@ ul.ColVis_collection li.ColVis_Special:hover {
   background:         linear-gradient(top, #d0d0d0 0%,#d5d5d5 89%,#e2e2e2 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#e2e2e2',GradientType=0 ); /* IE6-9 */
 }
-
 span.ColVis_radio {
   display: inline-block;
   width: 20px;
 }
-
 div.ColVis_catcher {
   position: absolute;
   z-index: 1101;
 }
 
+// toggle QA
 .disabled {
   color: #999;
 }
 
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Animal Evidence
- */
+// Animal Evidence
 .aniEvidenceTbl {
   width: 100%;
-
   td {
     vertical-align: top;
   }
 }
 
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Print-evidence format
- */
+// Print-styles
 @media print {
   h1 {
     font-size: 14px;
   }
-
   p,table {
     font-family: georgia, serif;
     font-size: 11px;
     page-break-inside: auto;
   }
-
   td,th {
     page-break-inside: avoid;
     page-break-after: auto;
     padding: 2px !important;
   }
-
   thead {
     display: table-header-group;
   }
-
   .btn {
     display: none;
   }
