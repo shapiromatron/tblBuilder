@@ -1,4 +1,6 @@
 Template.referencesMain.onCreated(function() {
+  Session.set('referenceShowNew', false);
+  Session.set('referenceEditingId', null);
   Session.set('monographAgent', this.data.monographAgent);
   this.subscribe('monographReference', this.data.monographAgent);
 });

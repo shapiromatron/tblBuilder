@@ -45,6 +45,12 @@ Template.mechanisticMain.events({
   }
 });
 Template.mechanisticMain.onCreated(function() {
+  Session.setDefault('mechanisticEditingId', null);
+  Session.setDefault('mechanisticNewChild', null);
+  Session.setDefault('mechanisticAllCollapsed', true);
+  Session.set('evidenceShowNew', false);
+  Session.set('evidenceShowAll', false);
+  Session.set('evidenceEditingId', null);
   this.subscribe('mechanisticEvidence', Session.get('Tbl')._id);
 });
 Template.mechanisticMain.onRendered(function() {

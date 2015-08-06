@@ -2,8 +2,9 @@ Template.epiMain.helpers(clientShared.abstractMainHelpers);
 Template.epiMain.onCreated(function() {
   Session.set('evidenceType', 'epi');
   Session.set('evidenceShowNew', false);
-  Session.set('evidenceEditingId', null);
   Session.set('evidenceShowAll', false);
+  Session.set('evidenceEditingId', null);
+  Session.set('nestedEvidenceEditingId', null);
   this.subscribe('epiDescriptive', Session.get('Tbl')._id);
 });
 

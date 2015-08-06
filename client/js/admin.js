@@ -30,6 +30,10 @@ getAdminUserValues = function(tmpl) {
 
 
 Template.adminMain.onCreated(function() {
+  Session.set('adminUserEditingId', null);
+  Session.set("adminUserShowNew", false);
+  Session.set("reportTemplateEditingId", null);
+  Session.set("reportTemplateShowNew", false);
   this.subscribe('adminUsers');
 });
 

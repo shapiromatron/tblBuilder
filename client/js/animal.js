@@ -2,8 +2,9 @@ Template.animalMain.helpers(clientShared.abstractMainHelpers);
 Template.animalMain.onCreated(function() {
   Session.set('evidenceType', 'animal');
   Session.set('evidenceShowNew', false);
-  Session.set('evidenceEditingId', null);
   Session.set('evidenceShowAll', false);
+  Session.set('evidenceEditingId', null);
+  Session.set('nestedEvidenceEditingId', null);
   this.subscribe('animalEvidence', Session.get('Tbl')._id);
 });
 

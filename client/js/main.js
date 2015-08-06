@@ -1,28 +1,8 @@
-// set session-variables
-Session.setDefault('adminUserEditingId', null);
-Session.setDefault("adminUserShowNew", false);
-
-Session.setDefault('monographAgent', null);
+// global session variables
 Session.setDefault('showQAflags', false);
 Session.setDefault('isFullScreen', false);
-
-Session.setDefault('reportTemplateEditingId', null);
-Session.setDefault("reportTemplateShowNew", false);
 Session.setDefault('reorderRows', false);
-
-Session.setDefault('referenceShowNew', false);
-Session.setDefault('referenceEditingId', null);
-Session.setDefault("referenceNewObj", null);
-
-Session.setDefault('mechanisticEditingId', null);
-Session.setDefault('mechanisticNewChild', null);
-Session.setDefault('mechanisticAllCollapsed', true);
-
-Session.setDefault('evidenceShowNew', false);
-Session.setDefault('evidenceEditingId', null);
-Session.setDefault('nestedEvidenceEditingId', null);
-Session.setDefault('evidenceShowAll', false);
-Session.setDefault('evidenceType', null);
+Session.setDefault('referenceNewObj', null);
 
 
 // setup subscriptions
