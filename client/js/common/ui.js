@@ -1,12 +1,5 @@
 var TIMESTAMP_FORMAT = 'MMM Do YYYY, h:mm a';
 
-UI.registerHelper("tableTitle", function() {
-  var tbl = Session.get("Tbl");
-  if (tbl != null) {
-    return "Volume " + tbl.volumeNumber + ": " + tbl.monographAgent;
-  }
-});
-
 UI.registerHelper("formatDate", function(datetime) {
   return moment(datetime).format(TIMESTAMP_FORMAT);
 });

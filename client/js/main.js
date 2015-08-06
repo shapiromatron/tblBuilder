@@ -54,6 +54,13 @@ Router.map(function() {
     path: '/',
   });
 
+  this.route('volumeTableList', {
+    path: '/volume/:volumeNumber',
+    data: function() {
+      return {volumeNumber: parseInt(this.params.volumeNumber, 10)};
+    }
+  });
+
   this.route('epiMain', {
     path: '/epidemiology/:_id',
     controller: TblRouterController

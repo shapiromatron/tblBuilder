@@ -1,25 +1,3 @@
-var getUserPermissionsObject = function(tmpl) {
-  var ids = {},
-      results = [],
-      user_id;
-
-  ['projectManagers', 'teamMembers', 'reviewers'].forEach(function(role){
-    tmpl.findAll("." + role + " li").forEach(function(li){
-      user_id = $(li).data('user_id');
-      if (ids[user_id] === undefined){
-        results.push({"user_id": user_id, "role": role});
-        ids[user_id] = true;
-      }
-    });
-  });
-  return results;
-};
-
-Template.home.helpers({
-  currentUser2: function() {
-    return Meteor.user();
-  }
-});
 Template.home.onCreated(function() {
   Session.set("tablesShowNew", false);
   Session.set("tablesEditingId", null);
@@ -27,18 +5,62 @@ Template.home.onCreated(function() {
 });
 
 
-Template.TablesByMonograph.helpers({
-  getMonographs: function() {
-    var tbls = Tables.find(
-      {},
-      {fields: {"volumeNumber": 1}, sort: {"volumeNumber": -1}}).fetch();
-    return _.uniq(_.pluck(tbls, "volumeNumber"));
+Template.tableActions.events({
+  'click #tables-show-create': function(evt, tmpl) {
+    Session.set("tablesShowNew", true);
+    Tracker.flush();
   },
-  getMonographAgents: function(volumeNumber) {
+  'click #reorderRows': function(evt, tmpl) {
+    var isReorder = !Session.get('reorderRows');
+    Session.set('reorderRows', isReorder);
+    if (isReorder) {
+      tmpl.sortables = [];
+      $('.sortables').each(function(i, v) {
+        return tmpl.sortables.push(new Sortable(v, {
+          handle: ".moveTableHandle",
+          onUpdate: clientShared.moveRowCheck,
+          Cls: Tables
+        }));
+      });
+    } else {
+      tmpl.sortables.forEach(function(v) { return v.destroy();});
+    }
+    return clientShared.toggleRowVisibilty(isReorder, $('.moveTableHandle'));
+  }
+});
+
+
+Template.volumesList.helpers({
+  getMonographs: function() {
+    var opts = {fields: {"volumeNumber": 1}, sort: {"volumeNumber": -1}};
+    return _.chain(Tables.find({}, opts).fetch())
+            .pluck('volumeNumber')
+            .uniq()
+            .value();
+  },
+  getMonographAgents: function(volumeNumber){
+    return _.chain(Tables.find({volumeNumber: volumeNumber}).fetch())
+            .pluck('monographAgent')
+            .sort()
+            .uniq(true)
+            .value()
+            .join(", ");
+  },
+  showNew: function() {
+    return Session.get("tablesShowNew");
+  },
+});
+
+
+Template.volumeTableList.helpers({
+  getMonographAgents: function() {
     var tbls = Tables.find(
-      {"volumeNumber": volumeNumber},
-      {fields: {"monographAgent": 1}, sort: {"monographAgent": 1}}).fetch();
-    return _.uniq(_.pluck(tbls, "monographAgent"));
+      {"volumeNumber": this.volumeNumber},
+      {sort: {"monographAgent": 1}}).fetch();
+    return _.chain(tbls)
+            .pluck("monographAgent")
+            .uniq()
+            .value();
   },
   getTables: function(volumeNumber, monographAgent) {
     return Tables.find(
@@ -84,12 +106,7 @@ Template.TablesByMonograph.helpers({
     return Session.equals('tablesEditingId', this._id);
   }
 });
-Template.TablesByMonograph.events({
-  'click #tables-show-create': function(evt, tmpl) {
-    Session.set("tablesShowNew", true);
-    Tracker.flush();
-    return clientShared.activateInput(tmpl.find("input[name=volumeNumber]"));
-  },
+Template.volumeTableList.events({
   'click #tables-show-edit': function(evt, tmpl) {
     Session.set("tablesEditingId", this._id);
     Tracker.flush();
@@ -100,29 +117,31 @@ Template.TablesByMonograph.events({
         val = $(evt.target).data();
     val.multiTable = true;
     return Blaze.renderWithData(Template.reportTemplateModal, val, div);
-  },
-  'click #reorderRows': function(evt, tmpl) {
-    var isReorder = !Session.get('reorderRows');
-    Session.set('reorderRows', isReorder);
-    if (isReorder) {
-      tmpl.sortables = [];
-      $('.sortables').each(function(i, v) {
-        return tmpl.sortables.push(new Sortable(v, {
-          handle: ".moveTableHandle",
-          onUpdate: clientShared.moveRowCheck,
-          Cls: Tables
-        }));
-      });
-    } else {
-      tmpl.sortables.forEach(function(v) {
-        return v.destroy();
-      });
-    }
-    return clientShared.toggleRowVisibilty(isReorder, $('.moveTableHandle'));
   }
+});
+Template.volumeTableList.onCreated(function(){
+  this.autorun(function(){
+    Meteor.subscribe('tblUsers', Session.get('tablesEditingId'));
+  });
 });
 
 
+var getUserPermissionsObject = function(tmpl) {
+  var ids = {},
+      results = [],
+      user_id;
+
+  ['projectManagers', 'teamMembers', 'reviewers'].forEach(function(role){
+    tmpl.findAll("." + role + " li").forEach(function(li){
+      user_id = $(li).data('user_id');
+      if (ids[user_id] === undefined){
+        results.push({"user_id": user_id, "role": role});
+        ids[user_id] = true;
+      }
+    });
+  });
+  return results;
+};
 Template.tablesForm.helpers({
   searchUsers: function(query, callback) {
     return Meteor.call('searchUsers', query, {}, function(err, res) {
@@ -208,5 +227,6 @@ Template.tablesForm.events({
   }
 });
 Template.tablesForm.onRendered(function() {
-  return Meteor.typeahead.inject('.userTypeahead');
+  clientShared.activateInput(this.find("input[name=volumeNumber]"));
+  Meteor.typeahead.inject('.userTypeahead');
 });

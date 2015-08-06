@@ -117,28 +117,20 @@ Meteor.publish('genotoxEvidence', function(tbl_id) {
 });
 
 Meteor.publish('tblUsers', function(tbl_id) {
-  var ids, tbl, v;
+  var ids = [], tbl;
   check(tbl_id, String);
   tbl = Tables.findOne(tbl_id);
-  if (userCanView(tbl, this.userId)) {
-    ids = (function() {
-      var i, len, ref, results;
-      ref = tbl.user_roles;
-      results = [];
-      for (i = 0, len = ref.length; i < len; i++) {
-        v = ref[i];
-        results.push(v.user_id);
-      }
-      return results;
-    })();
-    return Meteor.users.find({_id: {$in: ids}}, {fields: {_id: 1, emails: 1, profile: 1}});
+  if (tbl && userCanView(tbl, this.userId)) {
+    ids = _.pluck(tbl.user_roles, "user_id");
   }
-  return this.ready();
+  return Meteor.users.find({_id: {$in: ids}},
+      {fields: {_id: 1, emails: 1, profile: 1}});
 });
 
 Meteor.publish('adminUsers', function() {
   if (serverShared.isStaffOrHigher(this.userId)) {
-    return Meteor.users.find({}, {fields: {_id: 1, emails: 1, profile: 1, roles: 1, createdAt: 1}});
+    return Meteor.users.find({},
+        {fields: {_id: 1, emails: 1, profile: 1, roles: 1, createdAt: 1}});
   } else {
     return this.ready();
   }

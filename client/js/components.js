@@ -36,7 +36,6 @@ Template.optRiskPlot.onCreated(function() {
 });
 
 
-
 Template.selectList.helpers({
   isSelected: function(current, selected) {
     return current === selected;
@@ -45,12 +44,14 @@ Template.selectList.helpers({
 
 
 var autocompleteOptions = function(qry, cb) {
-  var tbl_id = Session.get("Tbl")._id,
+  var tbl_id,
       methodName = this.$el
                        .parent()
                        .parent()
                        .find('input')
                        .data('methodname');
+
+  if (Session.get("Tbl")) tbl_id = Session.get("Tbl")._id;
 
   Meteor.call(methodName, qry, tbl_id, function(err, res) {
     if (err) return console.log(err);
@@ -86,4 +87,9 @@ Template.typeaheadSelectList.events({
 });
 Template.typeaheadSelectList.onRendered(function() {
   return Meteor.typeahead.inject("input[name=" + this.data.name + "]");
+});
+
+
+Template.tableTitle.helpers({
+  getTable: function(){return Session.get("Tbl");}
 });

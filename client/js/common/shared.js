@@ -106,15 +106,15 @@ clientShared = {
     input.select();
   },
   updateValues: function(form, obj) {
-    var obj = {}, key, val;
+    var newObj = {}, key, val;
     $(form).find("select,input,textarea").each(function(i, inp){
       key = inp.name;
       if (key.length > 0) {
         val = getValue(inp);
-        if (obj[key] !== val) obj[key] = val;
+        if (obj[key] !== val) newObj[key] = val;
       }
     });
-    return obj;
+    return newObj;
   },
   newValues: function(form) {
     var obj = {}, key;
@@ -130,7 +130,7 @@ clientShared = {
     return saveAs(blob, fn);
   },
   returnWordFile: function(raw_data, fn) {
-    var blob, s2ab;
+    var blob;
     fn = fn || "download.docx";
     blob = new Blob([s2ab(raw_data)], {type: "application/octet-stream"});
     return saveAs(blob, fn);

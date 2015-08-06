@@ -16,17 +16,17 @@
       </h1>
 
       <!-- Organ-site selector -->
-      <form role="form">
-        <div class="form-group row">
+      <div class="row">
+        <form role="form" class="form-group">
           <div class="col-xs-12">
             <label>Filter results by organ site (ICD code)</label><br>
-            <select multiple="true" id="organSiteSelector" style="height: 200px;">
+            <select multiple="true" class="form-control" id="organSiteSelector" style="height: 200px">
               {{{getOrganSiteOptions}}}
             </select>
             <p class="help-block">Select one or more organ-sites to view.</p>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
 
       <!-- Data-table -->
       <table class="evidenceTable table table-compressed">

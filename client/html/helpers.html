@@ -135,3 +135,12 @@
     {{/if}}
   </a>
 </template>
+
+
+<template name="tableTitle">
+  {{#with getTable}}
+  <p class="help-block">
+    <a href="{{pathFor 'volumeTableList' volumeNumber=this.volumeNumber}}#{{this.monographAgent}}">
+      Volume {{this.volumeNumber}}: {{this.monographAgent}}</a></p>
+  {{/with}}
+</template>
