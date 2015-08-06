@@ -65,7 +65,7 @@ Meteor.startup(function() {
     }
   });
 
-  tblContentTypes.forEach(function(Cls){
+  tblBuilderCollections.evidenceTypes.forEach(function(Cls){
     Cls.before.insert(function(userId, doc){
       return addTblContentInsertion(userId, doc, Cls);
     });
@@ -74,7 +74,7 @@ Meteor.startup(function() {
 
   // Remove hooks
   Tables.before.remove(function(userId, doc) {
-    tblContentTypes.forEach(function(Cls){
+    tblBuilderCollections.evidenceTypes.forEach(function(Cls){
       Cls.remove({tbl_id: doc._id})
     });
   });
