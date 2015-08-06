@@ -63,7 +63,7 @@ var XLSX = Meteor.npmRequire('xlsx'),
 Meteor.methods({
   epiEvidenceDownload: function(tbl_id) {
     var data, wb, ws, ws_name;
-    data = shared.getFlattenedEpiData(tbl_id);
+    data = EpiDescriptive.tabular(tbl_id);
     ws_name = "epi Results";
     wb = new Workbook();
     ws = sheet_from_array_of_arrays(data);
@@ -134,7 +134,7 @@ Meteor.methods({
   },
   exposureEvidenceDownload: function(tbl_id) {
     var data, wb, ws, ws_name;
-    data = shared.getFlattenedExposureData(tbl_id);
+    data = ExposureEvidence.tabular(tbl_id);
     ws_name = "Exposure Results";
     wb = new Workbook();
     ws = sheet_from_array_of_arrays(data);
@@ -144,7 +144,7 @@ Meteor.methods({
   },
   animalEvidenceDownload: function(tbl_id) {
     var data, wb, ws, ws_name;
-    data = shared.getFlattenedAnimalData(tbl_id);
+    data = AnimalEvidence.tabular(tbl_id);
     ws_name = "Bioassay Results";
     wb = new Workbook();
     ws = sheet_from_array_of_arrays(data);
@@ -154,7 +154,7 @@ Meteor.methods({
   },
   genotoxEvidenceDownload: function(tbl_id) {
     var data, wb, ws, ws_name;
-    data = shared.getFlattenedGenotoxData(tbl_id);
+    data = GenotoxEvidence.tabular(tbl_id);
     ws_name = "Genotoxicity Results";
     wb = new Workbook();
     ws = sheet_from_array_of_arrays(data);

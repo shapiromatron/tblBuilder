@@ -50,13 +50,13 @@ var getFirstEndpoint = function(parent_id) {
 };
 Template.animalRow.helpers(_.extend({
     getDoses: function() {
-      return shared.getAnimalDoses(getFirstEndpoint(this._id));
+      return AnimalEvidence.getDoses(getFirstEndpoint(this._id));
     },
     getNStarts: function() {
-      return shared.getAnimalNStarts(getFirstEndpoint(this._id));
+      return AnimalEvidence.getNStarts(getFirstEndpoint(this._id));
     },
     getNSurvivings: function() {
-      return shared.getAnimalNSurvivings(getFirstEndpoint(this._id));
+      return AnimalEvidence.getNSurvivings(getFirstEndpoint(this._id));
     }
   }, clientShared.abstractRowHelpers));
 Template.animalRow.events(clientShared.abstractRowEvents);
@@ -92,7 +92,7 @@ Template.animalForm.rendered = function() {
 Template.animalEndpointTbl.helpers(_.extend({
     getIncidents: function() {
       var txt = "",
-          val = shared.getAnimalEndpointIncidents(this.endpointGroups),
+          val = AnimalEvidence.getIncidents(this.endpointGroups),
           sig;
 
       if (val !== "") {
@@ -103,7 +103,7 @@ Template.animalEndpointTbl.helpers(_.extend({
     },
     getMultiplicities: function() {
       var txt = "",
-          val = shared.getAnimalEndpointMultiplicities(this.endpointGroups),
+          val = AnimalEvidence.getMultiplicities(this.endpointGroups),
           sig;
 
       if (val !== "") {
@@ -114,7 +114,7 @@ Template.animalEndpointTbl.helpers(_.extend({
     },
     getTotalTumours: function() {
       var txt = "",
-          val = shared.getAnimalTotalTumours(this.endpointGroups),
+          val = AnimalEvidence.getTotalTumours(this.endpointGroups),
           sig;
 
       if (val !== "") {

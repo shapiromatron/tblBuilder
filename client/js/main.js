@@ -24,6 +24,7 @@ Session.setDefault('nestedEvidenceEditingId', null);
 Session.setDefault('evidenceShowAll', false);
 Session.setDefault('evidenceType', null);
 
+
 // setup subscriptions
 var tablesHandler = null;
 Meteor.subscribe('reportTemplate');
@@ -45,7 +46,7 @@ var TblRouterController = RouteController.extend({
       var tbl = this.data();
       Session.set('Tbl', tbl);
       Session.set('monographAgent', tbl.monographAgent);
-      shared.getHTMLTitleTbl();
+      document.title = utilities.getHTMLTitleTbl();
       return this.render();
     } else {
       return this.render("isLoading");
@@ -54,7 +55,7 @@ var TblRouterController = RouteController.extend({
   onStop: function() {
     Session.set('Tbl', null);
     Session.set('monographAgent', null);
-    shared.getHTMLTitleBase();
+    document.title = utilities.getHTMLTitleBase();
   }
 }),
 AdminRouteController = RouteController.extend({

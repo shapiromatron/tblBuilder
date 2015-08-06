@@ -414,7 +414,7 @@ _.extend(clientShared, {
     'click #clone-content': function(evt, tmpl) {
       var ET;
       ET = clientShared.evidenceType[Session.get("evidenceType")];
-      return shared.cloneObject(this, ET.collection, ET.nested_collection);
+      return utilities.cloneObject(this, ET.collection, ET.nested_collection);
     }
   },
   abstractFormEvents: {
@@ -522,7 +522,7 @@ _.extend(clientShared, {
       var ET, data;
       data = tmpl.view.parentView.dataVar.curValue;
       ET = clientShared.evidenceType[Session.get("evidenceType")];
-      return shared.cloneObject(data, ET.nested_collection);
+      return utilities.cloneObject(data, ET.nested_collection);
     }
   },
   abstractNestedFormHelpers: {

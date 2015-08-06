@@ -74,8 +74,8 @@ Template.epiDescriptiveRow.helpers(_.extend({
       var html = "",
           ref, rrCase, rrCtrl;
       if (this.isCaseControl()) {
-        rrCase = shared.getPercentOrText(this.responseRateCase);
-        rrCtrl = shared.getPercentOrText(this.responseRateControl);
+        rrCase = utilities.getPercentOrText(this.responseRateCase);
+        rrCtrl = utilities.getPercentOrText(this.responseRateControl);
         if (rrCase.length > 0) rrCase = " (" + rrCase + ")";
         if (rrCtrl.length > 0) rrCtrl = " (" + rrCtrl + ")";
 

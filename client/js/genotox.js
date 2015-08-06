@@ -28,7 +28,7 @@ Template.genotoxRow.helpers({
     return this.dataClass;
   },
   getCol2: function() {
-    return shared.getGenotoxTestSystemDesc(this);
+    return GenotoxEvidence.getTestSystemDesc(this);
   },
   getCol3: function() {
     return this.endpoint + "/<br>" + this.endpointTest;
@@ -117,7 +117,7 @@ var toggleDataClassFields = function(tmpl) {
 
     if (dataClass !== "Non-mammalian") return;
 
-    if (shared.isGenotoxAcellular(dataClass, phylo)) {
+    if (GenotoxEvidence.isGenotoxAcellular(dataClass, phylo)) {
       $(tmpl.findAll('.isAcellular')).show();
       $(tmpl.findAll('.isntAcellular')).hide();
     } else {
@@ -134,16 +134,16 @@ var toggleDataClassFields = function(tmpl) {
 
     switch (dataClass) {
       case "Non-mammalian":
-        obj = shared.mechanisticTestCrosswalk[dataClass][phylo][tox];
+        obj = GenotoxEvidence.testCrosswalk[dataClass][phylo][tox];
         break;
       case "Mammalian and human in vitro":
-        obj = shared.mechanisticTestCrosswalk[dataClass][mamm][tox];
+        obj = GenotoxEvidence.testCrosswalk[dataClass][mamm][tox];
         break;
       case "Animal in vivo":
-        obj = shared.mechanisticTestCrosswalk[dataClass][tox];
+        obj = GenotoxEvidence.testCrosswalk[dataClass][tox];
         break;
       case "Human in vivo":
-        obj = shared.mechanisticTestCrosswalk[dataClass][tox];
+        obj = GenotoxEvidence.testCrosswalk[dataClass][tox];
         break;
       default:
         console.log("unknown data-type: " + dataClass);
@@ -175,16 +175,16 @@ var toggleDataClassFields = function(tmpl) {
 
     switch (dataClass) {
       case "Non-mammalian":
-        obj = shared.mechanisticTestCrosswalk[dataClass][phylo][tox][endpoint];
+        obj = GenotoxEvidence.testCrosswalk[dataClass][phylo][tox][endpoint];
         break;
       case "Mammalian and human in vitro":
-        obj = shared.mechanisticTestCrosswalk[dataClass][mamm][tox][endpoint];
+        obj = GenotoxEvidence.testCrosswalk[dataClass][mamm][tox][endpoint];
         break;
       case "Animal in vivo":
-        obj = shared.mechanisticTestCrosswalk[dataClass][tox][endpoint];
+        obj = GenotoxEvidence.testCrosswalk[dataClass][tox][endpoint];
         break;
       case "Human in vivo":
-        obj = shared.mechanisticTestCrosswalk[dataClass][tox][endpoint];
+        obj = GenotoxEvidence.testCrosswalk[dataClass][tox][endpoint];
         break;
       default:
         console.log("unknown data-type: {#dataClass}");

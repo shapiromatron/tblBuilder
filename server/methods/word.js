@@ -22,7 +22,7 @@ var Future = Meteor.npmRequire('fibers/future'),
       exposures = ExposureEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch();
       exposures.forEach(function(exp){
         exp.reference = Reference.findOne({_id: exp.referenceID});
-        shared.setExposureWordFields(exp);
+        ExposureEvidence.setWordFields(exp);
       })
       return {
         "monographAgent": tbl.monographAgent,
@@ -46,18 +46,16 @@ var Future = Meteor.npmRequire('fibers/future'),
       desc.coexposuresList = desc.coexposures.join(', ');
       desc.isCaseControl = desc.isCaseControl();
       desc.notes = desc.notes || "";
-      desc.responseRateCase = shared.getPercentOrText(desc.responseRateCase);
-      desc.responseRateControl = shared.getPercentOrText(desc.responseRateControl);
+      desc.responseRateCase = utilities.getPercentOrText(desc.responseRateCase);
+      desc.responseRateControl = utilities.getPercentOrText(desc.responseRateControl);
     },
     prepareEpiResult = function(res) {
-      var i, riskEst;
-      res.covariatesList = shared.capitalizeFirst(res.covariates.join(', '));
+      res.covariatesList = utilities.capitalizeFirst(res.covariates.join(', '));
       res.hasTrendTest = res.trendTest != null;
-      for (i = 0; i < res.riskEstimates.length; i++) {
-        riskEst = res.riskEstimates[i];
-        riskEst.riskFormatted = shared.riskFormatter(riskEst);
-        riskEst.exposureCategory = shared.capitalizeFirst(riskEst.exposureCategory);
-      }
+      res.riskEstimates.forEach(function(riskEst){
+        riskEst.riskFormatted = res.riskFormatter(riskEst);
+        riskEst.exposureCategory = utilities.capitalizeFirst(riskEst.exposureCategory);
+      });
     },
     getEpiDataByReference = function(tbl_id) {
       var descriptions, tbl;
@@ -199,11 +197,11 @@ var Future = Meteor.npmRequire('fibers/future'),
     },
     animalWordReport = function(tbl_id) {
       var tbl = Tables.findOne(tbl_id),
-          studies = AnimalEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch();
+          evidences = AnimalEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch();
 
-      studies.forEach(function(study){
-        study.reference = Reference.findOne({_id: study.referenceID});
-        shared.setAnimalWordFields(study);
+      evidences.forEach(function(evidence){
+        evidence.reference = Reference.findOne({_id: evidence.referenceID});
+        AnimalEvidence.setWordFields(evidence);
       })
 
       return {
@@ -211,7 +209,7 @@ var Future = Meteor.npmRequire('fibers/future'),
         "volumeNumber": tbl.volumeNumber,
         "hasTable": true,
         "table": tbl,
-        "studies": studies
+        "studies": evidences
       };
     },
     mechanisticWordReport = function(tbl_id) {
@@ -260,7 +258,7 @@ var Future = Meteor.npmRequire('fibers/future'),
       vals = GenotoxEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch();
       vals.forEach(function(val){
         val.reference = Reference.findOne({_id: val.referenceID});
-        shared.setGenotoxWordFields(val);
+        GenotoxEvidence.setWordFields(val);
       })
       d.nonMammalian = _.filter(vals, function(v) {
         return v.dataClass === "Non-mammalian";

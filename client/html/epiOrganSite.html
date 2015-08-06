@@ -74,7 +74,7 @@
                     {{#if showPlots}}
                       {{> forestPlot parent=.. index=i }}
                     {{ else}}
-                      <span title="Effect measure: {{../effectMeasure}}">{{{epiRiskFormat v}}}</span>
+                      <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
                     {{/if}}
                   </td>
                   <td rowspan="{{../riskEstimates.length}}">
@@ -95,7 +95,7 @@
                     {{#if showPlots}}
                       {{> forestPlot parent=.. index=i }}
                     {{ else}}
-                      <span title="Effect measure: {{../effectMeasure}}">{{{epiRiskFormat v}}}</span>
+                      <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
                     {{/if}}
                   </td>
                 </tr>

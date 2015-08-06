@@ -4,5 +4,5 @@ Template.navBar.helpers({
   }
 });
 Template.navBar.rendered = function() {
-  return shared.getHTMLTitleBase();
+  document.title = utilities.getHTMLTitleBase();
 };

@@ -535,7 +535,7 @@
               <td>{{#if showPlots}}
                     {{> forestPlot parent=.. index=index }}
                   {{ else}}
-                    <span title="Effect measure: {{../effectMeasure}}">{{{epiRiskFormat value}}}</span>
+                    <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter value}}</span>
                   {{/if}}
               </td>
               {{#if isEqual current=index target=0 }}

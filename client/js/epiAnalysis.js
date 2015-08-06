@@ -4,14 +4,14 @@ Template.epiAnalysisMain.created = function() {
 
 
 Template.epiAnalysisTbl.rendered = function() {
-  var data = shared.getFlattenedEpiData(Session.get("Tbl")._id),
+  var data = EpiDescriptive.tabular(Session.get("Tbl")._id),
       tbl = $(this.find('#analysisTbl')),
       header = data.shift(); // drop header column
 
   var columns = _.map(header, function(field){
     return {
       "title": field,
-      "visible": shared.defaultEpiVisible.indexOf(field) >= 0
+      "visible": _.contains(EpiDescriptive.defaultAnalysisVisible, field)
     }
   });
 

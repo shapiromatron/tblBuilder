@@ -74,10 +74,6 @@ UI.registerHelper("equals", function(a, b) {
   return a === b;
 });
 
-UI.registerHelper("epiRiskFormat", function(obj) {
-  return shared.riskFormatter(obj);
-});
-
 UI.registerHelper("isNTP", function() {
   return Meteor.settings["public"].context === "ntp";
 });
