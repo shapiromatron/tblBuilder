@@ -58,129 +58,34 @@ var XLSX = Meteor.npmRequire('xlsx'),
         ws['!ref'] = XLSX.utils.encode_range(range);
       }
       return ws;
+    },
+    writeXLSX = function(ws_name, data){
+      var wb = new Workbook(),
+          ws = sheet_from_array_of_arrays(data);
+      wb.SheetNames.push(ws_name);
+      wb.Sheets[ws_name] = ws;
+      return XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
     };
+
 
 Meteor.methods({
   epiEvidenceDownload: function(tbl_id) {
-    var data, wb, ws, ws_name;
-    data = EpiDescriptive.tabular(tbl_id);
-    ws_name = "epi Results";
-    wb = new Workbook();
-    ws = sheet_from_array_of_arrays(data);
-    wb.SheetNames.push(ws_name);
-    wb.Sheets[ws_name] = ws;
-    return XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
+    return writeXLSX("Epi evidence", EpiDescriptive.tabular(tbl_id));
   },
   mechanisticEvidenceExcelDownload: function(tbl_id) {
-    var data, getData, getDataRow, wb, ws, ws_name;
-    getDataRow = function(v) {
-      var refs = _.pluck(
-        Reference.find({_id: {$in: v.references}}, {fields: {name: 1}}).fetch(),
-        'name');
-      return [
-        v._id,
-        v.section,
-        v.parent,
-        v.subheading || "",
-        v.text || "",
-        refs.join('; '),
-        v.humanInVivo,
-        v.humanInVitro,
-        v.animalInVivo,
-        v.animalInVitro
-      ];
-    };
-    getData = function(tbl_id) {
-      var addEvidence, data, header, i, section, sectionEvidences;
-      header = [
-        '_id',
-        'section',
-        'parent',
-        'subheading',
-        'text',
-        'references',
-        'humanInVivo',
-        'humanInVitro',
-        'animalInVivo',
-        'animalInVitro'
-      ];
-      data = [header];
-      addEvidence = function(evidence) {
-        var children;
-        data.push(getDataRow(evidence));
-        children = MechanisticEvidence.find({parent: evidence._id}, {sort: {sortIdx: 1}});
-        children.forEach(function(child) {addEvidence(child);});
-      };
-      MechanisticEvidence.evidenceSections.forEach(function(section){
-        sectionEvidences = MechanisticEvidence.find(
-          {tbl_id: tbl_id, section: section.section},
-          {sort: {sortIdx: 1}}
-        );
-        sectionEvidences.forEach(function(evidence) {addEvidence(evidence);});
-      });
-      return data;
-    };
-    data = getData(tbl_id);
-    ws_name = "mechanisticEvidence";
-    wb = new Workbook();
-    ws = sheet_from_array_of_arrays(data);
-    wb.SheetNames.push(ws_name);
-    wb.Sheets[ws_name] = ws;
-    return XLSX.write(wb, {
-      bookType: 'xlsx',
-      bookSST: true,
-      type: 'binary'
-    });
+    return writeXLSX("Mechanistic evidence", MechanisticEvidence.tabular(tbl_id));
   },
   exposureEvidenceDownload: function(tbl_id) {
-    var data, wb, ws, ws_name;
-    data = ExposureEvidence.tabular(tbl_id);
-    ws_name = "Exposure Results";
-    wb = new Workbook();
-    ws = sheet_from_array_of_arrays(data);
-    wb.SheetNames.push(ws_name);
-    wb.Sheets[ws_name] = ws;
-    return XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
+    return writeXLSX("Exposure evidence", ExposureEvidence.tabular(tbl_id));
   },
   animalEvidenceDownload: function(tbl_id) {
-    var data, wb, ws, ws_name;
-    data = AnimalEvidence.tabular(tbl_id);
-    ws_name = "Bioassay Results";
-    wb = new Workbook();
-    ws = sheet_from_array_of_arrays(data);
-    wb.SheetNames.push(ws_name);
-    wb.Sheets[ws_name] = ws;
-    return XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
+    return writeXLSX("Bioassay evidence", AnimalEvidence.tabular(tbl_id));
   },
   genotoxEvidenceDownload: function(tbl_id) {
-    var data, wb, ws, ws_name;
-    data = GenotoxEvidence.tabular(tbl_id);
-    ws_name = "Genotoxicity Results";
-    wb = new Workbook();
-    ws = sheet_from_array_of_arrays(data);
-    wb.SheetNames.push(ws_name);
-    wb.Sheets[ws_name] = ws;
-    return XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
+    return writeXLSX("Genotoxicity evidence", GenotoxEvidence.tabular(tbl_id));
   },
   referenceExcelDownload: function(monographAgent) {
-    var data, getData, getDataRow, wb, ws, ws_name;
-    getDataRow = function(v) {
-      return [v._id, v.name, v.fullCitation, v.referenceType, v.pubmedID, v.otherURL];
-    };
-    getData = function() {
-      var data, header, i, ref, ref1, refs;
-      header = ['_id', 'Short Citation', 'Full Citation', 'Reference Type', 'Pubmed ID', 'Other URL'];
-      data = [header];
-      refs = Reference.find({"monographAgent": {$in: [monographAgent]}}, {sort: [["name", 1]]}).fetch();
-      refs.forEach(function(d){getDataRow(d)});
-      return data;
-    };
-    data = getData();
-    ws_name = monographAgent + "-references";
-    wb = new Workbook();
-    ws = sheet_from_array_of_arrays(data);
-    wb.SheetNames.push(ws_name);
-    wb.Sheets[ws_name] = ws;
-    return XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
+    var wsName = monographAgent + "-references";
+    return writeXLSX(wsName, Reference.tabular(monographAgent));
   }
 });
