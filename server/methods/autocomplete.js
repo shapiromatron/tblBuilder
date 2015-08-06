@@ -10,7 +10,27 @@ var singleFieldTextSearch = function(Collection, field, qrystr, tbl_id) {
   queryset = Collection.find(query, options).fetch();
   values = _.pluck(queryset, field);
   return _.uniq(values, true);
+},
+listFieldTextSearch = function(Collection, field, qrystr) {
+    var qs,
+        regex,
+        qry = {},
+        opts = {fields: {}, limit: 1000};
+
+    check(qrystr, String);
+    regex = new RegExp(qrystr.escapeRegex(), "i");
+    qry[field] = {$in: [regex]};
+    opts.fields[field] = 1;
+
+    qs = Collection.find(qry, opts).fetch();
+    return _.chain(qs)
+            .pluck(field)
+            .flatten()
+            .uniq(false)
+            .filter(function(v){return v.match(regex);})
+            .value();
 };
+
 
 Meteor.methods({
   adminUserEditProfile: function(_id, obj) {
@@ -135,34 +155,10 @@ Meteor.methods({
     return singleFieldTextSearch(Tables, "monographAgent", query);
   },
   searchCovariates: function(query) {
-    var covariates, queryset, querystr;
-    check(query, String);
-    querystr = new RegExp(query, "i");
-    queryset = EpiResult.find({
-      "covariates": {$in: [querystr]}},
-      {fields: {covariates: 1},
-      limit: 1000
-    }).fetch();
-    covariates = _.flatten(_.pluck(queryset, 'covariates'));
-    covariates = _.filter(covariates, function(v) {
-      return v.match(querystr);
-    });
-    return _.uniq(covariates, false);
+    return listFieldTextSearch(EpiResult, "covariates", query);
   },
   searchCoexposures: function(query) {
-    var coexposures, queryset, querystr;
-    check(query, String);
-    querystr = new RegExp(query, "i");
-    queryset = EpiDescriptive.find(
-      {"coexposures": {$in: [querystr]}},
-      {fields: {coexposures: 1},
-      limit: 1000
-    }).fetch();
-    coexposures = _.flatten(_.pluck(queryset, 'coexposures'));
-    coexposures = _.filter(coexposures, function(v) {
-      return v.match(querystr);
-    });
-    return _.uniq(coexposures, false);
+    return listFieldTextSearch(EpiDescriptive, "coexposures", query);
   },
   searchPrintCaption: function(query, tbl_id) {
     return singleFieldTextSearch(EpiResult, "printCaption", query, tbl_id);
@@ -257,10 +253,10 @@ Meteor.methods({
     return singleFieldTextSearch(AnimalEvidence, "dosingRoute", query);
   },
   searchAnimalStrengths: function(query) {
-    return singleFieldTextSearch(AnimalEvidence, "strengths", query);
+    return listFieldTextSearch(AnimalEvidence, "strengths", query);
   },
   searchAnimalLimitations: function(query) {
-    return singleFieldTextSearch(AnimalEvidence, "limitations", query);
+    return listFieldTextSearch(AnimalEvidence, "limitations", query);
   },
   searchAnimalTumourSite: function(query) {
     return singleFieldTextSearch(AnimalEndpointEvidence, "tumourSite", query);
