@@ -158,16 +158,16 @@ clientShared = {
   },
   typeaheadSelectListAddLI: function($ul, val) {
     var txts = clientShared.typeaheadSelectListGetLIs($ul);
-    if ((txts.index(val) < 0) && (val !== "")) {
+    if ((val !== "") && (!_.contains(txts, val))) {
       Blaze.renderWithData(Template.typeaheadSelectListLI, val, $ul[0]);
       return true;
     }
     return false;
   },
   typeaheadSelectListGetLIs: function($ul) {
-    return $ul.find('li').each(function(i, li){
-      return $(li).data('value');
-    });
+    return _.map(
+        $ul.find('li'),
+        function(li){return li.getAttribute('data-value');});
   },
   toggleRiskPlot: function() {
     var gridline_data, gridlines, header, header_pos, height, svg, tbl,
