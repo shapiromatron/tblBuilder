@@ -118,7 +118,7 @@ Meteor.publish('genotoxEvidence', function(tbl_id) {
 
 Meteor.publish('tblUsers', function(tbl_id) {
   var ids = [], tbl;
-  check(tbl_id, String);
+  if (!Match.test(tbl_id, String)) return;
   tbl = Tables.findOne(tbl_id);
   if (tbl && userCanView(tbl, this.userId)) {
     ids = _.pluck(tbl.user_roles, "user_id");

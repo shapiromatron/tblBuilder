@@ -62,11 +62,13 @@
     {{else}}
       <div class="col-md-offset-1 col-md-10">
         <h1>Current volumes {{>tableActions canSort=false}}</h1>
-        <ul>
+        <ul class="volumeList">
           {{#each getMonographs}}
-            <li>
-              <a href="{{pathFor 'volumeTableList' volumeNumber=this}}">
-                Volume {{this}} [{{getMonographAgents this}}]</a></li>
+            <li class="volumeItem">
+              <a href="{{pathFor 'volumeTableList' volumeNumber=this}}"
+                 class="noUnderline noColor">
+                <h3 class="volumeName">Volume {{this}}</h3>
+                <p class="agentList">{{getMonographAgents this}}</p></a></li>
           {{else}}
             <li>You don't have access to any evidence tables.
                 You must be `staff` to create a new evidence table.</li>
@@ -78,48 +80,48 @@
 </template>
 
 <template name="volumeTableList">
-  <div class="row">
-    {{#if showNew}}
-      {{> newTableHolder}}
-    {{else}}
-      <div class="col-md-offset-1 col-md-10">
-        <div class="monographBanner">
-          <h2>Volume {{volumeNumber}} {{>tableActions canSort=true}}</h2>
+  <div class="container">
+    <div class="row">
+      {{#if showNew}}
+        {{> newTableHolder}}
+      {{else}}
+        <div class="col-md-offset-1 col-md-10">
+          <h1>Volume {{volumeNumber}} {{>tableActions canSort=true}}</h1>
+          {{#each getMonographAgents this}}
+            {{> agentBanner}}
+            <div class="sortables">
+              {{#each getTables ../volumeNumber this }}
+                {{#if isEditing}}
+                  {{> tablesForm}}
+                {{else}}
+                  <div class="moveTableHolder"
+                       data-id="{{_id}}"
+                       data-sortIdx="{{sortIdx}}">
+                    <span class="moveTableHandle" style="display: none" title="Drag to re-order rows"></span>
+                    <a class="noUnderline" href="{{getURL}}">
+                      <div class="tableDiv menu-autohide">
+                        <span class="label label-default">{{tblType}} </span>
+                        {{#if canEdit}}
+                          <div class="rowOptions btn-group pull-right">
+                            <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                              <span class="caret" title="Editing options"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" id="tables-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                            </ul>
+                          </div>
+                        {{/if}}
+                        <br>{{name}}
+                      </div>
+                    </a>
+                  </div>
+                {{/if}}
+              {{/each}}
+            </div>
+          {{/each}}
         </div>
-        {{#each getMonographAgents this}}
-          {{> agentBanner}}
-          <div class="sortables">
-            {{#each getTables ../volumeNumber this }}
-              {{#if isEditing}}
-                {{> tablesForm}}
-              {{else}}
-                <div class="moveTableHolder"
-                     data-id="{{_id}}"
-                     data-sortIdx="{{sortIdx}}">
-                  <span class="moveTableHandle" style="display: none" title="Drag to re-order rows"></span>
-                  <a class="noUnderline" href="{{getURL}}">
-                    <div class="tableDiv menu-autohide">
-                      <span class="label label-default">{{tblType}} </span>
-                      {{#if canEdit}}
-                        <div class="rowOptions btn-group pull-right">
-                          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                            <span class="caret" title="Editing options"></span>
-                          </button>
-                          <ul class="dropdown-menu">
-                              <li><a href="#" id="tables-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                          </ul>
-                        </div>
-                      {{/if}}
-                      <br>{{name}}
-                    </div>
-                  </a>
-                </div>
-              {{/if}}
-            {{/each}}
-          </div>
-        {{/each}}
-      </div>
-    {{/if}}
+      {{/if}}
+    </div>
   </div>
   <div id="modalHolder"></div>
 </template>
