@@ -53,12 +53,8 @@ Meteor.startup(function() {
     remove: serverShared.isStaffOrHigher
   });
 
-  ExposureEvidence.allow(tblContentAllowRules);
-  EpiDescriptive.allow(tblContentAllowRules);
-  EpiResult.allow(tblContentAllowRules);
-  AnimalEvidence.allow(tblContentAllowRules);
-  AnimalEndpointEvidence.allow(tblContentAllowRules);
-  GenotoxEvidence.allow(tblContentAllowRules);
-  MechanisticEvidence.allow(tblContentAllowRules);
+  tblBuilderCollections.evidenceTypes.forEach(function(Collection){
+    Collection.allow(tblContentAllowRules);
+  });
 
 });

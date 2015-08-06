@@ -1,6 +1,6 @@
 Template.genotoxMain.helpers(clientShared.abstractMainHelpers);
 Template.genotoxMain.onCreated(function() {
-  Session.set('evidenceType', 'genotox');
+  Session.set('evidenceType', 'genotoxEvidence');
   Session.set('evidenceShowNew', false);
   Session.set('evidenceShowAll', false);
   Session.set('evidenceEditingId', null);

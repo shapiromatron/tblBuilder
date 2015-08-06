@@ -16,7 +16,7 @@ Template.moveModalHolder.events({
   'click #move-content': function(evt, tmpl) {
     var content_id = this.content._id,
         tbl_id = $(tmpl.find("select[name='moveTblTo']")).val(),
-        ET = clientShared.evidenceType[Session.get("evidenceType")],
+        ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")],
         nesteds;
 
     ET.collection.update(

@@ -27,26 +27,7 @@ Meteor.methods({
     if (!serverShared.isStaffOrHigher(this.userId)) {
       throw new Meteor.Error(403, "Nice try wise-guy.");
     }
-    collection = (function() {
-      switch (model) {
-        case "epiDescriptive":
-          return EpiDescriptive;
-        case "epiResult":
-          return EpiResult;
-        case "mechanisticEvidence":
-          return MechanisticEvidence;
-        case "exposureEvidence":
-          return ExposureEvidence;
-        case "animalEvidence":
-          return AnimalEvidence;
-        case "animalEndpointEvidence":
-          return AnimalEndpointEvidence;
-        case "genotoxEvidence":
-          return GenotoxEvidence;
-        default:
-          return void 0;
-      }
-    })();
+    collection = tblBuilderCollections.evidenceLookup[model].collection;
     if (collection) {
       obj = collection.findOne(_id);
       if (obj) {

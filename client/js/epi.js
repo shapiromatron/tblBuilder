@@ -1,6 +1,6 @@
 Template.epiMain.helpers(clientShared.abstractMainHelpers);
 Template.epiMain.onCreated(function() {
-  Session.set('evidenceType', 'epi');
+  Session.set('evidenceType', 'epiDescriptive');
   Session.set('evidenceShowNew', false);
   Session.set('evidenceShowAll', false);
   Session.set('evidenceEditingId', null);
@@ -206,7 +206,7 @@ Template.epiResultForm.events(_.extend({
     'click #inner-create': function(evt, tmpl) {
       var errorDiv, isValid,
           key = Session.get('evidenceType'),
-          NestedCollection = clientShared.evidenceType[key].nested_collection,
+          NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
           obj = clientShared.newValues(tmpl.find('#nestedModalForm'));
 
       getRiskRows(tmpl, obj);
@@ -230,7 +230,7 @@ Template.epiResultForm.events(_.extend({
     'click #inner-update': function(evt, tmpl) {
       var errorDiv, isValid, modifier,
           key = Session.get('evidenceType'),
-          NestedCollection = clientShared.evidenceType[key].nested_collection,
+          NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
           vals = clientShared.updateValues(tmpl.find('#nestedModalForm'), this);
 
       getRiskRows(tmpl, vals);

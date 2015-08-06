@@ -255,42 +255,6 @@ clientShared = {
       if (userId === user.user_id && user.role !== "reviewers") return true;
     }
     return false;
-  },
-  evidenceType: {
-    epi: {
-      collection: EpiDescriptive,
-      collection_name: "epiDescriptive",
-      excel_method: "epiEvidenceDownload",
-      excel_fn: "epi.xlsx",
-      nested_template: Template.epiResultForm,
-      nested_collection: EpiResult,
-      nested_collection_name: "epiResult",
-      requiredUpdateFields: ["studyDesign"]
-    },
-    animal: {
-      collection: AnimalEvidence,
-      collection_name: "animalEvidence",
-      excel_method: "animalEvidenceDownload",
-      excel_fn: "animal.xlsx",
-      nested_template: Template.animalEndpointForm,
-      nested_collection: AnimalEndpointEvidence,
-      nested_collection_name: "animalEndpointEvidence",
-      requiredUpdateFields: []
-    },
-    exposure: {
-      collection: ExposureEvidence,
-      collection_name: "exposureEvidence",
-      excel_method: "exposureEvidenceDownload",
-      excel_fn: "exposure.xlsx",
-      requiredUpdateFields: ["exposureScenario"]
-    },
-    genotox: {
-      collection: GenotoxEvidence,
-      collection_name: "genotoxEvidence",
-      excel_method: "genotoxEvidenceDownload",
-      excel_fn: "genotox.xlsx",
-      requiredUpdateFields: []
-    }
   }
 }
 
@@ -315,7 +279,7 @@ _.extend(clientShared, {
       var Collection, key;
       key = Session.get('evidenceType');
       if (key != null) {
-        Collection = clientShared.evidenceType[key].collection;
+        Collection = tblBuilderCollections.evidenceLookup[key].collection;
         return Collection.find({}, {
           sort: {
             sortIdx: 1
@@ -355,8 +319,8 @@ _.extend(clientShared, {
       var fn, key, method, tbl_id;
       tbl_id = Session.get('Tbl')._id;
       key = Session.get('evidenceType');
-      method = clientShared.evidenceType[key].excel_method;
-      fn = clientShared.evidenceType[key].excel_fn;
+      method = tblBuilderCollections.evidenceLookup[key].excel_method;
+      fn = tblBuilderCollections.evidenceLookup[key].excel_fn;
       return Meteor.call(method, tbl_id, function(err, response) {
         return clientShared.returnExcelFile(response, fn);
       });
@@ -366,7 +330,7 @@ _.extend(clientShared, {
     getChildren: function() {
       var NestedCollection, key;
       key = Session.get('evidenceType');
-      NestedCollection = clientShared.evidenceType[key].nested_collection;
+      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
       return NestedCollection.find({
         parent_id: this._id
       }, {
@@ -385,7 +349,7 @@ _.extend(clientShared, {
     'click #toggle-hidden': function(evt, tmpl) {
       var Collection, key;
       key = Session.get('evidenceType');
-      Collection = clientShared.evidenceType[key].collection;
+      Collection = tblBuilderCollections.evidenceLookup[key].collection;
       return Collection.update(this._id, {
         $set: {
           isHidden: !this.isHidden
@@ -397,7 +361,7 @@ _.extend(clientShared, {
       div = tmpl.find('#nestedModalHolder');
       $(div).empty();
       key = Session.get('evidenceType');
-      NestedTemplate = clientShared.evidenceType[key].nested_template;
+      NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
       return Blaze.renderWithData(NestedTemplate, {
         parent: this
       }, div);
@@ -413,7 +377,7 @@ _.extend(clientShared, {
     },
     'click #clone-content': function(evt, tmpl) {
       var ET;
-      ET = clientShared.evidenceType[Session.get("evidenceType")];
+      ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")];
       return utilities.cloneObject(this, ET.collection, ET.nested_collection);
     }
   },
@@ -427,7 +391,7 @@ _.extend(clientShared, {
     'click #create': function(evt, tmpl) {
       var Collection, createPreValidate, errorDiv, isValid, key, obj;
       key = Session.get('evidenceType');
-      Collection = clientShared.evidenceType[key].collection;
+      Collection = tblBuilderCollections.evidenceLookup[key].collection;
       obj = clientShared.newValues(tmpl.find('#mainForm'));
       obj['tbl_id'] = Session.get('Tbl')._id;
       obj['sortIdx'] = 1e10;
@@ -447,10 +411,10 @@ _.extend(clientShared, {
     'click #update': function(evt, tmpl) {
       var Collection, errorDiv, fld, i, isValid, key, len, modifier, ref, updatePreValidate, vals;
       key = Session.get('evidenceType');
-      Collection = clientShared.evidenceType[key].collection;
+      Collection = tblBuilderCollections.evidenceLookup[key].collection;
       vals = clientShared.updateValues(tmpl.find('#mainForm'), this);
       key = Session.get('evidenceType');
-      ref = clientShared.evidenceType[key].requiredUpdateFields;
+      ref = tblBuilderCollections.evidenceLookup[key].requiredUpdateFields;
       for (i = 0, len = ref.length; i < len; i++) {
         fld = ref[i];
         vals[fld] = tmpl.find('select[name="' + fld + '"]').value;
@@ -478,14 +442,14 @@ _.extend(clientShared, {
     'click #delete': function(evt, tmpl) {
       var Collection, key;
       key = Session.get('evidenceType');
-      Collection = clientShared.evidenceType[key].collection;
+      Collection = tblBuilderCollections.evidenceLookup[key].collection;
       Collection.remove(this._id);
       return Session.set("evidenceEditingId", null);
     },
     'click #setQA,#unsetQA': function(evt, tmpl) {
       var collection_name, key;
       key = Session.get('evidenceType');
-      collection_name = clientShared.evidenceType[key].collection_name;
+      collection_name = tblBuilderCollections.evidenceLookup[key].collection_name;
       return Meteor.call('adminToggleQAd', this._id, collection_name, function(err, response) {
         if (response) {
           return clientShared.toggleQA(tmpl, response.QAd);
@@ -503,14 +467,14 @@ _.extend(clientShared, {
       var NestedTemplate, div, key;
       div = tmpl.find('#nestedModalHolder');
       key = Session.get('evidenceType');
-      NestedTemplate = clientShared.evidenceType[key].nested_template;
+      NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
       Session.set('nestedEvidenceEditingId', tmpl.data._id);
       return Blaze.renderWithData(NestedTemplate, {}, div);
     },
     'click #inner-toggle-hidden': function(evt, tmpl) {
       var NestedCollection, data, key;
       key = Session.get('evidenceType');
-      NestedCollection = clientShared.evidenceType[key].nested_collection;
+      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
       data = tmpl.view.parentView.dataVar.curValue;
       return NestedCollection.update(data._id, {
         $set: {
@@ -521,7 +485,7 @@ _.extend(clientShared, {
     'click #clone-nested-content': function(evt, tmpl) {
       var ET, data;
       data = tmpl.view.parentView.dataVar.curValue;
-      ET = clientShared.evidenceType[Session.get("evidenceType")];
+      ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")];
       return utilities.cloneObject(data, ET.nested_collection);
     }
   },
@@ -532,7 +496,7 @@ _.extend(clientShared, {
     getObject: function() {
       var NestedCollection, existing, initial, key;
       key = Session.get('evidenceType');
-      NestedCollection = clientShared.evidenceType[key].nested_collection;
+      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
       initial = this;
       existing = NestedCollection.findOne({
         _id: Session.get('nestedEvidenceEditingId')
@@ -545,7 +509,7 @@ _.extend(clientShared, {
     onHidden = function() {
       var NestedCollection, key;
       key = Session.get('evidenceType');
-      NestedCollection = clientShared.evidenceType[key].nested_collection;
+      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
       $(tmpl.view._domrange.members).remove();
       Blaze.remove(tmpl.view);
       if ((options != null) && (options.remove != null)) {
@@ -558,7 +522,7 @@ _.extend(clientShared, {
     'click #inner-create': function(evt, tmpl) {
       var NestedCollection, errorDiv, isValid, key, obj;
       key = Session.get('evidenceType');
-      NestedCollection = clientShared.evidenceType[key].nested_collection;
+      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
       obj = clientShared.newValues(tmpl.find('#nestedModalForm'));
       obj['tbl_id'] = Session.get('Tbl')._id;
       obj['parent_id'] = tmpl.data.parent._id;
@@ -579,7 +543,7 @@ _.extend(clientShared, {
     'click #inner-update': function(evt, tmpl) {
       var NestedCollection, errorDiv, isValid, key, modifier, vals;
       key = Session.get('evidenceType');
-      NestedCollection = clientShared.evidenceType[key].nested_collection;
+      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
       vals = clientShared.updateValues(tmpl.find('#nestedModalForm'), this);
       modifier = {
         $set: vals
@@ -609,7 +573,7 @@ _.extend(clientShared, {
     'click #setQA,#unsetQA': function(evt, tmpl) {
       var key, nested_collection_name;
       key = Session.get('evidenceType');
-      nested_collection_name = clientShared.evidenceType[key].nested_collection_name;
+      nested_collection_name = tblBuilderCollections.evidenceLookup[key].nested_collection_name;
       return Meteor.call('adminToggleQAd', this._id, nested_collection_name, function(err, response) {
         if (response) {
           return clientShared.toggleQA(tmpl, response.QAd);

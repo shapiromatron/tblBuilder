@@ -1,6 +1,6 @@
 Template.animalMain.helpers(clientShared.abstractMainHelpers);
 Template.animalMain.onCreated(function() {
-  Session.set('evidenceType', 'animal');
+  Session.set('evidenceType', 'animalEvidence');
   Session.set('evidenceShowNew', false);
   Session.set('evidenceShowAll', false);
   Session.set('evidenceEditingId', null);
@@ -152,7 +152,7 @@ Template.animalEndpointForm.events(_.extend({
     'click #inner-create': function(evt, tmpl) {
       var NestedCollection, errorDiv, isValid, key, obj;
       key = Session.get('evidenceType');
-      NestedCollection = clientShared.evidenceType[key].nested_collection;
+      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
       obj = clientShared.newValues(tmpl.find('#nestedModalForm'));
       getEndpointGroupRows(tmpl, obj);
       obj['tbl_id'] = Session.get('Tbl')._id;
@@ -171,7 +171,7 @@ Template.animalEndpointForm.events(_.extend({
     'click #inner-update': function(evt, tmpl) {
       var NestedCollection, errorDiv, isValid, key, modifier, vals;
       key = Session.get('evidenceType');
-      NestedCollection = clientShared.evidenceType[key].nested_collection;
+      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
       vals = clientShared.updateValues(tmpl.find('#nestedModalForm'), this);
       getEndpointGroupRows(tmpl, vals);
       modifier = {

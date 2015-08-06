@@ -1,6 +1,6 @@
 Template.exposureMain.helpers(clientShared.abstractMainHelpers);
 Template.exposureMain.onCreated(function() {
-  Session.set('evidenceType', 'exposure');
+  Session.set('evidenceType', 'exposureEvidence');
   Session.set('evidenceShowNew', false);
   Session.set('evidenceShowAll', false);
   Session.set('evidenceEditingId', null);
