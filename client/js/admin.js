@@ -29,9 +29,9 @@ getAdminUserValues = function(tmpl) {
 };
 
 
-Template.adminMain.created = function() {
+Template.adminMain.onCreated(function() {
   this.subscribe('adminUsers');
-};
+});
 
 
 Template.admin.helpers({

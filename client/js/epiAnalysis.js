@@ -1,9 +1,9 @@
-Template.epiAnalysisMain.created = function() {
+Template.epiAnalysisMain.onCreated(function() {
   this.subscribe('epiDescriptive', Session.get('Tbl')._id);
-};
+});
 
 
-Template.epiAnalysisTbl.rendered = function() {
+Template.epiAnalysisTbl.onRendered(function() {
   var data = EpiDescriptive.tabular(Session.get("Tbl")._id),
       tbl = $(this.find('#analysisTbl')),
       header = data.shift(); // drop header column
@@ -51,5 +51,4 @@ Template.epiAnalysisTbl.rendered = function() {
       return ((a < b) ? 1 : ((a > b) ?  -1 : 0));
     }
   });
-};
-
+});

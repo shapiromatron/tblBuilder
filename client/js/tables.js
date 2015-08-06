@@ -20,11 +20,11 @@ Template.home.helpers({
     return Meteor.user();
   }
 });
-Template.home.rendered = function() {
+Template.home.onCreated(function() {
   Session.set("tablesShowNew", false);
   Session.set("tablesEditingId", null);
-  return Session.set("reorderRows", false);
-};
+  Session.set("reorderRows", false);
+});
 
 
 Template.TablesByMonograph.helpers({
@@ -207,6 +207,6 @@ Template.tablesForm.events({
     }
   }
 });
-Template.tablesForm.rendered = function() {
+Template.tablesForm.onRendered(function() {
   return Meteor.typeahead.inject('.userTypeahead');
-};
+});

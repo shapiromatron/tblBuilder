@@ -1,13 +1,11 @@
 Template.animalMain.helpers(clientShared.abstractMainHelpers);
-Template.animalMain.created = function() {
-  this.subscribe('animalEvidence', Session.get('Tbl')._id);
-};
-Template.animalMain.rendered = function() {
+Template.animalMain.onCreated(function() {
+  Session.set('evidenceType', 'animal');
   Session.set('evidenceShowNew', false);
   Session.set('evidenceEditingId', null);
   Session.set('evidenceShowAll', false);
-  return Session.set('evidenceType', 'animal');
-};
+  this.subscribe('animalEvidence', Session.get('Tbl')._id);
+});
 
 
 Template.animalTbl.helpers(_.extend({
@@ -33,20 +31,18 @@ Template.animalTbl.events(_.extend({
       });
     }
   }, clientShared.abstractTblEvents));
-Template.animalTbl.rendered = function() {
+Template.animalTbl.onRendered(function() {
   new Sortable(this.find('#sortable'), {
     handle: ".dhOuter",
     onUpdate: clientShared.moveRowCheck,
     Cls: AnimalEvidence
   });
   return clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
-};
+});
 
 
 var getFirstEndpoint = function(parent_id) {
-  return AnimalEndpointEvidence.findOne({
-    parent_id: parent_id
-  });
+  return AnimalEndpointEvidence.findOne({parent_id: parent_id});
 };
 Template.animalRow.helpers(_.extend({
     getDoses: function() {
@@ -60,14 +56,14 @@ Template.animalRow.helpers(_.extend({
     }
   }, clientShared.abstractRowHelpers));
 Template.animalRow.events(clientShared.abstractRowEvents);
-Template.animalRow.rendered = function() {
+Template.animalRow.onRendered(function() {
   new Sortable(this.find('#sortableInner'), {
     handle: ".dhInner",
     onUpdate: clientShared.moveRowCheck,
     Cls: AnimalEndpointEvidence
   });
   return clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
-};
+});
 
 
 Template.animalForm.helpers({
@@ -79,14 +75,14 @@ Template.animalForm.helpers({
   }
 });
 Template.animalForm.events(clientShared.abstractFormEvents);
-Template.animalForm.rendered = function() {
+Template.animalForm.onRendered(function() {
   clientShared.toggleQA(this, this.data.isQA);
   return $(this.findAll('.helpPopovers')).popover({
     delay: {show: 500, hide: 100},
     trigger: "hover",
     placement: "auto"
   });
-};
+});
 
 
 Template.animalEndpointTbl.helpers(_.extend({
@@ -203,24 +199,19 @@ Template.animalEndpointForm.events(_.extend({
       });
     }
   }, clientShared.abstractNestedFormEvents));
-Template.animalEndpointForm.rendered = function() {
-  var aniResult;
-  aniResult = AnimalEndpointEvidence.findOne({
-    _id: Session.get('nestedEvidenceEditingId')
-  });
+Template.animalEndpointForm.onRendered(function() {
+  var aniResult = AnimalEndpointEvidence.findOne(
+          {_id: Session.get('nestedEvidenceEditingId')});
   if (aniResult != null) {
     clientShared.toggleQA(this, aniResult.isQA);
   }
   $(this.find('#nestedModalDiv')).modal('toggle');
   return $(this.findAll('.helpPopovers')).popover({
-    delay: {
-      show: 500,
-      hide: 100
-    },
+    delay: {show: 500, hide: 100},
     trigger: "hover",
     placement: "auto"
   });
-};
+});
 
 
 Template.animalEndpointGroupForm.events({

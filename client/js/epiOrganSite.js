@@ -29,7 +29,7 @@ Template.epiOrganSiteMain.events({
     return clientShared.toggleRiskPlot();
   }
 });
-Template.epiOrganSiteMain.created = function() {
+Template.epiOrganSiteMain.onCreated(function() {
   this.subscribe('epiCollective', this.data.volumeNumber, this.data.monographAgent);
   return this.organSites = new ReactiveVar([]);
-};
+});

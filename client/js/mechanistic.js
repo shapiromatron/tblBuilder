@@ -44,17 +44,17 @@ Template.mechanisticMain.events({
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
   }
 });
-Template.mechanisticMain.created = function() {
+Template.mechanisticMain.onCreated(function() {
   this.subscribe('mechanisticEvidence', Session.get('Tbl')._id);
-};
-Template.mechanisticMain.rendered = function() {
+});
+Template.mechanisticMain.onRendered(function() {
   $(this.findAll('.collapse')).on('show.bs.collapse', function() {
     $(this).parent().addClass('evidenceExpanded');
   });
   $(this.findAll('.collapse')).on('hide.bs.collapse', function() {
     $(this).parent().removeClass('evidenceExpanded');
   });
-};
+});
 
 
 Template.mechanisticTbl.helpers({
@@ -84,9 +84,9 @@ Template.mechanisticSectionTR.events({
     clientShared.activateInput(tmpl.find("textarea[name=text]"));
   }
 });
-Template.mechanisticSectionTR.rendered = function() {
+Template.mechanisticSectionTR.onRendered(function() {
   initializeDraggable(this, {isSection: true});
-};
+});
 
 
 Template.mechanisticEvidenceDisplay.helpers({
@@ -124,9 +124,9 @@ Template.mechanisticEvidenceDisplay.events({
     clientShared.activateInput(tmpl.find("textarea[name=text]"));
   }
 });
-Template.mechanisticEvidenceDisplay.rendered = function() {
+Template.mechanisticEvidenceDisplay.onRendered(function() {
   return initializeDraggable(this, {isSection: false});
-};
+});
 
 
 Template.mechanisticEvidenceForm.events({
@@ -187,10 +187,10 @@ Template.mechanisticEvidenceForm.helpers({
     return MechanisticEvidence.evidenceOptions;
   }
 });
-Template.mechanisticEvidenceForm.rendered = function() {
+Template.mechanisticEvidenceForm.onRendered(function() {
   return $(this.findAll('.helpPopovers')).popover({
     delay: {show: 500, hide: 100},
     trigger: "hover",
     placement: "auto"
   });
-};
+});

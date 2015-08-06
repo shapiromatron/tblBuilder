@@ -1,9 +1,9 @@
-Template.formLegendPulldown.rendered = function() {
+Template.formLegendPulldown.onRendered(function() {
   $(this.findAll('pre')).click(function(e) {
     e.preventDefault();
     e.stopPropagation();
   });
-};
+});
 
 
 Template.optFullScreen.helpers({
@@ -58,9 +58,9 @@ var autocompleteOptions = function(qry, cb) {
   });
 };
 Template.typeaheadInput.helpers({getOptions: autocompleteOptions});
-Template.typeaheadInput.rendered = function() {
+Template.typeaheadInput.onRendered(function() {
   return Meteor.typeahead.inject("input[name=" + this.data.name + "]");
-};
+});
 
 
 Template.typeaheadSelectList.helpers({getOptions: autocompleteOptions});
@@ -84,6 +84,6 @@ Template.typeaheadSelectList.events({
     }
   }
 });
-Template.typeaheadSelectList.rendered = function() {
+Template.typeaheadSelectList.onRendered(function() {
   return Meteor.typeahead.inject("input[name=" + this.data.name + "]");
-};
+});

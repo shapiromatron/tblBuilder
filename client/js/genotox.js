@@ -1,25 +1,23 @@
 Template.genotoxMain.helpers(clientShared.abstractMainHelpers);
-Template.genotoxMain.created = function() {
-  this.subscribe('genotoxEvidence', Session.get('Tbl')._id);
-};
-Template.genotoxMain.rendered = function() {
+Template.genotoxMain.onCreated(function() {
+  Session.set('evidenceType', 'genotox');
   Session.set('evidenceShowNew', false);
   Session.set('evidenceEditingId', null);
   Session.set('evidenceShowAll', false);
-  Session.set('evidenceType', 'genotox');
-};
+  this.subscribe('genotoxEvidence', Session.get('Tbl')._id);
+});
 
 
 Template.genotoxTbl.helpers(clientShared.abstractTblHelpers);
 Template.genotoxTbl.events(clientShared.abstractTblEvents);
-Template.genotoxTbl.rendered = function() {
+Template.genotoxTbl.onRendered(function() {
   new Sortable(this.find('#sortable'), {
     handle: ".dhOuter",
     onUpdate: clientShared.moveRowCheck,
     Cls: GenotoxEvidence
   });
   return clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
-};
+});
 
 
 Template.genotoxRow.events(clientShared.abstractRowEvents);
@@ -256,7 +254,7 @@ Template.genotoxForm.events(_.extend({
       toggleEndpointTestOptions(tmpl);
     }
   }, clientShared.abstractFormEvents));
-Template.genotoxForm.rendered = function() {
+Template.genotoxForm.onRendered(function() {
   toggleDataClassFields(this);
   togglePhyloFields(this);
   toggleEndpointOptions(this);
@@ -268,4 +266,4 @@ Template.genotoxForm.rendered = function() {
     html: true,
     placement: "auto"
   });
-};
+});

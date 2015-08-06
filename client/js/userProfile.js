@@ -5,7 +5,6 @@ Template.profileEdit.helpers({
     return {};
   }
 });
-
 Template.profileForm.events({
   'click #update': function(evt, tmpl) {
     var profile = {'profile': clientShared.newValues(tmpl.find('form'))};

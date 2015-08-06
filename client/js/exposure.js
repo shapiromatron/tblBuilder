@@ -1,25 +1,22 @@
 Template.exposureMain.helpers(clientShared.abstractMainHelpers);
-Template.exposureMain.created = function() {
-  this.subscribe('exposureEvidence', Session.get('Tbl')._id);
-};
-Template.exposureMain.rendered = function() {
+Template.exposureMain.onCreated(function() {
+  Session.set('evidenceType', 'exposure');
   Session.set('evidenceShowNew', false);
   Session.set('evidenceEditingId', null);
   Session.set('evidenceShowAll', false);
-  Session.set('evidenceType', 'exposure');
-};
-
+  this.subscribe('exposureEvidence', Session.get('Tbl')._id);
+});
 
 Template.exposureTbl.helpers(clientShared.abstractTblHelpers);
 Template.exposureTbl.events(clientShared.abstractTblEvents);
-Template.exposureTbl.rendered = function() {
+Template.exposureTbl.onRendered(function() {
   new Sortable(this.find('#sortable'), {
     handle: ".dhOuter",
     onUpdate: clientShared.moveRowCheck,
     Cls: ExposureEvidence
   });
   clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
-};
+});
 
 
 Template.exposureRow.events(clientShared.abstractRowEvents);
@@ -46,7 +43,7 @@ Template.exposureForm.events(_.extend({
       return toggleOccFields(tmpl);
     }
   }, clientShared.abstractFormEvents));
-Template.exposureForm.rendered = function() {
+Template.exposureForm.onRendered(function() {
   toggleOccFields(this);
   clientShared.toggleQA(this, this.data.isQA);
   return $(this.findAll('.helpPopovers')).popover({
@@ -54,4 +51,4 @@ Template.exposureForm.rendered = function() {
     trigger: "hover",
     placement: "auto"
   });
-};
+});

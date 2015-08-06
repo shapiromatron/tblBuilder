@@ -1,7 +1,7 @@
-Template.referencesMain.created = function() {
+Template.referencesMain.onCreated(function() {
   Session.set('monographAgent', this.data.monographAgent);
   this.subscribe('monographReference', this.data.monographAgent);
-};
+});
 
 
 Template.referencesTbl.helpers({
@@ -109,9 +109,9 @@ Template.referenceForm.events({
     return toggleFieldDisplays(tmpl);
   }
 });
-Template.referenceForm.rendered = function() {
+Template.referenceForm.onRendered(function() {
   return toggleFieldDisplays(this);
-};
+});
 
 
 var getPubMedDetails = function(pubmedID, cb) {
@@ -207,7 +207,7 @@ Template.referenceSingleSelect.events({
     $(evt.currentTarget).parent().remove();
   }
 });
-Template.referenceSingleSelect.rendered = function() {
+Template.referenceSingleSelect.onRendered(function() {
   var div = $(this.find('div.selectedReference'));
   // if a new reference is created, inject it into the input scope
   Tracker.autorun(function() {
@@ -219,7 +219,7 @@ Template.referenceSingleSelect.rendered = function() {
     }
   });
   Meteor.typeahead.inject();
-};
+});
 
 
 var getCurrentReferenceIds = function(tmpl){
@@ -245,7 +245,7 @@ Template.referenceMultiSelect.events({
     return $(evt.currentTarget).parent().remove();
   }
 });
-Template.referenceMultiSelect.rendered = function() {
+Template.referenceMultiSelect.onRendered(function() {
   var $ul = $(this.find('ul')),
       tmpl = this, ids;
 
@@ -262,7 +262,7 @@ Template.referenceMultiSelect.rendered = function() {
   });
 
   return Meteor.typeahead.inject();
-};
+});
 
 
 Template.printReference.helpers({
@@ -280,11 +280,10 @@ Template.printReference.helpers({
     }
   }
 });
-Template.printReference.rendered = function() {
+Template.printReference.onRendered(function() {
   return $(this.find('*[data-toggle=popover]')).popover({
     trigger: 'hover',
     placement: 'bottom',
     delay: {show: 500, hide: 300}
   });
-};
 });

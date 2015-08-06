@@ -12,7 +12,6 @@ Template.moveModalHolder.helpers({
     }).value().join("");
   }
 });
-
 Template.moveModalHolder.events({
   'click #move-content': function(evt, tmpl) {
     var content_id = this.content._id,
@@ -33,10 +32,9 @@ Template.moveModalHolder.events({
       })
 
     }
-    return $(tmpl.firstNode).modal('hide');
+    $(tmpl.firstNode).modal('hide');
   }
 });
-
-Template.moveModalHolder.rendered = function() {
-  return $(this.find('#moveModalHolder')).modal('show');
-};
+Template.moveModalHolder.onRendered(function() {
+  $(this.find('#moveModalHolder')).modal('show');
+});

@@ -1,13 +1,11 @@
 Template.epiMain.helpers(clientShared.abstractMainHelpers);
-Template.epiMain.created = function() {
-  this.subscribe('epiDescriptive', Session.get('Tbl')._id);
-};
-Template.epiMain.rendered = function() {
+Template.epiMain.onCreated(function() {
+  Session.set('evidenceType', 'epi');
   Session.set('evidenceShowNew', false);
   Session.set('evidenceEditingId', null);
   Session.set('evidenceShowAll', false);
-  Session.set('evidenceType', 'epi');
-};
+  this.subscribe('epiDescriptive', Session.get('Tbl')._id);
+});
 
 
 Template.epiDescriptiveTbl.helpers(_.extend({
@@ -58,7 +56,7 @@ Template.epiDescriptiveTbl.events(_.extend({
       });
     }
   }, clientShared.abstractTblEvents));
-Template.epiDescriptiveTbl.rendered = function() {
+Template.epiDescriptiveTbl.onRendered(function() {
   clientShared.toggleRiskPlot();
   new Sortable(this.find('#sortable'), {
     handle: ".dhOuter",
@@ -66,7 +64,7 @@ Template.epiDescriptiveTbl.rendered = function() {
     Cls: EpiDescriptive
   });
   clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
-};
+});
 
 
 Template.epiDescriptiveRow.helpers(_.extend({
@@ -100,14 +98,14 @@ Template.epiDescriptiveRow.helpers(_.extend({
     }
   }, clientShared.abstractRowHelpers));
 Template.epiDescriptiveRow.events(clientShared.abstractRowEvents);
-Template.epiDescriptiveRow.rendered = function() {
+Template.epiDescriptiveRow.onRendered(function() {
   new Sortable(this.find('#sortableInner'), {
     handle: ".dhInner",
     onUpdate: clientShared.moveRowCheck,
     Cls: EpiResult
   });
   clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
-};
+});
 
 
 var getEligibilityCriteria = function(tmpl, obj, data) {
@@ -140,15 +138,15 @@ Template.epiDescriptiveForm.events(_.extend({
       Blaze.renderWithData(Template.epiResultForm, {descriptive: this}, div);
     }
   }, clientShared.abstractFormEvents));
-Template.epiDescriptiveForm.rendered = function() {
+Template.epiDescriptiveForm.onRendered(function() {
   toggleCCfields(this);
   clientShared.toggleQA(this, this.data.isQA);
   $(this.findAll('.helpPopovers')).popover({
-    delay: {show: 500,hide: 100},
+    delay: {show: 500, hide: 100},
     trigger: "hover",
     placement: "auto"
   });
-};
+});
 
 
 var toggleCCfields = function(tmpl) {
@@ -251,18 +249,16 @@ Template.epiResultForm.events(_.extend({
       }
     }
   }, clientShared.abstractNestedFormEvents));
-Template.epiResultForm.rendered = function() {
+Template.epiResultForm.onRendered(function() {
   var epiResult = EpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
-  if (epiResult != null) {
-    clientShared.toggleQA(this, epiResult.isQA);
-  }
+  if (epiResult != null) clientShared.toggleQA(this, epiResult.isQA);
   $(this.find('#nestedModalDiv')).modal('toggle');
   return $(this.findAll('.helpPopovers')).popover({
     delay: {show: 500, hide: 100},
     trigger: "hover",
     placement: "auto"
   });
-};
+});
 
 
 Template.riskEstimateForm.events({
@@ -273,7 +269,7 @@ Template.riskEstimateForm.events({
 });
 
 
-Template.forestPlot.rendered = function() {
+Template.forestPlot.onRendered(function() {
   var data = this.data.parent.riskEstimates[this.data.index],
       svg = d3.select(this.find('svg')),
       width = parseInt(svg.node().getBoundingClientRect().width),
@@ -326,4 +322,4 @@ Template.forestPlot.rendered = function() {
       .attr("y1", yscale(0.25))
       .attr("y2", yscale(0.75));
   }
-};
+});

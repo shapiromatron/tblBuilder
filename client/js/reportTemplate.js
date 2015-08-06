@@ -28,14 +28,14 @@ Template.reportTemplateModal.events({
     }
   }
 });
-Template.reportTemplateModal.rendered = function() {
+Template.reportTemplateModal.onRendered(function() {
   var self = this;
   $(this.find('#reportTemplateModal'))
     .on('hidden.bs.modal', function(){
       Blaze.remove(self.view);
       $(self.view._domrange.members).remove();
     }).modal('show');
-}
+});
 
 
 Template.reportTemplateTable.helpers({
@@ -153,6 +153,6 @@ Template.reportTemplateForm.events({
     toggleEpiFields(tmpl);
   }
 });
-Template.reportTemplateForm.rendered = function() {
+Template.reportTemplateForm.onRendered(function() {
   toggleEpiFields(this);
-}
+});

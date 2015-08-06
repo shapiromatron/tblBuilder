@@ -3,6 +3,6 @@ Template.navBar.helpers({
     return Meteor.settings["public"].context.toUpperCase();
   }
 });
-Template.navBar.rendered = function() {
+Template.navBar.onCreated(function() {
   document.title = utilities.getHTMLTitleBase();
-};
+});
