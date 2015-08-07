@@ -142,13 +142,15 @@
     <legend>Mechanistic evidence {{>formLegendPulldown}}</legend>
     <div class="form-group row">
       <div class="col-xs-4">
-        <label>Supporting evidence</label><br>
+        <label class="helpPopovers" data-toggle="popover"
+               data-content="Describe supporting evidence">Supporting evidence</label><br>
         <textarea class="form-control" name='text' type="text"
                   placeholder='Describe supporting evidence' rows="6">{{text}}</textarea>
       </div>
       <div class="col-xs-4">
         {{#if displaySubheading}}
-          <label>Subheading</label>
+          <label class="helpPopovers" data-toggle="popover"
+                 data-content="Add subheadings, or leave blank if none are required">Subheading</label>
           <input class="form-control" name='subheading' type="text"
                  value="{{subheading}}" placeholder='Leave blank if none required'/><br>
         {{/if}}

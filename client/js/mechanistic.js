@@ -194,9 +194,5 @@ Template.mechanisticEvidenceForm.helpers({
   }
 });
 Template.mechanisticEvidenceForm.onRendered(function() {
-  return $(this.findAll('.helpPopovers')).popover({
-    delay: {show: 500, hide: 100},
-    trigger: "hover",
-    placement: "auto"
-  });
+  clientShared.initPopovers(this);
 });

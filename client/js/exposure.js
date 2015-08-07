@@ -46,9 +46,5 @@ Template.exposureForm.events(_.extend({
 Template.exposureForm.onRendered(function() {
   toggleOccFields(this);
   clientShared.toggleQA(this, this.data.isQA);
-  return $(this.findAll('.helpPopovers')).popover({
-    delay: {show: 500, hide: 100},
-    trigger: "hover",
-    placement: "auto"
-  });
+  clientShared.initPopovers(this);
 });

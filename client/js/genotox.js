@@ -260,10 +260,5 @@ Template.genotoxForm.onRendered(function() {
   toggleEndpointOptions(this);
   toggleDualResult(this);
   clientShared.toggleQA(this, this.data.isQA);
-  $(this.findAll('.helpPopovers')).popover({
-    delay: {show: 500, hide: 100},
-    trigger: "hover",
-    html: true,
-    placement: "auto"
-  });
+  clientShared.initPopovers(this, {html: true});
 });

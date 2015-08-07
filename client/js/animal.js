@@ -78,11 +78,7 @@ Template.animalForm.helpers({
 Template.animalForm.events(clientShared.abstractFormEvents);
 Template.animalForm.onRendered(function() {
   clientShared.toggleQA(this, this.data.isQA);
-  return $(this.findAll('.helpPopovers')).popover({
-    delay: {show: 500, hide: 100},
-    trigger: "hover",
-    placement: "auto"
-  });
+  clientShared.initPopovers(this);
 });
 
 
@@ -207,11 +203,7 @@ Template.animalEndpointForm.onRendered(function() {
     clientShared.toggleQA(this, aniResult.isQA);
   }
   $(this.find('#nestedModalDiv')).modal('toggle');
-  return $(this.findAll('.helpPopovers')).popover({
-    delay: {show: 500, hide: 100},
-    trigger: "hover",
-    placement: "auto"
-  });
+  clientShared.initPopovers(this);
 });
 
 

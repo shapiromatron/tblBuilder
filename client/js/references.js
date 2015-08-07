@@ -283,7 +283,7 @@ Template.printReference.helpers({
   }
 });
 Template.printReference.onRendered(function() {
-  return $(this.find('*[data-toggle=popover]')).popover({
+  $(this.find('*[data-toggle=popover]')).popover({
     trigger: 'hover',
     placement: 'bottom',
     delay: {show: 500, hide: 300}

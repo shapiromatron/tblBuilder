@@ -142,11 +142,7 @@ Template.epiDescriptiveForm.events(_.extend({
 Template.epiDescriptiveForm.onRendered(function() {
   toggleCCfields(this);
   clientShared.toggleQA(this, this.data.isQA);
-  $(this.findAll('.helpPopovers')).popover({
-    delay: {show: 500, hide: 100},
-    trigger: "hover",
-    placement: "auto"
-  });
+  clientShared.initPopovers(this);
 });
 
 
@@ -254,11 +250,7 @@ Template.epiResultForm.onRendered(function() {
   var epiResult = EpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
   if (epiResult != null) clientShared.toggleQA(this, epiResult.isQA);
   $(this.find('#nestedModalDiv')).modal('toggle');
-  return $(this.findAll('.helpPopovers')).popover({
-    delay: {show: 500, hide: 100},
-    trigger: "hover",
-    placement: "auto"
-  });
+  clientShared.initPopovers(this);
 });
 
 

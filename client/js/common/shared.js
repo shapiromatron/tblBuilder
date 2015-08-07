@@ -255,6 +255,15 @@ clientShared = {
       if (userId === user.user_id && user.role !== "reviewers") return true;
     }
     return false;
+  },
+  initPopovers: function(tmpl, opts){
+    opts = opts || {};
+    _.extend(opts, {
+      delay: {show: 500, hide: 100},
+      trigger: "hover",
+      placement: "auto"
+    });
+    $(tmpl.findAll('.helpPopovers')).popover(opts);
   }
 }
 
