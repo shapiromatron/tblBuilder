@@ -5,6 +5,7 @@
   </div>
 </template>
 
+
 <template name='isLoading'>
   <div class="container">
     <h1 class="text-center">Loading</h1>
@@ -15,6 +16,7 @@
   </div>
 </template>
 
+
 <template name="selectList">
   <select class="form-control" name="{{selectName}}">
     {{#each options}}
@@ -23,6 +25,7 @@
   </select>
 </template>
 
+
 <template name="typeaheadInput">
   <input class="form-control typeahead" name={{name}} type="text"
        placeholder="{{placeholder}}"
@@ -30,6 +33,7 @@
        data-source="getOptions"
        data-methodname="{{methodName}}"/>
 </template>
+
 
 <template name="typeaheadSelectList">
   <div>
@@ -46,13 +50,14 @@
   </div>
 </template>
 
+
 <template name="typeaheadSelectListLI">
   <li class='selectListItem' data-value="{{this}}">{{this}}
     <a href='#' class='pull-right selectListRemove btn btn-default btn-xs' title='Remove from list'>
-      <span class='glyphicon glyphicon-remove'></span>
-    </a>
+      <span class='glyphicon glyphicon-remove'></span></a>
   </li>
 </template>
+
 
 <template name="dismissableAlert">
   <div class="alert alert-{{alertType}} alert-dismissible" role="alert">
@@ -60,6 +65,7 @@
     {{{message}}}
   </div>
 </template>
+
 
 <template name="formLegendPulldown">
   <div class="btn-group pull-right">
@@ -78,6 +84,7 @@
     </ul>
   </div>
 </template>
+
 
 <template name="moveModalHolder">
   <div class="modal fade" id="moveModalHolder" tabindex="-1" role="dialog"
