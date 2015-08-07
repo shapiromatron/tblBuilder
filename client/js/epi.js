@@ -136,6 +136,9 @@ Template.epiDescriptiveForm.onRendered(function() {
   clientShared.toggleQA(this, this.data.isQA);
   clientShared.initPopovers(this);
 });
+Template.epiDescriptiveForm.onDestroyed(function() {
+  clientShared.destroyPopovers(this);
+});
 
 
 var toggleCCfields = function(tmpl) {
@@ -243,6 +246,9 @@ Template.epiResultForm.onRendered(function() {
   if (epiResult != null) clientShared.toggleQA(this, epiResult.isQA);
   $(this.find('#nestedModalDiv')).modal('toggle');
   clientShared.initPopovers(this);
+});
+Template.epiResultForm.onDestroyed(function() {
+  clientShared.destroyPopovers(this);
 });
 
 

@@ -72,6 +72,9 @@ Template.animalForm.onRendered(function() {
   clientShared.toggleQA(this, this.data.isQA);
   clientShared.initPopovers(this);
 });
+Template.animalForm.onDestroyed(function() {
+  clientShared.destroyPopovers(this);
+});
 
 
 Template.animalEndpointTbl.helpers(_.extend({
@@ -196,6 +199,9 @@ Template.animalEndpointForm.onRendered(function() {
   }
   $(this.find('#nestedModalDiv')).modal('toggle');
   clientShared.initPopovers(this);
+});
+Template.animalEndpointForm.onDestroyed(function() {
+  clientShared.destroyPopovers(this);
 });
 
 

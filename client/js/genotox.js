@@ -258,3 +258,6 @@ Template.genotoxForm.onRendered(function() {
   clientShared.toggleQA(this, this.data.isQA);
   clientShared.initPopovers(this, {html: true});
 });
+Template.genotoxForm.onDestroyed(function() {
+  clientShared.destroyPopovers(this);
+});

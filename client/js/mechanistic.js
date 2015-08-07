@@ -193,3 +193,6 @@ Template.mechanisticEvidenceForm.helpers({
 Template.mechanisticEvidenceForm.onRendered(function() {
   clientShared.initPopovers(this);
 });
+Template.mechanisticEvidenceForm.onDestroyed(function() {
+  clientShared.destroyPopovers(this);
+});

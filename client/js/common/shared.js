@@ -265,6 +265,9 @@ clientShared = {
     });
     $(tmpl.findAll('.helpPopovers')).popover(opts);
   },
+  destroyPopovers: function(tmpl){
+    $(tmpl.findAll('.helpPopovers')).popover('destroy');
+  },
   initDraggables: function($el, handle, cls, opts){
     opts = opts || {};
     _.extend(opts, {

@@ -44,3 +44,6 @@ Template.exposureForm.onRendered(function() {
   clientShared.toggleQA(this, this.data.isQA);
   clientShared.initPopovers(this);
 });
+Template.exposureForm.onDestroyed(function() {
+  clientShared.destroyPopovers(this);
+});
