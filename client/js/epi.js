@@ -7,6 +7,13 @@ Template.epiMain.onCreated(function() {
   Session.set('nestedEvidenceEditingId', null);
   this.subscribe('epiDescriptive', Session.get('Tbl')._id);
 });
+Template.epiMain.onDestroyed(function() {
+  Session.set('evidenceType', null);
+  Session.set('evidenceShowNew', false);
+  Session.set('evidenceShowAll', false);
+  Session.set('evidenceEditingId', null);
+  Session.set('nestedEvidenceEditingId', null);
+});
 
 
 Template.epiDescriptiveTbl.helpers(_.extend({

@@ -6,6 +6,12 @@ Template.genotoxMain.onCreated(function() {
   Session.set('evidenceEditingId', null);
   this.subscribe('genotoxEvidence', Session.get('Tbl')._id);
 });
+Template.genotoxMain.onDestroyed(function() {
+  Session.set('evidenceType', null);
+  Session.set('evidenceShowNew', false);
+  Session.set('evidenceShowAll', false);
+  Session.set('evidenceEditingId', null);
+});
 
 
 Template.genotoxTbl.helpers(clientShared.abstractTblHelpers);

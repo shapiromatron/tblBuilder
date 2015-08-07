@@ -31,9 +31,6 @@ Template.optRiskPlot.events({
     clientShared.toggleRiskPlot();
   }
 });
-Template.optRiskPlot.onCreated(function() {
-  Session.setDefault('epiRiskShowPlots', false);
-});
 
 
 Template.selectList.helpers({

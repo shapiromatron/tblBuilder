@@ -31,5 +31,5 @@ Template.epiOrganSiteMain.events({
 });
 Template.epiOrganSiteMain.onCreated(function() {
   this.subscribe('epiCollective', this.data.volumeNumber, this.data.monographAgent);
-  return this.organSites = new ReactiveVar([]);
+  this.organSites = new ReactiveVar([]);
 });

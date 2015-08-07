@@ -139,3 +139,6 @@ Template.referenceBatchUpload.onCreated(function() {
   this.subscribe('monographReference', this.data.monographAgent);
   $.getScript("//cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.full.min.js");
 });
+Template.referenceBatchUpload.onDestroyed(function() {
+  Session.set('monographAgent', null);
+});

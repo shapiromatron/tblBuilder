@@ -4,6 +4,11 @@ Template.referencesMain.onCreated(function() {
   Session.set('monographAgent', this.data.monographAgent);
   this.subscribe('monographReference', this.data.monographAgent);
 });
+Template.referencesMain.onDestroyed(function() {
+  Session.set('referenceShowNew', false);
+  Session.set('referenceEditingId', null);
+  Session.set('monographAgent', null);
+});
 
 
 Template.referencesTbl.helpers({

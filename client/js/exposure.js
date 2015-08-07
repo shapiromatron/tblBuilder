@@ -6,6 +6,13 @@ Template.exposureMain.onCreated(function() {
   Session.set('evidenceEditingId', null);
   this.subscribe('exposureEvidence', Session.get('Tbl')._id);
 });
+Template.exposureMain.onDestroyed(function() {
+  Session.set('evidenceType', null);
+  Session.set('evidenceShowNew', false);
+  Session.set('evidenceShowAll', false);
+  Session.set('evidenceEditingId', null);
+});
+
 
 Template.exposureTbl.helpers(clientShared.abstractTblHelpers);
 Template.exposureTbl.events(clientShared.abstractTblEvents);

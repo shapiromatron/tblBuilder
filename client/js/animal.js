@@ -7,6 +7,13 @@ Template.animalMain.onCreated(function() {
   Session.set('nestedEvidenceEditingId', null);
   this.subscribe('animalEvidence', Session.get('Tbl')._id);
 });
+Template.animalMain.onDestroyed(function() {
+  Session.set('evidenceType', null);
+  Session.set('evidenceShowNew', false);
+  Session.set('evidenceShowAll', false);
+  Session.set('evidenceEditingId', null);
+  Session.set('nestedEvidenceEditingId', null);
+});
 
 
 Template.animalTbl.helpers(_.extend({

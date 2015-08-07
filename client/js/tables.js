@@ -3,6 +3,11 @@ Template.home.onCreated(function() {
   Session.set("tablesEditingId", null);
   Session.set("reorderRows", false);
 });
+Template.home.onDestroyed(function() {
+  Session.set("tablesShowNew", false);
+  Session.set("tablesEditingId", null);
+  Session.set("reorderRows", false);
+});
 
 
 Template.tableActions.events({
