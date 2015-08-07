@@ -282,7 +282,8 @@ clientShared = {
 
 // abstract template helpers
 _.extend(clientShared, {
-  abstractMainHelpers: {},
+  abstractMainHelpers: {
+  },
   abstractTblHelpers: {
     showNew: function() {
       return Session.get("evidenceShowNew");
@@ -297,15 +298,11 @@ _.extend(clientShared, {
       return Session.get('evidenceShowAll');
     },
     object_list: function() {
-      var Collection, key;
-      key = Session.get('evidenceType');
+      var Collection,
+          key = Session.get('evidenceType');
       if (key != null) {
         Collection = tblBuilderCollections.evidenceLookup[key].collection;
-        return Collection.find({}, {
-          sort: {
-            sortIdx: 1
-          }
-        });
+        return Collection.find({}, {sort: {sortIdx: 1}});
       }
     }
   },
@@ -313,120 +310,99 @@ _.extend(clientShared, {
     'click #show-create': function(evt, tmpl) {
       Session.set("evidenceShowNew", true);
       Tracker.flush();
-      return clientShared.activateInput(tmpl.find("input[name=referenceID]"));
+      clientShared.activateInput(tmpl.find("input[name=referenceID]"));
     },
     'click #toggleShowAllRows': function(evt, tmpl) {
-      var val;
-      val = !Session.get('evidenceShowAll');
-      return Session.set('evidenceShowAll', val);
+      var val = !Session.get('evidenceShowAll');
+      Session.set('evidenceShowAll', val);
     },
     'click #reorderRows': function(evt, tmpl) {
-      var val;
-      val = !Session.get('reorderRows');
+      var val = !Session.get('reorderRows');
       Session.set('reorderRows', val);
-      return clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+      clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
     },
     'click #wordReport': function(evt, tmpl) {
-      var div;
-      div = tmpl.find('#modalHolder');
-      return Blaze.renderWithData(Template.reportTemplateModal, {}, div);
+      var div = tmpl.find('#modalHolder');
+      Blaze.renderWithData(Template.reportTemplateModal, {}, div);
     },
     'click #toggleQAflags': function(evt, tmpl) {
-      var val;
-      val = !Session.get('showQAflags');
-      return Session.set('showQAflags', val);
+      var val = !Session.get('showQAflags');
+      Session.set('showQAflags', val);
     },
     'click #downloadExcel': function(evt, tmpl) {
-      var fn, key, method, tbl_id;
-      tbl_id = Session.get('Tbl')._id;
-      key = Session.get('evidenceType');
-      method = tblBuilderCollections.evidenceLookup[key].excel_method;
-      fn = tblBuilderCollections.evidenceLookup[key].excel_fn;
-      return Meteor.call(method, tbl_id, function(err, response) {
-        return clientShared.returnExcelFile(response, fn);
+      var tbl_id = Session.get('Tbl')._id,
+          key = Session.get('evidenceType'),
+          method = tblBuilderCollections.evidenceLookup[key].excel_method,
+          fn = tblBuilderCollections.evidenceLookup[key].excel_fn;
+
+      Meteor.call(method, tbl_id, function(err, response) {
+        clientShared.returnExcelFile(response, fn);
       });
     }
   },
   abstractRowHelpers: {
     getChildren: function() {
-      var NestedCollection, key;
-      key = Session.get('evidenceType');
-      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
-      return NestedCollection.find({
-        parent_id: this._id
-      }, {
-        sort: {
-          sortIdx: 1
-        }
-      });
+      var key = Session.get('evidenceType'),
+          NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
+      return NestedCollection.find({parent_id: this._id}, {sort: {sortIdx: 1}});
     }
   },
   abstractRowEvents: {
     'click #show-edit': function(evt, tmpl) {
       Session.set("evidenceEditingId", this._id);
       Tracker.flush();
-      return clientShared.activateInput($("input[name=referenceID]")[0]);
+      clientShared.activateInput($("input[name=referenceID]")[0]);
     },
     'click #toggle-hidden': function(evt, tmpl) {
-      var Collection, key;
-      key = Session.get('evidenceType');
-      Collection = tblBuilderCollections.evidenceLookup[key].collection;
-      return Collection.update(this._id, {
-        $set: {
-          isHidden: !this.isHidden
-        }
-      });
+      var key = Session.get('evidenceType'),
+          Collection = tblBuilderCollections.evidenceLookup[key].collection;
+      Collection.update(this._id, {$set: {isHidden: !this.isHidden}});
     },
     'click .add-nested': function(evt, tmpl) {
-      var NestedTemplate, div, key;
-      div = tmpl.find('#nestedModalHolder');
+      var div = tmpl.find('#nestedModalHolder'),
+          key = Session.get('evidenceType'),
+          NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
       $(div).empty();
-      key = Session.get('evidenceType');
-      NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
-      return Blaze.renderWithData(NestedTemplate, {
-        parent: this
-      }, div);
+      Blaze.renderWithData(NestedTemplate, {parent: this}, div);
     },
     'click #move-content': function(evt, tmpl) {
-      var div, key;
-      div = $('#modalHolder')[0];
+      var div = $('#modalHolder')[0],
+          key = Session.get('evidenceType');
       $(div).empty();
-      key = Session.get('evidenceType');
-      return Blaze.renderWithData(Template.moveModalHolder, {
-        content: this
-      }, div);
+      Blaze.renderWithData(Template.moveModalHolder, {content: this}, div);
     },
     'click #clone-content': function(evt, tmpl) {
-      var ET;
-      ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")];
-      return utilities.cloneObject(this, ET.collection, ET.nested_collection);
+      var ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")];
+      utilities.cloneObject(this, ET.collection, ET.nested_collection);
     }
   },
   abstractFormEvents: {
     'click #create-cancel': function(evt, tmpl) {
-      return Session.set("evidenceShowNew", false);
+      Session.set("evidenceShowNew", false);
     },
     'click #update-cancel': function(evt, tmpl) {
-      return Session.set("evidenceEditingId", null);
+      Session.set("evidenceEditingId", null);
     },
     'click #create': function(evt, tmpl) {
-      var Collection, createPreValidate, errorDiv, isValid, key, obj;
-      key = Session.get('evidenceType');
-      Collection = tblBuilderCollections.evidenceLookup[key].collection;
-      obj = clientShared.newValues(tmpl.find('#mainForm'));
-      obj['tbl_id'] = Session.get('Tbl')._id;
-      obj['sortIdx'] = 1e10;
-      createPreValidate = tmpl.view.template.__helpers[" createPreValidate"];
-      if (createPreValidate) {
-        obj = createPreValidate(tmpl, obj, this);
-      }
+      var errorDiv, isValid,
+          key = Session.get('evidenceType'),
+          Collection = tblBuilderCollections.evidenceLookup[key].collection,
+          obj = clientShared.newValues(tmpl.find('#mainForm')),
+          createPreValidate = tmpl.view.template.__helpers[" createPreValidate"];
+
+      _.extend(obj, {
+        tbl_id: Session.get('Tbl')._id,
+        sortIdx: 1e10,
+      });
+
+      if (createPreValidate) obj = createPreValidate(tmpl, obj, this);
       isValid = Collection.simpleSchema().namedContext().validate(obj);
       if (isValid) {
         Collection.insert(obj);
-        return Session.set("evidenceShowNew", false);
+        Session.set("evidenceShowNew", false);
       } else {
         errorDiv = clientShared.createErrorDiv(Collection.simpleSchema().namedContext());
-        return $(tmpl.find("#errors")).html(errorDiv);
+        $(tmpl.find("#errors")).html(errorDiv);
       }
     },
     'click #update': function(evt, tmpl) {
@@ -441,40 +417,31 @@ _.extend(clientShared, {
         vals[fld] = tmpl.find('select[name="' + fld + '"]').value;
       }
       updatePreValidate = tmpl.view.template.__helpers[" updatePreValidate"];
-      if (updatePreValidate != null) {
-        vals = updatePreValidate(tmpl, vals, this);
-      }
-      modifier = {
-        $set: vals
-      };
-      isValid = Collection.simpleSchema().namedContext().validate(modifier, {
-        modifier: true
-      });
+      if (updatePreValidate != null) vals = updatePreValidate(tmpl, vals, this);
+      modifier = {$set: vals};
+      isValid = Collection
+          .simpleSchema()
+          .namedContext()
+          .validate(modifier, {modifier: true});
       if (isValid) {
-        Collection.update(this._id, {
-          $set: vals
-        });
-        return Session.set("evidenceEditingId", null);
+        Collection.update(this._id, {$set: vals});
+        Session.set("evidenceEditingId", null);
       } else {
         errorDiv = clientShared.createErrorDiv(Collection.simpleSchema().namedContext());
-        return $(tmpl.find("#errors")).html(errorDiv);
+        $(tmpl.find("#errors")).html(errorDiv);
       }
     },
     'click #delete': function(evt, tmpl) {
-      var Collection, key;
-      key = Session.get('evidenceType');
-      Collection = tblBuilderCollections.evidenceLookup[key].collection;
+      var key = Session.get('evidenceType'),
+          Collection = tblBuilderCollections.evidenceLookup[key].collection;
       Collection.remove(this._id);
-      return Session.set("evidenceEditingId", null);
+      Session.set("evidenceEditingId", null);
     },
     'click #setQA,#unsetQA': function(evt, tmpl) {
-      var collection_name, key;
-      key = Session.get('evidenceType');
-      collection_name = tblBuilderCollections.evidenceLookup[key].collection_name;
-      return Meteor.call('adminToggleQAd', this._id, collection_name, function(err, response) {
-        if (response) {
-          return clientShared.toggleQA(tmpl, response.QAd);
-        }
+      var key = Session.get('evidenceType'),
+          collection_name = tblBuilderCollections.evidenceLookup[key].collection_name;
+      Meteor.call('adminToggleQAd', this._id, collection_name, function(err, response) {
+        if (response) clientShared.toggleQA(tmpl, response.QAd);
       });
     }
   },
@@ -485,28 +452,23 @@ _.extend(clientShared, {
   },
   abstractNestedTableEvents: {
     'click #inner-show-edit': function(evt, tmpl) {
-      var NestedTemplate, div, key;
-      div = tmpl.find('#nestedModalHolder');
-      key = Session.get('evidenceType');
-      NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
+      var div = tmpl.find('#nestedModalHolder'),
+          key = Session.get('evidenceType'),
+          NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
+
       Session.set('nestedEvidenceEditingId', tmpl.data._id);
       return Blaze.renderWithData(NestedTemplate, {}, div);
     },
     'click #inner-toggle-hidden': function(evt, tmpl) {
-      var NestedCollection, data, key;
-      key = Session.get('evidenceType');
-      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
-      data = tmpl.view.parentView.dataVar.curValue;
-      return NestedCollection.update(data._id, {
-        $set: {
-          isHidden: !data.isHidden
-        }
-      });
+      var key = Session.get('evidenceType'),
+          NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
+          data = tmpl.view.parentView.dataVar.curValue;
+
+      NestedCollection.update(data._id, {$set: {isHidden: !data.isHidden}});
     },
     'click #clone-nested-content': function(evt, tmpl) {
-      var ET, data;
-      data = tmpl.view.parentView.dataVar.curValue;
-      ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")];
+      var data = tmpl.view.parentView.dataVar.curValue,
+          ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")];
       return utilities.cloneObject(data, ET.nested_collection);
     }
   },
@@ -515,90 +477,88 @@ _.extend(clientShared, {
       return Session.get('nestedEvidenceEditingId') === null;
     },
     getObject: function() {
-      var NestedCollection, existing, initial, key;
-      key = Session.get('evidenceType');
-      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
-      initial = this;
-      existing = NestedCollection.findOne({
-        _id: Session.get('nestedEvidenceEditingId')
-      });
+      var initial = this,
+          key = Session.get('evidenceType'),
+          NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
+          existing = NestedCollection.findOne({_id: Session.get('nestedEvidenceEditingId')});
       return existing || initial;
     }
   },
   removeNestedFormModal: function(tmpl, options) {
-    var onHidden;
-    onHidden = function() {
-      var NestedCollection, key;
-      key = Session.get('evidenceType');
-      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
-      $(tmpl.view._domrange.members).remove();
-      Blaze.remove(tmpl.view);
-      if ((options != null) && (options.remove != null)) {
-        return NestedCollection.remove(options.remove);
-      }
-    };
-    return $(tmpl.find('#nestedModalDiv')).on('hide.bs.modal', onHidden).modal('hide');
+    $(tmpl.find('#nestedModalDiv'))
+      .on('hide.bs.modal', function() {
+        var key = Session.get('evidenceType'),
+            NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
+        $(tmpl.view._domrange.members).remove();
+        Blaze.remove(tmpl.view);
+        if ((options != null) && (options.remove != null)) {
+          NestedCollection.remove(options.remove);
+        }
+      }).modal('hide');
   },
   abstractNestedFormEvents: {
     'click #inner-create': function(evt, tmpl) {
-      var NestedCollection, errorDiv, isValid, key, obj;
-      key = Session.get('evidenceType');
-      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
-      obj = clientShared.newValues(tmpl.find('#nestedModalForm'));
-      obj['tbl_id'] = Session.get('Tbl')._id;
-      obj['parent_id'] = tmpl.data.parent._id;
-      obj['sortIdx'] = 1e10;
-      obj['isHidden'] = false;
-      isValid = NestedCollection.simpleSchema().namedContext().validate(obj);
+      var errorDiv, isValid,
+          key = Session.get('evidenceType'),
+          NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
+          obj = clientShared.newValues(tmpl.find('#nestedModalForm'));
+
+      _.extend(obj, {
+        tbl_id: Session.get('Tbl')._id,
+        parent_id: tmpl.data.parent._id,
+        sortIdx: 1e10,
+        isHidden: false
+      });
+
+      isValid = NestedCollection
+          .simpleSchema()
+          .namedContext()
+          .validate(obj);
+
       if (isValid) {
         NestedCollection.insert(obj);
-        return clientShared.removeNestedFormModal(tmpl);
+        clientShared.removeNestedFormModal(tmpl);
       } else {
         errorDiv = clientShared.createErrorDiv(NestedCollection.simpleSchema().namedContext());
-        return $(tmpl.find("#errors")).html(errorDiv);
+        $(tmpl.find("#errors")).html(errorDiv);
       }
     },
     'click #inner-create-cancel': function(evt, tmpl) {
-      return clientShared.removeNestedFormModal(tmpl);
+      clientShared.removeNestedFormModal(tmpl);
     },
     'click #inner-update': function(evt, tmpl) {
-      var NestedCollection, errorDiv, isValid, key, modifier, vals;
-      key = Session.get('evidenceType');
-      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
-      vals = clientShared.updateValues(tmpl.find('#nestedModalForm'), this);
-      modifier = {
-        $set: vals
-      };
-      isValid = NestedCollection.simpleSchema().namedContext().validate(modifier, {
-        modifier: true
-      });
+      var errorDiv,
+          key = Session.get('evidenceType'),
+          NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
+          vals = clientShared.updateValues(tmpl.find('#nestedModalForm'), this),
+          modifier = {$set: vals},
+          isValid = NestedCollection
+              .simpleSchema()
+              .namedContext()
+              .validate(modifier, {modifier: true});
+
       if (isValid) {
         NestedCollection.update(this._id, modifier);
         Session.set("nestedEvidenceEditingId", null);
-        return clientShared.removeNestedFormModal(tmpl);
+        clientShared.removeNestedFormModal(tmpl);
       } else {
         errorDiv = clientShared.createErrorDiv(NestedCollection.simpleSchema().namedContext());
-        return $(tmpl.find("#errors")).html(errorDiv);
+        $(tmpl.find("#errors")).html(errorDiv);
       }
     },
     'click #inner-update-cancel': function(evt, tmpl) {
       Session.set("nestedEvidenceEditingId", null);
-      return clientShared.removeNestedFormModal(tmpl);
+      clientShared.removeNestedFormModal(tmpl);
     },
     'click #inner-delete': function(evt, tmpl) {
       Session.set("nestedEvidenceEditingId", null);
-      return clientShared.removeNestedFormModal(tmpl, {
-        "remove": this._id
-      });
+      clientShared.removeNestedFormModal(tmpl, {"remove": this._id});
     },
     'click #setQA,#unsetQA': function(evt, tmpl) {
-      var key, nested_collection_name;
-      key = Session.get('evidenceType');
-      nested_collection_name = tblBuilderCollections.evidenceLookup[key].nested_collection_name;
-      return Meteor.call('adminToggleQAd', this._id, nested_collection_name, function(err, response) {
-        if (response) {
-          return clientShared.toggleQA(tmpl, response.QAd);
-        }
+      var key = Session.get('evidenceType'),
+          nested_collection_name = tblBuilderCollections.evidenceLookup[key].nested_collection_name;
+      Meteor.call('adminToggleQAd', this._id, nested_collection_name, function(err, response) {
+        if (response) clientShared.toggleQA(tmpl, response.QAd);
       });
     }
   }
