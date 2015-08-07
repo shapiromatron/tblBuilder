@@ -40,13 +40,9 @@ Template.selectList.helpers({
 });
 
 
-var autocompleteOptions = function(qry, cb) {
+var autocompleteOptions = function(qry, sync, cb) {
   var tbl_id,
-      methodName = this.$el
-                       .parent()
-                       .parent()
-                       .find('input')
-                       .data('methodname');
+      methodName = this.find('.typeahead').getAttribute('data-methodname');
 
   if (Session.get("Tbl")) tbl_id = Session.get("Tbl")._id;
 

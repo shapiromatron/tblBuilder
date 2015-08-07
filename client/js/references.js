@@ -187,7 +187,7 @@ var getPubMedDetails = function(pubmedID, cb) {
     });
   });
 },
-searchRefHelper = function(qry, cb) {
+searchRefHelper = function(qry, sync, cb) {
   qry = {
     qry: qry,
     monographAgent: Session.get('monographAgent')

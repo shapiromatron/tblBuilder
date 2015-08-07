@@ -159,7 +159,9 @@
     <input class="form-control typeahead referenceSingleSelect" name="referenceID" type="text"
            placeholder="Select reference from library"
            autocomplete="off" spellcheck="off"
-           data-source="searchReference" data-template="referenceSearchOption"/>
+           data-highlight="true"
+           data-source="searchReference"
+           data-template="referenceSearchOption"/>
     <div class="selectedReference">
       {{> referenceSingleSelectSelected}}
     </div>
@@ -177,8 +179,10 @@
 </template>
 
 <template name="referenceSearchOption">
-  <p><b>{{name}}</b></p>
-  <small class="text-muted">{{fullCitation}}</small>
+  <div>
+    <p><strong>{{name}}</strong></p>
+    <p><small class="text-muted">{{fullCitation}}</small></p>
+  </div>
 </template>
 
 <template name="referenceMultiSelect">
@@ -192,7 +196,9 @@
     <input class="form-control typeahead referenceMultiSelect" name="references" type="text"
            placeholder="Add reference from library"
            autocomplete="off" spellcheck="off"
-           data-source="searchReference" data-template="referenceSearchOption"/>
+           data-highlight="true"
+           data-source="searchReference"
+           data-template="referenceSearchOption"/>
      <ul class="selectList">
       {{#each references }}
         {{>referenceMultiSelectListLI}}

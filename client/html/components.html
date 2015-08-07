@@ -30,6 +30,8 @@
   <input class="form-control typeahead" name={{name}} type="text"
        placeholder="{{placeholder}}"
        autocomplete="off" spellcheck="off" value="{{value}}"
+       data-autoselect="true"
+       data-highlight="true"
        data-source="getOptions"
        data-methodname="{{methodName}}"/>
 </template>
@@ -40,6 +42,7 @@
     <input class="form-control typeahead multiSelectList" name="{{name}}" type="text"
          placeholder="Add to list by pressing <enter>"
          autocomplete="off" spellcheck="off"
+         data-highlight="true"
          data-source="getOptions"
          data-methodname="{{methodName}}"/>
     <ul class="selectList">
