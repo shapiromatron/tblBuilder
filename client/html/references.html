@@ -152,8 +152,10 @@
     <a class="btn btn-xs btn-default pull-right" data-toggle="modal"
        data-target="#referenceQuickAdd" title="Add reference to library for this agent" href="#">
       <span class="glyphicon glyphicon-plus-sign"></span></a>
-    <a class="btn btn-xs btn-default pull-right" title="View references for this agent"
-       target="_blank" href="{{pathFor 'referencesMain' monographAgent=getMonographAgent}}">
+    <a class="btn btn-xs btn-default pull-right"
+       title="View references for this agent"
+       target="_blank"
+       href="{{pathFor 'referencesMain' monographAgent=getMonographAgent}}">
       <span class="fa fa-eye"></span></a>
     <br>
     <input class="form-control typeahead referenceSingleSelect" name="referenceID" type="text"

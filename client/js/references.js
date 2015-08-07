@@ -199,11 +199,6 @@ searchRefHelper = function(qry, sync, cb) {
   });
 };
 Template.referenceSingleSelect.searchReference = searchRefHelper;
-Template.referenceSingleSelect.helpers({
-  getMonographAgent: function() {
-    return Session.get("monographAgent");
-  }
-});
 Template.referenceSingleSelect.events({
   'typeahead:selected': function(evt, tmpl, v) {
     var div = $(tmpl.find('div.selectedReference')).empty();

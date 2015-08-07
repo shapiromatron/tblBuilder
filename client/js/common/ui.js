@@ -64,6 +64,9 @@ uiHelpers = {
     return (this.profile && this.profile.fullName)
       ? this.profile.fullName
       : _.pluck(this.emails, "address").join(", ");
+  },
+  getMonographAgent: function(){
+    return Session.get('monographAgent');
   }
 };
 
