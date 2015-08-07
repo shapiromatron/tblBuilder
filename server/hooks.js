@@ -21,7 +21,7 @@ var addTimestampAndUserID = function(userId, doc) {
     addTimestampAndUserID(userId, doc);
     addQAmarks(doc);
     doc.isHidden = false;
-    doc.sortIdx = getNewIdx(Cls, doc.tbl_id);
+    if(doc.sortIdx === undefined) doc.sortIdx = getNewIdx(Cls, doc.tbl_id);
     return true;
   };
 
