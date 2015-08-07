@@ -14,18 +14,13 @@ Template.tableActions.events({
     var isReorder = !Session.get('reorderRows');
     Session.set('reorderRows', isReorder);
     if (isReorder) {
-      tmpl.sortables = [];
-      $('.sortables').each(function(i, v) {
-        return tmpl.sortables.push(new Sortable(v, {
-          handle: ".moveTableHandle",
-          onUpdate: clientShared.moveRowCheck,
-          Cls: Tables
-        }));
+      tmpl.sortables = _.map($('.sortables'), function(v){
+        return clientShared.initDraggables(v, ".moveTableHandle", Tables);
       });
     } else {
       tmpl.sortables.forEach(function(v) { return v.destroy();});
     }
-    return clientShared.toggleRowVisibilty(isReorder, $('.moveTableHandle'));
+    clientShared.toggleRowVisibilty(isReorder, $('.moveTableHandle'));
   }
 });
 

@@ -11,12 +11,8 @@ Template.genotoxMain.onCreated(function() {
 Template.genotoxTbl.helpers(clientShared.abstractTblHelpers);
 Template.genotoxTbl.events(clientShared.abstractTblEvents);
 Template.genotoxTbl.onRendered(function() {
-  new Sortable(this.find('#sortable'), {
-    handle: ".dhOuter",
-    onUpdate: clientShared.moveRowCheck,
-    Cls: GenotoxEvidence
-  });
-  return clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+  clientShared.initDraggables(this.find('#sortable'), ".dhOuter", GenotoxEvidence);
+  clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 

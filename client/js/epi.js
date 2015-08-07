@@ -59,11 +59,7 @@ Template.epiDescriptiveTbl.events(_.extend({
   }, clientShared.abstractTblEvents));
 Template.epiDescriptiveTbl.onRendered(function() {
   clientShared.toggleRiskPlot();
-  new Sortable(this.find('#sortable'), {
-    handle: ".dhOuter",
-    onUpdate: clientShared.moveRowCheck,
-    Cls: EpiDescriptive
-  });
+  clientShared.initDraggables(this.find('#sortable'), ".dhOuter", EpiDescriptive);
   clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
@@ -100,11 +96,7 @@ Template.epiDescriptiveRow.helpers(_.extend({
   }, clientShared.abstractRowHelpers));
 Template.epiDescriptiveRow.events(clientShared.abstractRowEvents);
 Template.epiDescriptiveRow.onRendered(function() {
-  new Sortable(this.find('#sortableInner'), {
-    handle: ".dhInner",
-    onUpdate: clientShared.moveRowCheck,
-    Cls: EpiResult
-  });
+  clientShared.initDraggables(this.find('#sortableInner'), ".dhInner", EpiResult);
   clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 

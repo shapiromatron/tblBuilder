@@ -33,12 +33,8 @@ Template.animalTbl.events(_.extend({
     }
   }, clientShared.abstractTblEvents));
 Template.animalTbl.onRendered(function() {
-  new Sortable(this.find('#sortable'), {
-    handle: ".dhOuter",
-    onUpdate: clientShared.moveRowCheck,
-    Cls: AnimalEvidence
-  });
-  return clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+  clientShared.initDraggables(this.find('#sortable'), ".dhOuter", AnimalEvidence);
+  clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
@@ -58,12 +54,8 @@ Template.animalRow.helpers(_.extend({
   }, clientShared.abstractRowHelpers));
 Template.animalRow.events(clientShared.abstractRowEvents);
 Template.animalRow.onRendered(function() {
-  new Sortable(this.find('#sortableInner'), {
-    handle: ".dhInner",
-    onUpdate: clientShared.moveRowCheck,
-    Cls: AnimalEndpointEvidence
-  });
-  return clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+  clientShared.initDraggables(this.find('#sortableInner'), ".dhInner", AnimalEndpointEvidence);
+  clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 

@@ -10,11 +10,7 @@ Template.exposureMain.onCreated(function() {
 Template.exposureTbl.helpers(clientShared.abstractTblHelpers);
 Template.exposureTbl.events(clientShared.abstractTblEvents);
 Template.exposureTbl.onRendered(function() {
-  new Sortable(this.find('#sortable'), {
-    handle: ".dhOuter",
-    onUpdate: clientShared.moveRowCheck,
-    Cls: ExposureEvidence
-  });
+  clientShared.initDraggables(this.find('#sortable'), ".dhOuter", ExposureEvidence);
   clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 

@@ -264,6 +264,15 @@ clientShared = {
       placement: "auto"
     });
     $(tmpl.findAll('.helpPopovers')).popover(opts);
+  },
+  initDraggables: function($el, handle, cls, opts){
+    opts = opts || {};
+    _.extend(opts, {
+      handle: handle,
+      onUpdate: clientShared.moveRowCheck,
+      Cls: cls
+    });
+    return new Sortable($el, opts);
   }
 }
 

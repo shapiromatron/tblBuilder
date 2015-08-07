@@ -3,13 +3,10 @@ var initializeDraggable = function(tmpl, options) {
       container = tmpl.find("#dragContainer_" + id);
 
   if (container) {
-    new Sortable(container, {
-      draggable: ".dragObj_" + id,
-      handle: ".dragHandle_" + id,
-      onUpdate: clientShared.moveRowCheck,
-      Cls: MechanisticEvidence
-    });
-    return clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+    clientShared.initDraggables(container, ".dragHandle_" + id,
+      MechanisticEvidence, {draggable: ".dragObj_" + id}
+    );
+    clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
   }
 };
 
