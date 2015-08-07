@@ -42,13 +42,15 @@ Template.mechanisticMain.events({
   }
 });
 Template.mechanisticMain.onCreated(function() {
-  Session.setDefault('mechanisticEditingId', null);
-  Session.setDefault('mechanisticNewChild', null);
-  Session.setDefault('mechanisticAllCollapsed', true);
+  Session.set('mechanisticAllCollapsed', true);
   Session.set('evidenceShowNew', false);
-  Session.set('evidenceShowAll', false);
   Session.set('evidenceEditingId', null);
   this.subscribe('mechanisticEvidence', Session.get('Tbl')._id);
+});
+Template.mechanisticMain.onDestroyed(function() {
+  Session.set('mechanisticAllCollapsed', true);
+  Session.set('evidenceShowNew', false);
+  Session.set('evidenceEditingId', null);
 });
 Template.mechanisticMain.onRendered(function() {
   $(this.findAll('.collapse')).on('show.bs.collapse', function() {
@@ -74,7 +76,7 @@ Template.mechanisticSectionTR.helpers({
       {sort: {sortIdx: 1}});
   },
   displayNewSection: function() {
-    return this.section === Session.get('mechanisticEditingId');
+    return this.section === Session.get('evidenceEditingId');
   },
   getDragContainer: function() {
     return "dragContainer_" + this.section;
@@ -82,7 +84,7 @@ Template.mechanisticSectionTR.helpers({
 });
 Template.mechanisticSectionTR.events({
   'click #mechanistic-newSection': function(evt, tmpl) {
-    Session.set('mechanisticEditingId', this.section);
+    Session.set('evidenceEditingId', this.section);
     Tracker.flush();
     clientShared.activateInput(tmpl.find("textarea[name=text]"));
   }
@@ -94,10 +96,10 @@ Template.mechanisticSectionTR.onRendered(function() {
 
 Template.mechanisticEvidenceDisplay.helpers({
   displayEditingForm: function() {
-    return Session.get("mechanisticEditingId") === this._id;
+    return Session.get("evidenceEditingId") === this._id;
   },
   displayNewChild: function() {
-    return Session.get('mechanisticNewChild') === this._id;
+    return Session.get('evidenceShowNew') === this._id;
   },
   hasChildren: function() {
     return MechanisticEvidence.find({parent: this._id}).count() > 0;
@@ -117,18 +119,18 @@ Template.mechanisticEvidenceDisplay.helpers({
 });
 Template.mechanisticEvidenceDisplay.events({
   'click #mechanistic-show-edit': function(evt, tmpl) {
-    Session.set("mechanisticEditingId", this._id);
+    Session.set("evidenceEditingId", this._id);
     Tracker.flush();
     clientShared.activateInput(tmpl.find("textarea[name=text]"));
   },
   'click #mechanistic-newChild': function(evt, tmpl) {
-    Session.set("mechanisticNewChild", this._id);
+    Session.set("evidenceShowNew", this._id);
     Tracker.flush();
     clientShared.activateInput(tmpl.find("textarea[name=text]"));
   }
 });
 Template.mechanisticEvidenceDisplay.onRendered(function() {
-  return initializeDraggable(this, {isSection: false});
+  initializeDraggable(this, {isSection: false});
 });
 
 
@@ -143,16 +145,16 @@ Template.mechanisticEvidenceForm.events({
     isValid = MechanisticEvidence.simpleSchema().namedContext().validate(obj);
     if (isValid) {
       MechanisticEvidence.insert(obj);
-      Session.set("mechanisticEditingId", null);
-      Session.set('mechanisticNewChild', null);
+      Session.set("evidenceEditingId", null);
+      Session.set('evidenceShowNew', false);
     } else {
       errorDiv = clientShared.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext());
       $(tmpl.find("#errors")).html(errorDiv);
     }
   },
   'click #mechanisticEvidence-create-cancel': function(evt, tmpl) {
-    Session.set("mechanisticEditingId", null);
-    Session.set('mechanisticNewChild', null);
+    Session.set("evidenceEditingId", null);
+    Session.set('evidenceShowNew', false);
   },
   'click #mechanisticEvidence-update': function(evt, tmpl) {
     var errorDiv,
@@ -165,21 +167,21 @@ Template.mechanisticEvidenceForm.events({
 
     if (isValid) {
       MechanisticEvidence.update(this._id, modifier);
-      Session.set("mechanisticEditingId", null);
-      Session.set('mechanisticNewChild', null);
+      Session.set("evidenceEditingId", null);
+      Session.set('evidenceShowNew', false);
     } else {
       errorDiv = clientShared.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext());
       $(tmpl.find("#errors")).html(errorDiv);
     }
   },
   'click #mechanisticEvidence-update-cancel': function(evt, tmpl) {
-    Session.set("mechanisticEditingId", null);
-    Session.set('mechanisticNewChild', null);
+    Session.set("evidenceEditingId", null);
+    Session.set('evidenceShowNew', false);
   },
   'click #mechanisticEvidence-delete': function(evt, tmpl) {
     MechanisticEvidence.remove(this._id);
-    Session.set("mechanisticEditingId", null);
-    Session.set('mechanisticNewChild', null);
+    Session.set("evidenceEditingId", null);
+    Session.set('evidenceShowNew', false);
   }
 });
 Template.mechanisticEvidenceForm.helpers({
