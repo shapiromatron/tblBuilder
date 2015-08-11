@@ -14,3 +14,23 @@ Template.ntpEpiMain.onDestroyed(function() {
   Session.set('evidenceEditingId', null);
   Session.set('nestedEvidenceEditingId', null);
 });
+
+
+Template.ntpEpiDescTbl.helpers(_.extend({}, clientShared.abstractTblHelpers));
+Template.ntpEpiDescTbl.events(_.extend({}, clientShared.abstractTblEvents));
+Template.ntpEpiDescTbl.onRendered(function() {
+  clientShared.toggleRiskPlot();
+  clientShared.initDraggables(this.find('#sortable'), ".dhOuter", NtpEpiDescriptive);
+  clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+});
+
+
+Template.ntpEpiDescriptiveForm.helpers({});
+Template.ntpEpiDescriptiveForm.events(_.extend({}, clientShared.abstractFormEvents));
+Template.ntpEpiDescriptiveForm.onRendered(function() {
+  clientShared.toggleQA(this, this.data.isQA);
+  clientShared.initPopovers(this);
+});
+Template.ntpEpiDescriptiveForm.onDestroyed(function() {
+  clientShared.destroyPopovers(this);
+});
