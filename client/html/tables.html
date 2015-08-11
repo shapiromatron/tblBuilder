@@ -25,32 +25,29 @@
   </div>
 </template>
 
-<template name="tableActions">
-  {{#if isInRole 'staff'}}
-    <div class="btn-group pull-right">
-      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-        Actions <span class="caret" title="Editing options"></span>
-      </button>
-      <ul class="dropdown-menu">
-        {{#unless showNew}}
-          <li>
-            <a href="#" id="tables-show-create">
-              <span class="glyphicon glyphicon-plus"></span> New</a></li>
-        {{/unless}}
 
-        {{#if canSort}}
-        <li>
-          <a href="#" id="reorderRows">
-            <span class="glyphicon glyphicon-align-justify"></span> Reorder rows</a></li>
-        {{/if}}
-      </ul>
-    </div>
-    {{/if}}
+
+<template name="tableOpts">
+  {{#if isInRole 'staff'}}
+      {{#actionBtn}}
+          {{#unless showNew}}
+            <li>
+              <a href="#" id="tables-show-create">
+                <span class="glyphicon glyphicon-plus"></span> New</a></li>
+          {{/unless}}
+
+          {{#if canSort}}
+          <li>
+            <a href="#" id="reorderRows">
+              <span class="glyphicon glyphicon-align-justify"></span> Reorder rows</a></li>
+          {{/if}}
+      {{/actionBtn}}
+  {{/if}}
 </template>
 
 <template name="newTableHolder">
   <div class="col-md-offset-1 col-md-10">
-    <h1>Create a new evidence table {{>tableActions canSort=false}}</h1>
+    <h1>Create a new evidence table {{>tableOpts canSort=false}}</h1>
     {{> tablesForm}}
   </div>
 </template>
@@ -61,7 +58,7 @@
       {{> newTableHolder}}
     {{else}}
       <div class="col-md-offset-1 col-md-10">
-        <h1>Current volumes {{>tableActions canSort=false}}</h1>
+        <h1>Current volumes {{>tableOpts canSort=false}}</h1>
         <ul class="volumeList">
           {{#each getMonographs}}
             <li class="volumeItem">
@@ -86,7 +83,7 @@
         {{> newTableHolder}}
       {{else}}
         <div class="col-md-offset-1 col-md-10">
-          <h1>Volume {{volumeNumber}} {{>tableActions canSort=true}}</h1>
+          <h1>Volume {{volumeNumber}} {{>tableOpts canSort=true}}</h1>
           {{#each getMonographAgents this}}
             {{> agentBanner}}
             <div class="sortables">

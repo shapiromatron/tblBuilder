@@ -10,7 +10,7 @@ Template.home.onDestroyed(function() {
 });
 
 
-Template.tableActions.events({
+Template.tableOpts.events({
   'click #tables-show-create': function(evt, tmpl) {
     Session.set("tablesShowNew", true);
     Tracker.flush();

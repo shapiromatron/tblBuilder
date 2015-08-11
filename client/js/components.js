@@ -40,6 +40,34 @@ Template.optRiskPlot.events({
 });
 
 
+Template.optShowAllRows.helpers({
+  isShowAll: function() {
+    return Session.get('evidenceShowAll');
+  }
+});
+Template.optShowAllRows.events({
+  'click #toggleShowAllRows': function(evt, tmpl) {
+      evt.preventDefault();
+      Session.set('evidenceShowAll', !Session.get('evidenceShowAll'));
+  }
+});
+
+
+Template.optQaFlags.events({
+  'click #toggleQAflags': function(evt, tmpl) {
+      Session.set('showQAflags', !Session.get('showQAflags'));
+  },
+});
+
+
+
+Template.optCreate.events({
+  'click #show-create': function(evt, tmpl) {
+    Session.set("evidenceShowNew", true);
+    Tracker.flush();
+    clientShared.activateInput($("input[name=referenceID]"));
+  }
+});
 
 
 Template.showNewBtn.helpers({
@@ -54,6 +82,39 @@ Template.showNewBtn.events({
     clientShared.activateInput($("input[name=referenceID]"));
   }
 });
+
+
+Template.optReorder.events({
+  'click #reorderRows': function(evt, tmpl) {
+    var val = (!Session.get('reorderRows'));
+    Session.set('reorderRows', val);
+    clientShared.toggleRowVisibilty(val, $('.dragHandle'));
+  }
+});
+
+
+Template.optWord.events({
+  'click #wordReport': function(evt, tmpl) {
+    var div = document.getElementById('#modalHolder');
+    Blaze.renderWithData(Template.reportTemplateModal, {}, div);
+  }
+});
+
+
+Template.optExcel.events({
+  'click #downloadExcel': function(evt, tmpl) {
+    var tbl_id = Session.get('Tbl')._id,
+        key = Session.get('evidenceType'),
+        method = tblBuilderCollections.evidenceLookup[key].excel_method,
+        fn = tblBuilderCollections.evidenceLookup[key].excel_fn;
+
+    Meteor.call(method, tbl_id, function(err, response) {
+      clientShared.returnExcelFile(response, fn);
+    });
+  }
+});
+
+
 Template.selectList.helpers({
   isSelected: function(current, selected) {
     return current === selected;

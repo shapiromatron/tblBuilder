@@ -15,16 +15,15 @@
 <template name="admin">
   <div class="row">
     <h1>User Administration
-      <div class="btn-group pull-right">
-        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-          Actions <span class="caret" title="Editing options"></span>
-        </button>
-        <ul class="dropdown-menu">
-          {{#unless adminUserShowNew}}
-            <li><a href="#" id="adminUser-show-create"><span class="glyphicon glyphicon-plus"></span> Add a user</a></li>
-          {{/unless}}
-        </ul>
-      </div>
+      {{#actionBtn}}
+        {{#unless adminUserShowNew}}
+          <li>
+            <a href="#" id="adminUser-show-create">
+              <span class="glyphicon glyphicon-plus"></span> Add a user
+            </a>
+          </li>
+        {{/unless}}
+      {{/actionBtn}}
     </h1>
 
     <div id="messages"></div>

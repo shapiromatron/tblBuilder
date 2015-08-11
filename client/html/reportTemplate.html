@@ -30,14 +30,13 @@
 
 <template name="reportTemplateTable">
   <h1>Microsoft Word Report Templates
-    <div class="btn-group pull-right">
-      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-        Actions <span class="caret" title="Editing options"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><a href="#" id="show-create"><span class="glyphicon glyphicon-plus"></span> Load new</a></li>
-      </ul>
-    </div>
+    {{#actionBtn}}
+      <li>
+        <a href="#" id="show-create">
+          <span class="glyphicon glyphicon-plus"></span> Load new
+        </a>
+      </li>
+    {{/actionBtn}}
   </h1>
 
   {{#if showNew}}

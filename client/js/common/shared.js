@@ -285,52 +285,15 @@ _.extend(clientShared, {
     showRow: function(isHidden) {
       return Session.get('evidenceShowAll') || !isHidden;
     },
-    isShowAll: function() {
-      return Session.get('evidenceShowAll');
-    },
     object_list: function() {
-      var Collection,
-          key = Session.get('evidenceType');
+      var key = Session.get('evidenceType');
       if (key != null) {
-        Collection = tblBuilderCollections.evidenceLookup[key].collection;
+        var Collection = tblBuilderCollections.evidenceLookup[key].collection;
         return Collection.find({}, {sort: {sortIdx: 1}});
       }
     }
   },
-  abstractTblEvents: {
-    'click #show-create': function(evt, tmpl) {
-      Session.set("evidenceShowNew", true);
-      Tracker.flush();
-      clientShared.activateInput(tmpl.find("input[name=referenceID]"));
-    },
-    'click #toggleShowAllRows': function(evt, tmpl) {
-      var val = !Session.get('evidenceShowAll');
-      Session.set('evidenceShowAll', val);
-    },
-    'click #reorderRows': function(evt, tmpl) {
-      var val = !Session.get('reorderRows');
-      Session.set('reorderRows', val);
-      clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
-    },
-    'click #wordReport': function(evt, tmpl) {
-      var div = tmpl.find('#modalHolder');
-      Blaze.renderWithData(Template.reportTemplateModal, {}, div);
-    },
-    'click #toggleQAflags': function(evt, tmpl) {
-      var val = !Session.get('showQAflags');
-      Session.set('showQAflags', val);
-    },
-    'click #downloadExcel': function(evt, tmpl) {
-      var tbl_id = Session.get('Tbl')._id,
-          key = Session.get('evidenceType'),
-          method = tblBuilderCollections.evidenceLookup[key].excel_method,
-          fn = tblBuilderCollections.evidenceLookup[key].excel_fn;
-
-      Meteor.call(method, tbl_id, function(err, response) {
-        clientShared.returnExcelFile(response, fn);
-      });
-    }
-  },
+  abstractTblEvents: {},
   abstractRowHelpers: {
     getChildren: function() {
       var key = Session.get('evidenceType'),

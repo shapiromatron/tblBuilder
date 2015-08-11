@@ -9,50 +9,26 @@
 </template>
 
 
-<template name="animalTbl">
-  <h1>{{name}}
-    <div class="btn-group pull-right">
-      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-        Actions <span class="caret" title="Editing options"></span>
-      </button>
-      <ul class="dropdown-menu">
+<template name="animalTblOpts">
+    {{#actionBtn}}
         {{#if userCanEdit}}
-          {{#unless showNew}}
-            <li>
-              <a href="#" id="show-create">
-                <span class="glyphicon glyphicon-plus"></span> Create new row</a></li>
-          {{/unless}}
-          <li>
-            <a href="#" id="reorderRows">
-              <span class="glyphicon glyphicon-align-justify"></span> Reorder rows</a></li>
+            {{#unless showNew}}
+                {{> optCreate }}
+            {{/unless}}
+            {{> optReorder }}
         {{/if}}
-        <li>
-          <a href="{{pathFor 'referencesMain' monographAgent=getMonographAgent}}">
-            <span class="fa fa-book"></span> View references</a></li>
-        <li> {{> optFullScreen}} </li>
-        <li>
-          <a href="#" id="downloadExcel">
-            <span class="fa fa-file-excel-o"></span> Download Excel</a></li>
-        {{#each getReportTypes}}
-          <li>
-            <a href="#" class="wordReport" data-type="{{type}}" data-fn="{{fn}}">
-              <span class="fa fa-file-word-o"></span> {{text}}</a></li>
-        {{else}}
-          <li>
-            <a href="#" id="wordReport">
-              <span class="fa fa-file-word-o"></span> Download Word</a></li>
-        {{/each}}
-        <li>
-          <a href="#" id="toggleShowAllRows">
-            {{#if isShowAll}}<span class="glyphicon glyphicon-resize-small"></span> Hide rows
-            {{else}}<span class="glyphicon glyphicon-resize-full"></span> Show all rows
-            {{/if}}</a></li>
-        <li>
-          <a href="#" id="toggleQAflags">
-            <span class="fa fa-flag-o"></span> Toggle QA flags</a></li>
-      </ul>
-    </div>
-  </h1>
+        {{> optMonoRefList }}
+        {{> optFullScreen }}
+        {{> optExcel }}
+        {{> optWord }}
+        {{> optShowAllRows }}
+        {{> optQaFlags }}
+    {{/actionBtn}}
+</template>
+
+
+<template name="animalTbl">
+  <h1>{{name}} {{> animalTblOpts }}</h1>
   {{> tableTitle}}
 
   <table class="evidenceTable table table-compressed">

@@ -8,18 +8,19 @@
   {{/if }}
 </template>
 
+
+<template name="epiAnalysisTblOpts">
+  {{#actionBtn}}
+    <li>
+      <a href="{{pathFor 'epiMain' _id=this._id}}">
+        <span class="fa fa-table"></span> Data editing
+      </a>
+    </li>
+  {{/actionBtn}}
+</template>
+
+
 <template name="epiAnalysisTbl">
-  <h1>{{name}}
-    <div class="btn-group pull-right">
-      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-        Actions <span class="caret" title="Editing options"></span>
-      </button>
-      <ul class="dropdown-menu">
-      <li>
-        <a href="{{pathFor 'epiMain' _id=this._id}}">
-          <span class="fa fa-table"></span> Data editing</a></li>
-      </ul>
-    </div>
-  </h1>
+  <h1>{{name}} {{> epiAnalysisTblOpts }}</h1>
   <table id="analysisTbl" class="display" cellspacing="0" width="100%"></table>
 </template>

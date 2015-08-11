@@ -1,19 +1,19 @@
+<template name="epiOrganSiteOpts">
+  {{#actionBtn}}
+      {{> optFullScreen}}
+      {{> optRiskPlot}}
+  {{/actionBtn}}
+</template>
+
+
 <template name="epiOrganSiteMain">
     {{#if Template.subscriptionsReady}}
       {{#contentContainer}}
 
-      <!-- Header and pulldown list -->
-      <h1>Volume {{volumeNumber}} {{monographAgent}}: epidemiology evidence
-        <div class="btn-group pull-right">
-          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-            Actions <span class="caret" title="Editing options"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li> {{> optFullScreen}} </li>
-            <li> {{> optRiskPlot}} </li>
-          </ul>
-        </div>
-      </h1>
+        <!-- Header and pulldown list -->
+        <h1>Volume {{volumeNumber}} {{monographAgent}}: epidemiology evidence
+          {{> epiOrganSiteOpts}}
+        </h1>
 
       <!-- Organ-site selector -->
       <div class="row">
