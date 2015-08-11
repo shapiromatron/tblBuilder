@@ -408,10 +408,7 @@
 
     <div id="errors"></div>
 
-    <!-- QA notice -->
-    {{#if isQA }}
-      <strong>{{QAstampFormat timestampQA user_id_QA}}</strong>
-    {{/if}}
+    {{> qaNotice}}
 
     <!-- Submission -->
     <div class="well well-sm pager">
@@ -737,10 +734,7 @@ or the-first row of the riskEstimates.
 
             <div id="errors"></div>
 
-            <!-- QA notice -->
-            {{#if isQA }}
-              <strong>{{QAstampFormat timestampQA user_id_QA}}</strong>
-            {{/if}}
+            {{> qaNotice}}
 
             <!-- Submission -->
             <div class="well well-sm pager">

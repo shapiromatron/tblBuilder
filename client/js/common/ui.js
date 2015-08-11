@@ -1,18 +1,4 @@
-var TIMESTAMP_FORMAT = 'MMM Do YYYY, h:mm a',
-uiHelpers = {
-  formatDate: function(datetime) {
-    return moment(datetime).format(TIMESTAMP_FORMAT);
-  },
-  QAstampFormat: function(datetime, userID) {
-    var datetime = moment(datetime).format(TIMESTAMP_FORMAT);
-        user = Meteor.users.findOne(userID);
-    if (user) username = user.profile.fullName;
-    if (username) {
-      return "QA'd by " + username + " on " + datetime;
-    } else {
-      return "QA'd on " + datetime;
-    }
-  },
+var uiHelpers = {
   userCanEdit: function() {
     return clientShared.userCanEdit(Session.get('Tbl'));
   },

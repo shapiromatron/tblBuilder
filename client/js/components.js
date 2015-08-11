@@ -193,3 +193,18 @@ Template.typeaheadUserSelect.onRendered(injectTypeahead);
 Template.tableTitle.helpers({
   getTable: function(){return Session.get("Tbl");}
 });
+
+
+Template.qaNotice.helpers({
+  qaNotice: function(datetime, userID) {
+    var TIMESTAMP_FORMAT = 'MMM Do YYYY, h:mm a',
+        datetime = moment(datetime).format(TIMESTAMP_FORMAT);
+        user = Meteor.users.findOne(userID);
+    if (user) username = user.profile.fullName;
+    if (username) {
+      return "QA'd by " + username + " on " + datetime;
+    } else {
+      return "QA'd on " + datetime;
+    }
+  }
+});

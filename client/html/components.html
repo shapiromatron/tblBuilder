@@ -305,3 +305,10 @@
       Volume {{this.volumeNumber}}: {{this.monographAgent}}</a></p>
   {{/with}}
 </template>
+
+
+<template name="qaNotice">
+  {{#if isQA }}
+    <strong>{{qaNotice timestampQA user_id_QA}}</strong>
+  {{/if}}
+</template>

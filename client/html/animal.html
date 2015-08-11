@@ -320,10 +320,7 @@
 
     <div id="errors"></div>
 
-    <!-- QA notice -->
-    {{#if isQA }}
-      <strong>{{QAstampFormat timestampQA user_id_QA}}</strong>
-    {{/if}}
+    {{> qaNotice}}
 
     <!-- Submission -->
     <div class="well well-sm pager">
@@ -586,10 +583,7 @@
 
             <div id="errors"></div>
 
-            <!-- QA notice -->
-            {{#if isQA }}
-              <strong>{{QAstampFormat timestampQA user_id_QA}}</strong>
-            {{/if}}
+            {{> qaNotice}}
 
             <!-- Submission -->
             <div class="well well-sm pager">
