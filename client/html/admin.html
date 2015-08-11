@@ -28,22 +28,22 @@
 
     <div id="messages"></div>
 
-    <table class='table table-condensed table-hover'>
-      <thead>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Affiliation</th>
-        <th>Roles</th>
-      </thead>
-      <tbody>
-        {{#each getUsers}}
-          {{> adminUserRow}}
-        {{/each}}
-      </tbody>
-    </table>
-
     {{#if adminUserShowNew}}
       {{> adminUserRowForm isNew=true}}
+    {{else}}
+      <table class='table table-condensed table-hover'>
+        <thead>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Affiliation</th>
+          <th>Roles</th>
+        </thead>
+        <tbody>
+          {{#each getUsers}}
+            {{> adminUserRow}}
+          {{/each}}
+        </tbody>
+      </table>
     {{/if}}
   </div>
 

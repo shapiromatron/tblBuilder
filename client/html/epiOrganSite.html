@@ -15,96 +15,96 @@
           {{> epiOrganSiteOpts}}
         </h1>
 
-      <!-- Organ-site selector -->
-      <div class="row">
-        <form role="form" class="form-group">
-          <div class="col-xs-12">
-            <label>Filter results by organ site (ICD code)</label><br>
-            <select multiple="true" class="form-control" id="organSiteSelector" style="height: 200px">
-              {{{getOrganSiteOptions}}}
-            </select>
-            <p class="help-block">Select one or more organ-sites to view.</p>
-          </div>
-        </form>
-      </div>
+        <!-- Organ-site selector -->
+        <div class="row">
+          <form role="form" class="form-group">
+            <div class="col-xs-12">
+              <label>Filter results by organ site (ICD code)</label><br>
+              <select multiple="true" class="form-control" id="organSiteSelector" style="height: 200px">
+                {{{getOrganSiteOptions}}}
+              </select>
+              <p class="help-block">Select one or more organ-sites to view.</p>
+            </div>
+          </form>
+        </div>
 
-      <!-- Data-table -->
-      <table class="evidenceTable table table-compressed">
-        <colgroup>
-          <col width="20%">
-          <col width="15%">
-          <col width="17%">
-          <col width="8%">
-          <col width="20%">
-          <col width="20%">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Reference, location, follow-up/enrollment period, study-design</th>
-            <th>Organ site<br>(ICD code)</th>
-            <th>Exposure category<br> or level</th>
-            <th>Exposed<br>cases/<br>deaths</th>
-            <th class="riskTR">Risk estimate<br>(95% CI)</th>
-            <th>Covariates controlled</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each object_list}}
-            {{#each addIndex riskEstimates}}
-              {{#if equals i 0}}
+        <!-- Data-table -->
+        <table class="evidenceTable table table-compressed">
+          <colgroup>
+            <col width="20%">
+            <col width="15%">
+            <col width="17%">
+            <col width="8%">
+            <col width="20%">
+            <col width="20%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Reference, location, follow-up/enrollment period, study-design</th>
+              <th>Organ site<br>(ICD code)</th>
+              <th>Exposure category<br> or level</th>
+              <th>Exposed<br>cases/<br>deaths</th>
+              <th class="riskTR">Risk estimate<br>(95% CI)</th>
+              <th>Covariates controlled</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each object_list}}
+              {{#each addIndex riskEstimates}}
+                {{#if equals i 0}}
 
-                <tr>
-                  <td rowspan="{{../riskEstimates.length}}">
-                    {{>printReference id=../desc.referenceID}}<br>
-                    {{{../desc.studyDesign}}}
-                    {{../desc.location}}<br>
-                    {{../desc.enrollmentDates}}<br>
-                    {{../desc.studyDesign}}
-                  </td>
-                  <td rowspan="{{../riskEstimates.length}}">
-                    {{../organSite}}
-                  </td>
-                  <td>
-                    {{v.exposureCategory}}
-                  </td>
-                  <td>
-                    {{v.numberExposed}}
-                  </td>
-                  <td>
-                    {{#if showPlots}}
-                      {{> forestPlot parent=.. index=i }}
-                    {{ else}}
-                      <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
-                    {{/if}}
-                  </td>
-                  <td rowspan="{{../riskEstimates.length}}">
-                    {{commaList ../covariates}}
-                  </td>
-                </tr>
+                  <tr>
+                    <td rowspan="{{../riskEstimates.length}}">
+                      {{>printReference id=../desc.referenceID}}<br>
+                      {{{../desc.studyDesign}}}
+                      {{../desc.location}}<br>
+                      {{../desc.enrollmentDates}}<br>
+                      {{../desc.studyDesign}}
+                    </td>
+                    <td rowspan="{{../riskEstimates.length}}">
+                      {{../organSite}}
+                    </td>
+                    <td>
+                      {{v.exposureCategory}}
+                    </td>
+                    <td>
+                      {{v.numberExposed}}
+                    </td>
+                    <td>
+                      {{#if showPlots}}
+                        {{> forestPlot parent=.. index=i }}
+                      {{ else}}
+                        <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
+                      {{/if}}
+                    </td>
+                    <td rowspan="{{../riskEstimates.length}}">
+                      {{commaList ../covariates}}
+                    </td>
+                  </tr>
 
-              {{else}}
+                {{else}}
 
-                <tr>
-                  <td>
-                    {{v.exposureCategory}}
-                  </td>
-                  <td>
-                    {{v.numberExposed}}
-                  </td>
-                  <td>
-                    {{#if showPlots}}
-                      {{> forestPlot parent=.. index=i }}
-                    {{ else}}
-                      <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
-                    {{/if}}
-                  </td>
-                </tr>
+                  <tr>
+                    <td>
+                      {{v.exposureCategory}}
+                    </td>
+                    <td>
+                      {{v.numberExposed}}
+                    </td>
+                    <td>
+                      {{#if showPlots}}
+                        {{> forestPlot parent=.. index=i }}
+                      {{ else}}
+                        <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
+                      {{/if}}
+                    </td>
+                  </tr>
 
-              {{/if}}
+                {{/if}}
+              {{/each}}
             {{/each}}
-          {{/each}}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
 
       {{/contentContainer}}
     {{else}}
