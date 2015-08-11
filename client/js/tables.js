@@ -67,38 +67,6 @@ Template.volumeTableList.helpers({
       {"volumeNumber": volumeNumber, "monographAgent": monographAgent},
       {sort: {"sortIdx": 1}}).fetch();
   },
-  getURL: function() {
-    var url;
-    switch (this.tblType) {
-      case "Mechanistic Evidence Summary":
-        return url = Router.path('mechanisticMain', {_id: this._id});
-      case "Epidemiology Evidence":
-        return url = Router.path('epiMain', {_id: this._id});
-      case "Exposure Evidence":
-        return url = Router.path('exposureMain', {_id: this._id});
-      case "Animal Bioassay Evidence":
-        return url = Router.path('animalMain', {_id: this._id});
-      case "Genetic and Related Effects":
-        return url = Router.path('genotoxMain', {_id: this._id});
-      default:
-        return url = Router.path('404');
-    }
-  },
-  canEdit: function() {
-    var currentUser = Meteor.user(),
-        ids = [], id;
-
-    if (currentUser) id = currentUser._id;
-    if (id === undefined) return false;
-    if (currentUser.roles.indexOf("superuser") >= 0) return true;
-
-    ids = _.chain(this.user_roles)
-           .filter(function(v){return v.role === "projectManagers";})
-           .pluck("user_id")
-           .value();
-
-    return (id === this.user_id) || (indexOf.call(ids, id) >= 0);
-  },
   showNew: function() {
     return Session.get("tablesShowNew");
   },
