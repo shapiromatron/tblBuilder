@@ -106,20 +106,6 @@ var getUserPermissionsObject = function(tmpl) {
   return results;
 };
 Template.tablesForm.helpers({
-  searchUsers: function(query, callback) {
-    return Meteor.call('searchUsers', query, {}, function(err, res) {
-      if (err) return console.log(err);
-      return callback(res);
-    });
-  },
-  getRoledUsers: function(userType) {
-    if (!this.user_roles) return;
-    var ids = _.chain(this.user_roles)
-           .filter(function(d){return d.role === userType;})
-           .pluck("user_id")
-           .value();
-    return Meteor.users.find({_id: {$in: ids}});
-  },
   getTblTypeOptions: function() {
     return Tables.typeOptions;
   }
@@ -171,25 +157,8 @@ Template.tablesForm.events({
   'click #tables-delete': function(evt, tmpl) {
     Tables.remove(this._id);
     return Session.set("tablesEditingId", null);
-  },
-  'click .removeUser': function(evt, tmpl) {
-    return $(evt.currentTarget).parent().remove();
-  },
-  'typeahead:selected .userTypeahead': function(evt, tmpl, v) {
-    var $ul, ids;
-
-    ids = [];
-    $ul = $(tmpl.find("." + evt.target.name));
-    $ul.find('li').each(function(i, li){
-      ids.push($(li).data('user_id'));
-    })
-
-    if (ids.indexOf(v._id) < 0) {
-      return Blaze.renderWithData(Template.UserLI, v, $ul[0]);
-    }
   }
 });
 Template.tablesForm.onRendered(function() {
   clientShared.activateInput(this.find("input[name=volumeNumber]"));
-  Meteor.typeahead.inject('.userTypeahead');
 });

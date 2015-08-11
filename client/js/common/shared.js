@@ -156,14 +156,6 @@ clientShared = {
       return self.data('sortidx', newIdx);
     }
   },
-  typeaheadSelectListAddLI: function($ul, val) {
-    var txts = clientShared.typeaheadSelectListGetLIs($ul);
-    if ((val !== "") && (!_.contains(txts, val))) {
-      Blaze.renderWithData(Template.typeaheadSelectListLI, val, $ul[0]);
-      return true;
-    }
-    return false;
-  },
   typeaheadSelectListGetLIs: function($ul) {
     return _.map(
         $ul.find('li'),

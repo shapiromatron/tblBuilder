@@ -27,21 +27,25 @@
 
 
 <template name="typeaheadInput">
-  <input class="form-control typeahead" name={{name}} type="text"
-       placeholder="{{placeholder}}"
-       autocomplete="off" spellcheck="off" value="{{value}}"
-       data-autoselect="true"
-       data-highlight="true"
-       data-source="getOptions"
-       data-methodname="{{methodName}}"/>
+  <div>
+    <input class="form-control typeahead" name={{name}} type="text"
+         placeholder="{{placeholder}}"
+         autocomplete="off" spellcheck="off" value="{{value}}"
+         data-autoselect="true"
+         data-highlight="true"
+         data-source="getOptions"
+         data-methodname="{{methodName}}"/>
+  </div>
 </template>
 
 
 <template name="typeaheadSelectList">
   <div>
-    <input class="form-control typeahead multiSelectList" name="{{name}}" type="text"
+    <input class="form-control typeahead multiSelectList"
+         name="{{name}}" type="text"
          placeholder="Add to list by pressing <enter>"
-         autocomplete="off" spellcheck="off"
+         autocomplete="off"
+         spellcheck="off"
          data-highlight="true"
          data-source="getOptions"
          data-methodname="{{methodName}}"/>
@@ -58,6 +62,41 @@
   <li class='selectListItem' data-value="{{this}}">{{this}}
     <a href='#' class='pull-right selectListRemove btn btn-default btn-xs' title='Remove from list'>
       <span class='glyphicon glyphicon-remove'></span></a>
+  </li>
+</template>
+
+
+<template name="typeaheadUserSelect">
+  <div>
+    <label>{{label}}</label>
+    <input class="form-control typeahead userTypeahead"
+           name='{{name}}'
+           type="text"
+           autocomplete="off"
+           data-highlight="true"
+           data-source="searchUsers"
+           data-template="UserMatchPullDown"
+           placeholder="Type to search by email"/>
+    <p class="help-block">{{helpText}}</p>
+    <ul class="{{name}}">
+      {{#each getRoledUsers name}}
+        {{> UserLI}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+
+<template name="UserMatchPullDown">
+  <p>{{getUserDescription}}</p>
+</template>
+
+
+<template name="UserLI">
+  <li class='selectListItem' data-user_id='{{_id}}'>{{getUserDescription}}
+    <a href='#' class='pull-right removeUser btn btn-default btn-xs' title='Remove from list'>
+      <span class='glyphicon glyphicon-remove'></span>
+    </a>
   </li>
 </template>
 

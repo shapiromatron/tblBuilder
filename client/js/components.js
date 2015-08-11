@@ -45,42 +45,67 @@ var autocompleteOptions = function(qry, sync, cb) {
       methodName = this.find('.typeahead').getAttribute('data-methodname');
 
   if (Session.get("Tbl")) tbl_id = Session.get("Tbl")._id;
-
   Meteor.call(methodName, qry, tbl_id, function(err, res) {
     if (err) return console.log(err);
     return cb(_.map(res, function(d){return {value: d};}));
   });
+}, injectTypeahead = function(){
+  Meteor.typeahead.inject("input[name=" + this.data.name + "]");
+}, removeLI = function(evt, tmpl){
+  $(evt.currentTarget).parent().remove();
+}, selectListAddLI = function(ul, val) {
+    var txts = clientShared.typeaheadSelectListGetLIs($(ul));
+    if ((val !== "") && (!_.contains(txts, val))) {
+      Blaze.renderWithData(Template.typeaheadSelectListLI, val, ul);
+    }
 };
+
 Template.typeaheadInput.helpers({getOptions: autocompleteOptions});
-Template.typeaheadInput.onRendered(function() {
-  return Meteor.typeahead.inject("input[name=" + this.data.name + "]");
-});
+Template.typeaheadInput.onRendered(injectTypeahead);
 
 
 Template.typeaheadSelectList.helpers({getOptions: autocompleteOptions});
 Template.typeaheadSelectList.events({
-  'typeahead:selected': function(evt, tmpl, v) {
-    var $ul = $(tmpl.find("ul"));
-    clientShared.typeaheadSelectListAddLI($ul, v.value);
-    $(evt.target).typeahead("val", "");
+  'typeahead:selected': function(evt, tmpl) {
+    selectListAddLI(tmpl.find("ul"), evt.target.value);
+    tmpl.$('.typeahead').typeahead('val', "");
   },
-  'click .selectListRemove': function(evt, tmpl) {
-    $(evt.currentTarget).parent().remove();
+  'click .selectListRemove': removeLI,
+});
+Template.typeaheadSelectList.onRendered(injectTypeahead);
+
+
+Template.typeaheadUserSelect.helpers({
+  searchUsers: function(query, sync, cb) {
+    Meteor.call('searchUsers', query, {}, function(err, res) {
+      if (err) return console.log(err);
+      return cb(res);
+    });
   },
-  'keyup .form-control': function(evt, tmpl) {
-    if (evt.which !== 13) return;
-
-    var val = evt.target.value,
-        $ul = $(tmpl.find('ul'));
-
-    if (clientShared.typeaheadSelectListAddLI($ul, val)){
-      return evt.target.value = "";
-    }
+  getRoledUsers: function(userType) {
+    if (!this.tbl.user_roles) return;
+    var ids = _.chain(this.tbl.user_roles)
+           .filter(function(d){return d.role === userType;})
+           .pluck("user_id")
+           .value();
+    return Meteor.users.find({_id: {$in: ids}});
   }
 });
-Template.typeaheadSelectList.onRendered(function() {
-  return Meteor.typeahead.inject("input[name=" + this.data.name + "]");
+Template.typeaheadUserSelect.events({
+  'click .removeUser': removeLI,
+  'typeahead:selected': function(evt, tmpl, v) {
+    var ul = tmpl.$('.' + tmpl.data.name)
+        ids = ul.find('li').map(function(i, el){
+          return el.getAttribute('data-user_id');
+        });
+
+    if (!_.contains(ids, v._id)) {
+      return Blaze.renderWithData(Template.UserLI, v, ul[0]);
+    }
+    tmpl.$('.typeahead').typeahead('val', "");
+  }
 });
+Template.typeaheadUserSelect.onRendered(injectTypeahead);
 
 
 Template.tableTitle.helpers({
