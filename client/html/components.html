@@ -193,6 +193,20 @@
 </template>
 
 
+<template name="showNewBtn">
+  {{#if userCanEdit}}
+    {{#unless showNew}}
+      <hr>
+      <a href="#"
+         class="btn btn-primary btn-sm"
+         id="show-create-btn">
+        <span class="glyphicon glyphicon-plus"></span> Create new row
+      </a>
+    {{/unless}}
+  {{/if}}
+</template>
+
+
 <template name="tableTitle">
   {{#with getTable}}
   <p class="help-block">

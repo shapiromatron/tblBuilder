@@ -104,12 +104,7 @@
     </tbody>
   </table>
 
-  {{#if userCanEdit}}
-    {{#unless showNew}}<br><br>
-    <a href="#" class="btn btn-primary btn-sm" id="show-create">
-      <span class="glyphicon glyphicon-plus"></span> Create new row</a>
-    {{/unless}}
-  {{/if}}
+  {{> showNewBtn }}
 
   {{#if showNew}}
     {{> epiDescriptiveForm isNew=true}}

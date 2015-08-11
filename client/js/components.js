@@ -40,6 +40,20 @@ Template.optRiskPlot.events({
 });
 
 
+
+
+Template.showNewBtn.helpers({
+  showNew: function(){
+    return Session.get('evidenceShowNew');
+  }
+});
+Template.showNewBtn.events({
+  'click #show-create-btn': function(evt, tmpl) {
+    Session.set("evidenceShowNew", true);
+    Tracker.flush();
+    clientShared.activateInput($("input[name=referenceID]"));
+  }
+});
 Template.selectList.helpers({
   isSelected: function(current, selected) {
     return current === selected;
