@@ -204,7 +204,7 @@ Template.animalEndpointForm.onRendered(function() {
   if (aniResult != null) {
     clientShared.toggleQA(this, aniResult.isQA);
   }
-  $(this.find('#nestedModalDiv')).modal('toggle');
+  $('#modalDiv').modal('toggle');
   clientShared.initPopovers(this);
 });
 Template.animalEndpointForm.onDestroyed(function() {

@@ -350,17 +350,17 @@ _.extend(clientShared, {
       Collection.update(this._id, {$set: {isHidden: !this.isHidden}});
     },
     'click .add-nested': function(evt, tmpl) {
-      var div = tmpl.find('#nestedModalHolder'),
+      var div = document.getElementById('#modalHolder'),
           key = Session.get('evidenceType'),
           NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
       $(div).empty();
       Blaze.renderWithData(NestedTemplate, {parent: this}, div);
     },
     'click #move-content': function(evt, tmpl) {
-      var div = $('#modalHolder')[0],
+      var div = document.getElementById('#modalHolder'),
           key = Session.get('evidenceType');
       $(div).empty();
-      Blaze.renderWithData(Template.moveModalHolder, {content: this}, div);
+      Blaze.renderWithData(Template.moveModal, {content: this}, div);
     },
     'click #clone-content': function(evt, tmpl) {
       var ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")];
@@ -443,7 +443,7 @@ _.extend(clientShared, {
   },
   abstractNestedTableEvents: {
     'click #inner-show-edit': function(evt, tmpl) {
-      var div = tmpl.find('#nestedModalHolder'),
+      var div = document.getElementById('#modalHolder'),
           key = Session.get('evidenceType'),
           NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
 
@@ -476,7 +476,7 @@ _.extend(clientShared, {
     }
   },
   removeNestedFormModal: function(tmpl, options) {
-    $(tmpl.find('#nestedModalDiv'))
+    $('#modalDiv')
       .on('hide.bs.modal', function() {
         var key = Session.get('evidenceType'),
             NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;

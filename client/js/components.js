@@ -61,10 +61,10 @@ var autocompleteOptions = function(qry, sync, cb) {
 }, removeLI = function(evt, tmpl){
   $(evt.currentTarget).parent().remove();
 }, selectListAddLI = function(ul, val) {
-    var txts = clientShared.typeaheadSelectListGetLIs($(ul));
-    if ((val !== "") && (!_.contains(txts, val))) {
-      Blaze.renderWithData(Template.typeaheadSelectListLI, val, ul);
-    }
+  var txts = clientShared.typeaheadSelectListGetLIs($(ul));
+  if ((val !== "") && (!_.contains(txts, val))) {
+    Blaze.renderWithData(Template.typeaheadSelectListLI, val, ul);
+  }
 };
 
 Template.typeaheadInput.helpers({getOptions: autocompleteOptions});

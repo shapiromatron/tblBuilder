@@ -122,14 +122,12 @@
     {{> animalForm isNew=true}}
   {{/if}}
 
-  <div id="modalHolder"></div>
 </template>
 
 
 <template name='animalRow'>
   <td>
     {{#if userCanEdit}}
-      <div id="nestedModalHolder"></div>
       <div class="rowOptions btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
           <span class="caret" title="Editing options"></span>
@@ -424,7 +422,6 @@
           <tr>
             <td>
               {{#if userCanEdit}}
-                <div id="nestedModalHolder"></div>
                 <div class="rowOptions btn-group pull-right">
                   <button class="btn btn-default btn-xs dropdown-toggle"
                           type="button" data-toggle="dropdown">
@@ -470,8 +467,8 @@
 
 
 <template name="animalEndpointForm">
-  <div class="modal fade" id="nestedModalDiv" tabindex="-1" role="dialog"
-       data-backdrop="static" aria-labelledby="nestedModalDiv" aria-hidden="true">
+  <div class="modal fade" id="modalDiv" tabindex="-1" role="dialog"
+       data-backdrop="static" aria-labelledby="modalDiv" aria-hidden="true">
     {{#with getObject }}   <!-- Reactive nested-value  -->
     <div class="modal-dialog modal-lg">
       <div class="modal-content">

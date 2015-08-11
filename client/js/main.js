@@ -28,7 +28,7 @@ Tracker.autorun(function(){
 // setup router
 var TblRouterController = RouteController.extend({
   waitOn: function(){
-    return [tablesHandler, usersHandler];
+    return tablesHandler;
   },
   data: function() {
     return Tables.findOne(this.params._id);

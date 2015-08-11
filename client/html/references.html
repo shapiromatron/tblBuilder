@@ -1,8 +1,8 @@
 <template name="referencesMain">
   {{#if Template.subscriptionsReady}}
-    <div class="{{getContainerClass}}">
+    {{#contentContainer}}
       {{> referencesTbl}}
-    </div>
+   {{/contentContainer}}
   {{else}}
     {{> isLoading}}
   {{/if }}

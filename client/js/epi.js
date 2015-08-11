@@ -251,7 +251,7 @@ Template.epiResultForm.events(_.extend({
 Template.epiResultForm.onRendered(function() {
   var epiResult = EpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
   if (epiResult != null) clientShared.toggleQA(this, epiResult.isQA);
-  $(this.find('#nestedModalDiv')).modal('toggle');
+  $('#modalDiv').modal('toggle');
   clientShared.initPopovers(this);
 });
 Template.epiResultForm.onDestroyed(function() {

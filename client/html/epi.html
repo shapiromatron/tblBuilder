@@ -115,13 +115,11 @@
     {{> epiDescriptiveForm isNew=true}}
   {{/if}}
 
-  <div id="modalHolder"></div>
 </template>
 
 <template name='epiDescriptiveRow'>
   <td>
     {{#if userCanEdit}}
-      <div id="nestedModalHolder"></div>
       <div class="rowOptions btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
           <span class="caret" title="Editing options"></span>
@@ -566,7 +564,6 @@ or the-first row of the riskEstimates.
 <template name="organSiteTd">
   <td rowspan="{{getRowspan}}">
     {{#if userCanEdit}}
-      <div id="nestedModalHolder"></div>
       <div class="rowOptions btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle"
                 type="button" data-toggle="dropdown">
@@ -591,8 +588,8 @@ or the-first row of the riskEstimates.
 </template>
 
 <template name="epiResultForm">
-  <div class="modal fade" id="nestedModalDiv" tabindex="-1" role="dialog"
-       data-backdrop="static" aria-labelledby="nestedModalDiv" aria-hidden="true">
+  <div class="modal fade" id="modalDiv" tabindex="-1" role="dialog"
+       data-backdrop="static" aria-labelledby="modalDiv" aria-hidden="true">
     {{#with getObject }}   <!-- Reactive epiResult  -->
     <div class="modal-dialog modal-lg">
       <div class="modal-content">

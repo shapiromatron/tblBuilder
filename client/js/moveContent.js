@@ -1,4 +1,4 @@
-Template.moveModalHolder.helpers({
+Template.moveModal.helpers({
   getCurrentTable: function() {
     var d = Session.get('Tbl');
     return "{0} {1}: {2}".printf(d.volumeNumber, d.monographAgent, d.name);
@@ -16,7 +16,7 @@ Template.moveModalHolder.helpers({
       .value().join("");
   }
 });
-Template.moveModalHolder.events({
+Template.moveModal.events({
   'click #move-content': function(evt, tmpl) {
     var content_id = this.content._id,
         tbl_id = $(tmpl.find("select[name='moveTblTo']")).val(),
@@ -49,6 +49,6 @@ Template.moveModalHolder.events({
     $(tmpl.firstNode).modal('hide');
   }
 });
-Template.moveModalHolder.onRendered(function() {
-  $(this.find('#moveModalHolder')).modal('show');
+Template.moveModal.onRendered(function() {
+  $(this.find('#moveModal')).modal('show');
 });
