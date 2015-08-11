@@ -27,13 +27,25 @@ Meteor.publish('tables', function(user_id) {
 });
 
 Meteor.publish('epiDescriptive', function(tbl_id) {
-  var tbl;
   check(tbl_id, String);
-  tbl = Tables.findOne({_id: tbl_id});
+  var tbl = Tables.findOne({_id: tbl_id});
   if (userCanView(tbl, this.userId)) {
     return [
       EpiDescriptive.find({tbl_id: tbl_id}),
       EpiResult.find({tbl_id: tbl_id}),
+      Reference.find({monographAgent: {$in: [tbl.monographAgent]}})
+    ];
+  }
+  return this.ready();
+});
+
+Meteor.publish('ntpEpiDescriptive', function(tbl_id) {
+  check(tbl_id, String);
+  var tbl = Tables.findOne({_id: tbl_id});
+  if (userCanView(tbl, this.userId)) {
+    return [
+      NtpEpiDescriptive.find({tbl_id: tbl_id}),
+      NtpEpiResult.find({tbl_id: tbl_id}),
       Reference.find({monographAgent: {$in: [tbl.monographAgent]}})
     ];
   }

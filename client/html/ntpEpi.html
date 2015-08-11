@@ -1,3 +1,28 @@
 <template name="ntpEpiMain">
-<h1>Main.</h1>
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+      {{> ntpEpiDescTbl}}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>
+
+
+<template name="ntpEpiDescOpts">
+  {{#actionBtn}}
+      {{#if userCanEdit}}
+        {{#unless showNew}}
+          {{> optCreate }}
+        {{/unless}}
+        {{> optReorder }}
+      {{/if}}
+      {{> optMonoRefList}}
+      {{> optFullScreen}}
+      {{> optExcel }}
+      {{> optWord }}
+      {{> optRiskPlot}}
+      {{> optShowAllRows}}
+      {{> optQaFlags}}
+  {{/actionBtn}}
 </template>
