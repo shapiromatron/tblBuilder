@@ -119,11 +119,6 @@ Template.volumeTableList.events({
     return Blaze.renderWithData(Template.reportTemplateModal, val, div);
   }
 });
-Template.volumeTableList.onCreated(function(){
-  this.autorun(function(){
-    Meteor.subscribe('tblUsers', Session.get('tablesEditingId'));
-  });
-});
 
 
 var getUserPermissionsObject = function(tmpl) {

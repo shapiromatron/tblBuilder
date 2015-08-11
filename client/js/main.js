@@ -5,18 +5,30 @@ Session.setDefault('reorderRows', false);
 Session.setDefault('referenceNewObj', null);
 
 
-// setup subscriptions
-var tablesHandler = null;
+// setup global subscriptions
+var tablesHandler = null,
+    usersHandler = null;
 Meteor.subscribe('reportTemplate');
 Tracker.autorun(function() {
   tablesHandler = Meteor.subscribe('tables', Meteor.userId());
+});
+Tracker.autorun(function(){
+  if (Roles.userIsInRole(Meteor.userId(), ['staff'])) {
+    usersHandler = Meteor.subscribe('adminUsers');
+  } else {
+    var tblId = null;
+    try {
+      tblId = Session.get('tablesEditingId') || Session.get('Tbl')._id;
+    } catch(err){}
+    usersHandler = Meteor.subscribe('tblUsers', tblId);
+  }
 });
 
 
 // setup router
 var TblRouterController = RouteController.extend({
   waitOn: function(){
-    return tablesHandler;
+    return [tablesHandler, usersHandler];
   },
   data: function() {
     return Tables.findOne(this.params._id);

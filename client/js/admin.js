@@ -34,7 +34,6 @@ Template.adminMain.onCreated(function() {
   Session.set("adminUserShowNew", false);
   Session.set("reportTemplateEditingId", null);
   Session.set("reportTemplateShowNew", false);
-  this.subscribe('adminUsers');
 });
 Template.adminMain.onDestroyed(function() {
   Session.set('adminUserEditingId', null);
