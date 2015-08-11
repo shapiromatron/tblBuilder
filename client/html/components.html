@@ -128,8 +128,15 @@
 </template>
 
 
-<template name="moveModalHolder">
-  <div class="modal fade" id="moveModalHolder" tabindex="-1" role="dialog"
+<template name="contentContainer">
+  <div class="{{getContainerClass}}">
+    {{> UI.contentBlock}}
+  </div>
+</template>
+
+
+<template name="moveModal">
+  <div class="modal fade" id="moveModal" tabindex="-1" role="dialog"
        data-backdrop="static" aria-labelledby="referenceQuickAdd" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">

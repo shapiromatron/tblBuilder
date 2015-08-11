@@ -1,8 +1,8 @@
 <template name="epiMain">
   {{#if Template.subscriptionsReady}}
-    <div class="{{getContainerClass}}">
+    {{#contentContainer}}
       {{> epiDescriptiveTbl}}
-    </div>
+    {{/contentContainer}}
   {{else}}
     {{> isLoading}}
   {{/if }}

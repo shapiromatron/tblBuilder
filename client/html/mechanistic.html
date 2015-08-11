@@ -1,6 +1,5 @@
 <template name="mechanisticMain">
   {{#if Template.subscriptionsReady}}
-    <div class="{{getContainerClass}}">
       <h1>{{name}}
         <div class="btn-group pull-right">
           <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -26,14 +25,16 @@
           </ul>
         </div>
       </h1>
+    {{#contentContainer}}
       {{> tableTitle}}
       {{> mechanisticTbl}}
-    </div>
     <div id="modalHolder"></div>
+    {{/contentContainer}}
   {{else}}
     {{> isLoading}}
   {{/if }}
 </template>
+
 
 <template name="mechanisticTbl">
   <table class="table table-condensed" >

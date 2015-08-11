@@ -1,8 +1,8 @@
 <template name="animalMain">
   {{#if Template.subscriptionsReady}}
-    <div class="{{getContainerClass}}">
+    {{#contentContainer}}
       {{> animalTbl}}
-    </div>
+    {{/contentContainer}}
   {{else}}
     {{> isLoading}}
   {{/if }}

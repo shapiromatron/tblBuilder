@@ -1,8 +1,8 @@
 <template name="exposureMain">
   {{#if Template.subscriptionsReady}}
-    <div class="{{getContainerClass}}">
+    {{#contentContainer}}
       {{> exposureTbl}}
-    </div>
+    {{/contentContainer}}
   {{else}}
     {{> isLoading}}
   {{/if }}

@@ -1,6 +1,6 @@
 <template name="epiOrganSiteMain">
-  <div class="{{getContainerClass}}">
     {{#if Template.subscriptionsReady}}
+      {{#contentContainer}}
 
       <!-- Header and pulldown list -->
       <h1>Volume {{volumeNumber}} {{monographAgent}}: epidemiology evidence
@@ -105,8 +105,9 @@
           {{/each}}
         </tbody>
       </table>
+
+      {{/contentContainer}}
     {{else}}
       {{> isLoading}}
     {{/if }}
-  </div>
 </template>

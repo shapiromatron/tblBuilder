@@ -1,8 +1,8 @@
 <template name="genotoxMain">
   {{#if Template.subscriptionsReady}}
-    <div class="{{getContainerClass}}">
+    {{#contentContainer}}
       {{> genotoxTbl}}
-    </div>
+    {{/contentContainer}}
   {{else}}
     {{> isLoading}}
   {{/if }}

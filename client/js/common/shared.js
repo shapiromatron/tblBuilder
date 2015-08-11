@@ -274,8 +274,7 @@ clientShared = {
 
 // abstract template helpers
 _.extend(clientShared, {
-  abstractMainHelpers: {
-  },
+  abstractMainHelpers: {},
   abstractTblHelpers: {
     showNew: function() {
       return Session.get("evidenceShowNew");

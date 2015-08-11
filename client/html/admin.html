@@ -4,14 +4,16 @@
 
 <template name="adminMain">
   {{#if Template.subscriptionsReady}}
-    {{> admin}}
+    {{#contentContainer}}
+      {{> admin}}
+    {{/contentContainer}}
   {{else}}
     {{> isLoading}}
   {{/if }}
 </template>
 
 <template name="admin">
-  <div class="container">
+  <div class="row">
     <h1>User Administration
       <div class="btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -46,7 +48,7 @@
     {{/if}}
   </div>
 
-  <div class="container">
+  <div class="row">
     {{> reportTemplateTable}}
   </div>
 </template>
@@ -124,7 +126,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <template name="adminUserRowForm">

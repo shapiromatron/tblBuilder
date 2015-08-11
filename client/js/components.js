@@ -6,6 +6,13 @@ Template.formLegendPulldown.onRendered(function() {
 });
 
 
+Template.contentContainer.helpers({
+  getContainerClass: function() {
+    return (Session.get("isFullScreen")) ? "container-fluid" : "container";
+  }
+});
+
+
 Template.optFullScreen.helpers({
   isFullScreen: function() {
     return Session.get("isFullScreen");

@@ -57,9 +57,6 @@ uiHelpers = {
   isNTP: function() {
     return Meteor.settings["public"].context === "ntp";
   },
-  getContainerClass: function() {
-    return (Session.get("isFullScreen")) ? "container-fluid" : "container";
-  },
   getUserDescription: function() {
     return (this.profile && this.profile.fullName)
       ? this.profile.fullName
