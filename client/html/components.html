@@ -385,6 +385,27 @@
 </template>
 
 
+<template name="fldTypeaheadSelectMultiple">
+  <div>
+   {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
+    <input class="form-control typeahead multiSelectList"
+         name="{{name}}"
+         type="text"
+         placeholder="Add to list by pressing <enter>"
+         autocomplete="off"
+         spellcheck="off"
+         data-highlight="true"
+         data-source="getOptions"
+         data-methodname="{{schema.typeaheadMethod}}"/>
+    <ul class="selectList">
+      {{#each values }}
+        {{> typeaheadSelectListLI}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+
 <template name="fldInputText">
   {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
   <input class="form-control" type="text"
@@ -416,6 +437,7 @@
                   name='{{name}}'
                   rows="{{schema.textAreaRows}}">{{value}}</textarea>
 </template>
+
 
 <template name="fldLabel">
   <label class="helpPopovers"

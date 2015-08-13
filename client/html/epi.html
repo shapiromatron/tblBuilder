@@ -258,10 +258,7 @@
         {{> fldTextArea name="exposureAssessmentNotes" value=exposureAssessmentNotes }}
       </div>
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Possible co-exposures which may potentially confound results.">
-                Possible co-exposures</label>
-        {{> typeaheadSelectList name="coexposures" values=coexposures methodName="searchCoexposures"}}
+        {{> fldTypeaheadSelectMultiple name="coexposures" values=coexposures }}
       </div>
     </div>
 

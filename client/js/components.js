@@ -140,6 +140,12 @@ var autocompleteOptions = function(qry, sync, cb) {
   if ((val !== "") && (!_.contains(txts, val))) {
     Blaze.renderWithData(Template.typeaheadSelectListLI, val, ul);
   }
+}, selectMultiEvents = {
+  'typeahead:selected': function(evt, tmpl) {
+    selectListAddLI(tmpl.find("ul"), evt.target.value);
+    tmpl.$('.typeahead').typeahead('val', "");
+  },
+  'click .selectListRemove': removeLI,
 };
 
 Template.typeaheadInput.helpers({getOptions: autocompleteOptions});
@@ -147,13 +153,7 @@ Template.typeaheadInput.onRendered(injectTypeahead);
 
 
 Template.typeaheadSelectList.helpers({getOptions: autocompleteOptions});
-Template.typeaheadSelectList.events({
-  'typeahead:selected': function(evt, tmpl) {
-    selectListAddLI(tmpl.find("ul"), evt.target.value);
-    tmpl.$('.typeahead').typeahead('val', "");
-  },
-  'click .selectListRemove': removeLI,
-});
+Template.typeaheadSelectList.events(selectMultiEvents);
 Template.typeaheadSelectList.onRendered(injectTypeahead);
 
 
@@ -255,6 +255,11 @@ Template.fldInputText.helpers(fldHelpers);
 Template.fldInputTypeahead.onCreated(fldGetSchema);
 Template.fldInputTypeahead.helpers(fldHelpers);
 Template.fldInputTypeahead.onRendered(injectTypeahead);
+
+Template.fldTypeaheadSelectMultiple.onCreated(fldGetSchema);
+Template.fldTypeaheadSelectMultiple.helpers(fldHelpers);
+Template.fldTypeaheadSelectMultiple.events(selectMultiEvents);
+Template.fldTypeaheadSelectMultiple.onRendered(injectTypeahead);
 
 Template.fldTextArea.onCreated(fldGetSchema);
 Template.fldTextArea.helpers(fldHelpers);
