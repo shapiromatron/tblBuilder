@@ -103,7 +103,12 @@
     <legend>Epidemiological study description {{>formLegendPulldown}}</legend>
     <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
 
-    <!-- TODO: add content THURS -->
+    <!-- First row -->
+    <div class="form-group row">
+      <div class="col-xs-3">
+        {{> referenceSingleSelect}}
+      </div>
+    </div>
 
     <div id="errors"></div>
     {{> qaNotice}}
