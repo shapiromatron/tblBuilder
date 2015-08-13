@@ -88,8 +88,8 @@
   {{#if showNew}}
     {{> epiDescriptiveForm isNew=true}}
   {{/if}}
-
 </template>
+
 
 <template name='epiDescriptiveRow'>
   <td>
@@ -148,6 +148,7 @@
   <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
 </template>
 
+
 <template name="epiDescriptiveForm">
   <form id="mainForm" role="form" class="editForm">
     <legend>Epidemiological study description {{>formLegendPulldown}}</legend>
@@ -158,30 +159,14 @@
       <div class="col-xs-3">
         {{> referenceSingleSelect}}
       </div>
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Study-design used for evaluation (Cohort, Case-Control, Nested-Case Control, etc.) ">
-              Study design*</label>
-        {{> selectList options=getStudyDesignOptions selected=studyDesign selectName="studyDesign" }}
+        {{> fldSelectSingle name="studyDesign" value=studyDesign }}
       </div>
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Country; other information (e.g., region, state, province, city) if important">
-              Location*</label>
-        <input class="form-control" type="text"
-               name='location'
-               value="{{location}}"/>
+        {{> fldInputText name="location" value=location }}
       </div>
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Enrollment for case-control studies, follow-up for cohort studies">
-               Enrollment or follow-up dates*</label>
-        <input class="form-control" type="text"
-               name='enrollmentDates'
-               value="{{enrollmentDates}}"/>
+        {{> fldInputText name="enrollmentDates" value=enrollmentDates }}
       </div>
     </div>
 
@@ -193,31 +178,16 @@
           <div class="col-xs-1">
           </div>
           <div class="col-xs-2">
-            <label class="helpPopovers" data-toggle="popover"
-                   data-content="Number of cases in case-control study which were
-                                 included in the analysis after exclusions">
-                   Population size*</label>
+            {{>fldLabel name="populationSizeCase"}}
           </div>
           <div class="col-xs-2">
-            <label class="helpPopovers" data-toggle="popover"
-                   data-content="Percent of eligible participants included">
-                   Response rates (%)</label>
+            {{>fldLabel name="responseRateCase"}}
           </div>
           <div class="col-xs-4">
-            <label class="helpPopovers" data-toggle="popover"
-                   data-content="Note disease definition and whether incident for
-                                 cases. For hospital clinical/registry controls note
-                                 disease(s) if relevant (e.g., other cancers, non-
-                                 smoking related disease)">
-                    Description and source of cases and controls*</label>
+            {{>fldLabel name="sourceCase"}}
           </div>
           <div class="col-xs-3">
-            <label class="helpPopovers" data-toggle="popover"
-                   data-content="Any additional criteria for inclusion/exclusion
-                                 (e.g., age, sex, race, length of employment).
-                                 Provide for cases and controls in case-control studies.">
-                   <span>Other population descriptors/<br>eligibility characteristics</span>
-            </label>
+            {{> fldLabel name="eligibilityCriteria"}}
           </div>
         </div>
 
@@ -228,35 +198,21 @@
             <strong>Controls</strong>
           </div>
           <div class="col-xs-2">
-            <input class="form-control" type="text"
-                   name='populationSizeCase'
-                   value="{{populationSizeCase}}"/><br>
-            <input class="form-control" type="text"
-                   name='populationSizeControl'
-                   value="{{populationSizeControl}}"/>
+            {{> fldInputText name="populationSizeCase" value=populationSizeCase hideLabel=true }}
+            <br>
+            {{> fldInputText name="populationSizeControl" value=populationSizeControl hideLabel=true }}
           </div>
           <div class="col-xs-2">
-            <input class="form-control" type="text"
-                   name='responseRateCase'
-                   value="{{responseRateCase}}"
-                   placeholder='blank if not-reported'/><br>
-            <input class="form-control" type="text"
-                   name='responseRateControl'
-                   value="{{responseRateControl}}"
-                   placeholder='blank if not-reported'/>
+            {{> fldInputText name="responseRateCase" value=responseRateCase hideLabel=true }}
+            <br>
+            {{> fldInputText name="responseRateControl" value=responseRateControl hideLabel=true }}
           </div>
           <div class="col-xs-4">
-            <textarea class="form-control"
-                      name="sourceCase"
-                      rows="2">{{sourceCase}}</textarea>
-            <textarea class="form-control"
-                      name="sourceControl"
-                      rows="2">{{sourceControl}}</textarea>
+            {{> fldTextArea name="sourceCase" value=sourceCase hideLabel=true }}
+            {{> fldTextArea name="sourceControl" value=sourceControl hideLabel=true }}
           </div>
           <div class="col-xs-3">
-            <textarea class="form-control"
-                      name='eligibilityCriteria'
-                      rows="5">{{eligibilityCriteria}}</textarea>
+            {{> fldTextArea name="eligibilityCriteria" value=eligibilityCriteria hideLabel=true }}
           </div>
         </div>
       </div>
@@ -265,39 +221,13 @@
     <!-- Cohort row #1-->
     <div class="form-group row isNotCCinput">
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Any additional criteria for inclusion/exclusion
-                             (e.g., age, sex, race, length of employment).
-                             Provide for cases and controls in case-control studies.">
-               <br>Population/eligibility characteristics*</label>
-        <textarea class="form-control"
-                  name='eligibilityCriteria'
-                  rows="4">{{eligibilityCriteria}}</textarea>
+        {{> fldTextArea name="eligibilityCriteria" value=eligibilityCriteria }}
       </div>
-
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Industry or occupation (e.g., transformer repair
-                             workers); cohort name (e.g., Nurses' Health Study);
-                             source of population (e.g., participants in the
-                             population census, registered voters, source cohort
-                             for nested case-control studies)">
-                <br>Other population descriptors (if relevant)</label>
-        <textarea class="form-control"
-                  name='populationDescription'
-                  rows="4">{{populationDescription}}</textarea>
+        {{> fldTextArea name="populationDescription" value=populationDescription }}
       </div>
-
-
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Method of follow-up or source of outcome data (e.g.
-                            linkage to national cancer registry, searches of
-                            death certificates, insurance records, etc.)">
-              <br>Outcome data source</label>
-        <textarea class="form-control"
-                  name='outcomeDataSource'
-                  rows="4">{{outcomeDataSource}}</textarea>
+        {{> fldTextArea name="outcomeDataSource" value=outcomeDataSource }}
       </div>
     </div>
 
@@ -306,36 +236,14 @@
       <div class="col-xs-12">
         <div class="row">
           <div class="col-xs-4">
-            <label class="helpPopovers" data-toggle="popover"
-                   data-content="Number enrolled for cohort studies which were
-                                 included in the analysis after exclusions">
-                   &nbsp;<br>Population size*</label>
-            <input class="form-control" type="text"
-                   name='populationSize'
-                   value="{{populationSize}}"/>
+            {{> fldInputText name="populationSize" value=populationSize }}
           </div>
-
           <div class="col-xs-4">
-            <label class="helpPopovers" data-toggle="popover"
-                   data-content="The proportion of enrolled subjects whose
-                                 status was unknown at the end of follow-up">
-                   &nbsp;<br>Loss to follow-up (%)</label>
-            <input class="form-control" type="text"
-                   name='lossToFollowUp'
-                   placeholder='blank if not-reported'
-                   value="{{lossToFollowUp}}"/>
+            {{> fldInputText name="lossToFollowUp" value=lossToFollowUp }}
           </div>
-
           <div class="col-xs-4">
-            <label class="helpPopovers" data-toggle="popover"
-                   data-content=" ">
-                   Type of referent group<br>(<i>i.e.</i>, external vs. internal analysis)</label>
-            <input class="form-control" type="text"
-                   name='referentGroup'
-                   placeholder='blank if not-reported'
-                   value="{{referentGroup}}"/>
+            {{> fldInputText name="referentGroup" value=referentGroup }}
           </div>
-
         </div>
       </div>
     </div>
@@ -343,29 +251,12 @@
     <!-- Fourth row -->
     <div class="form-group row">
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Which method was used to estimate agent-exposure?">
-               Exposure assessment type*</label>
-        {{> selectList options=getExposureAssessmentTypeOptions selected=exposureAssessmentType selectName="exposureAssessmentType"}}
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Average quantitative exposure-level or range, if reported">
-               Quantitative exposure level (if reported)</label>
-        <input class="form-control" type="text"
-               name='exposureLevel'
-               value="{{exposureLevel}}"/>
+        {{> fldSelectSingle name="exposureAssessmentType" value=exposureAssessmentType }}
+        {{> fldInputText name="exposureLevel" value=exposureLevel }}
       </div>
-
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Approach used to estimate exposure, if any
-                            (quantitative measurement, JEM questionnaire, expert
-                            judgement, biomonitoring, other)">
-              Exposure assessment notes</label>
-        <textarea class="form-control"
-                  name='exposureAssessmentNotes'
-                  rows="4">{{exposureAssessmentNotes}}</textarea>
+        {{> fldTextArea name="exposureAssessmentNotes" value=exposureAssessmentNotes }}
       </div>
-
       <div class="col-xs-4">
         <label class="helpPopovers" data-toggle="popover"
                data-content="Possible co-exposures which may potentially confound results.">
@@ -376,33 +267,14 @@
 
     <!-- Fifth row -->
     <div class="form-group row">
-
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Any study-strengths should be described here.">
-                Principal strengths*</label>
-        <textarea class="form-control"
-                  name='strengths'
-                  rows="3">{{strengths}}</textarea>
+        {{> fldTextArea name="strengths" value=strengths }}
       </div>
-
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Limitations to consider include the extent to which
-                             chance, bias, and confounding could explain the results">
-                Principal limitations*</label>
-        <textarea class="form-control"
-                  name='limitations'
-                  rows="3">{{limitations}}</textarea>
+        {{> fldTextArea name="limitations" value=limitations }}
       </div>
-
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Any other general comments related to the study">
-              Comments</label>
-        <textarea class="form-control"
-                  name='notes'
-                  rows="3">{{notes}}</textarea>
+        {{> fldTextArea name="notes" value=notes }}
       </div>
     </div>
 
@@ -414,6 +286,7 @@
   {{> referenceQuickAddModal}}
   <div id="epiResultDiv"></div>
 </template>
+
 
 <template name="epiResultTbl">
   {{#if showRow isHidden}}

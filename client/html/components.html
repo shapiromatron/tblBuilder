@@ -372,3 +372,38 @@
   </div>
 </template>
 
+
+<template name="fldSelectSingle">
+  <label class="helpPopovers" data-toggle="popover"
+         data-content="{{schema.popoverText}}">
+         {{schema.label}}{{isRequired}}</label>
+  <select class="form-control" name="{{name}}">
+    {{#each schema.allowedValues}}
+      <option value="{{this}}" selected="{{isSelected this ../value}}">{{this}}</option>
+    {{/each}}
+  </select>
+</template>
+
+
+<template name="fldInputText">
+  {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
+  <input class="form-control" type="text"
+         name='{{name}}'
+         value="{{value}}"
+         placeholder="{{schema.placeholderText}}"/>
+</template>
+
+
+<template name="fldTextArea">
+  {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
+  <textarea class="form-control"
+                  name='{{name}}'
+                  rows="{{schema.textAreaRows}}">{{value}}</textarea>
+</template>
+
+<template name="fldLabel">
+  <label class="helpPopovers"
+         data-toggle="popover"
+         data-content="{{schema.popoverText}}">
+        {{schema.label}}{{isRequired}}</label>
+</template>

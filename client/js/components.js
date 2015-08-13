@@ -223,3 +223,36 @@ Template.evidenceFormSubmissionDiv.helpers({
     return (!_.isUndefined(this._id));
   }
 });
+
+
+
+var fldGetSchema = function(){
+  if(this.data.name){
+    this.data.schema = tblBuilderCollections
+      .evidenceLookup[Session.get('evidenceType')]
+      .collection
+      .simpleSchema()
+      ._schema[this.data.name];
+  }
+}, fldHelpers = {
+  isRequired: function(){
+    if (_.isUndefined(this.schema.optional) ||
+        this.schema.forceRequiredSymbol === true)
+      return "*";
+  },
+  isSelected: function(current, selected) {
+    return current === selected;
+  }
+}
+
+Template.fldLabel.onCreated(fldGetSchema);
+Template.fldLabel.helpers(fldHelpers);
+
+Template.fldInputText.onCreated(fldGetSchema);
+Template.fldInputText.helpers(fldHelpers);
+
+Template.fldTextArea.onCreated(fldGetSchema);
+Template.fldTextArea.helpers(fldHelpers);
+
+Template.fldSelectSingle.onCreated(fldGetSchema);
+Template.fldSelectSingle.helpers(fldHelpers);
