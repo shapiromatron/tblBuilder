@@ -186,137 +186,64 @@
 
     <!-- First row -->
     <div class="form-group row">
-
       <div class="col-xs-3">
         {{> referenceSingleSelect}}
       </div>
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover" data-content="As reported">
-          Data class*</label>
-        {{> selectList options=getStudyDesigns selected=studyDesign selectName="studyDesign" }}
+        {{> fldSelectSingle name="studyDesign" value=studyDesign }}
       </div>
-
       <div class="col-xs-2">
-        <label class="helpPopovers" data-toggle="popover" data-content="As reported">
-          Species*</label>
-        {{> typeaheadInput name="species" value=species methodName="searchAnimalSpecies" placeholder="Mouse, Rat, Hamster"}}
+        {{> fldInputTypeahead name="species" value=species }}
       </div>
-
       <div class="col-xs-2">
-        <label class="helpPopovers" data-toggle="popover" data-content="As reported">
-          Strain*</label>
-        {{> typeaheadInput name="strain" value=strain methodName="searchAnimalStrain" placeholder="B6C3F1, F344"}}
+        {{> fldInputTypeahead name="strain" value=strain }}
       </div>
-
       <div class="col-xs-2">
-        <label class="helpPopovers" data-toggle="popover" data-content="As reported">
-          Sex*</label>
-        {{> selectList options=getSexes selected=sex selectName="sex" }}
+        {{> fldSelectSingle name="sex" value=sex }}
       </div>
-
     </div>
-
 
     <!-- Second row. Agent tested. -->
     <div class="form-group row">
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover" data-content="As reported">
-          Agent tested*</label>
-        {{> typeaheadInput name="agent" value=agent methodName="searchAnimalAgent" placeholder="Trichloroethylene, Asbestos"}}
+        {{> fldInputTypeahead name="agent" value=agent }}
       </div>
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover" data-content="As reported">
-          Purity*</label>
-        {{> typeaheadInput name="purity" value=purity methodName="searchAnimalPurity" placeholder=">99.9%, technical grade"}}
+        {{> fldInputTypeahead name="purity" value=purity }}
       </div>
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover" data-content="As reported">
-          Route*</label>
-        {{> typeaheadInput name="dosingRoute" value=dosingRoute methodName="searchAnimalDosingRoute" placeholder="Gavage, feed, i.p."}}
+        {{> fldInputTypeahead name="dosingRoute" value=dosingRoute }}
       </div>
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover" data-content="As reported">
-          Vehicle*</label>
-        {{> typeaheadInput name="vehicle" value=vehicle methodName="searchAnimalVehicle" placeholder="distilled water, PBS, saline, air"}}
+        {{> fldInputTypeahead name="vehicle" value=vehicle }}
       </div>
-
     </div>
-
 
     <!-- Third row. Experimental design. -->
     <div class="form-group row">
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Age at start of exposure">
-              Age at start*</label>
-        <input class="form-control" type="text"
-               name='ageAtStart'
-               value="{{ageAtStart}}"
-               placeholder="6-8 wk old, 2 mo old, newborn"/>
+        {{> fldInputText name="ageAtStart" value=ageAtStart }}
       </div>
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Exposure duration including additional observation time (if any)">
-              Duration*</label>
-        <input class="form-control" type="text"
-               name='duration'
-               value="{{duration}}"
-               placeholder="110 wk, 24 mo, lifetime"/>
+        {{> fldInputText name="duration" value=duration }}
       </div>
-
       <div class="col-xs-6">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="Dosing regimen of the agent tested, and (if any)
-              information on any co-exposure or modifying factors (e.g., NDEA,
-              TPA, Aflatoxin B1, UV) including route, concentration and
-              dosing regimen">
-              Dosing regimen*</label>
-        <input class="form-control" type="text"
-               name='dosingRegimen'
-               value="{{dosingRegimen}}"
-               placeholder="2x/d for 103 wk; 2x/wk for 20 mo"/>
+        {{> fldInputText name="dosingRegimen" value=dosingRegimen }}
       </div>
-
     </div>
-
 
     <!-- Fourth row. Comments. -->
     <div class="form-group row">
-
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="e.g., GLP study, multiple doses tested,
-               high number of animals per group">
-              Principal strengths</label>
-        {{> typeaheadSelectList name="strengths" values=strengths methodName="searchAnimalStrengths"}}
+        {{> fldTypeaheadSelectMultiple name="strengths" values=strengths }}
       </div>
-
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="e.g., inadequate duration, no controls,
-               small number of animals per group,
-               inadequate reporting of exposure or results,
-               high mortality, MTD not reached">
-              Principal limitations</label>
-        {{> typeaheadSelectList name="limitations" values=limitations methodName="searchAnimalLimitations"}}
+        {{> fldTypeaheadSelectMultiple name="limitations" values=limitations }}
       </div>
-
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover" data-content="As reported">
-          Other comments</label>
-        <textarea class="form-control" type="text"
-                  rows="3" name="comments">{{comments}}</textarea>
+        {{> fldTextArea name="comments" value=comments }}
       </div>
-
     </div>
-
 
     <div id="errors"></div>
     {{> qaNotice}}
