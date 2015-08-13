@@ -142,303 +142,125 @@
 
     <!-- First row. Reference, data-type, and agent -->
     <div class="form-group row">
-
       <div class="col-xs-4">
         {{> referenceSingleSelect}}
       </div>
-
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Data class*</label>
-        {{> selectList options=getDataClass selected=dataClass selectName="dataClass" }}
+        {{> fldSelectSingle name="dataClass" value=dataClass }}
       </div>
-
       <div class="col-xs-4">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Agent*</label>
-        {{> typeaheadInput name="agent" value=agent methodName="searchGenotoxAgents" placeholder="Trichloroethylene"}}
+        {{> fldInputTypeahead name="agent" value=agent }}
       </div>
-
     </div>
 
     <!-- Second row. Test-system description. -->
     <div class="form-group row">
-
       <div class="col-xs-3 non_mamm">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Phylogenetic class*</label>
-        {{> selectList options=getPhylogeneticClasses selected=phylogeneticClass selectName="phylogeneticClass" }}
+        {{> fldSelectSingle name="phylogeneticClass" value=phylogeneticClass }}
       </div>
 
       <div class="col-xs-3 non_mamm isAcellular">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Test system*</label>
-        {{> typeaheadInput name="testSystem" value=testSystem methodName="searchGenotoxTestSystem" placeholder="Calf thymus DNA"}}
+        {{> fldInputTypeahead name="testSystem" value=testSystem }}
       </div>
-
       <div class="col-xs-3 non_mamm isntAcellular">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Species*</label>
-        {{> typeaheadInput name="speciesNonMamm" value=speciesNonMamm methodName="searchSpeciesNonMamm" placeholder="Salmonella typhimurium"}}
+        {{> fldInputTypeahead name="speciesNonMamm" value=speciesNonMamm }}
       </div>
-
       <div class="col-xs-3 non_mamm isntAcellular">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Strain*</label>
-        {{> typeaheadInput name="strainNonMamm" value=strainNonMamm methodName="searchStrainNonMamm" placeholder="TA98"}}
+        {{> fldInputTypeahead name="strainNonMamm" value=strainNonMamm }}
       </div>
 
       <div class="col-xs-3 mamm_vitro">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Test species*</label>
-        {{> selectList options=getMammalianTestSpecies selected=testSpeciesMamm selectName="testSpeciesMamm" }}
+        {{> fldSelectSingle name="testSpeciesMamm" value=testSpeciesMamm }}
       </div>
-
       <div class="col-xs-3 mamm_vitro">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Species*</label>
-        {{> typeaheadInput name="speciesMamm" value=speciesMamm methodName="searchSpeciesMamm" placeholder="Human"}}
+       {{> fldInputTypeahead name="speciesMamm" value=speciesMamm }}
       </div>
-
       <div class="col-xs-3 mamm_vitro">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Tissue, cell line*</label>
-        {{> typeaheadInput name="tissueCellLine" value=tissueCellLine methodName="searchTissueCellLine" placeholder="Liver/HepG2"}}
+        {{> fldInputTypeahead name="tissueCellLine" value=tissueCellLine }}
       </div>
 
       <div class="col-xs-3 ani_vivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Species*</label>
-        {{> typeaheadInput name="species" value=species methodName="searchGenotoxSpecies" placeholder="Mouse"}}
+        {{> fldInputTypeahead name="species" value=species }}
       </div>
-
       <div class="col-xs-3 ani_vivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="If no strain specified, add common name in parentheses">
-              Strain*</label>
-        {{> typeaheadInput name="strain" value=strain methodName="searchGenotoxStrain" placeholder="B6C3F1"}}
+        {{> fldInputTypeahead name="strain" value=strain }}
       </div>
-
       <div class="col-xs-3 ani_vivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Sex*</label>
-        {{> selectList options=getSexes selected=sex selectName="sex" }}
+        {{> fldSelectSingle name="sex" value=sex }}
       </div>
-
       <div class="col-xs-3 ani_vivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Tissue*</label>
-        {{> typeaheadInput name="tissueAnimal" value=tissueAnimal methodName="searchGenotoxTissueAnimal" placeholder="bone marrow"}}
+        {{> fldInputTypeahead name="tissueAnimal" value=tissueAnimal }}
       </div>
 
       <div class="col-xs-3 human_vivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Tissue*</label>
-        {{> typeaheadInput name="tissueHuman" value=tissueHuman methodName="searchGenotoxTissueHuman" placeholder="skin"}}
+        {{> fldInputTypeahead name="tissueHuman" value=tissueHuman }}
       </div>
-
       <div class="col-xs-3 human_vivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Cell type (if specified)</label>
-        {{> typeaheadInput name="cellType" value=cellType methodName="searchGenotoxCellType" placeholder="endothelial"}}
+        {{> fldInputTypeahead name="cellType" value=cellType }}
       </div>
-
       <div class="col-xs-6 human_vivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Description of exposed and controls*</label>
-        <input class="form-control" type="text"
-               name='exposureDescription'
-               value="{{exposureDescription}}"
-               placeholder="Farmers; 123,000; Australia"/>
+        {{> fldInputText name="exposureDescription" value=exposureDescription }}
       </div>
-
     </div>
 
     <!-- Third row. Test class. -->
     <div class="form-group row">
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Endpoint*</label>
-        <select class="form-control" name='endpoint' value="{{endpoint}}"></select>
+        {{> fldSelectSingle name="endpoint" value=endpoint }}
       </div>
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Endpoint test*</label>
-        <select class="form-control" name='endpointTest' value="{{endpointTest}}"></select>
+        {{> fldSelectSingle name="endpointTest" value=endpointTest }}
       </div>
-
       <div class="col-xs-2 ani_vivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Route*</label>
-        {{> typeaheadInput name="dosingRoute" value=dosingRoute methodName="searchGenotoxDosingRoute" placeholder="Drinking water"}}
+        {{> fldInputTypeahead name="tissueAnimal" value=tissueAnimal }}
       </div>
-
-      <div class="col-xs-2 vitro">
-        <label class="helpPopovers" data-toggle="popover"
-            data-content="Check if two-results are available: with and without exogenous metabolic activation">
-            Metabolic activation tested?</label>
-        <div class="checkbox">
-          <input style="{margin-left: 10px}"
-                 type="checkbox" name='dualResult'
-                 checked="{{dualResult}}"/>
-        </div>
+      <div class="col-xs-4 vitro">
+        {{> fldCheckbox name="dualResult" value=dualResult }}
       </div>
-
       <div class="col-xs-2 expvivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Duration*</label>
-        <input class="form-control" type="text"
-               name='dosingDuration'
-               value="{{dosingDuration}}"
-               placeholder="28 day"/>
+        {{> fldInputText name="dosingDuration" value=dosingDuration }}
       </div>
-
       <div class="col-xs-2 ani_vivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              Dosing regimen*</label>
-        <input class="form-control" type="text"
-               name='dosingRegimen'
-               value="{{dosingRegimen}}"
-               placeholder="2 week; 1x/week"/>
+        {{> fldInputText name="dosingRegimen" value=dosingRegimen }}
       </div>
-
     </div>
 
     <!-- Fourth row. Results. -->
     <div class="form-group row">
-
       <div class="isntDualResult col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="
-                <strong>Working Group judgment:</strong>
-                <ul>
-                <li>+, positive</li>
-                <li>–, negative</li>
-                <li>+/–, equivocal (variable response in several experiments
-                    within an adequate study)</li>
-                 <li>(+) or (–), positive/negative in a study of limited quality
-                      (specify reason in comments, e.g. only a singe dose tested;
-                      data or methods not fully reported; confounding exposures, etc.)</li>
-                 </ul>
-              ">
-              <br>Result*</label>
-        {{> selectList options=getResultOptions selected=result selectName="result" }}
+        {{> fldSelectSingle name="result" value=result }}
       </div>
-
       <div class="isDualResult col-xs-3">
-        <label class=" helpPopovers" data-toggle="popover"
-              data-content="
-                <strong>Working Group judgment:</strong>
-                <ul>
-                <li>+, positive</li>
-                <li>–, negative</li>
-                <li>+/–, equivocal (variable response in several experiments
-                    within an adequate study)</li>
-                 <li>(+) or (–), positive/negative in a study of limited quality
-                      (specify reason in comments, e.g. only a singe dose tested;
-                      data or methods not fully reported; confounding exposures, etc.)</li>
-                 </ul>
-              ">
-              Result*<br>(with metabolic activation)</label>
-        {{> selectList options=getResultOptions selected=resultMetabolic selectName="resultMetabolic" }}
+        {{> fldSelectSingle name="resultMetabolic" value=resultMetabolic }}
       </div>
-
       <div class="col-xs-3 isDualResult">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="
-                <strong>Working Group judgment:</strong>
-                <ul>
-                <li>+, positive</li>
-                <li>–, negative</li>
-                <li>+/–, equivocal (variable response in several experiments
-                    within an adequate study)</li>
-                 <li>(+) or (–), positive/negative in a study of limited quality
-                      (specify reason in comments, e.g. only a singe dose tested;
-                      data or methods not fully reported; confounding exposures, etc.)</li>
-                 </ul>
-              ">
-              Result*<br>(without metabolic activation)</label>
-        {{> selectList options=getResultOptions selected=resultNoMetabolic selectName="resultNoMetabolic" }}
+        {{> fldSelectSingle name="resultNoMetabolic" value=resultNoMetabolic }}
       </div>
-
       <div class="col-xs-3">
         <label class="doses helpPopovers" data-toggle="popover"
               data-content="As reported">
-              <br>LED or HID</label>
+              LED or HID</label>
         <label class="concs helpPopovers" data-toggle="popover"
               data-content="As reported">
-              <br>LEC or HIC</label>
-        <input class="form-control" type="text"
-               name="led"
-               value="{{led}}"
-               placeholder="100"/>
+              LEC or HIC</label>
+        {{> fldInputText name="led" value=led hideLabel=true }}
       </div>
-
       <div class="col-xs-3">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              <br>Dosing units*</label>
-        {{> typeaheadInput name="units" value=units methodName="searchGenotoxDosingUnits" placeholder="μM"}}
+        {{> fldInputTypeahead name="units" value=units }}
       </div>
-
       <div class="col-xs-3 expvivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              <br>Doses tested*</label>
-        <input class="form-control" type="text"
-               name='dosesTested'
-               value="{{dosesTested}}"
-               placeholder="0, 3, 10, 30"/>
+        {{> fldInputText name="dosesTested" value=dosesTested }}
       </div>
-
       <div class="col-xs-3 human_vivo">
-        <label class="helpPopovers" data-toggle="popover"
-              data-content="As reported">
-              <br>Significance</label>
-        <input class="form-control" type="text"
-               name='significance'
-               value="{{significance}}"
-               placeholder="p<0.05"/>
+        {{> fldInputText name="significance" value=significance }}
       </div>
-
     </div>
 
     <!-- Fifth row. Comments. -->
     <div class="form-group row">
-
       <div class="col-xs-12">
-        <label class="helpPopovers" data-toggle="popover"
-               data-content="Other relevant information or working-group comments.
-                             For human in-vivo data, this may include any
-                             co-exposures, strengths, limitations, or extent to
-                             which chance, bias, or confounding could explain the results.">
-              Comments</label>
-        <textarea class="form-control" type="text"
-                  rows="3" name="comments">{{comments}}</textarea>
+        {{> fldTextArea name="comments" value=comments}}
       </div>
-
     </div>
 
     <div id="errors"></div>
