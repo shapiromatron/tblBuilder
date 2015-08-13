@@ -107,66 +107,6 @@
 
     <div id="errors"></div>
     {{> qaNotice}}
-    {{> submissionsDiv this showAddNested=true}}
+    {{> evidenceFormSubmissionDiv }}
   </form>
-</template>
-
-
-<!-- TODO: make this reusable THURS -->
-<template name="submissionsDiv">
-  <div class="well well-sm pager">
-    {{#if isNew }}
-      <button type="button"
-              class="btn btn-sm btn-primary"
-              id="create"
-              title="Save new">
-              <span class="glyphicon glyphicon-ok"></span> Create</button>
-      <button type="button"
-              class="btn btn-sm btn-default"
-              id="create-cancel"
-              title="Cancel">Cancel</button>
-    {{else}}
-      {{#if isQA }}
-        <button type="button"
-                class="btn btn-sm btn-default"
-                id="update-cancel"
-                title="Cancel changes">Close</button>
-        {{#if isInRole 'staff'}}
-          <button type ="button"
-                    id   ="unsetQA"
-                    class="pull-right btn btn-sm btn-warning"
-                    title="Unset data as QA'd and allow further changes">
-                    <span class="fa fa-exclamation-circle"></span> Remove QA'd</button>
-        {{/if}}
-      {{else}}
-        <button type="button"
-                class="btn btn-sm btn-primary"
-                id="update"
-                title="Save changes">
-                <span class="glyphicon glyphicon-ok"></span> Save</button>
-        <button type="button"
-                class="btn btn-sm btn-default"
-                id="update-cancel"
-                title="Cancel changes">Cancel</button>
-        <button type="button"
-                class="btn btn-sm btn-danger"
-                id="delete" title="Delete row">
-                <span class="glyphicon glyphicon-trash"></span></button>
-        {{# if showAddNested}}
-          <button type ="button"
-                  id   ="addNestedResult"
-                  class="pull-left btn btn-sm btn-primary"
-                  title="Display modal for entering results">
-                  <span class="fa fa-medkit"></span> Add results</button>
-        {{/ if }}
-        {{#if isInRole 'staff'}}
-          <button type ="button"
-                  id   ="setQA"
-                  class="pull-right btn btn-sm btn-success"
-                  title="Make data as QA'd and prevent further changes">
-                  <span class="fa fa-check-circle"></span> Mark QA'd</button>
-        {{/if}}
-      {{/if}}
-    {{/if}}
-  </div>
 </template>

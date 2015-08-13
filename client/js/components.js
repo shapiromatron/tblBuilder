@@ -95,7 +95,7 @@ Template.optReorder.events({
 
 Template.optWord.events({
   'click #wordReport': function(evt, tmpl) {
-    var div = document.getElementById('#modalHolder');
+    var div = document.getElementById('modalHolder');
     Blaze.renderWithData(Template.reportTemplateModal, {}, div);
   }
 });
@@ -206,5 +206,20 @@ Template.qaNotice.helpers({
     } else {
       return "QA'd on " + datetime;
     }
+  }
+});
+
+
+Template.evidenceFormSubmissionDiv.helpers({
+  isNew: function(){
+    return _.isUndefined(this._id);
+  },
+  isQA: function(){
+    return this.isQA === true;
+  },
+  showAddNested: function(){
+    var key = Session.get('evidenceType'),
+        coll = tblBuilderCollections.evidenceLookup[key].nested_collection
+    return (!_.isUndefined(this._id));
   }
 });

@@ -78,6 +78,12 @@ s2ab = function(s) {
     view[i] = s.charCodeAt(i) & 0xFF;
   }
   return buf;
+}, createNewNestedModal = function(evt, tmpl) {
+  var div = document.getElementById('modalHolder'),
+      key = Session.get('evidenceType'),
+      NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
+  $(div).empty();
+  Blaze.renderWithData(NestedTemplate, {parent: this}, div);
 };
 
 // template-utility functions
@@ -312,15 +318,9 @@ _.extend(clientShared, {
           Collection = tblBuilderCollections.evidenceLookup[key].collection;
       Collection.update(this._id, {$set: {isHidden: !this.isHidden}});
     },
-    'click .add-nested': function(evt, tmpl) {
-      var div = document.getElementById('#modalHolder'),
-          key = Session.get('evidenceType'),
-          NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
-      $(div).empty();
-      Blaze.renderWithData(NestedTemplate, {parent: this}, div);
-    },
+    'click .add-nested': createNewNestedModal,
     'click #move-content': function(evt, tmpl) {
-      var div = document.getElementById('#modalHolder'),
+      var div = document.getElementById('modalHolder'),
           key = Session.get('evidenceType');
       $(div).empty();
       Blaze.renderWithData(Template.moveModal, {content: this}, div);
@@ -397,7 +397,8 @@ _.extend(clientShared, {
       Meteor.call('adminToggleQAd', this._id, collection_name, function(err, response) {
         if (response) clientShared.toggleQA(tmpl, response.QAd);
       });
-    }
+    },
+    'click #addNestedResult': createNewNestedModal
   },
   abstractNestedTableHelpers: {
     showRow: function(isHidden) {
@@ -406,7 +407,7 @@ _.extend(clientShared, {
   },
   abstractNestedTableEvents: {
     'click #inner-show-edit': function(evt, tmpl) {
-      var div = document.getElementById('#modalHolder'),
+      var div = document.getElementById('modalHolder'),
           key = Session.get('evidenceType'),
           NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
 

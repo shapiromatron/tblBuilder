@@ -81,7 +81,7 @@ Template.volumeTableList.events({
     return clientShared.activateInput(tmpl.find("input[name=volumeNumber]"));
   },
   'click #agentEpiReport': function(evt, tmpl) {
-    var div = document.getElementById('#modalHolder'),
+    var div = document.getElementById('modalHolder'),
         val = $(evt.target).data();
     val.multiTable = true;
     return Blaze.renderWithData(Template.reportTemplateModal, val, div);

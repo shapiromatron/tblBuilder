@@ -132,10 +132,6 @@ Template.epiDescriptiveForm.helpers({
 Template.epiDescriptiveForm.events(_.extend({
     'change select[name="studyDesign"]': function(evt, tmpl) {
       return toggleCCfields(tmpl);
-    },
-    'click #addEpiResult': function(evt, tmpl) {
-      var div = tmpl.find('#epiResultDiv');
-      Blaze.renderWithData(Template.epiResultForm, {descriptive: this}, div);
     }
   }, clientShared.abstractFormEvents));
 Template.epiDescriptiveForm.onRendered(function() {
