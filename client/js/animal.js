@@ -66,14 +66,6 @@ Template.animalRow.onRendered(function() {
 });
 
 
-Template.animalForm.helpers({
-  getStudyDesigns: function() {
-    return AnimalEvidence.studyDesigns;
-  },
-  getSexes: function() {
-    return AnimalEvidence.sexes;
-  }
-});
 Template.animalForm.events(clientShared.abstractFormEvents);
 Template.animalForm.onRendered(function() {
   clientShared.toggleQA(this, this.data.isQA);

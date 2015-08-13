@@ -116,12 +116,6 @@ var getEligibilityCriteria = function(tmpl, obj, data) {
   return obj;
 };
 Template.epiDescriptiveForm.helpers({
-  getStudyDesignOptions: function() {
-    return EpiDescriptive.studyDesignOptions;
-  },
-  getExposureAssessmentTypeOptions: function() {
-    return EpiDescriptive.exposureAssessmentTypeOptions;
-  },
   createPreValidate: function(tmpl, obj, data) {
     return getEligibilityCriteria(tmpl, obj, data);
   },

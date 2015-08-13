@@ -36,11 +36,6 @@ var toggleOccFields = function(tmpl) {
     $(tmpl.findAll('.isNotOcc')).show();
   }
 };
-Template.exposureForm.helpers({
-  getExposureScenario: function() {return ExposureEvidence.exposureScenarios;},
-  getSamplingApproach: function() {return ExposureEvidence.samplingApproaches;},
-  getExposureLevelDescription: function() {return ExposureEvidence.exposureLevelDescriptions;}
-});
 Template.exposureForm.events(_.extend({
     'change select[name="exposureScenario"]': function(evt, tmpl) {
       return toggleOccFields(tmpl);
