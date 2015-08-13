@@ -252,6 +252,9 @@ Template.fldLabel.helpers(fldHelpers);
 Template.fldInputText.onCreated(fldGetSchema);
 Template.fldInputText.helpers(fldHelpers);
 
+Template.fldCheckbox.onCreated(fldGetSchema);
+Template.fldCheckbox.helpers(fldHelpers);
+
 Template.fldInputTypeahead.onCreated(fldGetSchema);
 Template.fldInputTypeahead.helpers(fldHelpers);
 Template.fldInputTypeahead.onRendered(injectTypeahead);

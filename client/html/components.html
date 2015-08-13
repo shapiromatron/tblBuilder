@@ -374,9 +374,7 @@
 
 
 <template name="fldSelectSingle">
-  <label class="helpPopovers" data-toggle="popover"
-         data-content="{{schema.popoverText}}">
-         {{schema.label}}{{isRequired}}</label>
+  {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
   <select class="form-control" name="{{name}}">
     {{#each schema.allowedValues}}
       <option value="{{this}}" selected="{{isSelected this ../value}}">{{this}}</option>
@@ -412,6 +410,17 @@
          name='{{name}}'
          value="{{value}}"
          placeholder="{{schema.placeholderText}}"/>
+</template>
+
+
+<template name="fldCheckbox">
+  {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
+  <div class="checkbox">
+    <input style="{margin: 0 0 0 10px}"
+           type="checkbox"
+           name="{{name}}"
+           checked="{{value}}"/>
+  </div>
 </template>
 
 
