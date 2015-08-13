@@ -242,7 +242,8 @@ var fldGetSchema = function(){
   },
   isSelected: function(current, selected) {
     return current === selected;
-  }
+  },
+  getOptions: autocompleteOptions
 }
 
 Template.fldLabel.onCreated(fldGetSchema);
@@ -250,6 +251,10 @@ Template.fldLabel.helpers(fldHelpers);
 
 Template.fldInputText.onCreated(fldGetSchema);
 Template.fldInputText.helpers(fldHelpers);
+
+Template.fldInputTypeahead.onCreated(fldGetSchema);
+Template.fldInputTypeahead.helpers(fldHelpers);
+Template.fldInputTypeahead.onRendered(injectTypeahead);
 
 Template.fldTextArea.onCreated(fldGetSchema);
 Template.fldTextArea.helpers(fldHelpers);

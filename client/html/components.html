@@ -394,6 +394,22 @@
 </template>
 
 
+<template name="fldInputTypeahead">
+  <div>
+    {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
+    <input class="form-control typeahead" type="text"
+         name={{name}}
+         placeholder="{{schema.placeholderText}}"
+         autocomplete="off" spellcheck="off"
+         value="{{value}}"
+         data-autoselect="true"
+         data-highlight="true"
+         data-source="getOptions"
+         data-methodname="{{schema.typeaheadMethod}}"/>
+  </div>
+</template>
+
+
 <template name="fldTextArea">
   {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
   <textarea class="form-control"
