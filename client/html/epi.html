@@ -368,6 +368,7 @@ or the-first row of the riskEstimates.
   </td>
 </template>
 
+
 <template name="epiResultForm">
   <div class="modal fade" id="modalDiv" tabindex="-1" role="dialog"
        data-backdrop="static" aria-labelledby="modalDiv" aria-hidden="true">
@@ -387,34 +388,16 @@ or the-first row of the riskEstimates.
             <!-- First row -->
             <div class="form-group row">
               <div class="col-xs-3">
-                <label class="helpPopovers" data-toggle="popover"
-                       data-content="Cancer-organ site for results being measured.">
-                       &nbsp;<br>Organ site* (ICD code)</label>
-                <br>
-                {{> typeaheadInput name="organSite" value=organSite methodName="searchOrganSite"}}
+                <br>{{> fldInputTypeahead name="organSite" value=organSite nested=true }}
               </div>
-
               <div class="col-xs-3">
-                <label class="helpPopovers" data-toggle="popover"
-                       data-content="Risk metric used to display results (SMR, RR, etc.)">
-                       &nbsp;<br>Measure of effect*</label>
-                {{> typeaheadInput name="effectMeasure" value=effectMeasure methodName="searchEffectMeasure"}}
+                <br>{{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true }}
               </div>
-
               <div class="col-xs-3">
-                <label class="helpPopovers" data-toggle="popover"
-                      data-content="Units, if relevant (e.g., risk per 10 μg/m3)">
-                      Units of effect measurement, if relevant</label>
-                {{> typeaheadInput name="effectUnits" value=effectUnits methodName="searchEffectUnits"}}
+                {{> fldInputTypeahead name="effectUnits" value=effectUnits nested=true }}
               </div>
-
               <div class="col-xs-3">
-                <label class="helpPopovers" data-toggle="popover"
-                      data-content="Provide p-value for trend-test when reported">
-                      &nbsp;<br><i>p</i>-value for trend</label>
-                <input class="form-control" type="number" step="any"
-                       name='trendTest'
-                       value="{{trendTest}}"/>
+                <br>{{> fldInputFloat name="trendTest" value=trendTest nested=true }}
               </div>
             </div>
 
@@ -432,43 +415,34 @@ or the-first row of the riskEstimates.
               </colgroup>
               <thead>
                 <th style="vertical-align: middle;" class="text-center">
-                    <button type="button" class="btn btn-xs btn-info"
-                            id="inner-addRiskRow" title="Add row">
-                            <span class="glyphicon glyphicon-plus"></span></button></th>
+                  <button type="button"
+                          class="btn btn-xs btn-info"
+                          id="inner-addRiskRow" title="Add row">
+                    <span class="glyphicon glyphicon-plus"></span>
+                  </button>
+                </th>
                 <th class="text-center">
-                  <span class="helpPopovers" data-toggle="popover"
-                        data-content="E.g., all exposed workers, second quartile of exposure,
-                                    quantitative exposure level (always provide quantitative
-                                    information when available)">
-                        Exposure category<br>or level*</span></th>
-
+                  {{> fldLabel name="riskEstimates.$.exposureCategory" nested=true }}
+                </th>
                 <th class="text-center">
-                  <span class="helpPopovers" data-toggle="popover"
-                    data-content='Deaths/cases for cohort studies;
-                                  Cases for case-control studies.
-                                  If unknown, enter "NR"'>
-                    Exposed<br>cases/deaths*</span></th>
+                  {{> fldLabel name="riskEstimates.$.numberExposed" nested=true }}
+                </th>
                 <th class="text-center">
-                  <span class="helpPopovers" data-toggle="popover"
-                        data-content="Central risk reported for risk estimate">
-                        Risk<br>estimate</span></th>
+                  {{> fldLabel name="riskEstimates.$.riskMid" nested=true }}
+                </th>
                 <th class="text-center">
-                  <span class="helpPopovers" data-toggle="popover"
-                        data-content="95% lower confidence interval risk estimate">
-                        95%<br>lower CI</span></th>
+                  {{> fldLabel name="riskEstimates.$.riskLow" nested=true }}
+                </th>
                 <th class="text-center">
-                  <span class="helpPopovers" data-toggle="popover"
-                        data-content="95% upper confidence interval risk estimate">
-                         95%<br>upper CI</span></th>
+                  {{> fldLabel name="riskEstimates.$.riskHigh" nested=true }}
+                </th>
                 <th class="text-center">
-                  <span class="helpPopovers" data-toggle="popover"
-                        data-content="Calculations by the working-group (WG), not study-authors">
-                        WG calculation?</span></th>
+                  {{> fldLabel name="riskEstimates.$.riskEstimated" nested=true }}
+                </th>
                 <th class="text-center">
-                  <span class="helpPopovers" data-toggle="popover"
-                        data-content="Risk estimate included in trend-test">
-                        Estimate in<br>trend-test?</span></th>
-                </thead>
+                  {{> fldLabel name="riskEstimates.$.inTrendTest" nested=true }}
+                </th>
+              </thead>
               <tbody class="riskEstimateTbody">
                 {{#if riskEstimates}}
                   {{#each riskEstimates}}
@@ -480,70 +454,32 @@ or the-first row of the riskEstimates.
               </tbody>
             </table>
 
-            <!-- Final row -->
+            <!-- Third row -->
             <div class="form-group row">
-
               <div class="col-xs-4">
-                <label class="helpPopovers" data-toggle="popover"
-                       data-content='List all covariates which were controlled by matching or
-                                     adjustment in the analysis reported. Enter each covariate
-                                     individually, and then press <enter> to add it to the list.
-                                     If no covariates were specified, add "not-specified"'>
-                       Covariates controlled*</label>
-               {{> typeaheadSelectList name="covariates" values=covariates methodName="searchCovariates"}}
+                {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true }}
               </div>
-
               <div class="col-xs-4">
-                <label class="helpPopovers" data-toggle="popover"
-                       data-content="Further describe how covariates were controlled, if needed,
-                                     such as details on matching methodology or adjustments made">
-                        Covariates controlled notes</label>
-                <textarea class="form-control"
-                          name='covariatesControlledText'
-                          rows="4">{{covariatesControlledText}}</textarea>
+                {{> fldTextArea name="covariatesControlledText" values=covariatesControlledText nested=true }}
               </div>
-
               <div class="col-xs-4">
-                <label class="helpPopovers" data-toggle="popover"
-                       data-content="Note issues related to appropriateness of comparison
-                                     groups, potential for uncontrolled confounding, etc.
-                                     (e.g. matching criteria for case-control studies)">
-                      General Notes</label>
-                <textarea class="form-control"
-                          name='notes'
-                          rows="4">{{notes}}</textarea>
+                {{> fldTextArea name="notes" values=notes nested=true }}
               </div>
             </div>
 
-            <!-- NTP-only fields -->
+            <!-- Fourth row (NTP-only) -->
             {{#if isNTP }}
-            <div class="form-group row">
-
-              <div class="col-xs-8">
-                <label class="helpPopovers" data-toggle="popover"
-                       data-content="Microsoft Word report table caption name.
-                       If left-blank, results will not be printed.">
-                        Table caption</label>
-                {{> typeaheadInput name="printCaption" value=printCaption methodName="searchPrintCaption"}}
+              <div class="form-group row">
+                <div class="col-xs-8">
+                  {{> fldInputText name="printCaption" value=printCaption nested=true }}
+                </div>
+                <div class="col-xs-4">
+                  {{> fldInputFloat name="printOrder" value=printOrder nested=true }}
+                </div>
               </div>
-
-              <div class="col-xs-4">
-                <label class="helpPopovers" data-toggle="popover"
-                       data-content="Microsoft Word report table order. Rows
-                       will be printed in ascending order using this field
-                       (decimals allowed). If left-blank or negative,
-                       results will not be printed.">
-                        Table print-order</label>
-                <input class="form-control" type="number" step="any"
-                       name='printOrder'
-                       value="{{printOrder}}"/>
-              </div>
-
-            </div>
             {{/if}}
 
             <div id="errors"></div>
-
             {{> qaNotice}}
 
             <!-- Submission -->
@@ -596,52 +532,41 @@ or the-first row of the riskEstimates.
   </div>  <!-- Modal container -->
 </template>
 
+
 <template name="riskEstimateForm">
   <tr>
     <td class="text-center" style="vertical-align: middle;">
-      <button type="button" class="btn btn-xs btn-danger"
-                id="epiRiskEstimate-delete" title="Delete row">
-                <span class="glyphicon glyphicon-trash"></span></button>
+      <button type="button"
+              class="btn btn-xs btn-danger"
+              id="epiRiskEstimate-delete"
+              title="Delete row">
+        <span class="glyphicon glyphicon-trash"></span>
+      </button>
     </td>
     <td>
-      <input class="form-control" type="text"
-             name='exposureCategory'
-             value="{{exposureCategory}}"/>
+      {{> fldInputText name="exposureCategory" value=exposureCategory nested=true hideLabel=true}}
     </td>
     <td>
-      <input class="form-control" type="text"
-             name='numberExposed'
-             value="{{numberExposed}}"/>
+      {{> fldInputText name="numberExposed" value=numberExposed nested=true hideLabel=true}}
     </td>
     <td>
-        <input class="form-control" type="number" step="any"
-               name='riskMid'
-               value="{{riskMid}}"/>
+      {{> fldInputFloat name="riskMid" value=riskMid nested=true hideLabel=true}}
     </td>
     <td>
-        <input class="form-control" type="number" step="any"
-               name='riskLow'
-               value="{{riskLow}}"/>
+      {{> fldInputFloat name="riskLow" value=riskLow nested=true hideLabel=true}}
     </td>
     <td>
-        <input class="form-control" type="number" step="any"
-               name='riskHigh'
-               value="{{riskHigh}}"/>
+      {{> fldInputFloat name="riskHigh" value=riskHigh nested=true hideLabel=true}}
     </td>
     <td>
-      <div class="checkbox text-center">
-        <input style="margin: 0px"
-               type="checkbox" name='riskEstimated'
-               checked="{{riskEstimated}}"
-               title="Check if risk was estimated by reviewer, not study-author"/></div></td>
+      {{> fldCheckbox name="riskEstimated" value=riskEstimated nested=true hideLabel=true }}
+    </td>
     <td>
-      <div class="checkbox text-center">
-        <input style="margin: 0px"
-               type="checkbox" name='inTrendTest'
-               checked="{{inTrendTest}}"
-               title="Check if risk-estimated included in trend-test"/></div></td>
+      {{> fldCheckbox name="inTrendTest" value=inTrendTest nested=true hideLabel=true }}
+    </td>
   </tr>
 </template>
+
 
 <template name="forestPlot">
   <div>
