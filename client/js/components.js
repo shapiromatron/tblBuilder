@@ -252,6 +252,9 @@ Template.fldLabel.helpers(fldHelpers);
 Template.fldInputText.onCreated(fldGetSchema);
 Template.fldInputText.helpers(fldHelpers);
 
+Template.fldInputFloat.onCreated(fldGetSchema);
+Template.fldInputFloat.helpers(fldHelpers);
+
 Template.fldCheckbox.onCreated(fldGetSchema);
 Template.fldCheckbox.helpers(fldHelpers);
 
