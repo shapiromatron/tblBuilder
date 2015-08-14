@@ -413,6 +413,16 @@
 </template>
 
 
+<template name="fldInputInteger">
+  {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
+  <input class="form-control"
+         type="number"
+         name='{{name}}'
+         value="{{value}}"
+         placeholder="{{schema.placeholderText}}"/>
+</template>
+
+
 <template name="fldInputFloat">
   {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
   <input class="form-control"
