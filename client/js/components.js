@@ -225,6 +225,15 @@ Template.evidenceFormSubmissionDiv.helpers({
 });
 
 
+Template.nestedEvidenceFormSubmissionDiv.helpers({
+  isNew: function(){
+    return _.isUndefined(this._id);
+  },
+  isQA: function(){
+    return this.isQA === true;
+  }
+});
+
 
 var fldGetSchema = function(){
   var coll;
