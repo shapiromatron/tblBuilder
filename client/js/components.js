@@ -227,12 +227,18 @@ Template.evidenceFormSubmissionDiv.helpers({
 
 
 var fldGetSchema = function(){
+  var coll;
   if(this.data.name){
-    this.data.schema = tblBuilderCollections
-      .evidenceLookup[Session.get('evidenceType')]
-      .collection
-      .simpleSchema()
-      ._schema[this.data.name];
+    if (this.data.nested){
+      coll = tblBuilderCollections
+              .evidenceLookup[Session.get('evidenceType')]
+              .nested_collection;
+    } else {
+      coll = tblBuilderCollections
+              .evidenceLookup[Session.get('evidenceType')]
+              .collection;
+    }
+    this.data.schema = coll.simpleSchema()._schema[this.data.name];
   }
 }, fldHelpers = {
   isRequired: function(){
