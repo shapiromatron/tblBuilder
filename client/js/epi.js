@@ -180,13 +180,13 @@ var getRiskRows = function(tmpl, obj) {
   delete obj.riskHigh;
   delete obj.riskEstimated;
   delete obj.inTrendTest;
-  var trs = tmpl.find('.riskEstimateTbody tr');
+  var trs = tmpl.findAll('.riskEstimateTbody tr');
   obj.riskEstimates = _.map(trs, function(row){
     return clientShared.newValues(row);
   });
 };
 Template.epiResultForm.helpers(clientShared.abstractNestedFormHelpers);
-Template.epiResultForm.events(_.extend({
+Template.epiResultForm.events(_.extend({}, clientShared.abstractNestedFormEvents, {
     'click #inner-addRiskRow': function(evt, tmpl) {
       var tbody = tmpl.find('.riskEstimateTbody');
       Blaze.renderWithData(Template.riskEstimateForm, {}, tbody);
@@ -237,7 +237,7 @@ Template.epiResultForm.events(_.extend({
         $(tmpl.find("#errors")).html(errorDiv);
       }
     }
-  }, clientShared.abstractNestedFormEvents));
+  }));
 Template.epiResultForm.onRendered(function() {
   var epiResult = EpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
   if (epiResult != null) clientShared.toggleQA(this, epiResult.isQA);
