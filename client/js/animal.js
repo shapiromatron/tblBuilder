@@ -115,25 +115,20 @@ Template.animalEndpointTbl.events(clientShared.abstractNestedTableEvents);
 
 
 var getEndpointGroupRows = function(tmpl, obj) {
-  var i, len, ref, results, row, tbody;
   delete obj.dose;
   delete obj.nStart;
   delete obj.nSurviving;
   delete obj.incidence;
   delete obj.multiplicity;
   delete obj.totalTumours;
-  obj.endpointGroups = [];
-  tbody = tmpl.find('.endpointGroupTbody');
-  ref = $(tbody).find('tr');
-  results = [];
-  for (i = 0, len = ref.length; i < len; i++) {
-    row = ref[i];
-    results.push(obj.endpointGroups.push(clientShared.newValues(row)));
-  }
-  return results;
+  var trs = tmpl.findAll('.endpointGroupTbody tr');
+  obj.endpointGroups = _.map(trs, function(row){
+    return clientShared.newValues(row);
+  });
+  return obj;
 };
 Template.animalEndpointForm.helpers(clientShared.abstractNestedFormHelpers);
-Template.animalEndpointForm.events(_.extend({
+Template.animalEndpointForm.events(_.extend({}, clientShared.abstractNestedFormEvents, {
     'click #inner-addEndpointGroup': function(evt, tmpl) {
       var tbody;
       tbody = tmpl.find('.endpointGroupTbody');
@@ -189,7 +184,7 @@ Template.animalEndpointForm.events(_.extend({
         return alert("An error occurred.");
       });
     }
-  }, clientShared.abstractNestedFormEvents));
+  }));
 Template.animalEndpointForm.onRendered(function() {
   var aniResult = AnimalEndpointEvidence.findOne(
           {_id: Session.get('nestedEvidenceEditingId')});
