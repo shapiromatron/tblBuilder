@@ -56,7 +56,19 @@
     </thead>
     <tbody id="sortable">
       {{#each object_list}}
-        {{> ntpEpiDescriptiveRow}}
+        {{#if showRow isHidden}}
+          <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
+              data-id="{{_id}}"
+              data-sortIdx="{{sortIdx}}">
+            {{#if isEditing}}
+              <td id="editingRow" colspan="100">
+                {{> ntpEpiDescriptiveForm this isNew=false}}
+              </td>
+            {{else}}
+              {{> ntpEpiDescriptiveRow}}
+            {{/if}}
+          </tr>
+        {{/if}}
       {{else}}
         <tr>
           <td colspan="100">No data has been entered into this table.</td>
@@ -74,27 +86,45 @@
 
 
 <template name="ntpEpiDescriptiveRow">
-  {{#if showRow isHidden}}
-    <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
-        data-id="{{_id}}"
-        data-sortIdx="{{sortIdx}}">
-      {{#if isEditing}}
-        <td id="editingRow" colspan="100">
-          {{> ntpEpiDescriptiveForm this isNew=false}}
-        </td>
-      {{else}}
-        {{> ntpEpiDescriptiveTds}}
-      {{/if}}
-    </tr>
-  {{/if}}
-</template>
-
-
-<template name="ntpEpiDescriptiveTds">
-  <td>1</td>
-  <td>2</td>
-  <td>3</td>
-  <td>4</td>
+  <td>
+    {{#if userCanEdit}}
+      <div class="rowOptions btn-group pull-right">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+          <span class="caret" title="Editing options"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#" id="show-edit">
+              <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+          <li>
+            <a href="#"
+               class="add-nested"
+               title="Display modal for entering results">
+              <span class="fa fa-medkit"></span> Add results</a></li>
+          <li>
+            <a href="#" id="clone-content">
+              <span class="fa fa-copy"></span> Create a clone</a></li>
+          <li>
+            <a href="#" id="move-content">
+              <span class="fa fa-arrow-circle-right"></span> Move to a different table</a></li>
+          <li>
+              <a href="#" id="toggle-hidden">{{#if isHidden}}
+                <span class="glyphicon glyphicon-plus"></span> Show row
+                {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+                {{/if}}</a></li>
+        </ul>
+      </div>
+    {{/if}}
+    {{qaMark isQA}}
+    {{>printReference id=referenceID}}
+  </td>
+  <td>b</td>
+  <td>c</td>
+  <td>d</td>
+  <td>e</td>
+  <td>f</td>
+  <td>g</td>
+  <td>h</td>
 </template>
 
 
@@ -103,10 +133,158 @@
     <legend>Epidemiological study description {{>formLegendPulldown}}</legend>
     <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
 
-    <!-- First row -->
+    <h4>General information</h4>
     <div class="form-group row">
       <div class="col-xs-3">
-        {{> referenceSingleSelect}}
+        <br>{{> referenceSingleSelect}}
+      </div>
+      <div class="col-xs-3">
+        <br>{{> referenceMultiSelect label="Additional references" name="additionalReferences" values=additionalReferences }}
+      </div>
+      <div class="col-xs-3">
+        <br>{{> fldSelectSingle name="studyDesign" value=studyDesign }}
+      </div>
+      <div class="col-xs-3">
+        <br>{{> fldInputText name="location" value=location }}
+        <div class="isntCohort">
+          {{> fldInputText name="enrollmentDates" value=enrollmentDates }}
+        </div>
+      </div>
+    </div>
+
+    <hr><h4>Population</h4>
+    <!-- Cohort -->
+    <h5 class="isntCC">Cohort details</h5>
+    <div class="form-group row isntCC">
+      <div class="col-xs-3">
+        {{>fldTextArea name="populationEligibility" value=populationEligibility }}
+      </div>
+      <div class="col-xs-3">
+        {{>fldInputText name="cohortPopulationSize" value=cohortPopulationSize }}
+      </div>
+      <div class="col-xs-3">
+        {{>fldInputText name="referentGroup" value=referentGroup }}
+      </div>
+      <div class="col-xs-3">
+        {{>fldInputText name="lossToFollowUp" value=lossToFollowUp }}
+      </div>
+      <div class="col-xs-3 isCohort">
+        {{>fldInputText name="smrAllCauses" value=smrAllCauses }}
+      </div>
+    </div>
+
+    <!-- Case-control -->
+    <h5 class="isntCohort">Case-control details</h5>
+    <div class="form-group row isntCohort">
+      <div class="col-xs-12">
+        <!-- Header labels -->
+        <div class="row">
+          <div class="col-xs-1">
+          </div>
+          <div class="col-xs-3">
+            {{>fldLabel name="populationSizeCases"}}
+          </div>
+          <div class="col-xs-3">
+            {{>fldLabel name="responseRateCases"}}
+          </div>
+          <div class="col-xs-5">
+            {{>fldLabel name="selectionDescriptionCases"}}
+          </div>
+        </div>
+
+        <!-- Case-control inputs -->
+        <div class="row">
+          <div class="col-xs-1">
+            <strong>Cases</strong><br><br><br>
+            <strong>Controls</strong>
+          </div>
+          <div class="col-xs-3">
+            {{> fldInputText name="populationSizeCases" value=populationSizeCases hideLabel=true }}
+            <br>
+            {{> fldInputText name="populationSizeControls" value=populationSizeControls hideLabel=true }}
+          </div>
+          <div class="col-xs-3">
+            {{> fldInputText name="responseRateCases" value=responseRateCases hideLabel=true }}
+            <br>
+            {{> fldInputText name="responseRateControls" value=responseRateControls hideLabel=true }}
+          </div>
+          <div class="col-xs-5">
+            {{> fldTextArea name="selectionDescriptionCases" value=selectionDescriptionCases hideLabel=true }}
+            {{> fldTextArea name="selectionDescriptionControls" value=selectionDescriptionControls hideLabel=true }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cohort + case-control -->
+    <div class="form-group row">
+      <div class="col-xs-3">
+        {{>fldTextArea name="otherPopulationDescriptors" value=otherPopulationDescriptors }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldSelectSingle name="selectionBiasRating" value=selectionBiasRating }}
+        {{> fldTextArea name="selectionBiasRationale" value=selectionBiasRationale }}
+      </div>
+    </div>
+
+    <hr><h4>Exposure and outcome</h4>
+    <div class="form-group row">
+      <div class="col-xs-3">
+        {{> fldSelectSingle name="exposureAssessmentType" value=exposureAssessmentType }}
+        {{> fldTextArea name="exposureAssessmentDetails" value=exposureAssessmentDetails }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldSelectSingle name="exposureAssessmentRating" value=exposureAssessmentRating }}
+        {{> fldTextArea name="exposureAssessmentRationale" value=exposureAssessmentRationale }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldTextArea name="outcomeDataSource" value=outcomeDataSource }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldSelectSingle name="outcomeAssessmentRating" value=outcomeAssessmentRating }}
+        {{> fldTextArea name="outcomeAssessmentRationale" value=outcomeAssessmentRationale }}
+      </div>
+    </div>
+
+    <hr><h4>Analysis and reporting</h4>
+    <div class="form-group row">
+      <div class="col-xs-6">
+        {{> fldSelectSingle name="analysisRating" value=analysisRating }}
+        {{> fldTextArea name="analysisRationale" value=analysisRationale }}
+      </div>
+      <div class="col-xs-6">
+        {{> fldSelectSingle name="selectiveReportingRating" value=selectiveReportingRating }}
+        {{> fldTextArea name="selectiveReportingRationale" value=selectiveReportingRationale }}
+      </div>
+    </div>
+
+    <hr><h4>Sensitivity</h4>
+    <div class="form-group row">
+      <div class="col-xs-4">
+        {{> fldInputText name="exposedCasesOrPower" value=exposedCasesOrPower }}
+        {{> fldInputText name="exposureLevel" value=exposureLevel }}
+      </div>
+      <div class="col-xs-4">
+        <div class="isCohort">
+          {{> fldInputText name="followUpDates" value=followUpDates }}
+        </div>
+      </div>
+      <div class="col-xs-4">
+        {{> fldSelectSingle name="sensitivityRating" value=sensitivityRating }}
+        {{> fldTextArea name="sensitivityRatingRationale" value=sensitivityRatingRationale }}
+      </div>
+    </div>
+
+    <hr><h4>Study judgment</h4>
+    <div class="form-group row">
+      <div class="col-xs-4">
+        {{> fldTextArea name="strengths" value=strengths }}
+      </div>
+      <div class="col-xs-4">
+        {{> fldTextArea name="limitations" value=limitations }}
+      </div>
+      <div class="col-xs-4">
+        {{> fldSelectSingle name="overallUtility" value=overallUtility }}
       </div>
     </div>
 
