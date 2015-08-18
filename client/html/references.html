@@ -206,18 +206,18 @@
   <div>
     <label class="helpPopovers" data-toggle="popover"
            data-content="Select one or more references (begin typing and list will populate)">
-      Reference(s)</label>
+      {{label}}</label>
     <a class="btn btn-xs btn-default pull-right" data-toggle="modal"
        data-target="#referenceQuickAdd" title="Quick-add new reference" href="#">
       <span class="glyphicon glyphicon-plus-sign"></span></a><br>
-    <input class="form-control typeahead referenceMultiSelect" name="references" type="text"
+    <input class="form-control typeahead referenceMultiSelect" name="{{name}}" type="text"
            placeholder="Add reference from library"
            autocomplete="off" spellcheck="off"
            data-highlight="true"
            data-source="searchReference"
            data-template="referenceSearchOption"/>
      <ul class="selectList">
-      {{#each references }}
+      {{#each values }}
         {{>referenceMultiSelectListLI}}
       {{/each}}
     </ul>
