@@ -170,39 +170,6 @@ var Future = Meteor.npmRequire('fibers/future'),
       }
       return createWordReport(filename, data);
     },
-    mechanisticWordReport = function(tbl_id) {
-
-    },
-    genotoxWordReport = function(tbl_id) {
-      var d, tbl, vals;
-      tbl = Tables.findOne(tbl_id);
-      d = {
-        "monographAgent": tbl.monographAgent,
-        "volumeNumber": tbl.volumeNumber,
-        "table": tbl
-      };
-      vals = GenotoxEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch();
-      vals.forEach(function(val){
-        val.reference = Reference.findOne({_id: val.referenceID});
-        GenotoxEvidence.setWordFields(val);
-      })
-      d.nonMammalian = _.filter(vals, function(v) {
-        return v.dataClass === "Non-mammalian";
-      });
-      d.mammalianInVitro = _.filter(vals, function(v) {
-        return v.dataClass === "Mammalian and human in vitro";
-      });
-      d.mammalianInVitro = _.sortBy(d.mammalianInVitro, function(v) {
-        return v.testSpeciesMamm + v.speciesMamm;
-      });
-      d.animalInVivo = _.filter(vals, function(v) {
-        return v.dataClass === "Animal in vivo";
-      });
-      d.humanInVivo = _.filter(vals, function(v) {
-        return v.dataClass === "Human in vivo";
-      });
-      return d;
-    },
     pyWordHelperArgs = function(report_type, context, fut) {
       var cb, options;
       options = {
@@ -266,6 +233,9 @@ var Future = Meteor.npmRequire('fibers/future'),
           break;
         case "AnimalHtmlTables":
           d = AnimalEvidence.wordContext(tbl_id);
+          break;
+        case "GenotoxHtmlTables":
+          d = GenotoxEvidence.wordContext(tbl_id);
           break;
         case "MechanisticEvidenceHtmlTables":
           d = MechanisticEvidence.wordContext(tbl_id);
