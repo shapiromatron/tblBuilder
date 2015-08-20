@@ -267,7 +267,7 @@ var Future = Meteor.npmRequire('fibers/future'),
         case "AnimalHtmlTables":
           d = AnimalEvidence.wordContext(tbl_id);
           break;
-        case "MechanisticHtmlTables":
+        case "MechanisticEvidenceHtmlTables":
           d = MechanisticEvidence.wordContext(tbl_id);
           break;
         default:

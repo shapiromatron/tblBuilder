@@ -1,7 +1,7 @@
 from docxUtils.reports import DOCXReport
 
 
-class MechanisticHtmlTables(DOCXReport):
+class MechanisticEvidenceHtmlTables(DOCXReport):
     """
     Attempt to recreate HTML table in a Word-report.
     """
