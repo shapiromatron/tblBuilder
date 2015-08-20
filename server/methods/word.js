@@ -297,19 +297,20 @@ var Future = Meteor.npmRequire('fibers/future'),
       });
     },
     pyWordHelperStdin = function(report_type, context, fut) {
-      var inputs, options, report, shell;
-      options = {
-        mode: "json",
-        scriptPath: Meteor.settings.scripts_path,
-        pythonPath: Meteor.settings.python_path
-      };
-      shell = new PythonShell("generateReport.py", options);
-      inputs = {
-        report_type: report_type,
-        context: context
-      };
+      var report,
+          options = {
+              mode: "json",
+              scriptPath: Meteor.settings.scripts_path,
+              pythonPath: Meteor.settings.python_path
+          },
+          shell = new PythonShell("generateReport.py", options),
+          inputs = {
+              report_type: report_type,
+              context: context
+          };
+
       shell.on('message', function(msg) {
-        return report = msg.report;
+          return report = msg.report;
       });
       shell.send(inputs);
       return shell.end(function(err) {
@@ -334,6 +335,12 @@ var Future = Meteor.npmRequire('fibers/future'),
           break;
         case "AnimalHtmlTblRecreation":
           d = animalWordReport(tbl_id);
+          break;
+        case "ExposureTables":
+          d = ExposureEvidence.reportContext(tbl_id);
+          break;
+        default:
+          console.log("No context specified: {0}".printf(report_type));
       }
       return d;
     };
