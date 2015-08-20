@@ -296,7 +296,7 @@ var Future = Meteor.npmRequire('fibers/future'),
       });
     },
     getContext = function(report_type, tbl_id) {
-      var d = {};
+      var d = null;
       switch (report_type) {
         case "EpiHtmlTblRecreation":
           d = getEpiDataByReference(tbl_id);
@@ -352,10 +352,15 @@ Meteor.methods({
     return epiWordReportMultiTable(d.templateFN, d.monographagent, d.volumenumber);
   },
   pyWordReport: function(tbl_id, report_type) {
-    var context, fut;
     this.unblock();
-    fut = new Future();
-    context = getContext(report_type, tbl_id);
+
+    var context = getContext(report_type, tbl_id),
+        fut = new Future();
+
+    // exit early if we have no context
+    if (_.isNull(context)) return;
+
+    // else run python
     pyWordHelperStdin(report_type, context, fut);
     return fut.wait();
   }
