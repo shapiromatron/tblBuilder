@@ -170,23 +170,6 @@ var Future = Meteor.npmRequire('fibers/future'),
       }
       return createWordReport(filename, data);
     },
-    animalWordReport = function(tbl_id) {
-      var tbl = Tables.findOne(tbl_id),
-          evidences = AnimalEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch();
-
-      evidences.forEach(function(evidence){
-        evidence.reference = Reference.findOne({_id: evidence.referenceID});
-        AnimalEvidence.setWordFields(evidence);
-      })
-
-      return {
-        "monographAgent": tbl.monographAgent,
-        "volumeNumber": tbl.volumeNumber,
-        "hasTable": true,
-        "table": tbl,
-        "studies": evidences
-      };
-    },
     mechanisticWordReport = function(tbl_id) {
       var formatEvidence = function(obj) {
             var refs = Reference.find({_id: {$in: obj.references}}).fetch();
@@ -310,8 +293,8 @@ var Future = Meteor.npmRequire('fibers/future'),
         case "NtpEpiAniResults":
           d = getEpiDataByTableCaptionDesc(tbl_id);
           break;
-        case "AnimalHtmlTblRecreation":
-          d = animalWordReport(tbl_id);
+        case "AnimalHtmlTables":
+          d = AnimalEvidence.wordContext(tbl_id);
           break;
         case "ExposureTables":
           d = ExposureEvidence.wordContext(tbl_id);

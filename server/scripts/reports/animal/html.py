@@ -1,13 +1,14 @@
-from ..utils import TableMaker, DOCXReport
+from docxUtils.reports import DOCXReport
+from docxUtils.tables import TableMaker
 
 
-class AnimalHtmlTblRecreation(DOCXReport):
+class AnimalHtmlTables(DOCXReport):
     """
     Attempt to recreate HTML table in a Word-report.
     """
 
     def build_tbl(self, data):
-        colWidths = [1.4, 1.8, 1.8, 1.0, 4.0]
+        colWidths = [1.4, 1.8, 1.8, 1.0, 3.0]
         tbl = TableMaker(colWidths, numHeaders=1, firstRowCaption=False, tblStyle="ntpTbl")
 
         # write header
@@ -24,11 +25,11 @@ class AnimalHtmlTblRecreation(DOCXReport):
             rowspan = 0
             for ep in d["endpoints"]:
                 rowspan += 1
-                if len(ep["incidents"]) > 0 or len(ep["incidence_significance"]) > 0:
+                if len(ep["wrd_incidents"]) > 0 or len(ep["wrd_incidence_significance"]) > 0:
                     rowspan += 1
-                if len(ep["multiplicities"]) > 0 or len(ep["multiplicity_significance"]) > 0:
+                if len(ep["wrd_multiplicities"]) > 0 or len(ep["wrd_multiplicity_significance"]) > 0:
                     rowspan += 1
-                if len(ep["total_tumours"]) > 0 or len(ep["total_tumours_significance"]) > 0:
+                if len(ep["wrd_total_tumours"]) > 0 or len(ep["wrd_total_tumours_significance"]) > 0:
                     rowspan += 1
 
             # Column A
@@ -45,7 +46,7 @@ class AnimalHtmlTblRecreation(DOCXReport):
             # Column B
             txt = u"{}\n{}, {}\n{}\n{}\n{}\n{}\n{}".format(
                d["dosingRoute"], d["agent"], d["purity"], d["vehicle"],
-               d["doses"], d["dosingRegimen"], d["nStarts"], d["nSurvivings"]
+               d["wrd_doses"], d["dosingRegimen"], d["wrd_nStarts"], d["wrd_nSurvivings"]
             )
             tbl.new_td_txt(rows, 1, txt, rowspan=rowspan)
 
@@ -58,29 +59,29 @@ class AnimalHtmlTblRecreation(DOCXReport):
                 tbl.new_td_run(irows, 2, runs, colspan=2)
                 irows += 1
 
-                if len(ep["incidents"]) > 0 or len(ep["incidence_significance"]) > 0:
-                    tbl.new_td_txt(irows, 2, ep["incidents"])
-                    tbl.new_td_txt(irows, 3, ep["incidence_significance"])
+                if len(ep["wrd_incidents"]) > 0 or len(ep["wrd_incidence_significance"]) > 0:
+                    tbl.new_td_txt(irows, 2, ep["wrd_incidents"])
+                    tbl.new_td_txt(irows, 3, ep["wrd_incidence_significance"])
                     irows += 1
 
-                if len(ep["multiplicities"]) > 0 or len(ep["multiplicity_significance"]) > 0:
-                    tbl.new_td_txt(irows, 2, ep["multiplicities"])
-                    tbl.new_td_txt(irows, 3, ep["multiplicity_significance"])
+                if len(ep["wrd_multiplicities"]) > 0 or len(ep["wrd_multiplicity_significance"]) > 0:
+                    tbl.new_td_txt(irows, 2, ep["wrd_multiplicities"])
+                    tbl.new_td_txt(irows, 3, ep["wrd_multiplicity_significance"])
                     irows += 1
 
-                if len(ep["total_tumours"]) > 0 or len(ep["total_tumours_significance"]) > 0:
-                    tbl.new_td_txt(irows, 2, ep["total_tumours"])
-                    tbl.new_td_txt(irows, 3, ep["total_tumours_significance"])
+                if len(ep["wrd_total_tumours"]) > 0 or len(ep["wrd_total_tumours_significance"]) > 0:
+                    tbl.new_td_txt(irows, 2, ep["wrd_total_tumours"])
+                    tbl.new_td_txt(irows, 3, ep["wrd_total_tumours_significance"])
                     irows += 1
 
             # Column E
             runs = [
                 tbl.new_run("Principal strengths:", b=True),
-                tbl.new_run(d["strengths"]),
+                tbl.new_run(d["wrd_strengths"]),
                 tbl.new_run("Principal limitations:", b=True),
-                tbl.new_run(d["limitations"]),
+                tbl.new_run(d["wrd_limitations"]),
                 tbl.new_run("Other comments:", b=True),
-                tbl.new_run(d["comments"], newline=False),
+                tbl.new_run(d["wrd_comments"], newline=False),
             ]
             tbl.new_td_run(rows, 4, runs, rowspan=rowspan)
 
@@ -94,16 +95,12 @@ class AnimalHtmlTblRecreation(DOCXReport):
 
         self.setLandscape()
 
-        # title
-        txt = "{} {}: {}".format(
+        txt = u"{} {}: Animal evidence".format(
             d["table"]["volumeNumber"],
             d["table"]["monographAgent"],
-            d["table"]["name"]
         )
-        p = doc.paragraphs[0]
-        p.text = txt
-        p.style = "Title"
-
+        doc.add_heading(txt, level=1)
+        doc.add_paragraph(d["table"]["name"])
         self.build_tbl(d)
 
     def get_template_fn(self):
