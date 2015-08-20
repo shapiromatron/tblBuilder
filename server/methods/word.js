@@ -314,7 +314,9 @@ var Future = Meteor.npmRequire('fibers/future'),
       });
       shell.send(inputs);
       return shell.end(function(err) {
-        if (err) {console.log(err);}
+        if (err) {
+          process.stdout.write(err.traceback);
+        }
         return fut["return"](report);
       });
     },
