@@ -17,7 +17,7 @@ class ExposureTables(DOCXReport):
         tbl.new_th(1, 1, "Job/process")
         tbl.new_th(1, 2, "Mean")
         tbl.new_th(1, 3, "Range")
-        tbl.new_ths(1, 4, "Comments/\nadditional data")
+        tbl.new_th(1, 4, "Comments/\nadditional data")
         tbl.new_th(1, 5, "References")
 
         row = 2
@@ -29,7 +29,7 @@ class ExposureTables(DOCXReport):
             ]
             tbl.new_td_run(row, 0, runs)
 
-            tbl.new_td_txt(row, 1, d["occupationInfo"])
+            tbl.new_td_txt(row, 1, d["wrd_occupationInfo"])
 
             txt = u"{} {} ({}, {})".format(
                 d["exposureLevel"],
@@ -42,7 +42,7 @@ class ExposureTables(DOCXReport):
             txt = u"{} {}".format(d["exposureLevelRange"], d["units"])
             tbl.new_td_txt(row, 3, txt)
 
-            tbl.new_td_txt(row, 4, d["comments"])
+            tbl.new_td_txt(row, 4, d["wrd_comments"])
             tbl.new_td_txt(row, 5, d["reference"]["name"])
             row += 1
 
@@ -68,7 +68,7 @@ class ExposureTables(DOCXReport):
             runs = [
                 tbl.new_run(d["country"], newline=True, b=True),
                 tbl.new_run(
-                    u"{}, {}".format(d["location"], d["collectionDate"],
+                    u"{}, {}".format(d["wrd_location"], d["collectionDate"],
                     newline=False)
                 )
             ]
@@ -85,7 +85,7 @@ class ExposureTables(DOCXReport):
             txt = u"{} {}".format(d["exposureLevelRange"], d["units"])
             tbl.new_td_txt(row, 2, txt)
 
-            tbl.new_td_txt(row, 3, d["comments"])
+            tbl.new_td_txt(row, 3, d["wrd_comments"])
             tbl.new_td_txt(row, 4, d["reference"]["name"])
             row += 1
 

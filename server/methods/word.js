@@ -16,31 +16,6 @@ var Future = Meteor.npmRequire('fibers/future'),
       docx.render();
       return docx.getZip().generate({type: "string"});
     },
-    exposureWordReport = function(tbl_id) {
-      var d, exp, exposures, i, len, tbl;
-      tbl = Tables.findOne(tbl_id);
-      exposures = ExposureEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch();
-      exposures.forEach(function(exp){
-        exp.reference = Reference.findOne({_id: exp.referenceID});
-        ExposureEvidence.setWordFields(exp);
-      })
-      return {
-        "monographAgent": tbl.monographAgent,
-        "volumeNumber": tbl.volumeNumber,
-        "hasTable": true,
-        "table": tbl,
-        "exposures": exposures,
-        "occupationals": _.filter(exposures, function(d) {
-          return d.exposureScenario === "Occupational";
-        }),
-        "environmentals": _.filter(exposures, function(d) {
-          return d.exposureScenario === "Environmental";
-        }),
-        "mixed": _.filter(exposures, function(d) {
-          return d.exposureScenario === "Integrated/mixed";
-        })
-      };
-    },
     prepareEpiDescriptive = function(desc) {
       desc.reference = Reference.findOne({_id: desc.referenceID});
       desc.coexposuresList = desc.coexposures.join(', ');
@@ -354,7 +329,7 @@ Meteor.methods({
     template = ReportTemplate.findOne({filename: filename});
     switch (tbl.tblType) {
       case "Exposure Evidence":
-        data = exposureWordReport(tbl_id);
+        data = ExposureEvidence.wordContext(tbl_id);
         break;
       case "Epidemiology Evidence":
         data = epiWordReport(tbl_id, template.epiSortOrder);
