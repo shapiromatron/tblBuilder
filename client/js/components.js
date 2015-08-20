@@ -93,10 +93,26 @@ Template.optReorder.events({
 });
 
 
+Template.optWord.helpers({
+  getReportTypes: function(){
+    var key = Session.get('evidenceType');
+    return tblBuilderCollections.evidenceLookup[key].collection.wordReportFormats;
+  }
+})
 Template.optWord.events({
   'click #wordReport': function(evt, tmpl) {
     var div = document.getElementById('modalHolder');
     Blaze.renderWithData(Template.reportTemplateModal, {}, div);
+  },
+  'click .wordReport': function(evt, tmpl) {
+      var tbl_id = Session.get('Tbl')._id,
+          report_type = evt.target.dataset.type,
+          fn = evt.target.dataset.fn + ".docx";
+
+      Meteor.call("pyWordReport", tbl_id, report_type, function(err, response) {
+          if (response) return clientShared.b64toWord(response, fn);
+          return alert("An error occurred.");
+      });
   }
 });
 

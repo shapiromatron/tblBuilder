@@ -17,7 +17,7 @@ class ExposureTables(DOCXReport):
         tbl.new_th(1, 1, "Job/process")
         tbl.new_th(1, 2, "Mean")
         tbl.new_th(1, 3, "Range")
-        tbl.new_th(1, 4, "Comments/\nadditional data")
+        tbl.new_ths(1, 4, "Comments/\nadditional data")
         tbl.new_th(1, 5, "References")
 
         row = 2
