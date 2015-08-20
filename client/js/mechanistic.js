@@ -42,12 +42,14 @@ Template.mechanisticMain.events({
   }
 });
 Template.mechanisticMain.onCreated(function() {
+  Session.set('evidenceType', 'mechanisticEvidence');
   Session.set('mechanisticAllCollapsed', true);
   Session.set('evidenceShowNew', false);
   Session.set('evidenceEditingId', null);
   this.subscribe('mechanisticEvidence', Session.get('Tbl')._id);
 });
 Template.mechanisticMain.onDestroyed(function() {
+  Session.set('evidenceType', null);
   Session.set('mechanisticAllCollapsed', true);
   Session.set('evidenceShowNew', false);
   Session.set('evidenceEditingId', null);

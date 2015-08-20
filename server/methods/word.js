@@ -171,39 +171,7 @@ var Future = Meteor.npmRequire('fibers/future'),
       return createWordReport(filename, data);
     },
     mechanisticWordReport = function(tbl_id) {
-      var formatEvidence = function(obj) {
-            var refs = Reference.find({_id: {$in: obj.references}}).fetch();
-            obj.references = _.pluck(refs, 'name').join(', ');
-            if (obj.references !== "") obj.references = "(" + obj.references + ")";
-            obj.text = obj.text || "";
-            return obj.subheading = obj.subheading || "";
-          },
-          getChildren = function(parent) {
-            var children = MechanisticEvidence.find(
-              {parent: parent._id},
-              {sort: {sortIdx: 1}}).fetch();
-            parent.children = children;
-            return children.map(function(child){
-              formatEvidence(child);
-              return getChildren(child);
-            })
-          },
-          data = {
-            "table": Tables.findOne({_id: tbl_id})
-          };
 
-      data.sections = MechanisticEvidence.evidenceSections.map(function(section){
-        var children = MechanisticEvidence.find(
-          {tbl_id: tbl_id,section: section.section},
-          {sort: {sortIdx: 1}}).fetch();
-        children.forEach(function(child){
-          child.hasSubheading = (child.subheading != null) && child.subheading !== "";
-          formatEvidence(child);
-          getChildren(child);
-        });
-        return {"description": section.sectionDesc, "children": children};
-      });
-      return data;
     },
     genotoxWordReport = function(tbl_id) {
       var d, tbl, vals;
@@ -281,6 +249,9 @@ var Future = Meteor.npmRequire('fibers/future'),
     getContext = function(report_type, tbl_id) {
       var d = null;
       switch (report_type) {
+        case "ExposureTables":
+          d = ExposureEvidence.wordContext(tbl_id);
+          break;
         case "EpiHtmlTblRecreation":
           d = getEpiDataByReference(tbl_id);
           break;
@@ -296,8 +267,8 @@ var Future = Meteor.npmRequire('fibers/future'),
         case "AnimalHtmlTables":
           d = AnimalEvidence.wordContext(tbl_id);
           break;
-        case "ExposureTables":
-          d = ExposureEvidence.wordContext(tbl_id);
+        case "MechanisticHtmlTables":
+          d = MechanisticEvidence.wordContext(tbl_id);
           break;
         default:
           console.log("No context specified: {0}".printf(report_type));
