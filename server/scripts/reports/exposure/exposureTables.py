@@ -24,7 +24,7 @@ class ExposureTables(DOCXReport):
         for d in exposures:
             runs = [
                 tbl.new_run(d["occupation"], newline=True, b=True),
-                tbl.new_run(u"{}, {}".format(d["location"], d["collectionDate"]),
+                tbl.new_run(u"{}, {}".format(d["wrd_location"], d["collectionDate"]),
                             newline=False)
             ]
             tbl.new_td_run(row, 0, runs)

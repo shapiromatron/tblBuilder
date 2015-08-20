@@ -314,7 +314,7 @@ var Future = Meteor.npmRequire('fibers/future'),
           d = animalWordReport(tbl_id);
           break;
         case "ExposureTables":
-          d = ExposureEvidence.reportContext(tbl_id);
+          d = ExposureEvidence.wordContext(tbl_id);
           break;
         default:
           console.log("No context specified: {0}".printf(report_type));
