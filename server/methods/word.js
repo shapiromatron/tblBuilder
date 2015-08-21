@@ -197,7 +197,7 @@ var Future = Meteor.npmRequire('fibers/future'),
         case "EpiResultTables":
           d = EpiDescriptive.wordContextByResult([tbl_id]);
           break;
-        case "EpiHtmlTblRecreation":
+        case "EpiHtmlTables":
           d = EpiDescriptive.wordContextByDescription([tbl_id]);
           break;
         case "AnimalHtmlTables":

@@ -1,10 +1,8 @@
-from ..utils import TableMaker, DOCXReport
+from docxUtils.reports import DOCXReport
+from docxUtils.tables import TableMaker
 
 
-class EpiHtmlTblRecreation(DOCXReport):
-    """
-    Attempt to recreate HTML table in a Word-report.
-    """
+class EpiHtmlTables(DOCXReport):
 
     def getCol2(self, d, tbl):
         # recreation of table-helper
@@ -49,7 +47,7 @@ class EpiHtmlTblRecreation(DOCXReport):
         return runs
 
     def build_tbl(self, data):
-        colWidths = [1.5, 2.0, 0.8, 1.1, 0.6, 1.0, 0.8, 2.0]
+        colWidths = [1.5, 1.0, 0.8, 1.1, 0.6, 1.0, 0.8, 2.0]
         tbl = TableMaker(colWidths, numHeaders=1, firstRowCaption=False, tblStyle="ntpTbl")
 
         # write header
@@ -93,7 +91,7 @@ class EpiHtmlTblRecreation(DOCXReport):
             for res in d["results"]:
                 additionalRows = 0
                 tbl.new_td_txt(irows, 2, res["organSite"], rowspan=res["_rowspan"])
-                tbl.new_td_txt(irows, 6, res["covariatesList"], rowspan=res["_rowspan"])
+                tbl.new_td_txt(irows, 6, res["wrd_covariatesList"], rowspan=res["_rowspan"])
 
                 if len(res.get("effectUnits", "")) > 0:
                     tbl.new_td_txt(irows, 3, res["effectUnits"], colspan=3)
@@ -114,11 +112,11 @@ class EpiHtmlTblRecreation(DOCXReport):
 
             # Column H
             runs = [
-                tbl.new_run(d.get("notes")),
+                tbl.new_run(d["wrd_notes"]),
                 tbl.new_run("Strengths: ", b=True, newline=False),
-                tbl.new_run(d.get("strengths")),
+                tbl.new_run(d.get("strengths", "")),
                 tbl.new_run("Limitations: ", b=True, newline=False),
-                tbl.new_run(d.get("limitations")),
+                tbl.new_run(d.get("limitations", "")),
             ]
             tbl.new_td_run(rows, 7, runs, rowspan=st_rowspan)
 
@@ -127,20 +125,19 @@ class EpiHtmlTblRecreation(DOCXReport):
         tbl.render(self.doc)
 
     def create_content(self):
-        doc = self.doc
         d = self.context
 
         self.setLandscape()
 
         # title
-        txt = "{} {}: {}".format(
-            d["table"]["volumeNumber"],
-            d["table"]["monographAgent"],
-            d["table"]["name"]
+        txt = u"{} {}".format(
+            d["tables"][0]["volumeNumber"],
+            d["tables"][0]["monographAgent"]
         )
-        p = doc.paragraphs[0]
+        p = self.doc.paragraphs[0]
         p.text = txt
         p.style = "Title"
+        self.doc.add_paragraph(d["tables"][0]["name"])
 
         self.build_tbl(d)
 
