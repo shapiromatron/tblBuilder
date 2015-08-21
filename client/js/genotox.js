@@ -15,7 +15,6 @@ Template.genotoxMain.onDestroyed(function() {
 
 
 Template.genotoxTbl.helpers(clientShared.abstractTblHelpers);
-Template.genotoxTbl.events(clientShared.abstractTblEvents);
 Template.genotoxTbl.onRendered(function() {
   clientShared.initDraggables(this.find('#sortable'), ".dhOuter", GenotoxEvidence);
   clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));

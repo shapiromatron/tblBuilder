@@ -17,7 +17,6 @@ Template.ntpEpiMain.onDestroyed(function() {
 
 
 Template.ntpEpiDescTbl.helpers(clientShared.abstractTblHelpers);
-Template.ntpEpiDescTbl.events(clientShared.abstractTblEvents);
 Template.ntpEpiDescTbl.onRendered(function() {
   clientShared.toggleRiskPlot();
   clientShared.initDraggables(this.find('#sortable'), ".dhOuter", NtpEpiDescriptive);

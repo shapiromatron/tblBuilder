@@ -27,18 +27,6 @@ Template.animalTbl.helpers(_.extend({
       ];
     }
   }, clientShared.abstractTblHelpers));
-Template.animalTbl.events(_.extend({
-    'click .wordReport': function(evt, tmpl) {
-      var tbl_id = Session.get('Tbl')._id,
-          report_type = evt.target.dataset.type,
-          fn = evt.target.dataset.fn + ".docx";
-
-      return Meteor.call("pyWordReport", tbl_id, report_type, function(err, response) {
-        if (response) return clientShared.b64toWord(response, fn);
-        return alert("An error occurred.");
-      });
-    }
-  }, clientShared.abstractTblEvents));
 Template.animalTbl.onRendered(function() {
   clientShared.initDraggables(this.find('#sortable'), ".dhOuter", AnimalEvidence);
   clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));

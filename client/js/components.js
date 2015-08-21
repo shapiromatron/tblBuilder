@@ -105,7 +105,7 @@ Template.optWord.events({
           report_type = evt.target.dataset.type,
           fn = evt.target.dataset.fn + ".docx";
 
-      Meteor.call("pyWordReport", tbl_id, report_type, function(err, response) {
+      Meteor.call("wordReport", tbl_id, report_type, function(err, response) {
           if (response) return clientShared.b64toWord(response, fn);
           return alert("An error occurred.");
       });

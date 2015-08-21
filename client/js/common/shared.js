@@ -299,7 +299,6 @@ _.extend(clientShared, {
       }
     }
   },
-  abstractTblEvents: {},
   abstractRowHelpers: {
     getChildren: function() {
       var key = Session.get('evidenceType'),

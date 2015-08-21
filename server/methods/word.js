@@ -76,7 +76,7 @@ var Future = Meteor.npmRequire('fibers/future'),
 
 
 Meteor.methods({
-  pyWordReport: function(tbl_id, report_type) {
+  wordReport: function(tbl_id, report_type) {
     this.unblock();
 
     var context = getContext(report_type, tbl_id),

@@ -15,7 +15,6 @@ Template.exposureMain.onDestroyed(function() {
 
 
 Template.exposureTbl.helpers(clientShared.abstractTblHelpers);
-Template.exposureTbl.events(clientShared.abstractTblEvents);
 Template.exposureTbl.onRendered(function() {
   clientShared.initDraggables(this.find('#sortable'), ".dhOuter", ExposureEvidence);
   clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
