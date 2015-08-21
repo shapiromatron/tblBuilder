@@ -104,7 +104,9 @@ class ExposureTables(DOCXReport):
             d["table"]["volumeNumber"],
             d["table"]["monographAgent"]
         )
-        doc.add_heading(txt, level=1)
+        p = doc.paragraphs[0]
+        p.text = txt
+        p.style = "Title"
         doc.add_paragraph(d["table"]["name"])
 
         self.buildOccupationalTable(d["occupationals"])

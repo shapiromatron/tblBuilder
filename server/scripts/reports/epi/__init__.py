@@ -1,4 +1,3 @@
-from HtmlTblRecreation import *
-from NtpEpiAniResults import *
-from NtpEpiDescriptive import *
-from NtpEpiResults import *
+from DescriptiveTable import *
+from ResultTable import *
+from html import *

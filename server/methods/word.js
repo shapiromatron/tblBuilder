@@ -16,34 +16,6 @@ var Future = Meteor.npmRequire('fibers/future'),
       docx.render();
       return docx.getZip().generate({type: "string"});
     },
-    prepareEpiDescriptive = function(desc) {
-      desc.reference = Reference.findOne({_id: desc.referenceID});
-      desc.coexposuresList = desc.coexposures.join(', ');
-      desc.isCaseControl = desc.isCaseControl();
-      desc.notes = desc.notes || "";
-      desc.responseRateCase = utilities.getPercentOrText(desc.responseRateCase);
-      desc.responseRateControl = utilities.getPercentOrText(desc.responseRateControl);
-    },
-    prepareEpiResult = function(res) {
-      res.covariatesList = utilities.capitalizeFirst(res.covariates.join(', '));
-      res.hasTrendTest = res.trendTest != null;
-      res.riskEstimates.forEach(function(riskEst){
-        riskEst.riskFormatted = res.riskFormatter(riskEst);
-        riskEst.exposureCategory = utilities.capitalizeFirst(riskEst.exposureCategory);
-      });
-    },
-    getEpiDataByReference = function(tbl_id) {
-      var descriptions, tbl;
-      tbl = Tables.findOne(tbl_id);
-      descriptions = getDescriptionObjects([tbl_id]);
-      return {
-        "descriptions": descriptions,
-        "monographAgent": tbl.monographAgent,
-        "volumeNumber": tbl.volumeNumber,
-        "hasTable": true,
-        "table": tbl
-      };
-    },
     getEpiDataByReferenceMonographAgent = function(monographAgent, volumeNumber) {
       var data, descriptions, tbl_ids, tbls;
       tbls = Tables.find({volumeNumber: volumeNumber, monographAgent: monographAgent}).fetch();
@@ -219,17 +191,14 @@ var Future = Meteor.npmRequire('fibers/future'),
         case "ExposureTables":
           d = ExposureEvidence.wordContext(tbl_id);
           break;
+        case "EpiDescriptiveTables":
+          d = EpiDescriptive.wordContextByDescription([tbl_id]);
+          break;
+        case "EpiResultTables":
+          d = EpiDescriptive.wordContextByResult([tbl_id]);
+          break;
         case "EpiHtmlTblRecreation":
-          d = getEpiDataByReference(tbl_id);
-          break;
-        case "NtpEpiDescriptive":
-          d = getEpiDataByReference(tbl_id);
-          break;
-        case "NtpEpiResults":
-          d = getEpiDataByTableCaptionDesc(tbl_id);
-          break;
-        case "NtpEpiAniResults":
-          d = getEpiDataByTableCaptionDesc(tbl_id);
+          d = EpiDescriptive.wordContextByDescription([tbl_id]);
           break;
         case "AnimalHtmlTables":
           d = AnimalEvidence.wordContext(tbl_id);
