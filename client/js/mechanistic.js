@@ -32,10 +32,6 @@ Template.mechanisticMain.events({
       clientShared.returnExcelFile(response, "mechanisticEvidence.xlsx");
     });
   },
-  'click #wordReport': function(evt, tmpl) {
-    var div = tmpl.firstNode;
-    Blaze.renderWithData(Template.reportTemplateModal, {}, div);
-  },
   'click #mechanistic-reorderRows': function(evt, tmpl) {
     Session.set('reorderRows', !Session.get('reorderRows'));
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));

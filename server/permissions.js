@@ -47,12 +47,6 @@ Meteor.startup(function() {
     remove: userAuthenticated
   });
 
-  ReportTemplate.allow({
-    insert: serverShared.isStaffOrHigher,
-    update: serverShared.isStaffOrHigher,
-    remove: serverShared.isStaffOrHigher
-  });
-
   tblBuilderCollections.evidenceTypes.forEach(function(Collection){
     Collection.allow(tblContentAllowRules);
   });

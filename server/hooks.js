@@ -41,11 +41,6 @@ Meteor.startup(function() {
     return true;
   });
 
-  ReportTemplate.before.insert(function(userId, doc) {
-    addTimestampAndUserID(userId, doc);
-    return true;
-  });
-
   Reference.before.insert(function(userId, doc) {
     var newMonographAgent, ref;
     addTimestampAndUserID(userId, doc);

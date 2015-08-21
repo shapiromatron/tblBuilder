@@ -1,21 +1,5 @@
 {
   "dependencies": {
-    "angular-expressions": {
-      "version": "0.2.1"
-    },
-    "docxtemplater": {
-      "version": "1.0.4",
-      "dependencies": {
-        "jszip": {
-          "version": "2.4.0",
-          "dependencies": {
-            "pako": {
-              "version": "0.2.5"
-            }
-          }
-        }
-      }
-    },
     "python-shell": {
       "version": "0.0.3"
     },

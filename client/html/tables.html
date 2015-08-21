@@ -25,8 +25,6 @@
   </div>
 </template>
 
-
-
 <template name="tableOpts">
   {{#if isInRole 'staff'}}
       {{#actionBtn}}
@@ -133,9 +131,6 @@
             <li>
               <a href="{{pathFor 'referencesMain' monographAgent=this}}">
                 <span class="fa fa-book"></span> View references</a></li>
-            <li>
-              <a href="#" id="agentEpiReport" data-monographAgent="{{this}}">
-                <span class="fa fa-file-word-o"></span> Download epidemiological report</a></li>
             <li>
               <a href="{{pathFor 'epiOrganSiteMain' volumeNumber=../volumeNumber monographAgent=this}}">
                 <i class="fa fa-tachometer"></i> Epi data by organ-site</a></li>

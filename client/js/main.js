@@ -8,7 +8,6 @@ Session.setDefault('referenceNewObj', null);
 // setup global subscriptions
 var tablesHandler = null,
     usersHandler = null;
-Meteor.subscribe('reportTemplate');
 Tracker.autorun(function() {
   tablesHandler = Meteor.subscribe('tables', Meteor.userId());
 });

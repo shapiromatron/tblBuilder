@@ -152,7 +152,3 @@ Meteor.publish('monographReference', function(monographAgent) {
   check(monographAgent, String);
   return Reference.find({monographAgent: {$in: [monographAgent]}});
 });
-
-Meteor.publish('reportTemplate', function() {
-  return ReportTemplate.find();
-});
