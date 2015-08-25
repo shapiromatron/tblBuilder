@@ -57,12 +57,24 @@ var toggleRequiredFields = function(tmpl, duration){
     tmpl.$(shows.join(",")).fadeIn(duration);
   });
 };
-Template.ntpEpiDescriptiveForm.helpers({});
+Template.ntpEpiDescriptiveForm.helpers({
+  allAccordiansShown: function(){
+    return Template.instance().allAccordiansShown.get();
+  }
+});
 Template.ntpEpiDescriptiveForm.events(_.extend({
   'change select[name="studyDesign"]': function(evt, tmpl) {
     return toggleRequiredFields(tmpl);
+  },
+  'click #toggleAccordian': function(evt, tmpl){
+    tmpl.allAccordiansShown.set(!tmpl.allAccordiansShown.get());
+    var action = (tmpl.allAccordiansShown.get()) ? "show" : "hide";
+    $(tmpl.findAll(".collapse")).collapse(action);
   }
 }, clientShared.abstractFormEvents));
+Template.ntpEpiDescriptiveForm.onCreated(function(){
+  this.allAccordiansShown = new ReactiveVar(false);
+});
 Template.ntpEpiDescriptiveForm.onRendered(function() {
   clientShared.toggleQA(this, this.data.isQA);
   clientShared.initPopovers(this);
