@@ -231,7 +231,8 @@
     <div class="form-group row">
       <div class="col-xs-3">
         {{> fldSelectSingle name="exposureAssessmentType" value=exposureAssessmentType }}
-        {{> fldTextArea name="exposureAssessmentDetails" value=exposureAssessmentDetails }}
+        {{> fldTextArea name="exposureAssessmentNotes" value=exposureAssessmentNotes }}
+        {{> fldTextArea name="exposureMissingData" value=exposureMissingData }}
       </div>
       <div class="col-xs-3">
         {{> fldSelectSingle name="exposureAssessmentRating" value=exposureAssessmentRating }}
@@ -239,6 +240,7 @@
       </div>
       <div class="col-xs-3">
         {{> fldTextArea name="outcomeDataSource" value=outcomeDataSource }}
+        {{> fldTextArea name="outcomeMissingData" value=outcomeMissingData }}
       </div>
       <div class="col-xs-3">
         {{> fldSelectSingle name="outcomeAssessmentRating" value=outcomeAssessmentRating }}
@@ -248,11 +250,14 @@
 
     <hr><h4>Analysis and reporting</h4>
     <div class="form-group row">
-      <div class="col-xs-6">
+      <div class="col-xs-4">
+        {{> fldTextArea name="analyticalMethods" value=analyticalMethods }}
+      </div>
+      <div class="col-xs-4">
         {{> fldSelectSingle name="analysisRating" value=analysisRating }}
         {{> fldTextArea name="analysisRationale" value=analysisRationale }}
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-4">
         {{> fldSelectSingle name="selectiveReportingRating" value=selectiveReportingRating }}
         {{> fldTextArea name="selectiveReportingRationale" value=selectiveReportingRationale }}
       </div>
@@ -261,12 +266,13 @@
     <hr><h4>Sensitivity</h4>
     <div class="form-group row">
       <div class="col-xs-4">
-        {{> fldInputText name="exposedCasesOrPower" value=exposedCasesOrPower }}
         {{> fldInputText name="exposureLevel" value=exposureLevel }}
+        {{> fldTextArea name="exposedCasesOrPower" value=exposedCasesOrPower }}
       </div>
       <div class="col-xs-4">
         <div class="isCohort">
-          {{> fldInputText name="followUpDates" value=followUpDates }}
+          {{> fldInputText name="followUp" value=followUp }}
+          {{> fldTextArea name="sensitivityOther" value=sensitivityOther }}
         </div>
       </div>
       <div class="col-xs-4">
