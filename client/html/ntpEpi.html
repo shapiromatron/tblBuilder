@@ -24,6 +24,9 @@
       {{> optRiskPlot}}
       {{> optShowAllRows}}
       {{> optQaFlags}}
+      <li>
+        <a href="{{pathFor 'ntpEpiRatingMain' _id=this._id}}">
+          <i class="fa fa-star-half-o"></i> View ratings</a></li>
   {{/actionBtn}}
 </template>
 
@@ -410,7 +413,7 @@
               </div>
               <div class="col-xs-3">
                 {{> fldSelectSingle name="confoundingRating" value=confoundingRating }}
-                {{> fldTextArea name="confouncingRatingRationale" value=confouncingRatingRationale }}
+                {{> fldTextArea name="confoundingRatingRationale" value=confoundingRatingRationale }}
               </div>
             </div>
           </div>

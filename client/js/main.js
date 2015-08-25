@@ -82,6 +82,11 @@ Router.map(function() {
     controller: TblRouterController
   });
 
+  this.route('ntpEpiRatingMain', {
+    path: '/ntp-epidemiology/:_id/rating',
+    controller: TblRouterController
+  });
+
   this.route('epiAnalysisMain', {
     path: '/epidemiology/:_id/analysis',
     controller: TblRouterController
