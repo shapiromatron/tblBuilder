@@ -193,5 +193,20 @@ Meteor.methods({
       vals = _.union(extra, vals);
     }
     return vals;
-  }
+  },
+  searchNtpEpiCaseControlMatching: function(query) {
+    return listFieldTextSearch(NtpEpiDescriptive, "caseControlMatching", query);
+  },
+  searchNtpEpiCaseControlDiffers: function(query) {
+    return listFieldTextSearch(NtpEpiDescriptive, "caseControlDiffers", query);
+  },
+  searchNtpCoexposures: function(query) {
+    return listFieldTextSearch(NtpEpiDescriptive, "coexposures", query);
+  },
+  searchNtpEpiRiskFactors: function(query) {
+    return listFieldTextSearch(NtpEpiDescriptive, "riskFactors", query);
+  },
+  searchNtpEpiVariablesOfConcern: function(query) {
+    return listFieldTextSearch(NtpEpiDescriptive, "variablesOfConcern", query);
+  },
 });

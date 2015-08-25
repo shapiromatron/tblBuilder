@@ -236,8 +236,7 @@ clientShared = {
           });
   },
   toggleQA: function(tmpl, isQA) {
-    return $(tmpl.findAll('input,select,textarea'))
-      .prop('disabled', isQA);
+    return tmpl.$('input,select,textarea').prop('disabled', isQA);
   },
   userCanEdit: function(tbl) {
     var i, user, userId;

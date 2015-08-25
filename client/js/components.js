@@ -157,6 +157,13 @@ var autocompleteOptions = function(qry, sync, cb) {
     selectListAddLI(tmpl.find("ul"), evt.target.value);
     tmpl.$('.typeahead').typeahead('val', "");
   },
+  'keyup .form-control': function(evt, tmpl) {
+    // add new input not found in list
+    if (evt.which === 13){
+      selectListAddLI(tmpl.find("ul"), evt.target.value);
+      tmpl.$('.typeahead').typeahead('val', "");
+    }
+  },
   'click .selectListRemove': removeLI,
 };
 

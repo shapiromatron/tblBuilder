@@ -396,7 +396,23 @@
         </div>
         <div id="confounding" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" aria-expanded="false">
           <div class="panel-body">
-           TO ADD...
+            <div class="form-group row">
+              <div class="isntCohort col-xs-3">
+                {{> fldTypeaheadSelectMultiple name="caseControlMatching" values=caseControlMatching }}
+                {{> fldTypeaheadSelectMultiple name="caseControlDiffers" values=caseControlDiffers }}
+              </div>
+              <div class="col-xs-3">
+                {{> fldTypeaheadSelectMultiple name="coexposures" values=coexposures }}
+                {{> fldTypeaheadSelectMultiple name="riskFactors" values=riskFactors }}
+              </div>
+              <div class="col-xs-3">
+                {{> fldTypeaheadSelectMultiple name="variablesOfConcern" values=variablesOfConcern }}
+              </div>
+              <div class="col-xs-3">
+                {{> fldSelectSingle name="confoundingRating" value=confoundingRating }}
+                {{> fldTextArea name="confouncingRatingRationale" value=confouncingRatingRationale }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
