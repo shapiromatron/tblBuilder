@@ -1,8 +1,11 @@
-var singleFieldTextSearch = function(Collection, field, qrystr, tbl_id) {
+var textSearchRegex = function(str){
+  return new RegExp(str.escapeRegex(), "i");
+},
+singleFieldTextSearch = function(Collection, field, qrystr, tbl_id) {
   var options, query, queryset, values;
   check(qrystr, String);
   query = {};
-  query[field] = {$regex: new RegExp(qrystr, "i")};
+  query[field] = {$regex: textSearchRegex(qrystr)};
   if (tbl_id != null) {query["tbl_id"] = tbl_id;}
   options = {fields: {}, limit: 1000, sort: []};
   options.fields[field] = 1;
@@ -18,7 +21,7 @@ listFieldTextSearch = function(Collection, field, qrystr) {
         opts = {fields: {}, limit: 1000};
 
     check(qrystr, String);
-    regex = new RegExp(qrystr.escapeRegex(), "i");
+    regex = textSearchRegex(qrystr);
     qry[field] = {$in: [regex]};
     opts.fields[field] = 1;
 
@@ -36,7 +39,7 @@ Meteor.methods({
   searchUsers: function(str) {
     var query, querystr;
     check(str, String);
-    querystr = new RegExp(str, "i");
+    querystr = textSearchRegex(str);
     query = {
       $or: [
         {"emails": {$elemMatch: {"address": {$regex: querystr}}}},
@@ -49,7 +52,7 @@ Meteor.methods({
   searchReference: function(inputs) {
     var options, query, querystr;
     check(inputs, {qry: String, monographAgent: String});
-    querystr = new RegExp(inputs.qry, "i");
+    querystr = textSearchRegex(inputs.qry);
     query = {
       $and: [{
           name: {$regex: querystr},
