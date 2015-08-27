@@ -72,46 +72,49 @@ Template.referenceBatchUpload.events({
     return loadWB(file, getImportWS, printStatus);
   },
   'click #uploadReferences': function(evt, tmpl) {
-    var div = $(tmpl.find("#uploadStatusDiv")),
-        append_status = function(rowID) {
-          div.append("<p>Importing row " + rowID + ": </p>");
+    var div = tmpl.$("#uploadStatusDiv"),
+        append_status = function(cls, rowID, msg) {
+          div.append("<p class='alert {0}'>Importing row {1}: {2}</p>".printf(cls, rowID, msg));
         },
         createReferences = function(rows) {
-          var pubmedCB = function(v) {
-            if (v.isError) {
-              append_status('failure! (PMID import error)');
-            } else {
-              Reference.insert({
-                "name": v.shortCitation,
-                "referenceType": "PubMed",
-                "pubmedID": parseInt(v.pubmedID, 10),
-                "otherURL": "",
-                "fullCitation": v.fullCitation,
-                "monographAgent": [Session.get('monographAgent')],
-                "pdfURL": row['PDF URL']
-              });
-            }
-          }
           rows.forEach(function(row){
             var rowID = row.__rowNum__ + 1,
                 PMID = row['PubMed ID'],
-                status = append_status(rowID);
+                obj;
 
             if (PMID != null) {
               if (isFinite(parseInt(PMID, 10))) {
-                getPubMedDetails(PMID, pubmedCB);
+                clientShared.getPubMedDetails(PMID, function(v) {
+                  if (v.isError) {
+                    append_status("alert-danger", rowID, "PMID import error");
+                  } else {
+                    obj = {
+                      "name": v.shortCitation,
+                      "referenceType": "PubMed",
+                      "pubmedID": parseInt(v.pubmedID, 10),
+                      "otherURL": "",
+                      "fullCitation": v.fullCitation,
+                      "monographAgent": [Session.get('monographAgent')],
+                    };
+                    if (row['PDF URL']) obj["pdfURL"] = row['PDF URL'];
+                    Reference.insert(obj);
+                    append_status("alert-success", rowID, "success!");
+
+                  }
+                });
               } else {
-                append_status('failure! (PMID is not numeric)');
+                append_status("alert-danger", rowID, "PMID is not numeric");
               }
             } else {
-              Reference.insert({
+              obj = {
                 "name": row['Name'] || "INSERT NAME",
                 "referenceType": "Other",
                 "otherURL": row['Other URL'],
                 "fullCitation": row['Full Citation'] || "ADD DESCRIPTION",
                 "monographAgent": [Session.get('monographAgent')],
-                "pdfURL": row['PDF URL']
-              });
+              };
+              Reference.insert(obj);
+              append_status("alert-success", rowID, "success!");
             }
           });
 

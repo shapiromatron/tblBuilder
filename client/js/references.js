@@ -106,7 +106,7 @@ Template.referenceForm.events({
         name = tmpl.find('input[name=name]');
 
     spinner.toggleClass('spinner-active');
-    return getPubMedDetails(pubmedID, function(v) {
+    return clientShared.getPubMedDetails(pubmedID, function(v) {
       spinner.toggleClass('spinner-active');
       citation.value = v.fullCitation;
       name.value = v.shortCitation;
@@ -121,73 +121,7 @@ Template.referenceForm.onRendered(function() {
 });
 
 
-var getPubMedDetails = function(pubmedID, cb) {
-  var url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=" + pubmedID + "&rettype=docsum&retmode=xml";
-
-  return HTTP.get(url, function(err, result) {
-    var auth, authors, first, fullCitation, isError, journal_source, pmid, pubDate, second, shortCitation, so, title, xml, xmlDoc, year;
-
-    // assume an error occurred by default
-    fullCitation = "An error occurred.";
-    shortCitation = "";
-    isError = true;
-
-    if (result) {
-      xmlDoc = $.parseXML(result.content);
-      xml = $(xmlDoc);
-
-      err = xml.find("ERROR");
-      if (err.length >= 1) {
-        fullCitation = xml.find("ERROR").text();
-      } else {
-        // Parse XML for text, we use the AuthorList children to
-        // filter for both "Author" and "CollectiveName" fields,
-        // as an example see PMID 187847.
-        authors = (function() {
-          var i, len, ref1, results;
-          ref1 = xml.find('Item[Name=AuthorList]').children();
-          results = [];
-          for (i = 0, len = ref1.length; i < len; i++) {
-            auth = ref1[i];
-            results.push(auth.innerHTML);
-          }
-          return results;
-        })();
-        title = xml.find("Item[Name=Title]").text();
-        journal_source = xml.find("Item[Name=Source]").text();
-        so = xml.find("Item[Name=SO]").text();
-        pmid = xml.find("Id").text();
-        year = pubDate = xml.find("Item[Name=PubDate]").text().substr(0, 4);
-
-        // build short-citation
-        first = authors[0].substr(0, authors[0].search(" "));
-        shortCitation = first + " (" + year + ")";
-        if (authors.length > 2) {
-          shortCitation = first + " et al. (" + year + ")";
-        } else if (authors.length === 2) {
-          second = authors[1].substr(0, authors[1].search(" "));
-          shortCitation = first + " and " + second + " (" + year + ")";
-        }
-
-        // build full-citation, using the PubMed Summary format, found here:
-        // http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=#{pubmedID}&rettype=docsum&retmode=text
-        fullCitation = ((authors.join(', ')) + ". " +
-                         title + ". " +
-                         journal_source + ". " +
-                         so + ". PubMed PMID: " +
-                         pmid + ".");
-        isError = false;
-      }
-    }
-    return cb({
-      'shortCitation': shortCitation,
-      'fullCitation': fullCitation,
-      'isError': isError,
-      'pubmedID': pubmedID
-    });
-  });
-},
-searchRefHelper = function(qry, sync, cb) {
+var searchRefHelper = function(qry, sync, cb) {
   qry = {
     qry: qry,
     monographAgent: Session.get('monographAgent')
