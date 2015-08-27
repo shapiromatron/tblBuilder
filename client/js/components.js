@@ -239,7 +239,7 @@ Template.evidenceFormSubmissionDiv.helpers({
   showAddNested: function(){
     var key = Session.get('evidenceType'),
         coll = tblBuilderCollections.evidenceLookup[key].nested_collection
-    return (!_.isUndefined(this._id));
+    return (!_.isUndefined(coll));
   }
 });
 
