@@ -150,16 +150,16 @@ clientShared = {
     return (display) ? $els.fadeIn() : $els.fadeOut();
   },
   moveRowCheck: function(evt) {
-    var data, newIdx, next_pos, prev_pos, self, this_pos;
-    self = $(evt.target);
-    this_pos = self.data('sortidx');
-    prev_pos = self.prev().data('sortidx') || 0;
-    next_pos = self.next().data('sortidx') || prev_pos + 1;
+    var data = UI.getData(evt.target),
+        $el = $(evt.target),
+        this_pos = $el.data('sortidx'),
+        prev_pos = $el.prev().data('sortidx') || 0,
+        next_pos = $el.next().data('sortidx') || prev_pos + 1,
+        newIdx = d3.mean([prev_pos, next_pos]);
+
     if ((this_pos < prev_pos) || (this_pos > next_pos)) {
-      data = UI.getData(evt.target);
-      newIdx = d3.mean([prev_pos, next_pos]);
       this.options.Cls.update(data._id, {$set: {sortIdx: newIdx}});
-      return self.data('sortidx', newIdx);
+      $el.data('sortidx', newIdx);
     }
   },
   typeaheadSelectListGetLIs: function($ul) {
@@ -410,7 +410,6 @@ _.extend(clientShared, {
 
       _.extend(obj, {
         tbl_id: Session.get('Tbl')._id,
-        sortIdx: 1e10,
       });
 
       if (createPreValidate) obj = createPreValidate(tmpl, obj, this);
