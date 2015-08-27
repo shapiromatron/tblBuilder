@@ -121,7 +121,7 @@ Template.referenceForm.onRendered(function() {
 });
 
 
-var searchRefHelper = function(qry, sync, cb) {
+var searchReferences = function(qry, sync, cb) {
   qry = {
     qry: qry,
     monographAgent: Session.get('monographAgent')
@@ -132,7 +132,9 @@ var searchRefHelper = function(qry, sync, cb) {
     return cb(res);
   });
 };
-Template.referenceSingleSelect.searchReference = searchRefHelper;
+Template.referenceSingleSelect.helpers({
+  getOptions: searchReferences
+});
 Template.referenceSingleSelect.events({
   'typeahead:selected': function(evt, tmpl, v) {
     var div = $(tmpl.find('div.selectedReference')).empty();
@@ -166,7 +168,9 @@ var getCurrentReferenceIds = function(tmpl){
   });
   return ids;
 };
-Template.referenceMultiSelect.searchReference = searchRefHelper;
+Template.referenceMultiSelect.helpers({
+  getOptions: searchReferences
+});
 Template.referenceMultiSelect.events({
   'typeahead:selected': function(evt, tmpl, v) {
     var $ul = $(tmpl.find('ul'));
