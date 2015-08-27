@@ -246,9 +246,8 @@ clientShared = {
     if ((userId == null) || (tbl == null)) return false;
     if (Meteor.user() && Meteor.user().roles.indexOf("superuser") >= 0) return true;
     if (userId === tbl.user_id) return true;
-
-    for (i = 0; i < tbl.user_roles; i++) {
-      user = tbl.user_roles[j];
+    for (i = 0; i < tbl.user_roles.length; i++) {
+      user = tbl.user_roles[i];
       if (userId === user.user_id && user.role !== "reviewers") return true;
     }
     return false;
