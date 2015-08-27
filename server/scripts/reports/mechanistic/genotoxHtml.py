@@ -156,7 +156,7 @@ class GenotoxHtmlTables(DOCXReport):
             txt = u"{} {}".format(d["result"], d["wrd_significance"])
             tbl.new_td_txt(row, 4, txt)
 
-            tbl.new_td_txt(row, 5, d["comments"])
+            tbl.new_td_txt(row, 5, d["wrd_comments"])
             tbl.new_td_txt(row, 6, d["reference"]["name"])
             row += 1
 
