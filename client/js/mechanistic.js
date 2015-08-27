@@ -11,11 +11,13 @@ var initializeDraggable = function(tmpl, options) {
 };
 
 
-Template.mechanisticMain.helpers({
+Template.mechanisticOpts.helpers({
   isAllCollapsed: function() {
     return Session.get('mechanisticAllCollapsed');
   }
 });
+
+
 Template.mechanisticMain.events({
   'click #mechanistic-toggleShowAllRows': function() {
     var els = $('.accordianBody');
