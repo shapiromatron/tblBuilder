@@ -32,7 +32,7 @@
       <div id="iarc-login-options" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
           {{# if hasContactEmail}}
-            <li><a target="_blank" href="mailto:{{contactEmail}}">Contact Us</a></li>
+            <li><a href="mailto:{{contactEmail}}">Contact Us</a></li>
           {{/if}}
           {{#if isInRole 'staff'}}
             {{> adminNav}}
