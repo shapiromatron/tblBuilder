@@ -26,12 +26,6 @@ Template.mechanisticMain.events({
     }
     Session.set('mechanisticAllCollapsed', !Session.get('mechanisticAllCollapsed'));
   },
-  'click #mechanistic-downloadExcel': function(evt, tmpl) {
-    var tbl_id = tmpl.data._id;
-    Meteor.call('mechanisticEvidenceExcelDownload', tbl_id, function(err, response) {
-      clientShared.returnExcelFile(response, "mechanisticEvidence.xlsx");
-    });
-  },
   'click #mechanistic-reorderRows': function(evt, tmpl) {
     Session.set('reorderRows', !Session.get('reorderRows'));
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
