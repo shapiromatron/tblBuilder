@@ -196,9 +196,10 @@ Template.forestPlot.onRendered(function() {
       group = svg.append('g').attr('class', 'riskBar'),
       riskStr = "Effect measure {0}: {1}".printf(
         this.data.parent.effectMeasure, data.riskMid);
-      if (data.riskLow && data.riskHigh){
-        riskStr += " ({0}-{1})".printf(data.riskLow, data.riskHigh)
-      }
+
+  if (data.riskLow && data.riskHigh){
+    riskStr += " ({0}-{1})".printf(data.riskLow, data.riskHigh)
+  }
 
   svg.attr('viewBox', "0 0 " + width + " " + height)
   group.append("svg:title").text(riskStr);

@@ -174,24 +174,22 @@ clientShared = {
         function(li){return li.getAttribute('data-value');});
   },
   toggleRiskPlot: function() {
-    var gridline_data, gridlines, header, header_pos, height, svg, tbl,
-        tbl_pos, width, xPlotBuffer, x_left, xaxis, xscale, yPlotBuffer,
-        y_top, yscale;
 
     d3.select('.epiRiskAxes').remove();
     if (!Session.get('epiRiskShowPlots')) return;
     Tracker.flush();
 
-    header = $('.riskTR');
-    tbl = $('.evidenceTable');
-    tbl_pos = tbl.position();
-    header_pos = header.position();
-    y_top = tbl_pos.top + header.outerHeight();
-    x_left = header_pos.left;
-    width = header.width();
-    height = tbl.height() - header.height();
-    xPlotBuffer = 0;   // make room for the text
-    yPlotBuffer = 20;  // make room for x-axis
+    var gridlines, svg, xaxis, xscale, yscale,
+        header = $('.riskTR'),
+        tbl = $('.evidenceTable'),
+        tbl_pos = tbl.position(),
+        header_pos = header.position(),
+        y_top = tbl_pos.top + header.outerHeight(),
+        x_left = header_pos.left,
+        width = header.width(),
+        height = tbl.height() - header.height(),
+        xPlotBuffer = 0,   // make room for the text
+        yPlotBuffer = 20;  // make room for x-axis
 
     svg = d3.select('.container')
       .insert("svg", "#epiCohortTbl")
@@ -220,17 +218,15 @@ clientShared = {
 
     svg.append("g")
       .attr("class", 'axis')
-      .attr("transform", "translate(" + xPlotBuffer + ", " + (height - yPlotBuffer) + ")")
+      .attr("transform", "translate({0}, {1})".printf(xPlotBuffer, height - yPlotBuffer))
       .call(xaxis);
-
-    gridline_data = xscale.ticks(10);
 
     gridlines = svg.append("g")
       .attr('class', 'gridlines')
-      .attr("transform", "translate(" + xPlotBuffer + ",0)");
+      .attr("transform", "translate({0},0)".printf(xPlotBuffer));
 
     gridlines.selectAll("gridlines")
-      .data(gridline_data)
+      .data(xscale.ticks(10))
         .enter()
           .append("svg:line")
           .attr("x1", function(v) {return xscale(v);})
@@ -238,7 +234,15 @@ clientShared = {
           .attr("y1", yscale(0))
           .attr("y2", yscale(1))
           .attr("class", function(v) {
-            return (v === 0.1 || v === 1 || v === 10) ? "major" : "minor";
+            switch (v){
+              case 1:
+                return "baseline"
+              case 0.1:
+              case 10:
+                return "major"
+              default:
+               return "minor"
+            }
           });
   },
   toggleQA: function(tmpl, isQA) {
