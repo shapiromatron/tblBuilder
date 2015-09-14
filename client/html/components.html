@@ -296,7 +296,9 @@
   {{#with getTable}}
   <p class="help-block">
     <a href="{{pathFor 'volumeTableList' volumeNumber=this.volumeNumber}}#{{this.monographAgent}}">
-      Volume {{this.volumeNumber}}: {{this.monographAgent}}</a></p>
+      Volume {{this.volumeNumber}}: {{this.monographAgent}}</a>
+    <i class="pull-right">Last updated: {{getLastUpdated}}</i>
+  </p>
   {{/with}}
 </template>
 

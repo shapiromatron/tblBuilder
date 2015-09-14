@@ -214,7 +214,25 @@ var printTimestamp = function(moment){
 }
 
 Template.tableTitle.helpers({
-  getTable: function(){return Session.get("Tbl");}
+  getTable: function(){return Session.get("Tbl");},
+  getLastUpdated: function(){
+    var ts = moment(Session.get("Tbl").lastUpdated),
+        obj,
+        filts = {sort: {lastUpdated : -1}},
+        key = Session.get('evidenceType'),
+        Collection = tblBuilderCollections.evidenceLookup[key].collection,
+        NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
+
+    obj = Collection.findOne({}, filts);
+    if(obj && ts.isBefore(obj.lastUpdated)) ts = moment(obj.lastUpdated);
+
+    if (NestedCollection){
+      obj = NestedCollection.findOne({}, filts);
+      if(obj && ts.isBefore(obj.lastUpdated)) ts = moment(obj.lastUpdated);
+    }
+
+    return printTimestamp(ts);
+  }
 });
 
 
