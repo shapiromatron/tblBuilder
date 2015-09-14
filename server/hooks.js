@@ -1,5 +1,7 @@
 var addTimestampAndUserID = function(userId, doc) {
-    doc.timestamp = new Date();
+    var now =  new Date();
+    doc.created = now;
+    doc.lastUpdated = now;
     doc.user_id = userId;
   },
   addQAmarks = function(doc) {
@@ -23,6 +25,10 @@ var addTimestampAndUserID = function(userId, doc) {
     doc.isHidden = false;
     if(doc.sortIdx === undefined) doc.sortIdx = getNewIdx(Cls, doc.tbl_id);
     return true;
+  },
+  addLastUpdated = function (userId, doc, fieldNames, modifier, options) {
+    modifier.$set = modifier.$set || {};
+    modifier.$set.lastUpdated = new Date();
   };
 
 
@@ -64,7 +70,15 @@ Meteor.startup(function() {
     Cls.before.insert(function(userId, doc){
       return addTblContentInsertion(userId, doc, Cls);
     });
-  })
+  });
+
+
+  // Update hooks
+  tblBuilderCollections.evidenceTypes.forEach(function(Cls){
+    Cls.before.update(addLastUpdated);
+  });
+  Tables.before.update(addLastUpdated);
+  Reference.before.update(addLastUpdated);
 
 
   // Remove hooks
