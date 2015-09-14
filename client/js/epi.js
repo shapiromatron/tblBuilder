@@ -182,7 +182,15 @@ Template.riskEstimateForm.events({
   'click #epiRiskEstimate-delete': function(evt, tmpl) {
     Blaze.remove(tmpl.view);
     $(tmpl.view._domrange.members).remove();
-  }
+  },
+  'click #moveUp': function(evt, tmpl) {
+    var tr = $(tmpl.firstNode)
+    tr.insertBefore(tr.prev());
+  },
+  'click #moveDown': function(evt, tmpl) {
+    var tr = $(tmpl.firstNode)
+    tr.insertAfter(tr.next());
+  },
 });
 
 
