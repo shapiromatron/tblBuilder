@@ -209,6 +209,10 @@ Template.typeaheadUserSelect.events({
 Template.typeaheadUserSelect.onRendered(injectTypeahead);
 
 
+var printTimestamp = function(moment){
+    return moment.format('MMM Do YYYY, h:mm a');
+}
+
 Template.tableTitle.helpers({
   getTable: function(){return Session.get("Tbl");}
 });
@@ -216,17 +220,26 @@ Template.tableTitle.helpers({
 
 Template.qaNotice.helpers({
   qaNotice: function(datetime, userID) {
-    var TIMESTAMP_FORMAT = 'MMM Do YYYY, h:mm a',
-        datetime = moment(datetime).format(TIMESTAMP_FORMAT);
-        user = Meteor.users.findOne(userID);
+    var user = Meteor.users.findOne(userID);
+        datetime = printTimestamp(moment(datetime));
     if (user) username = user.profile.fullName;
     if (username) {
-      return "QA'd by " + username + " on " + datetime;
+      return "QA'd by {0} on {1}".printf(username, datetime);
     } else {
-      return "QA'd on " + datetime;
+      return "QA'd on {0}".printf(datetime);
     }
   }
 });
+
+
+Template.objectLastUpdated.helpers({
+  getLastUpdated: function(){
+    if (this.lastUpdated){
+      return "Last updated: {0}".printf(printTimestamp(moment(this.lastUpdated)));
+    }
+    return "";
+  }
+})
 
 
 Template.evidenceFormSubmissionDiv.helpers({
