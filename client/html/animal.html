@@ -10,20 +10,20 @@
 
 
 <template name="animalTblOpts">
-    {{#actionBtn}}
-        {{#if userCanEdit}}
-            {{#unless showNew}}
-                {{> optCreate }}
-            {{/unless}}
-            {{> optReorder }}
-        {{/if}}
-        {{> optMonoRefList }}
-        {{> optFullScreen }}
-        {{> optExcel }}
-        {{> optWord }}
-        {{> optShowAllRows }}
-        {{> optQaFlags }}
-    {{/actionBtn}}
+  {{#actionBtn}}
+      {{#if userCanEdit}}
+          {{#unless showNew}}
+              {{> optCreate }}
+          {{/unless}}
+          {{> optReorder }}
+      {{/if}}
+      {{> optMonoRefList }}
+      {{> optFullScreen }}
+      {{> optExcel }}
+      {{> optWord }}
+      {{> optShowAllRows }}
+      {{> optQaFlags }}
+  {{/actionBtn}}
 </template>
 
 
@@ -92,7 +92,6 @@
   {{#if showNew}}
     {{> animalForm isNew=true}}
   {{/if}}
-
 </template>
 
 
