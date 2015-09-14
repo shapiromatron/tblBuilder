@@ -102,67 +102,11 @@ Template.animalEndpointTbl.helpers(_.extend({
 Template.animalEndpointTbl.events(clientShared.abstractNestedTableEvents);
 
 
-var getEndpointGroupRows = function(tmpl, obj) {
-  delete obj.dose;
-  delete obj.nStart;
-  delete obj.nSurviving;
-  delete obj.incidence;
-  delete obj.multiplicity;
-  delete obj.totalTumours;
-  var trs = tmpl.findAll('.endpointGroupTbody tr');
-  obj.endpointGroups = _.map(trs, function(row){
-    return clientShared.newValues(row);
-  });
-  return obj;
-};
 Template.animalEndpointForm.helpers(clientShared.abstractNestedFormHelpers);
-Template.animalEndpointForm.events(_.extend({}, clientShared.abstractNestedFormEvents, {
+Template.animalEndpointForm.events(_.extend({
     'click #inner-addEndpointGroup': function(evt, tmpl) {
-      var tbody;
-      tbody = tmpl.find('.endpointGroupTbody');
+      var tbody = tmpl.find('.endpointGroupTbody');
       return Blaze.renderWithData(Template.animalEndpointGroupForm, {}, tbody);
-    },
-    'click #inner-create': function(evt, tmpl) {
-      var NestedCollection, errorDiv, isValid, key, obj;
-      key = Session.get('evidenceType');
-      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
-      obj = clientShared.newValues(tmpl.find('#nestedModalForm'));
-      getEndpointGroupRows(tmpl, obj);
-      obj['tbl_id'] = Session.get('Tbl')._id;
-      obj['parent_id'] = tmpl.data.parent._id;
-      obj['sortIdx'] = 1e10;
-      obj['isHidden'] = false;
-      isValid = NestedCollection.simpleSchema().namedContext().validate(obj);
-      if (isValid) {
-        NestedCollection.insert(obj);
-        return clientShared.removeNestedFormModal(tmpl);
-      } else {
-        errorDiv = clientShared.createErrorDiv(NestedCollection.simpleSchema().namedContext());
-        return $(tmpl.find("#errors")).html(errorDiv);
-      }
-    },
-    'click #inner-update': function(evt, tmpl) {
-      var NestedCollection, errorDiv, isValid, key, modifier, vals;
-      key = Session.get('evidenceType');
-      NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
-      vals = clientShared.updateValues(tmpl.find('#nestedModalForm'), this);
-      getEndpointGroupRows(tmpl, vals);
-      modifier = {
-        $set: vals
-      };
-      isValid = NestedCollection.simpleSchema().namedContext().validate(modifier, {
-        modifier: true
-      });
-      if (isValid) {
-        NestedCollection.update(this._id, modifier, {
-          removeEmptyStrings: false
-        });
-        Session.set("nestedEvidenceEditingId", null);
-        return clientShared.removeNestedFormModal(tmpl);
-      } else {
-        errorDiv = clientShared.createErrorDiv(NestedCollection.simpleSchema().namedContext());
-        return $(tmpl.find("#errors")).html(errorDiv);
-      }
     },
     'click #calculate-statistics': function(evt, tmpl) {
       return Meteor.call("getAnimalBioassayStatistics", this._id, function(err, response) {
@@ -172,7 +116,7 @@ Template.animalEndpointForm.events(_.extend({}, clientShared.abstractNestedFormE
         return alert("An error occurred.");
       });
     }
-  }));
+  }, clientShared.abstractNestedFormEvents));
 Template.animalEndpointForm.onRendered(function() {
   var aniResult = AnimalEndpointEvidence.findOne(
           {_id: Session.get('nestedEvidenceEditingId')});

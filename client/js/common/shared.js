@@ -84,8 +84,14 @@ s2ab = function(s) {
       NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
   $(div).empty();
   Blaze.renderWithData(NestedTemplate, {parent: this}, div);
+}, isCtrlClick = function(evt){
+  return evt.ctrlKey || evt.altKey || evt.metaKey;
+}, animateClick = function(el){
+  $(el)
+    .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+        function(){$(el).removeClass("animated rubberBand")})
+    .addClass("animated rubberBand");
 };
-
 // template-utility functions
 clientShared = {
   createErrorDiv: function(context) {
@@ -422,13 +428,12 @@ _.extend(clientShared, {
       }
     },
     'click #update': function(evt, tmpl) {
-      var Collection, errorDiv, fld, i, isValid, key, len, modifier, ref, updatePreValidate, vals;
-      key = Session.get('evidenceType');
-      Collection = tblBuilderCollections.evidenceLookup[key].collection;
-      vals = clientShared.updateValues(tmpl.find('#mainForm'), this);
-      key = Session.get('evidenceType');
-      ref = tblBuilderCollections.evidenceLookup[key].requiredUpdateFields;
-      for (i = 0, len = ref.length; i < len; i++) {
+      var errorDiv, fld, i, isValid, modifier, updatePreValidate,
+          key = Session.get('evidenceType'),
+          Collection = tblBuilderCollections.evidenceLookup[key].collection,
+          vals = clientShared.updateValues(tmpl.find('#mainForm'), this),
+          ref = tblBuilderCollections.evidenceLookup[key].requiredUpdateFields;
+      for (i = 0; i < ref.length; i++) {
         fld = ref[i];
         vals[fld] = tmpl.find('select[name="' + fld + '"]').value;
       }
@@ -441,7 +446,7 @@ _.extend(clientShared, {
           .validate(modifier, {modifier: true});
       if (isValid) {
         Collection.update(this._id, {$set: vals});
-        Session.set("evidenceEditingId", null);
+        (isCtrlClick(evt)) ? animateClick(evt.target) : Session.set("evidenceEditingId", false);
       } else {
         errorDiv = clientShared.createErrorDiv(Collection.simpleSchema().namedContext());
         $(tmpl.find("#errors")).html(errorDiv);
@@ -526,6 +531,7 @@ _.extend(clientShared, {
         sortIdx: 1e10,
         isHidden: false
       });
+      NestedCollection.preSaveHook(tmpl, obj);
 
       isValid = NestedCollection
           .simpleSchema()
@@ -544,20 +550,27 @@ _.extend(clientShared, {
       clientShared.removeNestedFormModal(tmpl);
     },
     'click #inner-update': function(evt, tmpl) {
-      var errorDiv,
+      var errorDiv, modifier, isValid,
           key = Session.get('evidenceType'),
           NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
-          vals = clientShared.updateValues(tmpl.find('#nestedModalForm'), this),
-          modifier = {$set: vals},
-          isValid = NestedCollection
-              .simpleSchema()
-              .namedContext()
-              .validate(modifier, {modifier: true});
+          vals = clientShared.updateValues(tmpl.find('#nestedModalForm'), this);
+
+      NestedCollection.preSaveHook(tmpl, vals);
+
+      modifier = {$set: vals},
+      isValid = NestedCollection
+          .simpleSchema()
+          .namedContext()
+          .validate(modifier, {modifier: true});
 
       if (isValid) {
         NestedCollection.update(this._id, modifier);
-        Session.set("nestedEvidenceEditingId", null);
-        clientShared.removeNestedFormModal(tmpl);
+        if (isCtrlClick(evt)){
+          animateClick(evt.target);
+        } else {
+          Session.set("nestedEvidenceEditingId", null);
+          clientShared.removeNestedFormModal(tmpl);
+        }
       } else {
         errorDiv = clientShared.createErrorDiv(NestedCollection.simpleSchema().namedContext());
         $(tmpl.find("#errors")).html(errorDiv);

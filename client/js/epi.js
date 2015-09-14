@@ -160,72 +160,13 @@ Template.organSiteTd.helpers({
 });
 
 
-var getRiskRows = function(tmpl, obj) {
-  delete obj.exposureCategory;
-  delete obj.numberExposed;
-  delete obj.riskMid;
-  delete obj.riskLow;
-  delete obj.riskHigh;
-  delete obj.riskEstimated;
-  delete obj.inTrendTest;
-  var trs = tmpl.findAll('.riskEstimateTbody tr');
-  obj.riskEstimates = _.map(trs, function(row){
-    return clientShared.newValues(row);
-  });
-};
 Template.epiResultForm.helpers(clientShared.abstractNestedFormHelpers);
-Template.epiResultForm.events(_.extend({}, clientShared.abstractNestedFormEvents, {
-    'click #inner-addRiskRow': function(evt, tmpl) {
+Template.epiResultForm.events(_.extend({
+  'click #inner-addRiskRow': function(evt, tmpl) {
       var tbody = tmpl.find('.riskEstimateTbody');
       Blaze.renderWithData(Template.riskEstimateForm, {}, tbody);
-    },
-    'click #inner-create': function(evt, tmpl) {
-      var errorDiv, isValid,
-          key = Session.get('evidenceType'),
-          NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
-          obj = clientShared.newValues(tmpl.find('#nestedModalForm'));
-
-      getRiskRows(tmpl, obj);
-      obj['tbl_id'] = Session.get('Tbl')._id;
-      obj['parent_id'] = tmpl.data.parent._id;
-      obj['sortIdx'] = 1e10;
-      obj['isHidden'] = false;
-      isValid = NestedCollection
-        .simpleSchema()
-        .namedContext()
-        .validate(obj);
-
-      if (isValid) {
-        NestedCollection.insert(obj);
-        clientShared.removeNestedFormModal(tmpl);
-      } else {
-        errorDiv = clientShared.createErrorDiv(NestedCollection.simpleSchema().namedContext());
-        $(tmpl.find("#errors")).html(errorDiv);
-      }
-    },
-    'click #inner-update': function(evt, tmpl) {
-      var errorDiv, isValid, modifier,
-          key = Session.get('evidenceType'),
-          NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
-          vals = clientShared.updateValues(tmpl.find('#nestedModalForm'), this);
-
-      getRiskRows(tmpl, vals);
-      modifier = {$set: vals};
-      isValid = NestedCollection
-        .simpleSchema()
-        .namedContext()
-        .validate(modifier, {modifier: true});
-
-      if (isValid) {
-        NestedCollection.update(this._id, modifier);
-        Session.set("nestedEvidenceEditingId", null);
-        clientShared.removeNestedFormModal(tmpl);
-      } else {
-        errorDiv = clientShared.createErrorDiv(NestedCollection.simpleSchema().namedContext());
-        $(tmpl.find("#errors")).html(errorDiv);
-      }
     }
-  }));
+  }, clientShared.abstractNestedFormEvents));
 Template.epiResultForm.onRendered(function() {
   var epiResult = EpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
   if (epiResult != null) clientShared.toggleQA(this, epiResult.isQA);
