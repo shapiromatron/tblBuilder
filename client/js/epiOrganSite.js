@@ -11,13 +11,23 @@ Template.epiOrganSiteMain.helpers(_.extend({
     object_list: function() {
       var tmpl = Template.instance(),
           organSites = tmpl.organSites.get(),
-          results = EpiResult.find({"organSite": {$in: organSites}}).fetch();
+          results = EpiResult.find({"organSite": {$in: organSites}}).fetch(),
+          rows = [];
 
-      results.forEach(function(d) {
-        d.desc = EpiDescriptive.findOne(d.parent_id);
+      results.forEach(function(res) {
+        var desc = EpiDescriptive.findOne(res.parent_id);
+        res.riskEstimates.forEach(function(d, i){
+          _.extend(d, {
+            idx: i,
+            res: res,
+            desc: desc,
+            firstDisplay: i===0,
+            numRows: res.riskEstimates.length
+          });
+          rows.push(d);
+        });
       });
-
-      return results;
+      return rows;
     }
   }, clientShared.abstractMainHelpers));
 Template.epiOrganSiteMain.events({
@@ -53,17 +63,11 @@ var trHelpers = {
 }, trEvents = {
   "click .hideRow" : function(evt, tmpl){
     tmpl.rowHidden.set(!tmpl.rowHidden.get());
-    console.log(tmpl.rowHidden.get())
   }
 }, trCreated = function(){
   this.rowHidden = new ReactiveVar(false);
 }
 
-Template.epiOrganSiteFullTr.helpers(trHelpers);
-Template.epiOrganSiteFullTr.events(trEvents);
-Template.epiOrganSiteFullTr.onCreated(trCreated);
-
-
-Template.epiOrganSiteResultTr.helpers(trHelpers);
-Template.epiOrganSiteResultTr.events(trEvents);
-Template.epiOrganSiteResultTr.onCreated(trCreated);
+Template.epiOrganSiteTr.helpers(trHelpers);
+Template.epiOrganSiteTr.events(trEvents);
+Template.epiOrganSiteTr.onCreated(trCreated);

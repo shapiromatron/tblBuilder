@@ -55,13 +55,7 @@
           </thead>
           <tbody>
             {{#each object_list}}
-              {{#each addIndex riskEstimates}}
-                {{#if equals i 0}}
-                  {{> epiOrganSiteFullTr}}
-                {{else}}
-                  {{> epiOrganSiteResultTr}}
-                {{/if}}
-              {{/each}}
+              {{> epiOrganSiteTr}}
             {{/each}}
           </tbody>
         </table>
@@ -73,58 +67,40 @@
 </template>
 
 
-<template name="epiOrganSiteFullTr">
+<template name="epiOrganSiteTr">
   <tr class="{{hideRow}}">
-    <td rowspan="{{../riskEstimates.length}}">
-      {{>printReference id=../desc.referenceID}}<br>
-      {{{../desc.studyDesign}}}
-      {{../desc.location}}<br>
-      {{../desc.enrollmentDates}}<br>
-      {{../desc.studyDesign}}
-    </td>
-    <td rowspan="{{../riskEstimates.length}}">
-      {{../organSite}}
+    {{#if firstDisplay}}
+      <td rowspan="{{numRows}}">
+        {{>printReference id=desc.referenceID}}<br>
+        {{{desc.studyDesign}}}
+        {{desc.location}}<br>
+        {{desc.enrollmentDates}}<br>
+        {{desc.studyDesign}}
+      </td>
+      <td rowspan="{{numRows}}">
+        {{res.organSite}}
+      </td>
+    {{/if}}
+    <td>
+      {{exposureCategory}}
     </td>
     <td>
-      {{v.exposureCategory}}
-    </td>
-    <td>
-      {{v.numberExposed}}
+      {{numberExposed}}
     </td>
     <td>
       {{#if showPlots}}
-        {{> forestPlot parent=.. index=i }}
+        {{> forestPlot parent=res index=idx }}
       {{ else}}
-        <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
+        <span title="Effect measure: {{res.effectMeasure}}">{{res.riskFormatter this}}</span>
       {{/if}}
       {{#if showCheckbox}}
         <input class="hideRow pull-right" type="checkbox" {{rowVisible}}>
       {{/if}}
     </td>
-    <td rowspan="{{../riskEstimates.length}}">
-      {{commaList ../covariates}}
-    </td>
-  </tr>
-</template>
-
-
-<template name="epiOrganSiteResultTr">
-  <tr class="{{hideRow}}">
-    <td>
-      {{v.exposureCategory}}
-    </td>
-    <td>
-      {{v.numberExposed}}
-    </td>
-    <td>
-      {{#if showPlots}}
-        {{> forestPlot parent=.. index=i }}
-      {{ else}}
-        <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
-        {{#if showCheckbox}}
-          <input class="hideRow pull-right" type="checkbox" {{rowVisible}}>
-        {{/if}}
-      {{/if}}
-    </td>
+    {{#if firstDisplay}}
+      <td rowspan="1">
+        {{commaList res.covariates}}
+      </td>
+    {{/if}}
   </tr>
 </template>
