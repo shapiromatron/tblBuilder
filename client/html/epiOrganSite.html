@@ -2,6 +2,11 @@
   {{#actionBtn}}
       {{> optFullScreen}}
       {{> optRiskPlot}}
+      <li>
+        <a href="#" id="selectVisible">
+          <span class="fa fa-check-square-o"></span> Select visible
+        </a>
+      </li>
   {{/actionBtn}}
 </template>
 
@@ -52,54 +57,9 @@
             {{#each object_list}}
               {{#each addIndex riskEstimates}}
                 {{#if equals i 0}}
-
-                  <tr>
-                    <td rowspan="{{../riskEstimates.length}}">
-                      {{>printReference id=../desc.referenceID}}<br>
-                      {{{../desc.studyDesign}}}
-                      {{../desc.location}}<br>
-                      {{../desc.enrollmentDates}}<br>
-                      {{../desc.studyDesign}}
-                    </td>
-                    <td rowspan="{{../riskEstimates.length}}">
-                      {{../organSite}}
-                    </td>
-                    <td>
-                      {{v.exposureCategory}}
-                    </td>
-                    <td>
-                      {{v.numberExposed}}
-                    </td>
-                    <td>
-                      {{#if showPlots}}
-                        {{> forestPlot parent=.. index=i }}
-                      {{ else}}
-                        <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
-                      {{/if}}
-                    </td>
-                    <td rowspan="{{../riskEstimates.length}}">
-                      {{commaList ../covariates}}
-                    </td>
-                  </tr>
-
+                  {{> epiOrganSiteFullTr}}
                 {{else}}
-
-                  <tr>
-                    <td>
-                      {{v.exposureCategory}}
-                    </td>
-                    <td>
-                      {{v.numberExposed}}
-                    </td>
-                    <td>
-                      {{#if showPlots}}
-                        {{> forestPlot parent=.. index=i }}
-                      {{ else}}
-                        <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
-                      {{/if}}
-                    </td>
-                  </tr>
-
+                  {{> epiOrganSiteResultTr}}
                 {{/if}}
               {{/each}}
             {{/each}}
@@ -110,4 +70,61 @@
     {{else}}
       {{> isLoading}}
     {{/if }}
+</template>
+
+
+<template name="epiOrganSiteFullTr">
+  <tr class="{{hideRow}}">
+    <td rowspan="{{../riskEstimates.length}}">
+      {{>printReference id=../desc.referenceID}}<br>
+      {{{../desc.studyDesign}}}
+      {{../desc.location}}<br>
+      {{../desc.enrollmentDates}}<br>
+      {{../desc.studyDesign}}
+    </td>
+    <td rowspan="{{../riskEstimates.length}}">
+      {{../organSite}}
+    </td>
+    <td>
+      {{v.exposureCategory}}
+    </td>
+    <td>
+      {{v.numberExposed}}
+    </td>
+    <td>
+      {{#if showPlots}}
+        {{> forestPlot parent=.. index=i }}
+      {{ else}}
+        <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
+      {{/if}}
+      {{#if showCheckbox}}
+        <input class="hideRow pull-right" type="checkbox" {{rowVisible}}>
+      {{/if}}
+    </td>
+    <td rowspan="{{../riskEstimates.length}}">
+      {{commaList ../covariates}}
+    </td>
+  </tr>
+</template>
+
+
+<template name="epiOrganSiteResultTr">
+  <tr class="{{hideRow}}">
+    <td>
+      {{v.exposureCategory}}
+    </td>
+    <td>
+      {{v.numberExposed}}
+    </td>
+    <td>
+      {{#if showPlots}}
+        {{> forestPlot parent=.. index=i }}
+      {{ else}}
+        <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter v}}</span>
+        {{#if showCheckbox}}
+          <input class="hideRow pull-right" type="checkbox" {{rowVisible}}>
+        {{/if}}
+      {{/if}}
+    </td>
+  </tr>
 </template>
