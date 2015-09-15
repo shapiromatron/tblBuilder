@@ -36,7 +36,59 @@ Template.optRiskPlot.events({
     evt.preventDefault();
     Session.set('epiRiskShowPlots', !Session.get('epiRiskShowPlots'));
     clientShared.toggleRiskPlot();
+  },
+  'click #showForestAxisModal': function(evt, tmpl) {
+    var div = document.getElementById('modalHolder');
+    $(div).empty();
+    Blaze.renderWithData(Template.forestAxisModal, {}, div);
+  },
+});
+
+
+var closeModal = function(evt, tmpl) {
+  $('#modalDiv')
+    .on('hide.bs.modal', function() {
+      $(tmpl.view._domrange.members).remove();
+      Blaze.remove(tmpl.view);
+    }).modal('hide');
+}
+Template.forestAxisModal.helpers({
+  getMin: function(){
+    return Session.get("epiForestPlotMin");
+  },
+  getMax: function(){
+    return Session.get("epiForestPlotMax");
+  },
+  hasError: function(){
+    return Template.instance().err.get().length>0;
+  },
+  getError: function(){
+    return Template.instance().err.get();
   }
+});
+Template.forestAxisModal.events({
+  'click #update': function(evt, tmpl){
+    var min = parseFloat(tmpl.$('input[name="min"]').val(), 10),
+        max = parseFloat(tmpl.$('input[name="max"]').val(), 10);
+    if (min>0 && max>0 && max>min){
+      Session.set("epiForestPlotMin", min);
+      Session.set("epiForestPlotMax", max);
+      clientShared.toggleRiskPlot();
+      $('.epiRiskPlot').trigger('rerender');
+      closeModal(evt, tmpl);
+    } else {
+      tmpl.err.set("Values must be greater than 0, and min<max.");
+    }
+  },
+  'click #cancel': closeModal,
+});
+Template.forestAxisModal.onCreated(function() {
+  this.err = new ReactiveVar("");
+});
+Template.forestAxisModal.onRendered(function() {
+  $('#modalDiv').modal('toggle');
+});
+Template.forestAxisModal.onDestroyed(function() {
 });
 
 

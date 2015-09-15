@@ -203,7 +203,7 @@ clientShared = {
 
     xscale = d3.scale.log()
       .range([0, width])
-      .domain([0.05, 50])
+      .domain([Session.get('epiForestPlotMin'), Session.get('epiForestPlotMax')])
       .clamp(true);
 
     yscale = d3.scale.linear()
