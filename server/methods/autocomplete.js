@@ -1,5 +1,7 @@
-var textSearchRegex = function(str){
-  return new RegExp(str.escapeRegex(), "i");
+var textSearchRegex = function(str, opts){
+  str = str.escapeRegex();
+  if (opts && opts.atBeginning) str = "^" + str;
+  return new RegExp(str, "i");
 },
 singleFieldTextSearch = function(Collection, field, qrystr, tbl_id) {
   var options, query, queryset, values;
@@ -50,16 +52,17 @@ Meteor.methods({
     return Meteor.users.find(query, {fields: {_id: 1, emails: 1, profile: 1}, limit: 20}).fetch();
   },
   searchReference: function(inputs) {
-    var options, query, querystr;
+    var options, query, querystr, atBeginning;
     check(inputs, {qry: String, monographAgent: String});
-    querystr = textSearchRegex(inputs.qry);
+    atBeginning = isNaN(parseInt(inputs.qry, 10));  // if text assume from start
+    querystr = textSearchRegex(inputs.qry, {atBeginning: atBeginning});
     query = {
       $and: [{
           name: {$regex: querystr},
           monographAgent: {$in: [inputs.monographAgent]}
         }]
     };
-    options = {limit: 50};
+    options = {limit: 50, sort: {name: 1}};
     return Reference.find(query, options).fetch();
   },
   searchOrganSite: function(query) {

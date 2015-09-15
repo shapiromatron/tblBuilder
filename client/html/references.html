@@ -176,6 +176,7 @@
     <input class="form-control typeahead referenceSingleSelect" name="referenceID" type="text"
            placeholder="Select reference from library"
            autocomplete="off" spellcheck="off"
+           data-limit="20"
            data-highlight="true"
            data-source="getOptions"
            data-template="referenceSearchOption"/>
@@ -213,6 +214,7 @@
     <input class="form-control typeahead referenceMultiSelect" name="{{name}}" type="text"
            placeholder="Add reference from library"
            autocomplete="off" spellcheck="off"
+           data-limit="20"
            data-highlight="true"
            data-source="getOptions"
            data-template="referenceSearchOption"/>
