@@ -206,10 +206,10 @@ Template.forestPlot.onRendered(function() {
         this.data.parent.effectMeasure, data.riskMid);
 
   if (data.riskLow && data.riskHigh){
-    riskStr += " ({0}-{1})".printf(data.riskLow, data.riskHigh)
+    riskStr += " ({0}-{1})".printf(data.riskLow, data.riskHigh);
   }
 
-  svg.attr('viewBox', "0 0 " + width + " " + height)
+  svg.attr('viewBox', "0 0 {0} {1}".printf(width, height));
   group.append("svg:title").text(riskStr);
 
   if (data.riskMid != null) {
