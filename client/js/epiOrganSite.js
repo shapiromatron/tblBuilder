@@ -5,7 +5,7 @@ Template.epiOrganSiteMain.helpers(_.extend({
               .pluck("organSite")
               .uniq()
               .sort()
-              .map(function(d) {return "<option>" + d + "</option>";})
+              .map(function(d) {return "<option>{0}</option>".printf(d);})
               .value();
     },
     object_list: function() {
@@ -19,14 +19,19 @@ Template.epiOrganSiteMain.helpers(_.extend({
         res.riskEstimates.forEach(function(d, i){
           _.extend(d, {
             idx: i,
+            res_id: res._id,
             res: res,
             desc: desc,
-            firstDisplay: i===0,
-            numRows: res.riskEstimates.length
+            display: true,
+            first: i===0,
+            rows: res.riskEstimates.length,
           });
           rows.push(d);
         });
       });
+
+      tmpl.eosRows = rows;
+      Session.set('eosChanged',  new Date());
       return rows;
     }
   }, clientShared.abstractMainHelpers));
@@ -36,38 +41,64 @@ Template.epiOrganSiteMain.events({
     return clientShared.toggleRiskPlot();
   },
   'click #selectVisible': function(evt, tmpl) {
-    Session.set("eosShowCheckbox", !Session.get("eosShowCheckbox"));
+    Session.set("eosEditMode", !Session.get("eosEditMode"));
   }
 });
 Template.epiOrganSiteMain.onCreated(function() {
   this.subscribe('epiCollective', this.data.volumeNumber, this.data.monographAgent);
   this.organSites = new ReactiveVar([]);
-  Session.setDefault("eosShowCheckbox", false);
+  Session.setDefault("eosEditMode", false);
   Session.setDefault("epiRiskShowPlots", false);
+
+  // reactively determine the first row and row-length of displayed values
+  this.eosRows = [];
+  var self = this;
+  Tracker.autorun(function (){
+    var matched = {},
+        ts = Session.get('eosChanged'); // for reactivity
+    if (Session.get("eosEditMode") === false) {
+      self.eosRows.forEach(function(v){
+        if (v.display && matched[v.res_id] === undefined){
+          matched[v.res_id] = true;
+          v.firstVisible = true;
+          v.rowsVisible = _.where(self.eosRows,
+            {"display": true, "res_id": v.res_id}).length;
+        } else {
+          v.firstVisible = false;
+          v.rowsVisible = null;
+        }
+      });
+    }
+  });
+});
+Template.epiOrganSiteMain.onDestroyed(function() {
+  Session.set("eosEditMode", null);
+  Session.get('eosChanged', null);
 });
 
 
-var trHelpers = {
-  showCheckbox: function(){
-    return Session.get("eosShowCheckbox");
+Template.epiOrganSiteTr.helpers({
+  isDisplayed: function(){
+    return (Session.get("eosEditMode")) ? true : this.display;
   },
-  hideRow: function(){
-    return (!Session.get("eosShowCheckbox") && Template.instance().rowHidden.get()) ? "hidden" : "";
-  },
-  rowVisible: function(){
-    return Template.instance().rowHidden.get() ? "" : "checked";
+  editMode: function(){
+    return Session.get("eosEditMode");
   },
   showPlots: function() {
     return Session.get("epiRiskShowPlots");
+  },
+  getFirstDisplay: function(){
+    return (Session.get("eosEditMode")) ? this.first : this.firstVisible;
+  },
+  getNumRows: function(){
+    return (Session.get("eosEditMode")) ? this.rows : this.rowsVisible;
+  },
+  getDisplayValue: function(){
+    return (this.display) ? "checked" : "";
   }
-}, trEvents = {
+});
+Template.epiOrganSiteTr.events({
   "click .hideRow" : function(evt, tmpl){
-    tmpl.rowHidden.set(!tmpl.rowHidden.get());
+    tmpl.data.display = !tmpl.data.display;
   }
-}, trCreated = function(){
-  this.rowHidden = new ReactiveVar(false);
-}
-
-Template.epiOrganSiteTr.helpers(trHelpers);
-Template.epiOrganSiteTr.events(trEvents);
-Template.epiOrganSiteTr.onCreated(trCreated);
+});

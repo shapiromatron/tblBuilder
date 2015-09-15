@@ -68,39 +68,41 @@
 
 
 <template name="epiOrganSiteTr">
-  <tr class="{{hideRow}}">
-    {{#if firstDisplay}}
-      <td rowspan="{{numRows}}">
-        {{>printReference id=desc.referenceID}}<br>
-        {{{desc.studyDesign}}}
-        {{desc.location}}<br>
-        {{desc.enrollmentDates}}<br>
-        {{desc.studyDesign}}
-      </td>
-      <td rowspan="{{numRows}}">
-        {{res.organSite}}
-      </td>
-    {{/if}}
-    <td>
-      {{exposureCategory}}
-    </td>
-    <td>
-      {{numberExposed}}
-    </td>
-    <td>
-      {{#if showPlots}}
-        {{> forestPlot parent=res index=idx }}
-      {{ else}}
-        <span title="Effect measure: {{res.effectMeasure}}">{{res.riskFormatter this}}</span>
+  {{#if isDisplayed}}
+    <tr>
+      {{#if getFirstDisplay}}
+        <td rowspan="{{getNumRows}}">
+          {{>printReference id=desc.referenceID}}<br>
+          {{{desc.studyDesign}}}
+          {{desc.location}}<br>
+          {{desc.enrollmentDates}}<br>
+          {{desc.studyDesign}}
+        </td>
+        <td rowspan="{{getNumRows}}">
+          {{res.organSite}}
+        </td>
       {{/if}}
-      {{#if showCheckbox}}
-        <input class="hideRow pull-right" type="checkbox" {{rowVisible}}>
-      {{/if}}
-    </td>
-    {{#if firstDisplay}}
-      <td rowspan="1">
-        {{commaList res.covariates}}
+      <td>
+        {{exposureCategory}}
       </td>
-    {{/if}}
-  </tr>
+      <td>
+        {{numberExposed}}
+      </td>
+      <td>
+        {{#if showPlots}}
+          {{> forestPlot parent=res index=idx }}
+        {{ else}}
+          <span title="Effect measure: {{res.effectMeasure}}">{{res.riskFormatter this}}</span>
+        {{/if}}
+        {{#if editMode}}
+          <input class="hideRow pull-right" type="checkbox" {{getDisplayValue}}>
+        {{/if}}
+      </td>
+      {{#if getFirstDisplay}}
+        <td rowspan="{{getNumRows}}">
+          {{commaList res.covariates}}
+        </td>
+      {{/if}}
+    </tr>
+  {{/if}}
 </template>
