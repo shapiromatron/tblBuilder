@@ -42,7 +42,17 @@ Template.epiOrganSiteMain.events({
   },
   'click #selectVisible': function(evt, tmpl) {
     Session.set("eosEditMode", !Session.get("eosEditMode"));
-  }
+  },
+  'click #metaReport': function(evt, tmpl) {
+    var rows = _.chain(tmpl.eosRows)
+                .filter(function(d){return d.display; })
+                .map(function(d){return EpiDescriptive.tablularMetaAnalysisRow(d);})
+                .value(),
+        fn = "meta-analysis.xlsx"
+    Meteor.call("epiMetaAnalysisDownload", rows, function(err, response) {
+      clientShared.returnExcelFile(response, fn);
+    });
+  },
 });
 Template.epiOrganSiteMain.onCreated(function() {
   this.subscribe('epiCollective', this.data.volumeNumber, this.data.monographAgent);

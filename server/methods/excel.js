@@ -72,6 +72,9 @@ Meteor.methods({
   epiEvidenceDownload: function(tbl_id) {
     return writeXLSX("Epi evidence", EpiDescriptive.tabular(tbl_id));
   },
+  epiMetaAnalysisDownload: function(json) {
+    return writeXLSX("meta-analysis", EpiDescriptive.tabularMetaAnalysis(json));
+  },
   mechanisticEvidenceExcelDownload: function(tbl_id) {
     return writeXLSX("Mechanistic evidence", MechanisticEvidence.tabular(tbl_id));
   },
