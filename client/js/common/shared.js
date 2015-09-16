@@ -350,6 +350,19 @@ clientShared = {
     });
   },
   applySortsAndFilters: function(objs, sorts, filters){
+
+    var sort, asc, fn,
+        cw_fn = {
+          "Reference": sortByReference
+        }
+
+    for (var i=0; i<sorts.length; i++){
+      sort = sorts[i];
+      asc = (sort.order === "Ascending");
+      fn = cw_fn[sort.field];
+      objs = fn(objs, asc);
+    }
+
     return objs;
   }
 }
@@ -603,3 +616,18 @@ _.extend(clientShared, {
     }
   }
 });
+
+
+// collection sorts and filters
+var sortByReference = function(objs, ascending){
+  objs = _.chain(objs)
+          .map(function(d){
+            d.getReference();
+            d._refsort = d.reference.getSortString();
+            return d;
+          })
+          .sortBy("_refsort")
+          .value();
+  if (!ascending) objs.reverse();
+  return objs;
+};
