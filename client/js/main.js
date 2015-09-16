@@ -5,7 +5,8 @@ Session.setDefault('reorderRows', false);
 Session.setDefault('referenceNewObj', null);
 Session.setDefault('epiForestPlotMin', 0.05);
 Session.setDefault('epiForestPlotMax', 50);
-
+Session.setDefault('sorts', []);
+Session.setDefault('filters', []);
 
 // setup global subscriptions
 var tablesHandler = null,

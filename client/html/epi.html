@@ -19,6 +19,7 @@
         {{/if}}
         {{> optMonoRefList}}
         {{> optFullScreen}}
+        {{> optSortFilter}}
         {{> optExcel }}
         {{> optWord }}
         {{> optRiskPlot}}
@@ -541,6 +542,7 @@ or the-first row of the riskEstimates.
 <template name="forestPlot">
   <svg class="epiRiskPlot" preserveAspectRatio="none" viewBox="0 0 140 19"></svg>
 </template>
+
 
 <template name="forestAxisModal">
   <div class="modal fade" id="modalDiv" tabindex="-1" role="dialog"

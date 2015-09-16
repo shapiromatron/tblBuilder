@@ -273,6 +273,16 @@
 </template>
 
 
+<template name="optSortFilter">
+  <li>
+    <a href="#" id="sortFilter">
+      <span class="fa fa-sort"></span>
+      <span class="fa fa-filter"></span> Sort and filter
+    </a>
+  </li>
+</template>
+
+
 <template name="actionBtn">
   <div class="btn-group pull-right">
     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -421,6 +431,167 @@
       {{/if}}
     {{/if}}
   </div>
+</template>
+
+
+<template name="sortFilterModal">
+  <div class="modal fade" id="modalDiv" tabindex="-1" role="dialog"
+       data-backdrop="static" aria-labelledby="modalDiv" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title">Sort and filter</h4>
+        </div>
+
+        <div class="modal-body">
+          <form class="editForm">
+            <p class="help-block"></p>
+
+            <legend>Sorts</legend>
+            <table id="sortTbl" class="table table-condensed">
+              <colgroup>
+                <col width="16%">
+                <col width="42%">
+                <col width="42%">
+              </colgroup>
+              <thead>
+                <th style="vertical-align: middle;" class="text-center">
+                  <button type="button" class="btn btn-xs btn-info" id="addSort" title="Add row">
+                    <span class="fa fa-plus"></span>
+                  </button>
+                </th>
+                <th class="text-center">
+                  <label class="helpPopovers">Field name</label>
+                </th>
+                <th class="text-center">
+                  <label class="helpPopovers">Sort order</label>
+                </th>
+              </thead>
+              <tbody>
+                {{#each getSortList}}
+                  {{> sfSortTR}}
+                {{/each}}
+              </tbody>
+            </table>
+
+            <legend>Filters</legend>
+            <table id="filterTbl" class="table table-condensed">
+              <colgroup>
+                <col width="16%">
+                <col width="28%">
+                <col width="28%">
+                <col width="28%">
+              </colgroup>
+              <thead>
+                <th style="vertical-align: middle;" class="text-center">
+                  <button type="button" class="btn btn-xs btn-info" id="addFilter" title="Add row">
+                    <span class="fa fa-plus"></span>
+                  </button>
+                </th>
+                <th class="text-center">
+                  <label class="helpPopovers">Field name</label>
+                </th>
+                <th class="text-center">
+                  <label class="helpPopovers">Filter type</label>
+                </th>
+                <th class="text-center">
+                  <label class="helpPopovers">Value</label>
+                </th>
+              </thead>
+              <tbody>
+                {{#each getFilterList}}
+                  {{> sfFilterTR}}
+                {{/each}}
+              </tbody>
+            </table>
+
+            {{# if hasError}}
+              <div class="alert alert-danger" role="alert">
+                <strong>The following errors were found:</strong>
+                <ul>
+                  <li>{{getError}}</li>
+                </ul>
+              </div>
+            {{/if}}
+
+            <div class="well well-sm pager">
+              <button type="button" class="btn btn-sm btn-warning pull-left"
+                      id="applyAndSave" title="Apply and save">
+                      <span class="fa fa-floppy-o"></span> Save current sort order</button>
+              <button type="button" class="btn btn-sm btn-default pull-right"
+                      id="cancel" title="Cancel">Cancel</button>
+              <button type="button" class="btn btn-sm btn-primary pull-right"
+                      id="apply" title="Apply">
+                      <span class="fa fa-check"></span> Apply</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+
+<template name="sfSortTR">
+  <tr>
+    <td class="text-center" style="vertical-align: middle;">
+      <button type="button"
+              class="btn btn-xs btn-default moveUp"
+              title="Move up">
+        <span class="fa fa-long-arrow-up"></span>
+      </button>
+      <button type="button"
+              class="btn btn-xs btn-default moveDown"
+              title="Move down">
+        <span class="fa fa-long-arrow-down"></span>
+      </button>
+      <button type="button"
+              class="btn btn-xs btn-danger delete"
+              title="Delete row">
+        <span class="fa fa-trash"></span>
+      </button>
+    </td>
+    <td>
+      {{> selectList options=getFieldOptions selected=field selectName="field" }}
+    </td>
+    <td>
+      {{> selectList options=getOrderOptions selected=order selectName="order" }}
+    </td>
+  </tr>
+</template>
+
+
+<template name="sfFilterTR">
+  <tr>
+    <td class="text-center" style="vertical-align: middle;">
+      <button type="button"
+              class="btn btn-xs btn-default moveUp"
+              title="Move up">
+        <span class="fa fa-long-arrow-up"></span>
+      </button>
+      <button type="button"
+              class="btn btn-xs btn-default moveDown"
+              title="Move down">
+        <span class="fa fa-long-arrow-down"></span>
+      </button>
+      <button type="button"
+              class="btn btn-xs btn-danger delete"
+              title="Delete row">
+        <span class="fa fa-trash"></span>
+      </button>
+    </td>
+    <td>
+      {{> selectList options=getFieldOptions selected=field selectName="field" }}
+    </td>
+    <td>
+      {{> selectList options=getFilterTypeOptions selected=filterType selectName="filterType" }}
+    </td>
+    <td>
+      <input class="form-control" name="text" value="{{text}}">
+    </td>
+  </tr>
 </template>
 
 

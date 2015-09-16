@@ -348,6 +348,9 @@ clientShared = {
         'pubmedID': pubmedID
       });
     });
+  },
+  applySortsAndFilters: function(objs, sorts, filters){
+    return objs;
   }
 }
 
@@ -366,10 +369,13 @@ _.extend(clientShared, {
       return Session.get('evidenceShowAll') || !isHidden;
     },
     object_list: function() {
-      var key = Session.get('evidenceType');
+      var key = Session.get('evidenceType'),
+          sorts = Session.get("sorts"),
+          filters = Session.get("filters");
       if (key != null) {
-        var Collection = tblBuilderCollections.evidenceLookup[key].collection;
-        return Collection.find({}, {sort: {sortIdx: 1}});
+        var Collection = tblBuilderCollections.evidenceLookup[key].collection,
+            objs = Collection.find({}, {sort: {sortIdx: 1}}).fetch();
+            return clientShared.applySortsAndFilters(objs, sorts, filters);
       }
     }
   },

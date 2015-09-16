@@ -46,6 +46,7 @@ Template.optRiskPlot.events({
 
 
 var closeModal = function(evt, tmpl) {
+  // todo: not fired when ESC pressed to close
   $('#modalDiv')
     .on('hide.bs.modal', function() {
       $(tmpl.view._domrange.members).remove();
@@ -88,8 +89,6 @@ Template.forestAxisModal.onCreated(function() {
 Template.forestAxisModal.onRendered(function() {
   $('#modalDiv').modal('toggle');
 });
-Template.forestAxisModal.onDestroyed(function() {
-});
 
 
 Template.optShowAllRows.helpers({
@@ -112,6 +111,106 @@ Template.optQaFlags.events({
 });
 
 
+
+Template.optSortFilter.events({
+  "click #sortFilter": function(evt, tmpl){
+    var div = document.getElementById('modalHolder');
+    $(div).empty();
+    Blaze.renderWithData(Template.sortFilterModal, {}, div);
+  },
+});
+
+
+Template.sortFilterModal.helpers({
+  hasError: function(){
+    return Template.instance().err.get().length>0;
+  },
+  getError: function(){
+    return Template.instance().err.get();
+  }
+});
+Template.sortFilterModal.helpers({
+  getSortList: function(){
+    return Session.get("sorts");
+  },
+  getFilterList: function(){
+    return Session.get("filters");
+  }
+});
+Template.sortFilterModal.events({
+  'click #addSort': function(evt, tmpl){
+    var tbody = tmpl.find('#sortTbl > tbody');
+    Blaze.renderWithData(Template.sfSortTR, {}, tbody);
+  },
+  'click #addFilter': function(evt, tmpl){
+    var tbody = tmpl.find('#filterTbl > tbody');
+    Blaze.renderWithData(Template.sfFilterTR, {}, tbody);
+  },
+  'click #apply': function(evt, tmpl){
+    var sorts = _.map(tmpl.findAll("#sortTbl > tbody > tr"), function(el){
+          var $el = $(el);
+          return {
+            field: $el.find("select[name='field']").val(),
+            order: $el.find("select[name='order']").val(),
+          }
+        }),
+        filters = _.map(tmpl.findAll("#filterTbl > tbody > tr"), function(el){
+          var $el = $(el);
+          return {
+            field:      $el.find("select[name='field']").val(),
+            filterType: $el.find("select[name='filterType']").val(),
+            text:       $el.find("input[name='text']").val(),
+          }
+        });
+    Session.set("sorts", sorts);
+    Session.set("filters", filters);
+    closeModal(evt, tmpl);
+  },
+  'click #applyAndSave': function(evt, tmpl){
+  },
+  'click #cancel': closeModal,
+});
+Template.sortFilterModal.onCreated(function() {
+  this.err = new ReactiveVar("");
+});
+Template.sortFilterModal.onRendered(function() {
+  $('#modalDiv').modal('toggle');
+});
+
+
+var sfTrEvents = {
+  'click .moveUp': function(evt, tmpl){
+    var tr = $(tmpl.firstNode);
+    tr.insertBefore(tr.prev());
+  },
+  'click .moveDown': function(evt, tmpl){
+    var tr = $(tmpl.firstNode);
+    tr.insertAfter(tr.next());
+  },
+  'click .delete': function(evt, tmpl){
+    Blaze.remove(tmpl.view);
+    $(tmpl.view._domrange.members).remove();
+  },
+}
+Template.sfSortTR.events(sfTrEvents);
+Template.sfSortTR.helpers({
+  getFieldOptions: function(){
+    return ["Reference", "Reference2", "Reference3"];
+  },
+  getOrderOptions: function(){
+    return ["Ascending", "Descending"];
+  }
+});
+
+Template.sfFilterTR.events(sfTrEvents);
+Template.sfFilterTR.helpers({
+  getFieldOptions: function(){
+    return ["Reference", "Reference2", "Reference3"];
+  },
+  getFilterTypeOptions: function(){
+    return [">", "≥", "<", "≤", "exact", "contains", "not_contains"];
+  }
+});
 
 Template.optCreate.events({
   'click #show-create': function(evt, tmpl) {
