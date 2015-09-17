@@ -11,6 +11,8 @@ Template.genotoxMain.onDestroyed(function() {
   Session.set('evidenceShowNew', false);
   Session.set('evidenceShowAll', false);
   Session.set('evidenceEditingId', null);
+  Session.set('sorts', []);
+  Session.set('filters', []);
 });
 
 

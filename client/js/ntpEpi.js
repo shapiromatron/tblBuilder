@@ -13,6 +13,8 @@ Template.ntpEpiMain.onDestroyed(function() {
   Session.set('evidenceShowAll', false);
   Session.set('evidenceEditingId', null);
   Session.set('nestedEvidenceEditingId', null);
+  Session.set('sorts', []);
+  Session.set('filters', []);
 });
 
 

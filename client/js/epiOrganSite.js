@@ -84,6 +84,8 @@ Template.epiOrganSiteMain.onCreated(function() {
 Template.epiOrganSiteMain.onDestroyed(function() {
   Session.set("eosEditMode", null);
   Session.get('eosChanged', null);
+  Session.set('sorts', []);
+  Session.set('filters', []);
 });
 
 
