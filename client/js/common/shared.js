@@ -349,9 +349,11 @@ clientShared = {
       });
     });
   },
-  applySortsAndFilters: function(objs, sorts, filters){
-
+  applySortsAndFilters: function(objs, sfs){
+    sfs = sfs || {};
     var sort, lastAsc, fn,
+        sorts = sfs.sorts || [],
+        filters = sfs.filters || [],
         key = Session.get('evidenceType'),
         Collection = tblBuilderCollections.evidenceLookup[key].collection,
         cw_fn = Collection.sortFields,
@@ -415,18 +417,16 @@ _.extend(clientShared, {
     },
     object_list: function() {
       var key = Session.get('evidenceType'),
-          sorts = Session.get("sorts"),
-          filters = Session.get("filters"),
-          saveSortOrder = Session.get("saveSortOrder"),
+          sfs = Session.get("sortsAndFilters") || {},
           objs = null,
           Collection;
 
       if (key != null) {
         Collection = tblBuilderCollections.evidenceLookup[key].collection,
         objs = Collection.find({}, {sort: {sortIdx: 1}}).fetch();
-        objs = clientShared.applySortsAndFilters(objs, sorts, filters);
-        if (saveSortOrder) {
-          Session.set("saveSortOrder", null);
+        objs = clientShared.applySortsAndFilters(objs, sfs);
+        if (sfs.save) {
+          Session.set("sortsAndFilters", _.extend(sfs, {"save": false}));
           clientShared.saveSortOrder(objs);
         }
       }

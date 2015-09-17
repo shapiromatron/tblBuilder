@@ -120,7 +120,7 @@ Template.optSortFilter.events({
   },
 });
 
-var applySortFilter = function(evt, tmpl){
+var applySortFilter = function(save, evt, tmpl){
   var sorts = _.map(tmpl.findAll("#sortTbl > tbody > tr"), function(el){
           var $el = $(el);
           return {
@@ -136,8 +136,11 @@ var applySortFilter = function(evt, tmpl){
             text:       $el.find("input[name='text']").val(),
           }
         });
-    Session.set("sorts", sorts);
-    Session.set("filters", filters);
+    Session.set("sortsAndFilters", {
+      "sorts": sorts,
+      "filters": filters,
+      "save": save
+    });
     closeModal(evt, tmpl);
 }
 Template.sortFilterModal.helpers({
@@ -150,10 +153,12 @@ Template.sortFilterModal.helpers({
 });
 Template.sortFilterModal.helpers({
   getSortList: function(){
-    return Session.get("sorts");
+    var sfs = Session.get("sortsAndFilters") || {};
+    return sfs.sorts;
   },
   getFilterList: function(){
-    return Session.get("filters");
+    var sfs = Session.get("sortsAndFilters") || {};
+    return sfs.filters;
   }
 });
 Template.sortFilterModal.events({
@@ -165,11 +170,8 @@ Template.sortFilterModal.events({
     var tbody = tmpl.find('#filterTbl > tbody');
     Blaze.renderWithData(Template.sfFilterTR, {}, tbody);
   },
-  'click #apply': applySortFilter,
-  'click #applyAndSave': function(evt, tmpl){
-    applySortFilter(evt, tmpl);
-    Session.set('saveSortOrder', new Date());
-  },
+  'click #apply': _.partial(applySortFilter, false),
+  'click #applyAndSave': _.partial(applySortFilter, true),
   'click #cancel': closeModal,
 });
 Template.sortFilterModal.onCreated(function() {
