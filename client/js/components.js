@@ -120,7 +120,26 @@ Template.optSortFilter.events({
   },
 });
 
-
+var applySortFilter = function(evt, tmpl){
+  var sorts = _.map(tmpl.findAll("#sortTbl > tbody > tr"), function(el){
+          var $el = $(el);
+          return {
+            field: $el.find("select[name='field']").val(),
+            order: $el.find("select[name='order']").val(),
+          }
+        }),
+        filters = _.map(tmpl.findAll("#filterTbl > tbody > tr"), function(el){
+          var $el = $(el);
+          return {
+            field:      $el.find("select[name='field']").val(),
+            filterType: $el.find("select[name='filterType']").val(),
+            text:       $el.find("input[name='text']").val(),
+          }
+        });
+    Session.set("sorts", sorts);
+    Session.set("filters", filters);
+    closeModal(evt, tmpl);
+}
 Template.sortFilterModal.helpers({
   hasError: function(){
     return Template.instance().err.get().length>0;
@@ -146,27 +165,10 @@ Template.sortFilterModal.events({
     var tbody = tmpl.find('#filterTbl > tbody');
     Blaze.renderWithData(Template.sfFilterTR, {}, tbody);
   },
-  'click #apply': function(evt, tmpl){
-    var sorts = _.map(tmpl.findAll("#sortTbl > tbody > tr"), function(el){
-          var $el = $(el);
-          return {
-            field: $el.find("select[name='field']").val(),
-            order: $el.find("select[name='order']").val(),
-          }
-        }),
-        filters = _.map(tmpl.findAll("#filterTbl > tbody > tr"), function(el){
-          var $el = $(el);
-          return {
-            field:      $el.find("select[name='field']").val(),
-            filterType: $el.find("select[name='filterType']").val(),
-            text:       $el.find("input[name='text']").val(),
-          }
-        });
-    Session.set("sorts", sorts);
-    Session.set("filters", filters);
-    closeModal(evt, tmpl);
-  },
+  'click #apply': applySortFilter,
   'click #applyAndSave': function(evt, tmpl){
+    applySortFilter(evt, tmpl);
+    Session.set('saveSortOrder', new Date());
   },
   'click #cancel': closeModal,
 });

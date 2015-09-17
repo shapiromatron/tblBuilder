@@ -385,7 +385,18 @@ clientShared = {
     }
 
     return objs;
-  }
+  },
+  saveSortOrder: function(objs){
+    var key = Session.get('evidenceType'),
+        ids = _.map(objs, function(d){ return d._id; });
+    return Meteor.call("saveSortOrder", key, ids, function(err, response) {
+      if (response) {
+        console.log(response);
+      } else {
+        alert("An error occurred.");
+      }
+    });
+  },
 }
 
 
@@ -405,12 +416,21 @@ _.extend(clientShared, {
     object_list: function() {
       var key = Session.get('evidenceType'),
           sorts = Session.get("sorts"),
-          filters = Session.get("filters");
+          filters = Session.get("filters"),
+          saveSortOrder = Session.get("saveSortOrder"),
+          objs = null,
+          Collection;
+
       if (key != null) {
-        var Collection = tblBuilderCollections.evidenceLookup[key].collection,
-            objs = Collection.find({}, {sort: {sortIdx: 1}}).fetch();
-            return clientShared.applySortsAndFilters(objs, sorts, filters);
+        Collection = tblBuilderCollections.evidenceLookup[key].collection,
+        objs = Collection.find({}, {sort: {sortIdx: 1}}).fetch();
+        objs = clientShared.applySortsAndFilters(objs, sorts, filters);
+        if (saveSortOrder) {
+          Session.set("saveSortOrder", null);
+          clientShared.saveSortOrder(objs);
+        }
       }
+      return objs;
     }
   },
   abstractRowHelpers: {
