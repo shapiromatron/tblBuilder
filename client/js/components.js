@@ -195,7 +195,8 @@ var sfTrEvents = {
 Template.sfSortTR.events(sfTrEvents);
 Template.sfSortTR.helpers({
   getFieldOptions: function(){
-    return ["Reference", "Reference2", "Reference3"];
+    var key = Session.get('evidenceType');
+    return tblBuilderCollections.evidenceLookup[key].collection.sortFields;
   },
   getOrderOptions: function(){
     return ["Ascending", "Descending"];
