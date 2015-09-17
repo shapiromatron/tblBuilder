@@ -377,7 +377,7 @@ clientShared = {
       // apply sort
       for (var i=sorts.length-1; i>=0; i--){
         sort = sorts[i];
-        fn = Collection[cw_fn[sort.field]];
+        fn = cw_fn[sort.field];
         objs = fn(objs, sort.isAscending);
       }
     }
