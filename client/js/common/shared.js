@@ -360,8 +360,9 @@ clientShared = {
     if(sorts.length>0){
 
       // set sort ascending/descending.
-      lastAsc = isAscending(sorts[0]);
-      for (var i=0; i<sorts.length; i++){
+      sorts[0].isAscending = (isAscending(sorts[0]));
+      lastAsc = sorts[0].isAscending;
+      for (var i=1; i<sorts.length; i++){
         sort = sorts[i];
         if (isAscending(sort) === true){
           sort.isAscending = lastAsc;
