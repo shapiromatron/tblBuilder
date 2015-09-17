@@ -196,7 +196,7 @@ Template.sfSortTR.events(sfTrEvents);
 Template.sfSortTR.helpers({
   getFieldOptions: function(){
     var key = Session.get('evidenceType');
-    return tblBuilderCollections.evidenceLookup[key].collection.sortFields;
+    return _.keys(tblBuilderCollections.evidenceLookup[key].collection.sortFields);
   },
   getOrderOptions: function(){
     return ["Ascending", "Descending"];

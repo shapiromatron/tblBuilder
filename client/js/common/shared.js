@@ -351,16 +351,36 @@ clientShared = {
   },
   applySortsAndFilters: function(objs, sorts, filters){
 
-    var sort, asc, fn,
-        cw_fn = {
-          "Reference": sortByReference
-        }
+    var sort, lastAsc, fn,
+        key = Session.get('evidenceType'),
+        Collection = tblBuilderCollections.evidenceLookup[key].collection,
+        cw_fn = Collection.sortFields,
+        isAscending = function(sort){return (sort.order === "Ascending")};
 
-    for (var i=0; i<sorts.length; i++){
-      sort = sorts[i];
-      asc = (sort.order === "Ascending");
-      fn = cw_fn[sort.field];
-      objs = fn(objs, asc);
+    if(sorts.length>0){
+
+      // set sort ascending/descending.
+      lastAsc = isAscending(sorts[0]);
+      for (var i=0; i<sorts.length; i++){
+        sort = sorts[i];
+        if (isAscending(sort) === true){
+          sort.isAscending = lastAsc;
+        } else {
+          sort.isAscending = !lastAsc;
+          lastAsc = !lastAsc;
+        }
+      }
+
+      // apply sort
+      for (var i=sorts.length-1; i>=0; i--){
+        sort = sorts[i];
+        fn = Collection[cw_fn[sort.field]];
+        objs = fn(objs, sort.isAscending);
+      }
+    }
+
+
+    if(filters.length>0){
     }
 
     return objs;
@@ -616,18 +636,3 @@ _.extend(clientShared, {
     }
   }
 });
-
-
-// collection sorts and filters
-var sortByReference = function(objs, ascending){
-  objs = _.chain(objs)
-          .map(function(d){
-            d.getReference();
-            d._refsort = d.reference.getSortString();
-            return d;
-          })
-          .sortBy("_refsort")
-          .value();
-  if (!ascending) objs.reverse();
-  return objs;
-};
