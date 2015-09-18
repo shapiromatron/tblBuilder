@@ -1,48 +1,77 @@
 var r = Meteor.npmRequire('rserve-client'),
     Future = Meteor.npmRequire('fibers/future'),
-    rClientHelper = function(cmd, fut) {
-      var result;
-      return r.connect(Meteor.settings.r_host, Meteor.settings.r_port, function(err, client) {
-        return client.evaluate(cmd, function(err, res) {
+    calculateTrendTest = function(obj, fut){
+      var data = extractValues(obj);
+      if (dataValid(data)) {
+        data = JSON.stringify(data);
+        runR(obj, data, fut);
+      } else {
+        updateResult(obj, {
+          "trendTestReport": "Trend test cannot be calculated (<3 dose-groups).",
+          "incidence_significance": obj.incidence_significance || ""
+        });
+        return fut["return"](undefined);
+      }
+    },
+    dataValid = function(data){
+      return ((data.ns.length>2) && (data.ns.length === data.incs.length));
+    },
+    textReport = function(res){
+      var txt = "An error in calculation occurred.";
+      if (res){
+        txt = JSON.stringify(res, null, "\t");
+      }
+      return res;
+    },
+    updateIncidenceNotesText = function(obj, res){
+      return obj.incidence_significance || "";
+    },
+    updateResult = function(obj, updates){
+      v=AnimalEndpointEvidence.update(obj._id, {$set: updates});
+    }
+    getRCmd = function(data){
+      var script = "{0}/R/stats.R".printf(Meteor.settings.scripts_path);
+      return "source('{0}')\na<-getStats('{1}')".printf(script, data);
+    },
+    runR = function(obj, data, fut) {
+      var result,
+          cmd = getRCmd(data),
+          updates;
+      return r.connect(Meteor.settings.r_host, Meteor.settings.r_port, Meteor.bindEnvironment(function(err, client) {
+        return client.evaluate(cmd, Meteor.bindEnvironment(function(err, res) {
           if (err) {
             console.log(err);
           } else {
             result = JSON.parse(res);
           }
           client.end();
+          updates = {
+            "trendTestReport": textReport(res || null),
+            "incidence_significance": updateIncidenceNotesText(obj, res || null),
+          }
+          updateResult(obj, updates);
           return fut["return"](result);
-        });
-      });
+        }));
+      }));
     },
-    extractValues = function(_id) {
-      var grp, i, len, matches, ref, res, v;
-      res = AnimalEndpointEvidence.findOne(_id);
-      v = {"ns": [], "incs": []};
-      ref = res.endpointGroups;
-      for (i = 0, len = ref.length; i < len; i++) {
-        grp = ref[i];
-        matches = grp.incidence.match(/([\d]+)\/([\d]+)/);
-        if (matches.length < 3) return undefined;
+    extractValues = function(obj) {
+      var v = {"ns": [], "incs": []}, matches;
+      obj.endpointGroups.forEach(function(eg){
+        matches = eg.incidence.match(/([\d]+)\s*[\/|\\]\s*([\d]+)/);
+        if (_.isNull(matches) || matches.length < 3) return undefined;
         v.ns.push(parseInt(matches[2], 10));
         v.incs.push(parseInt(matches[1], 10));
-      }
+      });
       return v;
     };
 
 Meteor.methods({
   getAnimalBioassayStatistics: function(_id) {
-    var cmd, data, fut, script;
+    check(_id, String);
     this.unblock();
-    fut = new Future();
-    script = Meteor.settings.scripts_path + "/R/stats.R";
-    data = extractValues(_id);
-    if (data) {
-      data = JSON.stringify(data);
-    } else {
-      return fut["return"](undefined);
-    }
-    cmd = "source('" + script + "')\na<-getStats('" + data + "')";
-    rClientHelper(cmd, fut);
+    var fut = new Future(),
+        obj = AnimalEndpointEvidence.findOne(_id);;
+    calculateTrendTest(obj, fut);
     return fut.wait();
   }
 });

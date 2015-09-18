@@ -405,15 +405,32 @@
               </div>
             </div>
 
+            {{> animalTrendTestReport}}
+
             <div id="errors"></div>
             {{> qaNotice}}
-            {{> nestedEvidenceFormSubmissionDiv}}
+            {{# nestedEvidenceFormSubmissionDiv}}
+              <button type="button" class="btn btn-sm btn-success pull-left"
+                id="trendTest" title="Run trend-test">
+                <span class="fa fa-line-chart"></span> Trend test</button>
+            {{/ nestedEvidenceFormSubmissionDiv}}
           </form>
         </div>  <!-- Modal body -->
       </div>  <!-- Modal content -->
     </div>  <!-- Modal dialog -->
     {{/with}}  <!-- Reactive epiResult  -->
   </div>  <!-- Modal container -->
+</template>
+
+<template name="animalTrendTestReport">
+  {{#if trendTestReport}}
+  <div class="form-group row">
+    <div class="col-xs-12">
+      <label>Trend test result:</label>
+      <pre class="trendTestReport">{{getFormattedReport}}</pre>
+    </div>
+  </div>
+  {{/if}}
 </template>
 
 

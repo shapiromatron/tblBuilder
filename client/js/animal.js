@@ -65,6 +65,78 @@ Template.animalForm.onDestroyed(function() {
 });
 
 
+var getTrendTestDataTbl = function(data){
+  if (!data.inputs) return [];
+  return _.map(data.inputs.incs, function(d, i){
+
+    var n = data.inputs.ns[i],
+        percent = Math.round((d/n)*100),
+        getPvalue = function(val, i){
+          var txt = "-";
+          val = parseFloat(val, 10);
+
+          if ((i>0) && (_.isFinite(val))){
+
+            if(val <= 0.05){
+
+              if(val < 0.001){
+                txt = "<0.001"
+              } else {
+                txt = val.toFixed(3);
+              }
+            } else {
+              txt = "n.s.";
+            }
+          }
+          return txt;
+        };
+
+    return {
+      "incidence": d,
+      "n": n,
+      "percent": percent,
+      "pvalue": getPvalue(data.pairwise.pvalues[i], i),
+    }
+  });
+},
+formatPairwise = function(val){
+  var txt = "error";
+  val = parseFloat(val, 10);
+  if (_.isFinite(val)){
+    if(val < 0.001){
+      txt = "<0.001"
+    } else {
+      txt = val.toFixed(3);
+    }
+  }
+  return txt;
+}
+Template.animalTrendTestReport.helpers({
+  getFormattedReport: function(){
+    var data = JSON.parse(this.trendTestReport || "{}"),
+        trs = getTrendTestDataTbl(data)
+        txt = "";
+
+    // add pairwise test
+    var t = new Table();
+    trs.forEach(function(tr) {
+      t.cell('Incidence', tr.incidence);
+      t.cell('N', tr.n);
+      t.cell('%', tr.percent + "%");
+      t.cell('p-value', tr.pvalue);
+      t.newRow();
+    });
+    txt = t.toString();
+
+
+    // add trend-test
+    txt += "\n\nTrend-test result: {0}".printf(formatPairwise(data.trend.pvalue));
+
+    return txt;
+  }
+});
+
+
 Template.animalEndpointTbl.helpers(_.extend({
     getIncidents: function() {
       var txt = "",
@@ -109,12 +181,10 @@ Template.animalEndpointForm.events(_.extend({
       var tbody = tmpl.find('.endpointGroupTbody');
       return Blaze.renderWithData(Template.animalEndpointGroupForm, {}, tbody);
     },
-    'click #calculate-statistics': function(evt, tmpl) {
+    'click #trendTest': function(evt, tmpl) {
       return Meteor.call("getAnimalBioassayStatistics", this._id, function(err, response) {
-        if (response) {
-          return console.log(response);
-        }
-        return alert("An error occurred.");
+        if (response) console.log(response);
+        if (err) console.error(err);
       });
     }
   }, clientShared.abstractNestedFormEvents));
