@@ -16,7 +16,6 @@ http
 mrt:collection-hooks@0.7.2
 mrt:sortable@0.0.4
 alanning:roles@1.2.10
-aldeed:collection2@0.4.2
 less
 pfafman:font-awesome-4
 iron:router
@@ -26,3 +25,4 @@ ian:accounts-ui-bootstrap-3
 reactive-var
 twbs:bootstrap
 natestrauser:animate-css
+aldeed:collection2
