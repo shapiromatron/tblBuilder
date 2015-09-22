@@ -34,7 +34,7 @@ var getValue = function(inp) {
       break;
     case "number":
       val = parseFloat(inp.value, 10);
-      if (isNaN(val)) val = undefined;
+      if (isNaN(val)) val = null;
       break;
     case "checkbox":
       val = inp.checked;
