@@ -10,7 +10,7 @@ var addTimestampAndUserID = function(userId, doc) {
     doc.user_id_QA = null;
   },
   getNewIdx = function(Cls, tbl_id) {
-    // auto-incrementing table index , starting at 1
+    // auto-incrementing table index, starting at 1
     var max = 0;
         found = Cls.findOne(
           {tbl_id: tbl_id},

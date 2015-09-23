@@ -5,7 +5,7 @@ Meteor.methods({
     // https://atmospherejs.com/babrahams/transactions
     var Collection = tblBuilderCollections.evidenceLookup[key].collection;
     _.each(ids, function(_id, i){
-      Collection.update(_id, {$set: {sortIdx: i}});
+      Collection.update(_id, {$set: {sortIdx: i+1}});
     });
     return true;
   }
