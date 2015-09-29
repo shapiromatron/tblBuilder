@@ -31,7 +31,7 @@ var getValue = function(inp) {
     case "textarea":
     case "url":
       val = inp.value.trim();
-      if (val.length === 0) val = undefined;
+      if (val.length === 0) val = null;
       break;
     case "number":
       val = parseFloat(inp.value, 10);
