@@ -221,10 +221,10 @@ Template.printReference.helpers({
     return Reference.findOne({_id: id});
   },
   showHyperlink: function() {
-    return isFinite(this.pubmedID) || this.otherURL;
+    return (!_.isNull(this.pubmedID) && isFinite(this.pubmedID)) || this.otherURL;
   },
   getHyperlink: function() {
-    if (isFinite(this.pubmedID)) {
+    if (!_.isNull(this.pubmedID) && isFinite(this.pubmedID)) {
       return "http://www.ncbi.nlm.nih.gov/pubmed/" + this.pubmedID + "/";
     } else {
       return this.otherURL;
