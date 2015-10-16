@@ -59,21 +59,32 @@ Template.referenceForm.helpers({
 });
 Template.referenceForm.events({
   'click #reference-create': function(evt, tmpl) {
-    var errorDiv, isValid, obj, ref_id;
-    obj = clientShared.newValues(tmpl.find('#referenceForm'));
+    var obj = clientShared.newValues(tmpl.find('#referenceForm')),
+        isModal = this.isModal,
+        errorDiv, isValid, ref_id, ref;
+    tmpl.$("#errors").empty();
     obj['monographAgent'] = [Session.get('monographAgent')];
     isValid = Reference.simpleSchema().namedContext().validate(obj);
     if (isValid) {
-      ref_id = Reference.insert(obj);
-      Session.set("referenceShowNew", false);
-      return Session.set("referenceNewObj", ref_id);
+      Reference.insert(obj, function(err, _id){
+        // If a reference is a duplicate, it will return a new "_id" but it
+        // will be unused; thus we check for a duplicate to see if one already
+        // exists.
+        ref = Reference.findOne(_id);
+        if (_.isUndefined(ref)) ref = Reference.checkForDuplicate(obj);
+        if (ref) ref_id = ref._id;
+        Session.set("referenceShowNew", false);
+        Session.set("referenceNewObj", ref_id);
+        if (isModal) $('#referenceQuickAdd').modal('toggle')
+      });
     } else {
       errorDiv = clientShared.createErrorDiv(Reference.simpleSchema().namedContext());
-      return $(tmpl.find("#errors")).html(errorDiv);
+      tmpl.$("#errors").html(errorDiv);
     }
   },
   'click #reference-create-cancel': function(evt, tmpl) {
-    return Session.set("referenceShowNew", false);
+    Session.set("referenceShowNew", false);
+    if (this.isModal) $('#referenceQuickAdd').modal('toggle')
   },
   'click #reference-update': function(evt, tmpl) {
     var vals = clientShared.updateValues(tmpl.find('#referenceForm'), this),

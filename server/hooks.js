@@ -48,22 +48,23 @@ Meteor.startup(function() {
   });
 
   Reference.before.insert(function(userId, doc) {
-    var newMonographAgent, ref;
-    addTimestampAndUserID(userId, doc);
+    /*
+    If reference already exists, then don't create a new reference.
+    Instead, append the current monographAgent to the existing reference.
+    */
+    var newMonographAgent,
+        ref = Reference.checkForDuplicate(doc);
 
-    if (isFinite(doc.pubmedID)) {
-      ref = Reference.findOne({pubmedID: doc.pubmedID});
-    } else {
-      ref = Reference.findOne({fullCitation: doc.fullCitation});
-    }
-
-    if ((ref != null)) {
+    if (ref !== undefined){
       newMonographAgent = doc.monographAgent[0];
       if (ref.monographAgent.indexOf(newMonographAgent) < 0) {
         Reference.update(ref._id, {$push: {'monographAgent': newMonographAgent}});
       }
-      return false;  // don't create
+      return false;
     }
+
+    addTimestampAndUserID(userId, doc);
+    return true;
   });
 
   tblBuilderCollections.evidenceTypes.forEach(function(Cls){
