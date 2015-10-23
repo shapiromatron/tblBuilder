@@ -9,12 +9,12 @@ class EpiHtmlTables(DOCXReport):
         runs = []
         if d["isCaseControl"]:
 
-            rrCase = d.get("responseRateCase", "")
-            if len(rrCase) > 0:
+            rrCase = d.get("responseRateCase", None)
+            if rrCase and len(rrCase) > 0:
                 rrCase = " ({})".format(rrCase)
 
-            rrCtrl = d.get("responseRateControl", "")
-            if len(rrCtrl) > 0:
+            rrCtrl = d.get("responseRateControl", None)
+            if rrCtrl and len(rrCtrl) > 0:
                 rrCtrl = " ({})".format(rrCtrl)
 
             runs.append(tbl.new_run("Cases: ", b=True))
@@ -66,7 +66,8 @@ class EpiHtmlTables(DOCXReport):
 
             for res in d["results"]:
                 res["_rowspan"] = max(len(res["riskEstimates"]), 1)
-                if len(res.get("effectUnits", "")) > 0:
+                effectUnits = res.get("effectUnits", None)
+                if effectUnits and len(effectUnits) > 0:
                     res["_rowspan"] += 1
                 if res["hasTrendTest"]:
                     res["_rowspan"] += 1
@@ -93,8 +94,9 @@ class EpiHtmlTables(DOCXReport):
                 tbl.new_td_txt(irows, 2, res["organSite"], rowspan=res["_rowspan"])
                 tbl.new_td_txt(irows, 6, res["wrd_covariatesList"], rowspan=res["_rowspan"])
 
-                if len(res.get("effectUnits", "")) > 0:
-                    tbl.new_td_txt(irows, 3, res["effectUnits"], colspan=3)
+                effectUnits = res.get("effectUnits", None)
+                if effectUnits and len(effectUnits) > 0:
+                    tbl.new_td_txt(irows, 3, effectUnits, colspan=3)
                     additionalRows += 1
 
                 for i, est in enumerate(res["riskEstimates"]):
