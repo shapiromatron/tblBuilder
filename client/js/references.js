@@ -107,8 +107,11 @@ Template.referenceForm.events({
     return Session.set("referenceEditingId", null);
   },
   'click #reference-delete': function(evt, tmpl) {
-    Reference.remove(this._id);
-    return Session.set("referenceEditingId", null);
+    var ref_id = this._id,
+        monographAgent = Session.get("monographAgent");
+    Meteor.call("removeReference", ref_id, monographAgent, function(err, res) {
+      return Session.set("referenceEditingId", null);
+    });
   },
   'click .pubmedLookup': function(evt, tmpl) {
     var spinner = $(tmpl.find('.pubmedLookupSpinner')),
