@@ -28,12 +28,16 @@ Meteor.publish('tables', function(user_id) {
 
 Meteor.publish('epiDescriptive', function(tbl_id) {
   check(tbl_id, String);
-  var tbl = Tables.findOne({_id: tbl_id});
+  var tbl = Tables.findOne({_id: tbl_id}),
+      ref_ids;
   if (userCanView(tbl, this.userId)) {
+    ref_ids = _.pluck(EpiDescriptive
+        .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
+        .fetch(), 'referenceID');
     return [
       EpiDescriptive.find({tbl_id: tbl_id}),
       EpiResult.find({tbl_id: tbl_id}),
-      Reference.find({monographAgent: {$in: [tbl.monographAgent]}})
+      Reference.find({_id: {$in: ref_ids}}),
     ];
   }
   return this.ready();
@@ -41,88 +45,109 @@ Meteor.publish('epiDescriptive', function(tbl_id) {
 
 Meteor.publish('ntpEpiDescriptive', function(tbl_id) {
   check(tbl_id, String);
-  var tbl = Tables.findOne({_id: tbl_id});
+  var tbl = Tables.findOne({_id: tbl_id}),
+      ref_ids;
   if (userCanView(tbl, this.userId)) {
+    ref_ids = _.pluck(NtpEpiDescriptive
+        .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
+        .fetch(), 'referenceID');
     return [
       NtpEpiDescriptive.find({tbl_id: tbl_id}),
       NtpEpiResult.find({tbl_id: tbl_id}),
-      Reference.find({monographAgent: {$in: [tbl.monographAgent]}})
+      Reference.find({_id: {$in: ref_ids}}),
     ];
   }
   return this.ready();
 });
 
 Meteor.publish('epiCollective', function(volumeNumber, monographAgent) {
-  var allTbls, i, len, tbl, tbl_ids, tbls;
-  allTbls = Tables.find({
-    tblType: "Epidemiology Evidence",
-    volumeNumber: parseInt(volumeNumber, 10),
-    monographAgent: monographAgent
-  }).fetch();
+  var tbls = Tables.find({
+        tblType: "Epidemiology Evidence",
+        volumeNumber: parseInt(volumeNumber, 10),
+        monographAgent: monographAgent
+      }).fetch(),
+      tbl_ids, ref_ids;
 
-  tbls = _.filter(allTbls, function(tbl){
+  tbls = _.filter(tbls, function(tbl){
     return userCanView(tbl, this.userId);
   }, this);
 
   if (tbls.length > 0) {
     tbl_ids = _.pluck(tbls, "_id");
+    ref_ids = _.pluck(EpiDescriptive
+        .find({tbl_id: {$in: tbl_ids}}, {fields: {referenceID: 1}})
+        .fetch(), 'referenceID');
     return [
       EpiDescriptive.find({tbl_id: {$in: tbl_ids}}),
       EpiResult.find({tbl_id: {$in: tbl_ids}}),
-      Reference.find({monographAgent: {$in: [monographAgent]}})
+      Reference.find({_id: {$in: ref_ids}}),
     ];
   }
   return this.ready();
 });
 
 Meteor.publish('mechanisticEvidence', function(tbl_id) {
-  var tbl;
   check(tbl_id, String);
-  tbl = Tables.findOne({_id: tbl_id});
+  var tbl = Tables.findOne({_id: tbl_id}),
+      ref_ids;
   if (userCanView(tbl, this.userId)) {
+    ref_ids = _.chain(MechanisticEvidence.find(
+        {tbl_id: tbl_id}, {fields: {references: 1}}).fetch())
+      .pluck('references')
+      .flatten()
+      .value();
     return [
       MechanisticEvidence.find({tbl_id: tbl_id}),
-      Reference.find({monographAgent: {$in: [tbl.monographAgent]}})
+      Reference.find({_id: {$in: ref_ids}}),
     ];
   }
   return this.ready();
 });
 
 Meteor.publish('exposureEvidence', function(tbl_id) {
-  var tbl;
   check(tbl_id, String);
-  tbl = Tables.findOne({_id: tbl_id});
+  var tbl = Tables.findOne({_id: tbl_id}),
+      ref_ids;
   if (userCanView(tbl, this.userId)) {
+    ref_ids = _.pluck(ExposureEvidence
+      .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
+      .fetch(), 'referenceID');
     return [
       ExposureEvidence.find({tbl_id: tbl_id}),
-      Reference.find({monographAgent: {$in: [tbl.monographAgent]}})
+      Reference.find({_id: {$in: ref_ids}}),
     ];
   }
   return this.ready();
 });
 
 Meteor.publish('animalEvidence', function(tbl_id) {
-  var tbl;
   check(tbl_id, String);
-  tbl = Tables.findOne({_id: tbl_id});
+  var tbl = Tables.findOne({_id: tbl_id}),
+      ref_ids;
   if (userCanView(tbl, this.userId)) {
+    ref_ids = _.pluck(AnimalEvidence
+        .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
+        .fetch(), 'referenceID');
     return [
       AnimalEvidence.find({tbl_id: tbl_id}),
       AnimalEndpointEvidence.find({tbl_id: tbl_id}),
-      Reference.find({monographAgent: {$in: [tbl.monographAgent]}})
+      Reference.find({_id: {$in: ref_ids}}),
     ];
   }
   return this.ready();
 });
 
 Meteor.publish('genotoxEvidence', function(tbl_id) {
-  var tbl;
   check(tbl_id, String);
-  tbl = Tables.findOne({_id: tbl_id});
+  var tbl = Tables.findOne({_id: tbl_id}),
+      ref_ids;
   if (userCanView(tbl, this.userId)) {
+    ref_ids = _.pluck(GenotoxEvidence
+        .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
+        .fetch(), 'referenceID');
     return [
       GenotoxEvidence.find({tbl_id: tbl_id}),
-      Reference.find({monographAgent: {$in: [tbl.monographAgent]}})
+      Reference.find({_id: {$in: ref_ids}}),
     ];
   }
   return this.ready();
