@@ -53,7 +53,7 @@ class EpiHtmlTables(DOCXReport):
         # write header
         tbl.new_th(0, 0, "Reference, location follow-up/enrollment period, study-design")
         tbl.new_th(0, 1, "Population size, description, exposure assessment method")
-        tbl.new_th(0, 2, "Organ site (ICD code)")
+        tbl.new_th(0, 2, "Organ site")
         tbl.new_th(0, 3, "Exposure category or level")
         tbl.new_th(0, 4, "Exposed cases/ deaths")
         tbl.new_th(0, 5, "Risk estimate (95% CI)")
