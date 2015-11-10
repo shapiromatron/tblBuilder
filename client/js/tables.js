@@ -72,7 +72,10 @@ Template.volumeTableList.helpers({
   },
   isEditing: function() {
     return Session.equals('tablesEditingId', this._id);
-  }
+  },
+  getStatusColorClass: function(tbl) {
+    return tbl.getStatusColorClass();
+  },
 });
 Template.volumeTableList.events({
   'click #tables-show-edit': function(evt, tmpl) {
@@ -102,7 +105,10 @@ var getUserPermissionsObject = function(tmpl) {
 Template.tablesForm.helpers({
   getTblTypeOptions: function() {
     return Tables.typeOptions;
-  }
+  },
+  getStatusOptions: function() {
+    return _.keys(Tables.statusOptions);
+  },
 });
 Template.tablesForm.events({
   'click #tables-create': function(evt, tmpl) {

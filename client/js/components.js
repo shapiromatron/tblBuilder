@@ -371,7 +371,12 @@ var printTimestamp = function(moment){
 }
 
 Template.tableTitle.helpers({
-  getTable: function(){return Session.get("Tbl");},
+  getTable: function(){
+    return Session.get("Tbl");
+  },
+  getStatusColorClass: function(status){
+    return Tables.statusOptions[status];
+  },
   getLastUpdated: function(){
     var ts = moment(Session.get("Tbl").lastUpdated),
         obj,
