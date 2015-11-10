@@ -292,7 +292,8 @@ Template.selectList.helpers({
 
 var autocompleteOptions = function(qry, sync, cb) {
   var tbl_id,
-      methodName = this.find('.typeahead').getAttribute('data-methodname');
+      tmpl = Template.instance(),
+      methodName = tmpl.find('.typeahead').getAttribute('data-methodname');
 
   if (Session.get("Tbl")) tbl_id = Session.get("Tbl")._id;
   Meteor.call(methodName, qry, tbl_id, function(err, res) {
