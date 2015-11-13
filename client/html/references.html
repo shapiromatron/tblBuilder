@@ -85,8 +85,8 @@
       <span class="glyphicon glyphicon-plus"></span> Add reference
     </a>
   {{/unless}}
-
 </template>
+
 
 <template name="referenceForm">
   <form id="referenceForm" role="form" class="editForm">
@@ -160,6 +160,7 @@
   </form>
 </template>
 
+
 <template name="referenceSingleSelect">
   <div>
     <label class="helpPopovers" data-toggle="popover"
@@ -186,6 +187,7 @@
   </div>
 </template>
 
+
 <template name="referenceSingleSelectSelected">
   {{#if referenceID}}
     <p class='selectListItem' data-id="{{referenceID}}">{{>printReference id=referenceID}}
@@ -196,12 +198,14 @@
   {{/if}}
 </template>
 
+
 <template name="referenceSearchOption">
   <div>
     <p><strong>{{name}}</strong></p>
     <p><small class="text-muted">{{fullCitation}}</small></p>
   </div>
 </template>
+
 
 <template name="referenceMultiSelect">
   <div>
@@ -226,6 +230,7 @@
   </div>
 </template>
 
+
 <template name="referenceMultiSelectListLI">
   <li class='selectListItem' data-id="{{this}}">{{>printReference id=this}}
     <a href='#' class='pull-right selectListRemove btn btn-default btn-xs' title='Remove from list'>
@@ -234,6 +239,7 @@
   </li>
 </template>
 
+
 <template name="printReference">
   {{#with getReference id}}
     {{# if showHyperlink}}
@@ -241,14 +247,13 @@
     {{else}}
       <span data-toggle="popover" data-content="{{fullCitation}}">{{name}}</span>
     {{/if}}
-
     {{# if pdfURL}}
       <a href="{{pdfURL}}" target="_blank" title="Full-text PDF available">
         <i class="fa fa-file-pdf-o"></i></a>
     {{/if}}
-
   {{/with}}
 </template>
+
 
 <template name="referenceQuickAddModal">
   <div class="modal fade" id="referenceQuickAdd" tabindex="-1" role="dialog"
