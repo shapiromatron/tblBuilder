@@ -33,6 +33,24 @@ Template.ntpEpiDescriptiveRow.onRendered(function() {
 });
 
 
+Template.ntpEpiResultForm.helpers(clientShared.abstractNestedFormHelpers);
+Template.ntpEpiResultForm.events(_.extend({
+  'click #inner-addRiskRow': function(evt, tmpl) {
+      // var tbody = tmpl.find('.riskEstimateTbody');
+      // Blaze.renderWithData(Template.riskEstimateForm, {}, tbody);
+    }
+  }, clientShared.abstractNestedFormEvents));
+Template.ntpEpiResultForm.onRendered(function() {
+  var obj = NtpEpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
+  if (obj != null) clientShared.toggleQA(this, obj.isQA);
+  $('#modalDiv').modal('toggle');
+  clientShared.initPopovers(this);
+});
+Template.ntpEpiResultForm.onDestroyed(function() {
+  clientShared.destroyPopovers(this);
+});
+
+
 var toggleRequiredFields = function(tmpl, duration){
   var duration = duration || 1000,
       design = tmpl.find("select[name=studyDesign]").value,

@@ -427,3 +427,125 @@
     <!-- Add input form-modals outside form scope -->
   {{> referenceQuickAddModal}}
 </template>
+
+
+<template name="ntpEpiResultForm">
+  <div class="modal fade" id="modalDiv" tabindex="-1" role="dialog"
+       data-backdrop="static" aria-labelledby="modalDiv" aria-hidden="true">
+    {{#with getObject }}   <!-- Reactive epiResult  -->
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Epidemiological results{{> objectLastUpdated}}</h4>
+        </div>
+
+        <div class="modal-body">
+          <form id="nestedModalForm" role="form" class="editForm">
+            <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.{{>formLegendPulldown}}</p>
+
+            <!-- First row -->
+            <div class="form-group row">
+              <div class="col-xs-3">
+                <br>{{> fldInputTypeahead name="organSite" value=organSite nested=true }}
+              </div>
+              <div class="col-xs-3">
+                <br>{{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true }}
+              </div>
+              <div class="col-xs-3">
+                {{> fldInputTypeahead name="effectUnits" value=effectUnits nested=true }}
+              </div>
+              <div class="col-xs-3">
+                <br>{{> fldInputFloat name="trendTest" value=trendTest nested=true }}
+              </div>
+            </div>
+
+            <!-- Risk estimates -->
+            <table class="table table-condensed">
+              <colgroup>
+                <col width="10%">
+                <col width="20%">
+                <col width="12%">
+                <col width="12%">
+                <col width="12%">
+                <col width="12%">
+                <col width="11%">
+                <col width="11%">
+              </colgroup>
+              <thead>
+                <th style="vertical-align: middle;" class="text-center">
+                  <button type="button"
+                          class="btn btn-xs btn-info"
+                          id="inner-addRiskRow" title="Add row">
+                    <span class="glyphicon glyphicon-plus"></span>
+                  </button>
+                </th>
+                <th class="text-center">
+                  {{> fldLabel name="riskEstimates.$.exposureCategory" nested=true }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel name="riskEstimates.$.numberExposed" nested=true }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel name="riskEstimates.$.riskMid" nested=true }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel name="riskEstimates.$.riskLow" nested=true }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel name="riskEstimates.$.riskHigh" nested=true }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel name="riskEstimates.$.riskEstimated" nested=true }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel name="riskEstimates.$.inTrendTest" nested=true }}
+                </th>
+              </thead>
+              <tbody class="riskEstimateTbody">
+                {{#if riskEstimates}}
+                  {{#each riskEstimates}}
+                    {{> riskEstimateForm this}}
+                  {{/each}}
+                {{else}}
+                  {{> riskEstimateForm}}
+                {{/if}}
+              </tbody>
+            </table>
+
+            <!-- Third row -->
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldTextArea name="covariatesControlledText" value=covariatesControlledText nested=true }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldTextArea name="notes" value=notes nested=true }}
+              </div>
+            </div>
+
+            <!-- Fourth row (NTP-only) -->
+            {{#if isNTP }}
+              <div class="form-group row">
+                <div class="col-xs-8">
+                  {{> fldInputText name="printCaption" value=printCaption nested=true }}
+                </div>
+                <div class="col-xs-4">
+                  {{> fldInputFloat name="printOrder" value=printOrder nested=true }}
+                </div>
+              </div>
+            {{/if}}
+
+            <div id="errors"></div>
+            {{> qaNotice}}
+            {{> nestedEvidenceFormSubmissionDiv}}
+          </form>
+        </div>  <!-- Modal body -->
+      </div>  <!-- Modal content -->
+    </div>  <!-- Modal dialog -->
+    {{/with}}  <!-- Reactive epiResult  -->
+  </div>  <!-- Modal container -->
+</template>
