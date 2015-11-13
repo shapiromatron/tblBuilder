@@ -14,5 +14,8 @@ Meteor.methods({
         {$pull: {monographAgent: thisAgent}},
         {multi: false});
     }
+  },
+  getReference: function(_id){
+    return Reference.findOne(_id);
   }
 });

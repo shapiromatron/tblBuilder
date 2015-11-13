@@ -61,21 +61,21 @@ Template.referenceForm.events({
   'click #reference-create': function(evt, tmpl) {
     var obj = clientShared.newValues(tmpl.find('#referenceForm')),
         isModal = this.isModal,
-        errorDiv, isValid, ref_id, ref;
+        errorDiv, isValid, ref;
     tmpl.$("#errors").empty();
     obj['monographAgent'] = [Session.get('monographAgent')];
     isValid = Reference.simpleSchema().namedContext().validate(obj);
     if (isValid) {
       Reference.insert(obj, function(err, _id){
-        // If a reference is a duplicate, it will return a new "_id" but it
-        // will be unused; thus we check for a duplicate to see if one already
-        // exists.
-        ref = Reference.findOne(_id);
-        if (_.isUndefined(ref)) ref = Reference.checkForDuplicate(obj);
-        if (ref) ref_id = ref._id;
-        Session.set("referenceShowNew", false);
-        Session.set("referenceNewObj", ref_id);
-        if (isModal) $('#referenceQuickAdd').modal('toggle')
+        Meteor.call("getReference", _id, function(err, res){
+          // If a reference is a duplicate, it will return a new "_id" but it
+          // will be unused; thus we check for a duplicate to see if one already
+          // exists.
+          if (_.isUndefined(res)) res = Reference.checkForDuplicate(obj);
+          Session.set("referenceShowNew", false);
+          Session.set("referenceNewObj", res);
+          if (isModal) $('#referenceQuickAdd').modal('toggle');
+        });
       });
     } else {
       errorDiv = clientShared.createErrorDiv(Reference.simpleSchema().namedContext());
@@ -163,10 +163,10 @@ Template.referenceSingleSelect.onRendered(function() {
   var div = $(this.find('div.selectedReference'));
   // if a new reference is created, inject it into the input scope
   Tracker.autorun(function() {
-    var ref_id = Session.get("referenceNewObj");
-    if (ref_id !== null) {
+    var ref = Session.get("referenceNewObj");
+    if (ref !== null) {
       div.empty();
-      Blaze.renderWithData(Template.referenceSingleSelectSelected, {referenceID: ref_id}, div[0]);
+      Blaze.renderWithData(Template.referenceSingleSelectSelected, {reference: ref, referenceID: ref._id}, div[0]);
       Session.set("referenceNewObj", null);
     }
   });
@@ -205,12 +205,9 @@ Template.referenceMultiSelect.onRendered(function() {
 
   // if a new reference is created, inject it into the input scope
   Tracker.autorun(function() {
-    var ref_id = Session.get("referenceNewObj");
-    if (ref_id !== null) {
-      ids = getCurrentReferenceIds(tmpl);
-      if (ids.indexOf(ref_id) < 0) {
-        Blaze.renderWithData(Template.referenceMultiSelectListLI, ref_id, $ul[0]);
-      }
+    var ref = Session.get("referenceNewObj");
+    if (ref !== null) {
+      Blaze.renderWithData(Template.referenceMultiSelectListLI, {reference: ref, referenceID: ref._id}, $ul[0]);
       Session.set("referenceNewObj", null);
     }
   });
