@@ -46,11 +46,20 @@ Meteor.publish('epiDescriptive', function(tbl_id) {
 Meteor.publish('ntpEpiDescriptive', function(tbl_id) {
   check(tbl_id, String);
   var tbl = Tables.findOne({_id: tbl_id}),
-      ref_ids;
+      ref_ids1, ref_ids2, ref_ids;
   if (userCanView(tbl, this.userId)) {
-    ref_ids = _.pluck(NtpEpiDescriptive
+    ref_ids1 = _.pluck(NtpEpiDescriptive
         .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
         .fetch(), 'referenceID');
+    ref_ids2 = _.chain(NtpEpiDescriptive.find(
+        {tbl_id: tbl_id}, {fields: {additionalReferences: 1}}).fetch())
+      .pluck('additionalReferences')
+      .flatten()
+      .value();
+    ref_ids = _.chain([ref_ids1, ref_ids2])
+               .flatten()
+               .uniq()
+               .value();
     return [
       NtpEpiDescriptive.find({tbl_id: tbl_id}),
       NtpEpiResult.find({tbl_id: tbl_id}),
