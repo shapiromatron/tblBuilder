@@ -152,7 +152,7 @@ Template.referenceSingleSelect.helpers({
 Template.referenceSingleSelect.events({
   'typeahead:selected': function(evt, tmpl, v) {
     var div = $(tmpl.find('div.selectedReference')).empty();
-    Blaze.renderWithData(Template.referenceSingleSelectSelected, {referenceID: v._id}, div[0]);
+    Blaze.renderWithData(Template.referenceSingleSelectSelected, {reference: v, referenceID: v._id}, div[0]);
     $(evt.target).typeahead("val", "");
   },
   'click .selectListRemove': function(evt, tmpl) {
@@ -191,7 +191,7 @@ Template.referenceMultiSelect.events({
         ids = getCurrentReferenceIds(tmpl);
 
     if (ids.indexOf(v._id) < 0) {
-      Blaze.renderWithData(Template.referenceMultiSelectListLI, v._id, $ul[0]);
+      Blaze.renderWithData(Template.referenceMultiSelectListLI, {reference: v, referenceID: v._id}, $ul[0]);
     }
     return $(evt.target).typeahead("val", "");
   },
@@ -221,7 +221,8 @@ Template.referenceMultiSelect.onRendered(function() {
 
 Template.printReference.helpers({
   getReference: function(id) {
-    return Reference.findOne({_id: id});
+    var data = Template.currentData();
+    return data.reference || Reference.findOne({_id: id});
   },
   showHyperlink: function() {
     return (!_.isNull(this.pubmedID) && isFinite(this.pubmedID)) || this.otherURL;

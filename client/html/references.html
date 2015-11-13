@@ -190,7 +190,7 @@
 
 <template name="referenceSingleSelectSelected">
   {{#if referenceID}}
-    <p class='selectListItem' data-id="{{referenceID}}">{{>printReference id=referenceID}}
+    <p class='selectListItem' data-id="{{referenceID}}">{{>printReference reference=reference id=referenceID}}
       <a href='#' class='pull-right selectListRemove btn btn-default btn-xs' title='Remove this reference'>
         <span class='glyphicon glyphicon-remove'></span>
       </a>
@@ -224,7 +224,7 @@
            data-template="referenceSearchOption"/>
      <ul class="selectList">
       {{#each values }}
-        {{>referenceMultiSelectListLI}}
+        {{>referenceMultiSelectListLI referenceID=this}}
       {{/each}}
     </ul>
   </div>
@@ -232,7 +232,7 @@
 
 
 <template name="referenceMultiSelectListLI">
-  <li class='selectListItem' data-id="{{this}}">{{>printReference id=this}}
+  <li class='selectListItem' data-id="{{referenceID}}">{{>printReference reference=reference id=referenceID}}
     <a href='#' class='pull-right selectListRemove btn btn-default btn-xs' title='Remove from list'>
       <span class='glyphicon glyphicon-remove'></span>
     </a>
