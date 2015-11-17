@@ -20,10 +20,15 @@
             0
         ],
         "comma-dangle": [
-            0
+            0,
+            "always"
         ],
         "no-console": [
             1
+        ],
+        "no-unused-vars": [
+            2,
+            {"vars": "all", "args": "none"}
         ]
     },
     "env": {
