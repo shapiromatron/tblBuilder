@@ -33,7 +33,7 @@ class EpiHtmlTables(DOCXReport):
                         d["eligibilityCriteria"])))
 
         runs.append(tbl.new_run("Exposure assessment method: ", b=True))
-        if d["exposureAssessmentType"].lower().find("other")>=0:
+        if d["exposureAssessmentType"].lower().find("other") >= 0:
             runs.append(tbl.new_run("other", newline=False))
         else:
             runs.append(tbl.new_run(d["exposureAssessmentType"], newline=False))
