@@ -1,0 +1,35 @@
+{
+    "rules": {
+        "indent": [
+            1,
+            4
+        ],
+        "quotes": [
+            1,
+            "single"
+        ],
+        "linebreak-style": [
+            2,
+            "unix"
+        ],
+        "semi": [
+            2,
+            "always"
+        ],
+        "no-undef": [
+            0
+        ],
+        "comma-dangle": [
+            0
+        ]
+    },
+    "env": {
+        "es6": true,
+        "browser": true
+    },
+    "extends": "eslint:recommended",
+    "ecmaFeatures": {
+        "experimentalObjectRestSpread": true
+    },
+    "plugins": []
+}
