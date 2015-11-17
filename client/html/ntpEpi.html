@@ -432,7 +432,7 @@
 <template name="ntpEpiResultForm">
   <div class="modal fade" id="modalDiv" tabindex="-1" role="dialog"
        data-backdrop="static" aria-labelledby="modalDiv" aria-hidden="true">
-    {{#with getObject }}   <!-- Reactive epiResult  -->
+    {{#with getObject }}   <!-- Reactive ntpEpiResult  -->
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
@@ -526,18 +526,6 @@
                 {{> fldTextArea name="notes" value=notes nested=true }}
               </div>
             </div>
-
-            <!-- Fourth row (NTP-only) -->
-            {{#if isNTP }}
-              <div class="form-group row">
-                <div class="col-xs-8">
-                  {{> fldInputText name="printCaption" value=printCaption nested=true }}
-                </div>
-                <div class="col-xs-4">
-                  {{> fldInputFloat name="printOrder" value=printOrder nested=true }}
-                </div>
-              </div>
-            {{/if}}
 
             <div id="errors"></div>
             {{> qaNotice}}
