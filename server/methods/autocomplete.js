@@ -83,9 +83,6 @@ Meteor.methods({
   searchCoexposures: function(query) {
     return listFieldTextSearch(EpiDescriptive, "coexposures", query);
   },
-  searchPrintCaption: function(query, tbl_id) {
-    return singleFieldTextSearch(EpiResult, "printCaption", query, tbl_id);
-  },
   searchCountries: function(query) {
     return singleFieldTextSearch(ExposureEvidence, "country", query);
   },

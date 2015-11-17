@@ -468,18 +468,6 @@ or the-first row of the riskEstimates.
               </div>
             </div>
 
-            <!-- Fourth row (NTP-only) -->
-            {{#if isNTP }}
-              <div class="form-group row">
-                <div class="col-xs-8">
-                  {{> fldInputText name="printCaption" value=printCaption nested=true }}
-                </div>
-                <div class="col-xs-4">
-                  {{> fldInputFloat name="printOrder" value=printOrder nested=true }}
-                </div>
-              </div>
-            {{/if}}
-
             <div id="errors"></div>
             {{> qaNotice}}
             {{> nestedEvidenceFormSubmissionDiv}}
