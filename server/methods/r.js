@@ -8,7 +8,7 @@ var r = Meteor.npmRequire('rserve-client'),
         } else {
             updateResult(obj, {
                 "trendTestReport": "Trend test cannot be calculated (<3 dose-groups).",
-                "incidence_significance": obj.incidence_significance || ""
+                "incidence_significance": obj.incidence_significance || "",
             });
             return fut["return"](undefined);
         }
@@ -68,8 +68,8 @@ Meteor.methods({
         check(_id, String);
         this.unblock();
         var fut = new Future(),
-            obj = AnimalEndpointEvidence.findOne(_id);;
+            obj = AnimalEndpointEvidence.findOne(_id);
         calculateTrendTest(obj, fut);
         return fut.wait();
-    }
+    },
 });

@@ -20,11 +20,11 @@
             0
         ],
         "comma-dangle": [
-            0,
-            "always"
+            2,
+            "always-multiline"
         ],
         "no-console": [
-            1
+            0
         ],
         "no-unused-vars": [
             2,

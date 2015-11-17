@@ -2,7 +2,7 @@ var setAdminNotification = function(message, type) {
         var div = $('#messages')[0],
             data = {
                 alertType: type,
-                message: message
+                message: message,
             };
         return Blaze.renderWithData(Template.dismissableAlert, data, div);
     },
@@ -10,15 +10,13 @@ var setAdminNotification = function(message, type) {
         var obj = {
             profile: {
                 fullName: tmpl.find('input[name="fullName"]').value,
-                affiliation: tmpl.find('input[name="affiliation"]').value
+                affiliation: tmpl.find('input[name="affiliation"]').value,
             },
-            emails: [
-                {
-                    address: tmpl.find('input[name="email"]').value,
-                    verified: false
-                }
-            ],
-            roles: []
+            emails: [{
+                address: tmpl.find('input[name="email"]').value,
+                verified: false,
+            }],
+            roles: [],
         };
 
         tmpl.findAll('input[type="checkbox"]').forEach(function(inp){
@@ -45,12 +43,12 @@ Template.admin.helpers({
     },
     adminUserShowNew: function() {
         return Session.get("adminUserShowNew");
-    }
+    },
 });
 Template.admin.events({
     'click #adminUser-show-create': function(evt, tmpl) {
         return Session.set("adminUserShowNew", true);
-    }
+    },
 });
 
 
@@ -63,7 +61,7 @@ Template.adminUserRow.helpers({
     },
     getRoles: function() {
         return this.roles.join(', ');
-    }
+    },
 });
 Template.adminUserRow.events({
     'click #adminUser-show-edit': function(evt, tmpl) {
@@ -97,7 +95,7 @@ Template.adminUserRow.events({
                 return setAdminNotification("An error occurred", "danger");
             }
         });
-    }
+    },
 });
 Template.adminUserRowForm.helpers({
     getEmail: function() {
@@ -109,7 +107,7 @@ Template.adminUserRowForm.helpers({
         } else {
             return false;
         }
-    }
+    },
 });
 
 
@@ -131,5 +129,5 @@ Template.adminUserRowForm.events({
     },
     'click #adminUser-create-cancel': function(evt, tmpl) {
         return Session.set("adminUserShowNew", false);
-    }
+    },
 });

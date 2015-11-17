@@ -12,7 +12,7 @@ Template.moveModal.helpers({
                       d._id, d.volumeNumber, d.monographAgent, d.name);
                 })
                 .value().join("");
-    }
+    },
 });
 Template.moveModal.events({
     'click #move-content': function(evt, tmpl) {
@@ -46,7 +46,7 @@ Template.moveModal.events({
         }
 
         $(tmpl.firstNode).modal('hide');
-    }
+    },
 });
 Template.moveModal.onRendered(function() {
     $(this.find('#moveModal')).modal('show');

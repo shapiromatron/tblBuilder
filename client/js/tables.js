@@ -26,7 +26,7 @@ Template.tableOpts.events({
             tmpl.sortables.forEach(function(v) { return v.destroy();});
         }
         clientShared.toggleRowVisibilty(isReorder, $('.moveTableHandle'));
-    }
+    },
 });
 
 
@@ -82,7 +82,7 @@ Template.volumeTableList.events({
         Session.set("tablesEditingId", this._id);
         Tracker.flush();
         return clientShared.activateInput(tmpl.find("input[name=volumeNumber]"));
-    }
+    },
 });
 
 
@@ -157,7 +157,7 @@ Template.tablesForm.events({
     'click #tables-delete': function(evt, tmpl) {
         Tables.remove(this._id);
         return Session.set("tablesEditingId", null);
-    }
+    },
 });
 Template.tablesForm.onRendered(function() {
     clientShared.activateInput(this.find("input[name=volumeNumber]"));

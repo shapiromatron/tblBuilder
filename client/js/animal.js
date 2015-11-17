@@ -23,10 +23,10 @@ Template.animalTbl.helpers(_.extend({
             {
                 "type": "AnimalHtmlTblRecreation",
                 "fn": "ani-results",
-                "text": "Download Word: HTML table recreation"
-            }
+                "text": "Download Word: HTML table recreation",
+            },
         ];
-    }
+    },
 }, clientShared.abstractTblHelpers));
 Template.animalTbl.onRendered(function() {
     clientShared.initDraggables(this.find('#sortable'), ".dhOuter", AnimalEvidence);
@@ -46,7 +46,7 @@ Template.animalRow.helpers(_.extend({
     },
     getNSurvivings: function() {
         return AnimalEvidence.getNSurvivings(getFirstEndpoint(this._id));
-    }
+    },
 }, clientShared.abstractRowHelpers));
 Template.animalRow.events(clientShared.abstractRowEvents);
 Template.animalRow.onRendered(function() {
@@ -80,7 +80,7 @@ var getTrendTestDataTbl = function(data){
                         if(val <= 0.05){
 
                             if(val < 0.001){
-                                txt = "<0.001"
+                                txt = "<0.001";
                             } else {
                                 txt = val.toFixed(3);
                             }
@@ -133,7 +133,7 @@ Template.animalTrendTestReport.helpers({
         txt += "\n\nTrend-test result: {0}".printf(formatPairwise(data.trend.pvalue));
 
         return txt;
-    }
+    },
 });
 
 
@@ -170,7 +170,7 @@ Template.animalEndpointTbl.helpers(_.extend({
             txt = "<tr><td>" + val + "</td><td>" + sig + "</td></tr>";
         }
         return txt;
-    }
+    },
 }, clientShared.abstractNestedTableHelpers));
 Template.animalEndpointTbl.events(clientShared.abstractNestedTableEvents);
 
@@ -186,7 +186,7 @@ Template.animalEndpointForm.events(_.extend({
             if (response) console.log(response);
             if (err) console.error(err);
         });
-    }
+    },
 }, clientShared.abstractNestedFormEvents));
 Template.animalEndpointForm.onRendered(function() {
     var aniResult = AnimalEndpointEvidence.findOne(
@@ -206,5 +206,5 @@ Template.animalEndpointGroupForm.events({
     'click #endpointGroup-delete': function(evt, tmpl) {
         Blaze.remove(tmpl.view);
         return $(tmpl.view._domrange.members).remove();
-    }
+    },
 });

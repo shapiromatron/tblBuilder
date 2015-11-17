@@ -50,7 +50,7 @@ var uiHelpers = {
     },
     getMonographAgent: function(){
         return Session.get('monographAgent');
-    }
+    },
 };
 
 _.each(uiHelpers, function(func, name){

@@ -41,7 +41,7 @@ var toggleOccFields = function(tmpl) {
 Template.exposureForm.events(_.extend({
     'change select[name="exposureScenario"]': function(evt, tmpl) {
         return toggleOccFields(tmpl);
-    }
+    },
 }, clientShared.abstractFormEvents));
 Template.exposureForm.onRendered(function() {
     toggleOccFields(this);

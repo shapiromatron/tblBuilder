@@ -108,7 +108,7 @@ Meteor.startup(function() {
                     animalInVivo: "I",
                     humanInVitro: "I",
                     animalInVitro: "I",
-                    references: []
+                    references: [],
                 });
             });
         }

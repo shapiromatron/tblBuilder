@@ -8,5 +8,5 @@ Meteor.methods({
             Collection.update(_id, {$set: {sortIdx: i+1}});
         });
         return true;
-    }
+    },
 });

@@ -33,7 +33,7 @@ Template.epiOrganSiteMain.helpers(_.extend({
         tmpl.eosRows = rows;
         Session.set('eosChanged', new Date());
         return rows;
-    }
+    },
 }, clientShared.abstractMainHelpers));
 Template.epiOrganSiteMain.events({
     'change #organSiteSelector': function(evt, tmpl) {
@@ -105,10 +105,10 @@ Template.epiOrganSiteTr.helpers({
     },
     getDisplayValue: function(){
         return (this.display) ? "checked" : "";
-    }
+    },
 });
 Template.epiOrganSiteTr.events({
     "click .hideRow" : function(evt, tmpl){
         tmpl.data.display = !tmpl.data.display;
-    }
+    },
 });

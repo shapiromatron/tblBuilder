@@ -18,8 +18,8 @@ Meteor.publish('tables', function() {
             return Tables.find({
                 $or: [
                     {user_id: this.userId},
-                    {user_roles: {$elemMatch: {user_id: this.userId}}}
-                ]
+                    {user_roles: {$elemMatch: {user_id: this.userId}}},
+                ],
             }, options);
         }
     }
@@ -73,7 +73,7 @@ Meteor.publish('epiCollective', function(volumeNumber, monographAgent) {
     var tbls = Tables.find({
             tblType: "Epidemiology Evidence",
             volumeNumber: parseInt(volumeNumber, 10),
-            monographAgent: monographAgent
+            monographAgent: monographAgent,
         }).fetch(),
         tbl_ids, ref_ids;
 

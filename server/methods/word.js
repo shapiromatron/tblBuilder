@@ -5,12 +5,12 @@ var Future = Meteor.npmRequire('fibers/future'),
             options = {
                 mode: "json",
                 scriptPath: Meteor.settings.scripts_path,
-                pythonPath: Meteor.settings.python_path
+                pythonPath: Meteor.settings.python_path,
             },
             shell = new PythonShell("generateReport.py", options),
             inputs = {
                 report_type: report_type,
-                context: context
+                context: context,
             };
 
         shell.on('message', function(msg) {
@@ -59,5 +59,5 @@ Meteor.methods({
         // else run python
         pyWordHelperStdin(report_type, context, fut);
         return fut.wait();
-    }
+    },
 });

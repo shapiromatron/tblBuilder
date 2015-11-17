@@ -10,7 +10,7 @@ var getImportWS = function(wb, cb) {
                 if (cb){
                     cb({
                         "isError": false,
-                        "status": "Ready for import!"
+                        "status": "Ready for import!",
                     });
                 }
                 ws = wb.Sheets[name];
@@ -24,7 +24,7 @@ var getImportWS = function(wb, cb) {
         if (cb){
             cb({
                 "isError": true,
-                "status": "No worksheet matches the required format. Please use the proper spreadsheet format."
+                "status": "No worksheet matches the required format. Please use the proper spreadsheet format.",
             });
         }
     }
@@ -62,7 +62,7 @@ Template.referenceBatchUpload.events({
                         if ((error != null)) {
                             return error({
                                 isError: true,
-                                status: 'Please upload an Excel file with the "xlsx" extension.'
+                                status: 'Please upload an Excel file with the "xlsx" extension.',
                             });
                         }
                     }
@@ -135,7 +135,7 @@ Template.referenceBatchUpload.events({
 
         div.empty().removeClass();
         fr.readAsBinaryString(file);
-    }
+    },
 });
 Template.referenceBatchUpload.onCreated(function() {
     Session.set('monographAgent', this.data.monographAgent);

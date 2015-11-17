@@ -9,27 +9,27 @@ Template.formLegendPulldown.onRendered(function() {
 Template.contentContainer.helpers({
     getContainerClass: function() {
         return (Session.get("isFullScreen")) ? "container-fluid" : "container";
-    }
+    },
 });
 
 
 Template.optFullScreen.helpers({
     isFullScreen: function() {
         return Session.get("isFullScreen");
-    }
+    },
 });
 Template.optFullScreen.events({
     'click #toggleFullScreen': function(evt, tmpl) {
         evt.preventDefault();
         Session.set("isFullScreen", !Session.get("isFullScreen"));
-    }
+    },
 });
 
 
 Template.optRiskPlot.helpers({
     showPlots: function() {
         return Session.get("epiRiskShowPlots");
-    }
+    },
 });
 Template.optRiskPlot.events({
     'click #epiRiskShowPlots': function(evt, tmpl) {
@@ -67,7 +67,7 @@ Template.forestAxisModal.helpers({
     },
     getError: function(){
         return Template.instance().err.get();
-    }
+    },
 });
 Template.forestAxisModal.events({
     'click #update': function(evt, tmpl){
@@ -96,13 +96,13 @@ Template.forestAxisModal.onRendered(function() {
 Template.optShowAllRows.helpers({
     isShowAll: function() {
         return Session.get('evidenceShowAll');
-    }
+    },
 });
 Template.optShowAllRows.events({
     'click #toggleShowAllRows': function(evt, tmpl) {
         evt.preventDefault();
         Session.set('evidenceShowAll', !Session.get('evidenceShowAll'));
-    }
+    },
 });
 
 
@@ -142,7 +142,7 @@ var applySortFilter = function(save, evt, tmpl){
     Session.set("sortsAndFilters", {
         "sorts": sorts,
         "filters": filters,
-        "save": save
+        "save": save,
     });
     closeModal(evt, tmpl);
 };
@@ -152,7 +152,7 @@ Template.sortFilterModal.helpers({
     },
     getError: function(){
         return Template.instance().err.get();
-    }
+    },
 });
 Template.sortFilterModal.helpers({
     getSortList: function(){
@@ -162,7 +162,7 @@ Template.sortFilterModal.helpers({
     getFilterList: function(){
         var sfs = Session.get("sortsAndFilters") || {};
         return sfs.filters;
-    }
+    },
 });
 Template.sortFilterModal.events({
     'click #addSort': function(evt, tmpl){
@@ -207,7 +207,7 @@ Template.sfSortTR.helpers({
     },
     getOrderOptions: function(){
         return ["Ascending", "Descending"];
-    }
+    },
 });
 
 Template.sfFilterTR.events(sfTrEvents);
@@ -217,7 +217,7 @@ Template.sfFilterTR.helpers({
     },
     getFilterTypeOptions: function(){
         return [">", "≥", "<", "≤", "exact", "contains", "not_contains"];
-    }
+    },
 });
 
 Template.optCreate.events({
@@ -225,21 +225,21 @@ Template.optCreate.events({
         Session.set("evidenceShowNew", true);
         Tracker.flush();
         clientShared.activateInput($("input[name=referenceID]"));
-    }
+    },
 });
 
 
 Template.showNewBtn.helpers({
     showNew: function(){
         return Session.get('evidenceShowNew');
-    }
+    },
 });
 Template.showNewBtn.events({
     'click #show-create-btn': function(evt, tmpl) {
         Session.set("evidenceShowNew", true);
         Tracker.flush();
         clientShared.activateInput($("input[name=referenceID]"));
-    }
+    },
 });
 
 
@@ -248,7 +248,7 @@ Template.optReorder.events({
         var val = (!Session.get('reorderRows'));
         Session.set('reorderRows', val);
         clientShared.toggleRowVisibilty(val, $('.dragHandle'));
-    }
+    },
 });
 
 
@@ -256,7 +256,7 @@ Template.optWord.helpers({
     getReportTypes: function(){
         var key = Session.get('evidenceType');
         return tblBuilderCollections.evidenceLookup[key].collection.wordReportFormats;
-    }
+    },
 });
 Template.optWord.events({
     'click .wordReport': function(evt, tmpl) {
@@ -268,7 +268,7 @@ Template.optWord.events({
             if (response) return clientShared.b64toWord(response, fn);
             return alert("An error occurred.");
         });
-    }
+    },
 });
 
 
@@ -282,14 +282,14 @@ Template.optExcel.events({
         Meteor.call(method, tbl_id, function(err, response) {
             clientShared.returnExcelFile(response, fn);
         });
-    }
+    },
 });
 
 
 Template.selectList.helpers({
     isSelected: function(current, selected) {
         return current === selected;
-    }
+    },
 });
 
 
@@ -350,7 +350,7 @@ Template.typeaheadUserSelect.helpers({
                    .pluck("user_id")
                    .value();
         return Meteor.users.find({_id: {$in: ids}});
-    }
+    },
 });
 Template.typeaheadUserSelect.events({
     'click .removeUser': removeLI,
@@ -364,7 +364,7 @@ Template.typeaheadUserSelect.events({
             return Blaze.renderWithData(Template.UserLI, v, ul[0]);
         }
         tmpl.$('.typeahead').typeahead('val', "");
-    }
+    },
 });
 Template.typeaheadUserSelect.onRendered(injectTypeahead);
 
@@ -397,7 +397,7 @@ Template.tableTitle.helpers({
         }
 
         return printTimestamp(ts);
-    }
+    },
 });
 
 
@@ -411,7 +411,7 @@ Template.qaNotice.helpers({
         } else {
             return "QA'd on {0}".printf(datetime);
         }
-    }
+    },
 });
 
 
@@ -421,7 +421,7 @@ Template.objectLastUpdated.helpers({
             return "Last updated: {0}".printf(printTimestamp(moment(this.lastUpdated)));
         }
         return "";
-    }
+    },
 });
 
 
@@ -434,9 +434,9 @@ Template.evidenceFormSubmissionDiv.helpers({
     },
     showAddNested: function(){
         var key = Session.get('evidenceType'),
-            coll = tblBuilderCollections.evidenceLookup[key].nested_collection
+            coll = tblBuilderCollections.evidenceLookup[key].nested_collection;
         return (!_.isUndefined(coll));
-    }
+    },
 });
 
 
@@ -446,7 +446,7 @@ Template.nestedEvidenceFormSubmissionDiv.helpers({
     },
     isQA: function(){
         return this.isQA === true;
-    }
+    },
 });
 
 
@@ -474,7 +474,7 @@ var fldGetSchema = function(){
         isSelected: function(current, selected) {
             return current === selected;
         },
-        getOptions: autocompleteOptions
+        getOptions: autocompleteOptions,
     };
 
 Template.fldLabel.onCreated(fldGetSchema);

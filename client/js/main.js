@@ -20,7 +20,7 @@ Tracker.autorun(function(){
         try {
             tblId = Session.get('tablesEditingId') || Session.get('Tbl')._id;
         } catch(err){
-          console.error("Table not found.");
+            console.error("Table not found.");
         }
         usersHandler = Meteor.subscribe('tblUsers', tblId);
     }
@@ -50,7 +50,7 @@ var TblRouterController = RouteController.extend({
             Session.set('Tbl', null);
             Session.set('monographAgent', null);
             document.title = utilities.getHTMLTitleBase();
-        }
+        },
     }),
     AdminRouteController = RouteController.extend({
         action: function () {
@@ -59,7 +59,7 @@ var TblRouterController = RouteController.extend({
             } else {
                 this.render('404');
             }
-        }
+        },
     });
 
 Router.map(function() {
@@ -72,61 +72,61 @@ Router.map(function() {
         path: '/volume/:volumeNumber',
         data: function() {
             return {volumeNumber: parseInt(this.params.volumeNumber, 10)};
-        }
+        },
     });
 
     this.route('epiMain', {
         path: '/epidemiology/:_id',
-        controller: TblRouterController
+        controller: TblRouterController,
     });
 
     this.route('ntpEpiMain', {
         path: '/ntp-epidemiology/:_id',
-        controller: TblRouterController
+        controller: TblRouterController,
     });
 
     this.route('ntpEpiRatingMain', {
         path: '/ntp-epidemiology/:_id/rating',
-        controller: TblRouterController
+        controller: TblRouterController,
     });
 
     this.route('epiAnalysisMain', {
         path: '/epidemiology/:_id/analysis',
-        controller: TblRouterController
+        controller: TblRouterController,
     });
 
     this.route('mechanisticMain', {
         path: '/mechanistic/:_id/',
-        controller: TblRouterController
+        controller: TblRouterController,
     });
 
     this.route('exposureMain', {
         path: '/exposure/:_id',
-        controller: TblRouterController
+        controller: TblRouterController,
     });
 
     this.route('animalMain', {
         path: '/animal/:_id',
-        controller: TblRouterController
+        controller: TblRouterController,
     });
 
     this.route('genotoxMain', {
         path: '/genotoxicity/:_id',
-        controller: TblRouterController
+        controller: TblRouterController,
     });
 
     this.route('referencesMain', {
         path: '/references/:monographAgent/',
         data: function() {
             return {monographAgent: this.params.monographAgent};
-        }
+        },
     });
 
     this.route('referenceBatchUpload', {
         path: '/references/:monographAgent/upload/',
         data: function() {
             return {monographAgent: this.params.monographAgent};
-        }
+        },
     });
 
     this.route('epiOrganSiteMain', {
@@ -134,25 +134,25 @@ Router.map(function() {
         data: function() {
             return {
                 volumeNumber: this.params.volumeNumber,
-                monographAgent: this.params.monographAgent
+                monographAgent: this.params.monographAgent,
             };
-        }
+        },
     });
 
     this.route('profileEdit', {
-        path: '/user-profile/'
+        path: '/user-profile/',
     });
 
     this.route('adminMain', {
         path: '/admin/',
-        controller: AdminRouteController
+        controller: AdminRouteController,
     });
 });
 
 Router.configure({
     layoutTemplate: 'layout',
     notFoundTemplate: '404',
-    loadingTemplate: 'isLoading'
+    loadingTemplate: 'isLoading',
 });
 
 Router.plugin('dataNotFound', {notFoundTemplate: '404'});

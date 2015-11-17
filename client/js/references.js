@@ -20,7 +20,7 @@ Template.referencesTbl.helpers({
     },
     referenceIsEditing: function() {
         return Session.equals('referenceEditingId', this._id);
-    }
+    },
 });
 Template.referencesTbl.events({
     'click #reference-show-create': function(evt, tmpl) {
@@ -38,7 +38,7 @@ Template.referencesTbl.events({
         Meteor.call('referenceExcelDownload', volumeNumber, function(err, response) {
             clientShared.returnExcelFile(response, "references.xlsx");
         });
-    }
+    },
 });
 
 
@@ -55,7 +55,7 @@ var toggleFieldDisplays = function(tmpl) {
 Template.referenceForm.helpers({
     getReferenceTypeOptions: function() {
         return Reference.typeOptions;
-    }
+    },
 });
 Template.referenceForm.events({
     'click #reference-create': function(evt, tmpl) {
@@ -128,7 +128,7 @@ Template.referenceForm.events({
     },
     'change select[name=referenceType]': function(evt, tmpl) {
         return toggleFieldDisplays(tmpl);
-    }
+    },
 });
 Template.referenceForm.onRendered(function() {
     return toggleFieldDisplays(this);
@@ -138,7 +138,7 @@ Template.referenceForm.onRendered(function() {
 var searchReferences = function(qry, sync, cb) {
     qry = {
         qry: qry,
-        monographAgent: Session.get('monographAgent')
+        monographAgent: Session.get('monographAgent'),
     };
     Meteor.call("searchReference", qry, function(err, res) {
         if (err) return console.log(err);
@@ -147,7 +147,7 @@ var searchReferences = function(qry, sync, cb) {
     });
 };
 Template.referenceSingleSelect.helpers({
-    getOptions: searchReferences
+    getOptions: searchReferences,
 });
 Template.referenceSingleSelect.events({
     'typeahead:selected': function(evt, tmpl, v) {
@@ -157,7 +157,7 @@ Template.referenceSingleSelect.events({
     },
     'click .selectListRemove': function(evt, tmpl) {
         $(evt.currentTarget).parent().remove();
-    }
+    },
 });
 Template.referenceSingleSelect.onRendered(function() {
     var div = $(this.find('div.selectedReference'));
@@ -183,7 +183,7 @@ var getCurrentReferenceIds = function(tmpl){
     return ids;
 };
 Template.referenceMultiSelect.helpers({
-    getOptions: searchReferences
+    getOptions: searchReferences,
 });
 Template.referenceMultiSelect.events({
     'typeahead:selected': function(evt, tmpl, v) {
@@ -197,7 +197,7 @@ Template.referenceMultiSelect.events({
     },
     'click .selectListRemove': function(evt, tmpl) {
         return $(evt.currentTarget).parent().remove();
-    }
+    },
 });
 Template.referenceMultiSelect.onRendered(function() {
     var $ul = $(this.find('ul'));
@@ -229,12 +229,12 @@ Template.printReference.helpers({
         } else {
             return this.otherURL;
         }
-    }
+    },
 });
 Template.printReference.onRendered(function() {
     $(this.find('*[data-toggle=popover]')).popover({
         trigger: 'hover',
         placement: 'bottom',
-        delay: {show: 500, hide: 300}
+        delay: {show: 500, hide: 300},
     });
 });

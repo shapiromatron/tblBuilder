@@ -3,7 +3,7 @@ Template.profileEdit.helpers({
         var user = Meteor.user();
         if (user) return user.profile || {};
         return {};
-    }
+    },
 });
 Template.profileForm.events({
     'click #update': function(evt, tmpl) {
@@ -13,5 +13,5 @@ Template.profileForm.events({
     },
     'click #update-cancel': function(evt, tmpl) {
         Router.go('home');
-    }
+    },
 });

@@ -21,7 +21,7 @@ var isCreatorOrProjectManager = function(userId, tbl) {
     tblContentAllowRules = {
         insert: tblExistsAndTeamMemberOrHigher,
         update: tblExistsAndTeamMemberOrHigher,
-        remove: tblExistsAndTeamMemberOrHigher
+        remove: tblExistsAndTeamMemberOrHigher,
     },
     userAuthenticated = function(userId){
         return userId != null;
@@ -32,19 +32,19 @@ Meteor.startup(function() {
     Meteor.users.allow({
         insert: serverShared.isStaffOrHigher,
         update: serverShared.isStaffOrHigher,
-        remove: serverShared.isStaffOrHigher
+        remove: serverShared.isStaffOrHigher,
     });
 
     Tables.allow({
         insert: serverShared.isStaffOrHigher,
         update: isCreatorOrProjectManager,
-        remove: isCreatorOrProjectManager
+        remove: isCreatorOrProjectManager,
     });
 
     Reference.allow({
         insert: userAuthenticated,
         update: userAuthenticated,
-        remove: userAuthenticated
+        remove: userAuthenticated,
     });
 
     tblBuilderCollections.evidenceTypes.forEach(function(Collection){

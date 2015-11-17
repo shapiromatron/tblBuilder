@@ -18,5 +18,5 @@ Meteor.methods({
     },
     getReference: function(_id){
         return Reference.findOne(_id);
-    }
+    },
 });

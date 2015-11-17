@@ -3,5 +3,5 @@ Template._loginButtonsLoggedInDropdown.events({
         event.stopPropagation();
         Template._loginButtons.toggleDropdown();
         Router.go('profileEdit');
-    }
+    },
 });

@@ -73,7 +73,7 @@ Template.genotoxRow.helpers({
     },
     getCol7: function() {
         return this.comments;
-    }
+    },
 });
 
 
@@ -234,7 +234,7 @@ Template.genotoxForm.helpers({
     },
     getResultOptions: function() {
         return GenotoxEvidence.resultOptions;
-    }
+    },
 });
 Template.genotoxForm.events(_.extend({
     'change select[name="dataClass"]': function(evt, tmpl) {
@@ -256,7 +256,7 @@ Template.genotoxForm.events(_.extend({
     },
     'change select[name="endpoint"]': function(evt, tmpl) {
         toggleEndpointTestOptions(tmpl);
-    }
+    },
 }, clientShared.abstractFormEvents));
 Template.genotoxForm.onRendered(function() {
     toggleDataClassFields(this);

@@ -23,11 +23,11 @@ Template.epiDescriptiveTbl.helpers(_.extend({
             {
                 "type": "EpiHtmlTblRecreation",
                 "fn": "epi-results",
-                "text": "Download Word: HTML table recreation"
-            }
+                "text": "Download Word: HTML table recreation",
+            },
         ];
         return reports;
-    }
+    },
 }, clientShared.abstractTblHelpers));
 Template.epiDescriptiveTbl.onRendered(function() {
     clientShared.toggleRiskPlot();
@@ -63,7 +63,7 @@ Template.epiDescriptiveRow.helpers(_.extend({
         if (this.outcomeDataSource != null) html += `<br>${this.outcomeDataSource}`;
 
         return html;
-    }
+    },
 }, clientShared.abstractRowHelpers));
 Template.epiDescriptiveRow.events(clientShared.abstractRowEvents);
 Template.epiDescriptiveRow.onRendered(function() {
@@ -85,12 +85,12 @@ Template.epiDescriptiveForm.helpers({
     },
     updatePreValidate: function(tmpl, obj, data) {
         return getEligibilityCriteria(tmpl, obj, data);
-    }
+    },
 });
 Template.epiDescriptiveForm.events(_.extend({
     'change select[name="studyDesign"]': function(evt, tmpl) {
         return toggleCCfields(tmpl);
-    }
+    },
 }, clientShared.abstractFormEvents));
 Template.epiDescriptiveForm.onRendered(function() {
     toggleCCfields(this);
@@ -122,7 +122,7 @@ Template.epiResultTbl.helpers(_.extend({
     },
     displayEffectUnits: function(d) {
         return d.effectUnits != null;
-    }
+    },
 }, clientShared.abstractNestedTableHelpers));
 Template.epiResultTbl.events(clientShared.abstractNestedTableEvents);
 
@@ -132,7 +132,7 @@ Template.organSiteTd.helpers({
         var rows = this.riskEstimates.length;
         if (this.effectUnits != null) rows += 1;
         return rows;
-    }
+    },
 });
 
 
@@ -141,7 +141,7 @@ Template.epiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
         var tbody = tmpl.find('.riskEstimateTbody');
         Blaze.renderWithData(Template.riskEstimateForm, {}, tbody);
-    }
+    },
 }, clientShared.abstractNestedFormEvents));
 Template.epiResultForm.onRendered(function() {
     var epiResult = EpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
@@ -230,7 +230,7 @@ Template.forestPlot.events({
                 .attr("y1", yscale(0.25))
                 .attr("y2", yscale(0.75));
         }
-    }
+    },
 });
 Template.forestPlot.onRendered(function() {
     this.$('svg').trigger('rerender');

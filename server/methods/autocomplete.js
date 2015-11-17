@@ -46,8 +46,8 @@ Meteor.methods({
             $or: [
                 {"emails": {$elemMatch: {"address": {$regex: querystr}}}},
                 {"profile.fullName": {$regex: querystr}},
-                {"profile.affiliation": {$regex: querystr}}
-            ]
+                {"profile.affiliation": {$regex: querystr}},
+            ],
         };
         return Meteor.users.find(query, {fields: {_id: 1, emails: 1, profile: 1}, limit: 20}).fetch();
     },
@@ -59,8 +59,8 @@ Meteor.methods({
         query = {
             $and: [{
                 name: {$regex: querystr},
-                monographAgent: {$in: [inputs.monographAgent]}
-            }]
+                monographAgent: {$in: [inputs.monographAgent]},
+            }],
         };
         options = {limit: 50, sort: {name: 1}};
         return Reference.find(query, options).fetch();

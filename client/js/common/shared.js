@@ -202,7 +202,7 @@ clientShared = {
             .attr('width', width + 2 * xPlotBuffer)
             .style({
                 top: parseInt(y_top) + "px",
-                left: parseInt(x_left - xPlotBuffer) + "px"
+                left: parseInt(x_left - xPlotBuffer) + "px",
             });
 
         xscale = d3.scale.log()
@@ -271,7 +271,7 @@ clientShared = {
         _.extend(opts, {
             delay: {show: 500, hide: 100},
             trigger: "hover",
-            placement: "auto"
+            placement: "auto",
         });
         $(tmpl.findAll('.helpPopovers')).popover(opts);
     },
@@ -283,7 +283,7 @@ clientShared = {
         _.extend(opts, {
             handle: handle,
             onUpdate: clientShared.moveRowCheck,
-            Cls: cls
+            Cls: cls,
         });
         return new Sortable($el, opts);
     },
@@ -338,7 +338,7 @@ clientShared = {
 
                     // build full-citation, using the PubMed Summary format, found here:
                     // http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=#{pubmedID}&rettype=docsum&retmode=text
-                    fullCitation = `${authors.join(', ')}. ${title}. ${journal_source}. ${so}. PubMed PMID: ${pmid}.`
+                    fullCitation = `${authors.join(', ')}. ${title}. ${journal_source}. ${so}. PubMed PMID: ${pmid}.`;
                     isError = false;
                 }
             }
@@ -346,26 +346,27 @@ clientShared = {
                 'shortCitation': shortCitation,
                 'fullCitation': fullCitation,
                 'isError': isError,
-                'pubmedID': pubmedID
+                'pubmedID': pubmedID,
             });
         });
     },
     applySortsAndFilters: function(objs, sfs){
         sfs = sfs || {};
-        var sort, lastAsc, fn,
+        var i,
+            sort, lastAsc, fn,
             sorts = sfs.sorts || [],
             filters = sfs.filters || [],
             key = Session.get('evidenceType'),
             Collection = tblBuilderCollections.evidenceLookup[key].collection,
             cw_fn = Collection.sortFields,
-            isAscending = function(sort){return (sort.order === "Ascending")};
+            isAscending = function(sort){return (sort.order === "Ascending");};
 
         if(sorts.length>0){
 
             // set sort ascending/descending.
             sorts[0].isAscending = (isAscending(sorts[0]));
             lastAsc = sorts[0].isAscending;
-            for (var i=1; i<sorts.length; i++){
+            for (i=1; i<sorts.length; i++){
                 sort = sorts[i];
                 if (isAscending(sort) === true){
                     sort.isAscending = lastAsc;
@@ -376,7 +377,7 @@ clientShared = {
             }
 
             // apply sort
-            for (var i=sorts.length-1; i>=0; i--){
+            for (i=sorts.length-1; i>=0; i--){
                 sort = sorts[i];
                 fn = cw_fn[sort.field];
                 objs = fn(objs, sort.isAscending);
@@ -432,14 +433,14 @@ _.extend(clientShared, {
                 }
             }
             return objs;
-        }
+        },
     },
     abstractRowHelpers: {
         getChildren: function() {
             var key = Session.get('evidenceType'),
                 NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
             return NestedCollection.find({parent_id: this._id}, {sort: {sortIdx: 1}});
-        }
+        },
     },
     abstractRowEvents: {
         'click #show-edit': function(evt, tmpl) {
@@ -454,15 +455,14 @@ _.extend(clientShared, {
         },
         'click .add-nested': createNewNestedModal,
         'click #move-content': function(evt, tmpl) {
-            var div = document.getElementById('modalHolder'),
-                key = Session.get('evidenceType');
+            var div = document.getElementById('modalHolder');
             $(div).empty();
             Blaze.renderWithData(Template.moveModal, {content: this}, div);
         },
         'click #clone-content': function(evt, tmpl) {
             var ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")];
             utilities.cloneObject(this, ET.collection, ET.nested_collection);
-        }
+        },
     },
     abstractFormEvents: {
         'click #create-cancel': function(evt, tmpl) {
@@ -530,12 +530,12 @@ _.extend(clientShared, {
                 if (response) clientShared.toggleQA(tmpl, response.QAd);
             });
         },
-        'click #addNestedResult': createNewNestedModal
+        'click #addNestedResult': createNewNestedModal,
     },
     abstractNestedTableHelpers: {
         showRow: function(isHidden) {
             return Session.get('evidenceShowAll') || !isHidden;
-        }
+        },
     },
     abstractNestedTableEvents: {
         'click #inner-show-edit': function(evt, tmpl) {
@@ -557,7 +557,7 @@ _.extend(clientShared, {
             var data = tmpl.view.parentView.dataVar.curValue,
                 ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")];
             return utilities.cloneObject(data, ET.nested_collection);
-        }
+        },
     },
     abstractNestedFormHelpers: {
         isNew: function() {
@@ -569,7 +569,7 @@ _.extend(clientShared, {
                 NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
                 existing = NestedCollection.findOne({_id: Session.get('nestedEvidenceEditingId')});
             return existing || initial;
-        }
+        },
     },
     removeNestedFormModal: function(tmpl, options) {
         $('#modalDiv')
@@ -594,7 +594,7 @@ _.extend(clientShared, {
                 tbl_id: Session.get('Tbl')._id,
                 parent_id: tmpl.data.parent._id,
                 sortIdx: 1e10,
-                isHidden: false
+                isHidden: false,
             });
             NestedCollection.preSaveHook(tmpl, obj);
 
@@ -655,6 +655,6 @@ _.extend(clientShared, {
             Meteor.call('adminToggleQAd', this._id, nested_collection_name, function(err, response) {
                 if (response) clientShared.toggleQA(tmpl, response.QAd);
             });
-        }
-    }
+        },
+    },
 });

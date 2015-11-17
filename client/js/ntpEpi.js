@@ -28,7 +28,7 @@ Template.ntpEpiDescTbl.onRendered(function() {
 Template.ntpEpiDescriptiveRow.helpers(clientShared.abstractRowHelpers);
 Template.ntpEpiDescriptiveRow.events(clientShared.abstractRowEvents);
 Template.ntpEpiDescriptiveRow.onRendered(function() {
-    // clientShared.initDraggables(this.find('#sortableInner'), ".dhInner", EpiResult);
+    clientShared.initDraggables(this.find('#sortableInner'), ".dhInner", NtpEpiResult);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
@@ -61,7 +61,7 @@ var toggleRequiredFields = function(tmpl, duration){
 Template.ntpEpiDescriptiveForm.helpers({
     allAccordiansShown: function(){
         return Template.instance().allAccordiansShown.get();
-    }
+    },
 });
 Template.ntpEpiDescriptiveForm.events(_.extend({
     'change select[name="studyDesign"]': function(evt, tmpl) {
@@ -71,7 +71,7 @@ Template.ntpEpiDescriptiveForm.events(_.extend({
         tmpl.allAccordiansShown.set(!tmpl.allAccordiansShown.get());
         var action = (tmpl.allAccordiansShown.get()) ? "show" : "hide";
         $(tmpl.findAll(".collapse")).collapse(action);
-    }
+    },
 }, clientShared.abstractFormEvents));
 Template.ntpEpiDescriptiveForm.onCreated(function(){
     this.allAccordiansShown = new ReactiveVar(false);
@@ -91,7 +91,7 @@ Template.ntpEpiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
         var tbody = tmpl.find('.riskEstimateTbody');
         Blaze.renderWithData(Template.riskEstimateForm, {}, tbody);
-    }
+    },
 }, clientShared.abstractNestedFormEvents));
 Template.ntpEpiResultForm.onRendered(function() {
     var object = NtpEpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});

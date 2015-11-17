@@ -22,7 +22,7 @@ Template.ntpEpiRatingTable.onRendered(function(){
         trigger: "hover",
         placement: "top",
         delay: {show: 0, hide: 100},
-        container: "body"
+        container: "body",
     });
 });
 Template.ntpEpiRatingTable.onDestroyed(function(){

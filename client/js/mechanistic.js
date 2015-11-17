@@ -14,7 +14,7 @@ var initializeDraggable = function(tmpl, options) {
 Template.mechanisticOpts.helpers({
     isAllCollapsed: function() {
         return Session.get('mechanisticAllCollapsed');
-    }
+    },
 });
 
 
@@ -31,7 +31,7 @@ Template.mechanisticMain.events({
     'click #mechanistic-reorderRows': function(evt, tmpl) {
         Session.set('reorderRows', !Session.get('reorderRows'));
         clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
-    }
+    },
 });
 Template.mechanisticMain.onCreated(function() {
     Session.set('evidenceType', 'mechanisticEvidence');
@@ -59,7 +59,7 @@ Template.mechanisticMain.onRendered(function() {
 Template.mechanisticTbl.helpers({
     getMechanisticEvidenceSections: function() {
         return MechanisticEvidence.evidenceSections;
-    }
+    },
 });
 
 
@@ -74,14 +74,14 @@ Template.mechanisticSectionTR.helpers({
     },
     getDragContainer: function() {
         return "dragContainer_" + this.section;
-    }
+    },
 });
 Template.mechanisticSectionTR.events({
     'click #mechanistic-newSection': function(evt, tmpl) {
         Session.set('evidenceEditingId', this.section);
         Tracker.flush();
         clientShared.activateInput(tmpl.find("textarea[name=text]"));
-    }
+    },
 });
 Template.mechanisticSectionTR.onRendered(function() {
     initializeDraggable(this, {isSection: true});
@@ -109,7 +109,7 @@ Template.mechanisticEvidenceDisplay.helpers({
     },
     getDragObject: function() {
         return (this.section) ? "dragObj_" + this.section : "dragObj_" + this.parent;
-    }
+    },
 });
 Template.mechanisticEvidenceDisplay.events({
     'click #mechanistic-show-edit': function(evt, tmpl) {
@@ -121,7 +121,7 @@ Template.mechanisticEvidenceDisplay.events({
         Session.set("evidenceShowNew", this._id);
         Tracker.flush();
         clientShared.activateInput(tmpl.find("textarea[name=text]"));
-    }
+    },
 });
 Template.mechanisticEvidenceDisplay.onRendered(function() {
     initializeDraggable(this, {isSection: false});
@@ -176,7 +176,7 @@ Template.mechanisticEvidenceForm.events({
         MechanisticEvidence.remove(this._id);
         Session.set("evidenceEditingId", null);
         Session.set('evidenceShowNew', false);
-    }
+    },
 });
 Template.mechanisticEvidenceForm.helpers({
     displaySubheading: function() {
@@ -184,7 +184,7 @@ Template.mechanisticEvidenceForm.helpers({
     },
     getEvidenceOptions: function() {
         return MechanisticEvidence.evidenceOptions;
-    }
+    },
 });
 Template.mechanisticEvidenceForm.onRendered(function() {
     clientShared.initPopovers(this);

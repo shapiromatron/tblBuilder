@@ -23,7 +23,7 @@ var XLSX = Meteor.npmRequire('xlsx'),
             ws = {},
             range = {
                 s: {c: 10000000, r: 10000000},
-                e: {c: 0, r: 0}
+                e: {c: 0, r: 0},
             };
         for (i = 0; i < data.length; i++) {
             R = data[i];
@@ -90,5 +90,5 @@ Meteor.methods({
     referenceExcelDownload: function(monographAgent) {
         var wsName = monographAgent + "-references";
         return writeXLSX(wsName, Reference.tabular(monographAgent));
-    }
+    },
 });

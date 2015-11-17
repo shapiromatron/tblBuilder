@@ -10,7 +10,7 @@ Template.epiAnalysisTbl.onRendered(function() {
         columns = _.map(header, function(field){
             return {
                 "title": field,
-                "visible": _.contains(EpiDescriptive.defaultAnalysisVisible, field)
+                "visible": _.contains(EpiDescriptive.defaultAnalysisVisible, field),
             };
         });
 
@@ -21,7 +21,7 @@ Template.epiAnalysisTbl.onRendered(function() {
         "scrollCollapse": true,
         "paging": false,
         "data": data,
-        "columns": columns
+        "columns": columns,
     });
 
     $.extend($.fn.dataTableExt.oSort, {
@@ -48,6 +48,6 @@ Template.epiAnalysisTbl.onRendered(function() {
         },
         "riskSort-desc": function(a, b) {
             return ((a < b) ? 1 : ((a > b) ?  -1 : 0));
-        }
+        },
     });
 });
