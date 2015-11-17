@@ -407,9 +407,9 @@ Template.qaNotice.helpers({
         var user = Meteor.users.findOne(userID);
         if (user) username = user.profile.fullName;
         if (username) {
-            return "QA'd by {0} on {1}".printf(username, datetime);
+            return `QA'd by ${username} on ${datetime}`;
         } else {
-            return "QA'd on {0}".printf(datetime);
+            return `QA'd on ${datetime}`;
         }
     },
 });
@@ -418,7 +418,7 @@ Template.qaNotice.helpers({
 Template.objectLastUpdated.helpers({
     getLastUpdated: function(){
         if (this.lastUpdated){
-            return "Last updated: {0}".printf(printTimestamp(moment(this.lastUpdated)));
+            return `Last updated: ${printTimestamp(moment(this.lastUpdated))}`;
         }
         return "";
     },

@@ -76,7 +76,7 @@ Template.referenceBatchUpload.events({
     'click #uploadReferences': function(evt, tmpl) {
         var div = tmpl.$("#uploadStatusDiv"),
             append_status = function(cls, rowID, msg) {
-                div.append("<p class='alert {0}'>Importing row {1}: {2}</p>".printf(cls, rowID, msg));
+                div.append(`<p class='alert ${cls}'>Importing row ${rowID}: ${msg}</p>`);
             },
             createReferences = function(rows) {
                 rows.forEach(function(row){

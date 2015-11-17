@@ -1,15 +1,14 @@
 Template.moveModal.helpers({
     getCurrentTable: function() {
         var d = Session.get('Tbl');
-        return "{0} {1}: {2}".printf(d.volumeNumber, d.monographAgent, d.name);
+        return `${d.volumeNumber} ${d.monographAgent}: ${d.name}`;
     },
     getOptions: function() {
         var tbls = Tables.find({tblType: Session.get("Tbl").tblType}).fetch();
         return _.chain(tbls)
                 .filter(clientShared.userCanEdit)
                 .map(function(d) {
-                    return "<option value='{0}'>{1} {2}: {3}</option>".printf(
-                      d._id, d.volumeNumber, d.monographAgent, d.name);
+                    return `<option value='${d._id}'>${d.volumeNumber} ${d.monographAgent}: ${d.name}</option>`;
                 })
                 .value().join("");
     },

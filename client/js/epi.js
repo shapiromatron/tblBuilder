@@ -182,14 +182,13 @@ Template.forestPlot.events({
                 .clamp(true),
             yscale = d3.scale.linear().range([0, height]).domain([0, 1]).clamp(true),
             group = svg.append('g').attr('class', 'riskBar'),
-            riskStr = "Effect measure {0}: {1}".printf(
-                tmpl.data.parent.effectMeasure, data.riskMid);
+            riskStr = `Effect measure ${tmpl.data.parent.effectMeasure}: ${data.riskMid}`;
 
         if (data.riskLow && data.riskHigh){
-            riskStr += " ({0}-{1})".printf(data.riskLow, data.riskHigh);
+            riskStr += ` (${data.riskLow}-${data.riskHigh})`;
         }
 
-        svg.attr('viewBox', "0 0 {0} {1}".printf(width, height));
+        svg.attr("viewBox", `0 0 ${width} ${height}`);
         group.append("svg:title").text(riskStr);
 
         if (data.riskMid != null) {

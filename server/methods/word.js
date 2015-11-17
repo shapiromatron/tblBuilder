@@ -41,7 +41,7 @@ var Future = Meteor.npmRequire('fibers/future'),
         case "MechanisticEvidenceHtmlTables":
             return MechanisticEvidence.wordContext(tbl_id);
         default:
-            wordContextByDescriptionle.log("No context specified: {0}".printf(report_type));
+            console.log(`No context specified: ${report_type}`);
         }
     };
 

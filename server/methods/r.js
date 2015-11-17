@@ -28,8 +28,8 @@ var r = Meteor.npmRequire('rserve-client'),
         v = AnimalEndpointEvidence.update(obj._id, {$set: updates});
     },
     getRCmd = function(data){
-        var script = "{0}/R/stats.R".printf(Meteor.settings.scripts_path);
-        return "source('{0}')\na<-getStats('{1}')".printf(script, data);
+        var script = `${Meteor.settings.scripts_path}/R/stats.R`;
+        return `source('${script}')\na<-getStats('${data}')`;
     },
     runR = function(obj, data, fut) {
         var result,

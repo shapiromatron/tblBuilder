@@ -52,7 +52,7 @@ var toggleRequiredFields = function(tmpl, duration){
         hides = [".isCohort"];
         break;
     default:
-        console.log("unknown study-design: {0}".printf(design));
+        console.log(`unknown study-design: ${design}`);
     }
     tmpl.$(hides.join(",")).fadeOut(duration, function(){
         tmpl.$(shows.join(",")).fadeIn(duration);

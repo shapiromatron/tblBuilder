@@ -222,12 +222,12 @@ clientShared = {
 
         svg.append("g")
             .attr("class", 'axis')
-            .attr("transform", "translate({0}, {1})".printf(xPlotBuffer, height - yPlotBuffer))
+            .attr("transform", `translate(${xPlotBuffer}, ${height - yPlotBuffer})`)
             .call(xaxis);
 
         gridlines = svg.append("g")
             .attr('class', 'gridlines')
-            .attr("transform", "translate({0},0)".printf(xPlotBuffer));
+            .attr("transform", `translate(${xPlotBuffer},0)`);
 
         gridlines.selectAll("gridlines")
             .data(xscale.ticks(10))

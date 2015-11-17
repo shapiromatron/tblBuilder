@@ -17,7 +17,7 @@ var uiHelpers = {
         if (Session.get("showQAflags")) {
             icon = isQA ? "glyphicon-ok" : "glyphicon-remove";
             title = isQA ? "QA'd" : "Not QA'd";
-            return Spacebars.SafeString('<span title="{0}" class="btn-xs text-muted pull-right glyphicon {1}"></span>'.printf(title, icon));
+            return Spacebars.SafeString(`<span title="${title}" class="btn-xs text-muted pull-right glyphicon ${icon}"></span>`);
         }
     },
     hasContactEmail: function() {
@@ -27,7 +27,7 @@ var uiHelpers = {
     },
     contactEmail: function() {
         var email = Meteor.settings["public"].contact_email;
-        return "{0}?subject=[IARC Table Builder]".printf(email);
+        return `${email}?subject=[IARC Table Builder]`;
     },
     commaList: function(lst) {
         return lst.join(", ");

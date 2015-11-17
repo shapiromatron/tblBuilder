@@ -20,7 +20,7 @@ Tracker.autorun(function(){
         try {
             tblId = Session.get('tablesEditingId') || Session.get('Tbl')._id;
         } catch(err){
-            console.error("Table not found.");
+            // pass
         }
         usersHandler = Meteor.subscribe('tblUsers', tblId);
     }

@@ -17,7 +17,7 @@ Meteor.startup(function() {
         if (email != null) {
             _id = Accounts.createUser({"email": email});
             Roles.setUserRoles(_id, ["default", "staff", "superuser"]);
-            console.log("Sending email to superuser {0} for account creation".printf(email));
+            console.log(`Sending email to superuser ${email} for account creation`);
             return Accounts.sendEnrollmentEmail(_id);
         } else {
             return console.log("Create an admin user by setting the 'superuser_email' field in meteor settings");

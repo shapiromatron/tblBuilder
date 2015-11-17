@@ -130,7 +130,7 @@ Template.animalTrendTestReport.helpers({
         txt = t.toString();
 
         // add trend-test
-        txt += "\n\nTrend-test result: {0}".printf(formatPairwise(data.trend.pvalue));
+        txt += `\n\nTrend-test result: ${formatPairwise(data.trend.pvalue)}`;
 
         return txt;
     },
@@ -145,7 +145,7 @@ Template.animalEndpointTbl.helpers(_.extend({
 
         if (val !== "") {
             sig = this.incidence_significance || "";
-            txt = "<tr><td>" + val + "</td><td>" + sig + "</td></tr>";
+            txt = `<tr><td>${val}</td><td>${sig}</td></tr>`;
         }
         return txt;
     },
@@ -156,7 +156,7 @@ Template.animalEndpointTbl.helpers(_.extend({
 
         if (val !== "") {
             sig = this.multiplicity_significance || "";
-            txt = "<tr><td>" + val + "</td><td>" + sig + "</td></tr>";
+            txt = `<tr><td>${val}</td><td>${sig}</td></tr>`;
         }
         return txt;
     },
@@ -167,7 +167,7 @@ Template.animalEndpointTbl.helpers(_.extend({
 
         if (val !== "") {
             sig = this.total_tumours_significance || "";
-            txt = "<tr><td>" + val + "</td><td>" + sig + "</td></tr>";
+            txt = `<tr><td>${val}</td><td>${sig}</td></tr>`;
         }
         return txt;
     },

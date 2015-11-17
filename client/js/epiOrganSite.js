@@ -5,7 +5,7 @@ Template.epiOrganSiteMain.helpers(_.extend({
                 .pluck("organSite")
                 .uniq()
                 .sort()
-                .map(function(d) {return "<option>{0}</option>".printf(d);})
+                .map(function(d) {return `<option>${d}</option>`;})
                 .value();
     },
     object_list: function() {
