@@ -21,6 +21,9 @@
         ],
         "comma-dangle": [
             0
+        ],
+        "no-console": [
+            1
         ]
     },
     "env": {
