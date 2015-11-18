@@ -10,27 +10,27 @@
 
 
 <template name="epiDescriptiveTblOpts">
-    {{#actionBtn}}
-        {{#if userCanEdit}}
-            {{#unless showNew}}
-                {{> optCreate }}
-            {{/unless}}
-            {{> optReorder }}
-        {{/if}}
-        {{> optMonoRefList}}
-        {{> optFullScreen}}
-        {{> optSortFilter}}
-        {{> optExcel }}
-        {{> optWord }}
-        {{> optRiskPlot}}
-        {{> optShowAllRows}}
-        {{> optQaFlags}}
-        <li>
-            <a href="{{pathFor 'epiAnalysisMain' _id=this._id}}">
-                <span class="fa fa-table"></span> Data exploration
-            </a>
-        </li>
-    {{/actionBtn}}
+  {{#actionBtn}}
+      {{#if userCanEdit}}
+          {{#unless showNew}}
+              {{> optCreate }}
+          {{/unless}}
+          {{> optReorder }}
+      {{/if}}
+      {{> optMonoRefList}}
+      {{> optFullScreen}}
+      {{> optSortFilter}}
+      {{> optExcel }}
+      {{> optWord }}
+      {{> optRiskPlot}}
+      {{> optShowAllRows}}
+      {{> optQaFlags}}
+      <li>
+          <a href="{{pathFor 'epiAnalysisMain' _id=this._id}}">
+              <span class="fa fa-table"></span> Data exploration
+          </a>
+      </li>
+  {{/actionBtn}}
 </template>
 
 
@@ -338,6 +338,7 @@
     </div>
   {{/if}}
 </template>
+
 
 <!--
 Render <td>OrganSite</td> with effectUnits if they exist,

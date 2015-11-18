@@ -1,74 +1,74 @@
 <template name="epiOrganSiteOpts">
   {{#actionBtn}}
-      {{> optFullScreen}}
-      {{> optRiskPlot}}
-      <li>
-        <a href="#" id="metaReport">
-          <span class="fa fa-file-excel-o"></span> Meta-analysis export
-        </a>
-      </li>
-      <li>
-        <a href="#" id="selectVisible">
-          <span class="fa fa-check-square-o"></span> Select visible
-        </a>
-      </li>
+    {{> optFullScreen}}
+    {{> optRiskPlot}}
+    <li>
+      <a href="#" id="metaReport">
+        <span class="fa fa-file-excel-o"></span> Meta-analysis export
+      </a>
+    </li>
+    <li>
+      <a href="#" id="selectVisible">
+        <span class="fa fa-check-square-o"></span> Select visible
+      </a>
+    </li>
   {{/actionBtn}}
 </template>
 
 
 <template name="epiOrganSiteMain">
-    {{#if Template.subscriptionsReady}}
-      {{#contentContainer}}
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
 
-        <!-- Header and pulldown list -->
-        <h1>Volume {{volumeNumber}} {{monographAgent}}: epidemiology evidence
-          {{> epiOrganSiteOpts}}
-        </h1>
+      <!-- Header and pulldown list -->
+      <h1>Volume {{volumeNumber}} {{monographAgent}}: epidemiology evidence
+        {{> epiOrganSiteOpts}}
+      </h1>
 
-        <!-- Organ-site selector -->
-        <div class="row">
-          <form role="form" class="form-group">
-            <div class="col-xs-12">
-              <label>Filter results by organ site</label><br>
-              <select multiple="true" class="form-control" id="organSiteSelector" style="height: 200px">
-                {{{getOrganSiteOptions}}}
-              </select>
-              <p class="help-block">Select one or more organ-sites to view.</p>
-            </div>
-          </form>
-        </div>
+      <!-- Organ-site selector -->
+      <div class="row">
+        <form role="form" class="form-group">
+          <div class="col-xs-12">
+            <label>Filter results by organ site</label><br>
+            <select multiple="true" class="form-control" id="organSiteSelector" style="height: 200px">
+              {{{getOrganSiteOptions}}}
+            </select>
+            <p class="help-block">Select one or more organ-sites to view.</p>
+          </div>
+        </form>
+      </div>
 
-        <!-- Data-table -->
-        <table class="evidenceTable table table-compressed">
-          <colgroup>
-            <col width="20%">
-            <col width="15%">
-            <col width="17%">
-            <col width="8%">
-            <col width="20%">
-            <col width="20%">
-          </colgroup>
-          <thead>
-            <tr>
-              <th>Reference, location, follow-up/enrollment period, study-design</th>
-              <th>Organ site</th>
-              <th>Exposure category<br> or level</th>
-              <th>Exposed<br>cases/<br>deaths</th>
-              <th class="riskTR">Risk estimate<br>(95% CI)</th>
-              <th>Covariates controlled</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each object_list}}
-              {{> epiOrganSiteTr}}
-            {{/each}}
-          </tbody>
-        </table>
+      <!-- Data-table -->
+      <table class="evidenceTable table table-compressed">
+        <colgroup>
+          <col width="20%">
+          <col width="15%">
+          <col width="17%">
+          <col width="8%">
+          <col width="20%">
+          <col width="20%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Reference, location, follow-up/enrollment period, study-design</th>
+            <th>Organ site</th>
+            <th>Exposure category<br> or level</th>
+            <th>Exposed<br>cases/<br>deaths</th>
+            <th class="riskTR">Risk estimate<br>(95% CI)</th>
+            <th>Covariates controlled</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each object_list}}
+            {{> epiOrganSiteTr}}
+          {{/each}}
+        </tbody>
+      </table>
 
-      {{/contentContainer}}
-    {{else}}
-      {{> isLoading}}
-    {{/if }}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
 </template>
 
 

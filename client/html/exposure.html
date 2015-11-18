@@ -11,19 +11,19 @@
 
 <template name="exposureTblOpts">
   {{#actionBtn}}
-      {{#if userCanEdit}}
-        {{#unless showNew}}
-          {{> optCreate }}
-        {{/unless}}
-        {{> optReorder }}
-      {{/if}}
-      {{> optMonoRefList }}
-      {{> optFullScreen }}
-      {{> optSortFilter}}
-      {{> optExcel }}
-      {{> optWord }}
-      {{> optShowAllRows }}
-      {{> optQaFlags }}
+    {{#if userCanEdit}}
+      {{#unless showNew}}
+        {{> optCreate }}
+      {{/unless}}
+      {{> optReorder }}
+    {{/if}}
+    {{> optMonoRefList }}
+    {{> optFullScreen }}
+    {{> optSortFilter}}
+    {{> optExcel }}
+    {{> optWord }}
+    {{> optShowAllRows }}
+    {{> optQaFlags }}
   {{/actionBtn}}
 </template>
 
@@ -81,7 +81,6 @@
   {{#if showNew}}
     {{> exposureForm isNew=true}}
   {{/if}}
-
 </template>
 
 

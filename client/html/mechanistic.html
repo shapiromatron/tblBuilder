@@ -1,22 +1,22 @@
 <template name="mechanisticOpts">
   {{#actionBtn}}
-      {{#if userCanEdit}}
-        <li>
-          <a href="#" id="mechanistic-reorderRows">
-            <span class="glyphicon glyphicon-align-justify"></span> Reorder rows
-          </a>
-        </li>
-      {{/if}}
-      {{> optMonoRefList}}
-      {{> optExcel }}
-      {{> optWord }}
+    {{#if userCanEdit}}
       <li>
-        <a href="#" id="mechanistic-toggleShowAllRows">
-          {{#if isAllCollapsed}}<span class="glyphicon glyphicon-resize-full"></span> Show all details
-          {{else}}<span class="glyphicon glyphicon-resize-small"></span> Hide all details
-          {{/if}}
+        <a href="#" id="mechanistic-reorderRows">
+          <span class="glyphicon glyphicon-align-justify"></span> Reorder rows
         </a>
       </li>
+    {{/if}}
+    {{> optMonoRefList}}
+    {{> optExcel }}
+    {{> optWord }}
+    <li>
+      <a href="#" id="mechanistic-toggleShowAllRows">
+        {{#if isAllCollapsed}}<span class="glyphicon glyphicon-resize-full"></span> Show all details
+        {{else}}<span class="glyphicon glyphicon-resize-small"></span> Hide all details
+        {{/if}}
+      </a>
+    </li>
   {{/actionBtn}}
 </template>
 
@@ -37,22 +37,23 @@
 <template name="mechanisticTbl">
   <table class="table table-condensed" >
     <colgroup>
-    <col width="20%"/>
-    <col width="80%"/>
-  </colgroup>
-  <thead>
-    <tr>
-      <th>Consideration</th>
-      <th>Relevant data to highlight</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each getMechanisticEvidenceSections}}
-      {{> mechanisticSectionTR}}
-    {{/each}}
-  </tbody>
-</table>
+      <col width="20%"/>
+      <col width="80%"/>
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Consideration</th>
+        <th>Relevant data to highlight</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each getMechanisticEvidenceSections}}
+        {{> mechanisticSectionTR}}
+      {{/each}}
+    </tbody>
+  </table>
 </template>
+
 
 <template name="mechanisticSectionTR">
   <tr>
@@ -78,6 +79,7 @@
     </td>
   </tr>
 </template>
+
 
 <template name="mechanisticEvidenceDisplay">
   {{#if displayEditingForm}}
@@ -138,6 +140,7 @@
     {{> mechanisticEvidenceForm parent=_id isNew=true}}
   {{/if}}
 </template>
+
 
 <template name="mechanisticEvidenceForm">
   <form id="mechanisticEvidenceForm" role="form" class="editForm">

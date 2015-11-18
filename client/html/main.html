@@ -4,6 +4,7 @@
   <link rel="icon" href="/static/favicon.ico?v=1" type="image/x-icon">
 </head>
 
+
 <template name="layout">
     {{> navBar}}
     {{> browserDetect}}
@@ -11,9 +12,11 @@
     <div id="modalHolder"></div>
 </template>
 
+
 <template name="_loginButtonsAdditionalLoggedInDropdownActions">
   <button class="btn btn-default btn-block" id="login-buttons-edit-profile">Edit profile</button>
 </template>
+
 
 <template name="navBar">
   <nav class="navbar navbar-default" role="navigation">
@@ -44,6 +47,7 @@
     </div>
   </nav>
 </template>
+
 
 <template name="browserDetect">
   {{#unless isSupportedBrowser}}

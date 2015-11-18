@@ -11,22 +11,22 @@
 
 <template name="ntpEpiDescOpts">
   {{#actionBtn}}
-      {{#if userCanEdit}}
-        {{#unless showNew}}
-          {{> optCreate }}
-        {{/unless}}
-        {{> optReorder }}
-      {{/if}}
-      {{> optMonoRefList}}
-      {{> optFullScreen}}
-      {{> optExcel }}
-      {{> optWord }}
-      {{> optRiskPlot}}
-      {{> optShowAllRows}}
-      {{> optQaFlags}}
-      <li>
-        <a href="{{pathFor 'ntpEpiRatingMain' _id=this._id}}">
-          <i class="fa fa-star-half-o"></i> View ratings</a></li>
+    {{#if userCanEdit}}
+      {{#unless showNew}}
+        {{> optCreate }}
+      {{/unless}}
+      {{> optReorder }}
+    {{/if}}
+    {{> optMonoRefList}}
+    {{> optFullScreen}}
+    {{> optExcel }}
+    {{> optWord }}
+    {{> optRiskPlot}}
+    {{> optShowAllRows}}
+    {{> optQaFlags}}
+    <li>
+      <a href="{{pathFor 'ntpEpiRatingMain' _id=this._id}}">
+        <i class="fa fa-star-half-o"></i> View ratings</a></li>
   {{/actionBtn}}
 </template>
 

@@ -2,6 +2,7 @@
   <li><a href="{{pathFor 'adminMain'}}">Admin</a></li>
 </template>
 
+
 <template name="adminMain">
   {{#if Template.subscriptionsReady}}
     {{#contentContainer}}
@@ -11,6 +12,7 @@
     {{> isLoading}}
   {{/if }}
 </template>
+
 
 <template name="admin">
   <div class="row">
@@ -47,6 +49,7 @@
     {{/if}}
   </div>
 </template>
+
 
 <template name="adminUserRow">
   <tr class="menu-autohide">
@@ -122,6 +125,7 @@
     </div>
   </div>
 </template>
+
 
 <template name="adminUserRowForm">
   <form id="adminUserForm" role="form" class="editForm">
