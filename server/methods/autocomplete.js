@@ -34,6 +34,27 @@ var textSearchRegex = function(str, opts){
                 .uniq(false)
                 .filter(function(v){return v.match(regex);})
                 .value();
+    },
+    searchElementInArrayObj = function(Collection, array_field, pluck_field, qrystr){
+        var qs,
+            regex,
+            qry = {},
+            opts = {fields: {}, limit: 1000};
+
+        check(qrystr, String);
+        field = array_field + "." + pluck_field;
+        regex = textSearchRegex(qrystr, {"atBeginning": true});
+        qry[field] = {$in: [regex]};
+        opts.fields[field] = 1;
+        qs = Collection.find(qry, opts).fetch();
+        return _.chain(qs)
+                .pluck(array_field)
+                .flatten()
+                .pluck(pluck_field)
+                .flatten()
+                .uniq(false)
+                .filter(function(v){return v.match(regex);})
+                .value();
     };
 
 
@@ -210,6 +231,6 @@ Meteor.methods({
         return listFieldTextSearch(NtpEpiDescriptive, "riskFactors", query);
     },
     searchNtpEpiVariablesOfConcern: function(query) {
-        return listFieldTextSearch(NtpEpiDescriptive, "variablesOfConcern", query);
+        return searchElementInArrayObj(NtpEpiResult, "variablesOfConcern", "vocName", query);
     },
 });
