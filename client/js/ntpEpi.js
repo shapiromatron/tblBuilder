@@ -25,7 +25,35 @@ Template.ntpEpiDescTbl.onRendered(function() {
 });
 
 
-Template.ntpEpiDescriptiveRow.helpers(clientShared.abstractRowHelpers);
+Template.ntpEpiDescriptiveRow.helpers(_.extend({
+    getCol2: function() {
+        var html = "", rrCases, rrCtrls;
+        if (this.isCaseControl()) {
+            rrCases = utilities.getPercentOrText(this.responseRateCase);
+            rrCtrls = utilities.getPercentOrText(this.responseRateControl);
+            if (rrCases.length > 0) rrCases = ` (${rrCases})`;
+            if (rrCtrls.length > 0) rrCtrls = ` (${rrCtrls})`;
+
+            html += `<strong>Cases: </strong>${this.populationSizeCases}${rrCases}; ${this.selectionDescriptionCases}<br>`;
+            html += `<strong>Controls: </strong>${this.populationSizeControls}${rrCtrls}; ${this.selectionDescriptionControls}`;
+        } else {
+            html += `${this.cohortPopulationSize}; ${this.populationEligibility}`;
+        }
+
+        html += "<br><strong>Exposure assess. method: </strong>";
+
+        if (this.exposureAssessmentType.toLowerCase().search("other") >= 0) {
+            html += "other";
+        } else {
+            html += "" + this.exposureAssessmentType;
+        }
+
+        if (this.exposureAssessmentNotes != null) html += `; ${this.exposureAssessmentNotes}`;
+        if (this.outcomeDataSource != null) html += `<br>${this.outcomeDataSource}`;
+
+        return html;
+    },
+}, clientShared.abstractRowHelpers));
 Template.ntpEpiDescriptiveRow.events(clientShared.abstractRowEvents);
 Template.ntpEpiDescriptiveRow.onRendered(function() {
     clientShared.initDraggables(this.find('#sortableInner'), ".dhInner", NtpEpiResult);
@@ -84,6 +112,20 @@ Template.ntpEpiDescriptiveForm.onRendered(function() {
 Template.ntpEpiDescriptiveForm.onDestroyed(function() {
     clientShared.destroyPopovers(this);
 });
+
+
+Template.ntpEpiResultTbl.helpers(_.extend({
+    showPlots: function() {
+        return Session.get("epiRiskShowPlots");
+    },
+    displayTrendTest: function() {
+        return this.trendTest != null;
+    },
+    displayEffectUnits: function(d) {
+        return d.effectUnits != null;
+    },
+}, clientShared.abstractNestedTableHelpers));
+Template.ntpEpiResultTbl.events(clientShared.abstractNestedTableEvents);
 
 
 Template.ntpEpiResultForm.helpers(clientShared.abstractNestedFormHelpers);

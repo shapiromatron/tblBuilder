@@ -119,15 +119,30 @@
       </div>
     {{/if}}
     {{qaMark isQA}}
-    {{>printReference id=referenceID}}
+    {{>printReference id=referenceID}}<br>
+    {{location}}<br>
+    {{#if enrollmentDates}}{{enrollmentDates}}<br>{{/if}}
+    {{studyDesign}}
   </td>
-  <td>b</td>
-  <td>c</td>
-  <td>d</td>
-  <td>e</td>
-  <td>f</td>
-  <td>g</td>
-  <td>h</td>
+  <td>{{{getCol2}}}</td>
+  <td colspan="5" id="sortableInner">
+    {{#each getChildren}}
+      {{> ntpEpiResultTbl}}
+    {{else}}
+      <p class="help-block">No results have been created.
+        {{#if userCanEdit}}
+          <a href="#"
+             class="btn btn-primary btn-sm add-nested pull-right"
+             title="Display modal for entering results">
+            <span class="fa fa-medkit"></span> Add results</a>
+        {{/if}}
+      </p>
+    {{/each }}
+  </td>
+  <td>
+    <strong>Strengths: </strong>{{strengths}}<br>
+    <strong>Limitations: </strong>{{limitations}}</td>
+  <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
 </template>
 
 
@@ -423,6 +438,60 @@
   </form>
     <!-- Add input form-modals outside form scope -->
   {{> referenceQuickAddModal}}
+</template>
+
+
+<template name="ntpEpiResultTbl">
+  {{#if showRow isHidden}}
+    <div class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
+        data-id="{{_id}}"
+        data-sortIdx="{{sortIdx}}">
+      <table class="table table-condensed nestedTbl">
+        <colgroup>
+          <col width="20.4%">
+          <col width="22.4%">
+          <col width="12.2%">
+          <col width="24.5%">
+          <col width="20.5%">
+        </colgroup>
+        <tbody>
+          {{#if displayEffectUnits . }}
+            <tr>
+              {{> organSiteTd }}
+              <td colspan="4">{{effectUnits}}</td>
+            </tr>
+          {{/if}}
+          {{#each eachIndex riskEstimates}}
+            <tr>
+              {{#if isEqual current=index target=0 }}
+                {{#unless displayEffectUnits ..}}
+                  {{> organSiteTd .. }}
+                {{/unless}}
+              {{/if}}
+              <td>{{value.exposureCategory}}{{#if value.inTrendTest}}<sup>*</sup>{{/if}}</td>
+              <td>{{value.numberExposed}}</td>
+              <td>{{#if showPlots}}
+                    {{> forestPlot parent=.. index=index }}
+                  {{ else}}
+                    <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter value}}</span>
+                  {{/if}}
+              </td>
+              {{#if isEqual current=index target=0 }}
+                <td rowspan="{{../riskEstimates.length}}">
+                  {{commaList ../covariates}}
+                </td>
+                <td rowspan="{{../riskEstimates.length}}" class="dragHandle dhInner"
+                    style="display: none" title="Drag to re-order rows"></td>
+              {{/if}}
+            </tr>
+          {{/each}}
+          {{#if displayTrendTest}}
+            <tr><td></td><td colspan="4"><sup>*</sup>Trend-test <i>p</i>-value: {{trendTest}}</td></tr>
+          {{/if}}
+        </tbody>
+      </table>
+    </div>
+  {{/if}}
 </template>
 
 
