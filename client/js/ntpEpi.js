@@ -102,3 +102,44 @@ Template.ntpEpiResultForm.onRendered(function() {
 Template.ntpEpiResultForm.onDestroyed(function() {
     clientShared.destroyPopovers(this);
 });
+
+
+var vocHelpers = {
+    getVocSchema: function(){
+        return NtpEpiResult.variableOfConcernSchema.schema();
+    },
+    isNew: function(){
+        return Session.get('nestedEvidenceEditingId') === null;
+    },
+};
+
+Template.variablesOfConcern.helpers(vocHelpers);
+Template.variablesOfConcern.events({
+    'click #addVocRow': function(evt, tmpl) {
+        var tbody = tmpl.find('tbody');
+        Blaze.renderWithData(Template.variablesOfConcernForm, {}, tbody);
+    },
+});
+Template.variablesOfConcern.onRendered(function() {
+    clientShared.initPopovers(this);
+});
+Template.variablesOfConcern.onDestroyed(function() {
+    clientShared.destroyPopovers(this);
+});
+
+
+Template.variablesOfConcernForm.helpers(vocHelpers);
+Template.variablesOfConcernForm.events({
+    'click #delete': function(evt, tmpl) {
+        Blaze.remove(tmpl.view);
+        $(tmpl.view._domrange.members).remove();
+    },
+    'click #moveUp': function(evt, tmpl) {
+        var tr = $(tmpl.firstNode);
+        tr.insertBefore(tr.prev());
+    },
+    'click #moveDown': function(evt, tmpl) {
+        var tr = $(tmpl.firstNode);
+        tr.insertAfter(tr.next());
+    },
+});
