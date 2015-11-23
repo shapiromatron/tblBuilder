@@ -1,0 +1,44 @@
+<template name="ntpVariablesOfConcernMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+      {{> ntpVariablesOfConcernTable}}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>
+
+
+<template name="ntpVariablesOfConcernTable">
+  <h1>Variables of concern: {{name}}</h1>
+  {{> tableTitle}}
+
+
+  <div class='alert alert-warning'>
+    <strong>Questions/concerns for view: </strong>
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    This is aggregating by the study-reference, and I'm unsure where to put the
+    organ-site information. Should this be aggregated by organ site? Also, I can put
+    additional details in the pop-up, what should I present?
+  </div>
+
+  <table class="evidenceTable table table-compressed">
+    <thead>
+      <tr>
+        {{#each getHeaders}}
+          <th>{{this}}</th>
+        {{/each}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each getRows}}
+        <tr>
+        <td>{{>printReference id=referenceID}}: {{result.organSite}}</td>
+        {{#each variables}}
+          <td>{{this}}</td>
+        {{/each}}
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>

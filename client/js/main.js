@@ -90,6 +90,11 @@ Router.map(function() {
         controller: TblRouterController,
     });
 
+    this.route('ntpVariablesOfConcernMain', {
+        path: '/ntp-epidemiology/:_id/variables-of-concern',
+        controller: TblRouterController,
+    });
+
     this.route('epiAnalysisMain', {
         path: '/epidemiology/:_id/analysis',
         controller: TblRouterController,
