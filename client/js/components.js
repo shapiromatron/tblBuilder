@@ -451,18 +451,24 @@ Template.nestedEvidenceFormSubmissionDiv.helpers({
 
 
 var fldGetSchema = function(){
-        var coll;
+        var schema;
         if(this.data.name){
-            if (this.data.nested){
-                coll = tblBuilderCollections
+            if(this.data.collSchema){
+                schema = this.data.collSchema;
+            } else if (this.data.nested){
+                schema = tblBuilderCollections
                         .evidenceLookup[Session.get('evidenceType')]
-                        .nested_collection;
+                        .nested_collection
+                        .simpleSchema()
+                        ._schema;
             } else {
-                coll = tblBuilderCollections
+                schema = tblBuilderCollections
                         .evidenceLookup[Session.get('evidenceType')]
-                        .collection;
+                        .collection
+                        .simpleSchema()
+                        ._schema;
             }
-            this.data.schema = coll.simpleSchema()._schema[this.data.name];
+            this.data.schema = schema[this.data.name];
         }
     },
     fldHelpers = {
