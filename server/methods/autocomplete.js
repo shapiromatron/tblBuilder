@@ -233,4 +233,16 @@ Meteor.methods({
     searchNtpEpiVariablesOfConcern: function(query) {
         return searchElementInArrayObj(NtpEpiResult, "variablesOfConcern", "vocName", query);
     },
+    searchNtpOrganSite: function(query) {
+        return singleFieldTextSearch(NtpEpiResult, "organSite", query);
+    },
+    searchNtpEffectMeasure: function(query) {
+        return singleFieldTextSearch(NtpEpiResult, "effectMeasure", query);
+    },
+    searchNtpEffectUnits: function(query) {
+        return singleFieldTextSearch(NtpEpiResult, "effectUnits", query);
+    },
+    searchNtpCovariates: function(query) {
+        return listFieldTextSearch(NtpEpiResult, "covariates", query);
+    },
 });
