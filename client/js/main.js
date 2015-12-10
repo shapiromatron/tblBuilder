@@ -28,7 +28,12 @@ Tracker.autorun(function(){
 
 
 // setup router
-var TblRouterController = RouteController.extend({
+var GARouter = RouteController.extend({
+        onAfterAction: function () {
+            GAnalytics.pageview();
+        },
+    }),
+    TblRouterController = GARouter.extend({
         waitOn: function(){
             return tablesHandler;
         },
@@ -52,7 +57,7 @@ var TblRouterController = RouteController.extend({
             document.title = utilities.getHTMLTitleBase();
         },
     }),
-    AdminRouteController = RouteController.extend({
+    AdminRouteController = GARouter.extend({
         action: function () {
             if (Roles.userIsInRole(Meteor.userId(), ['staff'])){
                 this.render();
@@ -66,6 +71,7 @@ Router.map(function() {
 
     this.route('home', {
         path: '/',
+        controller: GARouter,
     });
 
     this.route('volumeTableList', {
@@ -73,6 +79,7 @@ Router.map(function() {
         data: function() {
             return {volumeNumber: parseInt(this.params.volumeNumber, 10)};
         },
+        controller: GARouter,
     });
 
     this.route('epiMain', {
@@ -125,6 +132,7 @@ Router.map(function() {
         data: function() {
             return {monographAgent: this.params.monographAgent};
         },
+        controller: GARouter,
     });
 
     this.route('referenceBatchUpload', {
@@ -132,6 +140,7 @@ Router.map(function() {
         data: function() {
             return {monographAgent: this.params.monographAgent};
         },
+        controller: GARouter,
     });
 
     this.route('epiOrganSiteMain', {
@@ -142,10 +151,12 @@ Router.map(function() {
                 monographAgent: this.params.monographAgent,
             };
         },
+        controller: GARouter,
     });
 
     this.route('profileEdit', {
         path: '/user-profile/',
+        controller: GARouter,
     });
 
     this.route('adminMain', {
