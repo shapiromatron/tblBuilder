@@ -29,8 +29,9 @@ Tracker.autorun(function(){
 
 // setup router
 var GARouter = RouteController.extend({
-        onAfterAction: function () {
+        onRun: function () {
             GAnalytics.pageview();
+            this.next();
         },
     }),
     TblRouterController = GARouter.extend({
