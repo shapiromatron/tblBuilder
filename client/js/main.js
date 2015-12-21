@@ -39,7 +39,19 @@ var GARouter = RouteController.extend({
             return tablesHandler;
         },
         data: function() {
-            return Tables.findOne(this.params._id);
+            /*
+            If table is found, return table and continue.
+            If user is not logged in, raise 403, which suggests login.
+            If user is logged-in and table is not found, raise 404.
+            */
+            let tbl = Tables.findOne(this.params._id);
+            if (tbl){
+                return tbl;
+            } else if(Meteor.userId()){
+                this.render('Http404');
+            } else {
+                this.render('Http403');
+            }
         },
         action: function() {
             if (this.ready()) {
@@ -63,7 +75,7 @@ var GARouter = RouteController.extend({
             if (Roles.userIsInRole(Meteor.userId(), ['staff'])){
                 this.render();
             } else {
-                this.render('404');
+                this.render('Http403');
             }
         },
     });
@@ -173,3 +185,9 @@ Router.configure({
 });
 
 Router.plugin('dataNotFound', {notFoundTemplate: 'Http404'});
+
+
+// return Home after sign-out
+accountsUIBootstrap3.logoutCallback = function(error) {
+    Router.go('home');
+};
