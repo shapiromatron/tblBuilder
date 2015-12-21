@@ -168,8 +168,8 @@ Router.map(function() {
 
 Router.configure({
     layoutTemplate: 'layout',
-    notFoundTemplate: '404',
+    notFoundTemplate: 'Http404',
     loadingTemplate: 'isLoading',
 });
 
-Router.plugin('dataNotFound', {notFoundTemplate: '404'});
+Router.plugin('dataNotFound', {notFoundTemplate: 'Http404'});
