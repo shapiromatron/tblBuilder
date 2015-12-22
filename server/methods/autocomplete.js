@@ -86,6 +86,27 @@ Meteor.methods({
         options = {limit: 50, sort: {name: 1}};
         return Reference.find(query, options).fetch();
     },
+    searchOrganSiteCategories: function(query) {
+        // cleanup query string
+        check(query, String);
+        query = query.toLocaleLowerCase().trim();
+
+        // check matches
+        let opts = _.filter(
+            EpiResult.organSiteCategoryOptions,
+            (d) => d.toLocaleLowerCase().indexOf(query) >= 0
+        );
+
+        // check synonyms
+        let extra = _.chain(EpiResult.organSiteCategorySynonyms)
+                     .keys()
+                     .filter((d) => d.indexOf(query) >= 0)
+                     .map((d) => EpiResult.organSiteCategorySynonyms[d])
+                     .value();
+        opts.push.apply(opts, extra);
+
+        return opts;
+    },
     searchOrganSite: function(query) {
         return singleFieldTextSearch(EpiResult, "organSite", query);
     },

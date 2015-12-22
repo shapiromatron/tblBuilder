@@ -390,7 +390,9 @@ or the-first row of the riskEstimates.
             <!-- First row -->
             <div class="form-group row">
               <div class="col-xs-3">
-                <br>{{> fldInputTypeahead name="organSite" value=organSite nested=true }}
+                {{> fldInputTypeahead name="organSiteCategory" value=organSiteCategory nested=true }}
+                <br>
+                {{> fldInputTypeahead name="organSite" value=organSite nested=true }}
               </div>
               <div class="col-xs-3">
                 <br>{{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true }}
