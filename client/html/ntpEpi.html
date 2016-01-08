@@ -278,7 +278,7 @@
               <div class="col-xs-3">
                 {{>fldTextArea name="otherPopulationDescriptors" value=otherPopulationDescriptors }}
               </div>
-              <div class="col-xs-3">
+              <div class="col-xs-9">
                 {{> fldSelectSingle name="selectionBiasRating" value=selectionBiasRating }}
                 {{> fldTextArea name="selectionBiasRationale" value=selectionBiasRationale }}
               </div>
@@ -301,18 +301,24 @@
             <div class="form-group row">
               <div class="col-xs-3">
                 {{> fldSelectSingle name="exposureAssessmentType" value=exposureAssessmentType }}
-                {{> fldTextArea name="exposureAssessmentNotes" value=exposureAssessmentNotes }}
                 {{> fldTextArea name="exposureMissingData" value=exposureMissingData }}
               </div>
               <div class="col-xs-3">
+                {{> fldTextArea name="exposureAssessmentNotes" value=exposureAssessmentNotes }}
+              </div>
+              <div class="col-xs-6">
                 {{> fldSelectSingle name="exposureAssessmentRating" value=exposureAssessmentRating }}
                 {{> fldTextArea name="exposureAssessmentRationale" value=exposureAssessmentRationale }}
               </div>
+            </div>
+            <div class="form-group row">
               <div class="col-xs-3">
                 {{> fldTextArea name="outcomeDataSource" value=outcomeDataSource }}
-                {{> fldTextArea name="outcomeMissingData" value=outcomeMissingData }}
               </div>
               <div class="col-xs-3">
+                {{> fldTextArea name="outcomeMissingData" value=outcomeMissingData }}
+              </div>
+              <div class="col-xs-6">
                 {{> fldSelectSingle name="outcomeAssessmentRating" value=outcomeAssessmentRating }}
                 {{> fldTextArea name="outcomeAssessmentRationale" value=outcomeAssessmentRationale }}
               </div>
@@ -424,9 +430,11 @@
               </div>
               <div class="col-xs-3">
                 {{> fldTypeaheadSelectMultiple name="coexposures" values=coexposures }}
-                {{> fldTypeaheadSelectMultiple name="riskFactors" values=riskFactors }}
               </div>
               <div class="col-xs-3">
+                {{> fldTypeaheadSelectMultiple name="riskFactors" values=riskFactors }}
+              </div>
+              <div class="col-xs-6">
                 {{> fldSelectSingle name="confoundingRating" value=confoundingRating }}
                 {{> fldTextArea name="confoundingRatingRationale" value=confoundingRatingRationale }}
               </div>
