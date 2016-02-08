@@ -124,6 +124,18 @@ var toggleDataClassFields = function(tmpl) {
             $(tmpl.findAll('.isAcellular')).hide();
             $(tmpl.findAll('.isntAcellular')).show();
         }
+        handleNonMetabolicPhylo(tmpl, phylo);
+    },
+    handleNonMetabolicPhylo = function(tmpl, phylo){
+        // Some phylogeneticClass are never metabolically activated,
+        // so hide the dualResult input option when true.
+        let dualResult = tmpl.$('input[name=dualResult]');
+        if (phylo === 'Insect'){
+            dualResult.prop('checked', false);
+            dualResult.parent().parent().hide();
+        } else {
+            dualResult.parent().parent().show();
+        }
     },
     toggleEndpointOptions = function(tmpl) {
         var dataClass = tmpl.find('select[name="dataClass"]').value,
