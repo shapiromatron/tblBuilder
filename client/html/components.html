@@ -23,6 +23,7 @@
     <input class="form-control typeahead" name={{name}} type="text"
          placeholder="{{placeholder}}"
          autocomplete="off" spellcheck="off" value="{{value}}"
+         data-limit="15"
          data-autoselect="true"
          data-highlight="true"
          data-source="getOptions"
@@ -38,6 +39,7 @@
          placeholder="Add to list by pressing <enter>"
          autocomplete="off"
          spellcheck="off"
+         data-limit="15"
          data-highlight="true"
          data-source="getOptions"
          data-methodname="{{methodName}}"/>
@@ -609,6 +611,7 @@
          placeholder="Add to list by pressing <enter>"
          autocomplete="off"
          spellcheck="off"
+         data-limit="15"
          data-highlight="true"
          data-source="getOptions"
          data-methodname="{{schema.typeaheadMethod}}"/>
@@ -669,6 +672,7 @@
          placeholder="{{schema.placeholderText}}"
          autocomplete="off" spellcheck="off"
          value="{{value}}"
+         data-limit="15"
          data-autoselect="true"
          data-highlight="true"
          data-source="getOptions"
