@@ -619,13 +619,13 @@ var siteMap = {
         db.epiResult
             .find()
             .forEach(function(d){
-                rows.push(d.organSite + '\t' + d.tbl_id);
+                rows.push(d._id + '\t' + d.organSiteCategory + '\t' + d.organSite + '\t' + d.tbl_id);
             });
         print(rows.join('\n'));
     };
 
 
 var missings = getMissings();
+if (missings === 0) setValues();
 // printPlacement();
 // printByTable();
-if (missings === 0) setValues();
