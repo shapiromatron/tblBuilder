@@ -91,7 +91,7 @@ class EpiHtmlTables(DOCXReport):
             irows = rows
             for res in d["results"]:
                 additionalRows = 0
-                tbl.new_td_txt(irows, 2, res["organSite"], rowspan=res["_rowspan"])
+                tbl.new_td_txt(irows, 2, res["printOrganSite"], rowspan=res["_rowspan"])
                 tbl.new_td_txt(irows, 6, res["wrd_covariatesList"], rowspan=res["_rowspan"])
 
                 effectUnits = res.get("effectUnits", None)

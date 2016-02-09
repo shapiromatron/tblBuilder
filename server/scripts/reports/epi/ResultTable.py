@@ -51,6 +51,10 @@ class EpiResultTables(DOCXReport):
                 tbl.new_run("Exposure assessment method: ", b=True, newline=False),
                 tbl.new_run(res["descriptive"]["exposureAssessmentType"], newline=False)
             ]
+
+            if res.get('organSite'):
+                runs.insert(0, tbl.new_run(res['organSite'], b=True))
+
             tbl.new_td_run(rows, 1, runs, rowspan=rowspan)
 
             # Columns C,D,E
