@@ -2,7 +2,7 @@ Template.epiOrganSiteMain.helpers(_.extend({
     getOrganSiteOptions: function() {
         return _.chain(EpiResult.find()
                 .fetch())
-                .pluck("organSite")
+                .pluck("organSiteCategory")
                 .uniq()
                 .sort()
                 .map(function(d) {return `<option>${d}</option>`;})
@@ -10,8 +10,8 @@ Template.epiOrganSiteMain.helpers(_.extend({
     },
     object_list: function() {
         var tmpl = Template.instance(),
-            organSites = tmpl.organSites.get(),
-            results = EpiResult.find({"organSite": {$in: organSites}}).fetch(),
+            organSiteCategories = tmpl.organSiteCategories.get(),
+            results = EpiResult.find({"organSiteCategory": {$in: organSiteCategories}}).fetch(),
             rows = [];
 
         results.forEach(function(res) {
@@ -37,7 +37,7 @@ Template.epiOrganSiteMain.helpers(_.extend({
 }, clientShared.abstractMainHelpers));
 Template.epiOrganSiteMain.events({
     'change #organSiteSelector': function(evt, tmpl) {
-        tmpl.organSites.set($(evt.target).val() || []);
+        tmpl.organSiteCategories.set($(evt.target).val() || []);
         return clientShared.toggleRiskPlot();
     },
     'click #selectVisible': function(evt, tmpl) {
@@ -56,7 +56,7 @@ Template.epiOrganSiteMain.events({
 });
 Template.epiOrganSiteMain.onCreated(function() {
     this.subscribe('epiCollective', this.data.volumeNumber, this.data.monographAgent);
-    this.organSites = new ReactiveVar([]);
+    this.organSiteCategories = new ReactiveVar([]);
     Session.setDefault("eosEditMode", false);
     Session.setDefault("epiRiskShowPlots", false);
 
