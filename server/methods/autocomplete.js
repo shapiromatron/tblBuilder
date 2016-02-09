@@ -102,8 +102,13 @@ Meteor.methods({
                      .keys()
                      .filter((d) => d.indexOf(query) >= 0)
                      .map((d) => EpiResult.organSiteCategorySynonyms[d])
+                     .flatten()
                      .value();
+
+        // merge matches and synonyms
         opts.push.apply(opts, extra);
+
+        opts = _.uniq(opts);  // sorts during uniqueness algorithm
 
         return opts;
     },
