@@ -614,13 +614,6 @@ var siteMap = {
             });
             print(rows.join('\n'));
     },
-    renameFields = function(){
-        db.epiResult.update(
-            {},
-            {$rename: {'organSite': 'organSubtype'}},
-            {multi: true}
-        );
-    },
     printByTable = function(){
         var rows = [];
         db.epiResult
@@ -633,10 +626,6 @@ var siteMap = {
 
 
 var missings = getMissings();
-printPlacement();
-// if (missings === 0){
-//     // setValues();
-//     renameFields();
-// }
-
+// printPlacement();
 // printByTable();
+if (missings === 0) setValues();
