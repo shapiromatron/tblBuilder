@@ -136,11 +136,25 @@ Template.organSiteTd.helpers({
 });
 
 
+Template.epiOrganSiteCategories.onRendered(function() {
+    $(this.findAll('li')).click(function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+});
+
+
 Template.epiResultForm.helpers(clientShared.abstractNestedFormHelpers);
 Template.epiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
         var tbody = tmpl.find('.riskEstimateTbody');
         Blaze.renderWithData(Template.riskEstimateForm, {}, tbody);
+    },
+    'show.bs.modal': function(evt, tmpl){
+        let div = tmpl.$("input[name='organSiteCategory']").closest('div');
+        Blaze.renderWithData(Template.epiOrganSiteCategories,
+            {options: EpiResult.organSiteCategoryOptions},
+            div[0], div.find('label')[0]);
     },
 }, clientShared.abstractNestedFormEvents));
 Template.epiResultForm.onRendered(function() {

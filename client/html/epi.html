@@ -371,6 +371,20 @@ or the-first row of the riskEstimates.
 </template>
 
 
+<template name='epiOrganSiteCategories'>
+<div class="btn-group pull-right">
+    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+      <i class="fa fa-eye"></i> View all sites <span class="caret" title="View all sites"></span>
+    </button>
+    <ul class="dropdown-menu organSiteUl">
+      {{#each options}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+
 <template name="epiResultForm">
   <div class="modal fade" id="modalDiv" tabindex="-1" role="dialog"
        data-backdrop="static" aria-labelledby="modalDiv" aria-hidden="true">
