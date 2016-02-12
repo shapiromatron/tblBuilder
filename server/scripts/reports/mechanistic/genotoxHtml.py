@@ -114,7 +114,7 @@ class GenotoxHtmlTables(DOCXReport):
 
             tbl.new_td_txt(row, 3, d["result"])
 
-            txt = u"{}\n{}\nLED/HID: {} {}".format(d["agent"], d["dosesTested"], d["wrd_led"], d["units"])
+            txt = u"{}\nLED/HID: {} {}".format(d["agent"], d["wrd_led"], d["units"])
             tbl.new_td_txt(row, 4, txt)
 
             txt = u"{}; {}".format(d["dosingRoute"], d["dosingDuration"])

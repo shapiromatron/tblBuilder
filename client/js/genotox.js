@@ -63,9 +63,6 @@ Template.genotoxRow.helpers({
         if (this.led) {
             txt += ",<br>" + this.led + " " + this.units;
         }
-        if (this.dosesTested != null) {
-            txt += ",<br>[" + this.dosesTested + "&nbsp;" + this.units + "]";
-        }
         if (this.dosingDuration) {
             txt += ", " + this.dosingDuration;
         }
