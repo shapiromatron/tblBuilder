@@ -129,8 +129,9 @@ var toggleDataClassFields = function(tmpl) {
     handleNonMetabolicPhylo = function(tmpl, phylo){
         // Some phylogeneticClass are never metabolically activated,
         // so hide the dualResult input option when true.
-        let dualResult = tmpl.$('input[name=dualResult]');
-        if (phylo === 'Insect'){
+        let dualResult = tmpl.$('input[name=dualResult]'),
+            hiddenNonMetabolic = ['Insect', 'Plant systems'];
+        if (_.contains(hiddenNonMetabolic, phylo)){
             dualResult.prop('checked', false);
             dualResult.parent().parent().hide();
         } else {
