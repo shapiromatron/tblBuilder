@@ -96,7 +96,7 @@ class GenotoxHtmlTables(DOCXReport):
         tbl.new_th(1, 1, "Tissue")
         tbl.new_th(1, 2, "Endpoint/\ntest")
         tbl.new_th(1, 3, "Results")
-        tbl.new_th(1, 4, "Agent, doses, and  LED/HID")
+        tbl.new_th(1, 4, "Agent and LED/HID")
         tbl.new_th(1, 5, "Route, duration, dosing regimen")
         tbl.new_th(1, 6, "Comments")
         tbl.new_th(1, 7, "Reference")
