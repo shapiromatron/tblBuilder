@@ -85,8 +85,8 @@ var toggleDataClassFields = function(tmpl) {
 
         switch (dataClass) {
         case "Non-mammalian":
-            shows = ".non_mamm, .doses, .vitro";
-            hides = ".mamm_vitro, .ani_vivo, .human_vivo, .concs";
+            shows = ".non_mamm, .vitro";
+            hides = ".mamm_vitro, .ani_vivo, .human_vivo";
             if (phylo === "Other (fish, worm, bird, etc)") {
                 shows += ", .expvivo";
             } else {
@@ -94,16 +94,16 @@ var toggleDataClassFields = function(tmpl) {
             }
             break;
         case "Mammalian and human in vitro":
-            shows = ".mamm_vitro, .doses, .vitro";
-            hides = ".non_mamm, .ani_vivo, .human_vivo, .concs, .expvivo";
+            shows = ".mamm_vitro, .vitro";
+            hides = ".non_mamm, .ani_vivo, .human_vivo, .expvivo";
             break;
         case "Animal in vivo":
-            shows = ".ani_vivo, .concs, .expvivo";
-            hides = ".non_mamm, .mamm_vitro, .human_vivo, .doses, .vitro";
+            shows = ".ani_vivo, .expvivo";
+            hides = ".non_mamm, .mamm_vitro, .human_vivo, .vitro";
             break;
         case "Human in vivo":
-            shows = ".human_vivo, .concs";
-            hides = ".non_mamm, .mamm_vitro, .ani_vivo, .doses, .vitro, .expvivo";
+            shows = ".human_vivo";
+            hides = ".non_mamm, .mamm_vitro, .ani_vivo, .vitro, .expvivo";
             break;
         default:
             console.log("unknown data-type: {#dataClass}");
