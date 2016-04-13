@@ -1,3 +1,9 @@
+import {Meteor} from 'meteor/meteor';
+import { check } from 'meteor/check';
+
+import _ from 'underscore';
+
+
 var textSearchRegex = function(str, opts){
         str = str.escapeRegex();
         if (opts && opts.atBeginning) str = '^' + str;
@@ -39,10 +45,10 @@ var textSearchRegex = function(str, opts){
         var qs,
             regex,
             qry = {},
-            opts = {fields: {}, limit: 1000};
+            opts = {fields: {}, limit: 1000},
+            field = array_field + '.' + pluck_field;
 
         check(qrystr, String);
-        field = array_field + '.' + pluck_field;
         regex = textSearchRegex(qrystr, {'atBeginning': true});
         qry[field] = {$in: [regex]};
         opts.fields[field] = 1;

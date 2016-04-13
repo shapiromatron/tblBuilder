@@ -1,3 +1,7 @@
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+
+
 Template.ntpEpiRatingMain.helpers(clientShared.abstractMainHelpers);
 Template.ntpEpiRatingMain.onCreated(function() {
     Session.set('evidenceType', 'ntpEpiDescriptive');

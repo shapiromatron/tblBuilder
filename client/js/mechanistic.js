@@ -1,3 +1,8 @@
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { Tracker } from 'meteor/tracker';
+
+
 var initializeDraggable = function(tmpl, options) {
     var id = options.isSection ? tmpl.data.section : tmpl.data._id,
         container = tmpl.find('#dragContainer_' + id);

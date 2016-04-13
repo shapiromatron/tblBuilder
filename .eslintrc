@@ -1,7 +1,7 @@
 {
     "rules": {
         "indent": [
-            1,
+            2,
             4
         ],
         "quotes": [
@@ -16,19 +16,16 @@
             2,
             "always"
         ],
-        "no-undef": [
-            0
-        ],
         "comma-dangle": [
             2,
             "always-multiline"
         ],
-        "no-console": [
-            0
-        ],
         "no-unused-vars": [
             2,
             {"args": "none"}
+        ],
+        "no-console": [
+            0
         ]
     },
     "env": {

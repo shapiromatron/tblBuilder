@@ -1,3 +1,12 @@
+import {Meteor} from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Blaze } from 'meteor/blaze';
+import { Session } from 'meteor/session';
+import { Tracker } from 'meteor/tracker';
+
+import _ from 'underscore';
+
+
 var setAdminNotification = function(message, type) {
         var div = $('#messages')[0],
             data = {

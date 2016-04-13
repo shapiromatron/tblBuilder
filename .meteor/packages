@@ -10,8 +10,6 @@ accounts-password
 mrt:moment@2.6.0
 sergeyt:typeahead@0.0.10
 email
-d3
-underscore
 http
 mrt:collection-hooks@0.7.2
 mrt:sortable@0.0.4
@@ -21,7 +19,6 @@ pfafman:font-awesome-4
 iron:router
 ian:accounts-ui-bootstrap-3
 reactive-var
-twbs:bootstrap
 natestrauser:animate-css
 aldeed:collection2
 ecmascript
@@ -29,3 +26,5 @@ peerlibrary:reactive-publish
 datariot:ganalytics
 standard-minifier-css
 standard-minifier-js
+twbs:bootstrap
+jquery

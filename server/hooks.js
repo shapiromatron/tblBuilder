@@ -1,3 +1,6 @@
+import {Meteor} from 'meteor/meteor';
+
+
 var addTimestampAndUserID = function(userId, doc) {
         var now =  new Date();
         doc.created = now;

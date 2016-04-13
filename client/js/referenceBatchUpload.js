@@ -1,3 +1,7 @@
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+
+
 var getImportWS = function(wb, cb) {
     var ws;
     try {

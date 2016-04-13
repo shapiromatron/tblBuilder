@@ -1,3 +1,10 @@
+import {Meteor} from 'meteor/meteor';
+
+import _ from 'underscore';
+
+import serverShared from './shared';
+
+
 var isCreatorOrProjectManager = function(userId, tbl) {
         if (Meteor.user().roles.indexOf('superuser') >= 0) return true;
         var ids = _.chain(tbl.user_roles)
@@ -6,7 +13,7 @@ var isCreatorOrProjectManager = function(userId, tbl) {
                .value();
         return (tbl.user_id === userId) || (ids.indexOf(userId) >= 0);
     }, isTeamMemberOrHigher = function(userId, tbl) {
-        if (Meteor.user().roles.indexOf("superuser") >= 0) return true;
+        if (Meteor.user().roles.indexOf('superuser') >= 0) return true;
         var ids = _.chain(tbl.user_roles)
            .filter(function(d){return d.role === 'projectManagers' || d.role === 'teamMembers';})
            .pluck('user_id')

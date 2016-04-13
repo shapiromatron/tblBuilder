@@ -1,3 +1,6 @@
+import {Meteor} from 'meteor/meteor';
+
+
 Meteor.methods({
     removeReference: function(ref_id, thisAgent) {
         /*

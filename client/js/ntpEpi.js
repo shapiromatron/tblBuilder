@@ -1,3 +1,10 @@
+import { Template } from 'meteor/templating';
+import { Blaze } from 'meteor/blaze';
+import { Session } from 'meteor/session';
+
+import _ from 'underscore';
+
+
 Template.ntpEpiMain.helpers(clientShared.abstractMainHelpers);
 Template.ntpEpiMain.onCreated(function() {
     Session.set('evidenceType', 'ntpEpiDescriptive');

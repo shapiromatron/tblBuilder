@@ -1,4 +1,7 @@
+import {Meteor} from 'meteor/meteor';
+
 import XLSX from 'xlsx';
+
 
 var type = (function() {
         var classToType = {};
@@ -20,16 +23,14 @@ var type = (function() {
         this.Sheets = {};
     },
     sheet_from_array_of_arrays = function(data) {
-        var R, cell, cell_ref, i, j,
+        var cell, cell_ref, i, j,
             ws = {},
             range = {
                 s: {c: 10000000, r: 10000000},
                 e: {c: 0, r: 0},
             };
         for (i = 0; i < data.length; i++) {
-            R = data[i];
-            for (j  = 0; j < R.length; j++) {
-                C = R[j];
+            for (j  = 0; j < data[i].length; j++) {
                 if (range.s.r > i) range.s.r = i;
                 if (range.s.c > j) range.s.c = j;
                 if (range.e.r < i) range.e.r = i;

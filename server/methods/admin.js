@@ -1,3 +1,9 @@
+import {Meteor} from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+
+import serverShared from '../shared';
+
+
 Meteor.methods({
     adminUserEditProfile: function(_id, obj) {
         if (!serverShared.isStaffOrHigher(this.userId)) {

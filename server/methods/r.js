@@ -1,4 +1,9 @@
+import {Meteor} from 'meteor/meteor';
+import { check } from 'meteor/check';
+
+import _ from 'underscore';
 import r from 'rserve-client';
+
 
 var Future = Npm.require('fibers/future'),
     calculateTrendTest = function(obj, fut){
@@ -21,7 +26,7 @@ var Future = Npm.require('fibers/future'),
         return obj.incidence_significance || '';
     },
     updateResult = function(obj, updates){
-        v = AnimalEndpointEvidence.update(obj._id, {$set: updates});
+        AnimalEndpointEvidence.update(obj._id, {$set: updates});
     },
     getRCmd = function(data){
         var script = `${Meteor.settings.scripts_path}/R/stats.R`;

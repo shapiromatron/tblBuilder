@@ -1,3 +1,10 @@
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { Tracker } from 'meteor/tracker';
+
+import _ from 'underscore';
+
+
 Template.home.onCreated(function() {
     Session.set('tablesShowNew', false);
     Session.set('tablesEditingId', null);

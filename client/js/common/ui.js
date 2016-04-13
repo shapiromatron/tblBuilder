@@ -1,3 +1,11 @@
+import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+import { Spacebars } from 'meteor/spacebars';
+import { UI } from 'meteor/ui';
+
+import _ from 'underscore';
+
+
 var uiHelpers = {
     userCanEdit: function() {
         return clientShared.userCanEdit(Session.get('Tbl'));

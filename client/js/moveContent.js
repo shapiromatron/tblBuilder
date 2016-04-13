@@ -1,3 +1,9 @@
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+
+import _ from 'underscore';
+
+
 Template.moveModal.helpers({
     getCurrentTable: function() {
         var d = Session.get('Tbl');

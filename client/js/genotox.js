@@ -1,3 +1,9 @@
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+
+import _ from 'underscore';
+
+
 Template.genotoxMain.helpers(clientShared.abstractMainHelpers);
 Template.genotoxMain.onCreated(function() {
     Session.set('evidenceType', 'genotoxEvidence');

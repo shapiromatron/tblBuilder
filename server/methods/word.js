@@ -1,4 +1,8 @@
+import {Meteor} from 'meteor/meteor';
 import PythonShell from 'python-shell';
+
+import _ from 'underscore';
+
 
 var Future = Npm.require('fibers/future'),
     pyWordHelperStdin = function(report_type, context, fut) {

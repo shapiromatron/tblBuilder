@@ -1,9 +1,17 @@
+import {Meteor} from 'meteor/meteor';
+import { check, Match } from 'meteor/check';
+
+import _ from 'underscore';
+
+import serverShared from './shared';
+
+
 var userCanView = function(tbl, userId) {
     // User-can view permissions check on a table-level basis.
     if (serverShared.isStaffOrHigher(userId)) return true;
 
     if (tbl && userId) {
-        var valid_ids = _.pluck(tbl.user_roles, "user_id");
+        var valid_ids = _.pluck(tbl.user_roles, 'user_id');
         return (userId === tbl.user_id) || (valid_ids.indexOf(userId) >= 0);
     }
     return false;
@@ -75,7 +83,7 @@ Meteor.publish('ntpEpiDescriptive', function(tbl_id) {
 
 Meteor.publish('epiCollective', function(volumeNumber, monographAgent) {
     var tbls = Tables.find({
-            tblType: "Epidemiology Evidence",
+            tblType: 'Epidemiology Evidence',
             volumeNumber: parseInt(volumeNumber, 10),
             monographAgent: monographAgent,
         }).fetch(),
@@ -86,7 +94,7 @@ Meteor.publish('epiCollective', function(volumeNumber, monographAgent) {
     }, this);
 
     if (tbls.length > 0) {
-        tbl_ids = _.pluck(tbls, "_id");
+        tbl_ids = _.pluck(tbls, '_id');
         ref_ids = _.pluck(EpiDescriptive
             .find({tbl_id: {$in: tbl_ids}}, {fields: {referenceID: 1}})
             .fetch(), 'referenceID');

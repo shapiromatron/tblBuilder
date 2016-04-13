@@ -1,3 +1,12 @@
+import { Blaze } from 'meteor/blaze';
+import { Session } from 'meteor/session';
+import { Tracker } from 'meteor/tracker';
+import { UI } from 'meteor/ui';
+
+import _ from 'underscore';
+import d3 from 'd3';
+
+
 var getValue = function(inp) {
         var val = undefined,
             $el,

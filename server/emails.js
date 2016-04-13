@@ -1,3 +1,5 @@
+import { Accounts } from 'meteor/accounts-base';
+
 // Global email configuration settings
 Accounts.emailTemplates.siteName = 'IARC Table Maker';
 

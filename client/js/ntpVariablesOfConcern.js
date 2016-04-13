@@ -1,3 +1,9 @@
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+
+import _ from 'underscore';
+
+
 Template.ntpVariablesOfConcernMain.helpers(clientShared.abstractMainHelpers);
 Template.ntpVariablesOfConcernMain.onCreated(function() {
     Session.set('evidenceType', 'ntpEpiDescriptive');

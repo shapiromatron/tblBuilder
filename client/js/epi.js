@@ -1,3 +1,11 @@
+import { Template } from 'meteor/templating';
+import { Blaze } from 'meteor/blaze';
+import { Session } from 'meteor/session';
+
+import _ from 'underscore';
+import d3 from 'd3';
+
+
 Template.epiMain.helpers(clientShared.abstractMainHelpers);
 Template.epiMain.onCreated(function() {
     Session.set('evidenceType', 'epiDescriptive');

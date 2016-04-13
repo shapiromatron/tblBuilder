@@ -1,3 +1,8 @@
+import {Meteor} from 'meteor/meteor';
+
+import _ from 'underscore';
+
+
 Meteor.methods({
     saveSortOrder: function(key, ids) {
         this.unblock();

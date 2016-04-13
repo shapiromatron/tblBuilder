@@ -1,3 +1,7 @@
+import {Meteor} from 'meteor/meteor';
+import { Session } from 'meteor/session';
+import { Tracker } from 'meteor/tracker';
+
 // global session variables
 Session.setDefault('showQAflags', false);
 Session.setDefault('isFullScreen', false);

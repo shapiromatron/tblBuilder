@@ -1,3 +1,6 @@
+import { Template } from 'meteor/templating';
+
+
 Template.browserDetect.helpers({
     isSupportedBrowser: function() {
         var isChrome = window.chrome != null,

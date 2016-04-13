@@ -1,3 +1,6 @@
+import { Template } from 'meteor/templating';
+
+
 Template.Http403.onRendered(function() {
     $('#login-dropdown-list')
         .addClass('alert-info');
