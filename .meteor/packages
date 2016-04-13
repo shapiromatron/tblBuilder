@@ -15,7 +15,6 @@ mrt:collection-hooks@0.7.2
 mrt:sortable@0.0.4
 alanning:roles@1.2.10
 less
-pfafman:font-awesome-4
 iron:router
 ian:accounts-ui-bootstrap-3
 reactive-var
@@ -28,3 +27,4 @@ standard-minifier-css
 standard-minifier-js
 twbs:bootstrap
 jquery
+fortawesome:fontawesome
