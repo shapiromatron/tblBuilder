@@ -1,6 +1,8 @@
 import {Meteor} from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
+import { getHTMLTitleBase } from '/imports/utilities';
+
 
 Template.navBar.helpers({
     getTitle: function() {
@@ -8,5 +10,5 @@ Template.navBar.helpers({
     },
 });
 Template.navBar.onCreated(function() {
-    document.title = utilities.getHTMLTitleBase();
+    document.title = getHTMLTitleBase();
 });

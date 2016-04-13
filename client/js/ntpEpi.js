@@ -4,6 +4,8 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
+import { getPercentOrText } from '/imports/utilities';
+
 
 Template.ntpEpiMain.helpers(clientShared.abstractMainHelpers);
 Template.ntpEpiMain.onCreated(function() {
@@ -36,8 +38,8 @@ Template.ntpEpiDescriptiveRow.helpers(_.extend({
     getCol2: function() {
         var html = '', rrCases, rrCtrls;
         if (this.isCaseControl()) {
-            rrCases = utilities.getPercentOrText(this.responseRateCase);
-            rrCtrls = utilities.getPercentOrText(this.responseRateControl);
+            rrCases = getPercentOrText(this.responseRateCase);
+            rrCtrls = getPercentOrText(this.responseRateControl);
             if (rrCases.length > 0) rrCases = ` (${rrCases})`;
             if (rrCtrls.length > 0) rrCtrls = ` (${rrCtrls})`;
 

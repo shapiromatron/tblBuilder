@@ -6,6 +6,8 @@ import { UI } from 'meteor/ui';
 import _ from 'underscore';
 import d3 from 'd3';
 
+import { cloneObject } from '/imports/utilities';
+
 
 var getValue = function(inp) {
         var val = undefined,
@@ -470,7 +472,7 @@ _.extend(clientShared, {
         },
         'click #clone-content': function(evt, tmpl) {
             var ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')];
-            utilities.cloneObject(this, ET.collection, ET.nested_collection);
+            cloneObject(this, ET.collection, ET.nested_collection);
         },
     },
     abstractFormEvents: {
@@ -565,7 +567,7 @@ _.extend(clientShared, {
         'click #clone-nested-content': function(evt, tmpl) {
             var data = tmpl.view.parentView.dataVar.curValue,
                 ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')];
-            return utilities.cloneObject(data, ET.nested_collection);
+            return cloneObject(data, ET.nested_collection);
         },
     },
     abstractNestedFormHelpers: {

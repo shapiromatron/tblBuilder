@@ -4,7 +4,14 @@ import { Tracker } from 'meteor/tracker';
 
 import { Router, RouteController } from 'meteor/iron:router';
 import { Roles } from 'meteor/alanning:roles';
-import {GAnalytics} from 'meteor/datariot:ganalytics';
+import { GAnalytics } from 'meteor/datariot:ganalytics';
+import { accountsUIBootstrap3 } from 'meteor/ian:accounts-ui-bootstrap-3';
+
+
+import {
+    getHTMLTitleTbl,
+    getHTMLTitleBase,
+} from '/imports/utilities';
 
 
 // global session variables
@@ -67,7 +74,7 @@ var GARouter = RouteController.extend({
                 var tbl = this.data();
                 Session.set('Tbl', tbl);
                 Session.set('monographAgent', tbl.monographAgent);
-                document.title = utilities.getHTMLTitleTbl();
+                document.title = getHTMLTitleTbl();
                 return this.render();
             } else {
                 return this.render('isLoading');
@@ -76,7 +83,7 @@ var GARouter = RouteController.extend({
         onStop: function() {
             Session.set('Tbl', null);
             Session.set('monographAgent', null);
-            document.title = utilities.getHTMLTitleBase();
+            document.title = getHTMLTitleBase();
         },
     }),
     AdminRouteController = GARouter.extend({

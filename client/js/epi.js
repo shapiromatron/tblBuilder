@@ -5,6 +5,8 @@ import { Session } from 'meteor/session';
 import _ from 'underscore';
 import d3 from 'd3';
 
+import { getPercentOrText } from '/imports/utilities';
+
 
 Template.epiMain.helpers(clientShared.abstractMainHelpers);
 Template.epiMain.onCreated(function() {
@@ -48,8 +50,8 @@ Template.epiDescriptiveRow.helpers(_.extend({
     getCol2: function() {
         var html = '', rrCase, rrCtrl;
         if (this.isCaseControl()) {
-            rrCase = utilities.getPercentOrText(this.responseRateCase);
-            rrCtrl = utilities.getPercentOrText(this.responseRateControl);
+            rrCase = getPercentOrText(this.responseRateCase);
+            rrCtrl = getPercentOrText(this.responseRateControl);
             if (rrCase.length > 0) rrCase = ` (${rrCase})`;
             if (rrCtrl.length > 0) rrCtrl = ` (${rrCtrl})`;
 
