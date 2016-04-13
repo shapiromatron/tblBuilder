@@ -6,6 +6,10 @@ import { Tracker } from 'meteor/tracker';
 
 import _ from 'underscore';
 
+import {
+    createErrorDiv,
+} from '/imports/api/client/utilities';
+
 
 Template.referencesMain.onCreated(function() {
     Session.set('referenceShowNew', false);
@@ -87,7 +91,7 @@ Template.referenceForm.events({
                 });
             });
         } else {
-            errorDiv = clientShared.createErrorDiv(Reference.simpleSchema().namedContext());
+            errorDiv = createErrorDiv(Reference.simpleSchema().namedContext());
             tmpl.$('#errors').html(errorDiv);
         }
     },
@@ -108,7 +112,7 @@ Template.referenceForm.events({
             Reference.update(this._id, modifier);
             Session.set('referenceEditingId', null);
         } else {
-            errorDiv = clientShared.createErrorDiv(Reference.simpleSchema().namedContext());
+            errorDiv = createErrorDiv(Reference.simpleSchema().namedContext());
             $(tmpl.find('#errors')).html(errorDiv);
         }
     },

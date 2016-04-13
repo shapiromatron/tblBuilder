@@ -8,6 +8,10 @@ import d3 from 'd3';
 
 import { cloneObject } from '/imports/utilities';
 
+import {
+    createErrorDiv,
+} from '/imports/api/client/utilities';
+
 
 var getValue = function(inp) {
         var val = undefined,
@@ -109,26 +113,6 @@ var getValue = function(inp) {
 
 // template-utility functions
 clientShared = {
-    createErrorDiv: function(context) {
-        var  msg, ul = $('<ul>');
-        context.invalidKeys().forEach(function(obj){
-            msg = undefined;
-            try {
-                msg = context.keyErrorMessage(obj.name);
-            } catch (err) {
-                console.error(err);
-            }
-            if (msg != null) {
-                ul.append(`<li>${msg}</li>`);
-            } else {
-                ul.append(`<li>${obj.name} is ${obj.type}; got \'${obj.value}\' </li>`);
-            }
-        });
-
-        return $('<div class="bg-danger">')
-            .append('<p><strong>The following errors were found:</strong></p>')
-            .append(ul);
-    },
     activateInput: function(input) {
         input.focus();
         input.select();
@@ -499,7 +483,7 @@ _.extend(clientShared, {
                 Collection.insert(obj);
                 Session.set('evidenceShowNew', false);
             } else {
-                errorDiv = clientShared.createErrorDiv(Collection.simpleSchema().namedContext());
+                errorDiv = createErrorDiv(Collection.simpleSchema().namedContext());
                 $(tmpl.find('#errors')).html(errorDiv);
             }
         },
@@ -524,7 +508,7 @@ _.extend(clientShared, {
                 Collection.update(this._id, {$set: vals});
                 (isCtrlClick(evt)) ? animateClick(evt.target) : Session.set('evidenceEditingId', false);
             } else {
-                errorDiv = clientShared.createErrorDiv(Collection.simpleSchema().namedContext());
+                errorDiv = createErrorDiv(Collection.simpleSchema().namedContext());
                 $(tmpl.find('#errors')).html(errorDiv);
             }
         },
@@ -618,7 +602,7 @@ _.extend(clientShared, {
                 NestedCollection.insert(obj);
                 clientShared.removeNestedFormModal(tmpl);
             } else {
-                errorDiv = clientShared.createErrorDiv(NestedCollection.simpleSchema().namedContext());
+                errorDiv = createErrorDiv(NestedCollection.simpleSchema().namedContext());
                 $(tmpl.find('#errors')).html(errorDiv);
             }
         },
@@ -648,7 +632,7 @@ _.extend(clientShared, {
                     clientShared.removeNestedFormModal(tmpl);
                 }
             } else {
-                errorDiv = clientShared.createErrorDiv(NestedCollection.simpleSchema().namedContext());
+                errorDiv = createErrorDiv(NestedCollection.simpleSchema().namedContext());
                 $(tmpl.find('#errors')).html(errorDiv);
             }
         },

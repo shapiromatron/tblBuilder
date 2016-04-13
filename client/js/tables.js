@@ -4,6 +4,10 @@ import { Tracker } from 'meteor/tracker';
 
 import _ from 'underscore';
 
+import {
+    createErrorDiv,
+} from '/imports/api/client/utilities';
+
 
 Template.home.onCreated(function() {
     Session.set('tablesShowNew', false);
@@ -132,7 +136,7 @@ Template.tablesForm.events({
             Tables.insert(obj);
             return Session.set('tablesShowNew', false);
         } else {
-            errorDiv = clientShared.createErrorDiv(Tables.simpleSchema().namedContext());
+            errorDiv = createErrorDiv(Tables.simpleSchema().namedContext());
             return $(tmpl.find('#errors')).html(errorDiv);
         }
     },
@@ -154,7 +158,7 @@ Template.tablesForm.events({
             Tables.update(this._id, modifier);
             return Session.set('tablesEditingId', null);
         } else {
-            errorDiv = clientShared.createErrorDiv(Tables.simpleSchema().namedContext());
+            errorDiv = createErrorDiv(Tables.simpleSchema().namedContext());
             return $(tmpl.find('#errors')).html(errorDiv);
         }
     },

@@ -2,6 +2,10 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
 
+import {
+    createErrorDiv,
+} from '/imports/api/client/utilities';
+
 
 var initializeDraggable = function(tmpl, options) {
     var id = options.isSection ? tmpl.data.section : tmpl.data._id,
@@ -147,7 +151,7 @@ Template.mechanisticEvidenceForm.events({
             Session.set('evidenceEditingId', null);
             Session.set('evidenceShowNew', false);
         } else {
-            errorDiv = clientShared.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext());
+            errorDiv = createErrorDiv(MechanisticEvidence.simpleSchema().namedContext());
             $(tmpl.find('#errors')).html(errorDiv);
         }
     },
@@ -169,7 +173,7 @@ Template.mechanisticEvidenceForm.events({
             Session.set('evidenceEditingId', null);
             Session.set('evidenceShowNew', false);
         } else {
-            errorDiv = clientShared.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext());
+            errorDiv = createErrorDiv(MechanisticEvidence.simpleSchema().namedContext());
             $(tmpl.find('#errors')).html(errorDiv);
         }
     },
