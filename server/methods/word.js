@@ -1,7 +1,7 @@
-import Future from 'fibers/future';
 import PythonShell from 'python-shell';
 
-var pyWordHelperStdin = function(report_type, context, fut) {
+var Future = Npm.require('fibers/future'),
+    pyWordHelperStdin = function(report_type, context, fut) {
         var report,
             options = {
                 mode: 'json',

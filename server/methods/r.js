@@ -1,7 +1,7 @@
 import r from 'rserve-client';
-import Future from 'fibers/future';
 
-var calculateTrendTest = function(obj, fut){
+var Future = Npm.require('fibers/future'),
+    calculateTrendTest = function(obj, fut){
         var data = extractValues(obj);
         if (dataValid(data)) {
             data = JSON.stringify(data);
