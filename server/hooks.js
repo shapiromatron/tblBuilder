@@ -1,5 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 
+import { Roles } from 'meteor/alanning:roles';
+
 
 var addTimestampAndUserID = function(userId, doc) {
         var now =  new Date();

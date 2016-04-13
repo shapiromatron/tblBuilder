@@ -2,7 +2,7 @@ import {Meteor} from 'meteor/meteor';
 
 import _ from 'underscore';
 
-import serverShared from './shared';
+import serverShared from '/server/shared';
 
 
 var isCreatorOrProjectManager = function(userId, tbl) {

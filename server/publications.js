@@ -3,7 +3,7 @@ import { check, Match } from 'meteor/check';
 
 import _ from 'underscore';
 
-import serverShared from './shared';
+import serverShared from '/server/shared';
 
 
 var userCanView = function(tbl, userId) {

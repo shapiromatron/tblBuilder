@@ -1,5 +1,7 @@
 import {Meteor} from 'meteor/meteor';
+
 import _ from 'underscore';
+import { Roles } from 'meteor/alanning:roles';
 
 
 export default {

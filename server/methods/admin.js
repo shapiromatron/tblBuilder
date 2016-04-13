@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
-import serverShared from '../shared';
+import serverShared from '/server/shared';
 
 
 Meteor.methods({

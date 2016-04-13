@@ -2,6 +2,11 @@ import {Meteor} from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
 
+import { Router, RouteController } from 'meteor/iron:router';
+import { Roles } from 'meteor/alanning:roles';
+import {GAnalytics} from 'meteor/datariot:ganalytics';
+
+
 // global session variables
 Session.setDefault('showQAflags', false);
 Session.setDefault('isFullScreen', false);
