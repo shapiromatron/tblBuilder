@@ -21,9 +21,9 @@ Template.epiDescriptiveTbl.helpers(_.extend({
     getReportTypes: function() {
         var reports = [
             {
-                "type": "EpiHtmlTblRecreation",
-                "fn": "epi-results",
-                "text": "Download Word: HTML table recreation",
+                type: 'EpiHtmlTblRecreation',
+                fn: 'epi-results',
+                text: 'Download Word: HTML table recreation',
             },
         ];
         return reports;
@@ -31,14 +31,14 @@ Template.epiDescriptiveTbl.helpers(_.extend({
 }, clientShared.abstractTblHelpers));
 Template.epiDescriptiveTbl.onRendered(function() {
     clientShared.toggleRiskPlot();
-    clientShared.initDraggables(this.find('#sortable'), ".dhOuter", EpiDescriptive);
+    clientShared.initDraggables(this.find('#sortable'), '.dhOuter', EpiDescriptive);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
 Template.epiDescriptiveRow.helpers(_.extend({
     getCol2: function() {
-        var html = "", rrCase, rrCtrl;
+        var html = '', rrCase, rrCtrl;
         if (this.isCaseControl()) {
             rrCase = utilities.getPercentOrText(this.responseRateCase);
             rrCtrl = utilities.getPercentOrText(this.responseRateControl);
@@ -51,12 +51,12 @@ Template.epiDescriptiveRow.helpers(_.extend({
             html += `${this.populationSize}; ${this.eligibilityCriteria}`;
         }
 
-        html += "<br><strong>Exposure assess. method: </strong>";
+        html += '<br><strong>Exposure assess. method: </strong>';
 
-        if (this.exposureAssessmentType.toLowerCase().search("other") >= 0) {
-            html += "other";
+        if (this.exposureAssessmentType.toLowerCase().search('other') >= 0) {
+            html += 'other';
         } else {
-            html += "" + this.exposureAssessmentType;
+            html += '' + this.exposureAssessmentType;
         }
 
         if (this.exposureAssessmentNotes != null) html += `; ${this.exposureAssessmentNotes}`;
@@ -67,7 +67,7 @@ Template.epiDescriptiveRow.helpers(_.extend({
 }, clientShared.abstractRowHelpers));
 Template.epiDescriptiveRow.events(clientShared.abstractRowEvents);
 Template.epiDescriptiveRow.onRendered(function() {
-    clientShared.initDraggables(this.find('#sortableInner'), ".dhInner", EpiResult);
+    clientShared.initDraggables(this.find('#sortableInner'), '.dhInner', EpiResult);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
@@ -115,7 +115,7 @@ var toggleCCfields = function(tmpl) {
 };
 Template.epiResultTbl.helpers(_.extend({
     showPlots: function() {
-        return Session.get("epiRiskShowPlots");
+        return Session.get('epiRiskShowPlots');
     },
     displayTrendTest: function() {
         return this.trendTest != null;
@@ -151,7 +151,7 @@ Template.epiResultForm.events(_.extend({
         Blaze.renderWithData(Template.riskEstimateForm, {}, tbody);
     },
     'show.bs.modal': function(evt, tmpl){
-        let div = tmpl.$("input[name='organSiteCategory']").closest('div');
+        let div = tmpl.$('input[name="organSiteCategory"]').closest('div');
         Blaze.renderWithData(Template.epiOrganSiteCategories,
             {options: EpiResult.organSiteCategoryOptions},
             div[0], div.find('label')[0]);
@@ -202,46 +202,46 @@ Template.forestPlot.events({
             riskStr += ` (${data.riskLow}-${data.riskHigh})`;
         }
 
-        svg.attr("viewBox", `0 0 ${width} ${height}`);
-        group.append("svg:title").text(riskStr);
+        svg.attr('viewBox', `0 0 ${width} ${height}`);
+        group.append('svg:title').text(riskStr);
 
         if (data.riskMid != null) {
             group.selectAll()
                 .data([data])
                 .enter()
-                .append("circle")
-                .attr("cx", function(d, i) {return xscale(d.riskMid);})
-                .attr("cy", function(d, i) {return yscale(0.5);})
-                .attr("r", 5);
+                .append('circle')
+                .attr('cx', function(d, i) {return xscale(d.riskMid);})
+                .attr('cy', function(d, i) {return yscale(0.5);})
+                .attr('r', 5);
         }
 
         if ((data.riskLow != null) && (data.riskHigh != null)) {
             group.selectAll()
                 .data([data])
                 .enter()
-                .append("line")
-                .attr("x1", function(d, i) {return xscale(d.riskLow);})
-                .attr("x2", function(d, i) {return xscale(d.riskHigh);})
-                .attr("y1", yscale(0.5))
-                .attr("y2", yscale(0.5));
+                .append('line')
+                .attr('x1', function(d, i) {return xscale(d.riskLow);})
+                .attr('x2', function(d, i) {return xscale(d.riskHigh);})
+                .attr('y1', yscale(0.5))
+                .attr('y2', yscale(0.5));
 
             group.selectAll()
                 .data([data])
                 .enter()
-                .append("line")
-                .attr("x1", function(d, i) {return xscale(d.riskHigh);})
-                .attr("x2", function(d, i) {return xscale(d.riskHigh);})
-                .attr("y1", yscale(0.25))
-                .attr("y2", yscale(0.75));
+                .append('line')
+                .attr('x1', function(d, i) {return xscale(d.riskHigh);})
+                .attr('x2', function(d, i) {return xscale(d.riskHigh);})
+                .attr('y1', yscale(0.25))
+                .attr('y2', yscale(0.75));
 
             group.selectAll()
                 .data([data])
                 .enter()
-                .append("line")
-                .attr("x1", function(d, i) {return xscale(d.riskLow);})
-                .attr("x2", function(d, i) {return xscale(d.riskLow);})
-                .attr("y1", yscale(0.25))
-                .attr("y2", yscale(0.75));
+                .append('line')
+                .attr('x1', function(d, i) {return xscale(d.riskLow);})
+                .attr('x2', function(d, i) {return xscale(d.riskLow);})
+                .attr('y1', yscale(0.25))
+                .attr('y2', yscale(0.75));
         }
     },
 });

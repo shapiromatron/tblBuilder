@@ -8,27 +8,27 @@ Template.formLegendPulldown.onRendered(function() {
 
 Template.contentContainer.helpers({
     getContainerClass: function() {
-        return (Session.get("isFullScreen")) ? "container-fluid" : "container";
+        return (Session.get('isFullScreen')) ? 'container-fluid' : 'container';
     },
 });
 
 
 Template.optFullScreen.helpers({
     isFullScreen: function() {
-        return Session.get("isFullScreen");
+        return Session.get('isFullScreen');
     },
 });
 Template.optFullScreen.events({
     'click #toggleFullScreen': function(evt, tmpl) {
         evt.preventDefault();
-        Session.set("isFullScreen", !Session.get("isFullScreen"));
+        Session.set('isFullScreen', !Session.get('isFullScreen'));
     },
 });
 
 
 Template.optRiskPlot.helpers({
     showPlots: function() {
-        return Session.get("epiRiskShowPlots");
+        return Session.get('epiRiskShowPlots');
     },
 });
 Template.optRiskPlot.events({
@@ -57,10 +57,10 @@ var closeModal = function(evt, tmpl) {
 
 Template.forestAxisModal.helpers({
     getMin: function(){
-        return Session.get("epiForestPlotMin");
+        return Session.get('epiForestPlotMin');
     },
     getMax: function(){
-        return Session.get("epiForestPlotMax");
+        return Session.get('epiForestPlotMax');
     },
     hasError: function(){
         return Template.instance().err.get().length>0;
@@ -74,19 +74,19 @@ Template.forestAxisModal.events({
         var min = parseFloat(tmpl.$('input[name="min"]').val(), 10),
             max = parseFloat(tmpl.$('input[name="max"]').val(), 10);
         if (min>0 && max>0 && max>min){
-            Session.set("epiForestPlotMin", min);
-            Session.set("epiForestPlotMax", max);
+            Session.set('epiForestPlotMin', min);
+            Session.set('epiForestPlotMax', max);
             clientShared.toggleRiskPlot();
             $('.epiRiskPlot').trigger('rerender');
             closeModal(evt, tmpl);
         } else {
-            tmpl.err.set("Values must be greater than 0, and min<max.");
+            tmpl.err.set('Values must be greater than 0, and min<max.');
         }
     },
     'click #cancel': closeModal,
 });
 Template.forestAxisModal.onCreated(function() {
-    this.err = new ReactiveVar("");
+    this.err = new ReactiveVar('');
 });
 Template.forestAxisModal.onRendered(function() {
     $('#modalDiv').modal('toggle');
@@ -115,7 +115,7 @@ Template.optQaFlags.events({
 
 
 Template.optSortFilter.events({
-    "click #sortFilter": function(evt, tmpl){
+    'click #sortFilter': function(evt, tmpl){
         var div = document.getElementById('modalHolder');
         $(div).empty();
         Blaze.renderWithData(Template.sortFilterModal, {}, div);
@@ -123,26 +123,26 @@ Template.optSortFilter.events({
 });
 
 var applySortFilter = function(save, evt, tmpl){
-    var sorts = _.map(tmpl.findAll("#sortTbl > tbody > tr"), function(el){
+    var sorts = _.map(tmpl.findAll('#sortTbl > tbody > tr'), function(el){
             var $el = $(el);
             return {
-                field: $el.find("select[name='field']").val(),
-                order: $el.find("select[name='order']").val(),
+                field: $el.find('select[name="field"]').val(),
+                order: $el.find('select[name="order"]').val(),
             };
         }),
-        filters = _.map(tmpl.findAll("#filterTbl > tbody > tr"), function(el){
+        filters = _.map(tmpl.findAll('#filterTbl > tbody > tr'), function(el){
             var $el = $(el);
             return {
-                field:      $el.find("select[name='field']").val(),
-                filterType: $el.find("select[name='filterType']").val(),
-                text:       $el.find("input[name='text']").val(),
+                field:      $el.find('select[name="field"]').val(),
+                filterType: $el.find('select[name="filterType"]').val(),
+                text:       $el.find('input[name="text"]').val(),
             };
         });
 
-    Session.set("sortsAndFilters", {
-        "sorts": sorts,
-        "filters": filters,
-        "save": save,
+    Session.set('sortsAndFilters', {
+        'sorts': sorts,
+        'filters': filters,
+        'save': save,
     });
     closeModal(evt, tmpl);
 };
@@ -156,11 +156,11 @@ Template.sortFilterModal.helpers({
 });
 Template.sortFilterModal.helpers({
     getSortList: function(){
-        var sfs = Session.get("sortsAndFilters") || {};
+        var sfs = Session.get('sortsAndFilters') || {};
         return sfs.sorts;
     },
     getFilterList: function(){
-        var sfs = Session.get("sortsAndFilters") || {};
+        var sfs = Session.get('sortsAndFilters') || {};
         return sfs.filters;
     },
 });
@@ -178,7 +178,7 @@ Template.sortFilterModal.events({
     'click #cancel': closeModal,
 });
 Template.sortFilterModal.onCreated(function() {
-    this.err = new ReactiveVar("");
+    this.err = new ReactiveVar('');
 });
 Template.sortFilterModal.onRendered(function() {
     $('#modalDiv').modal('toggle');
@@ -206,25 +206,25 @@ Template.sfSortTR.helpers({
         return _.keys(tblBuilderCollections.evidenceLookup[key].collection.sortFields);
     },
     getOrderOptions: function(){
-        return ["Ascending", "Descending"];
+        return ['Ascending', 'Descending'];
     },
 });
 
 Template.sfFilterTR.events(sfTrEvents);
 Template.sfFilterTR.helpers({
     getFieldOptions: function(){
-        return ["Reference", "Reference2", "Reference3"];
+        return ['Reference', 'Reference2', 'Reference3'];
     },
     getFilterTypeOptions: function(){
-        return [">", "≥", "<", "≤", "exact", "contains", "not_contains"];
+        return ['>', '≥', '<', '≤', 'exact', 'contains', 'not_contains'];
     },
 });
 
 Template.optCreate.events({
     'click #show-create': function(evt, tmpl) {
-        Session.set("evidenceShowNew", true);
+        Session.set('evidenceShowNew', true);
         Tracker.flush();
-        clientShared.activateInput($("input[name=referenceID]"));
+        clientShared.activateInput($('input[name=referenceID]'));
     },
 });
 
@@ -236,9 +236,9 @@ Template.showNewBtn.helpers({
 });
 Template.showNewBtn.events({
     'click #show-create-btn': function(evt, tmpl) {
-        Session.set("evidenceShowNew", true);
+        Session.set('evidenceShowNew', true);
         Tracker.flush();
-        clientShared.activateInput($("input[name=referenceID]"));
+        clientShared.activateInput($('input[name=referenceID]'));
     },
 });
 
@@ -262,11 +262,11 @@ Template.optWord.events({
     'click .wordReport': function(evt, tmpl) {
         var tbl_id = Session.get('Tbl')._id,
             report_type = evt.target.dataset.type,
-            fn = evt.target.dataset.fn + ".docx";
+            fn = evt.target.dataset.fn + '.docx';
 
-        Meteor.call("wordReport", tbl_id, report_type, function(err, response) {
+        Meteor.call('wordReport', tbl_id, report_type, function(err, response) {
             if (response) return clientShared.b64toWord(response, fn);
-            return alert("An error occurred.");
+            return alert('An error occurred.');
         });
     },
 });
@@ -298,30 +298,30 @@ var autocompleteOptions = function(qry, sync, cb) {
             tmpl = Template.instance(),
             methodName = tmpl.find('.typeahead').getAttribute('data-methodname');
 
-        if (Session.get("Tbl")) tbl_id = Session.get("Tbl")._id;
+        if (Session.get('Tbl')) tbl_id = Session.get('Tbl')._id;
         Meteor.call(methodName, qry, tbl_id, function(err, res) {
             if (err) return console.log(err);
             return cb(_.map(res, function(d){return {value: d};}));
         });
     }, injectTypeahead = function(){
-        Meteor.typeahead.inject("input[name=" + this.data.name + "]");
+        Meteor.typeahead.inject('input[name=' + this.data.name + ']');
     }, removeLI = function(evt, tmpl){
         $(evt.currentTarget).parent().remove();
     }, selectListAddLI = function(ul, val) {
         var txts = clientShared.typeaheadSelectListGetLIs($(ul));
-        if ((val !== "") && (!_.contains(txts, val))) {
+        if ((val !== '') && (!_.contains(txts, val))) {
             Blaze.renderWithData(Template.typeaheadSelectListLI, val, ul);
         }
     }, selectMultiEvents = {
         'typeahead:selected': function(evt, tmpl) {
-            selectListAddLI(tmpl.find("ul"), evt.target.value);
-            tmpl.$('.typeahead').typeahead('val', "");
+            selectListAddLI(tmpl.find('ul'), evt.target.value);
+            tmpl.$('.typeahead').typeahead('val', '');
         },
         'keyup .form-control': function(evt, tmpl) {
             // add new input not found in list
             if (evt.which === 13){
-                selectListAddLI(tmpl.find("ul"), evt.target.value);
-                tmpl.$('.typeahead').typeahead('val', "");
+                selectListAddLI(tmpl.find('ul'), evt.target.value);
+                tmpl.$('.typeahead').typeahead('val', '');
             }
         },
         'click .selectListRemove': removeLI,
@@ -347,7 +347,7 @@ Template.typeaheadUserSelect.helpers({
         if (!this.tbl.user_roles) return;
         var ids = _.chain(this.tbl.user_roles)
                    .filter(function(d){return d.role === userType;})
-                   .pluck("user_id")
+                   .pluck('user_id')
                    .value();
         return Meteor.users.find({_id: {$in: ids}});
     },
@@ -363,7 +363,7 @@ Template.typeaheadUserSelect.events({
         if (!_.contains(ids, v._id)) {
             return Blaze.renderWithData(Template.UserLI, v, ul[0]);
         }
-        tmpl.$('.typeahead').typeahead('val', "");
+        tmpl.$('.typeahead').typeahead('val', '');
     },
 });
 Template.typeaheadUserSelect.onRendered(injectTypeahead);
@@ -375,13 +375,13 @@ var printTimestamp = function(moment){
 
 Template.tableTitle.helpers({
     getTable: function(){
-        return Session.get("Tbl");
+        return Session.get('Tbl');
     },
     getStatusColorClass: function(status){
         return Tables.statusOptions[status];
     },
     getLastUpdated: function(){
-        var ts = moment(Session.get("Tbl").lastUpdated),
+        var ts = moment(Session.get('Tbl').lastUpdated),
             obj,
             filts = {sort: {lastUpdated : -1}},
             key = Session.get('evidenceType'),
@@ -420,7 +420,7 @@ Template.objectLastUpdated.helpers({
         if (this.lastUpdated){
             return `Last updated: ${printTimestamp(moment(this.lastUpdated))}`;
         }
-        return "";
+        return '';
     },
 });
 
@@ -475,7 +475,7 @@ var fldGetSchema = function(){
         isRequired: function(){
             if (_.isUndefined(this.schema.optional) ||
                 this.schema.forceRequiredSymbol === true)
-                return "*";
+                return '*';
         },
         isSelected: function(current, selected) {
             return current === selected;

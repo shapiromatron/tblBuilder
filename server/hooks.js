@@ -38,10 +38,11 @@ Meteor.startup(function() {
     Tables.before.insert(function(userId, doc) {
         var currentMax, currentMaxTable;
         addTimestampAndUserID(userId, doc);
-        currentMaxTable = Tables.findOne(
-          {"volumeNumber": doc.volumeNumber, "monographAgent": doc.monographAgent},
-          {"sort": {"sortIdx": -1}}
-        );
+        currentMaxTable = Tables.findOne({
+            volumeNumber: doc.volumeNumber,
+            monographAgent: doc.monographAgent},
+            {sort: {'sortIdx': -1},
+        });
         currentMax = currentMaxTable ? currentMaxTable.sortIdx : 0;
         doc.sortIdx = currentMax + 1;
         return true;
@@ -92,22 +93,22 @@ Meteor.startup(function() {
 
     // Post-insert hooks
     Meteor.users.after.insert(function(userId, doc) {
-        return Roles.addUsersToRoles(doc._id, "default");
+        return Roles.addUsersToRoles(doc._id, 'default');
     });
 
     Tables.after.insert(function(userId, doc) {
-        if (doc.tblType === "Mechanistic Evidence Summary") {
+        if (doc.tblType === 'Mechanistic Evidence Summary') {
             // todo: move to collection-level method
             MechanisticEvidence.evidenceCategories.forEach(function(category){
                 MechanisticEvidence.insert({
                     tbl_id: doc._id,
-                    section: "characteristics",
-                    text: "",
+                    section: 'characteristics',
+                    text: '',
                     subheading: category,
-                    humanInVivo: "I",
-                    animalInVivo: "I",
-                    humanInVitro: "I",
-                    animalInVitro: "I",
+                    humanInVivo: 'I',
+                    animalInVivo: 'I',
+                    humanInVitro: 'I',
+                    animalInVitro: 'I',
                     references: [],
                 });
             });

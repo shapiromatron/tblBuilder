@@ -1,10 +1,10 @@
 var initializeDraggable = function(tmpl, options) {
     var id = options.isSection ? tmpl.data.section : tmpl.data._id,
-        container = tmpl.find("#dragContainer_" + id);
+        container = tmpl.find('#dragContainer_' + id);
 
     if (container) {
-        clientShared.initDraggables(container, ".dragHandle_" + id,
-            MechanisticEvidence, {draggable: ".dragObj_" + id}
+        clientShared.initDraggables(container, '.dragHandle_' + id,
+            MechanisticEvidence, {draggable: '.dragObj_' + id}
         );
         clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
     }
@@ -73,14 +73,14 @@ Template.mechanisticSectionTR.helpers({
         return this.section === Session.get('evidenceEditingId');
     },
     getDragContainer: function() {
-        return "dragContainer_" + this.section;
+        return 'dragContainer_' + this.section;
     },
 });
 Template.mechanisticSectionTR.events({
     'click #mechanistic-newSection': function(evt, tmpl) {
         Session.set('evidenceEditingId', this.section);
         Tracker.flush();
-        clientShared.activateInput(tmpl.find("textarea[name=text]"));
+        clientShared.activateInput(tmpl.find('textarea[name=text]'));
     },
 });
 Template.mechanisticSectionTR.onRendered(function() {
@@ -90,7 +90,7 @@ Template.mechanisticSectionTR.onRendered(function() {
 
 Template.mechanisticEvidenceDisplay.helpers({
     displayEditingForm: function() {
-        return Session.get("evidenceEditingId") === this._id;
+        return Session.get('evidenceEditingId') === this._id;
     },
     displayNewChild: function() {
         return Session.get('evidenceShowNew') === this._id;
@@ -102,25 +102,25 @@ Template.mechanisticEvidenceDisplay.helpers({
         return MechanisticEvidence.find({parent: this._id}, {sort: {sortIdx: 1}});
     },
     getDragContainer: function() {
-        return "dragContainer_" + this._id;
+        return 'dragContainer_' + this._id;
     },
     getDragHandleName: function() {
-        return (this.section) ? "dragHandle_" + this.section : "dragHandle_" + this.parent;
+        return (this.section) ? 'dragHandle_' + this.section : 'dragHandle_' + this.parent;
     },
     getDragObject: function() {
-        return (this.section) ? "dragObj_" + this.section : "dragObj_" + this.parent;
+        return (this.section) ? 'dragObj_' + this.section : 'dragObj_' + this.parent;
     },
 });
 Template.mechanisticEvidenceDisplay.events({
     'click #mechanistic-show-edit': function(evt, tmpl) {
-        Session.set("evidenceEditingId", this._id);
+        Session.set('evidenceEditingId', this._id);
         Tracker.flush();
-        clientShared.activateInput(tmpl.find("textarea[name=text]"));
+        clientShared.activateInput(tmpl.find('textarea[name=text]'));
     },
     'click #mechanistic-newChild': function(evt, tmpl) {
-        Session.set("evidenceShowNew", this._id);
+        Session.set('evidenceShowNew', this._id);
         Tracker.flush();
-        clientShared.activateInput(tmpl.find("textarea[name=text]"));
+        clientShared.activateInput(tmpl.find('textarea[name=text]'));
     },
 });
 Template.mechanisticEvidenceDisplay.onRendered(function() {
@@ -139,15 +139,15 @@ Template.mechanisticEvidenceForm.events({
         isValid = MechanisticEvidence.simpleSchema().namedContext().validate(obj);
         if (isValid) {
             MechanisticEvidence.insert(obj);
-            Session.set("evidenceEditingId", null);
+            Session.set('evidenceEditingId', null);
             Session.set('evidenceShowNew', false);
         } else {
             errorDiv = clientShared.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext());
-            $(tmpl.find("#errors")).html(errorDiv);
+            $(tmpl.find('#errors')).html(errorDiv);
         }
     },
     'click #mechanisticEvidence-create-cancel': function(evt, tmpl) {
-        Session.set("evidenceEditingId", null);
+        Session.set('evidenceEditingId', null);
         Session.set('evidenceShowNew', false);
     },
     'click #mechanisticEvidence-update': function(evt, tmpl) {
@@ -161,20 +161,20 @@ Template.mechanisticEvidenceForm.events({
 
         if (isValid) {
             MechanisticEvidence.update(this._id, modifier);
-            Session.set("evidenceEditingId", null);
+            Session.set('evidenceEditingId', null);
             Session.set('evidenceShowNew', false);
         } else {
             errorDiv = clientShared.createErrorDiv(MechanisticEvidence.simpleSchema().namedContext());
-            $(tmpl.find("#errors")).html(errorDiv);
+            $(tmpl.find('#errors')).html(errorDiv);
         }
     },
     'click #mechanisticEvidence-update-cancel': function(evt, tmpl) {
-        Session.set("evidenceEditingId", null);
+        Session.set('evidenceEditingId', null);
         Session.set('evidenceShowNew', false);
     },
     'click #mechanisticEvidence-delete': function(evt, tmpl) {
         MechanisticEvidence.remove(this._id);
-        Session.set("evidenceEditingId", null);
+        Session.set('evidenceEditingId', null);
         Session.set('evidenceShowNew', false);
     },
 });

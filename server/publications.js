@@ -179,7 +179,7 @@ Meteor.publish('tblUsers', function(tbl_id) {
     if (!Match.test(tbl_id, String)) return;
     tbl = Tables.findOne(tbl_id);
     if (tbl && userCanView(tbl, this.userId)) {
-        ids = _.pluck(tbl.user_roles, "user_id");
+        ids = _.pluck(tbl.user_roles, 'user_id');
     }
     return Meteor.users.find({_id: {$in: ids}},
         {fields: {_id: 1, emails: 1, profile: 1}});

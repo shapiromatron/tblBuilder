@@ -2,29 +2,29 @@ var getImportWS = function(wb, cb) {
     var ws;
     try {
         wb.SheetNames.forEach(function(name){
-            if ((wb.Sheets[name]['A1'].v === "PubMed ID") &&
-                (wb.Sheets[name]['B1'].v === "Name") &&
-                (wb.Sheets[name]['C1'].v === "Full Citation") &&
-                (wb.Sheets[name]['D1'].v === "Other URL") &&
-                (wb.Sheets[name]['E1'].v === "PDF URL")) {
+            if ((wb.Sheets[name]['A1'].v === 'PubMed ID') &&
+                (wb.Sheets[name]['B1'].v === 'Name') &&
+                (wb.Sheets[name]['C1'].v === 'Full Citation') &&
+                (wb.Sheets[name]['D1'].v === 'Other URL') &&
+                (wb.Sheets[name]['E1'].v === 'PDF URL')) {
                 if (cb){
                     cb({
-                        "isError": false,
-                        "status": "Ready for import!",
+                        'isError': false,
+                        'status': 'Ready for import!',
                     });
                 }
                 ws = wb.Sheets[name];
             }
         });
     } catch (err) {
-        console.error("Error loading workbook.");
+        console.error('Error loading workbook.');
     }
 
     if (ws === undefined){
         if (cb){
             cb({
-                "isError": true,
-                "status": "No worksheet matches the required format. Please use the proper spreadsheet format.",
+                'isError': true,
+                'status': 'No worksheet matches the required format. Please use the proper spreadsheet format.',
             });
         }
     }
@@ -33,8 +33,8 @@ var getImportWS = function(wb, cb) {
 Template.referenceBatchUpload.events({
     'change input[name=excelReferences]': function(evt, tmpl) {
         var printStatus = function(obj) {
-                var div = $(tmpl.find("#uploadStatusDiv")),
-                    okBtn = $(tmpl.find("#uploadReferences"));
+                var div = $(tmpl.find('#uploadStatusDiv')),
+                    okBtn = $(tmpl.find('#uploadReferences'));
 
                 div.hide();
                 $(tmpl.find('#uploadStatus')).text(obj.status);
@@ -74,7 +74,7 @@ Template.referenceBatchUpload.events({
         return loadWB(file, getImportWS, printStatus);
     },
     'click #uploadReferences': function(evt, tmpl) {
-        var div = tmpl.$("#uploadStatusDiv"),
+        var div = tmpl.$('#uploadStatusDiv'),
             append_status = function(cls, rowID, msg) {
                 div.append(`<p class='alert ${cls}'>Importing row ${rowID}: ${msg}</p>`);
             },
@@ -88,34 +88,34 @@ Template.referenceBatchUpload.events({
                         if (isFinite(parseInt(PMID, 10))) {
                             clientShared.getPubMedDetails(PMID, function(v) {
                                 if (v.isError) {
-                                    append_status("alert-danger", rowID, "PMID import error");
+                                    append_status('alert-danger', rowID, 'PMID import error');
                                 } else {
                                     obj = {
-                                        "name": v.shortCitation,
-                                        "referenceType": "PubMed",
-                                        "pubmedID": parseInt(v.pubmedID, 10),
-                                        "otherURL": "",
-                                        "fullCitation": v.fullCitation,
-                                        "monographAgent": [Session.get('monographAgent')],
+                                        'name': v.shortCitation,
+                                        'referenceType': 'PubMed',
+                                        'pubmedID': parseInt(v.pubmedID, 10),
+                                        'otherURL': '',
+                                        'fullCitation': v.fullCitation,
+                                        'monographAgent': [Session.get('monographAgent')],
                                     };
-                                    if (row['PDF URL']) obj["pdfURL"] = row['PDF URL'];
+                                    if (row['PDF URL']) obj['pdfURL'] = row['PDF URL'];
                                     Reference.insert(obj);
-                                    append_status("alert-success", rowID, "success!");
+                                    append_status('alert-success', rowID, 'success!');
                                 }
                             });
                         } else {
-                            append_status("alert-danger", rowID, "PMID is not numeric");
+                            append_status('alert-danger', rowID, 'PMID is not numeric');
                         }
                     } else {
                         obj = {
-                            "name": row['Name'] || "INSERT NAME",
-                            "referenceType": "Other",
-                            "otherURL": row['Other URL'],
-                            "fullCitation": row['Full Citation'] || "ADD DESCRIPTION",
-                            "monographAgent": [Session.get('monographAgent')],
+                            'name': row['Name'] || 'INSERT NAME',
+                            'referenceType': 'Other',
+                            'otherURL': row['Other URL'],
+                            'fullCitation': row['Full Citation'] || 'ADD DESCRIPTION',
+                            'monographAgent': [Session.get('monographAgent')],
                         };
                         Reference.insert(obj);
-                        append_status("alert-success", rowID, "success!");
+                        append_status('alert-success', rowID, 'success!');
                     }
                 });
             },
@@ -140,7 +140,7 @@ Template.referenceBatchUpload.events({
 Template.referenceBatchUpload.onCreated(function() {
     Session.set('monographAgent', this.data.monographAgent);
     this.subscribe('monographReference', this.data.monographAgent);
-    $.getScript("//cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.full.min.js");
+    $.getScript('//cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.full.min.js');
 });
 Template.referenceBatchUpload.onDestroyed(function() {
     Session.set('monographAgent', null);

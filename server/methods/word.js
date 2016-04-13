@@ -3,11 +3,11 @@ var Future = Meteor.npmRequire('fibers/future'),
     pyWordHelperStdin = function(report_type, context, fut) {
         var report,
             options = {
-                mode: "json",
+                mode: 'json',
                 scriptPath: Meteor.settings.scripts_path,
                 pythonPath: Meteor.settings.python_path,
             },
-            shell = new PythonShell("generateReport.py", options),
+            shell = new PythonShell('generateReport.py', options),
             inputs = {
                 report_type: report_type,
                 context: context,
@@ -21,24 +21,24 @@ var Future = Meteor.npmRequire('fibers/future'),
             if (err) {
                 process.stdout.write(err.traceback);
             }
-            return fut["return"](report);
+            return fut['return'](report);
         });
     },
     getContext = function(report_type, tbl_id) {
         switch (report_type) {
-        case "ExposureTables":
+        case 'ExposureTables':
             return ExposureEvidence.wordContext(tbl_id);
-        case "EpiDescriptiveTables":
+        case 'EpiDescriptiveTables':
             return EpiDescriptive.wordContextByDescription([tbl_id]);
-        case "EpiResultTables":
+        case 'EpiResultTables':
             return EpiDescriptive.wordContextByResult([tbl_id]);
-        case "EpiHtmlTables":
+        case 'EpiHtmlTables':
             return EpiDescriptive.wordContextByDescription([tbl_id]);
-        case "AnimalHtmlTables":
+        case 'AnimalHtmlTables':
             return AnimalEvidence.wordContext(tbl_id);
-        case "GenotoxHtmlTables":
+        case 'GenotoxHtmlTables':
             return GenotoxEvidence.wordContext(tbl_id);
-        case "MechanisticEvidenceHtmlTables":
+        case 'MechanisticEvidenceHtmlTables':
             return MechanisticEvidence.wordContext(tbl_id);
         default:
             console.log(`No context specified: ${report_type}`);

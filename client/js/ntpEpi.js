@@ -20,14 +20,14 @@ Template.ntpEpiMain.onDestroyed(function() {
 Template.ntpEpiDescTbl.helpers(clientShared.abstractTblHelpers);
 Template.ntpEpiDescTbl.onRendered(function() {
     clientShared.toggleRiskPlot();
-    clientShared.initDraggables(this.find('#sortable'), ".dhOuter", NtpEpiDescriptive);
+    clientShared.initDraggables(this.find('#sortable'), '.dhOuter', NtpEpiDescriptive);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
 Template.ntpEpiDescriptiveRow.helpers(_.extend({
     getCol2: function() {
-        var html = "", rrCases, rrCtrls;
+        var html = '', rrCases, rrCtrls;
         if (this.isCaseControl()) {
             rrCases = utilities.getPercentOrText(this.responseRateCase);
             rrCtrls = utilities.getPercentOrText(this.responseRateControl);
@@ -40,12 +40,12 @@ Template.ntpEpiDescriptiveRow.helpers(_.extend({
             html += `${this.cohortPopulationSize}; ${this.populationEligibility}`;
         }
 
-        html += "<br><strong>Exposure assess. method: </strong>";
+        html += '<br><strong>Exposure assess. method: </strong>';
 
-        if (this.exposureAssessmentType.toLowerCase().search("other") >= 0) {
-            html += "other";
+        if (this.exposureAssessmentType.toLowerCase().search('other') >= 0) {
+            html += 'other';
         } else {
-            html += "" + this.exposureAssessmentType;
+            html += '' + this.exposureAssessmentType;
         }
 
         if (this.exposureAssessmentNotes != null) html += `; ${this.exposureAssessmentNotes}`;
@@ -56,34 +56,34 @@ Template.ntpEpiDescriptiveRow.helpers(_.extend({
 }, clientShared.abstractRowHelpers));
 Template.ntpEpiDescriptiveRow.events(clientShared.abstractRowEvents);
 Template.ntpEpiDescriptiveRow.onRendered(function() {
-    clientShared.initDraggables(this.find('#sortableInner'), ".dhInner", NtpEpiResult);
+    clientShared.initDraggables(this.find('#sortableInner'), '.dhInner', NtpEpiResult);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
 var toggleRequiredFields = function(tmpl, duration){
     duration = duration || 1000;
-    var design = tmpl.find("select[name=studyDesign]").value,
+    var design = tmpl.find('select[name=studyDesign]').value,
         shows, hides;
     switch (design){
-    case "Cohort":
-        shows = [".isCohort", ".isntCC"];
-        hides = [".isntCohort", "isNCC"];
+    case 'Cohort':
+        shows = ['.isCohort', '.isntCC'];
+        hides = ['.isntCohort', 'isNCC'];
         break;
-    case "Case-Control":
-        shows = [".isntCohort"];
-        hides = [".isCohort", ".isntCC", "isNCC"];
+    case 'Case-Control':
+        shows = ['.isntCohort'];
+        hides = ['.isCohort', '.isntCC', 'isNCC'];
         break;
-    case "Nested Case-Control":
-    case "Ecological":
-        shows = [".isntCohort", ".isntCC", "isNCC"];
-        hides = [".isCohort"];
+    case 'Nested Case-Control':
+    case 'Ecological':
+        shows = ['.isntCohort', '.isntCC', 'isNCC'];
+        hides = ['.isCohort'];
         break;
     default:
         console.log(`unknown study-design: ${design}`);
     }
-    tmpl.$(hides.join(",")).fadeOut(duration, function(){
-        tmpl.$(shows.join(",")).fadeIn(duration);
+    tmpl.$(hides.join(',')).fadeOut(duration, function(){
+        tmpl.$(shows.join(',')).fadeIn(duration);
     });
 };
 Template.ntpEpiDescriptiveForm.helpers({
@@ -97,8 +97,8 @@ Template.ntpEpiDescriptiveForm.events(_.extend({
     },
     'click #toggleAccordian': function(evt, tmpl){
         tmpl.allAccordiansShown.set(!tmpl.allAccordiansShown.get());
-        var action = (tmpl.allAccordiansShown.get()) ? "show" : "hide";
-        $(tmpl.findAll(".collapse")).collapse(action);
+        var action = (tmpl.allAccordiansShown.get()) ? 'show' : 'hide';
+        $(tmpl.findAll('.collapse')).collapse(action);
     },
 }, clientShared.abstractFormEvents));
 Template.ntpEpiDescriptiveForm.onCreated(function(){
@@ -116,7 +116,7 @@ Template.ntpEpiDescriptiveForm.onDestroyed(function() {
 
 Template.ntpEpiResultTbl.helpers(_.extend({
     showPlots: function() {
-        return Session.get("epiRiskShowPlots");
+        return Session.get('epiRiskShowPlots');
     },
     displayTrendTest: function() {
         return this.trendTest != null;

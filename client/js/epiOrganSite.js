@@ -2,7 +2,7 @@ Template.epiOrganSiteMain.helpers(_.extend({
     getOrganSiteOptions: function() {
         return _.chain(EpiResult.find()
                 .fetch())
-                .pluck("organSiteCategory")
+                .pluck('organSiteCategory')
                 .uniq()
                 .sort()
                 .map(function(d) {return `<option>${d}</option>`;})
@@ -11,7 +11,7 @@ Template.epiOrganSiteMain.helpers(_.extend({
     object_list: function() {
         var tmpl = Template.instance(),
             organSiteCategories = tmpl.organSiteCategories.get(),
-            results = EpiResult.find({"organSiteCategory": {$in: organSiteCategories}}).fetch(),
+            results = EpiResult.find({'organSiteCategory': {$in: organSiteCategories}}).fetch(),
             rows = [];
 
         results.forEach(function(res) {
@@ -41,15 +41,15 @@ Template.epiOrganSiteMain.events({
         return clientShared.toggleRiskPlot();
     },
     'click #selectVisible': function(evt, tmpl) {
-        Session.set("eosEditMode", !Session.get("eosEditMode"));
+        Session.set('eosEditMode', !Session.get('eosEditMode'));
     },
     'click #metaReport': function(evt, tmpl) {
         var rows = _.chain(tmpl.eosRows)
                     .filter(function(d){return d.display; })
                     .map(function(d){return EpiDescriptive.tablularMetaAnalysisRow(d);})
                     .value(),
-            fn = "meta-analysis.xlsx";
-        Meteor.call("epiMetaAnalysisDownload", rows, function(err, response) {
+            fn = 'meta-analysis.xlsx';
+        Meteor.call('epiMetaAnalysisDownload', rows, function(err, response) {
             clientShared.returnExcelFile(response, fn);
         });
     },
@@ -57,8 +57,8 @@ Template.epiOrganSiteMain.events({
 Template.epiOrganSiteMain.onCreated(function() {
     this.subscribe('epiCollective', this.data.volumeNumber, this.data.monographAgent);
     this.organSiteCategories = new ReactiveVar([]);
-    Session.setDefault("eosEditMode", false);
-    Session.setDefault("epiRiskShowPlots", false);
+    Session.setDefault('eosEditMode', false);
+    Session.setDefault('epiRiskShowPlots', false);
 
   // reactively determine the first row and row-length of displayed values
     this.eosRows = [];
@@ -66,13 +66,13 @@ Template.epiOrganSiteMain.onCreated(function() {
     Tracker.autorun(function (){
         var matched = {},
             ts = Session.get('eosChanged'); // get for reactivity
-        if (Session.get("eosEditMode") === false) {
+        if (Session.get('eosEditMode') === false) {
             self.eosRows.forEach(function(v){
                 if (v.display && matched[v.res_id] === undefined){
                     matched[v.res_id] = true;
                     v.firstVisible = true;
                     v.rowsVisible = _.where(self.eosRows,
-                      {"display": true, "res_id": v.res_id}).length;
+                      {'display': true, 'res_id': v.res_id}).length;
                 } else {
                     v.firstVisible = false;
                     v.rowsVisible = null;
@@ -82,33 +82,33 @@ Template.epiOrganSiteMain.onCreated(function() {
     });
 });
 Template.epiOrganSiteMain.onDestroyed(function() {
-    Session.set("eosEditMode", null);
+    Session.set('eosEditMode', null);
     Session.get('eosChanged', null);
 });
 
 
 Template.epiOrganSiteTr.helpers({
     isDisplayed: function(){
-        return (Session.get("eosEditMode")) ? true : this.display;
+        return (Session.get('eosEditMode')) ? true : this.display;
     },
     editMode: function(){
-        return Session.get("eosEditMode");
+        return Session.get('eosEditMode');
     },
     showPlots: function() {
-        return Session.get("epiRiskShowPlots");
+        return Session.get('epiRiskShowPlots');
     },
     getFirstDisplay: function(){
-        return (Session.get("eosEditMode")) ? this.first : this.firstVisible;
+        return (Session.get('eosEditMode')) ? this.first : this.firstVisible;
     },
     getNumRows: function(){
-        return (Session.get("eosEditMode")) ? this.rows : this.rowsVisible;
+        return (Session.get('eosEditMode')) ? this.rows : this.rowsVisible;
     },
     getDisplayValue: function(){
-        return (this.display) ? "checked" : "";
+        return (this.display) ? 'checked' : '';
     },
 });
 Template.epiOrganSiteTr.events({
-    "click .hideRow" : function(evt, tmpl){
+    'click .hideRow' : function(evt, tmpl){
         tmpl.data.display = !tmpl.data.display;
     },
 });

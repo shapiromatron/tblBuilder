@@ -29,11 +29,11 @@ var setAdminNotification = function(message, type) {
 
 Template.adminMain.onCreated(function() {
     Session.set('adminUserEditingId', null);
-    Session.set("adminUserShowNew", false);
+    Session.set('adminUserShowNew', false);
 });
 Template.adminMain.onDestroyed(function() {
     Session.set('adminUserEditingId', null);
-    Session.set("adminUserShowNew", false);
+    Session.set('adminUserShowNew', false);
 });
 
 
@@ -42,12 +42,12 @@ Template.admin.helpers({
         return Meteor.users.find({}, {sort: {createdAt: -1}});
     },
     adminUserShowNew: function() {
-        return Session.get("adminUserShowNew");
+        return Session.get('adminUserShowNew');
     },
 });
 Template.admin.events({
     'click #adminUser-show-create': function(evt, tmpl) {
-        return Session.set("adminUserShowNew", true);
+        return Session.set('adminUserShowNew', true);
     },
 });
 
@@ -57,7 +57,7 @@ Template.adminUserRow.helpers({
         return Session.equals('adminUserEditingId', this._id);
     },
     getUserEmail: function() {
-        return _.pluck(this.emails, 'address').join(", ");
+        return _.pluck(this.emails, 'address').join(', ');
     },
     getRoles: function() {
         return this.roles.join(', ');
@@ -65,34 +65,34 @@ Template.adminUserRow.helpers({
 });
 Template.adminUserRow.events({
     'click #adminUser-show-edit': function(evt, tmpl) {
-        Session.set("adminUserEditingId", this._id);
+        Session.set('adminUserEditingId', this._id);
         Tracker.flush();
-        return clientShared.activateInput(tmpl.find("input[name=fullName]"));
+        return clientShared.activateInput(tmpl.find('input[name=fullName]'));
     },
     'click #adminUser-resetPassword': function(evt, tmpl) {
         var email, message;
         Meteor.call('adminUserResetPassword', this._id);
         email = this.emails[0].address;
-        message = "An password-reset email was just sent to " + email;
-        return setAdminNotification(message, "success");
+        message = 'A password-reset email was just sent to ' + email;
+        return setAdminNotification(message, 'success');
     },
     'click #adminUser-removeUser': function(evt, tmpl) {
         var message;
         Meteor.users.remove(this._id);
-        message = "User removed";
-        return setAdminNotification(message, "success");
+        message = 'User removed';
+        return setAdminNotification(message, 'success');
     },
     'click #adminUser-setPassword': function(evt, tmpl) {
         var passwd;
-        passwd = tmpl.find("input[name='password']").value;
+        passwd = tmpl.find('input[name="password"]').value;
         if (passwd.length < 6) {
-            return setAdminNotification("Must be at least six-characters", "danger");
+            return setAdminNotification('Must be at least six-characters', 'danger');
         }
         return Meteor.call('adminSetPassword', this._id, passwd, function(error, result) {
             if ((result != null) && result.success) {
-                return setAdminNotification("Password successfully changed", "success");
+                return setAdminNotification('Password successfully changed', 'success');
             } else {
-                return setAdminNotification("An error occurred", "danger");
+                return setAdminNotification('An error occurred', 'danger');
             }
         });
     },
@@ -115,19 +115,19 @@ Template.adminUserRowForm.events({
     'click #adminUser-update': function(evt, tmpl) {
         var vals = getAdminUserValues(tmpl);
         Meteor.call('adminUserEditProfile', this._id, vals);
-        return Session.set("adminUserEditingId", null);
+        return Session.set('adminUserEditingId', null);
     },
     'click #adminUser-update-cancel': function(evt, tmpl) {
-        return Session.set("adminUserEditingId", null);
+        return Session.set('adminUserEditingId', null);
     },
     'click #adminUser-create': function(evt, tmpl) {
         var vals = getAdminUserValues(tmpl), msg;
         Meteor.call('adminUserCreateProfile', vals);
-        Session.set("adminUserShowNew", false);
-        msg = "User created- an email was sent to user to create password.";
-        return setAdminNotification(msg, "success");
+        Session.set('adminUserShowNew', false);
+        msg = 'User created- an email was sent to user to create password.';
+        return setAdminNotification(msg, 'success');
     },
     'click #adminUser-create-cancel': function(evt, tmpl) {
-        return Session.set("adminUserShowNew", false);
+        return Session.set('adminUserShowNew', false);
     },
 });

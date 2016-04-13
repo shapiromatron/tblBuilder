@@ -7,22 +7,22 @@ var r = Meteor.npmRequire('rserve-client'),
             runR(obj, data, fut);
         } else {
             updateResult(obj, {
-                "trendTestReport": "Trend test cannot be calculated (<3 dose-groups).",
-                "incidence_significance": obj.incidence_significance || "",
+                'trendTestReport': 'Trend test cannot be calculated (<3 dose-groups).',
+                'incidence_significance': obj.incidence_significance || '',
             });
-            return fut["return"](undefined);
+            return fut['return'](undefined);
         }
     },
     dataValid = function(data){
         return ((data.ns.length>2) && (data.ns.length === data.incs.length));
     },
     textReport = function(res){
-        var txt = "An error in calculation occurred.";
-        if (res) txt = JSON.stringify(res, null, "\t");
+        var txt = 'An error in calculation occurred.';
+        if (res) txt = JSON.stringify(res, null, '\t');
         return txt;
     },
     updateIncidenceNotesText = function(obj){
-        return obj.incidence_significance || "";
+        return obj.incidence_significance || '';
     },
     updateResult = function(obj, updates){
         v = AnimalEndpointEvidence.update(obj._id, {$set: updates});
@@ -44,16 +44,16 @@ var r = Meteor.npmRequire('rserve-client'),
                 }
                 client.end();
                 updates = {
-                    "trendTestReport": textReport(res || null),
-                    "incidence_significance": updateIncidenceNotesText(obj, res || null),
+                    'trendTestReport': textReport(res || null),
+                    'incidence_significance': updateIncidenceNotesText(obj, res || null),
                 };
                 updateResult(obj, updates);
-                return fut["return"](result);
+                return fut['return'](result);
             }));
         }));
     },
     extractValues = function(obj) {
-        var v = {"ns": [], "incs": []}, matches;
+        var v = {'ns': [], 'incs': []}, matches;
         obj.endpointGroups.forEach(function(eg){
             matches = eg.incidence.match(/([\d]+)\s*[\/|\\]\s*([\d]+)/);
             if (_.isNull(matches) || matches.length < 3) return undefined;

@@ -1,6 +1,6 @@
 Template.navBar.helpers({
     getTitle: function() {
-        return Meteor.settings["public"].context.toUpperCase();
+        return Meteor.settings['public'].context.toUpperCase();
     },
 });
 Template.navBar.onCreated(function() {

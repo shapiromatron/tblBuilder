@@ -4,21 +4,21 @@ Template.moveModal.helpers({
         return `${d.volumeNumber} ${d.monographAgent}: ${d.name}`;
     },
     getOptions: function() {
-        var tbls = Tables.find({tblType: Session.get("Tbl").tblType}).fetch();
+        var tbls = Tables.find({tblType: Session.get('Tbl').tblType}).fetch();
         return _.chain(tbls)
                 .filter(clientShared.userCanEdit)
                 .map(function(d) {
                     return `<option value='${d._id}'>${d.volumeNumber} ${d.monographAgent}: ${d.name}</option>`;
                 })
-                .value().join("");
+                .value().join('');
     },
 });
 Template.moveModal.events({
     'click #move-content': function(evt, tmpl) {
         var content_id = this.content._id,
-            tbl_id = $(tmpl.find("select[name='moveTblTo']")).val(),
+            tbl_id = $(tmpl.find('select[name="moveTblTo"]')).val(),
             newMonographAgent = Tables.findOne(tbl_id).monographAgent,
-            ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")],
+            ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')],
             nesteds;
 
         // ensure reference is associated with monographAgent
@@ -30,8 +30,8 @@ Template.moveModal.events({
 
         // update reference
         ET.collection.update(
-            {"_id": content_id},
-            {$set: {"tbl_id": tbl_id, "sortIdx": 1000}}
+            {'_id': content_id},
+            {$set: {'tbl_id': tbl_id, 'sortIdx': 1000}}
         );
 
         // move nested collections
@@ -39,8 +39,8 @@ Template.moveModal.events({
             nesteds = ET.nested_collection.find({parent_id: content_id}).fetch();
             nesteds.forEach(function(nested){
                 ET.nested_collection.update(
-                    {"_id": nested._id},
-                    {$set: {"tbl_id": tbl_id}});
+                    {'_id': nested._id},
+                    {$set: {'tbl_id': tbl_id}});
             });
         }
 

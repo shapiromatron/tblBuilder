@@ -17,7 +17,7 @@ Template.exposureMain.onDestroyed(function() {
 
 Template.exposureTbl.helpers(clientShared.abstractTblHelpers);
 Template.exposureTbl.onRendered(function() {
-    clientShared.initDraggables(this.find('#sortable'), ".dhOuter", ExposureEvidence);
+    clientShared.initDraggables(this.find('#sortable'), '.dhOuter', ExposureEvidence);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 

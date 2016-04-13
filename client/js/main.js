@@ -61,7 +61,7 @@ var GARouter = RouteController.extend({
                 document.title = utilities.getHTMLTitleTbl();
                 return this.render();
             } else {
-                return this.render("isLoading");
+                return this.render('isLoading');
             }
         },
         onStop: function() {

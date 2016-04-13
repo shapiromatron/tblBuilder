@@ -11,10 +11,10 @@ Template.ntpEpiRatingMain.onDestroyed(function() {
 Template.ntpEpiRatingTable.helpers(clientShared.abstractTblHelpers);
 Template.ntpEpiRatingTable.onRendered(function(){
     this.$('.ntpEpiRatingTd').popover({
-        trigger: "hover",
-        placement: "top",
+        trigger: 'hover',
+        placement: 'top',
         delay: {show: 0, hide: 100},
-        container: "body",
+        container: 'body',
     });
 });
 Template.ntpEpiRatingTable.onDestroyed(function(){

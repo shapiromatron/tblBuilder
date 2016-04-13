@@ -10,7 +10,7 @@ Template.ntpVariablesOfConcernMain.onDestroyed(function() {
 
 Template.ntpVariablesOfConcernTable.helpers({
     getHeaders: function(){
-        return ["Reference: organ-site"].concat(Template.instance().vocVariables);
+        return ['Reference: organ-site'].concat(Template.instance().vocVariables);
     },
     getRows: function(){
         return Template.instance().vocRows;
@@ -27,13 +27,13 @@ Template.ntpVariablesOfConcernTable.onCreated(function(){
             .uniq(true)
             .value(),
         rows = [],
-        null_variable = "N/A";
+        null_variable = 'N/A';
 
     results.forEach(function(d1){
         var row = {
-                "result": d1,
-                "referenceID": d1.getDescription().getReference()._id,
-                "variables": [],
+                result: d1,
+                referenceID: d1.getDescription().getReference()._id,
+                variables: [],
             },
             vocs = _.groupBy(d1.variablesOfConcern, 'vocName');
 
@@ -56,10 +56,10 @@ Template.ntpVariablesOfConcernTable.onCreated(function(){
 });
 Template.ntpVariablesOfConcernTable.onRendered(function(){
     this.$('.ntpEpiRatingTd').popover({
-        trigger: "hover",
-        placement: "top",
+        trigger: 'hover',
+        placement: 'top',
         delay: {show: 0, hide: 100},
-        container: "body",
+        container: 'body',
     });
 });
 Template.ntpVariablesOfConcernTable.onDestroyed(function(){

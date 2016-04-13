@@ -21,15 +21,15 @@ Template.animalTbl.helpers(_.extend({
     getReportTypes: function() {
         return [
             {
-                "type": "AnimalHtmlTblRecreation",
-                "fn": "ani-results",
-                "text": "Download Word: HTML table recreation",
+                type: 'AnimalHtmlTblRecreation',
+                fn: 'ani-results',
+                text: 'Download Word: HTML table recreation',
             },
         ];
     },
 }, clientShared.abstractTblHelpers));
 Template.animalTbl.onRendered(function() {
-    clientShared.initDraggables(this.find('#sortable'), ".dhOuter", AnimalEvidence);
+    clientShared.initDraggables(this.find('#sortable'), '.dhOuter', AnimalEvidence);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
@@ -50,7 +50,7 @@ Template.animalRow.helpers(_.extend({
 }, clientShared.abstractRowHelpers));
 Template.animalRow.events(clientShared.abstractRowEvents);
 Template.animalRow.onRendered(function() {
-    clientShared.initDraggables(this.find('#sortableInner'), ".dhInner", AnimalEndpointEvidence);
+    clientShared.initDraggables(this.find('#sortableInner'), '.dhInner', AnimalEndpointEvidence);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
@@ -72,7 +72,7 @@ var getTrendTestDataTbl = function(data){
             var n = data.inputs.ns[i],
                 percent = Math.round((d/n)*100),
                 getPvalue = function(val, i){
-                    var txt = "-";
+                    var txt = '-';
                     val = parseFloat(val, 10);
 
                     if ((i>0) && (_.isFinite(val))){
@@ -80,31 +80,31 @@ var getTrendTestDataTbl = function(data){
                         if(val <= 0.05){
 
                             if(val < 0.001){
-                                txt = "<0.001";
+                                txt = '<0.001';
                             } else {
                                 txt = val.toFixed(3);
                             }
                         } else {
-                            txt = "n.s.";
+                            txt = 'n.s.';
                         }
                     }
                     return txt;
                 };
 
             return {
-                "incidence": d,
-                "n": n,
-                "percent": percent,
-                "pvalue": getPvalue(data.pairwise.pvalues[i], i),
+                'incidence': d,
+                'n': n,
+                'percent': percent,
+                'pvalue': getPvalue(data.pairwise.pvalues[i], i),
             };
         });
     },
     formatPairwise = function(val){
-        var txt = "error";
+        var txt = 'error';
         val = parseFloat(val, 10);
         if (_.isFinite(val)){
             if(val < 0.001){
-                txt = "<0.001";
+                txt = '<0.001';
             } else {
                 txt = val.toFixed(3);
             }
@@ -114,16 +114,16 @@ var getTrendTestDataTbl = function(data){
 
 Template.animalTrendTestReport.helpers({
     getFormattedReport: function(){
-        var data = JSON.parse(this.trendTestReport || "{}"),
+        var data = JSON.parse(this.trendTestReport || '{}'),
             trs = getTrendTestDataTbl(data),
-            txt = "";
+            txt = '';
 
         // add pairwise test
         var t = new Table();
         trs.forEach(function(tr) {
             t.cell('Incidence', tr.incidence);
             t.cell('N', tr.n);
-            t.cell('%', tr.percent + "%");
+            t.cell('%', tr.percent + '%');
             t.cell('p-value', tr.pvalue);
             t.newRow();
         });
@@ -139,34 +139,34 @@ Template.animalTrendTestReport.helpers({
 
 Template.animalEndpointTbl.helpers(_.extend({
     getIncidents: function() {
-        var txt = "",
+        var txt = '',
             val = AnimalEvidence.getIncidents(this.endpointGroups),
             sig;
 
-        if (val !== "") {
-            sig = this.incidence_significance || "";
+        if (val !== '') {
+            sig = this.incidence_significance || '';
             txt = `<tr><td>${val}</td><td>${sig}</td></tr>`;
         }
         return txt;
     },
     getMultiplicities: function() {
-        var txt = "",
+        var txt = '',
             val = AnimalEvidence.getMultiplicities(this.endpointGroups),
             sig;
 
-        if (val !== "") {
-            sig = this.multiplicity_significance || "";
+        if (val !== '') {
+            sig = this.multiplicity_significance || '';
             txt = `<tr><td>${val}</td><td>${sig}</td></tr>`;
         }
         return txt;
     },
     getTotalTumours: function() {
-        var txt = "",
+        var txt = '',
             val = AnimalEvidence.getTotalTumours(this.endpointGroups),
             sig;
 
-        if (val !== "") {
-            sig = this.total_tumours_significance || "";
+        if (val !== '') {
+            sig = this.total_tumours_significance || '';
             txt = `<tr><td>${val}</td><td>${sig}</td></tr>`;
         }
         return txt;
@@ -182,7 +182,7 @@ Template.animalEndpointForm.events(_.extend({
         return Blaze.renderWithData(Template.animalEndpointGroupForm, {}, tbody);
     },
     'click #trendTest': function(evt, tmpl) {
-        return Meteor.call("getAnimalBioassayStatistics", this._id, function(err, response) {
+        return Meteor.call('getAnimalBioassayStatistics', this._id, function(err, response) {
             if (response) console.log(response);
             if (err) console.error(err);
         });

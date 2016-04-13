@@ -1,11 +1,11 @@
 var XLSX = Meteor.npmRequire('xlsx'),
     type = (function() {
         var classToType = {};
-        "Boolean Number String Function Array Date RegExp Undefined Null".split(" ")
-          .forEach(function(d){classToType["[object " + d + "]"] = d.toLowerCase();});
+        'Boolean Number String Function Array Date RegExp Undefined Null'.split(' ')
+          .forEach(function(d){classToType['[object ' + d + ']'] = d.toLowerCase();});
         return function(obj) {
             var strType = Object.prototype.toString.call(obj);
-            return classToType[strType] || "object";
+            return classToType[strType] || 'object';
         };
     })(),
     excel_datenum = function(v, date1904) {
@@ -19,7 +19,7 @@ var XLSX = Meteor.npmRequire('xlsx'),
         this.Sheets = {};
     },
     sheet_from_array_of_arrays = function(data) {
-        var C, R, cell, cell_ref, i, j,
+        var R, cell, cell_ref, i, j,
             ws = {},
             range = {
                 s: {c: 10000000, r: 10000000},
@@ -37,10 +37,10 @@ var XLSX = Meteor.npmRequire('xlsx'),
                 if (cell.v === null) continue;
                 cell_ref = XLSX.utils.encode_cell({c: j, r: i});
                 switch (type(cell.v)) {
-                case "number":
+                case 'number':
                     cell.t = 'n';
                     break;
-                case "boolean":
+                case 'boolean':
                     cell.t = 'b';
                     break;
                 case 'date':
@@ -70,25 +70,25 @@ var XLSX = Meteor.npmRequire('xlsx'),
 
 Meteor.methods({
     epiEvidenceDownload: function(tbl_id) {
-        return writeXLSX("Epi evidence", EpiDescriptive.tabular(tbl_id));
+        return writeXLSX('Epi evidence', EpiDescriptive.tabular(tbl_id));
     },
     epiMetaAnalysisDownload: function(json) {
-        return writeXLSX("meta-analysis", EpiDescriptive.tabularMetaAnalysis(json));
+        return writeXLSX('meta-analysis', EpiDescriptive.tabularMetaAnalysis(json));
     },
     mechanisticEvidenceExcelDownload: function(tbl_id) {
-        return writeXLSX("Mechanistic evidence", MechanisticEvidence.tabular(tbl_id));
+        return writeXLSX('Mechanistic evidence', MechanisticEvidence.tabular(tbl_id));
     },
     exposureEvidenceDownload: function(tbl_id) {
-        return writeXLSX("Exposure evidence", ExposureEvidence.tabular(tbl_id));
+        return writeXLSX('Exposure evidence', ExposureEvidence.tabular(tbl_id));
     },
     animalEvidenceDownload: function(tbl_id) {
-        return writeXLSX("Bioassay evidence", AnimalEvidence.tabular(tbl_id));
+        return writeXLSX('Bioassay evidence', AnimalEvidence.tabular(tbl_id));
     },
     genotoxEvidenceDownload: function(tbl_id) {
-        return writeXLSX("Genotoxicity evidence", GenotoxEvidence.tabular(tbl_id));
+        return writeXLSX('Genotoxicity evidence', GenotoxEvidence.tabular(tbl_id));
     },
     referenceExcelDownload: function(monographAgent) {
-        var wsName = monographAgent + "-references";
+        var wsName = monographAgent + '-references';
         return writeXLSX(wsName, Reference.tabular(monographAgent));
     },
 });

@@ -4,19 +4,19 @@ var getValue = function(inp) {
             results = [];
 
         // special case for our multi-select list object
-        if ($(inp).hasClass("multiSelectList")) {
+        if ($(inp).hasClass('multiSelectList')) {
             $el = $(inp).parent().next();
             return clientShared.typeaheadSelectListGetLIs($el);
         }
 
         // special case for single-reference selector
-        if ($(inp).hasClass("referenceSingleSelect")) {
+        if ($(inp).hasClass('referenceSingleSelect')) {
             $el = $(inp).parent().next();
             return $el.find('p').data('id');
         }
 
         // special case for multiple-reference selector
-        if ($(inp).hasClass("referenceMultiSelect")) {
+        if ($(inp).hasClass('referenceMultiSelect')) {
             $el = $(inp).parent().next();
             $el.find('li').each(function(i, li){
                 results.push($(li).data('id'));
@@ -27,21 +27,21 @@ var getValue = function(inp) {
         // otherwise it's a standard html input
         val = undefined;
         switch (inp.type) {
-        case "text":
-        case "hidden":
-        case "textarea":
-        case "url":
+        case 'text':
+        case 'hidden':
+        case 'textarea':
+        case 'url':
             val = inp.value.trim();
             if (val.length === 0) val = null;
             break;
-        case "number":
+        case 'number':
             val = parseFloat(inp.value, 10);
             if (isNaN(val)) val = null;
             break;
-        case "checkbox":
+        case 'checkbox':
             val = inp.checked;
             break;
-        case "select-one":
+        case 'select-one':
             val = $(inp).find('option:selected').val();
             break;
         default:
@@ -91,15 +91,15 @@ var getValue = function(inp) {
     }, animateClick = function(el){
         $(el)
           .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
-              function(){$(el).removeClass("animated rubberBand");})
-          .addClass("animated rubberBand");
+              function(){$(el).removeClass('animated rubberBand');})
+          .addClass('animated rubberBand');
     };
 
 
 // template-utility functions
 clientShared = {
     createErrorDiv: function(context) {
-        var  msg, ul = $("<ul>");
+        var  msg, ul = $('<ul>');
         context.invalidKeys().forEach(function(obj){
             msg = undefined;
             try {
@@ -110,11 +110,11 @@ clientShared = {
             if (msg != null) {
                 ul.append(`<li>${msg}</li>`);
             } else {
-                ul.append(`<li>${obj.name} is ${obj.type}; got \"${obj.value}\" </li>`);
+                ul.append(`<li>${obj.name} is ${obj.type}; got \'${obj.value}\' </li>`);
             }
         });
 
-        return $("<div class='bg-danger'>")
+        return $('<div class="bg-danger">')
             .append('<p><strong>The following errors were found:</strong></p>')
             .append(ul);
     },
@@ -124,7 +124,7 @@ clientShared = {
     },
     updateValues: function(form, obj) {
         var newObj = {}, key, val;
-        $(form).find("select,input,textarea").each(function(i, inp){
+        $(form).find('select,input,textarea').each(function(i, inp){
             key = inp.name;
             if (key.length > 0) {
                 val = getValue(inp);
@@ -135,25 +135,25 @@ clientShared = {
     },
     newValues: function(form) {
         var obj = {}, key;
-        $(form).find("select,input,textarea").each(function(i, inp){
+        $(form).find('select,input,textarea').each(function(i, inp){
             key = inp.name;
             if (key.length > 0) obj[key] = getValue(inp);
         });
         return obj;
     },
     returnExcelFile: function(raw_data, fn) {
-        var blob = new Blob([s2ab(raw_data)], {type: "application/octet-stream"});
-        fn = fn || "download.xlsx";
+        var blob = new Blob([s2ab(raw_data)], {type: 'application/octet-stream'});
+        fn = fn || 'download.xlsx';
         return saveAs(blob, fn);
     },
     returnWordFile: function(raw_data, fn) {
-        fn = fn || "download.docx";
-        var blob = new Blob([s2ab(raw_data)], {type: "application/octet-stream"});
+        fn = fn || 'download.docx';
+        var blob = new Blob([s2ab(raw_data)], {type: 'application/octet-stream'});
         return saveAs(blob, fn);
     },
     b64toWord: function(b64, fn) {
-        var blob = b64toBlob(b64, "application/octet-stream");
-        fn = fn || "download.docx";
+        var blob = b64toBlob(b64, 'application/octet-stream');
+        fn = fn || 'download.docx';
         return saveAs(blob, fn);
     },
     toggleRowVisibilty: function(display, $els) {
@@ -196,13 +196,13 @@ clientShared = {
             yPlotBuffer = 20;  // make room for x-axis
 
         svg = d3.select('.container')
-            .insert("svg", "#epiCohortTbl")
+            .insert('svg', '#epiCohortTbl')
             .attr('class', 'epiRiskAxes')
             .attr('height', height + yPlotBuffer)
             .attr('width', width + 2 * xPlotBuffer)
             .style({
-                top: parseInt(y_top) + "px",
-                left: parseInt(x_left - xPlotBuffer) + "px",
+                top: parseInt(y_top) + 'px',
+                left: parseInt(x_left - xPlotBuffer) + 'px',
             });
 
         xscale = d3.scale.log()
@@ -217,35 +217,35 @@ clientShared = {
 
         xaxis = d3.svg.axis()
             .scale(xscale)
-            .orient("bottom")
-            .ticks(0, d3.format(",.f"));
+            .orient('bottom')
+            .ticks(0, d3.format(',.f'));
 
-        svg.append("g")
-            .attr("class", 'axis')
-            .attr("transform", `translate(${xPlotBuffer}, ${height - yPlotBuffer})`)
+        svg.append('g')
+            .attr('class', 'axis')
+            .attr('transform', `translate(${xPlotBuffer}, ${height - yPlotBuffer})`)
             .call(xaxis);
 
-        gridlines = svg.append("g")
+        gridlines = svg.append('g')
             .attr('class', 'gridlines')
-            .attr("transform", `translate(${xPlotBuffer},0)`);
+            .attr('transform', `translate(${xPlotBuffer},0)`);
 
-        gridlines.selectAll("gridlines")
+        gridlines.selectAll('gridlines')
             .data(xscale.ticks(10))
             .enter()
-              .append("svg:line")
-              .attr("x1", function(v) {return xscale(v);})
-              .attr("x2", function(v) {return xscale(v);})
-              .attr("y1", yscale(0))
-              .attr("y2", yscale(1))
-              .attr("class", function(v) {
+              .append('svg:line')
+              .attr('x1', function(v) {return xscale(v);})
+              .attr('x2', function(v) {return xscale(v);})
+              .attr('y1', yscale(0))
+              .attr('y2', yscale(1))
+              .attr('class', function(v) {
                   switch (v){
                   case 1:
-                      return "baseline";
+                      return 'baseline';
                   case 0.1:
                   case 10:
-                      return "major";
+                      return 'major';
                   default:
-                      return "minor";
+                      return 'minor';
                   }
               });
     },
@@ -258,11 +258,11 @@ clientShared = {
         userId = Meteor.userId();
 
         if ((userId == null) || (tbl == null)) return false;
-        if (Meteor.user() && Meteor.user().roles.indexOf("superuser") >= 0) return true;
+        if (Meteor.user() && Meteor.user().roles.indexOf('superuser') >= 0) return true;
         if (userId === tbl.user_id) return true;
         for (i = 0; i < tbl.user_roles.length; i++) {
             user = tbl.user_roles[i];
-            if (userId === user.user_id && user.role !== "reviewers") return true;
+            if (userId === user.user_id && user.role !== 'reviewers') return true;
         }
         return false;
     },
@@ -270,8 +270,8 @@ clientShared = {
         opts = opts || {};
         _.extend(opts, {
             delay: {show: 500, hide: 100},
-            trigger: "hover",
-            placement: "auto",
+            trigger: 'hover',
+            placement: 'auto',
         });
         $(tmpl.findAll('.helpPopovers')).popover(opts);
     },
@@ -295,20 +295,20 @@ clientShared = {
                 pmid, second, shortCitation, so, title, xml, xmlDoc, year;
 
             // assume an error occurred by default
-            fullCitation = "An error occurred.";
-            shortCitation = "";
+            fullCitation = 'An error occurred.';
+            shortCitation = '';
             isError = true;
 
             if (result) {
                 xmlDoc = $.parseXML(result.content);
                 xml = $(xmlDoc);
 
-                err = xml.find("ERROR");
+                err = xml.find('ERROR');
                 if (err.length >= 1) {
-                    fullCitation = xml.find("ERROR").text();
+                    fullCitation = xml.find('ERROR').text();
                 } else {
                     // Parse XML for text, we use the AuthorList children to
-                    // filter for both "Author" and "CollectiveName" fields,
+                    // filter for both 'Author' and 'CollectiveName' fields,
                     // as an example see PMID 187847.
                     authors = (function() {
                         var i, len, ref1, results;
@@ -320,19 +320,19 @@ clientShared = {
                         }
                         return results;
                     })();
-                    title = xml.find("Item[Name=Title]").text();
-                    journal_source = xml.find("Item[Name=Source]").text();
-                    so = xml.find("Item[Name=SO]").text();
-                    pmid = xml.find("Id").text();
-                    year = pubDate = xml.find("Item[Name=PubDate]").text().substr(0, 4);
+                    title = xml.find('Item[Name=Title]').text();
+                    journal_source = xml.find('Item[Name=Source]').text();
+                    so = xml.find('Item[Name=SO]').text();
+                    pmid = xml.find('Id').text();
+                    year = pubDate = xml.find('Item[Name=PubDate]').text().substr(0, 4);
 
                     // build short-citation
-                    first = authors[0].substr(0, authors[0].search(" "));
+                    first = authors[0].substr(0, authors[0].search(' '));
                     shortCitation = `${first} (${year})`;
                     if (authors.length > 2) {
                         shortCitation = `${first} et al. (${year})`;
                     } else if (authors.length === 2) {
-                        second = authors[1].substr(0, authors[1].search(" "));
+                        second = authors[1].substr(0, authors[1].search(' '));
                         shortCitation = `${first} and ${second} (${year})`;
                     }
 
@@ -359,7 +359,7 @@ clientShared = {
             key = Session.get('evidenceType'),
             Collection = tblBuilderCollections.evidenceLookup[key].collection,
             cw_fn = Collection.sortFields,
-            isAscending = function(sort){return (sort.order === "Ascending");};
+            isAscending = function(sort){return (sort.order === 'Ascending');};
 
         if(sorts.length>0){
 
@@ -393,11 +393,11 @@ clientShared = {
     saveSortOrder: function(objs){
         var key = Session.get('evidenceType'),
             ids = _.map(objs, function(d){ return d._id; });
-        return Meteor.call("saveSortOrder", key, ids, function(err, response) {
+        return Meteor.call('saveSortOrder', key, ids, function(err, response) {
             if (response) {
                 console.log(response);
             } else {
-                alert("An error occurred.");
+                alert('An error occurred.');
             }
         });
     },
@@ -409,7 +409,7 @@ _.extend(clientShared, {
     abstractMainHelpers: {},
     abstractTblHelpers: {
         showNew: function() {
-            return Session.get("evidenceShowNew");
+            return Session.get('evidenceShowNew');
         },
         isEditing: function() {
             return Session.equals('evidenceEditingId', this._id);
@@ -419,7 +419,7 @@ _.extend(clientShared, {
         },
         object_list: function() {
             var key = Session.get('evidenceType'),
-                sfs = Session.get("sortsAndFilters") || {},
+                sfs = Session.get('sortsAndFilters') || {},
                 objs = null,
                 Collection;
 
@@ -428,7 +428,7 @@ _.extend(clientShared, {
                 objs = Collection.find({}, {sort: {sortIdx: 1}}).fetch();
                 objs = clientShared.applySortsAndFilters(objs, sfs);
                 if (sfs.save) {
-                    Session.set("sortsAndFilters", _.extend(sfs, {"save": false}));
+                    Session.set('sortsAndFilters', _.extend(sfs, {'save': false}));
                     clientShared.saveSortOrder(objs);
                 }
             }
@@ -444,9 +444,9 @@ _.extend(clientShared, {
     },
     abstractRowEvents: {
         'click #show-edit': function(evt, tmpl) {
-            Session.set("evidenceEditingId", this._id);
+            Session.set('evidenceEditingId', this._id);
             Tracker.flush();
-            clientShared.activateInput($("input[name=referenceID]")[0]);
+            clientShared.activateInput($('input[name=referenceID]')[0]);
         },
         'click #toggle-hidden': function(evt, tmpl) {
             var key = Session.get('evidenceType'),
@@ -460,23 +460,23 @@ _.extend(clientShared, {
             Blaze.renderWithData(Template.moveModal, {content: this}, div);
         },
         'click #clone-content': function(evt, tmpl) {
-            var ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")];
+            var ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')];
             utilities.cloneObject(this, ET.collection, ET.nested_collection);
         },
     },
     abstractFormEvents: {
         'click #create-cancel': function(evt, tmpl) {
-            Session.set("evidenceShowNew", false);
+            Session.set('evidenceShowNew', false);
         },
         'click #update-cancel': function(evt, tmpl) {
-            Session.set("evidenceEditingId", null);
+            Session.set('evidenceEditingId', null);
         },
         'click #create': function(evt, tmpl) {
             var errorDiv, isValid,
                 key = Session.get('evidenceType'),
                 Collection = tblBuilderCollections.evidenceLookup[key].collection,
                 obj = clientShared.newValues(tmpl.find('#mainForm')),
-                createPreValidate = tmpl.view.template.__helpers[" createPreValidate"];
+                createPreValidate = tmpl.view.template.__helpers[' createPreValidate'];
 
             _.extend(obj, {
                 tbl_id: Session.get('Tbl')._id,
@@ -486,10 +486,10 @@ _.extend(clientShared, {
             isValid = Collection.simpleSchema().namedContext().validate(obj);
             if (isValid) {
                 Collection.insert(obj);
-                Session.set("evidenceShowNew", false);
+                Session.set('evidenceShowNew', false);
             } else {
                 errorDiv = clientShared.createErrorDiv(Collection.simpleSchema().namedContext());
-                $(tmpl.find("#errors")).html(errorDiv);
+                $(tmpl.find('#errors')).html(errorDiv);
             }
         },
         'click #update': function(evt, tmpl) {
@@ -500,9 +500,9 @@ _.extend(clientShared, {
                 ref = tblBuilderCollections.evidenceLookup[key].requiredUpdateFields;
             for (i = 0; i < ref.length; i++) {
                 fld = ref[i];
-                vals[fld] = tmpl.find('select[name="' + fld + '"]').value;
+                vals[fld] = tmpl.find(`select[name="${fld}"]`).value;
             }
-            updatePreValidate = tmpl.view.template.__helpers[" updatePreValidate"];
+            updatePreValidate = tmpl.view.template.__helpers[' updatePreValidate'];
             if (updatePreValidate != null) vals = updatePreValidate(tmpl, vals, this);
             modifier = {$set: vals};
             isValid = Collection
@@ -511,17 +511,17 @@ _.extend(clientShared, {
                 .validate(modifier, {modifier: true});
             if (isValid) {
                 Collection.update(this._id, {$set: vals});
-                (isCtrlClick(evt)) ? animateClick(evt.target) : Session.set("evidenceEditingId", false);
+                (isCtrlClick(evt)) ? animateClick(evt.target) : Session.set('evidenceEditingId', false);
             } else {
                 errorDiv = clientShared.createErrorDiv(Collection.simpleSchema().namedContext());
-                $(tmpl.find("#errors")).html(errorDiv);
+                $(tmpl.find('#errors')).html(errorDiv);
             }
         },
         'click #delete': function(evt, tmpl) {
             var key = Session.get('evidenceType'),
                 Collection = tblBuilderCollections.evidenceLookup[key].collection;
             Collection.remove(this._id);
-            Session.set("evidenceEditingId", null);
+            Session.set('evidenceEditingId', null);
         },
         'click #setQA,#unsetQA': function(evt, tmpl) {
             var key = Session.get('evidenceType'),
@@ -555,7 +555,7 @@ _.extend(clientShared, {
         },
         'click #clone-nested-content': function(evt, tmpl) {
             var data = tmpl.view.parentView.dataVar.curValue,
-                ET = tblBuilderCollections.evidenceLookup[Session.get("evidenceType")];
+                ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')];
             return utilities.cloneObject(data, ET.nested_collection);
         },
     },
@@ -608,7 +608,7 @@ _.extend(clientShared, {
                 clientShared.removeNestedFormModal(tmpl);
             } else {
                 errorDiv = clientShared.createErrorDiv(NestedCollection.simpleSchema().namedContext());
-                $(tmpl.find("#errors")).html(errorDiv);
+                $(tmpl.find('#errors')).html(errorDiv);
             }
         },
         'click #inner-create-cancel': function(evt, tmpl) {
@@ -633,21 +633,21 @@ _.extend(clientShared, {
                 if (isCtrlClick(evt)){
                     animateClick(evt.target);
                 } else {
-                    Session.set("nestedEvidenceEditingId", null);
+                    Session.set('nestedEvidenceEditingId', null);
                     clientShared.removeNestedFormModal(tmpl);
                 }
             } else {
                 errorDiv = clientShared.createErrorDiv(NestedCollection.simpleSchema().namedContext());
-                $(tmpl.find("#errors")).html(errorDiv);
+                $(tmpl.find('#errors')).html(errorDiv);
             }
         },
         'click #inner-update-cancel': function(evt, tmpl) {
-            Session.set("nestedEvidenceEditingId", null);
+            Session.set('nestedEvidenceEditingId', null);
             clientShared.removeNestedFormModal(tmpl);
         },
         'click #inner-delete': function(evt, tmpl) {
-            Session.set("nestedEvidenceEditingId", null);
-            clientShared.removeNestedFormModal(tmpl, {"remove": this._id});
+            Session.set('nestedEvidenceEditingId', null);
+            clientShared.removeNestedFormModal(tmpl, {'remove': this._id});
         },
         'click #setQA,#unsetQA': function(evt, tmpl) {
             var key = Session.get('evidenceType'),
