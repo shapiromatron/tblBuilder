@@ -5,6 +5,7 @@ import { Session } from 'meteor/session';
 import _ from 'underscore';
 
 import { getPercentOrText } from '/imports/utilities';
+import organSiteCategories from '/imports/organSiteCategories';
 
 
 Template.ntpEpiMain.helpers(clientShared.abstractMainHelpers);
@@ -142,6 +143,12 @@ Template.ntpEpiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
         var tbody = tmpl.find('.riskEstimateTbody');
         Blaze.renderWithData(Template.riskEstimateForm, {}, tbody);
+    },
+    'show.bs.modal': function(evt, tmpl){
+        let div = tmpl.$('input[name="organSiteCategory"]').closest('div');
+        Blaze.renderWithData(Template.epiOrganSiteCategories,
+            {options: organSiteCategories.options},
+            div[0], div.find('label')[0]);
     },
 }, clientShared.abstractNestedFormEvents));
 Template.ntpEpiResultForm.onRendered(function() {

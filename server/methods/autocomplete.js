@@ -3,6 +3,8 @@ import { check } from 'meteor/check';
 
 import _ from 'underscore';
 
+import organSiteCategories from '/imports/organSiteCategories';
+
 
 var textSearchRegex = function(str, opts){
         str = str.escapeRegex();
@@ -112,15 +114,15 @@ Meteor.methods({
 
         // check matches
         let opts = _.filter(
-            EpiResult.organSiteCategoryOptions,
+            organSiteCategories.options,
             (d) => d.toLocaleLowerCase().indexOf(query) >= 0
         );
 
         // check synonyms
-        let extra = _.chain(EpiResult.organSiteCategorySynonyms)
+        let extra = _.chain(organSiteCategories.synonyms)
                      .keys()
                      .filter((d) => d.indexOf(query) >= 0)
-                     .map((d) => EpiResult.organSiteCategorySynonyms[d])
+                     .map((d) => organSiteCategories.synonyms[d])
                      .flatten()
                      .value();
 

@@ -6,6 +6,7 @@ import _ from 'underscore';
 import d3 from 'd3';
 
 import { getPercentOrText } from '/imports/utilities';
+import organSiteCategories from '/imports/organSiteCategories';
 
 
 Template.epiMain.helpers(clientShared.abstractMainHelpers);
@@ -163,7 +164,7 @@ Template.epiResultForm.events(_.extend({
     'show.bs.modal': function(evt, tmpl){
         let div = tmpl.$('input[name="organSiteCategory"]').closest('div');
         Blaze.renderWithData(Template.epiOrganSiteCategories,
-            {options: EpiResult.organSiteCategoryOptions},
+            {options: organSiteCategories.options},
             div[0], div.find('label')[0]);
     },
 }, clientShared.abstractNestedFormEvents));
