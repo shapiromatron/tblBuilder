@@ -115,11 +115,6 @@ Router.map(function() {
         controller: TblRouterController,
     });
 
-    this.route('epiAnalysisMain', {
-        path: '/epidemiology/:_id/analysis',
-        controller: TblRouterController,
-    });
-
     this.route('mechanisticMain', {
         path: '/mechanistic/:_id/',
         controller: TblRouterController,
