@@ -11,8 +11,6 @@
     "url": "git+https://shapiromatron@github.com/shapiromatron/tblBuilder.git"
   },
   "dependencies": {
-    "fibers": "^1.0.10",
-    "future": "^2.3.1",
     "python-shell": "0.4.0",
     "rserve-client": "0.3.4",
     "xlsx": "0.8.0"

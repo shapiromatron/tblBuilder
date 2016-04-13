@@ -1,4 +1,4 @@
-import Future from 'future';
+import Future from 'fibers/future';
 import PythonShell from 'python-shell';
 
 var pyWordHelperStdin = function(report_type, context, fut) {

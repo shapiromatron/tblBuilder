@@ -1,5 +1,5 @@
 import r from 'rserve-client';
-import Future from 'future';
+import Future from 'fibers/future';
 
 var calculateTrendTest = function(obj, fut){
         var data = extractValues(obj);
