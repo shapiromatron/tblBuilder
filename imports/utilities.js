@@ -37,7 +37,6 @@ export const capitalizeFirst = function(str) {
     return str;
 };
 
-
 export const cloneObject = function(oldObj, Collection, NestedCollection) {
     var newObj, new_parent_id, ref, newNest;
 
