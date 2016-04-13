@@ -28,7 +28,7 @@
         ],
         "no-unused-vars": [
             2,
-            {"vars": "all", "args": "none"}
+            {"args": "none"}
         ]
     },
     "env": {
@@ -37,7 +37,8 @@
     },
     "extends": "eslint:recommended",
     "ecmaFeatures": {
-        "experimentalObjectRestSpread": true
+        "experimentalObjectRestSpread": true,
+        "modules": true,
     },
     "plugins": []
 }

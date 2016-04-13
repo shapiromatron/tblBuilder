@@ -26,7 +26,8 @@ reactive-var
 twbs:bootstrap
 natestrauser:animate-css
 aldeed:collection2
-standard-minifiers
 ecmascript
 peerlibrary:reactive-publish
 datariot:ganalytics
+standard-minifier-css
+standard-minifier-js
