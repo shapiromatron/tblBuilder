@@ -19,7 +19,6 @@ alanning:roles@1.2.10
 less
 pfafman:font-awesome-4
 iron:router
-npm-container
 ian:accounts-ui-bootstrap-3
 reactive-var
 twbs:bootstrap
@@ -30,4 +29,3 @@ peerlibrary:reactive-publish
 datariot:ganalytics
 standard-minifier-css
 standard-minifier-js
-meteorhacks:npm

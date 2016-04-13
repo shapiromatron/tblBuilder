@@ -2,3 +2,4 @@ deploy
 *settings.json
 *.py[co]
 secrets.md
+node_modules/*

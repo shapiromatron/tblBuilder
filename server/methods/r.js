@@ -1,6 +1,7 @@
-var r = Meteor.npmRequire('rserve-client'),
-    Future = Meteor.npmRequire('fibers/future'),
-    calculateTrendTest = function(obj, fut){
+import r from 'rserve-client';
+import Future from 'future';
+
+var calculateTrendTest = function(obj, fut){
         var data = extractValues(obj);
         if (dataValid(data)) {
             data = JSON.stringify(data);

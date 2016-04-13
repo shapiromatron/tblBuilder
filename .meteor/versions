@@ -58,8 +58,6 @@ logging@1.0.11
 mdg:validation-error@0.5.1
 meteor@1.1.13
 meteor-platform@1.2.5
-meteorhacks:async@1.0.0
-meteorhacks:npm@1.5.0
 minifier-css@1.1.10
 minifier-js@1.1.10
 minimongo@1.0.13
@@ -75,7 +73,6 @@ mrt:moment@2.8.1
 mrt:sortable@0.0.4
 natestrauser:animate-css@3.5.1
 npm-bcrypt@0.7.8_2
-npm-container@1.1.0
 npm-mongo@1.4.42
 observe-sequence@1.0.10
 ordered-dict@1.0.6

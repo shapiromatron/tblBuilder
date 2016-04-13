@@ -1,6 +1,7 @@
-var Future = Meteor.npmRequire('fibers/future'),
-    PythonShell = Meteor.npmRequire('python-shell'),
-    pyWordHelperStdin = function(report_type, context, fut) {
+import Future from 'future';
+import PythonShell from 'python-shell';
+
+var pyWordHelperStdin = function(report_type, context, fut) {
         var report,
             options = {
                 mode: 'json',

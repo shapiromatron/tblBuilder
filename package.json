@@ -1,0 +1,26 @@
+{
+  "name": "tbl-builder",
+  "version": "1.0.0",
+  "description": "Building evidence tables to justify decisions for human-health decisions can be cumbersome, and often times the data which are entered in these tables can be reused for subsequent analyses. However, the tables impose certain formatting conventions for consiseness in the table.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://shapiromatron@github.com/shapiromatron/tblBuilder.git"
+  },
+  "dependencies": {
+    "fibers": "^1.0.10",
+    "future": "^2.3.1",
+    "python-shell": "0.4.0",
+    "rserve-client": "0.3.4",
+    "xlsx": "0.8.0"
+  },
+  "author": "Andy Shapiro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shapiromatron/tblBuilder/issues"
+  },
+  "homepage": "https://github.com/shapiromatron/tblBuilder#readme"
+}

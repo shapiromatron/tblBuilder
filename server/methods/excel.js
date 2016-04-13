@@ -1,5 +1,6 @@
-var XLSX = Meteor.npmRequire('xlsx'),
-    type = (function() {
+import XLSX from 'xlsx';
+
+var type = (function() {
         var classToType = {};
         'Boolean Number String Function Array Date RegExp Undefined Null'.split(' ')
           .forEach(function(d){classToType['[object ' + d + ']'] = d.toLowerCase();});
