@@ -1,19 +1,19 @@
 import {Meteor} from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
-import serverShared from '/server/shared';
+import { isStaffOrHigher } from '/imports/api/server/utilities';
 
 
 Meteor.methods({
     adminUserEditProfile: function(_id, obj) {
-        if (!serverShared.isStaffOrHigher(this.userId)) {
+        if (!isStaffOrHigher(this.userId)) {
             throw new Meteor.Error(403, 'Nice try wise-guy.');
         }
         return Meteor.users.update(_id, {$set: obj});
     },
     adminUserCreateProfile: function(obj) {
         var _id, opts;
-        if (!serverShared.isStaffOrHigher(this.userId)) {
+        if (!isStaffOrHigher(this.userId)) {
             throw new Meteor.Error(403, 'Nice try wise-guy.');
         }
         obj.emails[0].address = obj.emails[0].address.trim();
@@ -23,14 +23,14 @@ Meteor.methods({
         return Accounts.sendEnrollmentEmail(_id);
     },
     adminUserResetPassword: function(_id) {
-        if (!serverShared.isStaffOrHigher(this.userId)) {
+        if (!isStaffOrHigher(this.userId)) {
             throw new Meteor.Error(403, 'Nice try wise-guy.');
         }
         return Accounts.sendResetPasswordEmail(_id);
     },
     adminToggleQAd: function(_id, model) {
         var collection, obj, qad, timestamp, updates;
-        if (!serverShared.isStaffOrHigher(this.userId)) {
+        if (!isStaffOrHigher(this.userId)) {
             throw new Meteor.Error(403, 'Nice try wise-guy.');
         }
         collection = tblBuilderCollections.evidenceLookup[model].collection;
@@ -51,7 +51,7 @@ Meteor.methods({
         return {success: false};
     },
     adminSetPassword: function(_id, passwd) {
-        if (!serverShared.isStaffOrHigher(this.userId)) {
+        if (!isStaffOrHigher(this.userId)) {
             throw new Meteor.Error(403, 'Nice try wise-guy.');
         }
         try {

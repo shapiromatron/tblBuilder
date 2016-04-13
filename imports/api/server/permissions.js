@@ -2,7 +2,7 @@ import {Meteor} from 'meteor/meteor';
 
 import _ from 'underscore';
 
-import serverShared from '/server/shared';
+import { isStaffOrHigher } from './utilities';
 
 
 var isCreatorOrProjectManager = function(userId, tbl) {
@@ -37,13 +37,13 @@ var isCreatorOrProjectManager = function(userId, tbl) {
 
 Meteor.startup(function() {
     Meteor.users.allow({
-        insert: serverShared.isStaffOrHigher,
-        update: serverShared.isStaffOrHigher,
-        remove: serverShared.isStaffOrHigher,
+        insert: isStaffOrHigher,
+        update: isStaffOrHigher,
+        remove: isStaffOrHigher,
     });
 
     Tables.allow({
-        insert: serverShared.isStaffOrHigher,
+        insert: isStaffOrHigher,
         update: isCreatorOrProjectManager,
         remove: isCreatorOrProjectManager,
     });

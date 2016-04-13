@@ -3,12 +3,12 @@ import { check, Match } from 'meteor/check';
 
 import _ from 'underscore';
 
-import serverShared from '/server/shared';
+import { isStaffOrHigher } from './utilities';
 
 
 var userCanView = function(tbl, userId) {
     // User-can view permissions check on a table-level basis.
-    if (serverShared.isStaffOrHigher(userId)) return true;
+    if (isStaffOrHigher(userId)) return true;
 
     if (tbl && userId) {
         var valid_ids = _.pluck(tbl.user_roles, 'user_id');
@@ -20,7 +20,7 @@ var userCanView = function(tbl, userId) {
 Meteor.publish('tables', function() {
     var options = {sort: [['volumeNumber', 'desc'], ['timestamp', 'desc']]};
     if (this.userId != null) {
-        if (serverShared.isStaffOrHigher(this.userId)) {
+        if (isStaffOrHigher(this.userId)) {
             return Tables.find({}, options);
         } else {
             return Tables.find({
@@ -194,7 +194,7 @@ Meteor.publish('tblUsers', function(tbl_id) {
 });
 
 Meteor.publish('adminUsers', function() {
-    if (serverShared.isStaffOrHigher(this.userId)) {
+    if (isStaffOrHigher(this.userId)) {
         return Meteor.users.find({},
             {fields: {_id: 1, emails: 1, profile: 1, roles: 1, createdAt: 1}});
     } else {
