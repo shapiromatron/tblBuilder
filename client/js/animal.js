@@ -183,7 +183,6 @@ Template.animalEndpointForm.events(_.extend({
     },
     'click #trendTest': function(evt, tmpl) {
         return Meteor.call('getAnimalBioassayStatistics', this._id, function(err, response) {
-            if (response) console.log(response);
             if (err) console.error(err);
         });
     },

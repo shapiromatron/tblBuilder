@@ -17,11 +17,6 @@ var calculateTrendTest = function(obj, fut){
     dataValid = function(data){
         return ((data.ns.length>2) && (data.ns.length === data.incs.length));
     },
-    textReport = function(res){
-        var txt = 'An error in calculation occurred.';
-        if (res) txt = JSON.stringify(res, null, '\t');
-        return txt;
-    },
     updateIncidenceNotesText = function(obj){
         return obj.incidence_significance || '';
     },
@@ -45,7 +40,7 @@ var calculateTrendTest = function(obj, fut){
                 }
                 client.end();
                 updates = {
-                    'trendTestReport': textReport(res || null),
+                    'trendTestReport': res || null,
                     'incidence_significance': updateIncidenceNotesText(obj, res || null),
                 };
                 updateResult(obj, updates);
