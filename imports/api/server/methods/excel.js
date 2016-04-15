@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor';
 
 import XLSX from 'xlsx';
 
+import Reference from '/imports/api/shared/reference';
 import MechanisticEvidence from '/imports/api/shared/mechanistic';
 
 

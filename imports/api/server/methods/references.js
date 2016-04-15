@@ -1,5 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 
+import Reference from '/imports/api/shared/reference';
+
 
 Meteor.methods({
     removeReference: function(ref_id, thisAgent) {

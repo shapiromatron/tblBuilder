@@ -5,6 +5,7 @@ import _ from 'underscore';
 import { attachTableSchema } from '../schemas';
 
 import Tables from '/imports/api/shared/tables';
+import Reference from '/imports/api/shared/reference';
 
 import schema_extension from './schema';
 import {

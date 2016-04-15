@@ -3,7 +3,7 @@ import {Meteor} from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import _ from 'underscore';
 
-import { attachTableSchema } from '../schemas';
+import { attachBaseSchema } from '../schemas';
 
 import schema_extension from './schema';
 import {
@@ -56,6 +56,6 @@ let instanceMethods = {
     });
 
 _.extend(Tables, classMethods);
-attachTableSchema(Tables, schema_extension);
+attachBaseSchema(Tables, schema_extension);
 
 export default Tables;

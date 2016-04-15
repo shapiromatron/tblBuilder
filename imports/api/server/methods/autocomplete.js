@@ -4,6 +4,7 @@ import { check } from 'meteor/check';
 import _ from 'underscore';
 
 import organSiteCategories from '/imports/organSiteCategories';
+import Reference from '/imports/api/shared/reference';
 
 
 var textSearchRegex = function(str, opts){

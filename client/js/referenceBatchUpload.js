@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
+import Reference from '/imports/api/shared/reference';
 import {
     getPubMedDetails,
 } from '/imports/api/client/utilities';
