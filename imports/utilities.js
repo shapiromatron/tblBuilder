@@ -83,14 +83,18 @@ let getHTMLTitleBase = function() {
         });
         return obj;
     },
-    capitalizeFirst = function(){
-
+    capitalizeFirst = function(str){
+        if ((str != null) && str.length > 0) {
+            str = str[0].toUpperCase() + str.slice(1);
+        }
+        return str;
     };
+
 
 export { getHTMLTitleBase };
 export { getHTMLTitleTbl };
 export { getPercentOrText };
-export { capitalizeFirst };
 export { typeaheadSelectListGetLIs };
 export { getValue };
 export { newValues };
+export { capitalizeFirst };
