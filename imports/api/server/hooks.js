@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor';
 
 import { Roles } from 'meteor/alanning:roles';
 
+import Tables from '/imports/api/shared/tables';
 import MechanisticEvidence from '/imports/api/shared/mechanistic';
 
 

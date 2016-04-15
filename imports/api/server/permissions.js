@@ -2,6 +2,8 @@ import {Meteor} from 'meteor/meteor';
 
 import _ from 'underscore';
 
+import Tables from '/imports/api/shared/tables';
+
 import { isStaffOrHigher } from './utilities';
 
 

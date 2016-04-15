@@ -4,6 +4,8 @@ import _ from 'underscore';
 
 import { attachTableSchema } from '../schemas';
 
+import Tables from '/imports/api/shared/tables';
+
 import schema_extension from './schema';
 import {
     evidenceSections,

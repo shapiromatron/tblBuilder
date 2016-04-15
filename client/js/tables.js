@@ -4,6 +4,7 @@ import { Tracker } from 'meteor/tracker';
 
 import _ from 'underscore';
 
+import Tables from '/imports/api/shared/tables';
 import {
     createErrorDiv,
     initDraggables,

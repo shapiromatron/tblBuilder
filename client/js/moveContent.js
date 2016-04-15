@@ -3,6 +3,8 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
+import Tables from '/imports/api/shared/tables';
+
 import {
     userCanEdit,
 } from '/imports/api/client/utilities';
