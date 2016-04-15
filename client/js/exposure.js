@@ -10,6 +10,14 @@ import {
     abstractFormEvents,
 } from '/imports/api/client/templates';
 
+import {
+    initDraggables,
+    toggleRowVisibilty,
+    toggleQA,
+    initPopovers,
+    destroyPopovers,
+} from '/imports/api/client/utilities';
+
 
 Template.exposureMain.helpers(abstractMainHelpers);
 Template.exposureMain.onCreated(function() {
@@ -30,8 +38,8 @@ Template.exposureMain.onDestroyed(function() {
 
 Template.exposureTbl.helpers(abstractTblHelpers);
 Template.exposureTbl.onRendered(function() {
-    clientShared.initDraggables(this.find('#sortable'), '.dhOuter', ExposureEvidence);
-    clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+    initDraggables(this.find('#sortable'), '.dhOuter', ExposureEvidence);
+    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
@@ -58,9 +66,9 @@ Template.exposureForm.events(_.extend({
 }, abstractFormEvents));
 Template.exposureForm.onRendered(function() {
     toggleOccFields(this);
-    clientShared.toggleQA(this, this.data.isQA);
-    clientShared.initPopovers(this);
+    toggleQA(this, this.data.isQA);
+    initPopovers(this);
 });
 Template.exposureForm.onDestroyed(function() {
-    clientShared.destroyPopovers(this);
+    destroyPopovers(this);
 });

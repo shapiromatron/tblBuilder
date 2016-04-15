@@ -6,6 +6,19 @@ import { Tracker } from 'meteor/tracker';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import _ from 'underscore';
+import { moment } from 'meteor/momentjs:moment';
+
+import {
+    typeaheadSelectListGetLIs,
+} from '/imports/utilities';
+
+import {
+    activateInput,
+    returnExcelFile,
+    b64toWord,
+    toggleRowVisibilty,
+    toggleRiskPlot,
+} from '/imports/api/client/utilities';
 
 
 Template.formLegendPulldown.onRendered(function() {
@@ -45,7 +58,7 @@ Template.optRiskPlot.events({
     'click #epiRiskShowPlots': function(evt, tmpl) {
         evt.preventDefault();
         Session.set('epiRiskShowPlots', !Session.get('epiRiskShowPlots'));
-        clientShared.toggleRiskPlot();
+        toggleRiskPlot();
     },
     'click #showForestAxisModal': function(evt, tmpl) {
         var div = document.getElementById('modalHolder');
@@ -86,7 +99,7 @@ Template.forestAxisModal.events({
         if (min>0 && max>0 && max>min){
             Session.set('epiForestPlotMin', min);
             Session.set('epiForestPlotMax', max);
-            clientShared.toggleRiskPlot();
+            toggleRiskPlot();
             $('.epiRiskPlot').trigger('rerender');
             closeModal(evt, tmpl);
         } else {
@@ -234,7 +247,7 @@ Template.optCreate.events({
     'click #show-create': function(evt, tmpl) {
         Session.set('evidenceShowNew', true);
         Tracker.flush();
-        clientShared.activateInput($('input[name=referenceID]'));
+        activateInput($('input[name=referenceID]'));
     },
 });
 
@@ -248,7 +261,7 @@ Template.showNewBtn.events({
     'click #show-create-btn': function(evt, tmpl) {
         Session.set('evidenceShowNew', true);
         Tracker.flush();
-        clientShared.activateInput($('input[name=referenceID]'));
+        activateInput($('input[name=referenceID]'));
     },
 });
 
@@ -257,7 +270,7 @@ Template.optReorder.events({
     'click #reorderRows': function(evt, tmpl) {
         var val = (!Session.get('reorderRows'));
         Session.set('reorderRows', val);
-        clientShared.toggleRowVisibilty(val, $('.dragHandle'));
+        toggleRowVisibilty(val, $('.dragHandle'));
     },
 });
 
@@ -275,7 +288,7 @@ Template.optWord.events({
             fn = evt.target.dataset.fn + '.docx';
 
         Meteor.call('wordReport', tbl_id, report_type, function(err, response) {
-            if (response) return clientShared.b64toWord(response, fn);
+            if (response) return b64toWord(response, fn);
             return alert('An error occurred.');
         });
     },
@@ -290,7 +303,7 @@ Template.optExcel.events({
             fn = tblBuilderCollections.evidenceLookup[key].excel_fn;
 
         Meteor.call(method, tbl_id, function(err, response) {
-            clientShared.returnExcelFile(response, fn);
+            returnExcelFile(response, fn);
         });
     },
 });
@@ -318,7 +331,7 @@ var autocompleteOptions = function(qry, sync, cb) {
     }, removeLI = function(evt, tmpl){
         $(evt.currentTarget).parent().remove();
     }, selectListAddLI = function(ul, val) {
-        var txts = clientShared.typeaheadSelectListGetLIs($(ul));
+        var txts = typeaheadSelectListGetLIs($(ul));
         if ((val !== '') && (!_.contains(txts, val))) {
             Blaze.renderWithData(Template.typeaheadSelectListLI, val, ul);
         }
@@ -414,7 +427,8 @@ Template.tableTitle.helpers({
 Template.qaNotice.helpers({
     qaNotice: function(datetime, userID) {
         datetime = printTimestamp(moment(datetime));
-        var user = Meteor.users.findOne(userID);
+        let user = Meteor.users.findOne(userID),
+            username;
         if (user) username = user.profile.fullName;
         if (username) {
             return `QA'd by ${username} on ${datetime}`;

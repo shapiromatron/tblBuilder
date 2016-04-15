@@ -2,69 +2,95 @@ import {Meteor} from 'meteor/meteor';
 import {Session} from 'meteor/session';
 
 import _ from 'underscore';
-import d3 from 'd3';
 
 
 let getHTMLTitleBase = function() {
         var context = Meteor.settings['public'].context.toUpperCase();
         return context + ' Table Builder';
     },
-    getNextSortIdx = function(currentIdx, Collection){
-        var nextIdx = _.chain(Collection.find().fetch())
-                    .pluck('sortIdx')
-                    .filter(function(d){return d > currentIdx;})
-                    .sort()
-                    .first()
-                    .value() || (currentIdx + 2);
+    getHTMLTitleTbl = function() {
+        var base = getHTMLTitleBase(),
+            tbl = Session.get('Tbl');
+        return tbl.name + ' | ' + tbl.tblType + ' | ' + base;
+    },
+    getPercentOrText = function(txt) {
+        if (txt == null) return '';
+        if (_.isFinite(txt)) txt = txt.toString();
+        if (txt.search && txt.search(/(\d)+/) >= 0) txt += '%';
+        return txt;
+    },
+    typeaheadSelectListGetLIs = function($ul) {
+        return _.map(
+            $ul.find('li'),
+            function(li){return li.getAttribute('data-value');});
+    },
+    getValue = function(inp) {
+        var val = undefined,
+            $el,
+            results = [];
 
-        return d3.mean([currentIdx, nextIdx]);
+        // special case for our multi-select list object
+        if ($(inp).hasClass('multiSelectList')) {
+            $el = $(inp).parent().next();
+            return typeaheadSelectListGetLIs($el);
+        }
+
+        // special case for single-reference selector
+        if ($(inp).hasClass('referenceSingleSelect')) {
+            $el = $(inp).parent().next();
+            return $el.find('p').data('id');
+        }
+
+        // special case for multiple-reference selector
+        if ($(inp).hasClass('referenceMultiSelect')) {
+            $el = $(inp).parent().next();
+            $el.find('li').each(function(i, li){
+                results.push($(li).data('id'));
+            });
+            return results;
+        }
+
+        // otherwise it's a standard html input
+        val = undefined;
+        switch (inp.type) {
+        case 'text':
+        case 'hidden':
+        case 'textarea':
+        case 'url':
+            val = inp.value.trim();
+            if (val.length === 0) val = null;
+            break;
+        case 'number':
+            val = parseFloat(inp.value, 10);
+            if (isNaN(val)) val = null;
+            break;
+        case 'checkbox':
+            val = inp.checked;
+            break;
+        case 'select-one':
+            val = $(inp).find('option:selected').val();
+            break;
+        default:
+            console.log('input not recognized');
+        }
+        return val;
+    },
+    newValues = function(form) {
+        var obj = {}, key;
+        $(form).find('select,input,textarea').each(function(i, inp){
+            key = inp.name;
+            if (key.length > 0) obj[key] = getValue(inp);
+        });
+        return obj;
+    },
+    capitalizeFirst = function(){
+
     };
 
 export { getHTMLTitleBase };
-
-export { getNextSortIdx };
-
-export const getHTMLTitleTbl = function() {
-    var base = getHTMLTitleBase(),
-        tbl = Session.get('Tbl');
-    return tbl.name + ' | ' + tbl.tblType + ' | ' + base;
-};
-
-export const capitalizeFirst = function(str) {
-    if ((str != null) && str.length > 0) {
-        str = str[0].toUpperCase() + str.slice(1);
-    }
-    return str;
-};
-
-export const cloneObject = function(oldObj, Collection, NestedCollection) {
-    var newObj, new_parent_id, ref, newNest;
-
-    // clone object
-    newObj = _.extend({}, oldObj);
-    delete newObj._id;
-
-    // increment sort-index
-    if (newObj.sortIdx) newObj.sortIdx = getNextSortIdx(newObj.sortIdx, Collection);
-
-    // insert, getting new parent-ID
-    new_parent_id = Collection.insert(newObj);
-
-    // clone nested collection, if exists
-    if (NestedCollection != null) {
-        ref = NestedCollection.find({parent_id: oldObj._id}).fetch();
-        _.each(ref, function(oldNest){
-            newNest = _.extend({}, oldNest);
-            delete newNest._id;
-            newNest.parent_id = new_parent_id;
-            return NestedCollection.insert(newNest);
-        });
-    }
-};
-
-export const getPercentOrText = function(txt) {
-    if (txt == null) return '';
-    if (_.isFinite(txt)) txt = txt.toString();
-    if (txt.search && txt.search(/(\d)+/) >= 0) txt += '%';
-    return txt;
-};
+export { getHTMLTitleTbl };
+export { getPercentOrText };
+export { capitalizeFirst };
+export { typeaheadSelectListGetLIs };
+export { getValue };
+export { newValues };

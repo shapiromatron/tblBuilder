@@ -10,6 +10,14 @@ import {
     abstractFormEvents,
 } from '/imports/api/client/templates';
 
+import {
+    initDraggables,
+    toggleRowVisibilty,
+    toggleQA,
+    initPopovers,
+    destroyPopovers,
+} from '/imports/api/client/utilities';
+
 
 Template.genotoxMain.helpers(abstractMainHelpers);
 Template.genotoxMain.onCreated(function() {
@@ -30,8 +38,8 @@ Template.genotoxMain.onDestroyed(function() {
 
 Template.genotoxTbl.helpers(abstractTblHelpers);
 Template.genotoxTbl.onRendered(function() {
-    clientShared.initDraggables(this.find('#sortable'), '.dhOuter', GenotoxEvidence);
-    clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+    initDraggables(this.find('#sortable'), '.dhOuter', GenotoxEvidence);
+    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
@@ -289,9 +297,9 @@ Template.genotoxForm.onRendered(function() {
     togglePhyloFields(this);
     toggleEndpointOptions(this);
     toggleDualResult(this);
-    clientShared.toggleQA(this, this.data.isQA);
-    clientShared.initPopovers(this, {html: true});
+    toggleQA(this, this.data.isQA);
+    initPopovers(this, {html: true});
 });
 Template.genotoxForm.onDestroyed(function() {
-    clientShared.destroyPopovers(this);
+    destroyPopovers(this);
 });

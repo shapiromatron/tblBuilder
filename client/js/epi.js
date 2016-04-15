@@ -20,6 +20,15 @@ import {
     abstractNestedFormEvents,
 } from '/imports/api/client/templates';
 
+import {
+    initDraggables,
+    toggleRowVisibilty,
+    toggleRiskPlot,
+    toggleQA,
+    initPopovers,
+    destroyPopovers,
+} from '/imports/api/client/utilities';
+
 
 
 Template.epiMain.helpers(abstractMainHelpers);
@@ -54,9 +63,9 @@ Template.epiDescriptiveTbl.helpers(_.extend({
     },
 }, abstractTblHelpers));
 Template.epiDescriptiveTbl.onRendered(function() {
-    clientShared.toggleRiskPlot();
-    clientShared.initDraggables(this.find('#sortable'), '.dhOuter', EpiDescriptive);
-    clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+    toggleRiskPlot();
+    initDraggables(this.find('#sortable'), '.dhOuter', EpiDescriptive);
+    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
@@ -91,8 +100,8 @@ Template.epiDescriptiveRow.helpers(_.extend({
 }, abstractRowHelpers));
 Template.epiDescriptiveRow.events(abstractRowEvents);
 Template.epiDescriptiveRow.onRendered(function() {
-    clientShared.initDraggables(this.find('#sortableInner'), '.dhInner', EpiResult);
-    clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+    initDraggables(this.find('#sortableInner'), '.dhInner', EpiResult);
+    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
@@ -118,11 +127,11 @@ Template.epiDescriptiveForm.events(_.extend({
 }, abstractFormEvents));
 Template.epiDescriptiveForm.onRendered(function() {
     toggleCCfields(this);
-    clientShared.toggleQA(this, this.data.isQA);
-    clientShared.initPopovers(this);
+    toggleQA(this, this.data.isQA);
+    initPopovers(this);
 });
 Template.epiDescriptiveForm.onDestroyed(function() {
-    clientShared.destroyPopovers(this);
+    destroyPopovers(this);
 });
 
 
@@ -183,12 +192,12 @@ Template.epiResultForm.events(_.extend({
 }, abstractNestedFormEvents));
 Template.epiResultForm.onRendered(function() {
     var epiResult = EpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
-    if (epiResult != null) clientShared.toggleQA(this, epiResult.isQA);
+    if (epiResult != null) toggleQA(this, epiResult.isQA);
     $('#modalDiv').modal('toggle');
-    clientShared.initPopovers(this);
+    initPopovers(this);
 });
 Template.epiResultForm.onDestroyed(function() {
-    clientShared.destroyPopovers(this);
+    destroyPopovers(this);
 });
 
 

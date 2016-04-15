@@ -5,24 +5,131 @@ import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
 
 import _ from 'underscore';
+import d3 from 'd3';
 
 import {
-    createNewNestedModal,
-} from './utilities';
+    createErrorDiv,
+    activateInput,
+    updateValues,
+    newValues,
+    toggleQA,
+} from '/imports/api/client/utilities';
 
 
-let removeNestedFormModal = function(tmpl, options) {
-    $('#modalDiv')
-        .one('hide.bs.modal', function() {
-            var key = Session.get('evidenceType'),
-                NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
-            $(tmpl.view._domrange.members).remove();
-            Blaze.remove(tmpl.view);
-            if ((options != null) && (options.remove != null)) {
-                NestedCollection.remove(options.remove);
-            }})
-        .modal('hide');
-};
+let getNextSortIdx = function(currentIdx, Collection){
+        var nextIdx = _.chain(Collection.find().fetch())
+                    .pluck('sortIdx')
+                    .filter(function(d){return d > currentIdx;})
+                    .sort()
+                    .first()
+                    .value() || (currentIdx + 2);
+
+        return d3.mean([currentIdx, nextIdx]);
+    },
+    cloneObject = function(oldObj, Collection, NestedCollection) {
+        var newObj, new_parent_id, ref, newNest;
+
+        // clone object
+        newObj = _.extend({}, oldObj);
+        delete newObj._id;
+
+        // increment sort-index
+        if (newObj.sortIdx) newObj.sortIdx = getNextSortIdx(newObj.sortIdx, Collection);
+
+        // insert, getting new parent-ID
+        new_parent_id = Collection.insert(newObj);
+
+        // clone nested collection, if exists
+        if (NestedCollection != null) {
+            ref = NestedCollection.find({parent_id: oldObj._id}).fetch();
+            _.each(ref, function(oldNest){
+                newNest = _.extend({}, oldNest);
+                delete newNest._id;
+                newNest.parent_id = new_parent_id;
+                return NestedCollection.insert(newNest);
+            });
+        }
+    },
+    createNewNestedModal = function(evt, tmpl) {
+        var div = document.getElementById('modalHolder'),
+            key = Session.get('evidenceType'),
+            NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
+        $(div).empty();
+        Blaze.renderWithData(NestedTemplate, {parent: this}, div);
+    },
+    isCtrlClick = function(evt){
+        return evt.ctrlKey || evt.altKey || evt.metaKey;
+    },
+    animateClick = function(el){
+        $(el)
+          .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+              function(){$(el).removeClass('animated rubberBand');})
+          .addClass('animated rubberBand');
+    },
+    removeNestedFormModal = function(tmpl, options) {
+        $('#modalDiv')
+            .one('hide.bs.modal', function() {
+                var key = Session.get('evidenceType'),
+                    NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection;
+                $(tmpl.view._domrange.members).remove();
+                Blaze.remove(tmpl.view);
+                if ((options != null) && (options.remove != null)) {
+                    NestedCollection.remove(options.remove);
+                }})
+            .modal('hide');
+    },
+    saveSortOrder = function(objs){
+        var key = Session.get('evidenceType'),
+            ids = _.map(objs, function(d){ return d._id; });
+        return Meteor.call('saveSortOrder', key, ids, function(err, response) {
+            if (response) {
+                console.log(response);
+            } else {
+                alert('An error occurred.');
+            }
+        });
+    },
+    applySortsAndFilters = function(objs, sfs){
+        sfs = sfs || {};
+        var i,
+            sort, lastAsc, fn,
+            sorts = sfs.sorts || [],
+            filters = sfs.filters || [],
+            key = Session.get('evidenceType'),
+            Collection = tblBuilderCollections.evidenceLookup[key].collection,
+            cw_fn = Collection.sortFields,
+            isAscending = function(sort){return (sort.order === 'Ascending');};
+
+        if(sorts.length>0){
+
+            // set sort ascending/descending.
+            sorts[0].isAscending = (isAscending(sorts[0]));
+            lastAsc = sorts[0].isAscending;
+            for (i=1; i<sorts.length; i++){
+                sort = sorts[i];
+                if (isAscending(sort) === true){
+                    sort.isAscending = lastAsc;
+                } else {
+                    sort.isAscending = !lastAsc;
+                    lastAsc = !lastAsc;
+                }
+            }
+
+            // apply sort
+            for (i=sorts.length-1; i>=0; i--){
+                sort = sorts[i];
+                fn = cw_fn[sort.field];
+                objs = fn(objs, sort.isAscending);
+            }
+        }
+
+        if(filters.length>0){
+          // todo
+        }
+
+        return objs;
+    };
+
 
 
 export const abstractMainHelpers = {};
@@ -47,10 +154,10 @@ export const abstractTblHelpers = {
         if (key != null) {
             Collection = tblBuilderCollections.evidenceLookup[key].collection,
             objs = Collection.find({}, {sort: {sortIdx: 1}}).fetch();
-            objs = clientShared.applySortsAndFilters(objs, sfs);
+            objs = applySortsAndFilters(objs, sfs);
             if (sfs.save) {
                 Session.set('sortsAndFilters', _.extend(sfs, {'save': false}));
-                clientShared.saveSortOrder(objs);
+                saveSortOrder(objs);
             }
         }
         return objs;
@@ -71,7 +178,7 @@ export const abstractRowEvents = {
     'click #show-edit': function(evt, tmpl) {
         Session.set('evidenceEditingId', this._id);
         Tracker.flush();
-        clientShared.activateInput($('input[name=referenceID]')[0]);
+        activateInput($('input[name=referenceID]')[0]);
     },
     'click #toggle-hidden': function(evt, tmpl) {
         var key = Session.get('evidenceType'),
@@ -102,7 +209,7 @@ export const abstractFormEvents = {
         var errorDiv, isValid,
             key = Session.get('evidenceType'),
             Collection = tblBuilderCollections.evidenceLookup[key].collection,
-            obj = clientShared.newValues(tmpl.find('#mainForm')),
+            obj = newValues(tmpl.find('#mainForm')),
             createPreValidate = tmpl.view.template.__helpers[' createPreValidate'];
 
         _.extend(obj, {
@@ -123,7 +230,7 @@ export const abstractFormEvents = {
         var errorDiv, fld, i, isValid, modifier, updatePreValidate,
             key = Session.get('evidenceType'),
             Collection = tblBuilderCollections.evidenceLookup[key].collection,
-            vals = clientShared.updateValues(tmpl.find('#mainForm'), this),
+            vals = updateValues(tmpl.find('#mainForm'), this),
             ref = tblBuilderCollections.evidenceLookup[key].requiredUpdateFields;
         for (i = 0; i < ref.length; i++) {
             fld = ref[i];
@@ -154,7 +261,7 @@ export const abstractFormEvents = {
         var key = Session.get('evidenceType'),
             collection_name = tblBuilderCollections.evidenceLookup[key].collection_name;
         Meteor.call('adminToggleQAd', this._id, collection_name, function(err, response) {
-            if (response) clientShared.toggleQA(tmpl, response.QAd);
+            if (response) toggleQA(tmpl, response.QAd);
         });
     },
     'click #addNestedResult': createNewNestedModal,
@@ -211,7 +318,7 @@ export const abstractNestedFormEvents = {
         var errorDiv, isValid,
             key = Session.get('evidenceType'),
             NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
-            obj = clientShared.newValues(tmpl.find('#nestedModalForm'));
+            obj = newValues(tmpl.find('#nestedModalForm'));
 
         _.extend(obj, {
             tbl_id: Session.get('Tbl')._id,
@@ -241,7 +348,7 @@ export const abstractNestedFormEvents = {
         var errorDiv, modifier, isValid,
             key = Session.get('evidenceType'),
             NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
-            vals = clientShared.updateValues(tmpl.find('#nestedModalForm'), this);
+            vals = updateValues(tmpl.find('#nestedModalForm'), this);
 
         NestedCollection.preSaveHook(tmpl, vals);
 
@@ -276,7 +383,7 @@ export const abstractNestedFormEvents = {
         var key = Session.get('evidenceType'),
             nested_collection_name = tblBuilderCollections.evidenceLookup[key].nested_collection_name;
         Meteor.call('adminToggleQAd', this._id, nested_collection_name, function(err, response) {
-            if (response) clientShared.toggleQA(tmpl, response.QAd);
+            if (response) toggleQA(tmpl, response.QAd);
         });
     },
 };

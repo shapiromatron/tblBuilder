@@ -6,7 +6,13 @@ import _ from 'underscore';
 
 import {
     createErrorDiv,
+    initDraggables,
+    activateInput,
+    updateValues,
+    newValues,
+    toggleRowVisibilty,
 } from '/imports/api/client/utilities';
+
 
 
 Template.home.onCreated(function() {
@@ -31,12 +37,12 @@ Template.tableOpts.events({
         Session.set('reorderRows', isReorder);
         if (isReorder) {
             tmpl.sortables = _.map($('.sortables'), function(v){
-                return clientShared.initDraggables(v, '.moveTableHandle', Tables);
+                return initDraggables(v, '.moveTableHandle', Tables);
             });
         } else {
             tmpl.sortables.forEach(function(v) { return v.destroy();});
         }
-        clientShared.toggleRowVisibilty(isReorder, $('.moveTableHandle'));
+        toggleRowVisibilty(isReorder, $('.moveTableHandle'));
     },
 });
 
@@ -92,7 +98,7 @@ Template.volumeTableList.events({
     'click #tables-show-edit': function(evt, tmpl) {
         Session.set('tablesEditingId', this._id);
         Tracker.flush();
-        return clientShared.activateInput(tmpl.find('input[name=volumeNumber]'));
+        return activateInput(tmpl.find('input[name=volumeNumber]'));
     },
 });
 
@@ -124,7 +130,7 @@ Template.tablesForm.helpers({
 Template.tablesForm.events({
     'click #tables-create': function(evt, tmpl) {
         var errorDiv, isValid, obj;
-        obj = clientShared.newValues(tmpl.find('#tablesForm'));
+        obj = newValues(tmpl.find('#tablesForm'));
         obj['user_roles'] = getUserPermissionsObject(tmpl);
         delete obj['projectManagers'];
         delete obj['teamMembers'];
@@ -145,7 +151,7 @@ Template.tablesForm.events({
     },
     'click #tables-update': function(evt, tmpl) {
         var errorDiv, isValid, modifier, vals;
-        vals = clientShared.updateValues(tmpl.find('#tablesForm'), this);
+        vals = updateValues(tmpl.find('#tablesForm'), this);
         vals['user_roles'] = getUserPermissionsObject(tmpl);
         delete vals['projectManagers'];
         delete vals['teamMembers'];
@@ -171,5 +177,5 @@ Template.tablesForm.events({
     },
 });
 Template.tablesForm.onRendered(function() {
-    clientShared.activateInput(this.find('input[name=volumeNumber]'));
+    activateInput(this.find('input[name=volumeNumber]'));
 });

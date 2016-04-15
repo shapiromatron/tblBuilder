@@ -3,6 +3,10 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
+import {
+    userCanEdit,
+} from '/imports/api/client/utilities';
+
 
 Template.moveModal.helpers({
     getCurrentTable: function() {
@@ -12,7 +16,7 @@ Template.moveModal.helpers({
     getOptions: function() {
         var tbls = Tables.find({tblType: Session.get('Tbl').tblType}).fetch();
         return _.chain(tbls)
-                .filter(clientShared.userCanEdit)
+                .filter(userCanEdit)
                 .map(function(d) {
                     return `<option value='${d._id}'>${d.volumeNumber} ${d.monographAgent}: ${d.name}</option>`;
                 })

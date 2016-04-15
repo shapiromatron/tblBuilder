@@ -8,6 +8,9 @@ import _ from 'underscore';
 
 import {
     createErrorDiv,
+    getPubMedDetails,
+    activateInput,
+    updateValues,
 } from '/imports/api/client/utilities';
 
 
@@ -39,17 +42,17 @@ Template.referencesTbl.events({
     'click #reference-show-create': function(evt, tmpl) {
         Session.set('referenceShowNew', true);
         Tracker.flush();
-        clientShared.activateInput(tmpl.find('input[name=name]'));
+        activateInput(tmpl.find('input[name=name]'));
     },
     'click #reference-show-edit': function(evt, tmpl) {
         Session.set('referenceEditingId', this._id);
         Tracker.flush();
-        clientShared.activateInput(tmpl.find('input[name=name]'));
+        activateInput(tmpl.find('input[name=name]'));
     },
     'click #reference-downloadExcel': function(evt, tmpl) {
         var volumeNumber = Session.get('monographAgent');
         Meteor.call('referenceExcelDownload', volumeNumber, function(err, response) {
-            clientShared.returnExcelFile(response, 'references.xlsx');
+            returnExcelFile(response, 'references.xlsx');
         });
     },
 });
@@ -72,7 +75,7 @@ Template.referenceForm.helpers({
 });
 Template.referenceForm.events({
     'click #reference-create': function(evt, tmpl) {
-        var obj = clientShared.newValues(tmpl.find('#referenceForm')),
+        var obj = newValues(tmpl.find('#referenceForm')),
             isModal = this.isModal,
             errorDiv, isValid;
         tmpl.$('#errors').empty();
@@ -100,7 +103,7 @@ Template.referenceForm.events({
         if (this.isModal) $('#referenceQuickAdd').modal('toggle');
     },
     'click #reference-update': function(evt, tmpl) {
-        var vals = clientShared.updateValues(tmpl.find('#referenceForm'), this),
+        var vals = updateValues(tmpl.find('#referenceForm'), this),
             modifier = {$set: vals},
             isValid = Reference
               .simpleSchema()
@@ -133,7 +136,7 @@ Template.referenceForm.events({
             name = tmpl.find('input[name=name]');
 
         spinner.toggleClass('spinner-active');
-        return clientShared.getPubMedDetails(pubmedID, function(v) {
+        return getPubMedDetails(pubmedID, function(v) {
             spinner.toggleClass('spinner-active');
             citation.value = v.fullCitation;
             name.value = v.shortCitation;

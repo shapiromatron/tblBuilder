@@ -64,12 +64,12 @@ minimongo@1.0.13
 mobile-status-bar@1.0.11
 modules@0.5.2
 modules-runtime@0.6.2
+momentjs:moment@2.12.0
 mongo@1.1.6
 mongo-id@1.0.3
 mongo-livedata@1.0.11
 mrt:collection-hooks@0.7.2
 mrt:filesaver@0.0.3
-mrt:moment@2.8.1
 mrt:sortable@0.0.4
 natestrauser:animate-css@3.5.1
 npm-bcrypt@0.7.8_2

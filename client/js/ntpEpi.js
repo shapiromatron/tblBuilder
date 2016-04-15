@@ -20,6 +20,16 @@ import {
     abstractNestedFormEvents,
 } from '/imports/api/client/templates';
 
+import {
+    initDraggables,
+    toggleRowVisibilty,
+    toggleRiskPlot,
+    toggleQA,
+    initPopovers,
+    destroyPopovers,
+} from '/imports/api/client/utilities';
+
+
 
 Template.ntpEpiMain.helpers(abstractMainHelpers);
 Template.ntpEpiMain.onCreated(function() {
@@ -42,9 +52,9 @@ Template.ntpEpiMain.onDestroyed(function() {
 
 Template.ntpEpiDescTbl.helpers(abstractTblHelpers);
 Template.ntpEpiDescTbl.onRendered(function() {
-    clientShared.toggleRiskPlot();
-    clientShared.initDraggables(this.find('#sortable'), '.dhOuter', NtpEpiDescriptive);
-    clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+    toggleRiskPlot();
+    initDraggables(this.find('#sortable'), '.dhOuter', NtpEpiDescriptive);
+    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
@@ -79,8 +89,8 @@ Template.ntpEpiDescriptiveRow.helpers(_.extend({
 }, abstractRowHelpers));
 Template.ntpEpiDescriptiveRow.events(abstractRowEvents);
 Template.ntpEpiDescriptiveRow.onRendered(function() {
-    clientShared.initDraggables(this.find('#sortableInner'), '.dhInner', NtpEpiResult);
-    clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+    initDraggables(this.find('#sortableInner'), '.dhInner', NtpEpiResult);
+    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
@@ -128,12 +138,12 @@ Template.ntpEpiDescriptiveForm.onCreated(function(){
     this.allAccordiansShown = new ReactiveVar(false);
 });
 Template.ntpEpiDescriptiveForm.onRendered(function() {
-    clientShared.toggleQA(this, this.data.isQA);
-    clientShared.initPopovers(this);
+    toggleQA(this, this.data.isQA);
+    initPopovers(this);
     toggleRequiredFields(this, 1e-6);
 });
 Template.ntpEpiDescriptiveForm.onDestroyed(function() {
-    clientShared.destroyPopovers(this);
+    destroyPopovers(this);
 });
 
 
@@ -166,12 +176,12 @@ Template.ntpEpiResultForm.events(_.extend({
 }, abstractNestedFormEvents));
 Template.ntpEpiResultForm.onRendered(function() {
     var object = NtpEpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
-    if (object != null) clientShared.toggleQA(this, object.isQA);
+    if (object != null) toggleQA(this, object.isQA);
     $('#modalDiv').modal('toggle');
-    clientShared.initPopovers(this);
+    initPopovers(this);
 });
 Template.ntpEpiResultForm.onDestroyed(function() {
-    clientShared.destroyPopovers(this);
+    destroyPopovers(this);
 });
 
 
@@ -192,10 +202,10 @@ Template.variablesOfConcern.events({
     },
 });
 Template.variablesOfConcern.onRendered(function() {
-    clientShared.initPopovers(this);
+    initPopovers(this);
 });
 Template.variablesOfConcern.onDestroyed(function() {
-    clientShared.destroyPopovers(this);
+    destroyPopovers(this);
 });
 
 

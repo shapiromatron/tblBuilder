@@ -10,6 +10,11 @@ import {
     abstractMainHelpers,
 } from '/imports/api/client/templates';
 
+import {
+    returnExcelFile,
+    toggleRiskPlot,
+} from '/imports/api/client/utilities';
+
 
 Template.epiOrganSiteMain.helpers(_.extend({
     getOrganSiteOptions: function() {
@@ -51,7 +56,7 @@ Template.epiOrganSiteMain.helpers(_.extend({
 Template.epiOrganSiteMain.events({
     'change #organSiteSelector': function(evt, tmpl) {
         tmpl.organSiteCategories.set($(evt.target).val() || []);
-        return clientShared.toggleRiskPlot();
+        return toggleRiskPlot();
     },
     'click #selectVisible': function(evt, tmpl) {
         Session.set('eosEditMode', !Session.get('eosEditMode'));
@@ -63,7 +68,7 @@ Template.epiOrganSiteMain.events({
                     .value(),
             fn = 'meta-analysis.xlsx';
         Meteor.call('epiMetaAnalysisDownload', rows, function(err, response) {
-            clientShared.returnExcelFile(response, fn);
+            returnExcelFile(response, fn);
         });
     },
 });

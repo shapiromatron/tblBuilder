@@ -17,6 +17,14 @@ import {
     abstractNestedFormEvents,
 } from '/imports/api/client/templates';
 
+import {
+    initDraggables,
+    toggleRowVisibilty,
+    toggleQA,
+    initPopovers,
+    destroyPopovers,
+} from '/imports/api/client/utilities';
+
 
 
 Template.animalMain.helpers(abstractMainHelpers);
@@ -50,8 +58,8 @@ Template.animalTbl.helpers(_.extend({
     },
 }, abstractTblHelpers));
 Template.animalTbl.onRendered(function() {
-    clientShared.initDraggables(this.find('#sortable'), '.dhOuter', AnimalEvidence);
-    clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+    initDraggables(this.find('#sortable'), '.dhOuter', AnimalEvidence);
+    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
@@ -71,18 +79,18 @@ Template.animalRow.helpers(_.extend({
 }, abstractRowHelpers));
 Template.animalRow.events(abstractRowEvents);
 Template.animalRow.onRendered(function() {
-    clientShared.initDraggables(this.find('#sortableInner'), '.dhInner', AnimalEndpointEvidence);
-    clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+    initDraggables(this.find('#sortableInner'), '.dhInner', AnimalEndpointEvidence);
+    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
 Template.animalForm.events(abstractFormEvents);
 Template.animalForm.onRendered(function() {
-    clientShared.toggleQA(this, this.data.isQA);
-    clientShared.initPopovers(this);
+    toggleQA(this, this.data.isQA);
+    initPopovers(this);
 });
 Template.animalForm.onDestroyed(function() {
-    clientShared.destroyPopovers(this);
+    destroyPopovers(this);
 });
 
 
@@ -212,13 +220,13 @@ Template.animalEndpointForm.onRendered(function() {
     var aniResult = AnimalEndpointEvidence.findOne(
           {_id: Session.get('nestedEvidenceEditingId')});
     if (aniResult != null) {
-        clientShared.toggleQA(this, aniResult.isQA);
+        toggleQA(this, aniResult.isQA);
     }
     $('#modalDiv').modal('toggle');
-    clientShared.initPopovers(this);
+    initPopovers(this);
 });
 Template.animalEndpointForm.onDestroyed(function() {
-    clientShared.destroyPopovers(this);
+    destroyPopovers(this);
 });
 
 

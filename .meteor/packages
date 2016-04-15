@@ -7,7 +7,6 @@ standard-app-packages
 mrt:filesaver@0.0.3
 accounts-base
 accounts-password
-mrt:moment@2.6.0
 sergeyt:typeahead@0.0.10
 email
 http
@@ -28,3 +27,4 @@ standard-minifier-js
 twbs:bootstrap
 jquery
 fortawesome:fontawesome
+momentjs:moment

@@ -1,6 +1,11 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
+import {
+    getPubMedDetails,
+} from '/imports/api/client/utilities';
+
+
 
 var getImportWS = function(wb, cb) {
     var ws;
@@ -90,7 +95,7 @@ Template.referenceBatchUpload.events({
 
                     if (PMID != null) {
                         if (isFinite(parseInt(PMID, 10))) {
-                            clientShared.getPubMedDetails(PMID, function(v) {
+                            getPubMedDetails(PMID, function(v) {
                                 if (v.isError) {
                                     append_status('alert-danger', rowID, 'PMID import error');
                                 } else {

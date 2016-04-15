@@ -1,7 +1,10 @@
 import {Meteor} from 'meteor/meteor';
+import { Router } from 'meteor/iron:router';
 import { Template } from 'meteor/templating';
 
-import { Router } from 'meteor/iron:router';
+import {
+    newValues,
+} from '/imports/api/client/utilities';
 
 
 Template.profileEdit.helpers({
@@ -13,7 +16,7 @@ Template.profileEdit.helpers({
 });
 Template.profileForm.events({
     'click #update': function(evt, tmpl) {
-        var profile = {'profile': clientShared.newValues(tmpl.find('form'))};
+        var profile = {'profile': newValues(tmpl.find('form'))};
         Meteor.users.update(Meteor.user()._id, {$set: profile});
         Router.go('home');
     },

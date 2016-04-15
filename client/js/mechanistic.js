@@ -6,16 +6,26 @@ import {
     createErrorDiv,
 } from '/imports/api/client/utilities';
 
+import {
+    initDraggables,
+    activateInput,
+    updateValues,
+    newValues,
+    toggleRowVisibilty,
+    initPopovers,
+    destroyPopovers,
+} from '/imports/api/client/utilities';
+
 
 var initializeDraggable = function(tmpl, options) {
     var id = options.isSection ? tmpl.data.section : tmpl.data._id,
         container = tmpl.find('#dragContainer_' + id);
 
     if (container) {
-        clientShared.initDraggables(container, '.dragHandle_' + id,
+        initDraggables(container, '.dragHandle_' + id,
             MechanisticEvidence, {draggable: '.dragObj_' + id}
         );
-        clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+        toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
     }
 };
 
@@ -39,7 +49,7 @@ Template.mechanisticMain.events({
     },
     'click #mechanistic-reorderRows': function(evt, tmpl) {
         Session.set('reorderRows', !Session.get('reorderRows'));
-        clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+        toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
     },
 });
 Template.mechanisticMain.onCreated(function() {
@@ -89,7 +99,7 @@ Template.mechanisticSectionTR.events({
     'click #mechanistic-newSection': function(evt, tmpl) {
         Session.set('evidenceEditingId', this.section);
         Tracker.flush();
-        clientShared.activateInput(tmpl.find('textarea[name=text]'));
+        activateInput(tmpl.find('textarea[name=text]'));
     },
 });
 Template.mechanisticSectionTR.onRendered(function() {
@@ -124,12 +134,12 @@ Template.mechanisticEvidenceDisplay.events({
     'click #mechanistic-show-edit': function(evt, tmpl) {
         Session.set('evidenceEditingId', this._id);
         Tracker.flush();
-        clientShared.activateInput(tmpl.find('textarea[name=text]'));
+        activateInput(tmpl.find('textarea[name=text]'));
     },
     'click #mechanistic-newChild': function(evt, tmpl) {
         Session.set('evidenceShowNew', this._id);
         Tracker.flush();
-        clientShared.activateInput(tmpl.find('textarea[name=text]'));
+        activateInput(tmpl.find('textarea[name=text]'));
     },
 });
 Template.mechanisticEvidenceDisplay.onRendered(function() {
@@ -140,7 +150,7 @@ Template.mechanisticEvidenceDisplay.onRendered(function() {
 Template.mechanisticEvidenceForm.events({
     'click #mechanisticEvidence-create': function(evt, tmpl) {
         var errorDiv, isValid, obj;
-        obj = clientShared.newValues(tmpl.find('#mechanisticEvidenceForm'));
+        obj = newValues(tmpl.find('#mechanisticEvidenceForm'));
         obj['tbl_id'] = Session.get('Tbl')._id;
         obj['section'] = this.section;
         obj['parent'] = this.parent;
@@ -161,7 +171,7 @@ Template.mechanisticEvidenceForm.events({
     },
     'click #mechanisticEvidence-update': function(evt, tmpl) {
         var errorDiv,
-            vals = clientShared.updateValues(tmpl.find('#mechanisticEvidenceForm'), this),
+            vals = updateValues(tmpl.find('#mechanisticEvidenceForm'), this),
             modifier = {$set: vals},
             isValid = MechanisticEvidence
               .simpleSchema()
@@ -196,8 +206,8 @@ Template.mechanisticEvidenceForm.helpers({
     },
 });
 Template.mechanisticEvidenceForm.onRendered(function() {
-    clientShared.initPopovers(this);
+    initPopovers(this);
 });
 Template.mechanisticEvidenceForm.onDestroyed(function() {
-    clientShared.destroyPopovers(this);
+    destroyPopovers(this);
 });

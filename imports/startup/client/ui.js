@@ -5,10 +5,14 @@ import { UI } from 'meteor/ui';
 
 import _ from 'underscore';
 
+import {
+    userCanEdit,
+} from '/imports/api/client/utilities';
+
 
 var uiHelpers = {
     userCanEdit: function() {
-        return clientShared.userCanEdit(Session.get('Tbl'));
+        return userCanEdit(Session.get('Tbl'));
     },
     ballotBoolean: function(bool) {
         var icon = bool.hash.bool ? 'glyphicon-ok' : 'glyphicon-remove';

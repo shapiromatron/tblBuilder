@@ -6,6 +6,10 @@ import { Tracker } from 'meteor/tracker';
 
 import _ from 'underscore';
 
+import {
+    activateInput,
+} from '/imports/api/client/utilities';
+
 
 var setAdminNotification = function(message, type) {
         var div = $('#messages')[0],
@@ -76,7 +80,7 @@ Template.adminUserRow.events({
     'click #adminUser-show-edit': function(evt, tmpl) {
         Session.set('adminUserEditingId', this._id);
         Tracker.flush();
-        return clientShared.activateInput(tmpl.find('input[name=fullName]'));
+        return activateInput(tmpl.find('input[name=fullName]'));
     },
     'click #adminUser-resetPassword': function(evt, tmpl) {
         var email, message;
