@@ -2,6 +2,8 @@ import {Meteor} from 'meteor/meteor';
 
 import XLSX from 'xlsx';
 
+import MechanisticEvidence from '/imports/api/shared/mechanistic';
+
 
 var type = (function() {
         var classToType = {};

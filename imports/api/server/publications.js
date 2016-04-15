@@ -4,6 +4,8 @@ import { check, Match } from 'meteor/check';
 import _ from 'underscore';
 
 import { isStaffOrHigher } from './utilities';
+import MechanisticEvidence from '/imports/api/shared/mechanistic';
+
 
 
 var userCanView = function(tbl, userId) {

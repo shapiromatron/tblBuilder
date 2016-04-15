@@ -2,6 +2,8 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
 
+import MechanisticEvidence from '/imports/api/shared/mechanistic';
+
 import {
     createErrorDiv,
 } from '/imports/api/client/utilities';

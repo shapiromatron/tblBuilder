@@ -3,6 +3,8 @@
 import { Accounts } from 'meteor/accounts-base';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
+import '/imports/api/shared';
+
 
 Accounts.config({forbidClientAccountCreation: true});
 

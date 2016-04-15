@@ -2,6 +2,8 @@ import {Meteor} from 'meteor/meteor';
 
 import { Roles } from 'meteor/alanning:roles';
 
+import MechanisticEvidence from '/imports/api/shared/mechanistic';
+
 
 var addTimestampAndUserID = function(userId, doc) {
         var now =  new Date();

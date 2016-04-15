@@ -3,6 +3,8 @@ import PythonShell from 'python-shell';
 
 import _ from 'underscore';
 
+import MechanisticEvidence from '/imports/api/shared/mechanistic';
+
 
 var Future = Npm.require('fibers/future'),
     pyWordHelperStdin = function(report_type, context, fut) {
