@@ -3,8 +3,15 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
+import {
+    abstractMainHelpers,
+    abstractTblHelpers,
+    abstractRowEvents,
+    abstractFormEvents,
+} from '/imports/api/client/templates';
 
-Template.genotoxMain.helpers(clientShared.abstractMainHelpers);
+
+Template.genotoxMain.helpers(abstractMainHelpers);
 Template.genotoxMain.onCreated(function() {
     Session.set('evidenceType', 'genotoxEvidence');
     Session.set('evidenceShowNew', false);
@@ -21,14 +28,14 @@ Template.genotoxMain.onDestroyed(function() {
 });
 
 
-Template.genotoxTbl.helpers(clientShared.abstractTblHelpers);
+Template.genotoxTbl.helpers(abstractTblHelpers);
 Template.genotoxTbl.onRendered(function() {
     clientShared.initDraggables(this.find('#sortable'), '.dhOuter', GenotoxEvidence);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
-Template.genotoxRow.events(clientShared.abstractRowEvents);
+Template.genotoxRow.events(abstractRowEvents);
 Template.genotoxRow.helpers({
     getCol1: function() {
         return this.dataClass;
@@ -276,7 +283,7 @@ Template.genotoxForm.events(_.extend({
     'change select[name="endpoint"]': function(evt, tmpl) {
         toggleEndpointTestOptions(tmpl);
     },
-}, clientShared.abstractFormEvents));
+}, abstractFormEvents));
 Template.genotoxForm.onRendered(function() {
     toggleDataClassFields(this);
     togglePhyloFields(this);

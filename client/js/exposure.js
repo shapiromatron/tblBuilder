@@ -3,8 +3,15 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
+import {
+    abstractMainHelpers,
+    abstractTblHelpers,
+    abstractRowEvents,
+    abstractFormEvents,
+} from '/imports/api/client/templates';
 
-Template.exposureMain.helpers(clientShared.abstractMainHelpers);
+
+Template.exposureMain.helpers(abstractMainHelpers);
 Template.exposureMain.onCreated(function() {
     Session.set('evidenceType', 'exposureEvidence');
     Session.set('evidenceShowNew', false);
@@ -21,14 +28,14 @@ Template.exposureMain.onDestroyed(function() {
 });
 
 
-Template.exposureTbl.helpers(clientShared.abstractTblHelpers);
+Template.exposureTbl.helpers(abstractTblHelpers);
 Template.exposureTbl.onRendered(function() {
     clientShared.initDraggables(this.find('#sortable'), '.dhOuter', ExposureEvidence);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
-Template.exposureRow.events(clientShared.abstractRowEvents);
+Template.exposureRow.events(abstractRowEvents);
 
 
 var toggleOccFields = function(tmpl) {
@@ -48,7 +55,7 @@ Template.exposureForm.events(_.extend({
     'change select[name="exposureScenario"]': function(evt, tmpl) {
         return toggleOccFields(tmpl);
     },
-}, clientShared.abstractFormEvents));
+}, abstractFormEvents));
 Template.exposureForm.onRendered(function() {
     toggleOccFields(this);
     clientShared.toggleQA(this, this.data.isQA);

@@ -1,8 +1,13 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
+import {
+    abstractMainHelpers,
+    abstractTblHelpers,
+} from '/imports/api/client/templates';
 
-Template.ntpEpiRatingMain.helpers(clientShared.abstractMainHelpers);
+
+Template.ntpEpiRatingMain.helpers(abstractMainHelpers);
 Template.ntpEpiRatingMain.onCreated(function() {
     Session.set('evidenceType', 'ntpEpiDescriptive');
     this.subscribe('ntpEpiDescriptive', Session.get('Tbl')._id);
@@ -12,7 +17,7 @@ Template.ntpEpiRatingMain.onDestroyed(function() {
 });
 
 
-Template.ntpEpiRatingTable.helpers(clientShared.abstractTblHelpers);
+Template.ntpEpiRatingTable.helpers(abstractTblHelpers);
 Template.ntpEpiRatingTable.onRendered(function(){
     this.$('.ntpEpiRatingTd').popover({
         trigger: 'hover',

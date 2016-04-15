@@ -3,8 +3,12 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
+import {
+    abstractMainHelpers,
+} from '/imports/api/client/templates';
 
-Template.ntpVariablesOfConcernMain.helpers(clientShared.abstractMainHelpers);
+
+Template.ntpVariablesOfConcernMain.helpers(abstractMainHelpers);
 Template.ntpVariablesOfConcernMain.onCreated(function() {
     Session.set('evidenceType', 'ntpEpiDescriptive');
     this.subscribe('ntpEpiDescriptive', Session.get('Tbl')._id);

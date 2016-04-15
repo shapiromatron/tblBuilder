@@ -8,8 +8,21 @@ import d3 from 'd3';
 import { getPercentOrText } from '/imports/utilities';
 import organSiteCategories from '/imports/organSiteCategories';
 
+import {
+    abstractMainHelpers,
+    abstractTblHelpers,
+    abstractRowHelpers,
+    abstractRowEvents,
+    abstractFormEvents,
+    abstractNestedTableHelpers,
+    abstractNestedTableEvents,
+    abstractNestedFormHelpers,
+    abstractNestedFormEvents,
+} from '/imports/api/client/templates';
 
-Template.epiMain.helpers(clientShared.abstractMainHelpers);
+
+
+Template.epiMain.helpers(abstractMainHelpers);
 Template.epiMain.onCreated(function() {
     Session.set('evidenceType', 'epiDescriptive');
     Session.set('evidenceShowNew', false);
@@ -39,7 +52,7 @@ Template.epiDescriptiveTbl.helpers(_.extend({
         ];
         return reports;
     },
-}, clientShared.abstractTblHelpers));
+}, abstractTblHelpers));
 Template.epiDescriptiveTbl.onRendered(function() {
     clientShared.toggleRiskPlot();
     clientShared.initDraggables(this.find('#sortable'), '.dhOuter', EpiDescriptive);
@@ -75,8 +88,8 @@ Template.epiDescriptiveRow.helpers(_.extend({
 
         return html;
     },
-}, clientShared.abstractRowHelpers));
-Template.epiDescriptiveRow.events(clientShared.abstractRowEvents);
+}, abstractRowHelpers));
+Template.epiDescriptiveRow.events(abstractRowEvents);
 Template.epiDescriptiveRow.onRendered(function() {
     clientShared.initDraggables(this.find('#sortableInner'), '.dhInner', EpiResult);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
@@ -102,7 +115,7 @@ Template.epiDescriptiveForm.events(_.extend({
     'change select[name="studyDesign"]': function(evt, tmpl) {
         return toggleCCfields(tmpl);
     },
-}, clientShared.abstractFormEvents));
+}, abstractFormEvents));
 Template.epiDescriptiveForm.onRendered(function() {
     toggleCCfields(this);
     clientShared.toggleQA(this, this.data.isQA);
@@ -134,8 +147,8 @@ Template.epiResultTbl.helpers(_.extend({
     displayEffectUnits: function(d) {
         return d.effectUnits != null;
     },
-}, clientShared.abstractNestedTableHelpers));
-Template.epiResultTbl.events(clientShared.abstractNestedTableEvents);
+}, abstractNestedTableHelpers));
+Template.epiResultTbl.events(abstractNestedTableEvents);
 
 
 Template.organSiteTd.helpers({
@@ -155,7 +168,7 @@ Template.epiOrganSiteCategories.onRendered(function() {
 });
 
 
-Template.epiResultForm.helpers(clientShared.abstractNestedFormHelpers);
+Template.epiResultForm.helpers(abstractNestedFormHelpers);
 Template.epiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
         var tbody = tmpl.find('.riskEstimateTbody');
@@ -167,7 +180,7 @@ Template.epiResultForm.events(_.extend({
             {options: organSiteCategories.options},
             div[0], div.find('label')[0]);
     },
-}, clientShared.abstractNestedFormEvents));
+}, abstractNestedFormEvents));
 Template.epiResultForm.onRendered(function() {
     var epiResult = EpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
     if (epiResult != null) clientShared.toggleQA(this, epiResult.isQA);

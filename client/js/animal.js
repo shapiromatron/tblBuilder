@@ -5,8 +5,21 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
+import {
+    abstractMainHelpers,
+    abstractTblHelpers,
+    abstractRowHelpers,
+    abstractRowEvents,
+    abstractFormEvents,
+    abstractNestedTableHelpers,
+    abstractNestedTableEvents,
+    abstractNestedFormHelpers,
+    abstractNestedFormEvents,
+} from '/imports/api/client/templates';
 
-Template.animalMain.helpers(clientShared.abstractMainHelpers);
+
+
+Template.animalMain.helpers(abstractMainHelpers);
 Template.animalMain.onCreated(function() {
     Session.set('evidenceType', 'animalEvidence');
     Session.set('evidenceShowNew', false);
@@ -35,7 +48,7 @@ Template.animalTbl.helpers(_.extend({
             },
         ];
     },
-}, clientShared.abstractTblHelpers));
+}, abstractTblHelpers));
 Template.animalTbl.onRendered(function() {
     clientShared.initDraggables(this.find('#sortable'), '.dhOuter', AnimalEvidence);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
@@ -55,15 +68,15 @@ Template.animalRow.helpers(_.extend({
     getNSurvivings: function() {
         return AnimalEvidence.getNSurvivings(getFirstEndpoint(this._id));
     },
-}, clientShared.abstractRowHelpers));
-Template.animalRow.events(clientShared.abstractRowEvents);
+}, abstractRowHelpers));
+Template.animalRow.events(abstractRowEvents);
 Template.animalRow.onRendered(function() {
     clientShared.initDraggables(this.find('#sortableInner'), '.dhInner', AnimalEndpointEvidence);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
 
-Template.animalForm.events(clientShared.abstractFormEvents);
+Template.animalForm.events(abstractFormEvents);
 Template.animalForm.onRendered(function() {
     clientShared.toggleQA(this, this.data.isQA);
     clientShared.initPopovers(this);
@@ -179,11 +192,11 @@ Template.animalEndpointTbl.helpers(_.extend({
         }
         return txt;
     },
-}, clientShared.abstractNestedTableHelpers));
-Template.animalEndpointTbl.events(clientShared.abstractNestedTableEvents);
+}, abstractNestedTableHelpers));
+Template.animalEndpointTbl.events(abstractNestedTableEvents);
 
 
-Template.animalEndpointForm.helpers(clientShared.abstractNestedFormHelpers);
+Template.animalEndpointForm.helpers(abstractNestedFormHelpers);
 Template.animalEndpointForm.events(_.extend({
     'click #inner-addEndpointGroup': function(evt, tmpl) {
         var tbody = tmpl.find('.endpointGroupTbody');
@@ -194,7 +207,7 @@ Template.animalEndpointForm.events(_.extend({
             if (err) console.error(err);
         });
     },
-}, clientShared.abstractNestedFormEvents));
+}, abstractNestedFormEvents));
 Template.animalEndpointForm.onRendered(function() {
     var aniResult = AnimalEndpointEvidence.findOne(
           {_id: Session.get('nestedEvidenceEditingId')});

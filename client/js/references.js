@@ -165,7 +165,11 @@ Template.referenceSingleSelect.helpers({
 Template.referenceSingleSelect.events({
     'typeahead:selected': function(evt, tmpl, v) {
         var div = $(tmpl.find('div.selectedReference')).empty();
-        Blaze.renderWithData(Template.referenceSingleSelectSelected, {reference: v, referenceID: v._id}, div[0]);
+        Blaze.renderWithData(
+            Template.referenceSingleSelectSelected,
+            {reference: v, referenceID: v._id},
+            div[0]
+        );
         $(evt.target).typeahead('val', '');
     },
     'click .selectListRemove': function(evt, tmpl) {
@@ -179,7 +183,11 @@ Template.referenceSingleSelect.onRendered(function() {
         var ref = Session.get('referenceNewObj');
         if (ref !== null) {
             div.empty();
-            Blaze.renderWithData(Template.referenceSingleSelectSelected, {reference: ref, referenceID: ref._id}, div[0]);
+            Blaze.renderWithData(
+                Template.referenceSingleSelectSelected,
+                {reference: ref, referenceID: ref._id},
+                div[0]
+            );
             Session.set('referenceNewObj', null);
         }
     });
@@ -204,7 +212,11 @@ Template.referenceMultiSelect.events({
             ids = getCurrentReferenceIds(tmpl);
 
         if (ids.indexOf(v._id) < 0) {
-            Blaze.renderWithData(Template.referenceMultiSelectListLI, {reference: v, referenceID: v._id}, $ul[0]);
+            Blaze.renderWithData(
+                Template.referenceMultiSelectListLI,
+                {reference: v, referenceID: v._id},
+                $ul[0]
+            );
         }
         return $(evt.target).typeahead('val', '');
     },
@@ -219,7 +231,11 @@ Template.referenceMultiSelect.onRendered(function() {
     Tracker.autorun(function() {
         var ref = Session.get('referenceNewObj');
         if (ref !== null) {
-            Blaze.renderWithData(Template.referenceMultiSelectListLI, {reference: ref, referenceID: ref._id}, $ul[0]);
+            Blaze.renderWithData(
+                Template.referenceMultiSelectListLI,
+                {reference: ref, referenceID: ref._id},
+                $ul[0]
+            );
             Session.set('referenceNewObj', null);
         }
     });

@@ -6,6 +6,10 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import _ from 'underscore';
 
+import {
+    abstractMainHelpers,
+} from '/imports/api/client/templates';
+
 
 Template.epiOrganSiteMain.helpers(_.extend({
     getOrganSiteOptions: function() {
@@ -43,7 +47,7 @@ Template.epiOrganSiteMain.helpers(_.extend({
         Session.set('eosChanged', new Date());
         return rows;
     },
-}, clientShared.abstractMainHelpers));
+}, abstractMainHelpers));
 Template.epiOrganSiteMain.events({
     'change #organSiteSelector': function(evt, tmpl) {
         tmpl.organSiteCategories.set($(evt.target).val() || []);

@@ -8,8 +8,20 @@ import _ from 'underscore';
 import { getPercentOrText } from '/imports/utilities';
 import organSiteCategories from '/imports/organSiteCategories';
 
+import {
+    abstractMainHelpers,
+    abstractTblHelpers,
+    abstractRowHelpers,
+    abstractRowEvents,
+    abstractFormEvents,
+    abstractNestedTableHelpers,
+    abstractNestedTableEvents,
+    abstractNestedFormHelpers,
+    abstractNestedFormEvents,
+} from '/imports/api/client/templates';
 
-Template.ntpEpiMain.helpers(clientShared.abstractMainHelpers);
+
+Template.ntpEpiMain.helpers(abstractMainHelpers);
 Template.ntpEpiMain.onCreated(function() {
     Session.set('evidenceType', 'ntpEpiDescriptive');
     Session.set('evidenceShowNew', false);
@@ -28,7 +40,7 @@ Template.ntpEpiMain.onDestroyed(function() {
 });
 
 
-Template.ntpEpiDescTbl.helpers(clientShared.abstractTblHelpers);
+Template.ntpEpiDescTbl.helpers(abstractTblHelpers);
 Template.ntpEpiDescTbl.onRendered(function() {
     clientShared.toggleRiskPlot();
     clientShared.initDraggables(this.find('#sortable'), '.dhOuter', NtpEpiDescriptive);
@@ -64,8 +76,8 @@ Template.ntpEpiDescriptiveRow.helpers(_.extend({
 
         return html;
     },
-}, clientShared.abstractRowHelpers));
-Template.ntpEpiDescriptiveRow.events(clientShared.abstractRowEvents);
+}, abstractRowHelpers));
+Template.ntpEpiDescriptiveRow.events(abstractRowEvents);
 Template.ntpEpiDescriptiveRow.onRendered(function() {
     clientShared.initDraggables(this.find('#sortableInner'), '.dhInner', NtpEpiResult);
     clientShared.toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
@@ -111,7 +123,7 @@ Template.ntpEpiDescriptiveForm.events(_.extend({
         var action = (tmpl.allAccordiansShown.get()) ? 'show' : 'hide';
         $(tmpl.findAll('.collapse')).collapse(action);
     },
-}, clientShared.abstractFormEvents));
+}, abstractFormEvents));
 Template.ntpEpiDescriptiveForm.onCreated(function(){
     this.allAccordiansShown = new ReactiveVar(false);
 });
@@ -135,11 +147,11 @@ Template.ntpEpiResultTbl.helpers(_.extend({
     displayEffectUnits: function(d) {
         return d.effectUnits != null;
     },
-}, clientShared.abstractNestedTableHelpers));
-Template.ntpEpiResultTbl.events(clientShared.abstractNestedTableEvents);
+}, abstractNestedTableHelpers));
+Template.ntpEpiResultTbl.events(abstractNestedTableEvents);
 
 
-Template.ntpEpiResultForm.helpers(clientShared.abstractNestedFormHelpers);
+Template.ntpEpiResultForm.helpers(abstractNestedFormHelpers);
 Template.ntpEpiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
         var tbody = tmpl.find('.riskEstimateTbody');
@@ -151,7 +163,7 @@ Template.ntpEpiResultForm.events(_.extend({
             {options: organSiteCategories.options},
             div[0], div.find('label')[0]);
     },
-}, clientShared.abstractNestedFormEvents));
+}, abstractNestedFormEvents));
 Template.ntpEpiResultForm.onRendered(function() {
     var object = NtpEpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
     if (object != null) clientShared.toggleQA(this, object.isQA);
