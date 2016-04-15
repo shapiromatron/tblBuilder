@@ -1,3 +1,5 @@
+import '/imports/startup';
+
 import '/imports/api/server/emails';
 import '/imports/api/server/hooks';
 import '/imports/api/server/publications';

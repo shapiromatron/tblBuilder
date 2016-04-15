@@ -1,5 +1,6 @@
-import { Accounts } from 'meteor/accounts-base';
+/* Startup on both client and server */
 
+import { Accounts } from 'meteor/accounts-base';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 
