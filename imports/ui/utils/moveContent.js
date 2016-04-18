@@ -4,6 +4,7 @@ import { Session } from 'meteor/session';
 import _ from 'underscore';
 
 import Tables from '/imports/api/shared/tables';
+import Reference from '/imports/api/shared/reference';
 import tblBuilderCollections from '/imports/api/shared';
 
 import {
@@ -29,7 +30,7 @@ Template.moveModal.helpers({
 Template.moveModal.events({
     'click #move-content': function(evt, tmpl) {
         var content_id = this.content._id,
-            tbl_id = $(tmpl.find('select[name="moveTblTo"]')).val(),
+            tbl_id = tmpl.$('select[name="moveTblTo"]').val(),
             newMonographAgent = Tables.findOne(tbl_id).monographAgent,
             ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')],
             nesteds;
@@ -57,9 +58,9 @@ Template.moveModal.events({
             });
         }
 
-        $(tmpl.firstNode).modal('hide');
+        tmpl.$(tmpl.firstNode).modal('hide');
     },
 });
 Template.moveModal.onRendered(function() {
-    $(this.find('#moveModal')).modal('show');
+    this.$('#moveModal').modal('show');
 });
