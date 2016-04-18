@@ -3,6 +3,8 @@ import { Accounts } from 'meteor/accounts-base';
 
 import { isStaffOrHigher } from '/imports/api/server/utilities';
 
+import tblBuilderCollections from '/imports/api/shared';
+
 
 Meteor.methods({
     adminUserEditProfile: function(_id, obj) {

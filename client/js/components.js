@@ -9,6 +9,7 @@ import _ from 'underscore';
 import { moment } from 'meteor/momentjs:moment';
 
 import Tables from '/imports/api/shared/tables';
+import tblBuilderCollections from '/imports/api/shared';
 
 import {
     typeaheadSelectListGetLIs,

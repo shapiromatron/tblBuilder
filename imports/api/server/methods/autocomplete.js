@@ -4,7 +4,12 @@ import { check } from 'meteor/check';
 import _ from 'underscore';
 
 import organSiteCategories from '/imports/organSiteCategories';
+
 import Reference from '/imports/api/shared/reference';
+import ExposureEvidence from '/imports/api/shared/exposure';
+import AnimalEvidence from '/imports/api/shared/animalEvidence';
+import AnimalEndpointEvidence from '/imports/api/shared/animalResult';
+import GenotoxEvidence from '/imports/api/shared/genotox';
 
 
 var textSearchRegex = function(str, opts){

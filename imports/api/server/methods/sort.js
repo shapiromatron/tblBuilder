@@ -2,6 +2,8 @@ import {Meteor} from 'meteor/meteor';
 
 import _ from 'underscore';
 
+import tblBuilderCollections from '/imports/api/shared';
+
 
 Meteor.methods({
     saveSortOrder: function(key, ids) {

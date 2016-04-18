@@ -3,6 +3,9 @@ import {Meteor} from 'meteor/meteor';
 import XLSX from 'xlsx';
 
 import Reference from '/imports/api/shared/reference';
+import ExposureEvidence from '/imports/api/shared/exposure';
+import AnimalEvidence from '/imports/api/shared/animalEvidence';
+import GenotoxEvidence from '/imports/api/shared/genotox';
 import MechanisticEvidence from '/imports/api/shared/mechanistic';
 
 

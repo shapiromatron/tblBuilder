@@ -3,6 +3,9 @@ import PythonShell from 'python-shell';
 
 import _ from 'underscore';
 
+import ExposureEvidence from '/imports/api/shared/exposure';
+import AnimalEvidence from '/imports/api/shared/animalEvidence';
+import GenotoxEvidence from '/imports/api/shared/genotox';
 import MechanisticEvidence from '/imports/api/shared/mechanistic';
 
 

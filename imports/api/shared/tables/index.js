@@ -55,6 +55,7 @@ let instanceMethods = {
         },
     });
 
+
 _.extend(Tables, classMethods);
 attachBaseSchema(Tables, schema_extension);
 
