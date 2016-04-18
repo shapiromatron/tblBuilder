@@ -4,7 +4,6 @@ import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
 import { UI } from 'meteor/ui';
 
-import saveAs from 'meteor/mrt:filesaver';
 import _ from 'underscore';
 import d3 from 'd3';
 
