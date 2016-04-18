@@ -1,4 +1,5 @@
+import './browserDetect.html';
 import './navbar.html';
 
-import './navbar';
 import './browserDetect';
+import './navbar';

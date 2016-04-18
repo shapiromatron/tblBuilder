@@ -169,28 +169,45 @@ var instanceMethods = {
             };
         },
         sortFields: {
-            'Data class':    _.partial(collSorts.sortByFieldOrder, dataClass, 'dataClass'),
-            'Agent':         _.partial(collSorts.sortByTextField, 'agent'),
+            'Data class':
+                _.partial(collSorts.sortByFieldOrder, dataClass, 'dataClass'),
+            'Agent':
+                _.partial(collSorts.sortByTextField, 'agent'),
 
-            'Phylogenetic class (non-mammalian)':        _.partial(collSorts.sortByFieldOrder, phylogeneticClasses, 'phylogeneticClass'),
-            'Test system (non-mammalian: acellular)':    _.partial(collSorts.sortByTextField, 'testSystem'),
-            'Species (non-mammalian: cellular)':         _.partial(collSorts.sortByTextField, 'speciesNonMamm'),
-            'Strain (non-mammalian: cellular)':          _.partial(collSorts.sortByTextField, 'strainNonMamm'),
+            'Phylogenetic class (non-mammalian)':
+                _.partial(collSorts.sortByFieldOrder, phylogeneticClasses, 'phylogeneticClass'),
+            'Test system (non-mammalian: acellular)':
+                _.partial(collSorts.sortByTextField, 'testSystem'),
+            'Species (non-mammalian: cellular)':
+                _.partial(collSorts.sortByTextField, 'speciesNonMamm'),
+            'Strain (non-mammalian: cellular)':
+                _.partial(collSorts.sortByTextField, 'strainNonMamm'),
 
-            'Test species class (mammalian: cellular)':  _.partial(collSorts.sortByFieldOrder, mammalianTestSpecies, 'testSpeciesMamm'),
-            'Species (cellular: mammalian)':             _.partial(collSorts.sortByTextField, 'speciesMamm'),
-            'Tissue (cellular: mammalian)':              _.partial(collSorts.sortByTextField, 'tissueCellLine'),
+            'Test species class (mammalian: cellular)':
+                _.partial(collSorts.sortByFieldOrder, mammalianTestSpecies, 'testSpeciesMamm'),
+            'Species (cellular: mammalian)':
+                _.partial(collSorts.sortByTextField, 'speciesMamm'),
+            'Tissue (cellular: mammalian)':
+                _.partial(collSorts.sortByTextField, 'tissueCellLine'),
 
-            'Species (animal in-vivo)':   _.partial(collSorts.sortByTextField, 'species'),
-            'Strain (animal in-vivo)':    _.partial(collSorts.sortByTextField, 'strain'),
-            'Sex (animal in-vivo)':       _.partial(collSorts.sortByFieldOrder, sexes, 'sex'),
+            'Species (animal in-vivo)':
+                _.partial(collSorts.sortByTextField, 'species'),
+            'Strain (animal in-vivo)':
+                _.partial(collSorts.sortByTextField, 'strain'),
+            'Sex (animal in-vivo)':
+                _.partial(collSorts.sortByFieldOrder, sexes, 'sex'),
 
-            'Tissue (human in-vivo)':     _.partial(collSorts.sortByTextField, 'tissueHuman'),
-            'Cell type (human in-vivo)':  _.partial(collSorts.sortByTextField, 'cellType'),
+            'Tissue (human in-vivo)':
+                _.partial(collSorts.sortByTextField, 'tissueHuman'),
+            'Cell type (human in-vivo)':
+                _.partial(collSorts.sortByTextField, 'cellType'),
 
-            'Endpoint':         _.partial(collSorts.sortByTextField, 'endpoint'),
-            'Endpoint test':    _.partial(collSorts.sortByTextField, 'endpointTest'),
-            'Reference':        collSorts.sortByReference,
+            'Endpoint':
+                _.partial(collSorts.sortByTextField, 'endpoint'),
+            'Endpoint test':
+                _.partial(collSorts.sortByTextField, 'endpointTest'),
+            'Reference':
+                collSorts.sortByReference,
         },
     },
     GenotoxEvidence = new Meteor.Collection('genotoxEvidence', {

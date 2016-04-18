@@ -27,14 +27,3 @@
     </div>
   </nav>
 </template>
-
-
-<template name="browserDetect">
-  {{#unless isSupportedBrowser}}
-    <div class="container">
-      <div class="row">
-        {{> dismissableAlert alertType="danger" message=getErrorMessage}}
-      </div>
-    </div>
-  {{/unless}}
-</template>

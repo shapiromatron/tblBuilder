@@ -120,7 +120,8 @@ let instanceMethods = {
         },
         tabularMetaAnalysis: function(rows){
             rows.unshift([
-                'Reference', 'Pubmed ID', 'Study design', 'Location', 'Enrollment or follow-up dates',
+                'Reference', 'Pubmed ID', 'Study design', 'Location',
+                'Enrollment or follow-up dates',
 
                 'Organ site', 'Effect measure',
 
@@ -198,7 +199,9 @@ let instanceMethods = {
             organSites = _.map(sites, function(site){
                 return {
                     'organSite': site,
-                    'results': _.chain(allResults).where({organSiteCategory: site}).value(),
+                    'results': _.chain(allResults)
+                                .where({organSiteCategory: site})
+                                .value(),
                 };
             });
 
@@ -211,7 +214,8 @@ let instanceMethods = {
             'Reference':    collSorts.sortByReference,
             'Study design': _.partial(collSorts.sortByTextField, 'studyDesign'),
             'Location':     _.partial(collSorts.sortByTextField, 'location'),
-            'Exposure assessment method': _.partial(collSorts.sortByTextField, 'exposureAssessmentType'),
+            'Exposure assessment method': _.partial(
+                collSorts.sortByTextField, 'exposureAssessmentType'),
         },
     },
     EpiDescriptive = new Meteor.Collection('epiDescriptive', {

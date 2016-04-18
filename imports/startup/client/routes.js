@@ -24,12 +24,12 @@ Session.setDefault('epiForestPlotMax', 50);
 Session.setDefault('sortsAndFilters', null);
 
 // setup global subscriptions
-var tablesHandler = null;
+let tablesHandler = null;
 Tracker.autorun(function() {
     tablesHandler = Meteor.subscribe('tables', Meteor.userId());
 });
 
-var usersHandler = null;
+let usersHandler = null;
 Tracker.autorun(function(){
     if (Roles.userIsInRole(Meteor.userId(), ['staff'])) {
         usersHandler = Meteor.subscribe('adminUsers');

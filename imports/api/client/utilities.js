@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { HTTP } from 'meteor/http';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
 import { UI } from 'meteor/ui';

@@ -14,6 +14,7 @@ import {
     ratings,
 } from './constants';
 
+
 var instanceMethods = {
         getReference: function(){
             if (_.isEmpty(this.reference)){

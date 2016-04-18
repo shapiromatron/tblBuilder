@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor';
 
 import _ from 'underscore';
 
+import NtpEpiDescriptive from '/imports/api/shared/ntpEpiDescriptive';
 import { attachTableSchema } from '../schemas';
 import schema_extension from './schema';
 import {
@@ -24,7 +25,7 @@ var instanceMethods = {
         },
         getDescription: function(){
             if (_.isEmpty(this.description)){
-                this.description = NtpEpiDescriptive.findOne(this.parent_id);  // todo: fix
+                this.description = NtpEpiDescriptive.findOne(this.parent_id);
             }
             return this.description;
         },

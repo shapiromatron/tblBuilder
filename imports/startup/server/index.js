@@ -26,8 +26,8 @@ if (Meteor.users.find().count() === 0) {
         var _id = Accounts.createUser({'email': email});
         Roles.setUserRoles(_id, ['default', 'staff', 'superuser']);
         console.log(`Sending email to superuser ${email} for account creation`);
-        return Accounts.sendEnrollmentEmail(_id);
+        Accounts.sendEnrollmentEmail(_id);
     } else {
-        return console.log('Create an admin user by setting the "superuser_email" field in meteor settings');
+        console.log('Create an admin user by setting the "superuser_email" field in meteor settings');
     }
 }

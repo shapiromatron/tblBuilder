@@ -5,6 +5,7 @@ import _ from 'underscore';
 
 import organSiteCategories from '/imports/organSiteCategories';
 
+import Tables from '/imports/api/shared/tables';
 import Reference from '/imports/api/shared/reference';
 import ExposureEvidence from '/imports/api/shared/exposure';
 import AnimalEvidence from '/imports/api/shared/animalEvidence';
