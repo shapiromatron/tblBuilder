@@ -1,0 +1,103 @@
+.volumeList {
+  list-style-type: none;
+  padding-left: 0;
+}
+.volumeItem{
+  padding: 0 1em 0 1em;
+  background-color: #d0d9ff;
+  border-radius: 5px;
+  box-shadow: 0.1em 0.1em 0.3em gray;
+  margin: 2px;
+}
+.volumeItem:hover {
+  background-color: #738ffe;
+  box-shadow: 0 0 2em #738ffe;
+  color: white;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.agentList{
+  font-weight: bold;
+}
+a.noUnderline {
+  text-decoration: none;
+}
+a.noColor {
+  color: inherit;
+}
+.monographBanner h1,h2,h3,h4 {
+  margin: 0px 10px;
+  padding-top: 5px;
+  padding-bottom: 15px;
+}
+.agentBanner {
+  position: relative;
+  padding-left: 20px;
+  background-color: #91a7ff;
+  box-shadow: 0.3em 0.3em 1em gray;
+  z-index: 5;
+  margin-top: 1em;
+}
+.tableDiv {
+  padding: 5px 10px 0px 10px;
+  margin-left: 2em;
+}
+.tableDiv{
+  background-color: #e7e9fd;
+  border: 2px solid #e7e9fd;
+}
+.tableDiv:hover {
+  background-color: #d0d9ff;
+  border: 2px solid #738ffe;
+  -webkit-transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -o-transition: all 0.1s;
+  transition: all 0.1s;
+}
+.moveTableHolder {
+  position: relative;
+}
+.moveTableHandle {
+  background-color:#D4D8FC;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  width: 25px;
+  z-index: 1100 !important;
+  cursor: pointer;
+}
+.moveTableHandle:hover {
+  border: 2px solid gray;
+}
+
+
+// table status color-classes
+.statusLabel {
+  font-size: 85%;
+}
+.statusUnknown {
+  background-color: #F2ECD0;
+  color: #2f290d;
+}
+.statusNotStarted {
+  background-color: #F1E594;
+  color: #6b5f0e;
+}
+.statusInProgress {
+  background-color: #98D2B0;
+  color: #2d6745;
+}
+.statusComplete {
+  background-color: #54C1B0;
+  color: #143832;
+}
+.statusQAOngoing {
+  background-color: #60CAE1;
+  color: #D2F1F9;
+}
+.statusQAComplete {
+  background-color: #289BBA;
+  color: #c1e8f2;
+}

@@ -1,0 +1,50 @@
+// Forest plot SVG
+.epiRiskPlot {
+  position: relative;
+  left: -8px;
+}
+.epiRiskPlot circle {
+  fill: black;
+  cursor: pointer;
+}
+.epiRiskPlot line {
+  stroke: black;
+  stroke-width: 2;
+  cursor: pointer;
+}
+.riskBar:hover circle {
+  fill: red;
+}
+.riskBar:hover line {
+  stroke: red;
+}
+
+
+// Plot axis details
+.epiRiskAxes {
+  position: absolute;
+  pointer-events: none;
+}
+g.gridlines > line {
+  stroke: #123551;
+}
+g.gridlines > .baseline {
+  opacity: 0.5;
+  stroke-width: 5px;
+}
+g.gridlines > .major {
+  opacity: 0.3;
+  stroke-width: 3px;
+}
+g.gridlines > .minor {
+  opacity: 0.2;
+  stroke-width: 1px;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+}
+.axis text {
+  font-size: 10px;
+}

@@ -1,0 +1,121 @@
+
+// Menu auto-hide functionality
+.menu-autohide > td >.rowOptions,
+.menu-autohide > .rowOptions,
+.menu-autohide > table .rowOptions {
+  opacity:0;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+.menu-autohide:hover > td > .rowOptions,
+.menu-autohide:hover > .rowOptions,
+.menu-autohide:hover > table .rowOptions {
+  opacity:1.0;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+.rowOptions > .btn {
+  line-height: 0.95;  /* required for mechanistic data for pulldowns to not overlap*/
+}
+
+
+// Edit options form
+.editForm {
+  padding: 10px;
+  background-color: #B7C7E8;
+}
+.well-sm {
+  background-color: #6A7487;
+}
+#editingRow {
+  border: 5px solid #6A7487;
+  background-color: #E6E6FA;
+}
+.lastUpdated {
+  margin-left: 20px;
+  font-size: 0.7em;
+  color: #737373;
+}
+
+// Table visualization
+.evidenceTable > tbody > tr:hover {
+  background-color: #E6E6FA;
+}
+.evidenceTable .nestedTbl {
+  margin-bottom: 0;
+  background-color: inherit;
+}
+.evidenceTable .nestedTbl td {
+  border-top: none;
+}
+.hidden{
+  display: none;
+}
+.hiddenRow {
+  color: gray;
+  background-color: #eee;
+}
+
+
+// Drag handles
+.dragHandle {
+  border-left: 2px solid #dedede;
+  margin-top: -2px;
+  margin-bottom: -2px;
+  border-bottom: 2px solid white !important;
+  border-top: 2px solid white !important;
+  background-color: #deeeee !important;
+  cursor: pointer;
+}
+.dragHandle:hover {
+  border-left: 2px solid gray;
+  background-color: #b1eeee !important;
+}
+
+
+// Loading spinner
+// http://stackoverflow.com/questions/14859322/
+.spinner {
+  opacity: 0;
+}
+.spinner-active {
+  opacity: 1;
+  -webkit-animation: spin 1s infinite linear;
+}
+@-moz-keyframes spin {
+  from { -moz-transform: rotate(0deg); }
+  to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
+
+
+/* Comma-separated list */
+.comma-list {
+  list-style-type: none
+}
+.comma-list > li {
+  display: inline
+}
+.comma-list > li:after {
+  content: ", "
+}
+.comma-list > li:last-child:after {
+  content: ""
+}
+
+
+// toggle QA
+.disabled {
+  color: #999;
+}

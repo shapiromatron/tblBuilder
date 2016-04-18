@@ -4,6 +4,8 @@ import { check } from 'meteor/check';
 import _ from 'underscore';
 import r from 'rserve-client';
 
+import AnimalEndpointEvidence from '/imports/api/shared/animalResult';
+
 
 var Future = Npm.require('fibers/future'),
     calculateTrendTest = function(obj, fut){

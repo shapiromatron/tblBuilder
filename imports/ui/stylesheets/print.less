@@ -1,0 +1,22 @@
+// Print-styles
+@media print {
+  h1 {
+    font-size: 14px;
+  }
+  p,table {
+    font-family: georgia, serif;
+    font-size: 11px;
+    page-break-inside: auto;
+  }
+  td,th {
+    page-break-inside: avoid;
+    page-break-after: auto;
+    padding: 2px !important;
+  }
+  thead {
+    display: table-header-group;
+  }
+  .btn {
+    display: none;
+  }
+}

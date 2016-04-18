@@ -1,2 +1,4 @@
+import './navbar.html';
+
+import './navbar';
 import './browserDetect';
-import './navBar';
