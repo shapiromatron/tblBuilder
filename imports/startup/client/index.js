@@ -1,4 +1,4 @@
-import './collections';
-import './routes';
+import '/imports/ui';
 import './ui';
-import '/imports/templates';
+import './routes';
+import './collections';

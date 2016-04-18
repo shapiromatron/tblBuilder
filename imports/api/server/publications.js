@@ -10,6 +10,10 @@ import Reference from '/imports/api/shared/reference';
 import ExposureEvidence from '/imports/api/shared/exposure';
 import AnimalEvidence from '/imports/api/shared/animalEvidence';
 import AnimalEndpointEvidence from '/imports/api/shared/animalResult';
+import EpiDescriptive from '/imports/api/shared/epiDescriptive';
+import EpiResult from '/imports/api/shared/epiResult';
+import NtpEpiDescriptive from '/imports/api/shared/ntpEpiDescriptive';
+import NtpEpiResult from '/imports/api/shared/ntpEpiResult';
 import GenotoxEvidence from '/imports/api/shared/genotox';
 import MechanisticEvidence from '/imports/api/shared/mechanistic';
 

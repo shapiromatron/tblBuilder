@@ -3,6 +3,8 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
+import NtpEpiResult from '/imports/api/shared/ntpEpiResult';
+
 import {
     abstractMainHelpers,
 } from '/imports/api/client/templates';

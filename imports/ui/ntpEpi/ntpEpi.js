@@ -8,6 +8,9 @@ import _ from 'underscore';
 import { getPercentOrText } from '/imports/utilities';
 import organSiteCategories from '/imports/organSiteCategories';
 
+import NtpEpiDescriptive from '/imports/api/shared/ntpEpiDescriptive';
+import NtpEpiResult from '/imports/api/shared/ntpEpiResult';
+
 import {
     abstractMainHelpers,
     abstractTblHelpers,
