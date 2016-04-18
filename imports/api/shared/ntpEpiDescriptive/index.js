@@ -5,9 +5,10 @@ import _ from 'underscore';
 import Reference from '/imports/api/shared/reference';
 import EpiDescriptive from '/imports/api/shared/epiDescriptive';
 
+import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';
+
 import schema_extension from './schema';
-import collSorts from '/imports/collSorts';
 import {
     studyDesignOptions,
     exposureAssessmentTypeOptions,

@@ -6,9 +6,9 @@ import Tables from '/imports/api/shared/tables';
 import AnimalEndpointEvidence from '/imports/api/shared/animalResult';
 import Reference from '/imports/api/shared/reference';
 
-import collSorts from '/imports/collSorts';
-
+import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';
+
 import schema_extension from './schema';
 import {
     studyDesigns,

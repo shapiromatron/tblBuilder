@@ -6,10 +6,11 @@ import Tables from '/imports/api/shared/tables';
 import Reference from '/imports/api/shared/reference';
 import EpiResult from '/imports/api/shared/epiResult';
 
+import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';
+
 import schema_extension from './schema';
 import { getPercentOrText } from '/imports/utilities';
-import collSorts from '/imports/collSorts';
 
 import {
     studyDesignOptions,
