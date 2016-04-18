@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor';
 import {Session} from 'meteor/session';
 
 import _ from 'underscore';
+import $ from 'meteor/jquery';
 
 
 let getHTMLTitleBase = function() {

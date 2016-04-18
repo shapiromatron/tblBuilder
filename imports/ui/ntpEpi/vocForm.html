@@ -1,0 +1,45 @@
+<template name="variablesOfConcernForm">
+  <tr>
+    <td class="text-center" style="vertical-align: middle;">
+      <button type="button"
+              class="btn btn-xs btn-default"
+              id="moveUp"
+              title="Move up">
+        <span class="fa fa-long-arrow-up"></span>
+      </button>
+      <button type="button"
+              class="btn btn-xs btn-default"
+              id="moveDown"
+              title="Move down">
+        <span class="fa fa-long-arrow-down"></span>
+      </button>
+      <button type="button"
+              class="btn btn-xs btn-danger"
+              id="delete"
+              title="Delete row">
+        <span class="fa fa-trash"></span>
+      </button>
+    </td>
+    <td>
+      {{> fldInputTypeahead collSchema=getVocSchema name="vocName" value=vocName hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputText collSchema=getVocSchema name="vocAddressedInStats" value=vocAddressedInStats hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputText collSchema=getVocSchema name="vocSimilarAcrossGroups" value=vocSimilarAcrossGroups hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputText collSchema=getVocSchema name="vocCoexposuresAssociated" value=vocCoexposuresAssociated hideLabel=true}}
+    </td>
+    <td>
+      {{> fldTextArea collSchema=getVocSchema name="vocOtherInformation" value=vocOtherInformation hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputText collSchema=getVocSchema name="vocStrengthOfAssociation" value=vocStrengthOfAssociation hideLabel=true }}
+    </td>
+    <td>
+      {{> fldInputText collSchema=getVocSchema name="vocRuleOutConfounding" value=vocRuleOutConfounding hideLabel=true }}
+    </td>
+  </tr>
+</template>

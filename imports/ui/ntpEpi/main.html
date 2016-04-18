@@ -1,0 +1,9 @@
+<template name="ntpEpiMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+      {{> ntpEpiDescTbl}}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>

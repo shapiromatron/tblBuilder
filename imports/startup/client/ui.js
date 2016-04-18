@@ -28,7 +28,7 @@ var uiHelpers = {
         var icon, title;
         if (Session.get('showQAflags')) {
             icon = isQA ? 'glyphicon-ok' : 'glyphicon-remove';
-            title = isQA ? "QA'd" : "Not QA'd";
+            title = isQA ? 'QA\'d' : 'Not QA\'d';
             return Spacebars.SafeString(`<span title='${title}' class='btn-xs text-muted pull-right glyphicon ${icon}'></span>`);
         }
     },
