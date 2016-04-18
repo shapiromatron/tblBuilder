@@ -1,7 +1,7 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import _ from 'underscore';
 
-import organSiteCategories from '/imports/organSiteCategories';
+import organSiteCategories from './organSiteCategories';
 
 
 var isNumberOrNR = function() {

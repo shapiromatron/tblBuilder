@@ -6,8 +6,8 @@ import _ from 'underscore';
 import d3 from 'd3';
 
 import { getPercentOrText } from '/imports/utilities';
-import organSiteCategories from '/imports/organSiteCategories';
 
+import organSiteCategories from '/imports/api/shared/epiResult/organSiteCategories';
 import EpiDescriptive from '/imports/api/shared/epiDescriptive';
 import EpiResult from '/imports/api/shared/epiResult';
 

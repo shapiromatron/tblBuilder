@@ -3,7 +3,7 @@ import { check } from 'meteor/check';
 
 import _ from 'underscore';
 
-import organSiteCategories from '/imports/organSiteCategories';
+import organSiteCategories from '/imports/api/shared/epiResult/organSiteCategories';
 
 import Tables from '/imports/api/shared/tables';
 import Reference from '/imports/api/shared/reference';
