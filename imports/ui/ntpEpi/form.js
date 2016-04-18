@@ -51,7 +51,7 @@ Template.ntpEpiDescriptiveForm.events(_.extend({
     'click #toggleAccordian': function(evt, tmpl){
         tmpl.allAccordiansShown.set(!tmpl.allAccordiansShown.get());
         var action = (tmpl.allAccordiansShown.get()) ? 'show' : 'hide';
-        $(tmpl.findAll('.collapse')).collapse(action);
+        tmpl.$('.collapse').collapse(action);
     },
 }, abstractFormEvents));
 Template.ntpEpiDescriptiveForm.onCreated(function(){

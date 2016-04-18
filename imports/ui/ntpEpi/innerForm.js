@@ -35,7 +35,7 @@ Template.ntpEpiResultForm.events(_.extend({
 Template.ntpEpiResultForm.onRendered(function() {
     var object = NtpEpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
     if (object != null) toggleQA(this, object.isQA);
-    $('#modalDiv').modal('toggle');
+    this.$('#modalDiv').modal('toggle');
     initPopovers(this);
 });
 Template.ntpEpiResultForm.onDestroyed(function() {

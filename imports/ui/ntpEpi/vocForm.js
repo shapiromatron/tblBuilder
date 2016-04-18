@@ -18,14 +18,14 @@ Template.variablesOfConcernForm.helpers(vocHelpers);
 Template.variablesOfConcernForm.events({
     'click #delete': function(evt, tmpl) {
         Blaze.remove(tmpl.view);
-        $(tmpl.view._domrange.members).remove();
+        tmpl.$(tmpl.view._domrange.members).remove();
     },
     'click #moveUp': function(evt, tmpl) {
-        var tr = $(tmpl.firstNode);
+        var tr = tmpl.$(tmpl.firstNode);
         tr.insertBefore(tr.prev());
     },
     'click #moveDown': function(evt, tmpl) {
-        var tr = $(tmpl.firstNode);
+        var tr = tmpl.$(tmpl.firstNode);
         tr.insertAfter(tr.next());
     },
 });

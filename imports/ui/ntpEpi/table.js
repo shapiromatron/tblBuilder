@@ -27,7 +27,7 @@ Template.ntpEpiDescTbl.helpers(abstractTblHelpers);
 Template.ntpEpiDescTbl.onRendered(function() {
     toggleRiskPlot();
     initDraggables(this.find('#sortable'), '.dhOuter', NtpEpiDescriptive);
-    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+    toggleRowVisibilty(Session.get('reorderRows'), this.$('.dragHandle'));
 });
 
 
@@ -63,7 +63,7 @@ Template.ntpEpiDescriptiveRow.helpers(_.extend({
 Template.ntpEpiDescriptiveRow.events(abstractRowEvents);
 Template.ntpEpiDescriptiveRow.onRendered(function() {
     initDraggables(this.find('#sortableInner'), '.dhInner', NtpEpiResult);
-    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
+    toggleRowVisibilty(Session.get('reorderRows'), this.$('.dragHandle'));
 });
 
 
