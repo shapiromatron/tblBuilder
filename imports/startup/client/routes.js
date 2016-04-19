@@ -11,7 +11,7 @@ import Tables from '/imports/collections/tables';
 import {
     getHTMLTitleTbl,
     getHTMLTitleBase,
-} from '/imports/utilities';
+} from '/imports/api/client/utilities';
 
 
 // global session variables

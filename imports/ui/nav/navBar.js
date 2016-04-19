@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
-import { getHTMLTitleBase } from '/imports/utilities';
+import { getHTMLTitleBase } from '/imports/api/client/utilities';
 
 
 Template.navBar.helpers({

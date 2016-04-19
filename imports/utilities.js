@@ -1,19 +1,7 @@
-import {Meteor} from 'meteor/meteor';
-import {Session} from 'meteor/session';
-
 import _ from 'underscore';
 
 
-let getHTMLTitleBase = function() {
-        var context = Meteor.settings['public'].context.toUpperCase();
-        return context + ' Table Builder';
-    },
-    getHTMLTitleTbl = function() {
-        var base = getHTMLTitleBase(),
-            tbl = Session.get('Tbl');
-        return tbl.name + ' | ' + tbl.tblType + ' | ' + base;
-    },
-    getPercentOrText = function(txt) {
+let getPercentOrText = function(txt) {
         if (txt == null) return '';
         if (_.isFinite(txt)) txt = txt.toString();
         if (txt.search && txt.search(/(\d)+/) >= 0) txt += '%';
@@ -91,8 +79,6 @@ let getHTMLTitleBase = function() {
     };
 
 
-export { getHTMLTitleBase };
-export { getHTMLTitleTbl };
 export { getPercentOrText };
 export { typeaheadSelectListGetLIs };
 export { getValue };

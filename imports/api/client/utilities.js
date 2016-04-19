@@ -13,7 +13,16 @@ import {
 } from '/imports/utilities';
 
 
-let b64toBlob = function(b64, contentType, sliceSize) {
+let getHTMLTitleBase = function() {
+        var context = Meteor.settings['public'].context.toUpperCase();
+        return context + ' Table Builder';
+    },
+    getHTMLTitleTbl = function() {
+        var base = getHTMLTitleBase(),
+            tbl = Session.get('Tbl');
+        return tbl.name + ' | ' + tbl.tblType + ' | ' + base;
+    },
+    b64toBlob = function(b64, contentType, sliceSize) {
         var byteArray, byteArrays, byteCharacters, byteNumbers, i, offset, slice;
         contentType = contentType || '';
         sliceSize = sliceSize || 512;
@@ -285,6 +294,8 @@ let b64toBlob = function(b64, contentType, sliceSize) {
     };
 
 
+export { getHTMLTitleBase };
+export { getHTMLTitleTbl };
 export { createErrorDiv };
 export { getPubMedDetails };
 export { initDraggables };
