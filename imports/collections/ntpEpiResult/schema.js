@@ -6,8 +6,8 @@ import variableOfConcernSchema from './vocSchema';
 
 import {
     ratings,
-} from '/imports/collections/ntpEpiDescriptive/constants';
-
+    optionalOverrideRatings,
+} from './constants';
 
 let isNumberOrNR = function() {
     if (this.isSet && (this.value === 'NR' || _.isFinite(this.value))) {
@@ -151,12 +151,25 @@ export default {
         textAreaRows: 4,
         popoverText: 'See RoC handbook/protocol for candidate substance ',
     },
-    parent_id: {
-        type: SimpleSchema.RegEx.Id,
-        denyUpdate: true,
+    outcomeAssessmentRatingOverride: {
+        label: 'Outcome assessment rating (override)',
+        type: String,
+        allowedValues: optionalOverrideRatings,
+        popoverText: 'See RoC handbook/protocol for candidate substance',
+    },
+    outcomeAssessmentRationaleOverride: {
+        label: 'Outcome assessment rationale (override)',
+        type: String,
+        optional: true,
+        textAreaRows: 3,
+        popoverText: 'See RoC handbook/protocol for candidate substance',
     },
     'variablesOfConcern': {
         type: [variableOfConcernSchema],
         minCount: 0,
+    },
+    parent_id: {
+        type: SimpleSchema.RegEx.Id,
+        denyUpdate: true,
     },
 };

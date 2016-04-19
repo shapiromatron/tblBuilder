@@ -150,6 +150,33 @@
               </div>
             </div>
 
+            <!-- Fourth row -->
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#accOutcomeAssessment" aria-expanded="false" aria-controls="accOutcomeAssessment">
+                  Outcome assessment override (optional)
+                </a>
+              </h4>
+            </div>
+            <div id="accOutcomeAssessment" class="panel-collapse collapse" role="tabpanel">
+              <div class="panel-body form-group row">
+                {{#with getParent }}
+                  <div class="col-xs-6">
+                    <strong>Default values taken from study-description:</strong>
+                    <ul>
+                      <li><strong>Rating:</strong> {{outcomeAssessmentRating}}</li>
+                      <li><strong>Rationale:</strong> {{outcomeAssessmentRationale}}</li>
+                    </ul>
+                  </div>
+                {{/with}}
+                <div class="col-xs-6">
+                  {{> fldSelectSingle name="outcomeAssessmentRatingOverride" value=outcomeAssessmentRatingOverride nested=true }}
+                  {{> fldTextArea name="outcomeAssessmentRationaleOverride" value=outcomeAssessmentRationaleOverride nested=true }}
+                </div>
+
+              </div>
+            </div>
+
             <!-- Variables of Concern -->
             <div class="panel-heading" role="tab">
               <h4 class="panel-title">

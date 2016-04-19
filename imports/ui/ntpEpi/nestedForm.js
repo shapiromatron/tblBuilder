@@ -25,27 +25,30 @@ import './nestedForm.html';
 import { toggleStudyDesignFields } from './form.js';
 
 
-
-let toggleRequiredFields = function(tmpl, duration){
-    let result_id = Session.get('nestedEvidenceEditingId'),
-        desc_id,
-        d,
-        studyDesign;
-    if (result_id){
-        desc_id = NtpEpiResult.findOne(result_id).parent_id;
-    } else {
-        desc_id = tmpl.data.parent._id;
-    }
-    d = NtpEpiDescriptive.findOne(desc_id);
-    studyDesign = d.studyDesign;
-    toggleStudyDesignFields(tmpl, studyDesign, duration);
-};
+let getParentObject = function(tmpl){
+        let result_id = Session.get('nestedEvidenceEditingId'),
+            desc_id;
+        if (result_id){
+            desc_id = NtpEpiResult.findOne(result_id).parent_id;
+        } else {
+            desc_id = tmpl.data.parent._id;
+        }
+        return NtpEpiDescriptive.findOne(desc_id);
+    },
+    toggleRequiredFields = function(tmpl, duration){
+        let parent = getParentObject(tmpl),
+            studyDesign = parent.studyDesign;
+        toggleStudyDesignFields(tmpl, studyDesign, duration);
+    };
 
 
 Template.ntpEpiResultForm.helpers(
     _.extend({
         allAccordiansShown: function(){
             return Template.instance().allAccordiansShown.get();
+        },
+        getParent: function(){
+            return getParentObject(Template.instance());
         },
     }, abstractNestedFormHelpers)
 );
