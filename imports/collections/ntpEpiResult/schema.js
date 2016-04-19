@@ -2,9 +2,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import _ from 'underscore';
 
 import organSiteCategories from '/imports/collections/epiResult/organSiteCategories';
-import {
-    variableOfConcernSchema,
-} from './vocSchema';
+import variableOfConcernSchema from './vocSchema';
 
 
 let isNumberOrNR = function() {
