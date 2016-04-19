@@ -23,11 +23,11 @@ import './nestedForm.html';
 
 
 Template.ntpEpiResultForm.helpers(
-    _.extend(abstractNestedFormHelpers,{
+    _.extend({
         allAccordiansShown: function(){
             return Template.instance().allAccordiansShown.get();
         },
-    })
+    }, abstractNestedFormHelpers)
 );
 Template.ntpEpiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
