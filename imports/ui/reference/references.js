@@ -16,7 +16,7 @@ import {
 } from '/imports/api/client/utilities';
 import {
     newValues,
-} from '/imports/utilities';
+} from '/imports/api/utilities';
 
 
 Template.referencesMain.onCreated(function() {

@@ -13,7 +13,7 @@ import tblBuilderCollections from '/imports/collections';
 
 import {
     typeaheadSelectListGetLIs,
-} from '/imports/utilities';
+} from '/imports/api/utilities';
 
 import {
     activateInput,

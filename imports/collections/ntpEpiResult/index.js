@@ -7,7 +7,7 @@ import { attachTableSchema } from '../schemas';
 import schema_extension from './schema';
 import {
     newValues,
-} from '/imports/utilities';
+} from '/imports/api/utilities';
 import {
     variableOfConcernSchema,
 } from './vocSchema';

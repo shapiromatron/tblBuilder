@@ -7,7 +7,7 @@ import schema_extension from './schema';
 import {
     capitalizeFirst,
     newValues,
-} from '/imports/utilities';
+} from '/imports/api/utilities';
 
 
 var instanceMethods = {

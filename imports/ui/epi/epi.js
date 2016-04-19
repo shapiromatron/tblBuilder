@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import _ from 'underscore';
 import d3 from 'd3';
 
-import { getPercentOrText } from '/imports/utilities';
+import { getPercentOrText } from '/imports/api/utilities';
 
 import organSiteCategories from '/imports/collections/epiResult/organSiteCategories';
 import EpiDescriptive from '/imports/collections/epiDescriptive';

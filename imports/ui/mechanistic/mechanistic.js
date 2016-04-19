@@ -19,7 +19,7 @@ import {
 
 import {
     newValues,
-} from '/imports/utilities';
+} from '/imports/api/utilities';
 
 
 var initializeDraggable = function(tmpl, options) {

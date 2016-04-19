@@ -10,7 +10,7 @@ import d3 from 'd3';
 import {
     getValue,
     typeaheadSelectListGetLIs,
-} from '/imports/utilities';
+} from '/imports/api/utilities';
 
 
 let getHTMLTitleBase = function() {

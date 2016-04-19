@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
-import { getPercentOrText } from '/imports/utilities';
+import { getPercentOrText } from '/imports/api/utilities';
 
 import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
 import NtpEpiResult from '/imports/collections/ntpEpiResult';

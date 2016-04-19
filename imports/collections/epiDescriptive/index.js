@@ -10,7 +10,7 @@ import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';
 
 import schema_extension from './schema';
-import { getPercentOrText } from '/imports/utilities';
+import { getPercentOrText } from '/imports/api/utilities';
 
 import {
     studyDesignOptions,
