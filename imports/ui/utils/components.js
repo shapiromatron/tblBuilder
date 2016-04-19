@@ -436,6 +436,9 @@ Template.tableTitle.helpers({
         }
         return hiddens > 0;
     },
+    evidenceShowAll: function(){
+        return Session.get('evidenceShowAll');
+    },
 });
 Template.tableTitle.events({
     'click #hiddensIcon': function(evt, tmpl) {

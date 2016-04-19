@@ -314,7 +314,11 @@
         class='btn btn-default btn-xs'
         id='hiddensIcon'
         title='Content may be hidden (click to toggle visibility).'>
-        <i class='fa fa-eye-slash'></i>
+        {{#if evidenceShowAll }}
+          <i class='fa fa-eye-slash'></i>
+        {{else}}
+          <i class='fa fa-eye'></i>
+        {{/if}}
       </a>
     {{/if}}
     <i class="pull-right">Last updated: {{getLastUpdated}}</i>
