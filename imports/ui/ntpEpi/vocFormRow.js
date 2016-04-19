@@ -8,8 +8,8 @@ import './vocFormRow.html';
 Template.vocFormRow.helpers(vocHelpers);
 Template.vocFormRow.events({
     'click #delete': function(evt, tmpl) {
-        Blaze.remove(tmpl.view);
         tmpl.$(tmpl.view._domrange.members).remove();
+        Blaze.remove(tmpl.view);
     },
     'click #moveUp': function(evt, tmpl) {
         let tr = tmpl.$(tmpl.firstNode);

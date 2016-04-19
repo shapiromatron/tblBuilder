@@ -24,7 +24,7 @@ Template.vocFormTable.helpers(vocHelpers);
 Template.vocFormTable.events({
     'click #addVocRow': function(evt, tmpl) {
         let tbody = tmpl.find('tbody');
-        Blaze.renderWithData(Template.variablesOfConcernForm, {}, tbody);
+        Blaze.renderWithData(Template.vocFormRow, {}, tbody);
     },
 });
 Template.vocFormTable.onRendered(function() {

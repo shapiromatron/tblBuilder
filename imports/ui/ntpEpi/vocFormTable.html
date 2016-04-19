@@ -47,11 +47,11 @@
     <tbody>
       {{#if variablesOfConcern}}
         {{#each variablesOfConcern}}
-          {{> variablesOfConcernForm this}}
+          {{> vocFormRow this}}
         {{/each}}
       {{else}}
         {{#if isNew}}
-          {{> variablesOfConcernForm}}
+          {{> vocFormRow null }}
         {{/if}}
       {{/if}}
     </tbody>
