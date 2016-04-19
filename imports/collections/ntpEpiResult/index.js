@@ -9,6 +9,9 @@ import {
     newValues,
 } from '/imports/api/utilities';
 import variableOfConcernSchema from './vocSchema';
+import {
+    outcomeOverriden,
+} from './constants';
 
 
 let instanceMethods = {
@@ -26,6 +29,16 @@ let instanceMethods = {
                 this.description = NtpEpiDescriptive.findOne(this.parent_id);
             }
             return this.description;
+        },
+        getOutcomeRating: function(){
+            return (outcomeOverriden(this.outcomeAssessmentRatingOverride))?
+                (this.outcomeAssessmentRatingOverride) :
+                this.getDescription().outcomeAssessmentRating;
+        },
+        getOutcomeRatingRationale: function(){
+            return (outcomeOverriden(this.outcomeAssessmentRatingOverride))?
+                (this.outcomeAssessmentRationaleOverride) :
+                this.getDescription().outcomeAssessmentRationale;
         },
     },
     classMethods = {

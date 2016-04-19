@@ -5,9 +5,18 @@ import {
 } from '/imports/collections/ntpEpiDescriptive/constants';
 
 
-let optionalOverrideRatings = _.clone(ratings);
-optionalOverrideRatings.unshift('No change from study description');
+let noOverrideRequired = 'No change from study description',
+    outcomeOverriden = function(val){
+        return val !== noOverrideRequired;
+    },
+    getOverrideValues = function(){
+        let cloned = _.clone(ratings);
+        cloned.unshift(noOverrideRequired);
+        return cloned;
+    },
+    optionalOverrideRatings = getOverrideValues();
 
 
 export { ratings };
+export { outcomeOverriden };
 export { optionalOverrideRatings };

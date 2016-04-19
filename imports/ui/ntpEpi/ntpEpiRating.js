@@ -1,10 +1,13 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
+import _ from 'underscore';
+
 import {
     abstractMainHelpers,
     abstractTblHelpers,
 } from '/imports/api/client/templates';
+import NtpEpiResult from '/imports/collections/ntpEpiResult';
 
 import './ntpEpiRating.html';
 
@@ -19,7 +22,14 @@ Template.ntpEpiRatingMain.onDestroyed(function() {
 });
 
 
-Template.ntpEpiRatingTable.helpers(abstractTblHelpers);
+Template.ntpEpiRatingTable.helpers(_.extend(
+    {
+        results: function(){
+            let results = NtpEpiResult.find().fetch();
+            results.forEach(function(d){d.getDescription();});
+            return results;
+        },
+    }, abstractTblHelpers));
 Template.ntpEpiRatingTable.onRendered(function(){
     this.$('.ntpEpiRatingTd').popover({
         trigger: 'hover',
