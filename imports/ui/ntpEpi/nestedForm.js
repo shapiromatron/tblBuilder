@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import _ from 'underscore';
 
@@ -21,7 +22,13 @@ import {
 import './nestedForm.html';
 
 
-Template.ntpEpiResultForm.helpers(abstractNestedFormHelpers);
+Template.ntpEpiResultForm.helpers(
+    _.extend(abstractNestedFormHelpers,{
+        allAccordiansShown: function(){
+            return Template.instance().allAccordiansShown.get();
+        },
+    })
+);
 Template.ntpEpiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
         let tbody = tmpl.find('.riskEstimateTbody');
@@ -33,7 +40,17 @@ Template.ntpEpiResultForm.events(_.extend({
             {options: organSiteCategories.options},
             div[0], div.find('label')[0]);
     },
+    'click #toggleAccordian': function(evt, tmpl){
+        evt.preventDefault();
+        evt.stopPropagation();
+        tmpl.allAccordiansShown.set(!tmpl.allAccordiansShown.get());
+        let action = (tmpl.allAccordiansShown.get()) ? 'show' : 'hide';
+        tmpl.$('.collapse').collapse(action);
+    },
 }, abstractNestedFormEvents));
+Template.ntpEpiResultForm.onCreated(function(){
+    this.allAccordiansShown = new ReactiveVar(false);
+});
 Template.ntpEpiResultForm.onRendered(function() {
     let object = NtpEpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
     if (object != null) toggleQA(this, object.isQA);

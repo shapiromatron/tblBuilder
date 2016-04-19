@@ -15,86 +15,139 @@
             <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.{{>formLegendPulldown}}</p>
 
             <!-- First row -->
-            <div class="form-group row">
-              <div class="col-xs-6">
-                {{> fldInputTypeahead name="organSiteCategory" value=organSiteCategory nested=true }}
-                {{> fldInputTypeahead name="organSite" value=organSite nested=true }}
-              </div>
-              <div class="col-xs-6">
-                {{> fldInputTypeahead name="effectUnits" value=effectUnits nested=true }}
-                {{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true }}
-                {{> fldInputFloat name="trendTest" value=trendTest nested=true }}
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#accEffectDescription" aria-expanded="false" aria-controls="accEffectDescription">
+                  Effect description
+                  <button class="pull-right btn btn-default btn-xs dropdown-toggle"
+                          type="button"
+                          title="Expand/collapse all input form sections"
+                          id="toggleAccordian">
+                    {{#if allAccordiansShown}}
+                      <i class="fa fa-minus-square-o"></i>
+                    {{else}}
+                      <i class="fa fa-plus-square-o"></i>
+                    {{/if}}
+                  </button>
+                </a>
+              </h4>
+            </div>
+            <div id="accEffectDescription" class="panel-collapse collapse in" role="tabpanel">
+              <div class="panel-body form-group row">
+
+                <div class="col-xs-6">
+                  {{> fldInputTypeahead name="organSiteCategory" value=organSiteCategory nested=true }}
+                  {{> fldInputTypeahead name="organSite" value=organSite nested=true }}
+                </div>
+                <div class="col-xs-6">
+                  {{> fldInputTypeahead name="effectUnits" value=effectUnits nested=true }}
+                  {{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true }}
+                  {{> fldInputFloat name="trendTest" value=trendTest nested=true }}
+                </div>
+
               </div>
             </div>
 
             <!-- Risk estimates -->
-            <table class="table table-condensed">
-              <colgroup>
-                <col width="10%">
-                <col width="20%">
-                <col width="12%">
-                <col width="12%">
-                <col width="12%">
-                <col width="12%">
-                <col width="11%">
-                <col width="11%">
-              </colgroup>
-              <thead>
-                <th style="vertical-align: middle;" class="text-center">
-                  <button type="button"
-                          class="btn btn-xs btn-info"
-                          id="inner-addRiskRow" title="Add row">
-                    <span class="glyphicon glyphicon-plus"></span>
-                  </button>
-                </th>
-                <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.exposureCategory" nested=true }}
-                </th>
-                <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.numberExposed" nested=true }}
-                </th>
-                <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.riskMid" nested=true }}
-                </th>
-                <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.riskLow" nested=true }}
-                </th>
-                <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.riskHigh" nested=true }}
-                </th>
-                <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.riskEstimated" nested=true }}
-                </th>
-                <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.inTrendTest" nested=true }}
-                </th>
-              </thead>
-              <tbody class="riskEstimateTbody">
-                {{#if riskEstimates}}
-                  {{#each riskEstimates}}
-                    {{> riskEstimateForm this}}
-                  {{/each}}
-                {{else}}
-                  {{> riskEstimateForm}}
-                {{/if}}
-              </tbody>
-            </table>
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#accRiskEstimates" aria-expanded="false" aria-controls="accRiskEstimates">
+                  Risk estimates
+                </a>
+              </h4>
+            </div>
+            <div id="accRiskEstimates" class="panel-collapse collapse" role="tabpanel">
+              <div class="panel-body">
 
-            <!-- Third row -->
-            <div class="form-group row">
-              <div class="col-xs-4">
-                {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true }}
-              </div>
-              <div class="col-xs-4">
-                {{> fldTextArea name="covariatesControlledText" value=covariatesControlledText nested=true }}
-              </div>
-              <div class="col-xs-4">
-                {{> fldTextArea name="notes" value=notes nested=true }}
+                <table class="table table-condensed">
+                  <colgroup>
+                    <col width="10%">
+                    <col width="20%">
+                    <col width="12%">
+                    <col width="12%">
+                    <col width="12%">
+                    <col width="12%">
+                    <col width="11%">
+                    <col width="11%">
+                  </colgroup>
+                  <thead>
+                    <th style="vertical-align: middle;" class="text-center">
+                      <button type="button"
+                              class="btn btn-xs btn-info"
+                              id="inner-addRiskRow" title="Add row">
+                        <span class="glyphicon glyphicon-plus"></span>
+                      </button>
+                    </th>
+                    <th class="text-center">
+                      {{> fldLabel name="riskEstimates.$.exposureCategory" nested=true }}
+                    </th>
+                    <th class="text-center">
+                      {{> fldLabel name="riskEstimates.$.numberExposed" nested=true }}
+                    </th>
+                    <th class="text-center">
+                      {{> fldLabel name="riskEstimates.$.riskMid" nested=true }}
+                    </th>
+                    <th class="text-center">
+                      {{> fldLabel name="riskEstimates.$.riskLow" nested=true }}
+                    </th>
+                    <th class="text-center">
+                      {{> fldLabel name="riskEstimates.$.riskHigh" nested=true }}
+                    </th>
+                    <th class="text-center">
+                      {{> fldLabel name="riskEstimates.$.riskEstimated" nested=true }}
+                    </th>
+                    <th class="text-center">
+                      {{> fldLabel name="riskEstimates.$.inTrendTest" nested=true }}
+                    </th>
+                  </thead>
+                  <tbody class="riskEstimateTbody">
+                    {{#if riskEstimates}}
+                      {{#each riskEstimates}}
+                        {{> riskEstimateForm this}}
+                      {{/each}}
+                    {{else}}
+                      {{> riskEstimateForm}}
+                    {{/if}}
+                  </tbody>
+                </table>
               </div>
             </div>
 
-            <!-- Variables of Concert -->
-            {{> variablesOfConcern}}
+            <!-- Third row -->
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#accConfounders" aria-expanded="false" aria-controls="accConfounders">
+                  Potential confounders
+                </a>
+              </h4>
+            </div>
+            <div id="accConfounders" class="panel-collapse collapse" role="tabpanel">
+              <div class="panel-body form-group row">
+                <div class="col-xs-4">
+                  {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true }}
+                </div>
+                <div class="col-xs-4">
+                  {{> fldTextArea name="covariatesControlledText" value=covariatesControlledText nested=true }}
+                </div>
+                <div class="col-xs-4">
+                  {{> fldTextArea name="notes" value=notes nested=true }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Variables of Concern -->
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#accVoc" aria-expanded="false" aria-controls="accVoc">
+                  Variables of Concern
+                </a>
+              </h4>
+            </div>
+            <div id="accVoc" class="panel-collapse collapse" role="tabpanel">
+              <div class="panel-body">
+                {{> variablesOfConcern}}
+              </div>
+            </div>
 
             <div id="errors"></div>
             {{> qaNotice}}
