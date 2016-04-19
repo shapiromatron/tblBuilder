@@ -9,7 +9,7 @@ import {
 } from '/imports/api/client/utilities';
 
 
-var vocHelpers = {
+let vocHelpers = {
     getVocSchema: function(){
         return NtpEpiResult.variableOfConcernSchema.schema();
     },
@@ -21,7 +21,7 @@ var vocHelpers = {
 Template.variablesOfConcern.helpers(vocHelpers);
 Template.variablesOfConcern.events({
     'click #addVocRow': function(evt, tmpl) {
-        var tbody = tmpl.find('tbody');
+        let tbody = tmpl.find('tbody');
         Blaze.renderWithData(Template.variablesOfConcernForm, {}, tbody);
     },
 });
@@ -32,4 +32,4 @@ Template.variablesOfConcern.onDestroyed(function() {
     destroyPopovers(this);
 });
 
-
+export { vocHelpers };

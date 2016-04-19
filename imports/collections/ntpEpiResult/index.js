@@ -11,10 +11,10 @@ import {
 import variableOfConcernSchema from './vocSchema';
 
 
-var instanceMethods = {
+let instanceMethods = {
         riskFormatter: function(obj) {
             if (obj.riskMid == null) return '-';
-            var txt = obj.riskMid.toString();
+            let txt = obj.riskMid.toString();
             if (_.isFinite(obj.riskLow) && _.isFinite(obj.riskHigh)) {
                 txt += ` (${obj.riskLow}–${obj.riskHigh})`;
             }
@@ -39,7 +39,7 @@ var instanceMethods = {
             delete obj.riskHigh;
             delete obj.riskEstimated;
             delete obj.inTrendTest;
-            var trs = tmpl.findAll('.riskEstimateTbody tr');
+            let trs = tmpl.findAll('.riskEstimateTbody tr');
             obj.riskEstimates = _.map(trs, function(row){
                 return newValues(row);
             });

@@ -29,7 +29,7 @@ Template.ntpVariablesOfConcernTable.helpers({
     },
 });
 Template.ntpVariablesOfConcernTable.onCreated(function(){
-    var results = NtpEpiResult.find().fetch(),
+    let results = NtpEpiResult.find().fetch(),
         variables = _.chain(results)
             .pluck('variablesOfConcern')
             .filter(function(d){return d !== null;})
@@ -42,7 +42,7 @@ Template.ntpVariablesOfConcernTable.onCreated(function(){
         null_variable = 'N/A';
 
     results.forEach(function(d1){
-        var row = {
+        let row = {
                 result: d1,
                 referenceID: d1.getDescription().getReference()._id,
                 variables: [],
@@ -50,7 +50,7 @@ Template.ntpVariablesOfConcernTable.onCreated(function(){
             vocs = _.groupBy(d1.variablesOfConcern, 'vocName');
 
         _.each(variables, function(d2){
-            var match = vocs[d2];
+            let match = vocs[d2];
             if (match){
                 row.variables.push(match[0].vocRuleOutConfounding);
             } else {

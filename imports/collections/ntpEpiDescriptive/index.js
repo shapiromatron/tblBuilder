@@ -16,7 +16,7 @@ import {
 } from './constants';
 
 
-var instanceMethods = {
+let instanceMethods = {
         getReference: function(){
             if (_.isEmpty(this.reference)){
                 this.reference = Reference.findOne(this.referenceID);

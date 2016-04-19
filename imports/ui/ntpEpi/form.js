@@ -14,9 +14,9 @@ import {
 } from '/imports/api/client/utilities';
 
 
-var toggleRequiredFields = function(tmpl, duration){
+let toggleRequiredFields = function(tmpl, duration){
     duration = duration || 1000;
-    var design = tmpl.find('select[name=studyDesign]').value,
+    let design = tmpl.find('select[name=studyDesign]').value,
         shows, hides;
     switch (design){
     case 'Cohort':
@@ -50,7 +50,7 @@ Template.ntpEpiDescriptiveForm.events(_.extend({
     },
     'click #toggleAccordian': function(evt, tmpl){
         tmpl.allAccordiansShown.set(!tmpl.allAccordiansShown.get());
-        var action = (tmpl.allAccordiansShown.get()) ? 'show' : 'hide';
+        let action = (tmpl.allAccordiansShown.get()) ? 'show' : 'hide';
         tmpl.$('.collapse').collapse(action);
     },
 }, abstractFormEvents));

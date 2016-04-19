@@ -33,7 +33,7 @@ Template.ntpEpiDescTbl.onRendered(function() {
 
 Template.ntpEpiDescriptiveRow.helpers(_.extend({
     getCol2: function() {
-        var html = '', rrCases, rrCtrls;
+        let html = '', rrCases, rrCtrls;
         if (this.isCaseControl()) {
             rrCases = getPercentOrText(this.responseRateCase);
             rrCtrls = getPercentOrText(this.responseRateControl);

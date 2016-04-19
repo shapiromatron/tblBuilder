@@ -22,7 +22,7 @@ import {
 Template.ntpEpiResultForm.helpers(abstractNestedFormHelpers);
 Template.ntpEpiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
-        var tbody = tmpl.find('.riskEstimateTbody');
+        let tbody = tmpl.find('.riskEstimateTbody');
         Blaze.renderWithData(Template.riskEstimateForm, {}, tbody);
     },
     'show.bs.modal': function(evt, tmpl){
@@ -33,7 +33,7 @@ Template.ntpEpiResultForm.events(_.extend({
     },
 }, abstractNestedFormEvents));
 Template.ntpEpiResultForm.onRendered(function() {
-    var object = NtpEpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
+    let object = NtpEpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
     if (object != null) toggleQA(this, object.isQA);
     this.$('#modalDiv').modal('toggle');
     initPopovers(this);
