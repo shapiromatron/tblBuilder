@@ -22,7 +22,6 @@ Meteor.methods({
         opts = {email: obj.emails[0].address};
         _id = Accounts.createUser(opts);
         Meteor.users.update(_id, {$set: obj});
-        return Accounts.sendEnrollmentEmail(_id);
     },
     adminUserResetPassword: function(_id) {
         if (!isStaffOrHigher(this.userId)) {
