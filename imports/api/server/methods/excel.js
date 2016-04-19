@@ -2,12 +2,12 @@ import {Meteor} from 'meteor/meteor';
 
 import XLSX from 'xlsx';
 
-import Reference from '/imports/api/shared/reference';
-import ExposureEvidence from '/imports/api/shared/exposure';
-import AnimalEvidence from '/imports/api/shared/animalEvidence';
-import EpiDescriptive from '/imports/api/shared/epiDescriptive';
-import GenotoxEvidence from '/imports/api/shared/genotox';
-import MechanisticEvidence from '/imports/api/shared/mechanistic';
+import Reference from '/imports/collections/reference';
+import ExposureEvidence from '/imports/collections/exposure';
+import AnimalEvidence from '/imports/collections/animalEvidence';
+import EpiDescriptive from '/imports/collections/epiDescriptive';
+import GenotoxEvidence from '/imports/collections/genotox';
+import MechanisticEvidence from '/imports/collections/mechanistic';
 
 
 var type = (function() {

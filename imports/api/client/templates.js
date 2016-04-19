@@ -7,7 +7,7 @@ import { Tracker } from 'meteor/tracker';
 import _ from 'underscore';
 import d3 from 'd3';
 
-import tblBuilderCollections from '/imports/api/shared';
+import tblBuilderCollections from '/imports/collections';
 import {
     createErrorDiv,
     activateInput,

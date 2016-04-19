@@ -1,6 +1,6 @@
 import {Meteor} from 'meteor/meteor';
 
-import Reference from '/imports/api/shared/reference';
+import Reference from '/imports/collections/reference';
 
 
 Meteor.methods({

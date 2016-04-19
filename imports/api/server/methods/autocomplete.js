@@ -3,18 +3,18 @@ import { check } from 'meteor/check';
 
 import _ from 'underscore';
 
-import organSiteCategories from '/imports/api/shared/epiResult/organSiteCategories';
+import organSiteCategories from '/imports/collections/epiResult/organSiteCategories';
 
-import Tables from '/imports/api/shared/tables';
-import Reference from '/imports/api/shared/reference';
-import ExposureEvidence from '/imports/api/shared/exposure';
-import AnimalEvidence from '/imports/api/shared/animalEvidence';
-import AnimalEndpointEvidence from '/imports/api/shared/animalResult';
-import EpiDescriptive from '/imports/api/shared/epiDescriptive';
-import EpiResult from '/imports/api/shared/epiResult';
-import NtpEpiDescriptive from '/imports/api/shared/ntpEpiDescriptive';
-import NtpEpiResult from '/imports/api/shared/ntpEpiResult';
-import GenotoxEvidence from '/imports/api/shared/genotox';
+import Tables from '/imports/collections/tables';
+import Reference from '/imports/collections/reference';
+import ExposureEvidence from '/imports/collections/exposure';
+import AnimalEvidence from '/imports/collections/animalEvidence';
+import AnimalEndpointEvidence from '/imports/collections/animalResult';
+import EpiDescriptive from '/imports/collections/epiDescriptive';
+import EpiResult from '/imports/collections/epiResult';
+import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
+import NtpEpiResult from '/imports/collections/ntpEpiResult';
+import GenotoxEvidence from '/imports/collections/genotox';
 
 
 var textSearchRegex = function(str, opts){

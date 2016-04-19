@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 import { Session } from 'meteor/session';
-import NtpEpiResult from '/imports/api/shared/ntpEpiResult';
+import NtpEpiResult from '/imports/collections/ntpEpiResult';
 
 import {
     initPopovers,

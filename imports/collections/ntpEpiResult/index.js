@@ -2,7 +2,7 @@ import {Meteor} from 'meteor/meteor';
 
 import _ from 'underscore';
 
-import NtpEpiDescriptive from '/imports/api/shared/ntpEpiDescriptive';
+import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
 import { attachTableSchema } from '../schemas';
 import schema_extension from './schema';
 import {

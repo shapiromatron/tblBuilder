@@ -3,9 +3,9 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
-import Tables from '/imports/api/shared/tables';
-import Reference from '/imports/api/shared/reference';
-import tblBuilderCollections from '/imports/api/shared';
+import Tables from '/imports/collections/tables';
+import Reference from '/imports/collections/reference';
+import tblBuilderCollections from '/imports/collections';
 
 import {
     userCanEdit,

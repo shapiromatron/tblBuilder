@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
-import ExposureEvidence from '/imports/api/shared/exposure';
+import ExposureEvidence from '/imports/collections/exposure';
 
 import {
     abstractMainHelpers,

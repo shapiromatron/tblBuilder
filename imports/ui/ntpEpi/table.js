@@ -5,8 +5,8 @@ import _ from 'underscore';
 
 import { getPercentOrText } from '/imports/utilities';
 
-import NtpEpiDescriptive from '/imports/api/shared/ntpEpiDescriptive';
-import NtpEpiResult from '/imports/api/shared/ntpEpiResult';
+import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
+import NtpEpiResult from '/imports/collections/ntpEpiResult';
 
 import {
     abstractTblHelpers,

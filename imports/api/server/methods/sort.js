@@ -2,7 +2,7 @@ import {Meteor} from 'meteor/meteor';
 
 import _ from 'underscore';
 
-import tblBuilderCollections from '/imports/api/shared';
+import tblBuilderCollections from '/imports/collections';
 
 
 Meteor.methods({

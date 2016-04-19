@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 
-import tblBuilderCollections from '/imports/api/shared';
+import tblBuilderCollections from '/imports/collections';
 
 // bind templates client-side only
 tblBuilderCollections.evidenceLookup['epiDescriptive'].nested_template = Template.epiResultForm;

@@ -6,7 +6,7 @@ import { Tracker } from 'meteor/tracker';
 
 import _ from 'underscore';
 
-import Reference from '/imports/api/shared/reference';
+import Reference from '/imports/collections/reference';
 import {
     createErrorDiv,
     getPubMedDetails,

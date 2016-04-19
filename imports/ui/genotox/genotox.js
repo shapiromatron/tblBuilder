@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
-import GenotoxEvidence from '/imports/api/shared/genotox';
+import GenotoxEvidence from '/imports/collections/genotox';
 
 import {
     abstractMainHelpers,

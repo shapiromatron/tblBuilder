@@ -5,8 +5,8 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
-import AnimalEvidence from '/imports/api/shared/animalEvidence';
-import AnimalEndpointEvidence from '/imports/api/shared/animalResult';
+import AnimalEvidence from '/imports/collections/animalEvidence';
+import AnimalEndpointEvidence from '/imports/collections/animalResult';
 import {
     abstractMainHelpers,
     abstractTblHelpers,

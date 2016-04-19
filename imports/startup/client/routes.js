@@ -7,7 +7,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { GAnalytics } from 'meteor/datariot:ganalytics';
 import { accountsUIBootstrap3 } from 'meteor/ian:accounts-ui-bootstrap-3';
 
-import Tables from '/imports/api/shared/tables';
+import Tables from '/imports/collections/tables';
 import {
     getHTMLTitleTbl,
     getHTMLTitleBase,

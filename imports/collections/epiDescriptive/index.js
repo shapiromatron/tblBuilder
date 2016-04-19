@@ -2,9 +2,9 @@ import {Meteor} from 'meteor/meteor';
 
 import _ from 'underscore';
 
-import Tables from '/imports/api/shared/tables';
-import Reference from '/imports/api/shared/reference';
-import EpiResult from '/imports/api/shared/epiResult';
+import Tables from '/imports/collections/tables';
+import Reference from '/imports/collections/reference';
+import EpiResult from '/imports/collections/epiResult';
 
 import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';

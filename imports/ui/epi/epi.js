@@ -7,9 +7,9 @@ import d3 from 'd3';
 
 import { getPercentOrText } from '/imports/utilities';
 
-import organSiteCategories from '/imports/api/shared/epiResult/organSiteCategories';
-import EpiDescriptive from '/imports/api/shared/epiDescriptive';
-import EpiResult from '/imports/api/shared/epiResult';
+import organSiteCategories from '/imports/collections/epiResult/organSiteCategories';
+import EpiDescriptive from '/imports/collections/epiDescriptive';
+import EpiResult from '/imports/collections/epiResult';
 
 import {
     abstractMainHelpers,

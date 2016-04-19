@@ -4,8 +4,8 @@ import _ from 'underscore';
 
 import { attachTableSchema } from '../schemas';
 
-import Tables from '/imports/api/shared/tables';
-import Reference from '/imports/api/shared/reference';
+import Tables from '/imports/collections/tables';
+import Reference from '/imports/collections/reference';
 
 import schema_extension from './schema';
 import {

@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
 
-import MechanisticEvidence from '/imports/api/shared/mechanistic';
+import MechanisticEvidence from '/imports/collections/mechanistic';
 
 import {
     createErrorDiv,

@@ -2,8 +2,8 @@ import {Meteor} from 'meteor/meteor';
 
 import _ from 'underscore';
 
-import Reference from '/imports/api/shared/reference';
-import EpiDescriptive from '/imports/api/shared/epiDescriptive';
+import Reference from '/imports/collections/reference';
+import EpiDescriptive from '/imports/collections/epiDescriptive';
 
 import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';

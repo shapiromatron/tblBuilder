@@ -6,8 +6,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import _ from 'underscore';
 
-import EpiDescriptive from '/imports/api/shared/epiDescriptive';
-import EpiResult from '/imports/api/shared/epiResult';
+import EpiDescriptive from '/imports/collections/epiDescriptive';
+import EpiResult from '/imports/collections/epiResult';
 
 import {
     abstractMainHelpers,

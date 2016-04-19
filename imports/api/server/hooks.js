@@ -2,10 +2,10 @@ import {Meteor} from 'meteor/meteor';
 
 import { Roles } from 'meteor/alanning:roles';
 
-import tblBuilderCollections from '/imports/api/shared';
-import Tables from '/imports/api/shared/tables';
-import Reference from '/imports/api/shared/reference';
-import MechanisticEvidence from '/imports/api/shared/mechanistic';
+import tblBuilderCollections from '/imports/collections';
+import Tables from '/imports/collections/tables';
+import Reference from '/imports/collections/reference';
+import MechanisticEvidence from '/imports/collections/mechanistic';
 
 
 var addTimestampAndUserID = function(userId, doc) {

@@ -8,8 +8,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import _ from 'underscore';
 import { moment } from 'meteor/momentjs:moment';
 
-import Tables from '/imports/api/shared/tables';
-import tblBuilderCollections from '/imports/api/shared';
+import Tables from '/imports/collections/tables';
+import tblBuilderCollections from '/imports/collections';
 
 import {
     typeaheadSelectListGetLIs,

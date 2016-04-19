@@ -4,8 +4,8 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
-import organSiteCategories from '/imports/api/shared/epiResult/organSiteCategories';
-import NtpEpiResult from '/imports/api/shared/ntpEpiResult';
+import organSiteCategories from '/imports/collections/epiResult/organSiteCategories';
+import NtpEpiResult from '/imports/collections/ntpEpiResult';
 
 import {
     abstractNestedFormHelpers,
