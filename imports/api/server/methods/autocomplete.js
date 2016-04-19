@@ -246,18 +246,6 @@ Meteor.methods({
     searchAnimalUnits: function(query) {
         return extraUnitsSearch(AnimalEndpointEvidence, query);
     },
-    searchNtpEpiCaseControlMatching: function(query) {
-        return listFieldTextSearch(NtpEpiDescriptive, 'caseControlMatching', query);
-    },
-    searchNtpEpiCaseControlDiffers: function(query) {
-        return listFieldTextSearch(NtpEpiDescriptive, 'caseControlDiffers', query);
-    },
-    searchNtpCoexposures: function(query) {
-        return listFieldTextSearch(NtpEpiDescriptive, 'coexposures', query);
-    },
-    searchNtpEpiRiskFactors: function(query) {
-        return listFieldTextSearch(NtpEpiDescriptive, 'riskFactors', query);
-    },
     searchNtpEpiVariablesOfConcern: function(query) {
         return searchElementInArrayObj(NtpEpiResult, 'variablesOfConcern', 'vocName', query);
     },

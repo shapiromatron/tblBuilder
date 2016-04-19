@@ -261,36 +261,6 @@
         </div>
       </div>
 
-      <!-- Confounding -->
-      <div>
-        <div class="panel-heading" role="tab" id="headingThree">
-          <h4 class="panel-title">
-            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#confounding" aria-expanded="false" aria-controls="confounding">
-              Confounding
-            </a>
-          </h4>
-        </div>
-        <div id="confounding" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" aria-expanded="false">
-          <div class="panel-body">
-            <div class="form-group row">
-              <div class="isntCohort col-xs-3">
-                {{> fldTypeaheadSelectMultiple name="caseControlMatching" values=caseControlMatching }}
-                {{> fldTypeaheadSelectMultiple name="caseControlDiffers" values=caseControlDiffers }}
-              </div>
-              <div class="col-xs-3">
-                {{> fldTypeaheadSelectMultiple name="coexposures" values=coexposures }}
-              </div>
-              <div class="col-xs-3">
-                {{> fldTypeaheadSelectMultiple name="riskFactors" values=riskFactors }}
-              </div>
-              <div class="col-xs-6">
-                {{> fldSelectSingle name="confoundingRating" value=confoundingRating }}
-                {{> fldTextArea name="confoundingRatingRationale" value=confoundingRatingRationale }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <div id="errors"></div>
     {{> qaNotice}}
