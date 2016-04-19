@@ -424,6 +424,24 @@ Template.tableTitle.helpers({
 
         return printTimestamp(ts);
     },
+    isHidden: function(){
+        var key = Session.get('evidenceType'),
+            Collection = tblBuilderCollections.evidenceLookup[key].collection,
+            NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
+            hiddens;
+
+        hiddens = Collection.find({isHidden: true}).count();
+        if (NestedCollection){
+            hiddens += NestedCollection.find({isHidden: true}).count();
+        }
+        return hiddens > 0;
+    },
+});
+Template.tableTitle.events({
+    'click #hiddensIcon': function(evt, tmpl) {
+        evt.preventDefault();
+        Session.set('evidenceShowAll', !Session.get('evidenceShowAll'));
+    },
 });
 
 

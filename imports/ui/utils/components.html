@@ -308,6 +308,15 @@
   <p class="help-block">
     <a href="{{pathFor 'volumeTableList' volumeNumber=this.volumeNumber}}#{{this.monographAgent}}">
       Volume {{this.volumeNumber}}: {{this.monographAgent}}</a>
+    {{#if isHidden }}
+      &nbsp;
+      <a href='#'
+        class='btn btn-default btn-xs'
+        id='hiddensIcon'
+        title='Content may be hidden (click to toggle visibility).'>
+        <i class='fa fa-eye-slash'></i>
+      </a>
+    {{/if}}
     <i class="pull-right">Last updated: {{getLastUpdated}}</i>
   </p>
   {{/with}}
