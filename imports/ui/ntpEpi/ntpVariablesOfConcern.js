@@ -9,6 +9,8 @@ import {
     abstractMainHelpers,
 } from '/imports/api/client/templates';
 
+import './ntpVariablesOfConcern.html';
+
 
 Template.ntpVariablesOfConcernMain.helpers(abstractMainHelpers);
 Template.ntpVariablesOfConcernMain.onCreated(function() {

@@ -8,6 +8,8 @@ import {
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
+import './voc.html';
+
 
 let vocHelpers = {
     getVocSchema: function(){

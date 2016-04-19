@@ -13,6 +13,8 @@ import {
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
+import './form.html';
+
 
 let toggleRequiredFields = function(tmpl, duration){
     duration = duration || 1000;

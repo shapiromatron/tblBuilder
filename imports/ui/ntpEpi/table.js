@@ -22,6 +22,8 @@ import {
     toggleRiskPlot,
 } from '/imports/api/client/utilities';
 
+import './table.html';
+
 
 Template.ntpEpiDescTbl.helpers(abstractTblHelpers);
 Template.ntpEpiDescTbl.onRendered(function() {

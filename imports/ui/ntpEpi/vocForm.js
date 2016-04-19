@@ -3,6 +3,8 @@ import { Blaze } from 'meteor/blaze';
 
 import { vocHelpers } from './voc';
 
+import './vocForm.html';
+
 
 Template.variablesOfConcernForm.helpers(vocHelpers);
 Template.variablesOfConcernForm.events({

@@ -18,6 +18,8 @@ import {
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
+import './nestedForm.html';
+
 
 Template.ntpEpiResultForm.helpers(abstractNestedFormHelpers);
 Template.ntpEpiResultForm.events(_.extend({

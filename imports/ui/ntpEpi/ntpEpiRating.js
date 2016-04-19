@@ -6,6 +6,8 @@ import {
     abstractTblHelpers,
 } from '/imports/api/client/templates';
 
+import './ntpEpiRating.html';
+
 
 Template.ntpEpiRatingMain.helpers(abstractMainHelpers);
 Template.ntpEpiRatingMain.onCreated(function() {
