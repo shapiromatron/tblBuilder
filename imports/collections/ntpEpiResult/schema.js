@@ -4,6 +4,10 @@ import _ from 'underscore';
 import organSiteCategories from '/imports/collections/epiResult/organSiteCategories';
 import variableOfConcernSchema from './vocSchema';
 
+import {
+    ratings,
+} from '/imports/collections/ntpEpiDescriptive/constants';
+
 
 let isNumberOrNR = function() {
     if (this.isSet && (this.value === 'NR' || _.isFinite(this.value))) {
@@ -106,12 +110,46 @@ export default {
         popoverText: 'Further describe how covariates were controlled, if needed, such as details on matching methodology or adjustments made',
         textAreaRows: 4,
     },
-    notes: {
-        label: 'Confidence of evidence',
+    caseControlMatching: {
+        label: 'Matching criteria',
+        type: [String],
+        minCount: 0,
+        popoverText: 'List the factors that the controls were matched on',
+        typeaheadMethod: 'searchNtpEpiCaseControlMatching',
+    },
+    caseControlDiffers: {
+        label: 'Differs criteria',
+        type: [String],
+        minCount: 0,
+        popoverText: 'List variables that differ between cases and control such as demographics (i.e. age, sex) or lifestyle (i.e., smoking)',
+        typeaheadMethod: 'searchNtpEpiCaseControlDiffers',
+    },
+    coexposures: {
+        label: 'Coexposures',
+        type: [String],
+        minCount: 0,
+        popoverText: 'Possible co-exposures which may potentially confound results.',
+        typeaheadMethod: 'searchNtpCoexposures',
+    },
+    riskFactors: {
+        label: 'Risk factors',
+        type: [String],
+        minCount: 0,
+        popoverText: 'Identify risk factors for endpoint with sufficient or limited evidence in humans ',
+        typeaheadMethod: 'searchNtpEpiRiskFactors',
+    },
+    confoundingRating: {
+        label: 'Confounding rating',
         type: String,
-        optional: true,
-        popoverText: 'See the RoC handbook for guidance',
+        allowedValues: ratings,
+        popoverText: 'See RoC handbook/protocol for candidate substance ',
+    },
+    confoundingRatingRationale: {
+        label: 'Confounding rating rationale',
+        type: String,
+        min: 1,
         textAreaRows: 4,
+        popoverText: 'See RoC handbook/protocol for candidate substance ',
     },
     parent_id: {
         type: SimpleSchema.RegEx.Id,

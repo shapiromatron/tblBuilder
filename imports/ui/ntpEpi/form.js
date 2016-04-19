@@ -15,32 +15,35 @@ import {
 
 import './form.html';
 
+let toggleStudyDesignFields = function(tmpl, studyDesign, duration){
+        let shows, hides;
+        switch (studyDesign){
+        case 'Cohort':
+            shows = ['.isCohort', '.isntCC'];
+            hides = ['.isntCohort', 'isNCC'];
+            break;
+        case 'Case-Control':
+            shows = ['.isntCohort'];
+            hides = ['.isCohort', '.isntCC', 'isNCC'];
+            break;
+        case 'Nested Case-Control':
+        case 'Ecological':
+            shows = ['.isntCohort', '.isntCC', 'isNCC'];
+            hides = ['.isCohort'];
+            break;
+        default:
+            console.log(`unknown study-design: ${studyDesign}`);
+        }
+        tmpl.$(hides.join(',')).fadeOut(duration, function(){
+            tmpl.$(shows.join(',')).fadeIn(duration);
+        });
+    },
+    toggleRequiredFields = function(tmpl, duration){
+        duration = duration || 1000;
+        let studyDesign = tmpl.find('select[name=studyDesign]').value;
+        toggleStudyDesignFields(tmpl, studyDesign, duration);
+    };
 
-let toggleRequiredFields = function(tmpl, duration){
-    duration = duration || 1000;
-    let design = tmpl.find('select[name=studyDesign]').value,
-        shows, hides;
-    switch (design){
-    case 'Cohort':
-        shows = ['.isCohort', '.isntCC'];
-        hides = ['.isntCohort', 'isNCC'];
-        break;
-    case 'Case-Control':
-        shows = ['.isntCohort'];
-        hides = ['.isCohort', '.isntCC', 'isNCC'];
-        break;
-    case 'Nested Case-Control':
-    case 'Ecological':
-        shows = ['.isntCohort', '.isntCC', 'isNCC'];
-        hides = ['.isCohort'];
-        break;
-    default:
-        console.log(`unknown study-design: ${design}`);
-    }
-    tmpl.$(hides.join(',')).fadeOut(duration, function(){
-        tmpl.$(shows.join(',')).fadeIn(duration);
-    });
-};
 Template.ntpEpiDescriptiveForm.helpers({
     allAccordiansShown: function(){
         return Template.instance().allAccordiansShown.get();
@@ -67,3 +70,5 @@ Template.ntpEpiDescriptiveForm.onRendered(function() {
 Template.ntpEpiDescriptiveForm.onDestroyed(function() {
     destroyPopovers(this);
 });
+
+export { toggleStudyDesignFields };

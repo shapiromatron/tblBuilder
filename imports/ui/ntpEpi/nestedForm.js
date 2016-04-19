@@ -6,6 +6,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import _ from 'underscore';
 
 import organSiteCategories from '/imports/collections/epiResult/organSiteCategories';
+import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
 import NtpEpiResult from '/imports/collections/ntpEpiResult';
 
 import {
@@ -20,6 +21,25 @@ import {
 } from '/imports/api/client/utilities';
 
 import './nestedForm.html';
+
+import { toggleStudyDesignFields } from './form.js';
+
+
+
+let toggleRequiredFields = function(tmpl, duration){
+    let result_id = Session.get('nestedEvidenceEditingId'),
+        desc_id,
+        d,
+        studyDesign;
+    if (result_id){
+        desc_id = NtpEpiResult.findOne(result_id).parent_id;
+    } else {
+        desc_id = tmpl.data.parent._id;
+    }
+    d = NtpEpiDescriptive.findOne(desc_id);
+    studyDesign = d.studyDesign;
+    toggleStudyDesignFields(tmpl, studyDesign, duration);
+};
 
 
 Template.ntpEpiResultForm.helpers(
@@ -56,6 +76,7 @@ Template.ntpEpiResultForm.onRendered(function() {
     if (object != null) toggleQA(this, object.isQA);
     this.$('#modalDiv').modal('toggle');
     initPopovers(this);
+    toggleRequiredFields(this, 1e-6);
 });
 Template.ntpEpiResultForm.onDestroyed(function() {
     destroyPopovers(this);
