@@ -99,8 +99,8 @@ export default {
         popoverText: 'List all covariates which were controlled by matching or adjustment in the analysis reported. Enter each covariate individually, and then press <enter> to add it to the list. If no covariates were specified, add \'not-specified\'',
         typeaheadMethod: 'searchNtpCovariates',
     },
-    covariatesControlledText: {
-        label: 'Covariates controlled notes',
+    otherVariables: {
+        label: 'Other variables',
         type: String,
         optional: true,
         popoverText: 'Further describe how covariates were controlled, if needed, such as details on matching methodology or adjustments made',

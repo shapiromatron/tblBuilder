@@ -114,7 +114,7 @@ class EpiDescriptiveTables(DOCXReport):
         ccTxt = set()
         for res in d.get("results", []):
             covariates.extend(res["covariates"])
-            txt = res.get("covariatesControlledText")
+            txt = res.get("otherVariables")
             if txt:
                 ccTxt.add(txt)
         covariates = u", ".join(sorted(set(covariates)))
