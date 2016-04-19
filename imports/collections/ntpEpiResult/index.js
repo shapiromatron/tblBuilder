@@ -8,9 +8,7 @@ import schema_extension from './schema';
 import {
     newValues,
 } from '/imports/api/utilities';
-import {
-    variableOfConcernSchema,
-} from './vocSchema';
+import variableOfConcernSchema from './vocSchema';
 
 
 var instanceMethods = {
