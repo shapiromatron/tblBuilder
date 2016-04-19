@@ -8,7 +8,7 @@ import {
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
-import './voc.html';
+import './vocFormTable.html';
 
 
 let vocHelpers = {
@@ -20,17 +20,17 @@ let vocHelpers = {
     },
 };
 
-Template.variablesOfConcern.helpers(vocHelpers);
-Template.variablesOfConcern.events({
+Template.vocFormTable.helpers(vocHelpers);
+Template.vocFormTable.events({
     'click #addVocRow': function(evt, tmpl) {
         let tbody = tmpl.find('tbody');
         Blaze.renderWithData(Template.variablesOfConcernForm, {}, tbody);
     },
 });
-Template.variablesOfConcern.onRendered(function() {
+Template.vocFormTable.onRendered(function() {
     initPopovers(this);
 });
-Template.variablesOfConcern.onDestroyed(function() {
+Template.vocFormTable.onDestroyed(function() {
     destroyPopovers(this);
 });
 

@@ -1,13 +1,12 @@
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 
-import { vocHelpers } from './voc';
+import { vocHelpers } from './vocFormTable';
+import './vocFormRow.html';
 
-import './vocForm.html';
 
-
-Template.variablesOfConcernForm.helpers(vocHelpers);
-Template.variablesOfConcernForm.events({
+Template.vocFormRow.helpers(vocHelpers);
+Template.vocFormRow.events({
     'click #delete': function(evt, tmpl) {
         Blaze.remove(tmpl.view);
         tmpl.$(tmpl.view._domrange.members).remove();

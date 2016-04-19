@@ -1,8 +1,8 @@
 import './main';
 import './table';
-import './voc';
 import './form';
 import './nestedForm';
-import './vocForm';
+import './vocFormTable';
+import './vocFormRow';
 import './ntpEpiRating';
 import './ntpVariablesOfConcern';
