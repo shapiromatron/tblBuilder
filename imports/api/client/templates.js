@@ -12,9 +12,11 @@ import {
     createErrorDiv,
     activateInput,
     updateValues,
-    newValues,
     toggleQA,
 } from '/imports/api/client/utilities';
+import {
+    newValues,
+} from '/imports/utilities';
 
 
 let getNextSortIdx = function(currentIdx, Collection){

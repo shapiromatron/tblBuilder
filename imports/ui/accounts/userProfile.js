@@ -4,7 +4,7 @@ import { Template } from 'meteor/templating';
 
 import {
     newValues,
-} from '/imports/api/client/utilities';
+} from '/imports/utilities';
 
 
 Template.profileEdit.helpers({

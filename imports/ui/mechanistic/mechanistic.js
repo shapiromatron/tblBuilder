@@ -12,11 +12,14 @@ import {
     initDraggables,
     activateInput,
     updateValues,
-    newValues,
     toggleRowVisibilty,
     initPopovers,
     destroyPopovers,
 } from '/imports/api/client/utilities';
+
+import {
+    newValues,
+} from '/imports/utilities';
 
 
 var initializeDraggable = function(tmpl, options) {

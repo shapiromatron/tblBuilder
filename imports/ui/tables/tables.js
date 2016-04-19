@@ -10,10 +10,11 @@ import {
     initDraggables,
     activateInput,
     updateValues,
-    newValues,
     toggleRowVisibilty,
 } from '/imports/api/client/utilities';
-
+import {
+    newValues,
+} from '/imports/utilities';
 
 
 Template.home.onCreated(function() {

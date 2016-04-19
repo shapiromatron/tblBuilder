@@ -12,12 +12,11 @@ import {
     getPubMedDetails,
     activateInput,
     updateValues,
-} from '/imports/api/client/utilities';
-
-import {
     returnExcelFile,
-    newValues,
 } from '/imports/api/client/utilities';
+import {
+    newValues,
+} from '/imports/utilities';
 
 
 Template.referencesMain.onCreated(function() {
