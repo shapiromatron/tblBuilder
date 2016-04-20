@@ -16,6 +16,7 @@ import {
 import {
     returnExcelFile,
     toggleRiskPlot,
+    getHTMLTitleBase,
 } from '/imports/api/client/utilities';
 
 
@@ -76,6 +77,7 @@ Template.epiOrganSiteMain.events({
     },
 });
 Template.epiOrganSiteMain.onCreated(function() {
+    document.title = `${this.data.volumeNumber}: ${this.data.monographAgent} | ${getHTMLTitleBase()}`;
     this.subscribe('epiCollective', this.data.volumeNumber, this.data.monographAgent);
     this.organSiteCategories = new ReactiveVar([]);
     Session.setDefault('eosEditMode', false);

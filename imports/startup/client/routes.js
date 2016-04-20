@@ -92,6 +92,7 @@ var GARouter = RouteController.extend({
         action: function () {
             if (Roles.userIsInRole(Meteor.userId(), ['staff'])){
                 this.render();
+                document.title = `${getHTMLTitleBase()} | Admin`;
             } else {
                 this.render('Http403');
             }

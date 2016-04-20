@@ -13,6 +13,7 @@ import {
     activateInput,
     updateValues,
     returnExcelFile,
+    getHTMLTitleBase,
 } from '/imports/api/client/utilities';
 import {
     newValues,
@@ -20,6 +21,7 @@ import {
 
 
 Template.referencesMain.onCreated(function() {
+    document.title = `References for ${this.data.monographAgent} | ${getHTMLTitleBase()}`;
     Session.set('referenceShowNew', false);
     Session.set('referenceEditingId', null);
     Session.set('monographAgent', this.data.monographAgent);
