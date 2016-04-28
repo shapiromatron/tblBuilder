@@ -24,19 +24,19 @@
       {{> fldInputTypeahead collSchema=getVocSchema name="vocName" value=vocName hideLabel=true}}
     </td>
     <td>
-      {{> fldInputText collSchema=getVocSchema name="vocAddressedInStats" value=vocAddressedInStats hideLabel=true}}
+      {{> fldSelectSingle collSchema=getVocSchema name="vocAddressedInStats" value=vocAddressedInStats  hideLabel=true}}
     </td>
     <td>
-      {{> fldInputText collSchema=getVocSchema name="vocSimilarAcrossGroups" value=vocSimilarAcrossGroups hideLabel=true}}
+      {{> fldSelectSingle collSchema=getVocSchema name="vocSimilarAcrossGroups" value=vocSimilarAcrossGroups  hideLabel=true}}
     </td>
     <td>
-      {{> fldInputText collSchema=getVocSchema name="vocCoexposuresAssociated" value=vocCoexposuresAssociated hideLabel=true}}
+      {{> fldTextArea collSchema=getVocSchema name="vocCoexposuresAssociated" value=vocCoexposuresAssociated hideLabel=true}}
     </td>
     <td>
       {{> fldTextArea collSchema=getVocSchema name="vocOtherInformation" value=vocOtherInformation hideLabel=true}}
     </td>
     <td>
-      {{> fldInputText collSchema=getVocSchema name="vocStrengthOfAssociation" value=vocStrengthOfAssociation hideLabel=true }}
+      {{> fldTextArea collSchema=getVocSchema name="vocStrengthOfAssociation" value=vocStrengthOfAssociation hideLabel=true }}
     </td>
     <td>
       {{> fldTextArea collSchema=getVocSchema name="vocRuleOutConfounding" value=vocRuleOutConfounding hideLabel=true }}
