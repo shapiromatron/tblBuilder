@@ -28,6 +28,7 @@ export default new SimpleSchema({
         type: String,
         label: 'Other information',
         optional: true,
+        textAreaRows: 3,
         popoverText: '<add>',
     },
     vocStrengthOfAssociation: {
@@ -38,6 +39,7 @@ export default new SimpleSchema({
     vocRuleOutConfounding: {
         type: String,
         label: 'Rule out confounding?',
+        textAreaRows: 3,
         popoverText: '<add>',
     },
 });
