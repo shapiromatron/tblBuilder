@@ -3,6 +3,8 @@ import {
     studyDesignOptions,
     exposureAssessmentTypeOptions,
     ratings,
+    biasDirection,
+    biasDirectionPopoverText,
 } from './constants';
 
 
@@ -103,6 +105,12 @@ export default {
         allowedValues: ratings,
         popoverText: 'See RoC handbook/protocol for candidate substance',
     },
+    selectionBiasDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
     selectionBiasRationale: {
         label: 'Selection bias rationale',
         type: String,
@@ -178,6 +186,12 @@ export default {
         allowedValues: ratings,
         popoverText: 'See RoC handbook/protocol for candidate substance',
     },
+    exposureAssessmentDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
     exposureAssessmentRationale: {
         label: 'Exposure assessment rationale',
         type: String,
@@ -212,6 +226,12 @@ export default {
         allowedValues: ratings,
         popoverText: 'See RoC handbook/protocol for candidate substance',
     },
+    outcomeAssessmentDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
     outcomeAssessmentRationale: {
         label: 'Outcome assessment rationale',
         type: String,
@@ -233,6 +253,12 @@ export default {
         allowedValues: ratings,
         popoverText: 'See RoC handbook/protocol for candidate substance',
     },
+    analysisDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
     analysisRationale: {
         label: 'Analysis rationale',
         type: String,
@@ -245,6 +271,12 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: 'See RoC handbook/protocol for candidate substance',
+    },
+    selectiveReportingDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
     },
     selectiveReportingRationale: {
         label: 'Selective reporting rationale',
@@ -287,6 +319,12 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: 'See RoC handbook/protocol for candidate substance ',
+    },
+    sensitivityDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
     },
     sensitivityRatingRationale: {
         label: 'Sensitivity rating rationale',

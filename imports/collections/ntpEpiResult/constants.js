@@ -2,6 +2,7 @@ import _ from 'underscore';
 
 import {
     ratings,
+    biasDirection,
 } from '/imports/collections/ntpEpiDescriptive/constants';
 
 
@@ -14,9 +15,17 @@ let noOverrideRequired = 'No change from study description',
         cloned.unshift(noOverrideRequired);
         return cloned;
     },
-    optionalOverrideRatings = getOverrideValues();
+    getOverrideDirection = function(){
+        let cloned = _.clone(biasDirection);
+        cloned.unshift(noOverrideRequired);
+        return cloned;
+    },
+    optionalOverrideRatings = getOverrideValues(),
+    optionalOverrideDirection = getOverrideDirection();
 
 
 export { ratings };
+export { biasDirection };
 export { outcomeOverriden };
 export { optionalOverrideRatings };
+export { optionalOverrideDirection };

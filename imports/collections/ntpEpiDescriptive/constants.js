@@ -23,9 +23,17 @@ let studyDesignOptions = [
         '+',
         '++',
         '+++',
-    ];
+    ],
+    biasDirection = [
+        '⬆',
+        '⬇',
+        '⬌',
+    ],
+    biasDirectionPopoverText = 'Direction of bias effect (⬆ = away from null, ⬇ = towards null, ⬌ no change)';
 
 
 export { studyDesignOptions };
 export { exposureAssessmentTypeOptions };
 export { ratings };
+export { biasDirection };
+export { biasDirectionPopoverText };

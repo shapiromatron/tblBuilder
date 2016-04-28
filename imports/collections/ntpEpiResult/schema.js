@@ -7,7 +7,14 @@ import variableOfConcernSchema from './vocSchema';
 import {
     ratings,
     optionalOverrideRatings,
+    biasDirection,
+    optionalOverrideDirection,
 } from './constants';
+
+import {
+    biasDirectionPopoverText,
+} from '/imports/collections/ntpEpiDescriptive/constants';
+
 
 let isNumberOrNR = function() {
     if (this.isSet && (this.value === 'NR' || _.isFinite(this.value))) {
@@ -137,6 +144,12 @@ export default {
         allowedValues: ratings,
         popoverText: 'See RoC handbook/protocol for candidate substance ',
     },
+    confoundingDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
     confoundingRatingRationale: {
         label: 'Confounding rating rationale',
         type: String,
@@ -149,6 +162,12 @@ export default {
         type: String,
         allowedValues: optionalOverrideRatings,
         popoverText: 'See RoC handbook/protocol for candidate substance',
+    },
+    outcomeAssessmentDirectionOverride:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: optionalOverrideDirection,
+        popoverText: biasDirectionPopoverText,
     },
     outcomeAssessmentRationaleOverride: {
         label: 'Outcome assessment rationale (override)',

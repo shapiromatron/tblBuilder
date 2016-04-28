@@ -145,7 +145,14 @@
                   </div>
 
                   <div class="col-xs-4">
-                    {{> fldSelectSingle name="confoundingRating" value=confoundingRating nested=true }}
+                    <div class="row">
+                      <div class="col-xs-6">
+                        {{> fldSelectSingle name="confoundingRating" value=confoundingRating nested=true }}
+                      </div>
+                      <div class="col-xs-6">
+                        {{> fldSelectSingle name="confoundingDirection" value=confoundingDirection nested=true }}
+                      </div>
+                    </div>
                     {{> fldTextArea name="confoundingRatingRationale" value=confoundingRatingRationale nested=true }}
                   </div>
                 </div>
@@ -168,12 +175,20 @@
                     <strong>Default values taken from study-description:</strong>
                     <ul>
                       <li><strong>Rating:</strong> {{outcomeAssessmentRating}}</li>
+                      <li><strong>Direction:</strong> {{outcomeAssessmentDirection}}</li>
                       <li><strong>Rationale:</strong> {{outcomeAssessmentRationale}}</li>
                     </ul>
                   </div>
                 {{/with}}
                 <div class="col-xs-6">
-                  {{> fldSelectSingle name="outcomeAssessmentRatingOverride" value=outcomeAssessmentRatingOverride nested=true }}
+                  <div class="row">
+                    <div class="col-xs-6">
+                      {{> fldSelectSingle name="outcomeAssessmentRatingOverride" value=outcomeAssessmentRatingOverride nested=true }}
+                    </div>
+                    <div class="col-xs-6">
+                      {{> fldSelectSingle name="outcomeAssessmentDirectionOverride" value=outcomeAssessmentDirectionOverride nested=true }}
+                    </div>
+                  </div>
                   {{> fldTextArea name="outcomeAssessmentRationaleOverride" value=outcomeAssessmentRationaleOverride nested=true }}
                 </div>
 
