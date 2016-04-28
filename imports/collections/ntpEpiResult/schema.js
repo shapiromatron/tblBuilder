@@ -131,13 +131,6 @@ export default {
         popoverText: 'Possible co-exposures which may potentially confound results.',
         typeaheadMethod: 'searchNtpCoexposures',
     },
-    riskFactors: {
-        label: 'Risk factors',
-        type: [String],
-        minCount: 0,
-        popoverText: 'Identify risk factors for endpoint with sufficient or limited evidence in humans ',
-        typeaheadMethod: 'searchNtpEpiRiskFactors',
-    },
     confoundingRating: {
         label: 'Confounding rating',
         type: String,

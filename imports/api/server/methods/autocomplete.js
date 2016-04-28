@@ -255,9 +255,6 @@ Meteor.methods({
     searchNtpCoexposures: function(query) {
         return listFieldTextSearch(NtpEpiResult, 'coexposures', query);
     },
-    searchNtpEpiRiskFactors: function(query) {
-        return listFieldTextSearch(NtpEpiResult, 'riskFactors', query);
-    },
     searchNtpEpiVariablesOfConcern: function(query) {
         return searchElementInArrayObj(NtpEpiResult, 'variablesOfConcern', 'vocName', query);
     },
