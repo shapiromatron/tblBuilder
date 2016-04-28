@@ -212,7 +212,16 @@
                 {{> fldTextArea name="analyticalMethods" value=analyticalMethods }}
               </div>
               <div class="col-xs-4">
-                {{> fldSelectSingle name="analysisRating" value=analysisRating }}
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="analysisRating" value=analysisRating }}
+                    <br>
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="analysisDirection" value=analysisDirection }}
+                    <br>
+                  </div>
+                </div>
                 {{> fldTextArea name="analysisRationale" value=analysisRationale }}
               </div>
               <div class="col-xs-4">
