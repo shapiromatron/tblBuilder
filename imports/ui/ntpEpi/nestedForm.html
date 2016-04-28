@@ -122,28 +122,32 @@
               </h4>
             </div>
             <div id="accConfounders" class="panel-collapse collapse" role="tabpanel">
-              <div class="panel-body form-group row">
+              <div class="panel-body form-group">
 
-                <div class="col-xs-4">
-                  {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true }}
+                <div class="row">
+                  <div class="col-xs-4">
+                    {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true }}
+                  </div>
+
+                  <div class="col-xs-4">
+                    {{> fldTextArea name="otherVariables" value=otherVariables nested=true }}
+                  </div>
+
+                  <div class="isntCohort col-xs-4">
+                    {{> fldTypeaheadSelectMultiple name="caseControlMatching" values=caseControlMatching nested=true }}
+                    {{> fldTypeaheadSelectMultiple name="caseControlDiffers" values=caseControlDiffers nested=true }}
+                  </div>
                 </div>
 
-                <div class="col-xs-4">
-                  {{> fldTextArea name="otherVariables" value=otherVariables nested=true }}
-                </div>
+                <div class="row">
+                  <div class="col-xs-4">
+                    {{> fldTypeaheadSelectMultiple name="coexposures" values=coexposures nested=true }}
+                  </div>
 
-                <div class="isntCohort col-xs-4">
-                  {{> fldTypeaheadSelectMultiple name="caseControlMatching" values=caseControlMatching nested=true }}
-                  {{> fldTypeaheadSelectMultiple name="caseControlDiffers" values=caseControlDiffers nested=true }}
-                </div>
-
-                <div class="col-xs-4">
-                  {{> fldTypeaheadSelectMultiple name="coexposures" values=coexposures nested=true }}
-                </div>
-
-                <div class="col-xs-4">
-                  {{> fldSelectSingle name="confoundingRating" value=confoundingRating nested=true }}
-                  {{> fldTextArea name="confoundingRatingRationale" value=confoundingRatingRationale nested=true }}
+                  <div class="col-xs-4">
+                    {{> fldSelectSingle name="confoundingRating" value=confoundingRating nested=true }}
+                    {{> fldTextArea name="confoundingRatingRationale" value=confoundingRatingRationale nested=true }}
+                  </div>
                 </div>
 
               </div>
