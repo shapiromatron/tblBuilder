@@ -14,16 +14,9 @@ let noOverrideRequired = 'No change from study description',
         cloned.unshift(noOverrideRequired);
         return cloned;
     },
-    optionalOverrideRatings = getOverrideValues(),
-    vocConfoundingChoices = [
-        'yes',
-        'somewhat',
-        'no',
-        'no info',
-    ];
+    optionalOverrideRatings = getOverrideValues();
 
 
 export { ratings };
 export { outcomeOverriden };
 export { optionalOverrideRatings };
-export { vocConfoundingChoices };

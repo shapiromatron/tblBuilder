@@ -1,7 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-import { vocConfoundingChoices } from './constants';
-
 
 export default new SimpleSchema({
     vocName: {
@@ -13,26 +11,24 @@ export default new SimpleSchema({
     vocAddressedInStats: {
         type: String,
         label: 'Addressed in stats?',
-        allowedValues: vocConfoundingChoices,
+        textAreaRows: 3,
         popoverText: '<add>',
     },
     vocSimilarAcrossGroups: {
         type: String,
         label: 'Similar across groups?',
-        allowedValues: vocConfoundingChoices,
+        textAreaRows: 3,
         popoverText: '<add>',
     },
     vocCoexposuresAssociated: {
         type: String,
         label: 'Co-exposures associated?',
-        optional: true,
         textAreaRows: 3,
         popoverText: 'Is there sufficient or limited evidence from authoritative reviews or studies finding a positive association',
     },
     vocOtherInformation: {
         type: String,
         label: 'Other information',
-        optional: true,
         textAreaRows: 3,
         popoverText: 'See RoC handbook/protocol for candidate substance',
     },
