@@ -188,7 +188,7 @@ export default {
     exposureMissingData: {
         label: 'Exposure missing data',
         type: String,
-        min: 1,
+        optional: true,
         textAreaRows: 5,
         popoverText: 'Note any missing exposure data for exposure to the candidate substance exposure (includes number of workers sampled if personal sampling used).',
     },
@@ -202,7 +202,7 @@ export default {
     outcomeMissingData: {
         label: 'Outcome missing data',
         type: String,
-        min: 1,
+        optional: true,
         textAreaRows: 6,
         popoverText: 'Note any missing data on disease.',
     },
@@ -278,7 +278,7 @@ export default {
     sensitivityOther: {
         label: 'Other sensitivity notes',
         type: String,
-        min: 1,
+        optional: true,
         textAreaRows: 4,
         popoverText: 'Include any other types of information (such as analyses) that may effect the sensitivity of the study to detect a true effect.  See RoC handbook/protocol for candidate substances.',
     },

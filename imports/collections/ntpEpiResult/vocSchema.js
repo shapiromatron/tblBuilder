@@ -15,16 +15,19 @@ export default new SimpleSchema({
     vocSimilarAcrossGroups: {
         type: String,
         label: 'Similar across groups?',
+        optional: true,
         popoverText: '<add>',
     },
     vocCoexposuresAssociated: {
         type: String,
-        label: 'Coexposures associated?',
+        label: 'Co-exposures associated?',
+        optional: true,
         popoverText: '<add>',
     },
     vocOtherInformation: {
         type: String,
         label: 'Other information',
+        optional: true,
         popoverText: '<add>',
     },
     vocStrengthOfAssociation: {
