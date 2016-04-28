@@ -5,6 +5,7 @@ import {
     ratings,
     biasDirection,
     biasDirectionPopoverText,
+    ratingRationalePopoverText,
 } from './constants';
 
 
@@ -103,7 +104,7 @@ export default {
         label: 'Selection bias rating',
         type: String,
         allowedValues: ratings,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     selectionBiasDirection:{
         label: 'Bias direction',
@@ -116,12 +117,12 @@ export default {
         type: String,
         min: 1,
         textAreaRows: 2,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     selectionDescriptionCases: {
         label: 'Selection description',
         type: String,
-        popoverText: 'Describe the inclusion/exclusion criteria for selecting the cases/referent (such as age, dates sex) and the source population (such as geographical location, cancer registry)',
+        popoverText: 'Describe the inclusion/exclusion criteria for selecting the cases (such as age, dates sex) and the source population (such as geographical location, cancer registry)',
         optional: true,
         custom: requiredIsntCohort,
         forceRequiredSymbol: true,
@@ -129,7 +130,7 @@ export default {
     selectionDescriptionControls: {
         label: 'Selection description',
         type: String,
-        popoverText: 'Describe the inclusion/exclusion criteria for selecting the cases/referent (such as age, dates sex) and the source population (such as geographical location, cancer registry)',
+        popoverText: 'Describe the inclusion/exclusion criteria for selecting selection referent (such as age, dates sex) and the source population (such as geographical location, cancer registry)',
         optional: true,
         custom: requiredIsntCohort,
         forceRequiredSymbol: true,
@@ -184,7 +185,7 @@ export default {
         label: 'Exposure assessment rating',
         type: String,
         allowedValues: ratings,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     exposureAssessmentDirection:{
         label: 'Bias direction',
@@ -197,7 +198,7 @@ export default {
         type: String,
         min: 1,
         textAreaRows: 5,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     exposureMissingData: {
         label: 'Exposure missing data',
@@ -224,7 +225,7 @@ export default {
         label: 'Outcome assessment rating',
         type: String,
         allowedValues: ratings,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     outcomeAssessmentDirection:{
         label: 'Bias direction',
@@ -237,7 +238,7 @@ export default {
         type: String,
         min: 1,
         textAreaRows: 3,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     // #4: Analysis/reporting
     analyticalMethods: {
@@ -251,7 +252,7 @@ export default {
         label: 'Analysis rating',
         type: String,
         allowedValues: ratings,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     analysisDirection:{
         label: 'Bias direction',
@@ -264,13 +265,13 @@ export default {
         type: String,
         min: 1,
         textAreaRows: 4,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     selectiveReportingRating: {
         label: 'Selective reporting rating',
         type: String,
         allowedValues: ratings,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     selectiveReportingDirection:{
         label: 'Bias direction',
@@ -283,7 +284,7 @@ export default {
         type: String,
         min: 1,
         textAreaRows: 4,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     // #5: Sensitivity
     exposureLevel: {
@@ -318,7 +319,7 @@ export default {
         label: 'Sensitivity rating',
         type: String,
         allowedValues: ratings,
-        popoverText: 'See RoC handbook/protocol for candidate substance ',
+        popoverText: ratingRationalePopoverText,
     },
     sensitivityDirection:{
         label: 'Bias direction',
@@ -331,27 +332,27 @@ export default {
         type: String,
         min: 1,
         textAreaRows: 4,
-        popoverText: 'See RoC handbook/protocol for candidate substance ',
+        popoverText: ratingRationalePopoverText,
     },
     // #6: Study judgment
     strengths: {
         label: 'Principal strengths',
         type: String,
         min: 1,
-        popoverText: 'See RoC handbook/protocol for candidate substance; note major strengths.',
+        popoverText: ratingRationalePopoverText + '; note major strengths.',
         textAreaRows: 4,
     },
     limitations: {
         label: 'Principal limitations',
         type: String,
         min: 1,
-        popoverText: 'See RoC handbook/protocol for candidate substance; note major limitations.',
+        popoverText: ratingRationalePopoverText + '; note major limitations.',
         textAreaRows: 4,
     },
     overallUtility: {
         label: 'Overall utility',
         type: String,
         allowedValues: ratings,
-        popoverText: 'See RoC handbook/protocol for candidate substance.',
+        popoverText: ratingRationalePopoverText,
     },
 };

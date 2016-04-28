@@ -1,5 +1,9 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
+import {
+    ratingRationalePopoverText,
+} from '/imports/collections/ntpEpiDescriptive/constants';
+
 
 export default new SimpleSchema({
     vocName: {
@@ -12,13 +16,13 @@ export default new SimpleSchema({
         type: String,
         label: 'Addressed in stats?',
         textAreaRows: 3,
-        popoverText: '<add>',
+        popoverText: 'Was this variable controlled for statistically?',
     },
     vocSimilarAcrossGroups: {
         type: String,
         label: 'Similar across groups?',
         textAreaRows: 3,
-        popoverText: '<add>',
+        popoverText: 'Are potential biases constant across case/control groups (if applicable)?',
     },
     vocCoexposuresAssociated: {
         type: String,
@@ -30,18 +34,18 @@ export default new SimpleSchema({
         type: String,
         label: 'Other information',
         textAreaRows: 3,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     vocStrengthOfAssociation: {
         type: String,
         label: 'Strength of association',
         textAreaRows: 3,
-        popoverText: 'Include the EE or E/R data for the candidate substance and endpoint found in the study.',
+        popoverText: 'Include EE or E/R data for candidate substance and endpoint found in the study.',
     },
     vocRuleOutConfounding: {
         type: String,
         label: 'Rule out confounding?',
         textAreaRows: 3,
-        popoverText: 'Make a scientific judgment on whether the confounder can be reasonably ruled-out and provide rationale',
+        popoverText: 'Scientific judgment on whether the confounder can be reasonably ruled-out and provide rationale',
     },
 });

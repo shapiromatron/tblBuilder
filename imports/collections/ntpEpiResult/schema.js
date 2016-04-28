@@ -13,6 +13,7 @@ import {
 
 import {
     biasDirectionPopoverText,
+    ratingRationalePopoverText,
 } from '/imports/collections/ntpEpiDescriptive/constants';
 
 
@@ -142,7 +143,7 @@ export default {
         label: 'Confounding rating',
         type: String,
         allowedValues: ratings,
-        popoverText: 'See RoC handbook/protocol for candidate substance ',
+        popoverText: ratingRationalePopoverText,
     },
     confoundingDirection:{
         label: 'Bias direction',
@@ -155,13 +156,13 @@ export default {
         type: String,
         min: 1,
         textAreaRows: 4,
-        popoverText: 'See RoC handbook/protocol for candidate substance ',
+        popoverText: ratingRationalePopoverText,
     },
     outcomeAssessmentRatingOverride: {
         label: 'Outcome assessment rating (override)',
         type: String,
         allowedValues: optionalOverrideRatings,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     outcomeAssessmentDirectionOverride:{
         label: 'Bias direction',
@@ -174,7 +175,7 @@ export default {
         type: String,
         optional: true,
         textAreaRows: 3,
-        popoverText: 'See RoC handbook/protocol for candidate substance',
+        popoverText: ratingRationalePopoverText,
     },
     'variablesOfConcern': {
         type: [variableOfConcernSchema],
