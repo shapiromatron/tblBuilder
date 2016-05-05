@@ -99,7 +99,7 @@ let instanceMethods = {
 
             data.sections = MechanisticEvidence.evidenceSections.map(function(section){
                 var children = MechanisticEvidence.find(
-                    {tbl_id: tbl_id,section: section.section},
+                    {tbl_id: tbl_id, section: section.section},
                     {sort: {sortIdx: 1}}).fetch();
                 children.forEach(function(child){
                     child.hasSubheading = (child.subheading != null) && child.subheading !== '';

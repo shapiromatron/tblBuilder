@@ -37,7 +37,9 @@ var instanceMethods = {
                 ext.wrd_experimental = this.setNonMammalianExperimentText(this);
                 break;
             case 'Mammalian and human in vitro':
-                ext.wrd_colA = (this.testSpeciesMamm === 'Human') ? this.testSpeciesMamm : this.speciesMamm;
+                ext.wrd_colA = (this.testSpeciesMamm === 'Human')?
+                    this.testSpeciesMamm:
+                    this.speciesMamm;
             }
 
             if (this.dualResult) {
@@ -45,7 +47,8 @@ var instanceMethods = {
                 ext.wrd_resultB = this.resultMetabolic;
             } else {
                 ext.wrd_resultA = this.result;
-                if (this.dataClass.indexOf('vitro') >= 0 || this.dataClass.indexOf('Non-mammalian') >= 0) {
+                if (this.dataClass.indexOf('vitro') >= 0 ||
+                    this.dataClass.indexOf('Non-mammalian') >= 0) {
                     ext.wrd_resultB = '';
                 } else {
                     ext.wrd_resultB = 'NA';
@@ -117,19 +120,19 @@ var instanceMethods = {
             switch (d.dataClass) {
             case 'Non-mammalian':
                 if (GenotoxEvidence.isGenotoxAcellular(d.dataClass, d.phylogeneticClass)) {
-                    txt = d.phylogeneticClass + '<br>' + d.testSystem;
+                    txt = `${d.phylogeneticClass}<br>${d.testSystem}`;
                 } else {
-                    txt = d.phylogeneticClass + '<br>' + d.speciesNonMamm + '&nbsp;' + d.strainNonMamm;
+                    txt = `${d.phylogeneticClass}<br>${d.speciesNonMamm}&nbsp;${d.strainNonMamm}`;
                 }
                 break;
             case 'Mammalian and human in vitro':
-                txt = d.speciesMamm + '<br>' + d.tissueCellLine;
+                txt = `${d.speciesMamm}<br>${d.tissueCellLine}`;
                 break;
             case 'Animal in vivo':
-                txt = d.species + '&nbsp;' + d.strain + '&nbsp;' + d.sex + '<br>' + d.tissueAnimal;
+                txt = `${d.species}&nbsp${d.strain}&nbsp${d.sex}<br>${d.tissueAnimal}`;
                 break;
             case 'Human in vivo':
-                txt = d.tissueHuman + ', ' + d.cellType + '<br>' + d.exposureDescription;
+                txt = `${d.tissueHuman}, ${d.cellType}<br>${d.exposureDescription}`;
                 break;
             default:
                 console.log('unknown data-type: {#d.dataClass}');

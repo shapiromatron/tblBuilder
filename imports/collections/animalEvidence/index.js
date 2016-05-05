@@ -67,7 +67,7 @@ let instanceMethods = {
                     row2.push(v._id, v.tumourSite, v.histology, v.units);
                     signifs = [
                         v.incidence_significance, v.multiplicity_significance,
-                        v.total_tumours_significance
+                        v.total_tumours_significance,
                     ];
                     ref = v.endpointGroups;
                     for (j = 0, len1 = ref.length; j < len1; j++) {
@@ -91,7 +91,7 @@ let instanceMethods = {
                 'Tumour site', 'Histology', 'Units', 'Dose', 'N at Start',
                 'N Surviving', 'Incidence', 'Multiplicity', 'Total Tumours',
                 'Incidence significance', 'Multiplicity significance',
-                'Total tumours significance'
+                'Total tumours significance',
             ];
             data = [header];
             for (i = 0, len = vals.length; i < len; i++) {
@@ -103,7 +103,7 @@ let instanceMethods = {
                     v._id, reference.name, reference.pubmedID, v.studyDesign,
                     v.species, v.strain, v.sex, v.agent, v.purity, v.dosingRoute,
                     v.vehicle, v.ageAtStart, v.duration, v.dosingRegimen,
-                    strengths, limitations, v.comments
+                    strengths, limitations, v.comments,
                 ];
                 rows = getEndpointData(v._id, row);
                 data.push.apply(data, rows);
