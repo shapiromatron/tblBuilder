@@ -161,10 +161,10 @@ let instanceMethods = {
         wordContextByDescription: function(tbl_ids){
             var tables = Tables.find({_id: {$in: tbl_ids}}).fetch(),
                 allDescs = EpiDescriptive
-                        .find({tbl_id: {$in: tbl_ids}}, {sort: {sortIdx: 1}})
+                        .find({tbl_id: {$in: tbl_ids}, isHidden: false}, {sort: {sortIdx: 1}})
                         .fetch(),
                 allResults = EpiResult
-                        .find({tbl_id: {$in: tbl_ids}}, {sort: {sortIdx: 1}})
+                        .find({tbl_id: {$in: tbl_ids}, isHidden: false}, {sort: {sortIdx: 1}})
                         .fetch();
 
             allDescs.forEach(function(d){
@@ -183,19 +183,20 @@ let instanceMethods = {
         },
         wordContextByResult: function(tbl_ids){
             var tbls = Tables.find({_id: {$in: tbl_ids}}).fetch(),
-                allDescs = EpiDescriptive.find({tbl_id: {$in: tbl_ids}}).fetch(),
-                allResults = EpiResult.find({tbl_id: {$in: tbl_ids}}).fetch(),
+                allDescs = EpiDescriptive.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch(),
+                allResults = EpiResult.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch(),
                 sites = _.uniq(_.pluck(allResults, 'organSiteCategory'), false),
                 organSites;
 
-            allDescs.forEach(function(d){
-                d.setWordFields();
-            });
+            allDescs.forEach((d)=> d.setWordFields() );
 
-            allResults.forEach(function(d){
-                d.setWordFields();
-                d.descriptive = _.findWhere(allDescs, {_id: d.parent_id});
-            });
+            allResults = _.chain(allResults)
+                .each((d)=>{
+                    d.setWordFields();
+                    d.descriptive = _.findWhere(allDescs, {_id: d.parent_id});
+                })
+                .reject((d) => d.descriptive === undefined)
+                .value();
 
             organSites = _.map(sites, function(site){
                 return {

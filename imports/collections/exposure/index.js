@@ -78,7 +78,7 @@ let instanceMethods = {
         wordContext: function(tbl_id){
             var tbl = Tables.findOne(tbl_id),
                 exposures = ExposureEvidence.find(
-                        {tbl_id: tbl_id}, {sort: {sortIdx: 1}}
+                        {tbl_id: tbl_id, isHidden: false}, {sort: {sortIdx: 1}}
                     ).fetch();
 
             exposures.forEach(function(exp){

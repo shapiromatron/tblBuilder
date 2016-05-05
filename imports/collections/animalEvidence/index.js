@@ -19,7 +19,8 @@ import {
 
 let instanceMethods = {
         setWordFields: function() {
-            var endpoints = AnimalEndpointEvidence.find({parent_id: this._id}).fetch(),
+            var endpoints = AnimalEndpointEvidence
+                    .find({parent_id: this._id, isHidden: false}).fetch(),
                 firstE = (endpoints.length > 0) ? endpoints[0] : null;
 
             endpoints.forEach(function(eps){
@@ -183,7 +184,7 @@ let instanceMethods = {
         wordContext: function(tbl_id) {
             var tbl = Tables.findOne(tbl_id),
                 evidences = AnimalEvidence
-                    .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
+                    .find({tbl_id: tbl_id, isHidden: false}, {sort: {sortIdx: 1}})
                     .fetch();
 
             evidences.forEach(function(el){
