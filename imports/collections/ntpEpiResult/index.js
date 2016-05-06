@@ -8,10 +8,6 @@ import schema_extension from './schema';
 import {
     newValues,
 } from '/imports/api/utilities';
-import variableOfConcernSchema from './vocSchema';
-import {
-    outcomeOverriden,
-} from './constants';
 
 
 let instanceMethods = {
@@ -30,19 +26,8 @@ let instanceMethods = {
             }
             return this.description;
         },
-        getOutcomeRating: function(){
-            return (outcomeOverriden(this.outcomeAssessmentRatingOverride))?
-                (this.outcomeAssessmentRatingOverride) :
-                this.getDescription().outcomeAssessmentRating;
-        },
-        getOutcomeRatingRationale: function(){
-            return (outcomeOverriden(this.outcomeAssessmentRatingOverride))?
-                (this.outcomeAssessmentRationaleOverride) :
-                this.getDescription().outcomeAssessmentRationale;
-        },
     },
     classMethods = {
-        variableOfConcernSchema,
         preSaveHook: function(tmpl, obj) {
             // save epi-results
             delete obj.exposureCategory;
@@ -54,19 +39,6 @@ let instanceMethods = {
             delete obj.inTrendTest;
             let trs = tmpl.findAll('.riskEstimateTbody tr');
             obj.riskEstimates = _.map(trs, function(row){
-                return newValues(row);
-            });
-
-            // save variables of concern
-            delete obj.vocName;
-            delete obj.vocAddressedInStats;
-            delete obj.vocSimilarAcrossGroups;
-            delete obj.vocCoexposuresAssociated;
-            delete obj.vocOtherInformation;
-            delete obj.vocStrengthOfAssociation;
-            delete obj.vocRuleOutConfounding;
-            trs = tmpl.findAll('#variablesOfConcern > tbody > tr');
-            obj.variablesOfConcern = _.map(trs, function(row){
                 return newValues(row);
             });
         },

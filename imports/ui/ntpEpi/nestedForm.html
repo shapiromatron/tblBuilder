@@ -35,13 +35,15 @@
             <div id="accEffectDescription" class="panel-collapse collapse in" role="tabpanel">
               <div class="panel-body form-group row">
 
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                   {{> fldInputTypeahead name="organSiteCategory" value=organSiteCategory nested=true }}
                   {{> fldInputTypeahead name="organSite" value=organSite nested=true }}
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                   {{> fldInputTypeahead name="effectUnits" value=effectUnits nested=true }}
                   {{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true }}
+                </div>
+                <div class="col-xs-4">
                   {{> fldInputFloat name="trendTest" value=trendTest nested=true }}
                 </div>
 
@@ -129,83 +131,11 @@
                     {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true }}
                   </div>
 
-                  <div class="col-xs-4">
+                  <div class="col-xs-8">
                     {{> fldTextArea name="otherVariables" value=otherVariables nested=true }}
                   </div>
-
-                  <div class="isntCohort col-xs-4">
-                    {{> fldTypeaheadSelectMultiple name="caseControlMatching" values=caseControlMatching nested=true }}
-                    {{> fldTypeaheadSelectMultiple name="caseControlDiffers" values=caseControlDiffers nested=true }}
-                  </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-xs-4">
-                    {{> fldTypeaheadSelectMultiple name="coexposures" values=coexposures nested=true }}
-                  </div>
-
-                  <div class="col-xs-4">
-                    <div class="row">
-                      <div class="col-xs-6">
-                        {{> fldSelectSingle name="confoundingRating" value=confoundingRating nested=true }}
-                      </div>
-                      <div class="col-xs-6">
-                        {{> fldSelectSingle name="confoundingDirection" value=confoundingDirection nested=true }}
-                      </div>
-                    </div>
-                    {{> fldTextArea name="confoundingRatingRationale" value=confoundingRatingRationale nested=true }}
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Fourth row -->
-            <div class="panel-heading" role="tab">
-              <h4 class="panel-title">
-                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#accOutcomeAssessment" aria-expanded="false" aria-controls="accOutcomeAssessment">
-                  Outcome assessment override (optional)
-                </a>
-              </h4>
-            </div>
-            <div id="accOutcomeAssessment" class="panel-collapse collapse" role="tabpanel">
-              <div class="panel-body form-group row">
-                {{#with getParent }}
-                  <div class="col-xs-6">
-                    <strong>Default values taken from study-description:</strong>
-                    <ul>
-                      <li><strong>Rating:</strong> {{outcomeAssessmentRating}}</li>
-                      <li><strong>Direction:</strong> {{outcomeAssessmentDirection}}</li>
-                      <li><strong>Rationale:</strong> {{outcomeAssessmentRationale}}</li>
-                    </ul>
-                  </div>
-                {{/with}}
-                <div class="col-xs-6">
-                  <div class="row">
-                    <div class="col-xs-6">
-                      {{> fldSelectSingle name="outcomeAssessmentRatingOverride" value=outcomeAssessmentRatingOverride nested=true }}
-                    </div>
-                    <div class="col-xs-6">
-                      {{> fldSelectSingle name="outcomeAssessmentDirectionOverride" value=outcomeAssessmentDirectionOverride nested=true }}
-                    </div>
-                  </div>
-                  {{> fldTextArea name="outcomeAssessmentRationaleOverride" value=outcomeAssessmentRationaleOverride nested=true }}
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Variables of Concern -->
-            <div class="panel-heading" role="tab">
-              <h4 class="panel-title">
-                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#accVoc" aria-expanded="false" aria-controls="accVoc">
-                  Variables of Concern
-                </a>
-              </h4>
-            </div>
-            <div id="accVoc" class="panel-collapse collapse" role="tabpanel">
-              <div class="panel-body">
-                {{> vocFormTable }}
               </div>
             </div>
 
