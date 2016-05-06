@@ -13,6 +13,7 @@ import AnimalEndpointEvidence from '/imports/collections/animalResult';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import EpiResult from '/imports/collections/epiResult';
 import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
+import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 import NtpEpiResult from '/imports/collections/ntpEpiResult';
 import GenotoxEvidence from '/imports/collections/genotox';
 import MechanisticEvidence from '/imports/collections/mechanistic';
@@ -86,6 +87,34 @@ Meteor.publish('ntpEpiDescriptive', function(tbl_id) {
             return [
                 NtpEpiDescriptive.find({tbl_id: tbl_id}),
                 NtpEpiResult.find({tbl_id: tbl_id}),
+                Reference.find({_id: {$in: ref_ids}}),
+            ];
+        }
+        return this.ready();
+    });
+});
+
+Meteor.publish('ntpEpiConfounder', function(tbl_id) {
+    this.autorun(function () {
+        check(tbl_id, String);
+        var tbl = Tables.findOne({_id: tbl_id}),
+            ref_ids1, ref_ids2, ref_ids;
+        if (userCanView(tbl, this.userId)) {
+            ref_ids1 = _.pluck(NtpEpiDescriptive
+                .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
+                .fetch(), 'referenceID');
+            ref_ids2 = _.chain(NtpEpiDescriptive.find(
+                {tbl_id: tbl_id}, {fields: {additionalReferences: 1}}).fetch())
+              .pluck('additionalReferences')
+              .flatten()
+              .value();
+            ref_ids = _.chain([ref_ids1, ref_ids2])
+                       .flatten()
+                       .uniq()
+                       .value();
+            return [
+                NtpEpiDescriptive.find({tbl_id: tbl_id}),
+                NtpEpiConfounder.find({tbl_id: tbl_id}),
                 Reference.find({_id: {$in: ref_ids}}),
             ];
         }

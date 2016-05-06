@@ -12,7 +12,7 @@ import AnimalEvidence from '/imports/collections/animalEvidence';
 import AnimalEndpointEvidence from '/imports/collections/animalResult';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import EpiResult from '/imports/collections/epiResult';
-import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
+import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 import NtpEpiResult from '/imports/collections/ntpEpiResult';
 import GenotoxEvidence from '/imports/collections/genotox';
 
@@ -247,16 +247,16 @@ Meteor.methods({
         return extraUnitsSearch(AnimalEndpointEvidence, query);
     },
     searchNtpEpiCaseControlMatching: function(query) {
-        return listFieldTextSearch(NtpEpiResult, 'caseControlMatching', query);
+        return listFieldTextSearch(NtpEpiConfounder, 'caseControlMatching', query);
     },
     searchNtpEpiCaseControlDiffers: function(query) {
-        return listFieldTextSearch(NtpEpiResult, 'caseControlDiffers', query);
+        return listFieldTextSearch(NtpEpiConfounder, 'caseControlDiffers', query);
     },
     searchNtpCoexposures: function(query) {
-        return listFieldTextSearch(NtpEpiResult, 'coexposures', query);
+        return listFieldTextSearch(NtpEpiConfounder, 'coexposures', query);
     },
     searchNtpEpiVariablesOfConcern: function(query) {
-        return searchElementInArrayObj(NtpEpiResult, 'variablesOfConcern', 'vocName', query);
+        return searchElementInArrayObj(NtpEpiConfounder, 'variablesOfConcern', 'vocName', query);
     },
     searchNtpOrganSite: function(query) {
         return singleFieldTextSearch(NtpEpiResult, 'organSite', query);

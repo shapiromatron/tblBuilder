@@ -1,28 +1,60 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import _ from 'underscore';
 
-import NtpEpiResult from '/imports/collections/ntpEpiResult';
+import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 
 import {
     abstractMainHelpers,
+    abstractTblHelpers,
+    abstractFormEvents,
 } from '/imports/api/client/templates';
+
+import {
+    toggleQA,
+    initPopovers,
+    destroyPopovers,
+} from '/imports/api/client/utilities';
 
 import './ntpVariablesOfConcern.html';
 
 
 Template.ntpVariablesOfConcernMain.helpers(abstractMainHelpers);
 Template.ntpVariablesOfConcernMain.onCreated(function() {
-    Session.set('evidenceType', 'ntpEpiDescriptive');
-    this.subscribe('ntpEpiDescriptive', Session.get('Tbl')._id);
+    Session.set('evidenceType', 'ntpEpiConfounder');
+    this.subscribe('ntpEpiConfounder', Session.get('Tbl')._id);
 });
 Template.ntpVariablesOfConcernMain.onDestroyed(function() {
     Session.set('evidenceType', null);
 });
 
 
-Template.ntpVariablesOfConcernTable.helpers({
+Template.ntpVocTables.events({
+    'click #show-create': (evt, tmpl) =>{
+        this.showForm = tmpl.showForm.set(!tmpl.showForm.get());
+    },
+});
+Template.ntpVocTables.helpers(abstractTblHelpers);
+Template.ntpVocTables.onCreated(function(){
+    let results = NtpEpiConfounder.find().fetch(),
+        eps = _.chain(results)
+                .pluck('organSiteCategory')
+                .uniq()
+                .sort()
+                .value(),
+        groups = _.groupBy(results, 'organSiteCategory');
+
+    _.extend(this, {
+        eps: eps,
+        endpointGroups: groups,
+        showForm: new ReactiveVar(true),
+    });
+});
+
+
+Template.ntpVocTable.helpers({
     getHeaders: function(){
         return ['Reference: organ-site'].concat(Template.instance().vocVariables);
     },
@@ -30,45 +62,7 @@ Template.ntpVariablesOfConcernTable.helpers({
         return Template.instance().vocRows;
     },
 });
-Template.ntpVariablesOfConcernTable.onCreated(function(){
-    let results = NtpEpiResult.find().fetch(),
-        variables = _.chain(results)
-            .pluck('variablesOfConcern')
-            .filter(function(d){return d !== null;})
-            .flatten()
-            .pluck('vocName')
-            .sort()
-            .uniq(true)
-            .value(),
-        rows = [],
-        null_variable = 'N/A';
-
-    results.forEach(function(d1){
-        let row = {
-                result: d1,
-                referenceID: d1.getDescription().getReference()._id,
-                variables: [],
-            },
-            vocs = _.groupBy(d1.variablesOfConcern, 'vocName');
-
-        _.each(variables, function(d2){
-            let match = vocs[d2];
-            if (match){
-                row.variables.push(match[0].vocRuleOutConfounding);
-            } else {
-                row.variables.push(null_variable);
-            }
-        });
-
-        rows.push(row);
-    });
-
-    _.extend(this, {
-        vocVariables: variables,
-        vocRows: rows,
-    });
-});
-Template.ntpVariablesOfConcernTable.onRendered(function(){
+Template.ntpVocTable.onRendered(function(){
     this.$('.ntpEpiRatingTd').popover({
         trigger: 'hover',
         placement: 'top',
@@ -76,6 +70,30 @@ Template.ntpVariablesOfConcernTable.onRendered(function(){
         container: 'body',
     });
 });
-Template.ntpVariablesOfConcernTable.onDestroyed(function(){
+Template.ntpVocTable.onDestroyed(function(){
     this.$('.ntpEpiRatingTd').popover('destroy');
+});
+
+
+Template.ntpVocForm.helpers({
+    allAccordiansShown: function(){
+        return Template.instance().allAccordiansShown.get();
+    },
+});
+Template.ntpVocForm.events(_.extend({
+    'click #toggleAccordian': function(evt, tmpl){
+        tmpl.allAccordiansShown.set(!tmpl.allAccordiansShown.get());
+        let action = (tmpl.allAccordiansShown.get()) ? 'show' : 'hide';
+        tmpl.$('.collapse').collapse(action);
+    },
+}, abstractFormEvents));
+Template.ntpVocForm.onCreated(function(){
+    this.allAccordiansShown = new ReactiveVar(false);
+});
+Template.ntpVocForm.onRendered(function() {
+    toggleQA(this, this.data.isQA);
+    initPopovers(this);
+});
+Template.ntpVocForm.onDestroyed(function() {
+    destroyPopovers(this);
 });

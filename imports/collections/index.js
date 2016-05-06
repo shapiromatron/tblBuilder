@@ -3,6 +3,7 @@ import EpiDescriptive from './epiDescriptive';
 import EpiResult from './epiResult';
 import NtpEpiDescriptive from './ntpEpiDescriptive';
 import NtpEpiResult from './ntpEpiResult';
+import NtpEpiConfounder from './ntpEpiConfounder';
 import AnimalEvidence from './animalEvidence';
 import AnimalEndpointEvidence from './animalResult';
 import GenotoxEvidence from './genotox';
@@ -16,6 +17,7 @@ let tblBuilderCollections = {
         EpiResult,
         NtpEpiDescriptive,
         NtpEpiResult,
+        NtpEpiConfounder,
         AnimalEvidence,
         AnimalEndpointEvidence,
         GenotoxEvidence,
@@ -52,6 +54,11 @@ let tblBuilderCollections = {
         },
         ntpEpiResult: {
             collection: NtpEpiResult,
+            requiredUpdateFields: [],
+        },
+        ntpEpiConfounder: {
+            collection: NtpEpiConfounder,
+            collection_name: 'ntpEpiConfounder',
             requiredUpdateFields: [],
         },
         animalEvidence: {
