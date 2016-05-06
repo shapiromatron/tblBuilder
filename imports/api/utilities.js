@@ -1,10 +1,16 @@
 import _ from 'underscore';
 
-
 let getPercentOrText = function(txt) {
-        if (txt == null) return '';
-        if (_.isFinite(txt)) txt = txt.toString();
-        if (txt.search && txt.search(/(\d)+/) >= 0) txt += '%';
+        if (txt == null){
+            return '';
+        } else if (_.isFinite(txt)){
+            return txt.toString() + '%';
+        } else {
+            let matches = txt.match(/(\d+\.?\d*)+/);
+            if (matches && matches.length == 2){
+                return txt = matches[0] + '%';
+            }
+        }
         return txt;
     },
     typeaheadSelectListGetLIs = function($ul) {
