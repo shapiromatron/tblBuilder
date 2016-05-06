@@ -180,14 +180,17 @@ Template.referenceSingleSelect.events({
             {reference: v, referenceID: v._id},
             div[0]
         );
-        $(evt.target).typeahead('val', '');
+        $(evt.target)
+            .typeahead('val', '')
+            .trigger('referenceChanged', v);
     },
     'click .selectListRemove': function(evt, tmpl) {
         $(evt.currentTarget).parent().remove();
     },
 });
 Template.referenceSingleSelect.onRendered(function() {
-    var div = $(this.find('div.selectedReference'));
+    var div = $(this.find('div.selectedReference')),
+        inp = this.$('input');
     // if a new reference is created, inject it into the input scope
     Tracker.autorun(function() {
         var ref = Session.get('referenceNewObj');
@@ -199,6 +202,7 @@ Template.referenceSingleSelect.onRendered(function() {
                 div[0]
             );
             Session.set('referenceNewObj', null);
+            if (inp) inp.trigger('referenceChanged', ref);
         }
     });
     Meteor.typeahead.inject();

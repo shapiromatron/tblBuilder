@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 import { Session } from 'meteor/session';
@@ -126,6 +127,37 @@ Template.epiDescriptiveForm.helpers({
 Template.epiDescriptiveForm.events(_.extend({
     'change select[name="studyDesign"]': function(evt, tmpl) {
         return toggleCCfields(tmpl);
+    },
+    'referenceChanged input[name="referenceID"]': function(evt, tmpl, ref) {
+        /*
+        If the same reference has already been extracted and QA'd, then copy
+        contents of this reference to this field.
+        */
+        const tblID = Session.get('Tbl')._id;
+        const refID = ref._id;
+
+        let copyMatchToForm = function(obj){
+            _.each(obj, function(val, key){
+                let $el = tmpl.$(`[name="${key}"]`);
+                switch (key){
+                case 'referenceID':
+                    break;
+                case 'coexposures':
+                    val.forEach((d)=>$el.trigger('addItem', d));
+                    break;
+                default:
+                    if ($el) $el.val(val);
+                    break;
+                }
+            });
+            tmpl.$('[name="studyDesign"]').trigger('change');
+        };
+        Meteor.call('findMatchingExtractedData', refID, tblID, function(err, response) {
+            if (response){
+                let res = confirm('This study has already been extracted in other tables - copy content here?');
+                if (res) copyMatchToForm(response);
+            }
+        });
     },
 }, abstractFormEvents));
 Template.epiDescriptiveForm.onRendered(function() {
