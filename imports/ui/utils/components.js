@@ -329,25 +329,32 @@ var autocompleteOptions = function(qry, sync, cb) {
             if (err) return console.log(err);
             return cb(_.map(res, function(d){return {value: d};}));
         });
-    }, injectTypeahead = function(){
-        Meteor.typeahead.inject('input[name=' + this.data.name + ']');
-    }, removeLI = function(evt, tmpl){
+    },
+    injectTypeahead = function(){
+        Meteor.typeahead.inject(`input[name="${this.data.name}"]`);
+    },
+    removeLI = function(evt, tmpl){
         $(evt.currentTarget).parent().remove();
-    }, selectListAddLI = function(ul, val) {
-        var txts = typeaheadSelectListGetLIs($(ul));
-        if ((val !== '') && (!_.contains(txts, val))) {
-            Blaze.renderWithData(Template.typeaheadSelectListLI, val, ul);
-        }
-    }, selectMultiEvents = {
+    },
+    selectMultiEvents = {
+        'addItem input': function(evt, tmpl, value){
+            let ul = tmpl.$('ul'),
+                txts = typeaheadSelectListGetLIs(ul);
+            if ((value !== '') && (!_.contains(txts, value))) {
+                Blaze.renderWithData(Template.typeaheadSelectListLI, value, ul.get(0));
+            }
+        },
         'typeahead:selected': function(evt, tmpl) {
-            selectListAddLI(tmpl.find('ul'), evt.target.value);
+            let value = evt.target.value;
             tmpl.$('.typeahead').typeahead('val', '');
+            tmpl.$('input').trigger('addItem', value);
         },
         'keyup .form-control': function(evt, tmpl) {
             // add new input not found in list
             if (evt.which === 13){
-                selectListAddLI(tmpl.find('ul'), evt.target.value);
+                let value = evt.target.value;
                 tmpl.$('.typeahead').typeahead('val', '');
+                tmpl.$('input').trigger('addItem', value);
             }
         },
         'click .selectListRemove': removeLI,
