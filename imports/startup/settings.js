@@ -21,6 +21,7 @@ _.extend(String.prototype, {
 });
 
 SimpleSchema.messages({
+    'minCount riskEstimates': 'At least one risk estimate must be created.',
     minCount: '[label] must specify at least [minCount] value(s) (press &lt;enter&gt; after typing to add to list)',
     numOrNR: '[label] must either be numeric or the string "NR"',
 });
