@@ -42,10 +42,10 @@ Template.ntpEpiDescriptiveRow.helpers(_.extend({
             if (rrCases.length > 0) rrCases = ` (${rrCases})`;
             if (rrCtrls.length > 0) rrCtrls = ` (${rrCtrls})`;
 
-            html += `<strong>Cases: </strong>${this.populationSizeCases}${rrCases}; ${this.selectionDescriptionCases}<br>`;
-            html += `<strong>Controls: </strong>${this.populationSizeControls}${rrCtrls}; ${this.selectionDescriptionControls}`;
+            html += `<strong>Cases: </strong>${this.populationSizeCases||''}${rrCases}; ${this.selectionDescriptionCases||''}<br>`;
+            html += `<strong>Controls: </strong>${this.populationSizeControls||''}${rrCtrls}; ${this.selectionDescriptionControls||''}`;
         } else {
-            html += `${this.cohortPopulationSize}; ${this.populationEligibility}`;
+            html += `${this.cohortPopulationSize||''}; ${this.populationEligibility||''}`;
         }
 
         html += '<br><strong>Exposure assess. method: </strong>';

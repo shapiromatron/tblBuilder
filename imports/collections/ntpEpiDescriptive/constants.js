@@ -5,6 +5,7 @@ let studyDesignOptions = [
         'Ecological',
     ],
     exposureAssessmentTypeOptions = [
+        '<add>',
         'JEM',
         'questionnaire',
         'job title',
@@ -19,12 +20,14 @@ let studyDesignOptions = [
         'none',
     ],
     ratings = [
+        '<add>',
         '0',
         '+',
         '++',
         '+++',
     ],
     biasDirection = [
+        '<add>',
         '⬆',
         '⬇',
         '⬌',
