@@ -26,6 +26,11 @@ let instanceMethods = {
             }
             return this.description;
         },
+        printOrganSite: function(){
+            if (this.organSite)
+                return `${this.organSiteCategory}: ${this.organSite}`;
+            return this.organSiteCategory;
+        },
     },
     classMethods = {
         preSaveHook: function(tmpl, obj) {

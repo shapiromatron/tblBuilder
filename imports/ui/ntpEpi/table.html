@@ -154,7 +154,7 @@
         <tbody>
           {{#if displayEffectUnits . }}
             <tr>
-              {{> organSiteTd }}
+              {{> organSiteTd . }}
               <td colspan="4">{{effectUnits}}</td>
             </tr>
           {{/if}}
@@ -180,6 +180,11 @@
                 <td rowspan="{{../riskEstimates.length}}" class="dragHandle dhInner"
                     style="display: none" title="Drag to re-order rows"></td>
               {{/if}}
+            </tr>
+          {{else}}
+            <tr>
+              {{> organSiteTd . }}
+              <td class="text-muted" colspan="4">No results available</td>
             </tr>
           {{/each}}
           {{#if displayTrendTest}}

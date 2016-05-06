@@ -42,7 +42,7 @@ export default {
     },
     'riskEstimates': {
         type: [riskEstimateSchema],
-        minCount: 1,
+        minCount: 0,
     },
     covariates: {
         label: 'Covariates controlled',
