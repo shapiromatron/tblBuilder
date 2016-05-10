@@ -28,4 +28,32 @@ class GenotoxHtmlTables(GenotoxTables):
         tbl.new_th(0, 5, 'Agent, LED/HID dose')
         tbl.new_th(0, 6, 'Comments')
 
+        row = 0
+        for d in self.context['objects']:
+            row += 1
+
+            txt = u'{}\n{}'.format(
+                d['reference']['name'],
+                d['dataClass']
+            )
+            tbl.new_td_txt(row, 0, txt)
+
+            txt = d['col2']
+            tbl.new_td_txt(row, 1, txt)
+
+            txt = d['col3']
+            tbl.new_td_txt(row, 2, txt)
+
+            txt = d['col4']
+            tbl.new_td_txt(row, 3, txt)
+
+            txt = d['col5']
+            tbl.new_td_txt(row, 4, txt)
+
+            txt = d['col6']
+            tbl.new_td_txt(row, 5, txt)
+
+            txt = d['wrd_comments']
+            tbl.new_td_txt(row, 6, txt)
+
         tbl.render(self.doc)

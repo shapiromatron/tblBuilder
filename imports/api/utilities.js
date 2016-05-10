@@ -82,6 +82,11 @@ let getPercentOrText = function(txt) {
             str = str[0].toUpperCase() + str.slice(1);
         }
         return str;
+    },
+    htmlToDocx = function(txt){
+        return txt
+            .replace(/&nbsp;/g, ' ')
+            .replace(/<br>/g, '\n');
     };
 
 
@@ -90,3 +95,4 @@ export { typeaheadSelectListGetLIs };
 export { getValue };
 export { newValues };
 export { capitalizeFirst };
+export { htmlToDocx };

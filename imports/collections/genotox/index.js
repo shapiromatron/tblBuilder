@@ -8,6 +8,11 @@ import Reference from '/imports/collections/reference';
 import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';
 
+import {
+    htmlToDocx,
+} from '/imports/api/utilities';
+
+
 import schema_extension from './schema';
 import {
     dataClass,
@@ -25,6 +30,12 @@ var instanceMethods = {
                 wrd_comments: this.comments || '',
                 wrd_led: this.led || '',
                 wrd_significance: this.significance || '',
+                col2: htmlToDocx(this.getHtmlCol2()),
+                col3: htmlToDocx(this.getHtmlCol3()),
+                col4: htmlToDocx(this.getHtmlCol4()),
+                col5: htmlToDocx(this.getHtmlCol5()),
+                col6: htmlToDocx(this.getHtmlCol6()),
+                col7: htmlToDocx(this.getHtmlCol7()),
             };
 
             switch (this.dataClass) {
