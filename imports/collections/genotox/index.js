@@ -57,6 +57,78 @@ var instanceMethods = {
 
             _.extend(this, ext);
         },
+        getHtmlCol1: function() {
+            return this.dataClass;
+        },
+        getHtmlCol2: function() {
+            var txt,
+                d = this;
+            switch (d.dataClass) {
+            case 'Non-mammalian':
+                if (GenotoxEvidence.isGenotoxAcellular(d.dataClass, d.phylogeneticClass)) {
+                    txt = `${d.phylogeneticClass}<br>${d.testSystem}`;
+                } else {
+                    txt = `${d.phylogeneticClass}<br>${d.speciesNonMamm}&nbsp;${d.strainNonMamm}`;
+                }
+                break;
+            case 'Mammalian and human in vitro':
+                txt = `${d.speciesMamm}<br>${d.tissueCellLine}`;
+                break;
+            case 'Animal in vivo':
+                txt = `${d.species}&nbsp${d.strain}&nbsp${d.sex}<br>${d.tissueAnimal}`;
+                break;
+            case 'Human in vivo':
+                txt = `${d.tissueHuman}, ${d.cellType}<br>${d.exposureDescription}`;
+                break;
+            default:
+                console.log('unknown data-type: {#d.dataClass}');
+            }
+            return txt;
+        },
+        getHtmlCol3: function() {
+            return this.endpoint + '/<br>' + this.endpointTest;
+        },
+        getHtmlCol4: function(){
+            var txt;
+            if (this.dualResult) {
+                txt = this.resultNoMetabolic;
+            } else {
+                txt = this.result;
+            }
+            if (this.dataClass === 'Human in vivo' && this.significance) {
+                txt += '&nbsp;' + this.significance;
+            }
+            return txt;
+        },
+        getHtmlCol5: function() {
+            var txt;
+            if (this.dualResult) {
+                txt = this.resultMetabolic;
+            } else {
+                if (this.dataClass.indexOf('vitro') >= 0 || this.dataClass.indexOf('Non-mammalian') >= 0) {
+                    txt = '';
+                } else {
+                    txt = 'NA';
+                }
+            }
+            return txt;
+        },
+        getHtmlCol6: function() {
+            var txt = this.agent;
+            if (this.led) {
+                txt += ',<br>' + this.led + ' ' + this.units;
+            }
+            if (this.dosingRoute){
+                txt += ', ' + this.dosingRoute;
+            }
+            if (this.dosingDuration) {
+                txt += ', ' + this.dosingDuration;
+            }
+            return txt;
+        },
+        getHtmlCol7: function() {
+            return this.comments || '';
+        },
         setNonMammalianExperimentText: function(d) {
             var txt = '' + d.agent;
             if ((d.led != null) && d.led !== '') txt += '\n' + d.led;
@@ -114,30 +186,6 @@ var instanceMethods = {
             var dcls = 'Non-mammalian',
                 acell = 'Acellular systems';
             return (dataClass === dcls) && (phylogeneticClass === acell);
-        },
-        getTestSystemDesc: function(d) {
-            var txt;
-            switch (d.dataClass) {
-            case 'Non-mammalian':
-                if (GenotoxEvidence.isGenotoxAcellular(d.dataClass, d.phylogeneticClass)) {
-                    txt = `${d.phylogeneticClass}<br>${d.testSystem}`;
-                } else {
-                    txt = `${d.phylogeneticClass}<br>${d.speciesNonMamm}&nbsp;${d.strainNonMamm}`;
-                }
-                break;
-            case 'Mammalian and human in vitro':
-                txt = `${d.speciesMamm}<br>${d.tissueCellLine}`;
-                break;
-            case 'Animal in vivo':
-                txt = `${d.species}&nbsp${d.strain}&nbsp${d.sex}<br>${d.tissueAnimal}`;
-                break;
-            case 'Human in vivo':
-                txt = `${d.tissueHuman}, ${d.cellType}<br>${d.exposureDescription}`;
-                break;
-            default:
-                console.log('unknown data-type: {#d.dataClass}');
-            }
-            return txt;
         },
         wordReportFormats: [
             {

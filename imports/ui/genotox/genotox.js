@@ -46,58 +46,6 @@ Template.genotoxTbl.onRendered(function() {
 
 
 Template.genotoxRow.events(abstractRowEvents);
-Template.genotoxRow.helpers({
-    getCol1: function() {
-        return this.dataClass;
-    },
-    getCol2: function() {
-        return GenotoxEvidence.getTestSystemDesc(this);
-    },
-    getCol3: function() {
-        return this.endpoint + '/<br>' + this.endpointTest;
-    },
-    getCol4: function() {
-        var txt;
-        if (this.dualResult) {
-            txt = this.resultNoMetabolic;
-        } else {
-            txt = this.result;
-        }
-        if (this.dataClass === 'Human in vivo' && this.significance) {
-            txt += '&nbsp;' + this.significance;
-        }
-        return txt;
-    },
-    getCol5: function() {
-        var txt;
-        if (this.dualResult) {
-            txt = this.resultMetabolic;
-        } else {
-            if (this.dataClass.indexOf('vitro') >= 0 || this.dataClass.indexOf('Non-mammalian') >= 0) {
-                txt = '';
-            } else {
-                txt = 'NA';
-            }
-        }
-        return txt;
-    },
-    getCol6: function() {
-        var txt = this.agent;
-        if (this.led) {
-            txt += ',<br>' + this.led + ' ' + this.units;
-        }
-        if (this.dosingRoute){
-            txt += ', ' + this.dosingRoute;
-        }
-        if (this.dosingDuration) {
-            txt += ', ' + this.dosingDuration;
-        }
-        return txt;
-    },
-    getCol7: function() {
-        return this.comments;
-    },
-});
 
 
 var toggleDataClassFields = function(tmpl) {
