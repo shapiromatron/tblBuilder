@@ -24,11 +24,11 @@ if __name__ == "__main__":
         report_type = sys.argv[1]
         context = json.loads(sys.argv[2].decode('utf8'))
         b64 = generate_report(root_path, report_type, context)
-        print b64
+        print(b64)
     else:
         for line in sys.stdin:
             payload = json.loads(line)
             report_type = payload.get("report_type")
             context = payload.get("context")
             b64 = generate_report(root_path, report_type, context)
-            print json.dumps({"report": b64})
+            print(json.dumps({"report": b64}))

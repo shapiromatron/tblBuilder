@@ -1,2 +1,2 @@
-from genotoxHtml import *
+from genotoxTables import *
 from mechanisticHtml import *
