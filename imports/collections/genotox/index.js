@@ -189,12 +189,33 @@ var instanceMethods = {
         },
         wordReportFormats: [
             {
+                'type': 'GenotoxTables',
+                'fn': 'genotoxicity',
+                'text': 'Download Word (by data-class)',
+            },
+            {
                 'type': 'GenotoxHtmlTables',
                 'fn': 'genotoxicity',
-                'text': 'Download Word',
+                'text': 'Download Word (HTML re-creation)',
             },
         ],
         wordContext: function(tbl_id) {
+            let resp = GenotoxEvidence.wordHtmlContext(tbl_id);
+            return {
+                table: resp.table,
+                nonMammalianInVitro:
+                    _.filter(resp.objects, (v) => v.dataClass === 'Non-mammalian'),
+                mammalianInVitro: _.chain(resp.objects)
+                    .filter((v) => v.dataClass === 'Mammalian and human in vitro')
+                    .sortBy((v) => v.testSpeciesMamm + v.speciesMamm)
+                    .value(),
+                animalInVivo:
+                    _.filter(resp.objects, (v) => v.dataClass === 'Animal in vivo'),
+                humanInVivo:
+                    _.filter(resp.objects, (v) => v.dataClass === 'Human in vivo'),
+            };
+        },
+        wordHtmlContext: function(tbl_id){
             var tbl = Tables.findOne(tbl_id),
                 vals = GenotoxEvidence.find(
                             {tbl_id: tbl_id, isHidden: false},
@@ -208,16 +229,7 @@ var instanceMethods = {
 
             return {
                 table: tbl,
-                nonMammalianInVitro: _
-                    .filter(vals, function(v){return v.dataClass === 'Non-mammalian';}),
-                mammalianInVitro: _.chain(vals)
-                    .filter(function(v) {return v.dataClass === 'Mammalian and human in vitro';})
-                    .sortBy(function(v) {return v.testSpeciesMamm + v.speciesMamm;})
-                    .value(),
-                animalInVivo: _
-                    .filter(vals, function(v) {return v.dataClass === 'Animal in vivo';}),
-                humanInVivo: _
-                    .filter(vals, function(v) {return v.dataClass === 'Human in vivo';}),
+                objects: vals,
             };
         },
         sortFields: {
