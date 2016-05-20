@@ -19,6 +19,8 @@ import {
     getHTMLTitleBase,
 } from '/imports/api/client/utilities';
 
+import './epiOrganSite.html';
+
 
 Template.epiOrganSiteMain.helpers(_.extend({
     getOrganSiteOptions: function() {
