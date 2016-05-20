@@ -148,7 +148,7 @@ var instanceMethods = {
             return txt;
         },
         getReference: function(){
-            if (_.isEmpty(this.reference)){
+            if (_.isUndefined(this.reference)){
                 this.reference = Reference.findOne(this.referenceID);
             }
             return this.reference;
@@ -161,36 +161,43 @@ var instanceMethods = {
         sexes,
         resultOptions,
         testCrosswalk,
+        getTableEvidence: function(tbl_id){
+            return GenotoxEvidence
+                .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
+                .fetch();
+        },
         tabular: function(tbl_id) {
-            var data, header, i, len, ref, row, v, vals;
-            vals = GenotoxEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch();
-            header = [
-                'Genotoxicity ID', 'Reference', 'Pubmed ID', 'Data class',
-                'Agent', 'Plylogenetic class', 'Test system',
-                'Non-mammalian species', 'Non-mammalian strain', 'Mammalian species',
-                'Mammalian strain', 'Tissue/Cell line', 'Species', 'Strain', 'Sex',
-                'Tissue, animal', 'Tissue, human', 'Cell type', 'Exposure description',
-                'Endpoint', 'Endpoint test', 'Dosing route', 'Dosing duration/regimen',
-                'Units', 'Dual results?', 'Result',
-                'Result, metabolic activation', 'Result, no metabolic activation',
-                'LED/HID', 'Significance', 'Comments',
-            ];
-            data = [header];
-            for (i = 0, len = vals.length; i < len; i++) {
-                v = vals[i];
-                ref = Reference.findOne({_id: v.referenceID});
-                row = [
-                    v._id, ref.name, ref.pubmedID, v.dataClass,
-                    v.agent, v.phylogeneticClass, v.testSystem,
-                    v.speciesNonMamm, v.strainNonMamm, v.testSpeciesMamm,
-                    v.speciesMamm, v.tissueCellLine, v.species, v.strain, v.sex,
-                    v.tissueAnimal, v.tissueHuman, v.cellType, v.exposureDescription,
-                    v.endpoint, v.endpointTest, v.dosingRoute, v.dosingDuration,
-                    v.units, v.dualResult, v.result,
-                    v.resultMetabolic, v.resultNoMetabolic,
-                    v.led, v.significance, v.comments];
-                data.push(row);
-            }
+            let qs = GenotoxEvidence.getTableEvidence(tbl_id),
+                header = [
+                    'Genotoxicity ID', 'Reference', 'Pubmed ID',
+                    'Data class', 'Agent', 'Plylogenetic class', 'Test system',
+                    'Non-mammalian species', 'Non-mammalian strain',
+                    'Mammalian species', 'Mammalian strain', 'Tissue/Cell line', 'Species', 'Strain', 'Sex',
+                    'Tissue, animal', 'Tissue, human', 'Cell type', 'Exposure description',
+                    'Endpoint', 'Endpoint test', 'Dosing route', 'Dosing duration/regimen',
+                    'Units', 'Dual results?', 'Result',
+                    'Result, metabolic activation', 'Result, no metabolic activation',
+                    'LED/HID', 'Significance', 'Comments',
+                ],
+                data;
+
+            data = _.map(qs, function(d){
+                d.getReference();
+                return [
+                    d._id, d.reference.name, d.reference.pubmedID,
+                    d.dataClass, d.agent, d.phylogeneticClass,
+                    d.testSystem, d.speciesNonMamm, d.strainNonMamm,
+                    d.testSpeciesMamm, d.speciesMamm, d.tissueCellLine,
+                    d.species, d.strain, d.sex,
+                    d.tissueAnimal, d.tissueHuman, d.cellType,
+                    d.exposureDescription, d.endpoint, d.endpointTest,
+                    d.dosingRoute, d.dosingDuration,
+                    d.units, d.dualResult, d.result,
+                    d.resultMetabolic, d.resultNoMetabolic,
+                    d.led, d.significance, d.comments,
+                ];
+            });
+            data.unshift(header);
             return data;
         },
         isGenotoxAcellular: function(dataClass, phylogeneticClass) {

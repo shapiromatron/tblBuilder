@@ -16,7 +16,7 @@ import {
 
 let instanceMethods = {
         getDescription: function(){
-            if (_.isEmpty(this.description)){
+            if (_.isUndefined(this.description)){
                 this.description = NtpEpiDescriptive.findOne(this.parent_id);
             }
             return this.description;

@@ -18,7 +18,7 @@ import {
 
 let instanceMethods = {
         getReference: function(){
-            if (_.isEmpty(this.reference)){
+            if (_.isUndefined(this.reference)){
                 this.reference = Reference.findOne(this.referenceID);
             }
             return this.reference;

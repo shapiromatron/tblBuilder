@@ -45,69 +45,81 @@ let instanceMethods = {
             });
         },
         getReference: function(){
-            if (_.isEmpty(this.reference)){
+            if (_.isUndefined(this.reference)){
                 this.reference = Reference.findOne(this.referenceID);
             }
             return this.reference;
+        },
+        getResults: function(){
+            if (_.isUndefined(this.results)){
+                this.results = AnimalEndpointEvidence
+                        .find({parent_id: this._id}, {sort: {sortIdx: 1}})
+                        .fetch();
+            }
+            return this.results;
         },
     },
     classMethods = {
         studyDesigns,
         sexes,
+        getTableEvidence: function(tbl_id){
+            return AnimalEvidence
+                .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
+                .fetch();
+        },
         tabular: function(tbl_id) {
-            var data, getEndpointData, header, i, len, limitations, reference, row, rows, strengths, v, vals;
-            getEndpointData = function(parent_id, row) {
-                var eg, i, j, len, len1, ref, row2, row3, rows, signifs, v, vals;
-                vals = AnimalEndpointEvidence
-                    .find({parent_id: parent_id}, {sort: {sortIdx: 1}}).fetch();
-                rows = [];
-                for (i = 0, len = vals.length; i < len; i++) {
-                    v = vals[i];
-                    row2 = row.slice();
-                    row2.push(v._id, v.tumourSite, v.histology, v.units);
-                    signifs = [
-                        v.incidence_significance, v.multiplicity_significance,
-                        v.total_tumours_significance,
-                    ];
-                    ref = v.endpointGroups;
-                    for (j = 0, len1 = ref.length; j < len1; j++) {
-                        eg = ref[j];
-                        row3 = row2.slice();
-                        row3.push(
-                            eg.dose, eg.nStart, eg.nSurviving,
-                            eg.incidence, eg.multiplicity, eg.totalTumours);
-                        row3.push.apply(row3, signifs);
-                        rows.push(row3);
-                    }
-                }
-                return rows;
-            };
-            vals = AnimalEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch();
-            header = [
-                'Evidence ID', 'Reference', 'Pubmed ID', 'Study design',
-                'Species', 'Strain', 'Sex', 'Agent', 'Purity', 'Dosing route',
-                'Vehicle', 'Age at start', 'Duration', 'Dosing Regimen',
-                'Strengths', 'Limitations', 'Comments', 'Endpoint ID',
-                'Tumour site', 'Histology', 'Units', 'Dose', 'N at Start',
-                'N Surviving', 'Incidence', 'Multiplicity', 'Total Tumours',
-                'Incidence significance', 'Multiplicity significance',
-                'Total tumours significance',
-            ];
-            data = [header];
-            for (i = 0, len = vals.length; i < len; i++) {
-                v = vals[i];
-                reference = Reference.findOne({_id: v.referenceID});
-                strengths = v.strengths.join(', ');
-                limitations = v.limitations.join(', ');
-                row = [
-                    v._id, reference.name, reference.pubmedID, v.studyDesign,
-                    v.species, v.strain, v.sex, v.agent, v.purity, v.dosingRoute,
-                    v.vehicle, v.ageAtStart, v.duration, v.dosingRegimen,
-                    strengths, limitations, v.comments,
-                ];
-                rows = getEndpointData(v._id, row);
+            let qs = AnimalEvidence.getTableEvidence(tbl_id),
+                getEndpointData = function(results, row) {
+                    let rows = [];
+                    results.forEach(function(res){
+                        let row2 = row.slice();
+                        row2.push(
+                            res._id, res.tumourSite, res.histology, res.units
+                        );
+                        res.endpointGroups.forEach(function(eg){
+                            let row3 = row2.slice();
+                            row3.push(
+                                eg.dose, eg.nStart, eg.nSurviving,
+                                eg.incidence, eg.multiplicity, eg.totalTumours);
+                            row3.push.apply(row3, [
+                                res.incidence_significance,
+                                res.multiplicity_significance,
+                                res.total_tumours_significance,
+                            ]);
+                            rows.push(row3);
+                        });
+                    });
+                    return rows;
+                },
+                header = [
+                    'Evidence ID', 'Reference', 'Pubmed ID', 'Study design',
+                    'Species', 'Strain', 'Sex', 'Agent', 'Purity', 'Dosing route',
+                    'Vehicle', 'Age at start', 'Duration', 'Dosing Regimen',
+                    'Strengths', 'Limitations', 'Comments', 'Endpoint ID',
+                    'Tumour site', 'Histology', 'Units', 'Dose', 'N at Start',
+                    'N Surviving', 'Incidence', 'Multiplicity', 'Total Tumours',
+                    'Incidence significance', 'Multiplicity significance',
+                    'Total tumours significance',
+                ],
+                data = [header];
+
+            _.each(qs, function(ag){
+                ag.getReference();
+                ag.getResults();
+                let row = [
+                        ag._id, ag.reference.name, ag.reference.pubmedID,
+                        ag.studyDesign, ag.species, ag.strain,
+                        ag.sex, ag.agent, ag.purity, ag.dosingRoute,
+                        ag.vehicle, ag.ageAtStart, ag.duration,
+                        ag.dosingRegimen,
+                        ag.strengths.join(', '),
+                        ag.limitations.join(', '),
+                        ag.comments,
+                    ],
+                    rows = getEndpointData(ag.results, row);
+
                 data.push.apply(data, rows);
-            }
+            });
             return data;
         },
         getDoses: function(e) {

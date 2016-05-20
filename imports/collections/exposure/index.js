@@ -27,7 +27,7 @@ let instanceMethods = {
             this.wrd_comments = this.comments || '';
         },
         getReference: function(){
-            if (_.isEmpty(this.reference)){
+            if (_.isUndefined(this.reference)){
                 this.reference = Reference.findOne(this.referenceID);
             }
             return this.reference;
@@ -40,33 +40,40 @@ let instanceMethods = {
         isOccupational: function(val){
             return isOccupational(val);
         },
+        getTableEvidence: function(tbl_id){
+            return ExposureEvidence
+                .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
+                .fetch();
+        },
         tabular: function(tbl_id) {
-            var data, header, i, len, ref, row, v, vals;
-            vals = ExposureEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch();
-            header = [
-                'Exposure ID', 'Reference', 'Pubmed ID', 'Exposure scenario',
-                'Collection date', 'Occupation', 'Occupational information',
-                'Country', 'Location', 'Agent', 'Sampling Matrix', 'Sampling Approach',
-                'Number of measurements', 'Measurement duration', 'Exposure level',
-                'Exposure level description', 'Exposure level range', 'Units',
-                'Comments',
-            ];
-            data = [header];
-            for (i = 0, len = vals.length; i < len; i++) {
-                v = vals[i];
-                ref = Reference.findOne({_id: v.referenceID});
-                row = [
-                    v._id, ref.name, ref.pubmedID, v.exposureScenario,
-                    v.collectionDate, v.occupation, v.occupationInfo,
-                    v.country, v.location, v.agent, v.samplingMatrix,
+            let qs = ExposureEvidence.getTableEvidence(tbl_id),
+                header = [
+                    'Exposure ID', 'Reference', 'Pubmed ID', 'Exposure scenario',
+                    'Collection date', 'Occupation', 'Occupational information',
+                    'Country', 'Location', 'Agent', 'Sampling Matrix', 'Sampling Approach',
+                    'Number of measurements', 'Measurement duration', 'Exposure level',
+                    'Exposure level description', 'Exposure level range', 'Units',
+                    'Comments',
+                ],
+                rows;
+
+            rows = _.map(qs, function(v){
+                v.getReference();
+                return [
+                    v._id, v.reference.name, v.reference.pubmedID,
+                    v.exposureScenario, v.collectionDate,
+                    v.occupation, v.occupationInfo,
+                    v.country, v.location,
+                    v.agent, v.samplingMatrix,
                     v.samplingApproach, v.numberMeasurements,
                     v.measurementDuration, v.exposureLevel,
                     v.exposureLevelDescription,
                     v.exposureLevelRange, v.units, v.comments,
                 ];
-                data.push(row);
-            }
-            return data;
+            });
+
+            rows.unshift(header);
+            return rows;
         },
         wordReportFormats: [
             {
