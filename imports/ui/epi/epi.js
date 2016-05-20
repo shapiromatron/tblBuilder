@@ -26,11 +26,14 @@ import {
 import {
     initDraggables,
     toggleRowVisibilty,
-    toggleRiskPlot,
     toggleQA,
     initPopovers,
     destroyPopovers,
 } from '/imports/api/client/utilities';
+
+import {
+    toggleRiskPlot,
+} from '/imports/ui/epi/forestPlot';
 
 import './epi.html';
 

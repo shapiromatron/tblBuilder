@@ -19,8 +19,6 @@ Session.setDefault('showQAflags', false);
 Session.setDefault('isFullScreen', false);
 Session.setDefault('reorderRows', false);
 Session.setDefault('referenceNewObj', null);
-Session.setDefault('epiForestPlotMin', 0.05);
-Session.setDefault('epiForestPlotMax', 50);
 Session.setDefault('sortsAndFilters', null);
 
 // setup global subscriptions

@@ -19,8 +19,12 @@ import {
 import {
     initDraggables,
     toggleRowVisibilty,
-    toggleRiskPlot,
 } from '/imports/api/client/utilities';
+
+import {
+    toggleRiskPlot,
+} from '/imports/ui/epi/forestPlot';
+
 
 import './table.html';
 

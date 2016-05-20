@@ -15,9 +15,13 @@ import {
 
 import {
     returnExcelFile,
-    toggleRiskPlot,
     getHTMLTitleBase,
 } from '/imports/api/client/utilities';
+
+import {
+    toggleRiskPlot,
+} from '/imports/ui/epi/forestPlot';
+
 
 import './epiOrganSite.html';
 

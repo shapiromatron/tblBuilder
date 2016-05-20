@@ -20,8 +20,12 @@ import {
     returnExcelFile,
     b64toWord,
     toggleRowVisibilty,
-    toggleRiskPlot,
+    closeModal,
 } from '/imports/api/client/utilities';
+
+import {
+    toggleRiskPlot,
+} from '/imports/ui/epi/forestPlot';
 
 
 Template.formLegendPulldown.onRendered(function() {
@@ -68,54 +72,6 @@ Template.optRiskPlot.events({
         $(div).empty();
         Blaze.renderWithData(Template.forestAxisModal, {}, div);
     },
-});
-
-
-var closeModal = function(evt, tmpl) {
-    // todo: not fired when ESC pressed to close
-    $('#modalDiv')
-        .on('hide.bs.modal', function() {
-            $(tmpl.view._domrange.members).remove();
-            Blaze.remove(tmpl.view);
-        }).modal('hide');
-};
-
-
-Template.forestAxisModal.helpers({
-    getMin: function(){
-        return Session.get('epiForestPlotMin');
-    },
-    getMax: function(){
-        return Session.get('epiForestPlotMax');
-    },
-    hasError: function(){
-        return Template.instance().err.get().length>0;
-    },
-    getError: function(){
-        return Template.instance().err.get();
-    },
-});
-Template.forestAxisModal.events({
-    'click #update': function(evt, tmpl){
-        var min = parseFloat(tmpl.$('input[name="min"]').val(), 10),
-            max = parseFloat(tmpl.$('input[name="max"]').val(), 10);
-        if (min>0 && max>0 && max>min){
-            Session.set('epiForestPlotMin', min);
-            Session.set('epiForestPlotMax', max);
-            toggleRiskPlot();
-            $('.epiRiskPlot').trigger('rerender');
-            closeModal(evt, tmpl);
-        } else {
-            tmpl.err.set('Values must be greater than 0, and min<max.');
-        }
-    },
-    'click #cancel': closeModal,
-});
-Template.forestAxisModal.onCreated(function() {
-    this.err = new ReactiveVar('');
-});
-Template.forestAxisModal.onRendered(function() {
-    $('#modalDiv').modal('toggle');
 });
 
 
