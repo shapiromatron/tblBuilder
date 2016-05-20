@@ -23,10 +23,6 @@ import {
     closeModal,
 } from '/imports/api/client/utilities';
 
-import {
-    toggleRiskPlot,
-} from '/imports/ui/epi/forestPlot';
-
 
 Template.formLegendPulldown.onRendered(function() {
     $(this.findAll('pre')).click(function(e) {
@@ -65,7 +61,6 @@ Template.optRiskPlot.events({
     'click #epiRiskShowPlots': function(evt, tmpl) {
         evt.preventDefault();
         Session.set('epiRiskShowPlots', !Session.get('epiRiskShowPlots'));
-        toggleRiskPlot();
     },
     'click #showForestAxisModal': function(evt, tmpl) {
         var div = document.getElementById('modalHolder');

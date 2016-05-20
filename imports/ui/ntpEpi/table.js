@@ -21,17 +21,15 @@ import {
     toggleRowVisibilty,
 } from '/imports/api/client/utilities';
 
-import {
-    toggleRiskPlot,
-} from '/imports/ui/epi/forestPlot';
-
-
 import './table.html';
 
 
-Template.ntpEpiDescTbl.helpers(abstractTblHelpers);
+Template.ntpEpiDescTbl.helpers(_.extend(abstractTblHelpers, {
+    showPlots() {
+        return Session.get('epiRiskShowPlots');
+    },
+}));
 Template.ntpEpiDescTbl.onRendered(function() {
-    toggleRiskPlot();
     initDraggables(this.find('#sortable'), '.dhOuter', NtpEpiDescriptive);
     toggleRowVisibilty(Session.get('reorderRows'), this.$('.dragHandle'));
 });

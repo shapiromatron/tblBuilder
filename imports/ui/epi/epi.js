@@ -31,10 +31,6 @@ import {
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
-import {
-    toggleRiskPlot,
-} from '/imports/ui/epi/forestPlot';
-
 import './epi.html';
 
 
@@ -68,9 +64,11 @@ Template.epiDescriptiveTbl.helpers(_.extend({
         ];
         return reports;
     },
+    showPlots: function() {
+        return Session.get('epiRiskShowPlots');
+    },
 }, abstractTblHelpers));
 Template.epiDescriptiveTbl.onRendered(function() {
-    toggleRiskPlot();
     initDraggables(this.find('#sortable'), '.dhOuter', EpiDescriptive);
     toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });

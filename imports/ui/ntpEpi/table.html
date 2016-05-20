@@ -26,6 +26,10 @@
 <template name="ntpEpiDescTbl">
   <h1>{{name}} {{> ntpEpiDescOpts}}</h1>
   {{> tableTitle}}
+
+  {{#if showPlots}}
+    {{> forestPlotAxis }}
+  {{/if}}
   <table class="evidenceTable table table-compressed">
     <colgroup>
       <col width="15%">

@@ -1,7 +1,7 @@
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
-import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
+import { Template } from 'meteor/templating';
 
 import d3 from 'd3';
 
@@ -15,14 +15,99 @@ import {
 // global settings
 Session.setDefault('epiForestPlotMin', 0.05);
 Session.setDefault('epiForestPlotMax', 50);
+Session.setDefault('epiForestPlotWidth', 100);
+
+
+Template.forestPlotAxis.events({
+    'rerender svg': function(evt, tmpl){
+        tmpl.$('.epiRiskAxes').empty();
+        var header = $('.riskTR'),
+            tbl = $('.evidenceTable'),
+            tbl_pos = tbl.position(),
+            header_pos = header.position(),
+            y_top = tbl_pos.top + header.outerHeight(),
+            x_left = header_pos.left,
+            width = parseInt($('.riskTR').outerWidth()),
+            yPlotBuffer = 25,  // make room for x-axis
+            height = tbl.outerHeight() - tbl.find('thead').outerHeight() + yPlotBuffer,
+            xscale = d3.scale.log()
+                .range([0, width])
+                .domain([Session.get('epiForestPlotMin'), Session.get('epiForestPlotMax')])
+                .clamp(true),
+            yscale = d3.scale.linear()
+                .range([0, height - yPlotBuffer])
+                .domain([0, 1])
+                .clamp(true),
+            xaxis = d3.svg.axis()
+                .scale(xscale)
+                .orient('bottom')
+                .ticks(0, d3.format(',.f')),
+            gridLineClass = (v) => {
+                switch (v){
+                case 1:
+                    return 'baseline';
+                case 0.001:
+                case 0.01:
+                case 0.1:
+                case 10:
+                case 100:
+                case 1000:
+                    return 'major';
+                default:
+                    return 'minor';
+                }
+            },
+            svg, gridlines;
+
+        svg = d3.select('.epiRiskAxes')
+            .attr('class', 'epiRiskAxes')
+            .attr('height', height)
+            .attr('width', width)
+            .style({
+                left: `${parseInt(x_left)}px`,
+                top: `${parseInt(y_top)}px`,
+            });
+
+        svg.append('g')
+            .attr('class', 'axis')
+            .attr('transform', `translate(0, ${height-yPlotBuffer})`)
+            .call(xaxis);
+
+        gridlines = svg.append('g')
+            .attr('class', 'gridlines');
+
+        gridlines.selectAll('gridlines')
+            .data(xscale.ticks(10))
+            .enter()
+              .append('svg:line')
+              .attr('x1', (v) => xscale(v))
+              .attr('x2', (v) => xscale(v))
+              .attr('y1', yscale(0))
+              .attr('y2', yscale(1))
+              .attr('class', gridLineClass);
+
+        Session.set('epiForestPlotWidth', width);
+
+    },
+});
+Template.forestPlotAxis.onRendered(function() {
+    // add for reactivity when changed
+    Tracker.autorun(()=>{
+        let xMin = Session.get('epiForestPlotMin'),
+            yMin = Session.get('epiForestPlotMax');
+        this.$('svg').trigger('rerender');
+    });
+});
 
 
 Template.forestPlot.events({
     'rerender svg': function(evt, tmpl){
-        var data = tmpl.data.parent.riskEstimates[tmpl.data.index],
+        var td = $(evt.target).parent(),
+            data = tmpl.data.parent.riskEstimates[tmpl.data.index],
             svg = d3.select(tmpl.find('svg')).html(null),
-            width = parseInt(svg.node().getBoundingClientRect().width),
-            height = parseInt(svg.node().getBoundingClientRect().height),
+            width = Session.get('epiForestPlotWidth'),
+            height = Math.min(parseInt(td.height()), 20),
+            left = $('.riskTR').position().left,
             xscale = d3.scale.log()
                 .range([0, width])
                 .domain([Session.get('epiForestPlotMin'), Session.get('epiForestPlotMax')])
@@ -35,7 +120,13 @@ Template.forestPlot.events({
             riskStr += ` (${data.riskLow}-${data.riskHigh})`;
         }
 
-        svg.attr('viewBox', `0 0 ${width} ${height}`);
+        svg
+            .attr('width', width)
+            .attr('height', height)
+            .style({
+                left: `${parseInt(left)}px`,
+                top: `${parseInt(td.position().top)}px`,
+            });
         group.append('svg:title').text(riskStr);
 
         if (data.riskMid != null) {
@@ -79,9 +170,20 @@ Template.forestPlot.events({
     },
 });
 Template.forestPlot.onRendered(function() {
-    this.$('svg').trigger('rerender');
+    // add for reactivity when changed
+    Tracker.autorun(()=>{
+        let xMin = Session.get('epiForestPlotMin'),
+            yMin = Session.get('epiForestPlotMax'),
+            width = Session.get('epiForestPlotWidth');
+        this.$('svg').trigger('rerender');
+    });
 });
-
+let rerenderAxis = function(){
+    Tracker.flush();
+    Tracker.afterFlush(function(){
+        $('.epiRiskAxes').trigger('rerender');
+    });
+};
 
 
 Template.forestAxisModal.helpers({
@@ -105,7 +207,6 @@ Template.forestAxisModal.events({
         if (min>0 && max>0 && max>min){
             Session.set('epiForestPlotMin', min);
             Session.set('epiForestPlotMax', max);
-            toggleRiskPlot();
             $('.epiRiskPlot').trigger('rerender');
             closeModal(evt, tmpl);
         } else {
@@ -122,78 +223,4 @@ Template.forestAxisModal.onRendered(function() {
 });
 
 
-let toggleRiskPlot = function() {
-    d3.select('.epiRiskAxes').remove();
-    if (!Session.get('epiRiskShowPlots')) return;
-    Tracker.flush();
-
-    var header = $('.riskTR'),
-        tbl = $('.evidenceTable'),
-        tbl_pos = tbl.position(),
-        header_pos = header.position(),
-        y_top = tbl_pos.top + header.outerHeight(),
-        x_left = header_pos.left,
-        width = header.width(),
-        height = tbl.height() - header.height(),
-        xPlotBuffer = 0,   // make room for the text
-        yPlotBuffer = 20,  // make room for x-axis
-        xscale = d3.scale.log()
-            .range([0, width])
-            .domain([Session.get('epiForestPlotMin'), Session.get('epiForestPlotMax')])
-            .clamp(true),
-        yscale = d3.scale.linear()
-            .range([0, height - yPlotBuffer])
-            .domain([0, 1])
-            .clamp(true),
-        xaxis = d3.svg.axis()
-            .scale(xscale)
-            .orient('bottom')
-            .ticks(0, d3.format(',.f')),
-        gridLineClass = (v) => {
-            switch (v){
-            case 1:
-                return 'baseline';
-            case 0.001:
-            case 0.01:
-            case 0.1:
-            case 10:
-            case 100:
-            case 1000:
-                return 'major';
-            default:
-                return 'minor';
-            }
-        },
-        svg, gridlines;
-
-    svg = d3.select('.container')
-        .insert('svg', '#epiCohortTbl')
-        .attr('class', 'epiRiskAxes')
-        .attr('height', height + yPlotBuffer)
-        .attr('width', width + 2 * xPlotBuffer)
-        .style({
-            top: `${parseInt(y_top)}px`,
-            left: `${parseInt(x_left - xPlotBuffer)}px`,
-        });
-
-    svg.append('g')
-        .attr('class', 'axis')
-        .attr('transform', `translate(${xPlotBuffer}, ${height - yPlotBuffer})`)
-        .call(xaxis);
-
-    gridlines = svg.append('g')
-        .attr('class', 'gridlines')
-        .attr('transform', `translate(${xPlotBuffer},0)`);
-
-    gridlines.selectAll('gridlines')
-        .data(xscale.ticks(10))
-        .enter()
-          .append('svg:line')
-          .attr('x1', (v) => xscale(v))
-          .attr('x2', (v) => xscale(v))
-          .attr('y1', yscale(0))
-          .attr('y2', yscale(1))
-          .attr('class', gridLineClass);
-};
-
-export { toggleRiskPlot };
+export { rerenderAxis };

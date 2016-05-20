@@ -38,6 +38,9 @@
         </form>
       </div>
 
+      {{#if showPlots}}
+        {{> forestPlotAxis }}
+      {{/if}}
       <!-- Data-table -->
       <table class="evidenceTable table table-compressed">
         <colgroup>

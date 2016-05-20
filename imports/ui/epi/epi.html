@@ -33,6 +33,9 @@
   <h1>{{name}} {{>epiDescriptiveTblOpts}}</h1>
   {{> tableTitle}}
 
+  {{#if showPlots}}
+    {{> forestPlotAxis }}
+  {{/if}}
   <table class="evidenceTable table table-compressed">
     <colgroup>
       <col width="15%">
