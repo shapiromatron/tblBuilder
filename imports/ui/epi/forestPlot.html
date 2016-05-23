@@ -3,7 +3,11 @@
 </template>
 
 <template name="forestPlot">
-  <svg class="epiRiskPlot" height="1" width="1"></svg>
+  <span class='fpData'
+    data-measure="{{parent.effectMeasure}}"
+    data-low="{{self.riskLow}}"
+    data-mid="{{self.riskMid}}"
+    data-high="{{self.riskHigh}}"></span>
 </template>
 
 <template name="forestAxisModal">

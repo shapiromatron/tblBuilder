@@ -98,7 +98,7 @@
       </td>
       <td>
         {{#if showPlots}}
-          {{> forestPlot parent=res index=idx }}
+          {{> forestPlot self=this parent=res }}
         {{ else}}
           <span title="Effect measure: {{res.effectMeasure}}">{{res.riskFormatter this}}</span>
         {{/if}}

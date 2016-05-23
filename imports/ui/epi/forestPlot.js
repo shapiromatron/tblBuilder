@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
 import { Template } from 'meteor/templating';
 
+import _ from 'underscore';
 import d3 from 'd3';
 
 import './forestPlot.html';
@@ -15,11 +16,11 @@ import {
 // global settings
 Session.setDefault('epiForestPlotMin', 0.05);
 Session.setDefault('epiForestPlotMax', 50);
-Session.setDefault('epiForestPlotWidth', 100);
 
 
 Template.forestPlotAxis.events({
     'rerender svg': function(evt, tmpl){
+        if (!Session.get('epiRiskShowPlots')) return;
         tmpl.$('.epiRiskAxes').empty();
         var header = $('.riskTR'),
             tbl = $('.evidenceTable'),
@@ -36,7 +37,7 @@ Template.forestPlotAxis.events({
                 .clamp(true),
             yscale = d3.scale.linear()
                 .range([0, height - yPlotBuffer])
-                .domain([0, 1])
+                .domain([0, height - yPlotBuffer])
                 .clamp(true),
             xaxis = d3.svg.axis()
                 .scale(xscale)
@@ -57,7 +58,26 @@ Template.forestPlotAxis.events({
                     return 'minor';
                 }
             },
-            svg, gridlines;
+            getData = function() {
+                return $('.fpData').map(function(){
+                    let el = $(this),
+                        d2 = el.data(),
+                        title = `Effect measure ${d2.measure}: ${d2.mid}`;
+
+                    if (d2.low && d2.high){
+                        title += ` (${d2.low}-${d2.high})`;
+                    }
+
+                    return _.extend(d2, {
+                        ymid: el.position().top + 20 - y_top,
+                        showCircle: _.isFinite(d2.mid),
+                        showLine: (_.isFinite(d2.low) && _.isFinite(d2.high)),
+                        title,
+                    });
+                });
+            },
+            data = getData(),
+            svg, gridlines, groups;
 
         svg = d3.select('.epiRiskAxes')
             .attr('class', 'epiRiskAxes')
@@ -82,12 +102,50 @@ Template.forestPlotAxis.events({
               .append('svg:line')
               .attr('x1', (v) => xscale(v))
               .attr('x2', (v) => xscale(v))
-              .attr('y1', yscale(0))
-              .attr('y2', yscale(1))
+              .attr('y1', yscale.domain()[0])
+              .attr('y2', yscale.domain()[1])
               .attr('class', gridLineClass);
 
-        Session.set('epiForestPlotWidth', width);
+        groups = svg
+            .selectAll('.fp')
+            .data(data)
+            .enter()
+            .append('g')
+                .attr('class', 'fp');
 
+        groups.append('title')
+            .text((d) => d.title);
+
+        groups
+            .filter((d) => d.showCircle)
+            .append('circle')
+            .attr('cx', (d) => xscale(d.mid))
+            .attr('cy', (d) => yscale(d.ymid))
+            .attr('r', 5);
+
+        groups
+            .filter((d) => d.showLine)
+            .append('line')
+            .attr('x1', (d) => xscale(d.low))
+            .attr('x2', (d) => xscale(d.high))
+            .attr('y1', (d) => yscale(d.ymid))
+            .attr('y2', (d) => yscale(d.ymid));
+
+        groups
+            .filter((d) => d.showLine)
+            .append('line')
+            .attr('x1', (d) => xscale(d.low))
+            .attr('x2', (d) => xscale(d.low))
+            .attr('y1', (d) => yscale(d.ymid-8))
+            .attr('y2', (d) => yscale(d.ymid+8));
+
+        groups
+            .filter((d) => d.showLine)
+            .append('line')
+            .attr('x1', (d) => xscale(d.high))
+            .attr('x2', (d) => xscale(d.high))
+            .attr('y1', (d) => yscale(d.ymid-8))
+            .attr('y2', (d) => yscale(d.ymid+8));
     },
 });
 Template.forestPlotAxis.onRendered(function() {
@@ -99,90 +157,10 @@ Template.forestPlotAxis.onRendered(function() {
     });
 });
 
-
-Template.forestPlot.events({
-    'rerender svg': function(evt, tmpl){
-        var td = $(evt.target).parent(),
-            data = tmpl.data.parent.riskEstimates[tmpl.data.index],
-            svg = d3.select(tmpl.find('svg')).html(null),
-            width = Session.get('epiForestPlotWidth'),
-            height = Math.min(parseInt(td.height()), 20),
-            left = $('.riskTR').position().left,
-            xscale = d3.scale.log()
-                .range([0, width])
-                .domain([Session.get('epiForestPlotMin'), Session.get('epiForestPlotMax')])
-                .clamp(true),
-            yscale = d3.scale.linear().range([0, height]).domain([0, 1]).clamp(true),
-            group = svg.append('g').attr('class', 'riskBar'),
-            riskStr = `Effect measure ${tmpl.data.parent.effectMeasure}: ${data.riskMid}`;
-
-        if (data.riskLow && data.riskHigh){
-            riskStr += ` (${data.riskLow}-${data.riskHigh})`;
-        }
-
-        svg
-            .attr('width', width)
-            .attr('height', height)
-            .style({
-                left: `${parseInt(left)}px`,
-                top: `${parseInt(td.position().top)}px`,
-            });
-        group.append('svg:title').text(riskStr);
-
-        if (data.riskMid != null) {
-            group.selectAll()
-                .data([data])
-                .enter()
-                .append('circle')
-                .attr('cx', function(d, i) {return xscale(d.riskMid);})
-                .attr('cy', function(d, i) {return yscale(0.5);})
-                .attr('r', 5);
-        }
-
-        if ((data.riskLow != null) && (data.riskHigh != null)) {
-            group.selectAll()
-                .data([data])
-                .enter()
-                .append('line')
-                .attr('x1', function(d, i) {return xscale(d.riskLow);})
-                .attr('x2', function(d, i) {return xscale(d.riskHigh);})
-                .attr('y1', yscale(0.5))
-                .attr('y2', yscale(0.5));
-
-            group.selectAll()
-                .data([data])
-                .enter()
-                .append('line')
-                .attr('x1', function(d, i) {return xscale(d.riskHigh);})
-                .attr('x2', function(d, i) {return xscale(d.riskHigh);})
-                .attr('y1', yscale(0.25))
-                .attr('y2', yscale(0.75));
-
-            group.selectAll()
-                .data([data])
-                .enter()
-                .append('line')
-                .attr('x1', function(d, i) {return xscale(d.riskLow);})
-                .attr('x2', function(d, i) {return xscale(d.riskLow);})
-                .attr('y1', yscale(0.25))
-                .attr('y2', yscale(0.75));
-        }
-    },
-});
-Template.forestPlot.onRendered(function() {
-    // add for reactivity when changed
-    Tracker.autorun(()=>{
-        let xMin = Session.get('epiForestPlotMin'),
-            yMin = Session.get('epiForestPlotMax'),
-            width = Session.get('epiForestPlotWidth');
-        this.$('svg').trigger('rerender');
-    });
-});
+// create a hook to re-render
 let rerenderAxis = function(){
     Tracker.flush();
-    Tracker.afterFlush(function(){
-        $('.epiRiskAxes').trigger('rerender');
-    });
+    $('.epiRiskAxes').trigger('rerender');
 };
 
 

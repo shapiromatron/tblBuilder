@@ -3,6 +3,8 @@
   position: absolute;
   z-index: 1;
 }
+
+// gridlines
 g.gridlines > line {
   stroke: #123551;
 }
@@ -27,24 +29,24 @@ g.gridlines > .minor {
   font-size: 10px;
 }
 
-// Forest plot SVG
-.epiRiskPlot {
+// circles and lines
+.fp {
   position: absolute;
-  border: 1px solid red;
   z-index: 2;
+  cursor: pointer;
 }
-.epiRiskPlot circle {
+
+.fp circle {
   fill: black;
-  cursor: pointer;
 }
-.epiRiskPlot line {
+.fp line {
   stroke: black;
-  stroke-width: 2;
-  cursor: pointer;
+  stroke-width: 2px;
 }
-.riskBar:hover circle {
+
+.fp:hover circle {
   fill: red;
 }
-.riskBar:hover line {
+.fp:hover line {
   stroke: red;
 }
