@@ -314,7 +314,7 @@
               <td>{{value.exposureCategory}}{{#if value.inTrendTest}}<sup>*</sup>{{/if}}</td>
               <td>{{value.numberExposed}}</td>
               <td>{{#if showPlots}}
-                    {{> forestPlot parent=.. index=index }}
+                    {{> forestPlot self=value parent=.. }}
                   {{ else}}
                     <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter value}}</span>
                   {{/if}}

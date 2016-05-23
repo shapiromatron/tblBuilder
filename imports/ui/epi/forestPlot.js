@@ -28,7 +28,7 @@ Template.forestPlotAxis.events({
             header_pos = header.position(),
             y_top = tbl_pos.top + header.outerHeight(),
             x_left = header_pos.left,
-            width = parseInt($('.riskTR').outerWidth()),
+            width = parseInt($('.riskTR').width()),
             yPlotBuffer = 25,  // make room for x-axis
             height = tbl.outerHeight() - tbl.find('thead').outerHeight() + yPlotBuffer,
             xscale = d3.scale.log()
