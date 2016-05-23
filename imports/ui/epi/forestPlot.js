@@ -21,7 +21,7 @@ Session.setDefault('epiForestPlotMax', 50);
 Template.forestPlotAxis.events({
     'rerender svg': function(evt, tmpl){
         if (!Session.get('epiRiskShowPlots')) return;
-        tmpl.$('.epiRiskAxes').empty();
+        tmpl.$('.epiRiskAxes').empty().hide();
         var header = $('.riskTR'),
             tbl = $('.evidenceTable'),
             tbl_pos = tbl.position(),
@@ -60,16 +60,15 @@ Template.forestPlotAxis.events({
             },
             getData = function() {
                 return $('.fpData').map(function(){
-                    let el = $(this),
-                        d2 = el.data(),
+                    let d2 = this.dataset,
                         title = `Effect measure ${d2.measure}: ${d2.mid}`;
 
                     if (d2.low && d2.high){
                         title += ` (${d2.low}-${d2.high})`;
                     }
 
-                    return _.extend(d2, {
-                        ymid: el.position().top + 20 - y_top,
+                    return _.extend({}, d2, {
+                        ymid: this.getBoundingClientRect().top + 20 - y_top,
                         showCircle: _.isFinite(d2.mid),
                         showLine: (_.isFinite(d2.low) && _.isFinite(d2.high)),
                         title,
@@ -146,6 +145,7 @@ Template.forestPlotAxis.events({
             .attr('x2', (d) => xscale(d.high))
             .attr('y1', (d) => yscale(d.ymid-8))
             .attr('y2', (d) => yscale(d.ymid+8));
+        tmpl.$('.epiRiskAxes').fadeIn();
     },
 });
 Template.forestPlotAxis.onRendered(function() {
@@ -159,8 +159,7 @@ Template.forestPlotAxis.onRendered(function() {
 
 // create a hook to re-render
 let rerenderAxis = function(){
-    Tracker.flush();
-    $('.epiRiskAxes').trigger('rerender');
+    Tracker.afterFlush(() => $('.epiRiskAxes').trigger('rerender'));
 };
 
 
