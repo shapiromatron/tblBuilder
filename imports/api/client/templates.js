@@ -326,7 +326,6 @@ export const abstractNestedFormEvents = {
         _.extend(obj, {
             tbl_id: Session.get('Tbl')._id,
             parent_id: tmpl.data.parent._id,
-            sortIdx: 1e10,
             isHidden: false,
         });
         NestedCollection.preSaveHook(tmpl, obj);
