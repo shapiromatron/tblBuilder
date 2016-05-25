@@ -138,6 +138,7 @@ let instanceMethods = {
                 'Enrollment or follow-up dates',
 
                 'Organ site', 'Effect measure',
+                'Units of effect measurement',
 
                 'Exposure category', 'Number exposed',
                 'Risk Mid', 'Risk 5% CI', 'Risk 95% CI',
@@ -145,14 +146,16 @@ let instanceMethods = {
             return rows;
         },
         tablularMetaAnalysisRow: function(d){
-            var ref = Reference.findOne(d.desc.referenceID);
+            d.desc.getReference();
             return [
-                ref.name, ref.pubmedID, d.desc.studyDesign,
+                d.desc.reference.name, d.desc.reference.pubmedID, d.desc.studyDesign,
                 d.desc.location, d.desc.enrollmentDates,
                 d.res.organSite, d.res.effectMeasure,
+                d.res.effectUnits,
                 d.exposureCategory, d.numberExposed,
                 d.riskLow, d.riskMid, d.riskHigh,
             ];
+
         },
         wordReportFormats: [
             {
