@@ -1,0 +1,9 @@
+<template name="ntpAnimalMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+      {{> ntpAnimalEvidenceTable}}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>

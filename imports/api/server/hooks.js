@@ -11,6 +11,8 @@ import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
 import NtpEpiResult from '/imports/collections/ntpEpiResult';
 import AnimalEvidence from '/imports/collections/animalEvidence';
 import AnimalEndpointEvidence from '/imports/collections/animalResult';
+import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
+import NtpAnimalEndpointEvidence from '/imports/collections/ntpAnimalEndpointEvidence';
 import MechanisticEvidence from '/imports/collections/mechanistic';
 
 
@@ -109,6 +111,9 @@ Meteor.startup(function() {
     // delete children if parent is deleted
     AnimalEvidence.before.remove(function(userId, doc) {
         AnimalEndpointEvidence.remove({parent_id: doc._id});
+    });
+    NtpAnimalEvidence.before.remove(function(userId, doc) {
+        NtpAnimalEndpointEvidence.remove({parent_id: doc._id});
     });
     EpiDescriptive.before.remove(function(userId, doc) {
         EpiResult.remove({parent_id: doc._id});

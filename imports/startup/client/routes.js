@@ -147,6 +147,11 @@ Router.map(function() {
         controller: TblRouterController,
     });
 
+    this.route('ntpAnimalMain', {
+        path: '/ntp-animal/:_id',
+        controller: TblRouterController,
+    });
+
     this.route('genotoxMain', {
         path: '/genotoxicity/:_id',
         controller: TblRouterController,

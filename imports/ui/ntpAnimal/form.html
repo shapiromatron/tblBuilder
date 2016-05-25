@@ -1,0 +1,52 @@
+<template name="ntpAnimalEvidenceForm">
+  <form id="mainForm" role="form" class="editForm">
+    <legend>NTP animal evidence
+      <button class="pull-right btn btn-default btn-xs dropdown-toggle"
+              type="button"
+              title="Expand/collapse all input form sections"
+              id="toggleAccordian">
+        {{#if allAccordiansShown}}
+          <i class="fa fa-minus-square-o"></i>
+        {{else}}
+          <i class="fa fa-plus-square-o"></i>
+        {{/if}}
+      </button>
+      {{>formLegendPulldown}}
+    </legend>
+    <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+      <!-- General information -->
+      <div>
+        <div class="panel-heading" role="tab" id="headingThree">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#generalInfo" aria-expanded="false" aria-controls="generalInfo">
+              General information
+            </a>
+          </h4>
+        </div>
+        <div id="generalInfo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" aria-expanded="false">
+          <div class="panel-body">
+            <div class="form-group row">
+              <div class="col-xs-3">
+                <br>{{> referenceSingleSelect}}
+              </div>
+              <div class="col-xs-4">
+                {{> fldTextArea name="strengths" value=strengths }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldTextArea name="limitations" value=limitations }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div id="errors"></div>
+    {{> qaNotice}}
+    {{> evidenceFormSubmissionDiv }}
+  </form>
+    <!-- Add input form-modals outside form scope -->
+  {{> referenceQuickAddModal}}
+</template>

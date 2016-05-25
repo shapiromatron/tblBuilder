@@ -6,6 +6,8 @@ import NtpEpiResult from './ntpEpiResult';
 import NtpEpiConfounder from './ntpEpiConfounder';
 import AnimalEvidence from './animalEvidence';
 import AnimalEndpointEvidence from './animalResult';
+import NtpAnimalEvidence from './ntpAnimalEvidence';
+import NtpAnimalEndpointEvidence from './ntpAnimalEndpointEvidence';
 import GenotoxEvidence from './genotox';
 import MechanisticEvidence from './mechanistic';
 
@@ -20,6 +22,8 @@ let tblBuilderCollections = {
         NtpEpiConfounder,
         AnimalEvidence,
         AnimalEndpointEvidence,
+        NtpAnimalEvidence,
+        NtpAnimalEndpointEvidence,
         GenotoxEvidence,
         MechanisticEvidence,
     ],
@@ -72,6 +76,19 @@ let tblBuilderCollections = {
         },
         animalEndpointEvidence: {
             collection: AnimalEndpointEvidence,
+            requiredUpdateFields: [],
+        },
+        ntpAnimalEvidence: {
+            collection: NtpAnimalEvidence,
+            collection_name: 'ntpAnimalEvidence',
+            excel_method: 'ntpAnimalEvidenceDownload',
+            excel_fn: 'animal.xlsx',
+            nested_collection: NtpAnimalEndpointEvidence,
+            nested_collection_name: 'ntpAnimalEndpointEvidence',
+            requiredUpdateFields: [],
+        },
+        ntpAnimalEndpointEvidence: {
+            collection: NtpAnimalEndpointEvidence,
             requiredUpdateFields: [],
         },
         genotoxEvidence: {

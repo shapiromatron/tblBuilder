@@ -1,0 +1,174 @@
+<template name="ntpAnimalActions">
+  {{#actionBtn}}
+    {{#if userCanEdit}}
+      {{#unless showNew}}
+        {{> optCreate }}
+      {{/unless}}
+      {{> optReorder }}
+    {{/if}}
+    {{> optMonoRefList}}
+    {{> optFullScreen}}
+    {{> optExcel }}
+    {{> optWord }}
+    {{> optRiskPlot}}
+    {{> optShowAllRows}}
+    {{> optQaFlags}}
+  {{/actionBtn}}
+</template>
+
+
+<template name="ntpAnimalEvidenceTable">
+  <h1>{{name}} {{> ntpAnimalActions}}</h1>
+  {{> tableTitle}}
+
+  <table class="evidenceTable table table-compressed">
+    <colgroup>
+      <col width="15%">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>A</th>
+        <th>B</th>
+        <th colspan="5">C</th>
+        <th>D</th>
+      </tr>
+    </thead>
+    <tbody id="sortable">
+      {{#each object_list}}
+        {{#if showRow isHidden}}
+          <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
+              data-id="{{_id}}"
+              data-sortIdx="{{sortIdx}}">
+            {{#if isEditing}}
+              <td id="editingRow" colspan="100">
+                {{> ntpAnimalEvidenceForm this isNew=false}}
+              </td>
+            {{else}}
+              {{> ntpAnimalEvidenceRow}}
+            {{/if}}
+          </tr>
+        {{/if}}
+      {{else}}
+        <tr>
+          <td colspan="100">No data has been entered into this table.</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  {{> showNewBtn }}
+
+  {{#if showNew}}
+    {{> ntpAnimalEvidenceForm isNew=true}}
+  {{/if}}
+</template>
+
+
+<template name="ntpAnimalEvidenceRow">
+  <td>
+    {{#if userCanEdit}}
+      <div class="rowOptions btn-group pull-right">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+          <span class="caret" title="Editing options"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#" id="show-edit">
+              <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+          <li>
+            <a href="#"
+               class="add-nested"
+               title="Display modal for entering results">
+              <span class="fa fa-medkit"></span> Add results</a></li>
+          <li>
+            <a href="#" id="clone-content">
+              <span class="fa fa-copy"></span> Create a clone</a></li>
+          <li>
+            <a href="#" id="move-content">
+              <span class="fa fa-arrow-circle-right"></span> Move to a different table</a></li>
+          <li>
+              <a href="#" id="toggle-hidden">{{#if isHidden}}
+                <span class="glyphicon glyphicon-plus"></span> Show row
+                {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+                {{/if}}</a></li>
+        </ul>
+      </div>
+    {{/if}}
+    {{qaMark isQA}}
+    {{>printReference id=referenceID}}<br>
+    {{location}}<br>
+    {{#if enrollmentDates}}{{enrollmentDates}}<br>{{/if}}
+    {{studyDesign}}
+  </td>
+  <td>2</td>
+  <td colspan="5" id="sortableInner">
+    {{#each getChildren}}
+      {{> ntpAnimalEndpointEvidenceTable}}
+    {{else}}
+      <p class="help-block">No results have been created.
+        {{#if userCanEdit}}
+          <a href="#"
+             class="btn btn-primary btn-sm add-nested pull-right"
+             title="Display modal for entering results">
+            <span class="fa fa-medkit"></span> Add results</a>
+        {{/if}}
+      </p>
+    {{/each }}
+  </td>
+  <td>
+    <strong>Strengths: </strong>{{strengths}}<br>
+    <strong>Limitations: </strong>{{limitations}}</td>
+  <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
+</template>
+
+
+<template name="ntpAnimalEndpointEvidenceTable">
+  {{#if showRow isHidden}}
+    <div class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
+        data-id="{{_id}}"
+        data-sortIdx="{{sortIdx}}">
+      <table class="table table-condensed nestedTbl">
+        <colgroup>
+          <col width="20.4%">
+          <col width="22.4%">
+          <col width="12.2%">
+          <col width="24.5%">
+          <col width="20.5%">
+        </colgroup>
+        <tbody>
+          <tr>
+            <td>{{qaMark isQA}}{{organSite}}{{> ntpAnimalEndpointEvidenceActions}}</td>
+            <td>{{sortIdx}}</td>
+            <td>c</td>
+            <td>d</td>
+            <td>e</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  {{/if}}
+</template>
+
+
+<template name="ntpAnimalEndpointEvidenceActions">
+      {{#if userCanEdit}}
+      <div class="rowOptions btn-group pull-right">
+        <button class="btn btn-default btn-xs dropdown-toggle"
+                type="button" data-toggle="dropdown">
+                <span class="caret" title="Editing options"></span></button>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#" id="inner-show-edit">
+              <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+          <li>
+            <a href="#" id="clone-nested-content">
+              <span class="fa fa-copy"></span> Create a clone</a></li>
+          <li>
+            <a href="#" id="inner-toggle-hidden">{{#if isHidden}}
+              <span class="glyphicon glyphicon-plus"></span> Show row
+              {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
+              {{/if}}</a></li>
+        </ul>
+      </div>
+    {{/if}}
+</template>

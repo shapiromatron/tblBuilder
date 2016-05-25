@@ -10,6 +10,8 @@ import Reference from '/imports/collections/reference';
 import ExposureEvidence from '/imports/collections/exposure';
 import AnimalEvidence from '/imports/collections/animalEvidence';
 import AnimalEndpointEvidence from '/imports/collections/animalResult';
+import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
+import NtpAnimalEndpointEvidence from '/imports/collections/ntpAnimalEndpointEvidence';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import EpiResult from '/imports/collections/epiResult';
 import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
@@ -198,6 +200,25 @@ Meteor.publish('animalEvidence', function(tbl_id) {
             return [
                 AnimalEvidence.find({tbl_id: tbl_id}),
                 AnimalEndpointEvidence.find({tbl_id: tbl_id}),
+                Reference.find({_id: {$in: ref_ids}}),
+            ];
+        }
+        return this.ready();
+    });
+});
+
+Meteor.publish('ntpAnimalEvidence', function(tbl_id) {
+    this.autorun(function () {
+        check(tbl_id, String);
+        var tbl = Tables.findOne({_id: tbl_id}),
+            ref_ids;
+        if (userCanView(tbl, this.userId)) {
+            ref_ids = _.pluck(NtpAnimalEvidence
+                .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
+                .fetch(), 'referenceID');
+            return [
+                NtpAnimalEvidence.find({tbl_id: tbl_id}),
+                NtpAnimalEndpointEvidence.find({tbl_id: tbl_id}),
                 Reference.find({_id: {$in: ref_ids}}),
             ];
         }

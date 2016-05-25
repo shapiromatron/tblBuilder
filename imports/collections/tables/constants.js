@@ -6,7 +6,7 @@ var getTableTypes = function(){
         return [
             'Exposure Evidence',
             'NTP Epidemiology Evidence',
-            'Animal Bioassay Evidence',
+            'NTP Animal Bioassay Evidence',
             'Genetic and Related Effects',
             'Mechanistic Evidence Summary',
         ];
@@ -33,6 +33,7 @@ let typeOptions = getTableTypes(),
         'NTP Epidemiology Evidence': 'ntpEpiMain',
         'Exposure Evidence': 'exposureMain',
         'Animal Bioassay Evidence': 'animalMain',
+        'NTP Animal Bioassay Evidence': 'ntpAnimalMain',
         'Genetic and Related Effects': 'genotoxMain',
     },
     statusOptions = {
