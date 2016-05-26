@@ -267,4 +267,69 @@ export default {
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
     },
+    // #4: Outcome
+    outcomeMethods: {
+        label: 'Outcome methods',
+        type: String,
+        textAreaRows: 4,
+        popoverText: 'Diagnostic procedures used; extent of necropsy tissue evaluation',
+    },
+    outcomeMethodsRating: {
+        label: 'Bias rating',
+        type: String,
+        allowedValues: ratings,
+        popoverText: ratingRationalePopoverText,
+    },
+    outcomeMethodsDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
+    outcomeMethodsRationale: {
+        label: 'Bias rationale',
+        type: String,
+        optional: true,
+        textAreaRows: 2,
+        popoverText: ratingRationalePopoverText,
+    },
+
+    groupConsistencyRating: {
+        label: 'Bias rating',
+        type: String,
+        allowedValues: ratings,
+        popoverText: ratingRationalePopoverText,
+    },
+    groupConsistencyDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
+    groupConsistencyRationale: {
+        label: 'Bias rationale',
+        type: String,
+        optional: true,
+        textAreaRows: 2,
+        popoverText: ratingRationalePopoverText,
+    },
+    durationRating: {
+        label: 'Bias rating',
+        type: String,
+        allowedValues: ratings,
+        popoverText: ratingRationalePopoverText,
+    },
+    durationDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
+    durationRationale: {
+        label: 'Bias rationale',
+        type: String,
+        optional: true,
+        textAreaRows: 2,
+        popoverText: ratingRationalePopoverText,
+    },
 };
