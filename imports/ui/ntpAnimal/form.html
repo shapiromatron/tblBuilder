@@ -336,6 +336,57 @@
       </div>
 
 
+      <!-- Analysis and reporting -->
+      <div>
+        <div class="panel-heading" role="tab" id="hdrAnalysisReporting">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" href="#pnlAnalysisReporting"
+                data-toggle="collapse" data-parent="#accordion"
+                aria-expanded="false" aria-controls="pnlAnalysisReporting">
+              Analysis and reporting
+            </a>
+          </h4>
+        </div>
+        <div id="pnlAnalysisReporting" class="panel-collapse collapse" role="tabpanel"
+              aria-labelledby="hdrAnalysisReporting" aria-expanded="false">
+          <div class="panel-body">
+
+            <div class="form-group row">
+              <div class="col-xs-4">
+                <h5>&nbsp;</h5>
+                {{> fldTextArea name="statisticalReporting" value=statisticalReporting }}
+              </div>
+              <div class="col-xs-4">
+                <h5>Statistical reporting</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="statisticalReportingRating" value=statisticalReportingRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="statisticalReportingDirection" value=statisticalReportingDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="statisticalReportingRationale" value=statisticalReportingRationale }}
+              </div>
+              <div class="col-xs-4">
+                <h5>Tumor combining</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="tumorCombiningRating" value=tumorCombiningRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="tumorCombiningDirection" value=tumorCombiningDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="tumorCombiningRationale" value=tumorCombiningRationale }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
       <!-- Study judgment -->
       <div>
         <div class="panel-heading" role="tab" id="hdrStudyJudgment">

@@ -364,4 +364,49 @@ export default {
         textAreaRows: 3,
         popoverText: ratingRationalePopoverText,
     },
+    // #6: Analysis and reporting
+    statisticalReporting: {
+        label: 'Statistical reporting',
+        type: String,
+        textAreaRows: 4,
+        popoverText: '<add>',
+    },
+    statisticalReportingRating: {
+        label: 'Bias rating',
+        type: String,
+        allowedValues: ratings,
+        popoverText: ratingRationalePopoverText,
+    },
+    statisticalReportingDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
+    statisticalReportingRationale: {
+        label: 'Bias rationale',
+        type: String,
+        optional: true,
+        textAreaRows: 3,
+        popoverText: ratingRationalePopoverText,
+    },
+    tumorCombiningRating: {
+        label: 'Bias rating',
+        type: String,
+        allowedValues: ratings,
+        popoverText: ratingRationalePopoverText,
+    },
+    tumorCombiningDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
+    tumorCombiningRationale: {
+        label: 'Bias rationale',
+        type: String,
+        optional: true,
+        textAreaRows: 3,
+        popoverText: ratingRationalePopoverText,
+    },
 };
