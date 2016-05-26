@@ -69,7 +69,6 @@ export default {
         type: Boolean,
         popoverText: 'Is historical data for this species and strain available in this publication or another?',
     },
-    // #3: Study design quality
     randomizationRating: {
         label: 'Bias rating',
         type: String,
@@ -146,7 +145,7 @@ export default {
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
     },
-    // #5: Exposure quality
+    // #3: Exposure
     chemicalCharacterizationRating: {
         label: 'Bias rating',
         type: String,
