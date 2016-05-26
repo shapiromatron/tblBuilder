@@ -159,6 +159,20 @@
           <div class="panel-body">
 
             <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="agent" value=agent }}
+                {{> fldInputTypeahead name="purity" value=purity }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="dosingRoute" value=dosingRoute }}
+                {{> fldInputTypeahead name="vehicle" value=vehicle }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldTextArea name="dosingRegimen" value=dosingRegimen }}
+              </div>
+            </div>
+
+            <div class="form-group row">
               <div class="col-xs-6">
                 <h5>Chemical characterization</h5>
                 <div class="row">

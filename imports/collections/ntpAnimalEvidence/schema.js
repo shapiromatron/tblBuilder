@@ -44,6 +44,7 @@ export default {
         typeaheadMethod: 'searchNtpAnimalStrain',
         placeholderText: 'B6C3F1, F344',
     },
+
     sex: {
         label: 'Sex',
         type: String,
@@ -69,6 +70,7 @@ export default {
         type: Boolean,
         popoverText: 'Is historical data for this species and strain available in this publication or another?',
     },
+
     randomizationRating: {
         label: 'Bias rating',
         type: String,
@@ -107,6 +109,7 @@ export default {
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
     },
+
     animalModelSensitivityRating: {
         label: 'Bias rating',
         type: String,
@@ -146,6 +149,47 @@ export default {
         popoverText: ratingRationalePopoverText,
     },
     // #3: Exposure
+    agent: {
+        label: 'Agent',
+        type: String,
+        min: 1,
+        popoverText: 'As reported',
+        typeaheadMethod: 'searchNtpAnimalAgent',
+        placeholderText: 'Trichloroethylene, Asbestos',
+    },
+    dosingRoute: {
+        label: 'Dosing route',
+        type: String,
+        min: 1,
+        popoverText: 'As reported',
+        typeaheadMethod: 'searchNtpAnimalDosingRoute',
+        placeholderText: 'Gavage, feed, i.p.',
+    },
+    purity: {
+        label: 'Purity',
+        type: String,
+        min: 1,
+        popoverText: 'As reported',
+        typeaheadMethod: 'searchNtpAnimalPurity',
+        placeholderText: '>99.9%, technical grade',
+    },
+    vehicle: {
+        label: 'Vehicle',
+        type: String,
+        min: 1,
+        popoverText: 'As reported',
+        typeaheadMethod: 'searchNtpAnimalVehicle',
+        placeholderText: 'distilled water, PBS, saline, air',
+    },
+    dosingRegimen: {
+        label: 'Dosing regimen',
+        type: String,
+        min: 1,
+        popoverText: 'Dosing regimen of the agent tested, and (if any) information on any co-exposure or modifying factors (e.g., NDEA, TPA, Aflatoxin B1, UV) including route, concentration and dosing regimen',
+        placeholderText: '2x/d for 103 wk; 2x/wk for 20 mo',
+        textAreaRows: 2,
+    },
+
     chemicalCharacterizationRating: {
         label: 'Bias rating',
         type: String,
@@ -184,6 +228,7 @@ export default {
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
     },
+
     exposureDurationRating: {
         label: 'Bias rating',
         type: String,

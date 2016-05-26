@@ -253,18 +253,18 @@ Meteor.methods({
     searchNtpAnimalStrain: function(query) {
         return singleFieldTextSearch(NtpAnimalEvidence, 'strain', query);
     },
-    // searchNtpAnimalAgent: function(query) {
-    //     return singleFieldTextSearch(NtpAnimalEvidence, 'agent', query);
-    // },
-    // searchNtpAnimalPurity: function(query) {
-    //     return singleFieldTextSearch(NtpAnimalEvidence, 'purity', query);
-    // },
-    // searchNtpAnimalVehicle: function(query) {
-    //     return singleFieldTextSearch(NtpAnimalEvidence, 'vehicle', query);
-    // },
-    // searchNtpAnimalDosingRoute: function(query) {
-    //     return singleFieldTextSearch(NtpAnimalEvidence, 'dosingRoute', query);
-    // },
+    searchNtpAnimalAgent: function(query) {
+        return singleFieldTextSearch(NtpAnimalEvidence, 'agent', query);
+    },
+    searchNtpAnimalDosingRoute: function(query) {
+        return singleFieldTextSearch(NtpAnimalEvidence, 'dosingRoute', query);
+    },
+    searchNtpAnimalPurity: function(query) {
+        return singleFieldTextSearch(NtpAnimalEvidence, 'purity', query);
+    },
+    searchNtpAnimalVehicle: function(query) {
+        return singleFieldTextSearch(NtpAnimalEvidence, 'vehicle', query);
+    },
     // searchNtpAnimalStrengths: function(query) {
     //     return listFieldTextSearch(NtpAnimalEvidence, 'strengths', query);
     // },
