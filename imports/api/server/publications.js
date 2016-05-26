@@ -211,11 +211,21 @@ Meteor.publish('ntpAnimalEvidence', function(tbl_id) {
     this.autorun(function () {
         check(tbl_id, String);
         var tbl = Tables.findOne({_id: tbl_id}),
-            ref_ids;
+            ref_ids, ref_ids1, ref_ids2;
         if (userCanView(tbl, this.userId)) {
-            ref_ids = _.pluck(NtpAnimalEvidence
+            ref_ids1 = _.pluck(NtpAnimalEvidence
                 .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
                 .fetch(), 'referenceID');
+            ref_ids2 = _.chain(NtpAnimalEvidence.find(
+                {tbl_id: tbl_id}, {fields: {additionalReferences: 1}}).fetch())
+              .pluck('additionalReferences')
+              .flatten()
+              .value();
+            ref_ids = _.chain([ref_ids1, ref_ids2])
+                       .flatten()
+                       .uniq()
+                       .value();
+
             return [
                 NtpAnimalEvidence.find({tbl_id: tbl_id}),
                 NtpAnimalEndpointEvidence.find({tbl_id: tbl_id}),
