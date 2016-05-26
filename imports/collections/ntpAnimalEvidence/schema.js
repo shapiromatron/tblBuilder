@@ -9,18 +9,5 @@ export default {
         label: 'Reference',
         type: SimpleSchema.RegEx.Id,
     },
-    strengths: {
-        label: 'Principal strengths',
-        type: String,
-        optional: true,
-        popoverText: 'Note major strengths.',
-        textAreaRows: 4,
-    },
-    limitations: {
-        label: 'Principal limitations',
-        type: String,
-        optional: true,
-        popoverText: 'Note major limitations.',
-        textAreaRows: 4,
     },
 };
