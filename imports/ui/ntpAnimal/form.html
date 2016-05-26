@@ -28,11 +28,14 @@
         <div id="pnlGeneralInfo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="hdrGeneralInfo" aria-expanded="false">
           <div class="panel-body">
             <div class="form-group row">
-              <div class="col-xs-3">
-                <br>{{> referenceSingleSelect}}
+              <div class="col-xs-4">
+                {{> referenceSingleSelect}}
               </div>
-              <div class="col-xs-3">
-                <br>{{> referenceMultiSelect label="Additional references" name="additionalReferences" values=additionalReferences }}
+              <div class="col-xs-4">
+                {{> referenceMultiSelect label="Additional references" name="additionalReferences" values=additionalReferences }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldSelectSingle name="studyDesign" value=studyDesign }}
               </div>
             </div>
           </div>
