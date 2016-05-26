@@ -296,6 +296,46 @@
       </div>
 
 
+      <!-- Confounding -->
+      <div>
+        <div class="panel-heading" role="tab" id="hdrConfounding">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" href="#pnlConfounding"
+                data-toggle="collapse" data-parent="#accordion"
+                aria-expanded="false" aria-controls="pnlConfounding">
+              Confounding
+            </a>
+          </h4>
+        </div>
+        <div id="pnlConfounding" class="panel-collapse collapse" role="tabpanel"
+              aria-labelledby="hdrConfounding" aria-expanded="false">
+          <div class="panel-body">
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>&nbsp;</h5>
+                {{> fldTextArea name="vehicleToxicity" value=vehicleToxicity }}
+                {{> fldTextArea name="animalHusbandry" value=animalHusbandry }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Confounding</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="confoundingRating" value=confoundingRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="confoundingDirection" value=confoundingDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="confoundingRationale" value=confoundingRationale }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
       <!-- Study judgment -->
       <div>
         <div class="panel-heading" role="tab" id="hdrStudyJudgment">

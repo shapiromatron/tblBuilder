@@ -332,4 +332,36 @@ export default {
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
     },
+    // #5: Confounding
+    vehicleToxicity: {
+        label: 'Vehicle toxicity issues',
+        type: String,
+        textAreaRows: 2,
+        popoverText: 'Potential carcinogenic or mutagenic contaminants or vehicle concerns',
+    },
+    animalHusbandry: {
+        label: 'Animal husbandry issues',
+        type: String,
+        textAreaRows: 2,
+        popoverText: 'Monitoring for parasites, disease, or housing conditions',
+    },
+    confoundingRating: {
+        label: 'Bias rating',
+        type: String,
+        allowedValues: ratings,
+        popoverText: ratingRationalePopoverText,
+    },
+    confoundingDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
+    confoundingRationale: {
+        label: 'Bias rationale',
+        type: String,
+        optional: true,
+        textAreaRows: 3,
+        popoverText: ratingRationalePopoverText,
+    },
 };
