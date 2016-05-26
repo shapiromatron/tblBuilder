@@ -2,6 +2,10 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import {
     studyDesigns,
     sexes,
+    ratings,
+    biasDirection,
+    biasDirectionPopoverText,
+    ratingRationalePopoverText,
 } from './constants';
 
 
@@ -64,5 +68,82 @@ export default {
         label: 'Historical data available?',
         type: Boolean,
         popoverText: 'Is historical data for this species and strain available in this publication or another?',
+    },
+    // #3: Study design quality
+    randomizationRating: {
+        label: 'Bias rating',
+        type: String,
+        allowedValues: ratings,
+        popoverText: ratingRationalePopoverText,
+    },
+    randomizationDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
+    randomizationRationale: {
+        label: 'Bias rationale',
+        type: String,
+        optional: true,
+        textAreaRows: 2,
+        popoverText: ratingRationalePopoverText,
+    },
+    concurrentControlsRating: {
+        label: 'Bias rating',
+        type: String,
+        allowedValues: ratings,
+        popoverText: ratingRationalePopoverText,
+    },
+    concurrentControlsDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
+    concurrentControlsRationale: {
+        label: 'Bias rationale',
+        type: String,
+        optional: true,
+        textAreaRows: 2,
+        popoverText: ratingRationalePopoverText,
+    },
+    animalModelSensitivityRating: {
+        label: 'Bias rating',
+        type: String,
+        allowedValues: ratings,
+        popoverText: ratingRationalePopoverText,
+    },
+    animalModelSensitivityDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
+    animalModelSensitivityRationale: {
+        label: 'Bias rationale',
+        type: String,
+        optional: true,
+        textAreaRows: 2,
+        popoverText: ratingRationalePopoverText,
+    },
+    statisticalPowerRating: {
+        label: 'Bias rating',
+        type: String,
+        allowedValues: ratings,
+        popoverText: ratingRationalePopoverText,
+    },
+    statisticalPowerDirection:{
+        label: 'Bias direction',
+        type: String,
+        allowedValues: biasDirection,
+        popoverText: biasDirectionPopoverText,
+    },
+    statisticalPowerRationale: {
+        label: 'Bias rationale',
+        type: String,
+        optional: true,
+        textAreaRows: 2,
+        popoverText: ratingRationalePopoverText,
     },
 };

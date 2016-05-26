@@ -54,22 +54,99 @@
         </div>
         <div id="pnlStudyDesign" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="hdrStudyDesign" aria-expanded="false">
           <div class="panel-body">
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="species" value=species }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="strain" value=strain }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldSelectSingle name="sex" value=sex }}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldInputText name="ageAtStart" value=ageAtStart }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputText name="duration" value=duration }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldCheckbox name="historicalDataAvailable" value=historicalDataAvailable }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
 
-      <!-- Exposure -->
+      <!-- Study design quality -->
       <div>
-        <div class="panel-heading" role="tab" id="hdrExposure">
+        <div class="panel-heading" role="tab" id="hdrStudyDesignQuality">
           <h4 class="panel-title">
-            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#pnlExposure" aria-expanded="false" aria-controls="pnlExposure">
-              Exposure
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#pnlStudyDesignQuality" aria-expanded="false" aria-controls="pnlStudyDesignQuality">
+              Study design quality
             </a>
           </h4>
         </div>
-        <div id="pnlExposure" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="hdrExposure" aria-expanded="false">
+        <div id="pnlStudyDesignQuality" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="hdrStudyDesignQuality" aria-expanded="false">
           <div class="panel-body">
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>Randomization</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="randomizationRating"  value=randomizationRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="randomizationDirection"  value=randomizationDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="randomizationRationale" value=randomizationRationale }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Concurrent controls</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="concurrentControlsRating"  value=concurrentControlsRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="concurrentControlsDirection"  value=concurrentControlsDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="concurrentControlsRationale" value=concurrentControlsRationale }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>Animal model sensitivity</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="animalModelSensitivityRating"  value=animalModelSensitivityRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="animalModelSensitivityDirection"  value=animalModelSensitivityDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="animalModelSensitivityRationale" value=animalModelSensitivityRationale }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Statistical power</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="statisticalPowerRating"  value=statisticalPowerRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="statisticalPowerDirection"  value=statisticalPowerDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="statisticalPowerRationale" value=statisticalPowerRationale }}
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

@@ -32,7 +32,7 @@ let studyDesignOptions = [
         '⬇',
         '⬌',
     ],
-    biasDirectionPopoverText = 'Direction of bias effect (⬆ = away from null, ⬇ = towards null, ⬌ no change)',
+    biasDirectionPopoverText = 'Direction of bias effect (⬆ = away from null, ⬇ = towards null, ⬌ no change/unknown)',
     ratingRationalePopoverText = 'See RoC handbook/protocol for candidate substance';
 
 
