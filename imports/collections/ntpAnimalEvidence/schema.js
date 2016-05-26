@@ -31,7 +31,7 @@ export default {
     species: {
         label: 'Species',
         type: String,
-        min: 1,
+        optional: true,
         popoverText: 'As reported',
         typeaheadMethod: 'searchNtpAnimalSpecies',
         placeholderText: 'Mouse, Rat, Hamster',
@@ -39,7 +39,7 @@ export default {
     strain: {
         label: 'Strain',
         type: String,
-        min: 1,
+        optional: true,
         popoverText: 'As reported',
         typeaheadMethod: 'searchNtpAnimalStrain',
         placeholderText: 'B6C3F1, F344',
@@ -54,14 +54,14 @@ export default {
     ageAtStart: {
         label: 'Age at start',
         type: String,
-        min: 1,
+        optional: true,
         popoverText: 'Age at start of exposure',
         placeholderText: '6-8 wk old, 2 mo old, newborn',
     },
     duration: {
         label: 'Duration',
         type: String,
-        min: 1,
+        optional: true,
         popoverText: 'Exposure duration including additional observation time (if any)',
         placeholderText: '110 wk, 24 mo, lifetime',
     },
@@ -152,7 +152,7 @@ export default {
     agent: {
         label: 'Agent',
         type: String,
-        min: 1,
+        optional: true,
         popoverText: 'As reported',
         typeaheadMethod: 'searchNtpAnimalAgent',
         placeholderText: 'Trichloroethylene, Asbestos',
@@ -160,7 +160,7 @@ export default {
     dosingRoute: {
         label: 'Dosing route',
         type: String,
-        min: 1,
+        optional: true,
         popoverText: 'As reported',
         typeaheadMethod: 'searchNtpAnimalDosingRoute',
         placeholderText: 'Gavage, feed, i.p.',
@@ -168,7 +168,7 @@ export default {
     purity: {
         label: 'Purity',
         type: String,
-        min: 1,
+        optional: true,
         popoverText: 'As reported',
         typeaheadMethod: 'searchNtpAnimalPurity',
         placeholderText: '>99.9%, technical grade',
@@ -176,7 +176,7 @@ export default {
     vehicle: {
         label: 'Vehicle',
         type: String,
-        min: 1,
+        optional: true,
         popoverText: 'As reported',
         typeaheadMethod: 'searchNtpAnimalVehicle',
         placeholderText: 'distilled water, PBS, saline, air',
@@ -184,7 +184,7 @@ export default {
     dosingRegimen: {
         label: 'Dosing regimen',
         type: String,
-        min: 1,
+        optional: true,
         popoverText: 'Dosing regimen of the agent tested, and (if any) information on any co-exposure or modifying factors (e.g., NDEA, TPA, Aflatoxin B1, UV) including route, concentration and dosing regimen',
         placeholderText: '2x/d for 103 wk; 2x/wk for 20 mo',
         textAreaRows: 2,
@@ -271,6 +271,7 @@ export default {
     outcomeMethods: {
         label: 'Outcome methods',
         type: String,
+        optional: true,
         textAreaRows: 4,
         popoverText: 'Diagnostic procedures used; extent of necropsy tissue evaluation',
     },
@@ -336,12 +337,14 @@ export default {
     vehicleToxicity: {
         label: 'Vehicle toxicity issues',
         type: String,
+        optional: true,
         textAreaRows: 2,
         popoverText: 'Potential carcinogenic or mutagenic contaminants or vehicle concerns',
     },
     animalHusbandry: {
         label: 'Animal husbandry issues',
         type: String,
+        optional: true,
         textAreaRows: 2,
         popoverText: 'Monitoring for parasites, disease, or housing conditions',
     },
@@ -368,6 +371,7 @@ export default {
     statisticalReporting: {
         label: 'Statistical reporting',
         type: String,
+        optional: true,
         textAreaRows: 4,
         popoverText: '<add>',
     },
