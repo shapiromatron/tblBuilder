@@ -398,9 +398,23 @@
             </a>
           </h4>
         </div>
-        <div id="pnlStudyJudgment" class="panel-collapse collapse in" role="tabpanel"
+        <div id="pnlStudyJudgment" class="panel-collapse collapse" role="tabpanel"
               aria-labelledby="hdrStudyJudgment" aria-expanded="false">
           <div class="panel-body">
+
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldTextArea name="strengths" value=strengths }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldTextArea name="limitations" value=limitations }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldSelectSingle name="overallUtility" value=overallUtility }}
+                {{> fldTextArea name="overallUtilityRationale" value=overallUtilityRationale }}
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

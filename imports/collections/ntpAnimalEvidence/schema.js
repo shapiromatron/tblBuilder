@@ -409,4 +409,32 @@ export default {
         textAreaRows: 3,
         popoverText: ratingRationalePopoverText,
     },
+    // #7: Study judgment
+    strengths: {
+        label: 'Principal strengths',
+        type: String,
+        optional: true,
+        popoverText: 'e.g., GLP study, multiple doses tested, high number of animals per group',
+        textAreaRows: 4,
+    },
+    limitations: {
+        label: 'Principal limitations',
+        type: String,
+        optional: true,
+        popoverText: 'e.g., inadequate duration, no controls, small number of animals per group, inadequate reporting of exposure or results, high mortality, MTD not reached',
+        textAreaRows: 4,
+    },
+    overallUtility: {
+        label: 'Overall utility',
+        type: String,
+        allowedValues: ratings,
+        popoverText: ratingRationalePopoverText,
+    },
+    overallUtilityRationale: {
+        label: 'Overall utility rationale',
+        type: String,
+        optional: true,
+        textAreaRows: 3,
+        popoverText: ratingRationalePopoverText,
+    },
 };
