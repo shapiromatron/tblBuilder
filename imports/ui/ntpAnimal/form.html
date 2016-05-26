@@ -180,20 +180,75 @@
       </div>
 
 
-      <!-- Confounding -->
+      <!-- Exposure -->
       <div>
         <div class="panel-heading" role="tab" id="hdrConfounding">
           <h4 class="panel-title">
             <a class="collapsed" role="button" href="#pnlConfounding"
                 data-toggle="collapse" data-parent="#accordion"
                 aria-expanded="false" aria-controls="pnlConfounding">
-              Confounding
+              Exposure quality
             </a>
           </h4>
         </div>
         <div id="pnlConfounding" class="panel-collapse collapse in" role="tabpanel"
               aria-labelledby="hdrConfounding" aria-expanded="false">
           <div class="panel-body">
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>Chemical characterization</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="chemicalCharacterizationRating" value=chemicalCharacterizationRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="chemicalCharacterizationDirection" value=chemicalCharacterizationDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="chemicalCharacterizationRationale" value=chemicalCharacterizationRationale }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Dosing regimen</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="dosingRegimenRating" value=dosingRegimenRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="dosingRegimenDirection" value=dosingRegimenDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="dosingRegimenRationale" value=dosingRegimenRationale }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>Exposure duration sensitivity</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="exposureDurationRating" value=exposureDurationRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="exposureDurationDirection" value=exposureDurationDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="exposureDurationRationale" value=exposureDurationRationale }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Dose/response sensitivity</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="doseResponseRating" value=doseResponseRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="doseResponseDirection" value=doseResponseDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="doseResponseRationale" value=doseResponseRationale }}
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
