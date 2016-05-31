@@ -32,13 +32,19 @@ export default {
         placeholderText: 'mg/kg bw',
     },
     // Comments
+    trendTest: {
+        label: 'Trend p-value',
+        type: String,
+        optional: true,
+        popoverText: 'Provide p-value for trend-test when reported',
+    },
     adjustedIncidence: {
         label: 'Adjusted tumor % incidence?',
         type: Boolean,
         popoverText: 'Has % incidence been adjusted for risk or survival?',
     },
     statisticalMethods: {
-        label: 'Survival notes',
+        label: 'Statistical methods',
         type: String,
         optional: true,
         popoverText: 'Methods use for pairwise and trend tests, e.g. Fisher\'s exact pairwise test, Cochran-Armitage. Note if using adjusted values.',
