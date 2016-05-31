@@ -2,12 +2,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import endpointGroupSchema from './endpointGroups';
 
-var isNumericishString = function() {
-    if (!this.isSet || this.value === null) return undefined;
-    let v = this.value.replace(/[<,≤,=,≥,>]/g, '');
-    if(isFinite(parseFloat(v))) return undefined;
-    return 'numericish';
-};
+import { isNumericishString } from '/imports/api/validators';
 
 export default {
     parent_id: {
