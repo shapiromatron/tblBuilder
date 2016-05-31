@@ -2,6 +2,14 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import endpointGroupSchema from './endpointGroups';
 
+var isNumericishString = function() {
+    if (!this.isSet || this.value === null) return undefined;
+    console.log(this.isSet, this.value)
+    let v = this.value.replace(/[<,≤,=,≥,>]/g, '');
+    if(isFinite(parseFloat(v))) return undefined;
+    return 'numericish';
+};
+
 export default {
     parent_id: {
         type: SimpleSchema.RegEx.Id,
@@ -31,6 +39,11 @@ export default {
         popoverText: 'e.g., mg/mL, mg/kg, mg/kg bw, µg/m³',
         typeaheadMethod: 'searchNtpAnimalUnits',
         placeholderText: 'mg/kg bw',
+    },
+    // Dose response
+    endpointGroups: {
+        type: [endpointGroupSchema],
+        minCount: 0,
     },
     // Comments
     trendTest: {
