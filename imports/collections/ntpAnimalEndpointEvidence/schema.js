@@ -1,5 +1,6 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
+import endpointGroupSchema from './endpointGroups';
 
 export default {
     parent_id: {
@@ -36,6 +37,7 @@ export default {
         label: 'Trend p-value',
         type: String,
         optional: true,
+        custom: isNumericishString,
         popoverText: 'Provide p-value for trend-test when reported',
     },
     adjustedIncidence: {
