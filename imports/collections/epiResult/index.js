@@ -24,7 +24,7 @@ var instanceMethods = {
         setWordFields: function() {
             _.extend(this, {
                 wrd_covariatesList: capitalizeFirst(this.covariates.join(', ')),
-                hasTrendTest: this.trendTest != null,
+                hasTrendTest: (this.trendTest) ? true : false,
                 printOrganSite: this.printOrganSite(),
             });
             _.each(this.riskEstimates, function(riskEst){

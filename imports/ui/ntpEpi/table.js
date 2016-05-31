@@ -76,7 +76,7 @@ Template.ntpEpiResultTbl.helpers(_.extend({
         return Session.get('epiRiskShowPlots');
     },
     displayTrendTest: function() {
-        return this.trendTest != null;
+        return (this.trendTest) ? true : false;
     },
     displayEffectUnits: function(d) {
         return d.effectUnits != null;

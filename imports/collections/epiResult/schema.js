@@ -3,6 +3,8 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import organSiteCategories from './organSiteCategories';
 import riskEstimateSchema from './riskEstimateSchema';
 
+import { isNumericishString } from '/imports/api/validators';
+
 
 export default {
     organSiteCategory: {
@@ -34,10 +36,10 @@ export default {
         typeaheadMethod: 'searchEffectUnits',
     },
     trendTest: {
-        label: 'p-value for trend',
-        type: Number,
-        decimal: true,
+        label: 'Trend p-value',
+        type: String,
         optional: true,
+        custom: isNumericishString,
         popoverText: 'Provide p-value for trend-test when reported',
     },
     riskEstimates: {
