@@ -18,7 +18,7 @@ export default {
     histology: {
         label: 'Histology',
         type: String,
-        min: 1,
+        optional: true,
         popoverText: 'e.g., squamous cell carcinoma, papilloma, adenoma, lymphoma, fibrosarcoma, mesothelioma, haemangiosarcoma',
         typeaheadMethod: 'searchNtpAnimalHistology',
         placeholderText: 'squamous cell carcinoma, adenoma',
@@ -26,7 +26,7 @@ export default {
     units: {
         label: 'Dosing units',
         type: String,
-        min: 1,
+        optional: true,
         popoverText: 'e.g., mg/mL, mg/kg, mg/kg bw, µg/m³',
         typeaheadMethod: 'searchNtpAnimalUnits',
         placeholderText: 'mg/kg bw',
