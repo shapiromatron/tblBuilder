@@ -65,7 +65,7 @@ export default {
         popoverText: 'Exposure duration including additional observation time (if any)',
         placeholderText: '110 wk, 24 mo, lifetime',
     },
-    'historicalDataAvailable': {
+    historicalDataAvailable: {
         label: 'Historical data available?',
         type: Boolean,
         popoverText: 'Is historical data for this species and strain available in this publication or another?',

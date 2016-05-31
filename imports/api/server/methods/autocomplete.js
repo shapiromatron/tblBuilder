@@ -11,6 +11,7 @@ import ExposureEvidence from '/imports/collections/exposure';
 import AnimalEvidence from '/imports/collections/animalEvidence';
 import AnimalEndpointEvidence from '/imports/collections/animalResult';
 import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
+import NtpAnimalEndpointEvidence from '/imports/collections/ntpAnimalEndpointEvidence';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import EpiResult from '/imports/collections/epiResult';
 import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
@@ -265,21 +266,15 @@ Meteor.methods({
     searchNtpAnimalVehicle: function(query) {
         return singleFieldTextSearch(NtpAnimalEvidence, 'vehicle', query);
     },
-    // searchNtpAnimalStrengths: function(query) {
-    //     return listFieldTextSearch(NtpAnimalEvidence, 'strengths', query);
-    // },
-    // searchNtpAnimalLimitations: function(query) {
-    //     return listFieldTextSearch(NtpAnimalEvidence, 'limitations', query);
-    // },
-    // searchNtpAnimalTumourSite: function(query) {
-    //     return singleFieldTextSearch(NtpAnimalEndpointEvidence, 'tumourSite', query);
-    // },
-    // searchNtpAnimalHistology: function(query) {
-    //     return singleFieldTextSearch(NtpAnimalEndpointEvidence, 'histology', query);
-    // },
-    // searchNtpAnimalUnits: function(query) {
-    //     return extraUnitsSearch(NtpAnimalEndpointEvidence, query);
-    // },
+    searchNtpAnimalTumourSite: function(query) {
+        return singleFieldTextSearch(NtpAnimalEndpointEvidence, 'tumourSite', query);
+    },
+    searchNtpAnimalHistology: function(query) {
+        return singleFieldTextSearch(NtpAnimalEndpointEvidence, 'histology', query);
+    },
+    searchNtpAnimalUnits: function(query) {
+        return extraUnitsSearch(NtpAnimalEndpointEvidence, query);
+    },
     searchNtpEpiCaseControlMatching: function(query) {
         return listFieldTextSearch(NtpEpiConfounder, 'caseControlMatching', query);
     },
