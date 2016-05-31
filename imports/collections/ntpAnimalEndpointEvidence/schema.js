@@ -4,7 +4,6 @@ import endpointGroupSchema from './endpointGroups';
 
 var isNumericishString = function() {
     if (!this.isSet || this.value === null) return undefined;
-    console.log(this.isSet, this.value)
     let v = this.value.replace(/[<,≤,=,≥,>]/g, '');
     if(isFinite(parseFloat(v))) return undefined;
     return 'numericish';
