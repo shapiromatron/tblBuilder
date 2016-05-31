@@ -89,7 +89,7 @@ let instanceMethods = {
                     return rows;
                 },
                 header = [
-                    'Descriptive ID', 'Reference', 'Pubmed ID', 'Study design',
+                    'Descriptive ID', 'Reference', 'Reference year', 'Pubmed ID', 'Study design',
                     'Location', 'Enrollment or follow-up dates', 'Population/eligibility characteristics',
                     'Other population descriptors', 'Outcome Data Source', 'Population size',
                     'Loss to follow-up (%)', 'Type of referent group', 'Population cases',
@@ -113,7 +113,7 @@ let instanceMethods = {
                 v.getReference();
                 v.getResults();
                 let row = [
-                        v._id, v.reference.name, v.reference.pubmedID,
+                        v._id, v.reference.name, v.reference.getYear(), v.reference.pubmedID,
                         v.studyDesign, v.location, v.enrollmentDates,
                         v.eligibilityCriteria, v.populationDescription,
                         v.outcomeDataSource, v.populationSize,
@@ -134,8 +134,8 @@ let instanceMethods = {
         },
         tabularMetaAnalysis: function(rows){
             rows.unshift([
-                'Reference', 'Pubmed ID', 'Study design', 'Location',
-                'Enrollment or follow-up dates',
+                'Reference', 'Reference year', 'Pubmed ID',
+                'Study design', 'Location', 'Enrollment or follow-up dates',
 
                 'Organ site', 'Effect measure',
                 'Units of effect measurement',
@@ -148,8 +148,8 @@ let instanceMethods = {
         tablularMetaAnalysisRow: function(d){
             d.desc.getReference();
             return [
-                d.desc.reference.name, d.desc.reference.pubmedID, d.desc.studyDesign,
-                d.desc.location, d.desc.enrollmentDates,
+                d.desc.reference.name, d.desc.reference.getYear(), d.desc.reference.pubmedID,
+                d.desc.studyDesign, d.desc.location,  d.desc.enrollmentDates,
                 d.res.organSite, d.res.effectMeasure,
                 d.res.effectUnits,
                 d.exposureCategory, d.numberExposed,

@@ -92,7 +92,7 @@ let instanceMethods = {
                     return rows;
                 },
                 header = [
-                    'Evidence ID', 'Reference', 'Pubmed ID', 'Study design',
+                    'Evidence ID', 'Reference', 'Reference year', 'Pubmed ID', 'Study design',
                     'Species', 'Strain', 'Sex', 'Agent', 'Purity', 'Dosing route',
                     'Vehicle', 'Age at start', 'Duration', 'Dosing Regimen',
                     'Strengths', 'Limitations', 'Comments', 'Endpoint ID',
@@ -107,7 +107,7 @@ let instanceMethods = {
                 ag.getReference();
                 ag.getResults();
                 let row = [
-                        ag._id, ag.reference.name, ag.reference.pubmedID,
+                        ag._id, ag.reference.name, ag.reference.getYear(), ag.reference.pubmedID,
                         ag.studyDesign, ag.species, ag.strain,
                         ag.sex, ag.agent, ag.purity, ag.dosingRoute,
                         ag.vehicle, ag.ageAtStart, ag.duration,

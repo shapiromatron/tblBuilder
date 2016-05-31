@@ -169,7 +169,7 @@ var instanceMethods = {
         tabular: function(tbl_id) {
             let qs = GenotoxEvidence.getTableEvidence(tbl_id),
                 header = [
-                    'Genotoxicity ID', 'Reference', 'Pubmed ID',
+                    'Genotoxicity ID', 'Reference', 'Reference year', 'Pubmed ID',
                     'Data class', 'Agent', 'Plylogenetic class', 'Test system',
                     'Non-mammalian species', 'Non-mammalian strain',
                     'Mammalian species', 'Mammalian strain', 'Tissue/Cell line', 'Species', 'Strain', 'Sex',
@@ -184,7 +184,7 @@ var instanceMethods = {
             data = _.map(qs, function(d){
                 d.getReference();
                 return [
-                    d._id, d.reference.name, d.reference.pubmedID,
+                    d._id, d.reference.name, d.reference.getYear(), d.reference.pubmedID,
                     d.dataClass, d.agent, d.phylogeneticClass,
                     d.testSystem, d.speciesNonMamm, d.strainNonMamm,
                     d.testSpeciesMamm, d.speciesMamm, d.tissueCellLine,

@@ -18,10 +18,13 @@ let instanceMethods = {
             Reference.update(this._id, {$set: vals});
         },
         getSortString: function(){
-            var yr = '0000',
-                nums = this.name.match(/\d{4}/g);
-            if (nums) yr = nums.pop();
+            var yr = this.getYear() || '0000';
             return `${yr}_${this.name}`;
+        },
+        getYear: function(){
+            var matches = this.name.match(/\d{4}/g);
+            if (matches) return parseInt(matches[0]);
+            return null;
         },
     },
     classMethods = {
@@ -29,7 +32,7 @@ let instanceMethods = {
         tabular: function(monographAgent){
             var data, refs,
                 header = [
-                    '_id', 'Short Citation', 'Full Citation',
+                    '_id', 'Short Citation', 'Year', 'Full Citation',
                     'Reference Type', 'Pubmed ID', 'Other URL',
                     'PDF link',
                 ];
@@ -39,7 +42,7 @@ let instanceMethods = {
                 {sort: [['name', 1]]}).fetch();
             data = _.map(refs, function(v) {
                 return [
-                    v._id, v.name, v.fullCitation,
+                    v._id, v.name, v.getYear(), v.fullCitation,
                     v.referenceType, v.pubmedID, v.otherURL,
                     v.pdfURL];
             });

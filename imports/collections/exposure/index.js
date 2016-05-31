@@ -48,7 +48,7 @@ let instanceMethods = {
         tabular: function(tbl_id) {
             let qs = ExposureEvidence.getTableEvidence(tbl_id),
                 header = [
-                    'Exposure ID', 'Reference', 'Pubmed ID', 'Exposure scenario',
+                    'Exposure ID', 'Reference', 'Reference year', 'Pubmed ID', 'Exposure scenario',
                     'Collection date', 'Occupation', 'Occupational information',
                     'Country', 'Location', 'Agent', 'Sampling Matrix', 'Sampling Approach',
                     'Number of measurements', 'Measurement duration', 'Exposure level',
@@ -60,7 +60,7 @@ let instanceMethods = {
             rows = _.map(qs, function(v){
                 v.getReference();
                 return [
-                    v._id, v.reference.name, v.reference.pubmedID,
+                    v._id, v.reference.name, v.reference.getYear(), v.reference.pubmedID,
                     v.exposureScenario, v.collectionDate,
                     v.occupation, v.occupationInfo,
                     v.country, v.location,
