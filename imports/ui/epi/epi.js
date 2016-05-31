@@ -213,7 +213,11 @@ Template.epiOrganSiteCategories.onRendered(function() {
 });
 
 
-Template.epiResultForm.helpers(abstractNestedFormHelpers);
+Template.epiResultForm.helpers(_.extend({
+    getRiskEstimateSchema(){
+        return EpiResult.riskEstimateSchema.schema();
+    },
+}, abstractNestedFormHelpers));
 Template.epiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
         var tbody = tmpl.find('.riskEstimateTbody');

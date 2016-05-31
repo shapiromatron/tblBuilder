@@ -4,6 +4,7 @@ import _ from 'underscore';
 
 import { attachTableSchema } from '../schemas';
 import schema_extension from './schema';
+import riskEstimateSchema from './riskEstimateSchema';
 import {
     capitalizeFirst,
     newValues,
@@ -51,6 +52,7 @@ var instanceMethods = {
                 return newValues(row);
             });
         },
+        riskEstimateSchema,
     },
     EpiResult = new Meteor.Collection('epiResult', {
         transform: function (doc) {
