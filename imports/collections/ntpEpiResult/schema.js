@@ -50,7 +50,7 @@ export default {
         label: 'Covariates controlled',
         type: [String],
         minCount: 0,
-        popoverText: 'List all covariates which were controlled by matching or adjustment in the analysis reported. Enter each covariate individually, and then press <enter> to add it to the list. If no covariates were specified, add \'not-specified\'',
+        popoverText: 'List covariates which were controlled by matching or adjustment in the reported analysis. Enter each covariate individually, and then press <enter> to add it to the list. If no covariates were specified, add \'not-specified\'',
         typeaheadMethod: 'searchNtpCovariates',
     },
     otherVariables: {

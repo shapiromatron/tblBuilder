@@ -39,17 +39,17 @@ export default {
         textAreaRows: 4,
     },
     caseControlMatching: {
-        label: 'Matching criteria',
+        label: 'Matching variables',
         type: [String],
         minCount: 0,
-        popoverText: 'List the factors that the controls were matched on',
+        popoverText: 'List variables on which controls were matched to cases',
         typeaheadMethod: 'searchNtpEpiCaseControlMatching',
     },
     caseControlDiffers: {
-        label: 'Differs criteria',
+        label: 'Variables which differ between cases and controls',
         type: [String],
         minCount: 0,
-        popoverText: 'List variables that differ between cases and control such as demographics (i.e. age, sex) or lifestyle (i.e., smoking)',
+        popoverText: 'List variables that differ between cases and controls (e.g., age, smoking, gender, etc.)',
         typeaheadMethod: 'searchNtpEpiCaseControlDiffers',
     },
     coexposures: {

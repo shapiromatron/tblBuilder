@@ -8,15 +8,15 @@ import {
 export default new SimpleSchema({
     vocName: {
         type: String,
-        label: 'Variable',
-        popoverText: 'Based on review of information, identify variables that may be a potential confounder/endpoint specific.',
+        label: 'Potential confounder',
+        popoverText: 'Identify variables that may be a potential confounder for a specific endpoint.',
         typeaheadMethod: 'searchNtpEpiVariablesOfConcern',
     },
     vocAddressedInStats: {
         type: String,
         label: 'Addressed in stats?',
         textAreaRows: 3,
-        popoverText: 'Was this variable controlled for statistically?',
+        popoverText: 'Was potential confounder addressed statistically or as part of matched design?',
         optional: true,
     },
     vocSimilarAcrossGroups: {
@@ -30,28 +30,28 @@ export default new SimpleSchema({
         type: String,
         label: 'Co-exposures associated?',
         textAreaRows: 3,
-        popoverText: 'Is there sufficient or limited evidence from authoritative reviews or studies finding a positive association',
+        popoverText: 'Is co-exposure associated with the outcome based on evidence from authoritative reviews or studies finding a positive association?',
         optional: true,
     },
     vocOtherInformation: {
         type: String,
         label: 'Other information',
         textAreaRows: 3,
-        popoverText: ratingRationalePopoverText,
+        popoverText: 'Include other information relevant for assessing if variable is a confounder',
         optional: true,
     },
     vocStrengthOfAssociation: {
         type: String,
         label: 'Strength of association',
         textAreaRows: 3,
-        popoverText: 'Include EE or E/R data for candidate substance and endpoint found in the study.',
+        popoverText: 'Include EE or E/R data for candidate substance and endpoint found in the study',
         optional: true,
     },
     vocRuleOutConfounding: {
         type: String,
         label: 'Rule out confounding?',
         textAreaRows: 3,
-        popoverText: 'Scientific judgment on whether the confounder can be reasonably ruled-out and provide rationale',
+        popoverText: 'Include scientific judgment and rationale on whether the confounder can be reasonably ruled-out',
         optional: true,
     },
 });
