@@ -15,7 +15,7 @@ export default new SimpleSchema({
         optional: true,
         popoverText: 'As reported',
     },
-    tumorIncidence: {
+    incidence: {
         label: 'Tumor incidence',
         type: String,
         optional: true,

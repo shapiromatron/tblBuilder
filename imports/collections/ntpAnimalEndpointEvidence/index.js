@@ -12,13 +12,20 @@ import {
 
 
 let instanceMethods = {
+        incidenceText: function(){
+            let arr = _.chain(this.endpointGroups)
+                .pluck('incidence')
+                .compact()
+                .value();
+            return (arr.length>0)? arr.join(', '): 'NR';
+        },
     },
     classMethods = {
         preSaveHook: function(tmpl, obj) {
             // save endpoint-groups
             delete obj.dose;
             delete obj.nStart;
-            delete obj.tumorIncidence;
+            delete obj.incidence;
             delete obj.multiplicity;
             let trs = tmpl.findAll('.egs tr');
             obj.endpointGroups = _.map(trs, function(row){

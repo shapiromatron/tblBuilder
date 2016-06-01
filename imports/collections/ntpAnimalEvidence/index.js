@@ -8,6 +8,10 @@ import { attachTableSchema } from '../schemas';
 
 import schema_extension from './schema';
 
+import {
+    sharedClassMethods,
+} from '/imports/collections/animalEvidence';
+
 
 let instanceMethods = {
         getReference: function(){
@@ -17,8 +21,7 @@ let instanceMethods = {
             return this.reference;
         },
     },
-    classMethods = {
-    },
+    classMethods = _.extend({}, sharedClassMethods),
     NtpAnimalEvidence = new Meteor.Collection('ntpAnimalEvidence', {
         transform: function (doc) {
             return  _.extend(Object.create(instanceMethods), doc);

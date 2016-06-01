@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
-import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
+import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
 import NtpAnimalEndpointEvidence from '/imports/collections/ntpAnimalEndpointEvidence';
 
 import {
@@ -22,18 +22,27 @@ import {
 import './table.html';
 
 
-Template.ntpAnimalEvidenceTable.helpers(_.extend(abstractTblHelpers, {
-    showPlots() {
-        return Session.get('epiRiskShowPlots');
-    },
-}));
+Template.ntpAnimalEvidenceTable.helpers(abstractTblHelpers);
 Template.ntpAnimalEvidenceTable.onRendered(function() {
-    initDraggables(this.find('#sortable'), '.dhOuter', NtpEpiDescriptive);
+    initDraggables(this.find('#sortable'), '.dhOuter', NtpAnimalEvidence);
     toggleRowVisibilty(Session.get('reorderRows'), this.$('.dragHandle'));
 });
 
 
-Template.ntpAnimalEvidenceRow.helpers(abstractRowHelpers);
+var getFirstEndpoint = function(parent_id) {
+    return NtpAnimalEndpointEvidence.findOne({parent_id: parent_id});
+};
+Template.ntpAnimalEvidenceRow.helpers(_.extend({
+    getDoses: function() {
+        return NtpAnimalEvidence.getDoses(getFirstEndpoint(this._id));
+    },
+    getNStarts: function() {
+        return NtpAnimalEvidence.getNStarts(getFirstEndpoint(this._id));
+    },
+    getNSurvivings: function() {
+        return NtpAnimalEvidence.getNSurvivings(getFirstEndpoint(this._id));
+    },
+}, abstractRowHelpers));
 Template.ntpAnimalEvidenceRow.events(abstractRowEvents);
 Template.ntpAnimalEvidenceRow.onRendered(function() {
     initDraggables(this.find('#sortableInner'), '.dhInner', NtpAnimalEndpointEvidence);

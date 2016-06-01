@@ -8,9 +8,6 @@
     {{/if}}
     {{> optMonoRefList}}
     {{> optFullScreen}}
-    {{> optExcel }}
-    {{> optWord }}
-    {{> optRiskPlot}}
     {{> optShowAllRows}}
     {{> optQaFlags}}
   {{/actionBtn}}
@@ -24,13 +21,33 @@
   <table class="evidenceTable table table-compressed">
     <colgroup>
       <col width="15%">
+      <col width="20%">
+      <col width="26%">
+      <col width="14%">
+      <col width="25%">
     </colgroup>
     <thead>
       <tr>
-        <th>A</th>
-        <th>B</th>
-        <th colspan="5">C</th>
-        <th>D</th>
+        <th>
+          Study design<br>
+          Species, strain (sex)<br>
+          Age at start<br>
+          Duration<br>
+          Reference</th>
+
+        <th>
+          Route<br>
+          Agent tested, purity<br>
+          Vehicle<br>
+          Dose(s)<br>
+          # animals at start</th>
+
+        <th>
+          Results</th>
+        <th>
+          Significance</th>
+        <th>
+          Comments</th>
       </tr>
     </thead>
     <tbody id="sortable">
@@ -95,13 +112,20 @@
       </div>
     {{/if}}
     {{qaMark isQA}}
-    {{>printReference id=referenceID}}<br>
-    {{location}}<br>
-    {{#if enrollmentDates}}{{enrollmentDates}}<br>{{/if}}
-    {{studyDesign}}
+    <strong>{{studyDesign}}</strong><br>
+    <strong>{{species}}</strong>, {{strain}} ({{sex}})<br>
+    {{ageAtStart}}<br>
+    {{duration}}<br>
+    {{>printReference id=referenceID}}
   </td>
-  <td>2</td>
-  <td colspan="5" id="sortableInner">
+  <td>
+    {{dosingRoute}}<br>
+    {{agent}}, {{purity}}<br>
+    {{vehicle}}<br>
+    {{getDoses}}<br>
+    {{dosingRegimen}}<br>
+    {{getNStarts}}</td>
+  <td colspan="2" id="sortableInner">
     {{#each getChildren}}
       {{> ntpAnimalEndpointEvidenceTable}}
     {{else}}
@@ -117,7 +141,8 @@
   </td>
   <td>
     <strong>Strengths: </strong>{{strengths}}<br>
-    <strong>Limitations: </strong>{{limitations}}</td>
+    <strong>Limitations: </strong>{{limitations}}<br>
+    {{overallUtilityRationale}}</td>
   <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
 </template>
 
@@ -129,19 +154,21 @@
         data-sortIdx="{{sortIdx}}">
       <table class="table table-condensed nestedTbl">
         <colgroup>
-          <col width="20.4%">
-          <col width="22.4%">
-          <col width="12.2%">
-          <col width="24.5%">
-          <col width="20.5%">
+          <col width="65%">
+          <col width="35%">
         </colgroup>
         <tbody>
           <tr>
-            <td>{{qaMark isQA}}{{organSite}}{{> ntpAnimalEndpointEvidenceActions}}</td>
-            <td>{{sortIdx}}</td>
-            <td>c</td>
-            <td>d</td>
-            <td>e</td>
+            <td>
+              {{> ntpAnimalEndpointEvidenceActions}}
+              {{qaMark isQA}}
+              <strong>{{tumourSite}}: {{histology}}</strong>
+              {{incidenceText}}
+            </td>
+            <td>{{significanceNotes}}</td>
+            <td class="dragHandle dhInner"
+                style="display: none"
+                title="Drag to re-order rows"></td>
           </tr>
         </tbody>
       </table>

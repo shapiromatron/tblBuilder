@@ -16,6 +16,71 @@ import {
 } from './constants';
 
 
+let sharedClassMethods = {
+    getDoses(e) {
+        if (e) {
+            let units = e.units || '',
+                arr = _.chain(e.endpointGroups)
+                    .pluck('dose')
+                    .compact()
+                    .value();
+            return (arr.length>0)?
+                `${arr.join(', ')} ${units}`:
+                'NR';
+        } else {
+            return 'NR';
+        }
+    },
+    getNStarts(e) {
+        if (e) {
+            let arr = _.chain(e.endpointGroups)
+                .pluck('nStart')
+                .compact()
+                .value();
+            return (arr.length>0)? arr.join(', '): 'NR';
+        } else {
+            return 'NR';
+        }
+    },
+    getNSurvivings(e) {
+        var numeric, survivings;
+        if ((e == null) || (e.endpointGroups == null)) return 'NR';
+        numeric = false;
+        survivings = e.endpointGroups
+            .map(function(eg) {
+                if ((eg.nSurviving != null) && eg.nSurviving !== '') {
+                    numeric = true;
+                    return eg.nSurviving;
+                } else {
+                    return 'NR';
+                }
+            });
+        if (numeric) {
+            return survivings.join(', ');
+        } else {
+            return 'NR';
+        }
+    },
+    getIncidents(egs) {
+        var val;
+        if (_.pluck(egs, 'incidence').join('').length > 0) {
+            val = egs.map((v)=>v.incidence).join(', ');
+            return 'Tumour incidence: ' + val;
+        } else {
+            return '';
+        }
+    },
+    getMultiplicities(egs) {
+        var val;
+        if (_.pluck(egs, 'multiplicity').join('').length > 0) {
+            val = egs.map((v)=>v.multiplicity || 'NR').join(', ');
+            return 'Tumour multiplicity: ' + val;
+        } else {
+            return '';
+        }
+    },
+};
+
 
 let instanceMethods = {
         setWordFields: function() {
@@ -59,7 +124,7 @@ let instanceMethods = {
             return this.results;
         },
     },
-    classMethods = {
+    classMethods = _.extend({
         studyDesigns,
         sexes,
         getTableEvidence: function(tbl_id){
@@ -125,7 +190,7 @@ let instanceMethods = {
         getDoses: function(e) {
             if (e) {
                 return e.endpointGroups
-                        .map(function(v) {return v.dose;})
+                        .map((v)=>v.dose)
                         .join(', ') + ' ' + e.units;
             } else {
                 return 'NR';
@@ -134,7 +199,7 @@ let instanceMethods = {
         getNStarts: function(e) {
             if (e) {
                 return e.endpointGroups
-                        .map(function(v) {return v.nStart;})
+                        .map((v)=>v.nStart)
                         .join(', ');
             } else {
                 return 'NR';
@@ -162,7 +227,7 @@ let instanceMethods = {
         getIncidents: function(egs) {
             var val;
             if (_.pluck(egs, 'incidence').join('').length > 0) {
-                val = egs.map(function(v) {return v.incidence;}).join(', ');
+                val = egs.map((v)=>v.incidence).join(', ');
                 return 'Tumour incidence: ' + val;
             } else {
                 return '';
@@ -171,7 +236,7 @@ let instanceMethods = {
         getMultiplicities: function(egs) {
             var val;
             if (_.pluck(egs, 'multiplicity').join('').length > 0) {
-                val = egs.map(function(v) {return v.multiplicity || 'NR';}).join(', ');
+                val = egs.map((v)=>v.multiplicity || 'NR').join(', ');
                 return 'Tumour multiplicity: ' + val;
             } else {
                 return '';
@@ -217,7 +282,7 @@ let instanceMethods = {
             'Reference':    collSorts.sortByReference,
             'Agent':        _.partial(collSorts.sortByTextField, 'agent'),
         },
-    },
+    }, sharedClassMethods),
     AnimalEvidence = new Meteor.Collection('animalEvidence', {
         transform: function (doc) {
             return  _.extend(Object.create(instanceMethods), doc);
@@ -228,3 +293,4 @@ _.extend(AnimalEvidence, classMethods);
 attachTableSchema(AnimalEvidence, schema_extension);
 
 export default AnimalEvidence;
+export { sharedClassMethods };
