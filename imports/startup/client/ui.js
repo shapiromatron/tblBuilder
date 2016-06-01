@@ -63,6 +63,9 @@ var uiHelpers = {
     getMonographAgent: function(){
         return Session.get('monographAgent');
     },
+    preserveWhitespaceInHtml(txt){
+        if (txt) return txt.replace(/(\n)+/g, '<br>');
+    },
 };
 
 _.each(uiHelpers, function(func, name){

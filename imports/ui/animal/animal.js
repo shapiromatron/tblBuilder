@@ -169,38 +169,26 @@ Template.animalTrendTestReport.helpers({
 
 
 Template.animalEndpointTbl.helpers(_.extend({
+    showIncidents(){
+        var val = AnimalEvidence.getIncidents(this.endpointGroups);
+        return (val !== '');
+    },
     getIncidents: function() {
-        var txt = '',
-            val = AnimalEvidence.getIncidents(this.endpointGroups),
-            sig;
-
-        if (val !== '') {
-            sig = this.incidence_significance || '';
-            txt = `<tr><td>${val}</td><td>${sig}</td></tr>`;
-        }
-        return txt;
+        return AnimalEvidence.getIncidents(this.endpointGroups);
+    },
+    showMultiplicities(){
+        var val = AnimalEvidence.getMultiplicities(this.endpointGroups);
+        return (val !== '');
     },
     getMultiplicities: function() {
-        var txt = '',
-            val = AnimalEvidence.getMultiplicities(this.endpointGroups),
-            sig;
-
-        if (val !== '') {
-            sig = this.multiplicity_significance || '';
-            txt = `<tr><td>${val}</td><td>${sig}</td></tr>`;
-        }
-        return txt;
+        return AnimalEvidence.getMultiplicities(this.endpointGroups);
+    },
+    showTotalTumours(){
+        var val = AnimalEvidence.getTotalTumours(this.endpointGroups);
+        return (val !== '');
     },
     getTotalTumours: function() {
-        var txt = '',
-            val = AnimalEvidence.getTotalTumours(this.endpointGroups),
-            sig;
-
-        if (val !== '') {
-            sig = this.total_tumours_significance || '';
-            txt = `<tr><td>${val}</td><td>${sig}</td></tr>`;
-        }
-        return txt;
+        return AnimalEvidence.getTotalTumours(this.endpointGroups);
     },
 }, abstractNestedTableHelpers));
 Template.animalEndpointTbl.events(abstractNestedTableEvents);
