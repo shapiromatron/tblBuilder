@@ -76,10 +76,12 @@
                    class="panel-collapse collapse" role="tabpanel">
                 <div class="panel-body form-group row">
                   <div class="col-xs-3">
+                    {{> fldCheckbox name="adjustedIncidence" value=adjustedIncidence nested=true }}
+                    <br>
                     {{> fldInputText name="trendTest" value=trendTest nested=true }}
                   </div>
                   <div class="col-xs-3">
-                    {{> fldCheckbox name="adjustedIncidence" value=adjustedIncidence nested=true }}
+                    {{> fldTextArea name="significanceNotes" value=significanceNotes nested=true }}
                   </div>
                   <div class="col-xs-3">
                     {{> fldTextArea name="statisticalMethods" value=statisticalMethods nested=true }}
