@@ -24,12 +24,14 @@ class ExposureTables(DOCXReport):
         for d in exposures:
             runs = [
                 tbl.new_run(d["occupation"], newline=True, b=True),
-                tbl.new_run(u"{}, {}".format(d["wrd_location"], d["collectionDate"]),
-                            newline=False)
+                tbl.new_run(u"{}, {}".format(
+                        d["location"] or 'Not-reported',
+                        d["collectionDate"]
+                    ), newline=False)
             ]
             tbl.new_td_run(row, 0, runs)
 
-            tbl.new_td_txt(row, 1, d["wrd_occupationInfo"])
+            tbl.new_td_txt(row, 1, d["occupationInfo"] or '')
 
             txt = u"{} {} ({}, {})".format(
                 d["exposureLevel"],
@@ -42,7 +44,7 @@ class ExposureTables(DOCXReport):
             txt = u"{} {}".format(d["exposureLevelRange"], d["units"])
             tbl.new_td_txt(row, 3, txt)
 
-            tbl.new_td_txt(row, 4, d["wrd_comments"])
+            tbl.new_td_txt(row, 4, d["comments"] or '')
             tbl.new_td_txt(row, 5, d["reference"]["name"])
             row += 1
 
@@ -67,10 +69,10 @@ class ExposureTables(DOCXReport):
         for d in exposures:
             runs = [
                 tbl.new_run(d["country"], newline=True, b=True),
-                tbl.new_run(
-                    u"{}, {}".format(d["wrd_location"], d["collectionDate"],
-                    newline=False)
-                )
+                tbl.new_run(u"{}, {}".format(
+                        d["location"] or 'Not-reported',
+                        d["collectionDate"]
+                    ), newline=False)
             ]
             tbl.new_td_run(row, 0, runs)
 
@@ -85,7 +87,7 @@ class ExposureTables(DOCXReport):
             txt = u"{} {}".format(d["exposureLevelRange"], d["units"])
             tbl.new_td_txt(row, 2, txt)
 
-            tbl.new_td_txt(row, 3, d["wrd_comments"])
+            tbl.new_td_txt(row, 3, d["comments"] or '')
             tbl.new_td_txt(row, 4, d["reference"]["name"])
             row += 1
 

@@ -22,9 +22,7 @@ let instanceMethods = {
             return isOccupational(this.exposureScenario);
         },
         setWordFields: function() {
-            this.wrd_location = this.location || 'Not-reported';
-            this.wrd_occupationInfo = this.occupationInfo || '';
-            this.wrd_comments = this.comments || '';
+            this.isOccupational = this.isOccupational();
         },
         getReference: function(){
             if (_.isUndefined(this.reference)){
@@ -81,30 +79,37 @@ let instanceMethods = {
                 'fn': 'exposure',
                 'text': 'Download Word',
             },
+            {
+                'type': 'ExposureHtmlTable',
+                'fn': 'exposure',
+                'text': 'Download Word (HTML re-creation)',
+            },
         ],
-        wordContext: function(tbl_id){
-            var tbl = Tables.findOne(tbl_id),
+        wordHtmlContext(tbl_id){
+            var table = Tables.findOne(tbl_id),
                 exposures = ExposureEvidence.find(
                         {tbl_id: tbl_id, isHidden: false}, {sort: {sortIdx: 1}}
                     ).fetch();
 
             exposures.forEach(function(exp){
-                exp.reference = Reference.findOne({_id: exp.referenceID});
+                exp.getReference();
                 exp.setWordFields();
             });
 
             return {
-                'table': tbl,
-                'exposures': exposures,
-                'occupationals': _.filter(exposures, function(d) {
-                    return d.exposureScenario === 'Occupational';
-                }),
-                'environmentals': _.filter(exposures, function(d) {
-                    return d.exposureScenario === 'Environmental';
-                }),
-                'mixed': _.filter(exposures, function(d) {
-                    return d.exposureScenario === 'Integrated/mixed';
-                }),
+                table,
+                exposures,
+            };
+        },
+        wordContext(tbl_id){
+            let context = this.wordHtmlContext(tbl_id),
+                exposures = context.exposures;
+
+            return {
+                'table': context.table,
+                'occupationals': exposures.filter((d) => d.exposureScenario === 'Occupational'),
+                'environmentals': exposures.filter((d) => d.exposureScenario === 'Environmental'),
+                'mixed': exposures.filter((d) => d.exposureScenario === 'Integrated/mixed'),
             };
         },
         sortFields: {
