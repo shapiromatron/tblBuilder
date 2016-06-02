@@ -6,9 +6,10 @@ import {
 import {
     ratings,
     biasDirection,
-    biasDirectionPopoverText,
     ratingRationalePopoverText,
 } from '/imports/collections/ntpEpiDescriptive/constants';
+
+let biasDirectionPopoverText = 'Direction of bias effect (⬆ = potential for false-positive, ⬇ = potential for false-negative, ⬌ = unknown)';
 
 export { studyDesigns };
 export { sexes };
