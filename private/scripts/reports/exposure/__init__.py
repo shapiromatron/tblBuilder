@@ -1,1 +1,1 @@
-from exposureTables import *
+from exposureTables import *  # noqa
