@@ -1,1 +1,1 @@
-from html import *
+from html import *  # noqa

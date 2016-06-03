@@ -1,3 +1,3 @@
-from DescriptiveTable import *
-from ResultTable import *
-from html import *
+from DescriptiveTable import *  # noqa
+from ResultTable import *  # noqa
+from html import *  # noqa

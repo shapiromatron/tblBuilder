@@ -1,3 +1,3 @@
-from genotoxHtmlTables import *
-from genotoxTables import *
-from mechanisticHtml import *
+from genotoxHtmlTables import *  # noqa
+from genotoxTables import *  # noqa
+from mechanisticHtml import *  # noqa
