@@ -16,10 +16,23 @@ export default new SimpleSchema({
         popoverText: 'As reported',
     },
     incidence: {
-        label: 'Tumor incidence',
+        label: 'Incidence',
         type: String,
         optional: true,
-        popoverText: 'N of tumor-bearing animals/N of animals at risk (%)[use N at start if N at risk is unknown]. Add asterisk(s) to identify a pairwise significance (e.g.: 4/10 (40.0)*, 6/37 (16.2), 6/50 (12.0)**)',
+        popoverText: 'N of tumor-bearing animals/N of animals at risk [use N at start if N at risk is unknown] (e.g.: 4/10, 6/37, 6/50)',
+    },
+    incidencePercent: {
+        label: '% Incidence',
+        type: Number,
+        optional: true,
+        decimal: true,
+        popoverText: '% of animal incidence, may be adjusted using poly-3 model (e.g. 0.0, 13.2, 95.0)',
+    },
+    incidenceSymbol: {
+        label: 'Significance symbol',
+        type: String,
+        optional: true,
+        popoverText: 'Add asterisk(s) to identify a pairwise significance, one for each footnote, or none (e.g.: *, **, ***)',
     },
     multiplicity: {
         label: 'Tumor multiplicity',

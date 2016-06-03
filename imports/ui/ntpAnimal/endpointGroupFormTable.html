@@ -1,11 +1,13 @@
 <template name="endpointGroupFormTable">
   <table id="endpointGroupFormTable" class="table table-condensed">
     <colgroup>
-      <col width="10%">
-      <col width="22.5%">
-      <col width="22.5%">
-      <col width="22.5%">
-      <col width="22.5%">
+      <col width="8%">
+      <col width="17%">
+      <col width="17%">
+      <col width="17%">
+      <col width="12%">
+      <col width="12%">
+      <col width="17%">
     </colgroup>
     <thead>
       <tr>
@@ -25,6 +27,12 @@
         </th>
         <th class="text-center">
           {{> fldLabel collSchema=this name="incidence" }}
+        </th>
+        <th class="text-center">
+          {{> fldLabel collSchema=this name="incidencePercent" }}
+        </th>
+        <th class="text-center">
+          {{> fldLabel collSchema=this name="incidenceSymbol" }}
         </th>
         <th class="text-center">
           {{> fldLabel collSchema=this name="multiplicity" }}
