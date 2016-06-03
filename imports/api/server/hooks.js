@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import {Meteor} from 'meteor/meteor';
 
 import { Roles } from 'meteor/alanning:roles';
@@ -47,6 +48,16 @@ var addTimestampAndUserID = function(userId, doc) {
     addLastUpdated = function (userId, doc, fieldNames, modifier) {
         modifier.$set = modifier.$set || {};
         modifier.$set.lastUpdated = new Date();
+    },
+    updateTableStatus = function(userId, doc){
+        var tbl = Tables.find({_id: doc.tbl_id}).fetch()[0];
+        if (_.contains(Tables.unstartedStatuses, tbl.status)){
+            Tables.update(
+                {_id: doc.tbl_id},
+                {$set: {status: 'in progress'}},
+                {multi: false}
+            );
+        }
     };
 
 
@@ -90,6 +101,7 @@ Meteor.startup(function() {
         Cls.before.insert(function(userId, doc){
             return addTblContentInsertion(userId, doc, Cls);
         });
+        Cls.after.insert(updateTableStatus);
     });
 
 

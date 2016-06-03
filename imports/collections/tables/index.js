@@ -11,6 +11,7 @@ import {
     roleOptions,
     routePaths,
     statusOptions,
+    unstartedStatuses,
 } from './constants';
 
 
@@ -48,6 +49,7 @@ let instanceMethods = {
         roleOptions,
         routePaths,
         statusOptions,
+        unstartedStatuses,
     },
     Tables = new Meteor.Collection('tables', {
         transform: function (doc) {

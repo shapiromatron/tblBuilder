@@ -36,6 +36,7 @@ let typeOptions = getTableTypes(),
         'NTP Animal Bioassay Evidence': 'ntpAnimalMain',
         'Genetic and Related Effects': 'genotoxMain',
     },
+    unstartedStatuses = ['unknown', 'not started'],
     statusOptions = {
         'unknown':     'statusUnknown',
         'not started': 'statusNotStarted',
@@ -48,4 +49,5 @@ let typeOptions = getTableTypes(),
 export { typeOptions };
 export { roleOptions };
 export { routePaths };
+export { unstartedStatuses };
 export { statusOptions };
