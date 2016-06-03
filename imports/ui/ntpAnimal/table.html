@@ -165,7 +165,12 @@
               <strong>{{tumourSite}}: {{histology}}</strong>
               {{incidenceText}}
             </td>
-            <td>{{{preserveWhitespaceInHtml significanceNotes}}}</td>
+            <td>
+              {{{preserveWhitespaceInHtml significanceNotes}}}
+              {{#if trendTest}}
+                <br><b>Trend test p-value: </b>{{trendTest}}
+              {{/if}}
+            </td>
             <td class="dragHandle dhInner"
                 style="display: none"
                 title="Drag to re-order rows"></td>
