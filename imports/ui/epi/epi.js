@@ -225,9 +225,15 @@ Template.epiResultForm.events(_.extend({
     },
     'show.bs.modal': function(evt, tmpl){
         let div = tmpl.$('input[name="organSiteCategory"]').closest('div');
-        Blaze.renderWithData(Template.epiOrganSiteCategories,
+        tmpl.epiOrganSiteCategories = Blaze.renderWithData(Template.epiOrganSiteCategories,
             {options: organSiteCategories.options},
             div[0], div.find('label')[0]);
+    },
+    'hidden.bs.modal': function(evt, tmpl){
+        if(tmpl.epiOrganSiteCategories){
+            Blaze.remove(tmpl.epiOrganSiteCategories);
+            tmpl.epiOrganSiteCategories = undefined;
+        }
     },
 }, abstractNestedFormEvents));
 Template.epiResultForm.onRendered(function() {
