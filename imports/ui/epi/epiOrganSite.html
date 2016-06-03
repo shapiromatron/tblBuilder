@@ -38,6 +38,9 @@
         </form>
       </div>
 
+      {{#if showPlots}}
+        {{> forestPlotAxis }}
+      {{/if}}
       <!-- Data-table -->
       <table class="evidenceTable table table-compressed">
         <colgroup>
@@ -95,7 +98,7 @@
       </td>
       <td>
         {{#if showPlots}}
-          {{> forestPlot parent=res index=idx }}
+          {{> forestPlot self=this parent=res }}
         {{ else}}
           <span title="Effect measure: {{res.effectMeasure}}">{{res.riskFormatter this}}</span>
         {{/if}}

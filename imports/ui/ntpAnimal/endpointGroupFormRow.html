@@ -1,0 +1,42 @@
+<template name="endpointGroupFormRow">
+  <tr>
+    <td class="text-center" style="vertical-align: middle;">
+      <button type="button"
+              class="btn btn-xs btn-default"
+              id="moveUp"
+              title="Move up">
+        <span class="fa fa-long-arrow-up"></span>
+      </button>
+      <button type="button"
+              class="btn btn-xs btn-default"
+              id="moveDown"
+              title="Move down">
+        <span class="fa fa-long-arrow-down"></span>
+      </button>
+      <button type="button"
+              class="btn btn-xs btn-danger"
+              id="delete"
+              title="Delete row">
+        <span class="fa fa-trash"></span>
+      </button>
+    </td>
+    <td>
+      {{> fldInputText collSchema=getEndpointGroupSchema name="dose" value=dose hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputInteger collSchema=getEndpointGroupSchema name="nStart" value=nStart hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputText collSchema=getEndpointGroupSchema name="incidence" value=incidence hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputFloat name="incidencePercent" value=incidencePercent nested=true hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputText name="incidenceSymbol" value=incidenceSymbol nested=true hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputText collSchema=getEndpointGroupSchema name="multiplicity" value=multiplicity hideLabel=true}}
+    </td>
+  </tr>
+</template>

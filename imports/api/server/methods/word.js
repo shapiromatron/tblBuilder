@@ -47,8 +47,10 @@ var Future = Npm.require('fibers/future'),
             return EpiDescriptive.wordContextByDescription([tbl_id]);
         case 'AnimalHtmlTables':
             return AnimalEvidence.wordContext(tbl_id);
-        case 'GenotoxHtmlTables':
+        case 'GenotoxTables':
             return GenotoxEvidence.wordContext(tbl_id);
+        case 'GenotoxHtmlTables':
+            return GenotoxEvidence.wordHtmlContext(tbl_id);
         case 'MechanisticEvidenceHtmlTables':
             return MechanisticEvidence.wordContext(tbl_id);
         default:

@@ -15,11 +15,20 @@ import {
 
 import {
     returnExcelFile,
-    toggleRiskPlot,
+    getHTMLTitleBase,
 } from '/imports/api/client/utilities';
+
+import {
+    rerenderAxis
+} from '/imports/ui/epi/forestPlot';
+
+import './epiOrganSite.html';
 
 
 Template.epiOrganSiteMain.helpers(_.extend({
+    showPlots: function() {
+        return Session.get('epiRiskShowPlots');
+    },
     getOrganSiteOptions: function() {
         return _.chain(EpiResult.find()
                 .fetch())
@@ -59,7 +68,7 @@ Template.epiOrganSiteMain.helpers(_.extend({
 Template.epiOrganSiteMain.events({
     'change #organSiteSelector': function(evt, tmpl) {
         tmpl.organSiteCategories.set($(evt.target).val() || []);
-        return toggleRiskPlot();
+        rerenderAxis();
     },
     'click #selectVisible': function(evt, tmpl) {
         Session.set('eosEditMode', !Session.get('eosEditMode'));
@@ -76,6 +85,7 @@ Template.epiOrganSiteMain.events({
     },
 });
 Template.epiOrganSiteMain.onCreated(function() {
+    document.title = `${this.data.volumeNumber}: ${this.data.monographAgent} | ${getHTMLTitleBase()}`;
     this.subscribe('epiCollective', this.data.volumeNumber, this.data.monographAgent);
     this.organSiteCategories = new ReactiveVar([]);
     Session.setDefault('eosEditMode', false);

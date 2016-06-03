@@ -8,15 +8,12 @@ import schema_extension from './schema';
 import {
     newValues,
 } from '/imports/api/utilities';
-import {
-    variableOfConcernSchema,
-} from './vocSchema';
 
 
-var instanceMethods = {
+let instanceMethods = {
         riskFormatter: function(obj) {
             if (obj.riskMid == null) return '-';
-            var txt = obj.riskMid.toString();
+            let txt = obj.riskMid.toString();
             if (_.isFinite(obj.riskLow) && _.isFinite(obj.riskHigh)) {
                 txt += ` (${obj.riskLow}–${obj.riskHigh})`;
             }
@@ -24,14 +21,18 @@ var instanceMethods = {
             return txt;
         },
         getDescription: function(){
-            if (_.isEmpty(this.description)){
+            if (_.isUndefined(this.description)){
                 this.description = NtpEpiDescriptive.findOne(this.parent_id);
             }
             return this.description;
         },
+        printOrganSite: function(){
+            if (this.organSite)
+                return `${this.organSiteCategory}: ${this.organSite}`;
+            return this.organSiteCategory;
+        },
     },
     classMethods = {
-        variableOfConcernSchema,
         preSaveHook: function(tmpl, obj) {
             // save epi-results
             delete obj.exposureCategory;
@@ -41,21 +42,8 @@ var instanceMethods = {
             delete obj.riskHigh;
             delete obj.riskEstimated;
             delete obj.inTrendTest;
-            var trs = tmpl.findAll('.riskEstimateTbody tr');
+            let trs = tmpl.findAll('.riskEstimateTbody tr');
             obj.riskEstimates = _.map(trs, function(row){
-                return newValues(row);
-            });
-
-            // save variables of concern
-            delete obj.vocName;
-            delete obj.vocAddressedInStats;
-            delete obj.vocSimilarAcrossGroups;
-            delete obj.vocCoexposuresAssociated;
-            delete obj.vocOtherInformation;
-            delete obj.vocStrengthOfAssociation;
-            delete obj.vocRuleOutConfounding;
-            trs = tmpl.findAll('#variablesOfConcern > tbody > tr');
-            obj.variablesOfConcern = _.map(trs, function(row){
                 return newValues(row);
             });
         },

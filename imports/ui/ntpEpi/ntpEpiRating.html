@@ -38,7 +38,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each object_list}}
+      {{#each results}}
         {{> ntpEpiRatingRow}}
       {{/each}}
     </tbody>
@@ -48,30 +48,41 @@
 
 <template name="ntpEpiRatingRow">
   <tr>
-    <td>{{>printReference id=referenceID}}</td>
-    <td class="ntpEpiRatingTd" data-toggle="popover" data-content="{{selectionBiasRationale}}">
-      {{selectionBiasRating}}
+    <td>
+      {{>printReference id=description.referenceID}}<br>
+      {{organSiteCategory}}: {{organSite}}
     </td>
-    <td class="ntpEpiRatingTd" data-toggle="popover" data-content="{{exposureAssessmentRationale}}">
-      {{exposureAssessmentRating}}
+    <td class="ntpEpiRatingTd" data-toggle="popover"
+        data-content="{{description.selectionBiasRationale}}">
+      {{description.selectionBiasRating}}
     </td>
-    <td class="ntpEpiRatingTd" data-toggle="popover" data-content="{{outcomeAssessmentRationale}}">
-      {{outcomeAssessmentRating}}
+    <td class="ntpEpiRatingTd" data-toggle="popover"
+        data-content="{{description.exposureAssessmentRationale}}">
+      {{description.exposureAssessmentRating}}
     </td>
-    <td class="ntpEpiRatingTd" data-toggle="popover" data-content="{{analysisRationale}}">
-      {{analysisRating}}
+    <td class="ntpEpiRatingTd" data-toggle="popover"
+        data-content="{{getOutcomeRatingRationale}}">
+      {{getOutcomeRating}}
     </td>
-    <td class="ntpEpiRatingTd" data-toggle="popover" data-content="{{selectiveReportingRationale}}">
-      {{selectiveReportingRating}}
+    <td class="ntpEpiRatingTd" data-toggle="popover"
+        data-content="{{description.analysisRationale}}">
+      {{description.analysisRating}}
     </td>
-    <td class="ntpEpiRatingTd" data-toggle="popover" data-content="{{sensitivityRatingRationale}}">
-      {{sensitivityRating}}
+    <td class="ntpEpiRatingTd" data-toggle="popover"
+        data-content="{{description.selectiveReportingRationale}}">
+      {{description.selectiveReportingRating}}
     </td>
-    <td class="ntpEpiRatingTd" data-toggle="popover" data-content="{{confoundingRatingRationale}}">
+    <td class="ntpEpiRatingTd" data-toggle="popover"
+        data-content="{{description.sensitivityRatingRationale}}">
+      {{description.sensitivityRating}}
+    </td>
+    <td class="ntpEpiRatingTd" data-toggle="popover"
+        data-content="{{confoundingRatingRationale}}">
       {{confoundingRating}}
     </td>
-    <td class="ntpEpiRatingTd" data-toggle="popover" data-content="N/A">
-      {{overallUtility}}
+    <td class="ntpEpiRatingTd" data-toggle="popover"
+        data-content="N/A">
+      {{description.overallUtility}}
     </td>
   </tr>
 </template>

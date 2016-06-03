@@ -1,0 +1,119 @@
+<template name="ntpAnimalEndpointEvidenceForm">
+  <div class="modal fade" id="modalDiv" tabindex="-1" role="dialog"
+       data-backdrop="static" aria-labelledby="modalDiv" aria-hidden="true">
+    {{#with getObject }}   <!-- Reactive -->
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">NTP animal endpoint evidence{{> objectLastUpdated}}</h4>
+        </div>
+
+        <div class="modal-body">
+          <form id="nestedModalForm" role="form" class="editForm">
+            <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.{{>formLegendPulldown}}</p>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+              <!-- Endpoint effects -->
+              <div class="panel-heading" role="tab" id="hdrEndpointEffects">
+                <h4 class="panel-title">
+                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#pnlEndpointEffects" aria-expanded="false" aria-controls="pnlEndpointEffects">
+                    Endpoint effects
+                    <button class="pull-right btn btn-default btn-xs dropdown-toggle"
+                            type="button"
+                            title="Expand/collapse all input form sections"
+                            id="toggleAccordian">
+                      {{#if allAccordiansShown}}
+                        <i class="fa fa-minus-square-o"></i>
+                      {{else}}
+                        <i class="fa fa-plus-square-o"></i>
+                      {{/if}}
+                    </button>
+                  </a>
+                </h4>
+              </div>
+              <div id="pnlEndpointEffects" aria-labelledby="hdrEndpointEffects"
+                   class="panel-collapse collapse in" role="tabpanel">
+                <div class="panel-body form-group row">
+                  <div class="col-xs-4">
+                    {{> fldInputTypeahead name="tumourSite" value=tumourSite nested=true }}
+                  </div>
+                  <div class="col-xs-4">
+                    {{> fldInputTypeahead name="histology" value=histology nested=true }}
+                  </div>
+                  <div class="col-xs-4">
+                    {{> fldInputTypeahead name="units" value=units nested=true }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dose response -->
+              <div class="panel-heading" role="tab" id="hdrDoseResponse">
+                <h4 class="panel-title">
+                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#pnlDoseResponse" aria-expanded="false" aria-controls="pnlDoseResponse">
+                    Dose response
+                  </a>
+                </h4>
+              </div>
+              <div id="pnlDoseResponse" aria-labelledby="hdrDoseResponse"
+                   class="panel-collapse collapse" role="tabpanel">
+                <div class="panel-body form-group row">
+                  {{> endpointGroupFormTable}}
+                </div>
+              </div>
+
+
+              <!-- Comments -->
+              <div class="panel-heading" role="tab" id="hdrEndpointComments">
+                <h4 class="panel-title">
+                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#pnlEndpointComments" aria-expanded="false" aria-controls="pnlEndpointComments">
+                    Endpoint footnotes &amp; comments
+                  </a>
+                </h4>
+              </div>
+              <div id="pnlEndpointComments" aria-labelledby="hdrEndpointComments"
+                   class="panel-collapse collapse" role="tabpanel">
+                <div class="panel-body form-group row">
+                  <div class="col-xs-3">
+                    {{> fldCheckbox name="adjustedIncidence" value=adjustedIncidence nested=true }}
+                    <br>
+                    {{> fldInputText name="trendTest" value=trendTest nested=true }}
+                  </div>
+                  <div class="col-xs-3">
+                    {{> fldTextArea name="significanceNotes" value=significanceNotes nested=true }}
+                  </div>
+                  <div class="col-xs-3">
+                    {{> fldTextArea name="statisticalMethods" value=statisticalMethods nested=true }}
+                  </div>
+                  <div class="col-xs-3">
+                    {{> fldTextArea name="historicalControls" value=historicalControls nested=true }}
+                  </div>
+                </div>
+                <div class="panel-body form-group row">
+                  <div class="col-xs-3">
+                    {{> fldTextArea name="survivalNotes" value=survivalNotes nested=true }}
+                  </div>
+                  <div class="col-xs-3">
+                    {{> fldTextArea name="bodyWeightNotes" value=bodyWeightNotes nested=true }}
+                  </div>
+                  <div class="col-xs-3">
+                    {{> fldTextArea name="metastasis" value=metastasis nested=true }}
+                  </div>
+                  <div class="col-xs-3">
+                    {{> fldTextArea name="comments" value=comments nested=true }}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div id="errors"></div>
+            {{> qaNotice}}
+            {{> nestedEvidenceFormSubmissionDiv}}
+          </form>
+        </div>  <!-- Modal body -->
+      </div>  <!-- Modal content -->
+    </div>  <!-- Modal dialog -->
+    {{/with}}  <!-- Reactive epiResult  -->
+  </div>  <!-- Modal container -->
+</template>

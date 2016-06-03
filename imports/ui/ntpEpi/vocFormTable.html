@@ -1,15 +1,14 @@
-<template name="variablesOfConcern">
-  <h4>Variables of concern:</h4>
+<template name="vocFormTable">
   <table id="variablesOfConcern" class="table table-condensed">
     <colgroup>
-      <col width="10%">
+      <col width="8%">
       <col width="20%">
-      <col width="12%">
-      <col width="12%">
-      <col width="12%">
-      <col width="12%">
-      <col width="11%">
-      <col width="11%">
+      <col width="10%">
+      <col width="10%">
+      <col width="13%">
+      <col width="13%">
+      <col width="13%">
+      <col width="13%">
     </colgroup>
     <thead>
       <tr>
@@ -48,11 +47,11 @@
     <tbody>
       {{#if variablesOfConcern}}
         {{#each variablesOfConcern}}
-          {{> variablesOfConcernForm this}}
+          {{> vocFormRow this}}
         {{/each}}
       {{else}}
         {{#if isNew}}
-          {{> variablesOfConcernForm}}
+          {{> vocFormRow null }}
         {{/if}}
       {{/if}}
     </tbody>

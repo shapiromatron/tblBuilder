@@ -8,8 +8,10 @@ import {
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
+import './vocFormTable.html';
 
-var vocHelpers = {
+
+let vocHelpers = {
     getVocSchema: function(){
         return NtpEpiResult.variableOfConcernSchema.schema();
     },
@@ -18,18 +20,18 @@ var vocHelpers = {
     },
 };
 
-Template.variablesOfConcern.helpers(vocHelpers);
-Template.variablesOfConcern.events({
+Template.vocFormTable.helpers(vocHelpers);
+Template.vocFormTable.events({
     'click #addVocRow': function(evt, tmpl) {
-        var tbody = tmpl.find('tbody');
-        Blaze.renderWithData(Template.variablesOfConcernForm, {}, tbody);
+        let tbody = tmpl.find('tbody');
+        Blaze.renderWithData(Template.vocFormRow, {}, tbody);
     },
 });
-Template.variablesOfConcern.onRendered(function() {
+Template.vocFormTable.onRendered(function() {
     initPopovers(this);
 });
-Template.variablesOfConcern.onDestroyed(function() {
+Template.vocFormTable.onDestroyed(function() {
     destroyPopovers(this);
 });
 
-
+export { vocHelpers };

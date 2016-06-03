@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import './browserDetect.html';
 
 
 Template.browserDetect.helpers({

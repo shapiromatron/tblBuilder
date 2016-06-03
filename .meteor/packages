@@ -26,5 +26,5 @@ standard-minifier-css
 standard-minifier-js
 twbs:bootstrap
 jquery
-fortawesome:fontawesome
 momentjs:moment
+fortawesome:fontawesome

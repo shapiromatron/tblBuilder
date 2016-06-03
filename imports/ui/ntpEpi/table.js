@@ -19,13 +19,17 @@ import {
 import {
     initDraggables,
     toggleRowVisibilty,
-    toggleRiskPlot,
 } from '/imports/api/client/utilities';
 
+import './table.html';
 
-Template.ntpEpiDescTbl.helpers(abstractTblHelpers);
+
+Template.ntpEpiDescTbl.helpers(_.extend(abstractTblHelpers, {
+    showPlots() {
+        return Session.get('epiRiskShowPlots');
+    },
+}));
 Template.ntpEpiDescTbl.onRendered(function() {
-    toggleRiskPlot();
     initDraggables(this.find('#sortable'), '.dhOuter', NtpEpiDescriptive);
     toggleRowVisibilty(Session.get('reorderRows'), this.$('.dragHandle'));
 });
@@ -33,17 +37,17 @@ Template.ntpEpiDescTbl.onRendered(function() {
 
 Template.ntpEpiDescriptiveRow.helpers(_.extend({
     getCol2: function() {
-        var html = '', rrCases, rrCtrls;
+        let html = '', rrCases, rrCtrls;
         if (this.isCaseControl()) {
             rrCases = getPercentOrText(this.responseRateCase);
             rrCtrls = getPercentOrText(this.responseRateControl);
             if (rrCases.length > 0) rrCases = ` (${rrCases})`;
             if (rrCtrls.length > 0) rrCtrls = ` (${rrCtrls})`;
 
-            html += `<strong>Cases: </strong>${this.populationSizeCases}${rrCases}; ${this.selectionDescriptionCases}<br>`;
-            html += `<strong>Controls: </strong>${this.populationSizeControls}${rrCtrls}; ${this.selectionDescriptionControls}`;
+            html += `<strong>Cases: </strong>${this.populationSizeCases||''}${rrCases}; ${this.selectionDescriptionCases||''}<br>`;
+            html += `<strong>Controls: </strong>${this.populationSizeControls||''}${rrCtrls}; ${this.selectionDescriptionControls||''}`;
         } else {
-            html += `${this.cohortPopulationSize}; ${this.populationEligibility}`;
+            html += `${this.cohortPopulationSize||''}; ${this.populationEligibility||''}`;
         }
 
         html += '<br><strong>Exposure assess. method: </strong>';
@@ -72,7 +76,7 @@ Template.ntpEpiResultTbl.helpers(_.extend({
         return Session.get('epiRiskShowPlots');
     },
     displayTrendTest: function() {
-        return this.trendTest != null;
+        return (this.trendTest) ? true : false;
     },
     displayEffectUnits: function(d) {
         return d.effectUnits != null;

@@ -10,9 +10,11 @@ import Reference from '/imports/collections/reference';
 import ExposureEvidence from '/imports/collections/exposure';
 import AnimalEvidence from '/imports/collections/animalEvidence';
 import AnimalEndpointEvidence from '/imports/collections/animalResult';
+import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
+import NtpAnimalEndpointEvidence from '/imports/collections/ntpAnimalEndpointEvidence';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import EpiResult from '/imports/collections/epiResult';
-import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
+import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 import NtpEpiResult from '/imports/collections/ntpEpiResult';
 import GenotoxEvidence from '/imports/collections/genotox';
 
@@ -246,20 +248,44 @@ Meteor.methods({
     searchAnimalUnits: function(query) {
         return extraUnitsSearch(AnimalEndpointEvidence, query);
     },
+    searchNtpAnimalSpecies: function(query) {
+        return singleFieldTextSearch(NtpAnimalEvidence, 'species', query);
+    },
+    searchNtpAnimalStrain: function(query) {
+        return singleFieldTextSearch(NtpAnimalEvidence, 'strain', query);
+    },
+    searchNtpAnimalAgent: function(query) {
+        return singleFieldTextSearch(NtpAnimalEvidence, 'agent', query);
+    },
+    searchNtpAnimalDosingRoute: function(query) {
+        return singleFieldTextSearch(NtpAnimalEvidence, 'dosingRoute', query);
+    },
+    searchNtpAnimalPurity: function(query) {
+        return singleFieldTextSearch(NtpAnimalEvidence, 'purity', query);
+    },
+    searchNtpAnimalVehicle: function(query) {
+        return singleFieldTextSearch(NtpAnimalEvidence, 'vehicle', query);
+    },
+    searchNtpAnimalTumourSite: function(query) {
+        return singleFieldTextSearch(NtpAnimalEndpointEvidence, 'tumourSite', query);
+    },
+    searchNtpAnimalHistology: function(query) {
+        return singleFieldTextSearch(NtpAnimalEndpointEvidence, 'histology', query);
+    },
+    searchNtpAnimalUnits: function(query) {
+        return extraUnitsSearch(NtpAnimalEndpointEvidence, query);
+    },
     searchNtpEpiCaseControlMatching: function(query) {
-        return listFieldTextSearch(NtpEpiDescriptive, 'caseControlMatching', query);
+        return listFieldTextSearch(NtpEpiConfounder, 'caseControlMatching', query);
     },
     searchNtpEpiCaseControlDiffers: function(query) {
-        return listFieldTextSearch(NtpEpiDescriptive, 'caseControlDiffers', query);
+        return listFieldTextSearch(NtpEpiConfounder, 'caseControlDiffers', query);
     },
     searchNtpCoexposures: function(query) {
-        return listFieldTextSearch(NtpEpiDescriptive, 'coexposures', query);
-    },
-    searchNtpEpiRiskFactors: function(query) {
-        return listFieldTextSearch(NtpEpiDescriptive, 'riskFactors', query);
+        return listFieldTextSearch(NtpEpiConfounder, 'coexposures', query);
     },
     searchNtpEpiVariablesOfConcern: function(query) {
-        return searchElementInArrayObj(NtpEpiResult, 'variablesOfConcern', 'vocName', query);
+        return searchElementInArrayObj(NtpEpiConfounder, 'variablesOfConcern', 'vocName', query);
     },
     searchNtpOrganSite: function(query) {
         return singleFieldTextSearch(NtpEpiResult, 'organSite', query);

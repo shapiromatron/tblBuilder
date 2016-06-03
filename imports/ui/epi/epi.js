@@ -1,9 +1,9 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 import { Session } from 'meteor/session';
 
 import _ from 'underscore';
-import d3 from 'd3';
 
 import { getPercentOrText } from '/imports/api/utilities';
 
@@ -26,12 +26,12 @@ import {
 import {
     initDraggables,
     toggleRowVisibilty,
-    toggleRiskPlot,
     toggleQA,
     initPopovers,
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
+import './epi.html';
 
 
 Template.epiMain.helpers(abstractMainHelpers);
@@ -64,9 +64,11 @@ Template.epiDescriptiveTbl.helpers(_.extend({
         ];
         return reports;
     },
+    showPlots: function() {
+        return Session.get('epiRiskShowPlots');
+    },
 }, abstractTblHelpers));
 Template.epiDescriptiveTbl.onRendered(function() {
-    toggleRiskPlot();
     initDraggables(this.find('#sortable'), '.dhOuter', EpiDescriptive);
     toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
@@ -127,6 +129,37 @@ Template.epiDescriptiveForm.events(_.extend({
     'change select[name="studyDesign"]': function(evt, tmpl) {
         return toggleCCfields(tmpl);
     },
+    'referenceChanged input[name="referenceID"]': function(evt, tmpl, ref) {
+        /*
+        If the same reference has already been extracted and QA'd, then copy
+        contents of this reference to this field.
+        */
+        const tblID = Session.get('Tbl')._id;
+        const refID = ref._id;
+
+        let copyMatchToForm = function(obj){
+            _.each(obj, function(val, key){
+                let $el = tmpl.$(`[name="${key}"]`);
+                switch (key){
+                case 'referenceID':
+                    break;
+                case 'coexposures':
+                    val.forEach((d)=>$el.trigger('addItem', d));
+                    break;
+                default:
+                    if ($el) $el.val(val);
+                    break;
+                }
+            });
+            tmpl.$('[name="studyDesign"]').trigger('change');
+        };
+        Meteor.call('findMatchingExtractedData', refID, tblID, function(err, response) {
+            if (response){
+                let res = confirm('This study has already been extracted in other tables - copy content here?');
+                if (res) copyMatchToForm(response);
+            }
+        });
+    },
 }, abstractFormEvents));
 Template.epiDescriptiveForm.onRendered(function() {
     toggleCCfields(this);
@@ -154,7 +187,7 @@ Template.epiResultTbl.helpers(_.extend({
         return Session.get('epiRiskShowPlots');
     },
     displayTrendTest: function() {
-        return this.trendTest != null;
+        return (this.trendTest) ? true : false;
     },
     displayEffectUnits: function(d) {
         return d.effectUnits != null;
@@ -180,7 +213,11 @@ Template.epiOrganSiteCategories.onRendered(function() {
 });
 
 
-Template.epiResultForm.helpers(abstractNestedFormHelpers);
+Template.epiResultForm.helpers(_.extend({
+    getRiskEstimateSchema(){
+        return EpiResult.riskEstimateSchema.schema();
+    },
+}, abstractNestedFormHelpers));
 Template.epiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
         var tbody = tmpl.find('.riskEstimateTbody');
@@ -217,70 +254,4 @@ Template.riskEstimateForm.events({
         var tr = $(tmpl.firstNode);
         tr.insertAfter(tr.next());
     },
-});
-
-
-Template.forestPlot.events({
-    'rerender svg': function(evt, tmpl){
-        var data = tmpl.data.parent.riskEstimates[tmpl.data.index],
-            svg = d3.select(tmpl.find('svg')).html(null),
-            width = parseInt(svg.node().getBoundingClientRect().width),
-            height = parseInt(svg.node().getBoundingClientRect().height),
-            xscale = d3.scale.log()
-                .range([0, width])
-                .domain([Session.get('epiForestPlotMin'), Session.get('epiForestPlotMax')])
-                .clamp(true),
-            yscale = d3.scale.linear().range([0, height]).domain([0, 1]).clamp(true),
-            group = svg.append('g').attr('class', 'riskBar'),
-            riskStr = `Effect measure ${tmpl.data.parent.effectMeasure}: ${data.riskMid}`;
-
-        if (data.riskLow && data.riskHigh){
-            riskStr += ` (${data.riskLow}-${data.riskHigh})`;
-        }
-
-        svg.attr('viewBox', `0 0 ${width} ${height}`);
-        group.append('svg:title').text(riskStr);
-
-        if (data.riskMid != null) {
-            group.selectAll()
-                .data([data])
-                .enter()
-                .append('circle')
-                .attr('cx', function(d, i) {return xscale(d.riskMid);})
-                .attr('cy', function(d, i) {return yscale(0.5);})
-                .attr('r', 5);
-        }
-
-        if ((data.riskLow != null) && (data.riskHigh != null)) {
-            group.selectAll()
-                .data([data])
-                .enter()
-                .append('line')
-                .attr('x1', function(d, i) {return xscale(d.riskLow);})
-                .attr('x2', function(d, i) {return xscale(d.riskHigh);})
-                .attr('y1', yscale(0.5))
-                .attr('y2', yscale(0.5));
-
-            group.selectAll()
-                .data([data])
-                .enter()
-                .append('line')
-                .attr('x1', function(d, i) {return xscale(d.riskHigh);})
-                .attr('x2', function(d, i) {return xscale(d.riskHigh);})
-                .attr('y1', yscale(0.25))
-                .attr('y2', yscale(0.75));
-
-            group.selectAll()
-                .data([data])
-                .enter()
-                .append('line')
-                .attr('x1', function(d, i) {return xscale(d.riskLow);})
-                .attr('x2', function(d, i) {return xscale(d.riskLow);})
-                .attr('y1', yscale(0.25))
-                .attr('y2', yscale(0.75));
-        }
-    },
-});
-Template.forestPlot.onRendered(function() {
-    this.$('svg').trigger('rerender');
 });

@@ -13,32 +13,37 @@ import {
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
+import './form.html';
 
-var toggleRequiredFields = function(tmpl, duration){
-    duration = duration || 1000;
-    var design = tmpl.find('select[name=studyDesign]').value,
-        shows, hides;
-    switch (design){
-    case 'Cohort':
-        shows = ['.isCohort', '.isntCC'];
-        hides = ['.isntCohort', 'isNCC'];
-        break;
-    case 'Case-Control':
-        shows = ['.isntCohort'];
-        hides = ['.isCohort', '.isntCC', 'isNCC'];
-        break;
-    case 'Nested Case-Control':
-    case 'Ecological':
-        shows = ['.isntCohort', '.isntCC', 'isNCC'];
-        hides = ['.isCohort'];
-        break;
-    default:
-        console.log(`unknown study-design: ${design}`);
-    }
-    tmpl.$(hides.join(',')).fadeOut(duration, function(){
-        tmpl.$(shows.join(',')).fadeIn(duration);
-    });
-};
+let toggleStudyDesignFields = function(tmpl, studyDesign, duration){
+        let shows, hides;
+        switch (studyDesign){
+        case 'Cohort':
+            shows = ['.isCohort', '.isntCC'];
+            hides = ['.isntCohort', 'isNCC'];
+            break;
+        case 'Case-Control':
+            shows = ['.isntCohort'];
+            hides = ['.isCohort', '.isntCC', 'isNCC'];
+            break;
+        case 'Nested Case-Control':
+        case 'Ecological':
+            shows = ['.isntCohort', '.isntCC', 'isNCC'];
+            hides = ['.isCohort'];
+            break;
+        default:
+            console.log(`unknown study-design: ${studyDesign}`);
+        }
+        tmpl.$(hides.join(',')).fadeOut(duration, function(){
+            tmpl.$(shows.join(',')).fadeIn(duration);
+        });
+    },
+    toggleRequiredFields = function(tmpl, duration){
+        duration = duration || 1000;
+        let studyDesign = tmpl.find('select[name=studyDesign]').value;
+        toggleStudyDesignFields(tmpl, studyDesign, duration);
+    };
+
 Template.ntpEpiDescriptiveForm.helpers({
     allAccordiansShown: function(){
         return Template.instance().allAccordiansShown.get();
@@ -50,7 +55,7 @@ Template.ntpEpiDescriptiveForm.events(_.extend({
     },
     'click #toggleAccordian': function(evt, tmpl){
         tmpl.allAccordiansShown.set(!tmpl.allAccordiansShown.get());
-        var action = (tmpl.allAccordiansShown.get()) ? 'show' : 'hide';
+        let action = (tmpl.allAccordiansShown.get()) ? 'show' : 'hide';
         tmpl.$('.collapse').collapse(action);
     },
 }, abstractFormEvents));
@@ -65,3 +70,5 @@ Template.ntpEpiDescriptiveForm.onRendered(function() {
 Template.ntpEpiDescriptiveForm.onDestroyed(function() {
     destroyPopovers(this);
 });
+
+export { toggleStudyDesignFields };

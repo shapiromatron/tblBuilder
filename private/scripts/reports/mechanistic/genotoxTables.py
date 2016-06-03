@@ -2,7 +2,19 @@ from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
 
 
-class GenotoxHtmlTables(DOCXReport):
+class GenotoxTables(DOCXReport):
+
+    def buildHeader(self):
+        doc = self.doc
+        d = self.context
+        txt = u"{} {}: Genotoxicity evidence summary".format(
+            d["table"]["volumeNumber"],
+            d["table"]["monographAgent"],
+        )
+        p = doc.paragraphs[0]
+        p.text = txt
+        p.style = "Title"
+        doc.add_paragraph(d["table"]["name"])
 
     def buildNonMammInVitroTbl(self):
         colWidths = [1.2, 1.3, 1.1, 0.7, 0.7, 1, 2, 1]
@@ -165,17 +177,7 @@ class GenotoxHtmlTables(DOCXReport):
 
     def create_content(self):
         self.setLandscape()
-        doc = self.doc
-        d = self.context
-
-        txt = u"{} {}: Genotoxicity evidence summary".format(
-            d["table"]["volumeNumber"],
-            d["table"]["monographAgent"],
-        )
-        p = doc.paragraphs[0]
-        p.text = txt
-        p.style = "Title"
-        doc.add_paragraph(d["table"]["name"])
+        self.buildHeader()
         self.buildNonMammInVitroTbl()
         self.buildMammInVitroTbl()
         self.buildAniVivoTbl()

@@ -294,9 +294,24 @@
                   <col width="30%">
                 </colgroup>
                 <tbody>
-                  {{{getIncidents}}}
-                  {{{getMultiplicities}}}
-                  {{{getTotalTumours}}}
+                  {{#if showIncidents}}
+                  <tr>
+                    <td>{{getIncidents}}</td>
+                    <td>{{{preserveWhitespaceInHtml incidence_significance}}}</td>
+                  </tr>
+                  {{/if}}
+                  {{#if showIncidents}}
+                  <tr>
+                    <td>{{getMultiplicities}}</td>
+                    <td>{{{preserveWhitespaceInHtml multiplicity_significance}}}</td>
+                  </tr>
+                  {{/if}}
+                  {{#if showIncidents}}
+                  <tr>
+                    <td>{{getTotalTumours}}</td>
+                    <td>{{{preserveWhitespaceInHtml total_tumours_significance}}}</td>
+                  </tr>
+                  {{/if}}
                 </tbody>
               </table>
             </td>

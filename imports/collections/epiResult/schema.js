@@ -1,16 +1,10 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import _ from 'underscore';
 
 import organSiteCategories from './organSiteCategories';
+import riskEstimateSchema from './riskEstimateSchema';
 
+import { isNumericishString } from '/imports/api/validators';
 
-var isNumberOrNR = function() {
-    if (this.isSet && (this.value === 'NR' || _.isFinite(this.value))) {
-        return undefined;
-    } else {
-        return 'numOrNR';
-    }
-};
 
 export default {
     organSiteCategory: {
@@ -42,54 +36,15 @@ export default {
         typeaheadMethod: 'searchEffectUnits',
     },
     trendTest: {
-        label: 'p-value for trend',
-        type: Number,
-        decimal: true,
+        label: 'Trend p-value',
+        type: String,
         optional: true,
+        custom: isNumericishString,
         popoverText: 'Provide p-value for trend-test when reported',
     },
-    'riskEstimates.$.exposureCategory': {
-        label: 'Exposure category or level',
-        type: String,
-        min: 1,
-        popoverText: 'E.g., all exposed workers, second quartile of exposure, quantitative exposure level (always provide quantitative information when available)',
-    },
-    'riskEstimates.$.numberExposed': {
-        label: 'Exposed cases/deaths',
-        type: String,
-        custom: isNumberOrNR,
-        popoverText: 'Deaths/cases for cohort studies; Cases for case-control studies. If unknown, enter \'NR\'',
-    },
-    'riskEstimates.$.riskMid': {
-        label: 'Risk estimate',
-        type: Number,
-        decimal: true,
-        optional: true,
-        popoverText: 'Central risk reported for risk estimate',
-    },
-    'riskEstimates.$.riskLow': {
-        label: '95% lower CI',
-        type: Number,
-        decimal: true,
-        optional: true,
-        popoverText: '95% lower confidence interval risk estimate',
-    },
-    'riskEstimates.$.riskHigh': {
-        label: '95% upper CI',
-        type: Number,
-        decimal: true,
-        optional: true,
-        popoverText: '95% upper confidence interval risk estimate',
-    },
-    'riskEstimates.$.riskEstimated': {
-        label: 'WG calculation?',
-        type: Boolean,
-        popoverText: 'Calculations by the working-group (WG), not study-authors',
-    },
-    'riskEstimates.$.inTrendTest': {
-        label: 'Estimate in trend-test',
-        type: Boolean,
-        popoverText: 'Risk estimate included in trend-test',
+    riskEstimates: {
+        type: [riskEstimateSchema],
+        minCount: 1,
     },
     covariates: {
         label: 'Covariates controlled',

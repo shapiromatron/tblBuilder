@@ -33,6 +33,9 @@
   <h1>{{name}} {{>epiDescriptiveTblOpts}}</h1>
   {{> tableTitle}}
 
+  {{#if showPlots}}
+    {{> forestPlotAxis }}
+  {{/if}}
   <table class="evidenceTable table table-compressed">
     <colgroup>
       <col width="15%">
@@ -311,7 +314,7 @@
               <td>{{value.exposureCategory}}{{#if value.inTrendTest}}<sup>*</sup>{{/if}}</td>
               <td>{{value.numberExposed}}</td>
               <td>{{#if showPlots}}
-                    {{> forestPlot parent=.. index=index }}
+                    {{> forestPlot self=value parent=.. }}
                   {{ else}}
                     <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter value}}</span>
                   {{/if}}
@@ -361,7 +364,7 @@ or the-first row of the riskEstimates.
         </ul>
       </div>
     {{/if}}
-    {{qaMark isQA}}{{printOrganSite}}
+    {{qaMark isQA}}{{this.printOrganSite}}
   </td>
 </template>
 
@@ -405,7 +408,7 @@ or the-first row of the riskEstimates.
               <div class="col-xs-6">
                 {{> fldInputTypeahead name="effectUnits" value=effectUnits nested=true }}
                 {{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true }}
-                {{> fldInputFloat name="trendTest" value=trendTest nested=true }}
+                {{> fldInputText name="trendTest" value=trendTest nested=true }}
               </div>
             </div>
 
@@ -422,6 +425,7 @@ or the-first row of the riskEstimates.
                 <col width="11%">
               </colgroup>
               <thead>
+                {{#with getRiskEstimateSchema}}
                 <th style="vertical-align: middle;" class="text-center">
                   <button type="button"
                           class="btn btn-xs btn-info"
@@ -430,26 +434,27 @@ or the-first row of the riskEstimates.
                   </button>
                 </th>
                 <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.exposureCategory" nested=true }}
+                  {{> fldLabel collSchema=this name="exposureCategory" }}
                 </th>
                 <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.numberExposed" nested=true }}
+                  {{> fldLabel collSchema=this name="numberExposed" }}
                 </th>
                 <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.riskMid" nested=true }}
+                  {{> fldLabel collSchema=this name="riskMid" }}
                 </th>
                 <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.riskLow" nested=true }}
+                  {{> fldLabel collSchema=this name="riskLow" }}
                 </th>
                 <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.riskHigh" nested=true }}
+                  {{> fldLabel collSchema=this name="riskHigh" }}
                 </th>
                 <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.riskEstimated" nested=true }}
+                  {{> fldLabel collSchema=this name="riskEstimated" }}
                 </th>
                 <th class="text-center">
-                  {{> fldLabel name="riskEstimates.$.inTrendTest" nested=true }}
+                  {{> fldLabel collSchema=this name="inTrendTest" }}
                 </th>
+                {{/with }}
               </thead>
               <tbody class="riskEstimateTbody">
                 {{#if riskEstimates}}
@@ -531,9 +536,4 @@ or the-first row of the riskEstimates.
       {{> fldCheckbox name="inTrendTest" value=inTrendTest nested=true hideLabel=true }}
     </td>
   </tr>
-</template>
-
-
-<template name="forestPlot">
-  <svg class="epiRiskPlot" preserveAspectRatio="none" viewBox="0 0 140 19"></svg>
 </template>

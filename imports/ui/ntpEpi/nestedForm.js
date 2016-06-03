@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import _ from 'underscore';
 
@@ -18,11 +19,19 @@ import {
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
+import './nestedForm.html';
 
-Template.ntpEpiResultForm.helpers(abstractNestedFormHelpers);
+
+Template.ntpEpiResultForm.helpers(
+    _.extend({
+        allAccordiansShown: function(){
+            return Template.instance().allAccordiansShown.get();
+        },
+    }, abstractNestedFormHelpers)
+);
 Template.ntpEpiResultForm.events(_.extend({
     'click #inner-addRiskRow': function(evt, tmpl) {
-        var tbody = tmpl.find('.riskEstimateTbody');
+        let tbody = tmpl.find('.riskEstimateTbody');
         Blaze.renderWithData(Template.riskEstimateForm, {}, tbody);
     },
     'show.bs.modal': function(evt, tmpl){
@@ -31,9 +40,19 @@ Template.ntpEpiResultForm.events(_.extend({
             {options: organSiteCategories.options},
             div[0], div.find('label')[0]);
     },
+    'click #toggleAccordian': function(evt, tmpl){
+        evt.preventDefault();
+        evt.stopPropagation();
+        tmpl.allAccordiansShown.set(!tmpl.allAccordiansShown.get());
+        let action = (tmpl.allAccordiansShown.get()) ? 'show' : 'hide';
+        tmpl.$('.collapse').collapse(action);
+    },
 }, abstractNestedFormEvents));
+Template.ntpEpiResultForm.onCreated(function(){
+    this.allAccordiansShown = new ReactiveVar(false);
+});
 Template.ntpEpiResultForm.onRendered(function() {
-    var object = NtpEpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
+    let object = NtpEpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
     if (object != null) toggleQA(this, object.isQA);
     this.$('#modalDiv').modal('toggle');
     initPopovers(this);

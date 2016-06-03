@@ -8,6 +8,11 @@ import Reference from '/imports/collections/reference';
 import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';
 
+import {
+    htmlToDocx,
+} from '/imports/api/utilities';
+
+
 import schema_extension from './schema';
 import {
     dataClass,
@@ -25,6 +30,12 @@ var instanceMethods = {
                 wrd_comments: this.comments || '',
                 wrd_led: this.led || '',
                 wrd_significance: this.significance || '',
+                col2: htmlToDocx(this.getHtmlCol2()),
+                col3: htmlToDocx(this.getHtmlCol3()),
+                col4: htmlToDocx(this.getHtmlCol4()),
+                col5: htmlToDocx(this.getHtmlCol5()),
+                col6: htmlToDocx(this.getHtmlCol6()),
+                col7: htmlToDocx(this.getHtmlCol7()),
             };
 
             switch (this.dataClass) {
@@ -37,7 +48,9 @@ var instanceMethods = {
                 ext.wrd_experimental = this.setNonMammalianExperimentText(this);
                 break;
             case 'Mammalian and human in vitro':
-                ext.wrd_colA = (this.testSpeciesMamm === 'Human') ? this.testSpeciesMamm : this.speciesMamm;
+                ext.wrd_colA = (this.testSpeciesMamm === 'Human')?
+                    this.testSpeciesMamm:
+                    this.speciesMamm;
             }
 
             if (this.dualResult) {
@@ -45,7 +58,8 @@ var instanceMethods = {
                 ext.wrd_resultB = this.resultMetabolic;
             } else {
                 ext.wrd_resultA = this.result;
-                if (this.dataClass.indexOf('vitro') >= 0 || this.dataClass.indexOf('Non-mammalian') >= 0) {
+                if (this.dataClass.indexOf('vitro') >= 0 ||
+                    this.dataClass.indexOf('Non-mammalian') >= 0) {
                     ext.wrd_resultB = '';
                 } else {
                     ext.wrd_resultB = 'NA';
@@ -53,6 +67,78 @@ var instanceMethods = {
             }
 
             _.extend(this, ext);
+        },
+        getHtmlCol1: function() {
+            return this.dataClass;
+        },
+        getHtmlCol2: function() {
+            var txt,
+                d = this;
+            switch (d.dataClass) {
+            case 'Non-mammalian':
+                if (GenotoxEvidence.isGenotoxAcellular(d.dataClass, d.phylogeneticClass)) {
+                    txt = `${d.phylogeneticClass}<br>${d.testSystem}`;
+                } else {
+                    txt = `${d.phylogeneticClass}<br>${d.speciesNonMamm}&nbsp;${d.strainNonMamm}`;
+                }
+                break;
+            case 'Mammalian and human in vitro':
+                txt = `${d.speciesMamm}<br>${d.tissueCellLine}`;
+                break;
+            case 'Animal in vivo':
+                txt = `${d.species}&nbsp${d.strain}&nbsp${d.sex}<br>${d.tissueAnimal}`;
+                break;
+            case 'Human in vivo':
+                txt = `${d.tissueHuman}, ${d.cellType}<br>${d.exposureDescription}`;
+                break;
+            default:
+                console.log('unknown data-type: {#d.dataClass}');
+            }
+            return txt;
+        },
+        getHtmlCol3: function() {
+            return this.endpoint + '/<br>' + this.endpointTest;
+        },
+        getHtmlCol4: function(){
+            var txt;
+            if (this.dualResult) {
+                txt = this.resultNoMetabolic;
+            } else {
+                txt = this.result;
+            }
+            if (this.dataClass === 'Human in vivo' && this.significance) {
+                txt += '&nbsp;' + this.significance;
+            }
+            return txt;
+        },
+        getHtmlCol5: function() {
+            var txt;
+            if (this.dualResult) {
+                txt = this.resultMetabolic;
+            } else {
+                if (this.dataClass.indexOf('vitro') >= 0 || this.dataClass.indexOf('Non-mammalian') >= 0) {
+                    txt = '';
+                } else {
+                    txt = 'NA';
+                }
+            }
+            return txt;
+        },
+        getHtmlCol6: function() {
+            var txt = this.agent;
+            if (this.led) {
+                txt += ',<br>' + this.led + ' ' + this.units;
+            }
+            if (this.dosingRoute){
+                txt += ', ' + this.dosingRoute;
+            }
+            if (this.dosingDuration) {
+                txt += ', ' + this.dosingDuration;
+            }
+            return txt;
+        },
+        getHtmlCol7: function() {
+            return this.comments || '';
         },
         setNonMammalianExperimentText: function(d) {
             var txt = '' + d.agent;
@@ -62,7 +148,7 @@ var instanceMethods = {
             return txt;
         },
         getReference: function(){
-            if (_.isEmpty(this.reference)){
+            if (_.isUndefined(this.reference)){
                 this.reference = Reference.findOne(this.referenceID);
             }
             return this.reference;
@@ -75,36 +161,43 @@ var instanceMethods = {
         sexes,
         resultOptions,
         testCrosswalk,
+        getTableEvidence: function(tbl_id){
+            return GenotoxEvidence
+                .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
+                .fetch();
+        },
         tabular: function(tbl_id) {
-            var data, header, i, len, ref, row, v, vals;
-            vals = GenotoxEvidence.find({tbl_id: tbl_id}, {sort: {sortIdx: 1}}).fetch();
-            header = [
-                'Genotoxicity ID', 'Reference', 'Pubmed ID', 'Data class',
-                'Agent', 'Plylogenetic class', 'Test system',
-                'Non-mammalian species', 'Non-mammalian strain', 'Mammalian species',
-                'Mammalian strain', 'Tissue/Cell line', 'Species', 'Strain', 'Sex',
-                'Tissue, animal', 'Tissue, human', 'Cell type', 'Exposure description',
-                'Endpoint', 'Endpoint test', 'Dosing route', 'Dosing duration/regimen',
-                'Units', 'Dual results?', 'Result',
-                'Result, metabolic activation', 'Result, no metabolic activation',
-                'LED/HID', 'Significance', 'Comments',
-            ];
-            data = [header];
-            for (i = 0, len = vals.length; i < len; i++) {
-                v = vals[i];
-                ref = Reference.findOne({_id: v.referenceID});
-                row = [
-                    v._id, ref.name, ref.pubmedID, v.dataClass,
-                    v.agent, v.phylogeneticClass, v.testSystem,
-                    v.speciesNonMamm, v.strainNonMamm, v.testSpeciesMamm,
-                    v.speciesMamm, v.tissueCellLine, v.species, v.strain, v.sex,
-                    v.tissueAnimal, v.tissueHuman, v.cellType, v.exposureDescription,
-                    v.endpoint, v.endpointTest, v.dosingRoute, v.dosingDuration,
-                    v.units, v.dualResult, v.result,
-                    v.resultMetabolic, v.resultNoMetabolic,
-                    v.led, v.significance, v.comments];
-                data.push(row);
-            }
+            let qs = GenotoxEvidence.getTableEvidence(tbl_id),
+                header = [
+                    'Genotoxicity ID', 'Reference', 'Reference year', 'Pubmed ID',
+                    'Data class', 'Agent', 'Plylogenetic class', 'Test system',
+                    'Non-mammalian species', 'Non-mammalian strain',
+                    'Mammalian species', 'Mammalian strain', 'Tissue/Cell line', 'Species', 'Strain', 'Sex',
+                    'Tissue, animal', 'Tissue, human', 'Cell type', 'Exposure description',
+                    'Endpoint', 'Endpoint test', 'Dosing route', 'Dosing duration/regimen',
+                    'Units', 'Dual results?', 'Result',
+                    'Result, metabolic activation', 'Result, no metabolic activation',
+                    'LED/HID', 'Significance', 'Comments',
+                ],
+                data;
+
+            data = _.map(qs, function(d){
+                d.getReference();
+                return [
+                    d._id, d.reference.name, d.reference.getYear(), d.reference.pubmedID,
+                    d.dataClass, d.agent, d.phylogeneticClass,
+                    d.testSystem, d.speciesNonMamm, d.strainNonMamm,
+                    d.testSpeciesMamm, d.speciesMamm, d.tissueCellLine,
+                    d.species, d.strain, d.sex,
+                    d.tissueAnimal, d.tissueHuman, d.cellType,
+                    d.exposureDescription, d.endpoint, d.endpointTest,
+                    d.dosingRoute, d.dosingDuration,
+                    d.units, d.dualResult, d.result,
+                    d.resultMetabolic, d.resultNoMetabolic,
+                    d.led, d.significance, d.comments,
+                ];
+            });
+            data.unshift(header);
             return data;
         },
         isGenotoxAcellular: function(dataClass, phylogeneticClass) {
@@ -112,41 +205,39 @@ var instanceMethods = {
                 acell = 'Acellular systems';
             return (dataClass === dcls) && (phylogeneticClass === acell);
         },
-        getTestSystemDesc: function(d) {
-            var txt;
-            switch (d.dataClass) {
-            case 'Non-mammalian':
-                if (GenotoxEvidence.isGenotoxAcellular(d.dataClass, d.phylogeneticClass)) {
-                    txt = d.phylogeneticClass + '<br>' + d.testSystem;
-                } else {
-                    txt = d.phylogeneticClass + '<br>' + d.speciesNonMamm + '&nbsp;' + d.strainNonMamm;
-                }
-                break;
-            case 'Mammalian and human in vitro':
-                txt = d.speciesMamm + '<br>' + d.tissueCellLine;
-                break;
-            case 'Animal in vivo':
-                txt = d.species + '&nbsp;' + d.strain + '&nbsp;' + d.sex + '<br>' + d.tissueAnimal;
-                break;
-            case 'Human in vivo':
-                txt = d.tissueHuman + ', ' + d.cellType + '<br>' + d.exposureDescription;
-                break;
-            default:
-                console.log('unknown data-type: {#d.dataClass}');
-            }
-            return txt;
-        },
         wordReportFormats: [
+            {
+                'type': 'GenotoxTables',
+                'fn': 'genotoxicity',
+                'text': 'Download Word (by data-class)',
+            },
             {
                 'type': 'GenotoxHtmlTables',
                 'fn': 'genotoxicity',
-                'text': 'Download Word',
+                'text': 'Download Word (HTML re-creation)',
             },
         ],
         wordContext: function(tbl_id) {
+            let resp = GenotoxEvidence.wordHtmlContext(tbl_id);
+            return {
+                table: resp.table,
+                nonMammalianInVitro:
+                    _.filter(resp.objects, (v) => v.dataClass === 'Non-mammalian'),
+                mammalianInVitro: _.chain(resp.objects)
+                    .filter((v) => v.dataClass === 'Mammalian and human in vitro')
+                    .sortBy((v) => v.testSpeciesMamm + v.speciesMamm)
+                    .value(),
+                animalInVivo:
+                    _.filter(resp.objects, (v) => v.dataClass === 'Animal in vivo'),
+                humanInVivo:
+                    _.filter(resp.objects, (v) => v.dataClass === 'Human in vivo'),
+            };
+        },
+        wordHtmlContext: function(tbl_id){
             var tbl = Tables.findOne(tbl_id),
                 vals = GenotoxEvidence.find(
-                            {tbl_id: tbl_id}, {sort: {sortIdx: 1}}
+                            {tbl_id: tbl_id, isHidden: false},
+                            {sort: {sortIdx: 1}}
                         ).fetch();
 
             vals.forEach(function(val){
@@ -156,16 +247,7 @@ var instanceMethods = {
 
             return {
                 table: tbl,
-                nonMammalianInVitro: _
-                    .filter(vals, function(v){return v.dataClass === 'Non-mammalian';}),
-                mammalianInVitro: _.chain(vals)
-                    .filter(function(v) {return v.dataClass === 'Mammalian and human in vitro';})
-                    .sortBy(function(v) {return v.testSpeciesMamm + v.speciesMamm;})
-                    .value(),
-                animalInVivo: _
-                    .filter(vals, function(v) {return v.dataClass === 'Animal in vivo';}),
-                humanInVivo: _
-                    .filter(vals, function(v) {return v.dataClass === 'Human in vivo';}),
+                objects: vals,
             };
         },
         sortFields: {

@@ -5,6 +5,8 @@ import {
     abstractMainHelpers,
 } from '/imports/api/client/templates';
 
+import './main.html';
+
 
 Template.ntpEpiMain.helpers(abstractMainHelpers);
 Template.ntpEpiMain.onCreated(function() {

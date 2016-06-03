@@ -5,6 +5,7 @@ let studyDesignOptions = [
         'Ecological',
     ],
     exposureAssessmentTypeOptions = [
+        '<add>',
         'JEM',
         'questionnaire',
         'job title',
@@ -19,13 +20,25 @@ let studyDesignOptions = [
         'none',
     ],
     ratings = [
+        '<add>',
         '0',
         '+',
         '++',
         '+++',
-    ];
+    ],
+    biasDirection = [
+        '<add>',
+        '⬆',
+        '⬇',
+        '⬌',
+    ],
+    biasDirectionPopoverText = 'Direction of bias effect (⬆ = away from null, ⬇ = towards null, ⬌ = unknown)',
+    ratingRationalePopoverText = 'See RoC handbook/protocol for candidate substance';
 
 
 export { studyDesignOptions };
 export { exposureAssessmentTypeOptions };
 export { ratings };
+export { biasDirection };
+export { biasDirectionPopoverText };
+export { ratingRationalePopoverText };

@@ -20,7 +20,7 @@ import {
     returnExcelFile,
     b64toWord,
     toggleRowVisibilty,
-    toggleRiskPlot,
+    closeModal,
 } from '/imports/api/client/utilities';
 
 
@@ -61,61 +61,12 @@ Template.optRiskPlot.events({
     'click #epiRiskShowPlots': function(evt, tmpl) {
         evt.preventDefault();
         Session.set('epiRiskShowPlots', !Session.get('epiRiskShowPlots'));
-        toggleRiskPlot();
     },
     'click #showForestAxisModal': function(evt, tmpl) {
         var div = document.getElementById('modalHolder');
         $(div).empty();
         Blaze.renderWithData(Template.forestAxisModal, {}, div);
     },
-});
-
-
-var closeModal = function(evt, tmpl) {
-    // todo: not fired when ESC pressed to close
-    $('#modalDiv')
-        .on('hide.bs.modal', function() {
-            $(tmpl.view._domrange.members).remove();
-            Blaze.remove(tmpl.view);
-        }).modal('hide');
-};
-
-
-Template.forestAxisModal.helpers({
-    getMin: function(){
-        return Session.get('epiForestPlotMin');
-    },
-    getMax: function(){
-        return Session.get('epiForestPlotMax');
-    },
-    hasError: function(){
-        return Template.instance().err.get().length>0;
-    },
-    getError: function(){
-        return Template.instance().err.get();
-    },
-});
-Template.forestAxisModal.events({
-    'click #update': function(evt, tmpl){
-        var min = parseFloat(tmpl.$('input[name="min"]').val(), 10),
-            max = parseFloat(tmpl.$('input[name="max"]').val(), 10);
-        if (min>0 && max>0 && max>min){
-            Session.set('epiForestPlotMin', min);
-            Session.set('epiForestPlotMax', max);
-            toggleRiskPlot();
-            $('.epiRiskPlot').trigger('rerender');
-            closeModal(evt, tmpl);
-        } else {
-            tmpl.err.set('Values must be greater than 0, and min<max.');
-        }
-    },
-    'click #cancel': closeModal,
-});
-Template.forestAxisModal.onCreated(function() {
-    this.err = new ReactiveVar('');
-});
-Template.forestAxisModal.onRendered(function() {
-    $('#modalDiv').modal('toggle');
 });
 
 
@@ -329,25 +280,32 @@ var autocompleteOptions = function(qry, sync, cb) {
             if (err) return console.log(err);
             return cb(_.map(res, function(d){return {value: d};}));
         });
-    }, injectTypeahead = function(){
-        Meteor.typeahead.inject('input[name=' + this.data.name + ']');
-    }, removeLI = function(evt, tmpl){
+    },
+    injectTypeahead = function(){
+        Meteor.typeahead.inject(`input[name="${this.data.name}"]`);
+    },
+    removeLI = function(evt, tmpl){
         $(evt.currentTarget).parent().remove();
-    }, selectListAddLI = function(ul, val) {
-        var txts = typeaheadSelectListGetLIs($(ul));
-        if ((val !== '') && (!_.contains(txts, val))) {
-            Blaze.renderWithData(Template.typeaheadSelectListLI, val, ul);
-        }
-    }, selectMultiEvents = {
+    },
+    selectMultiEvents = {
+        'addItem input': function(evt, tmpl, value){
+            let ul = tmpl.$('ul'),
+                txts = typeaheadSelectListGetLIs(ul);
+            if ((value !== '') && (!_.contains(txts, value))) {
+                Blaze.renderWithData(Template.typeaheadSelectListLI, value, ul.get(0));
+            }
+        },
         'typeahead:selected': function(evt, tmpl) {
-            selectListAddLI(tmpl.find('ul'), evt.target.value);
+            let value = evt.target.value;
             tmpl.$('.typeahead').typeahead('val', '');
+            tmpl.$('input').trigger('addItem', value);
         },
         'keyup .form-control': function(evt, tmpl) {
             // add new input not found in list
             if (evt.which === 13){
-                selectListAddLI(tmpl.find('ul'), evt.target.value);
+                let value = evt.target.value;
                 tmpl.$('.typeahead').typeahead('val', '');
+                tmpl.$('input').trigger('addItem', value);
             }
         },
         'click .selectListRemove': removeLI,

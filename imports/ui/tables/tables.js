@@ -11,6 +11,7 @@ import {
     activateInput,
     updateValues,
     toggleRowVisibilty,
+    getHTMLTitleBase,
 } from '/imports/api/client/utilities';
 import {
     newValues,
@@ -18,6 +19,7 @@ import {
 
 
 Template.home.onCreated(function() {
+    document.title = getHTMLTitleBase();
     Session.set('tablesShowNew', false);
     Session.set('tablesEditingId', null);
     Session.set('reorderRows', false);
@@ -71,6 +73,9 @@ Template.volumesList.helpers({
 });
 
 
+Template.volumeTableList.onCreated(function() {
+    document.title = `Volume ${this.data.volumeNumber} | ${getHTMLTitleBase()}`;
+});
 Template.volumeTableList.helpers({
     getMonographAgents: function() {
         var tbls = Tables.find(

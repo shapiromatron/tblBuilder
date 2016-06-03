@@ -1,5 +1,5 @@
 <template name="navBar">
-  <nav class="navbar navbar-default" role="navigation">
+  <nav class="navbar navbar-default {{getClassDebug}}" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#iarc-login-options">
@@ -9,7 +9,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="{{pathFor 'home'}}" title="Return to home">
-          <img id="navbar-brand-logo" src="/static/favicon.ico?v=1" height="45px"> {{getTitle}} Table Builder</a>
+          <img id="navbar-brand-logo" src="/static/favicon.ico?v=1" height="45px"> {{getTitle}} Table Builder {{getTitleDebug}}</a>
       </div>
 
       <div id="iarc-login-options" class="navbar-collapse collapse">

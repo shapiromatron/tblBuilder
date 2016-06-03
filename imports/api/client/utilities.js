@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
+import { Blaze } from 'meteor/blaze';
 import { HTTP } from 'meteor/http';
 import { Session } from 'meteor/session';
-import { Tracker } from 'meteor/tracker';
 import { UI } from 'meteor/ui';
 
 import _ from 'underscore';
@@ -192,77 +192,6 @@ let getHTMLTitleBase = function() {
     toggleRowVisibilty = function(display, $els) {
         return (display) ? $els.fadeIn() : $els.fadeOut();
     },
-    toggleRiskPlot = function() {
-        d3.select('.epiRiskAxes').remove();
-        if (!Session.get('epiRiskShowPlots')) return;
-        Tracker.flush();
-
-        var gridlines, svg, xaxis, xscale, yscale,
-            header = $('.riskTR'),
-            tbl = $('.evidenceTable'),
-            tbl_pos = tbl.position(),
-            header_pos = header.position(),
-            y_top = tbl_pos.top + header.outerHeight(),
-            x_left = header_pos.left,
-            width = header.width(),
-            height = tbl.height() - header.height(),
-            xPlotBuffer = 0,   // make room for the text
-            yPlotBuffer = 20;  // make room for x-axis
-
-        svg = d3.select('.container')
-            .insert('svg', '#epiCohortTbl')
-            .attr('class', 'epiRiskAxes')
-            .attr('height', height + yPlotBuffer)
-            .attr('width', width + 2 * xPlotBuffer)
-            .style({
-                top: parseInt(y_top) + 'px',
-                left: parseInt(x_left - xPlotBuffer) + 'px',
-            });
-
-        xscale = d3.scale.log()
-            .range([0, width])
-            .domain([Session.get('epiForestPlotMin'), Session.get('epiForestPlotMax')])
-            .clamp(true);
-
-        yscale = d3.scale.linear()
-            .range([0, height - yPlotBuffer])
-            .domain([0, 1])
-            .clamp(true);
-
-        xaxis = d3.svg.axis()
-            .scale(xscale)
-            .orient('bottom')
-            .ticks(0, d3.format(',.f'));
-
-        svg.append('g')
-            .attr('class', 'axis')
-            .attr('transform', `translate(${xPlotBuffer}, ${height - yPlotBuffer})`)
-            .call(xaxis);
-
-        gridlines = svg.append('g')
-            .attr('class', 'gridlines')
-            .attr('transform', `translate(${xPlotBuffer},0)`);
-
-        gridlines.selectAll('gridlines')
-            .data(xscale.ticks(10))
-            .enter()
-              .append('svg:line')
-              .attr('x1', function(v) {return xscale(v);})
-              .attr('x2', function(v) {return xscale(v);})
-              .attr('y1', yscale(0))
-              .attr('y2', yscale(1))
-              .attr('class', function(v) {
-                  switch (v){
-                  case 1:
-                      return 'baseline';
-                  case 0.1:
-                  case 10:
-                      return 'major';
-                  default:
-                      return 'minor';
-                  }
-              });
-    },
     toggleQA = function(tmpl, isQA) {
         return tmpl.$('input,select,textarea').prop('disabled', isQA);
     },
@@ -291,6 +220,14 @@ let getHTMLTitleBase = function() {
     },
     destroyPopovers = function(tmpl){
         $(tmpl.findAll('.helpPopovers')).popover('destroy');
+    },
+    closeModal = function(evt, tmpl) {
+        // todo: not fired when ESC pressed to close
+        $('#modalDiv')
+            .on('hide.bs.modal', function() {
+                $(tmpl.view._domrange.members).remove();
+                Blaze.remove(tmpl.view);
+            }).modal('hide');
     };
 
 
@@ -307,8 +244,8 @@ export { b64toWord };
 export { toggleRowVisibilty };
 export { moveRowCheck };
 export { typeaheadSelectListGetLIs };
-export { toggleRiskPlot };
 export { toggleQA };
 export { userCanEdit };
 export { initPopovers };
 export { destroyPopovers };
+export { closeModal };

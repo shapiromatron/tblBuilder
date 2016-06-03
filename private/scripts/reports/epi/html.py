@@ -9,24 +9,24 @@ class EpiHtmlTables(DOCXReport):
         runs = []
         if d["isCaseControl"]:
 
-            rrCase = d.get("responseRateCase", None)
-            if rrCase and len(rrCase) > 0:
-                rrCase = " ({})".format(rrCase)
+            rr = d.get('wrd_responseRateCase', None)
+            rr = u' ({})'.format(rr) \
+                if (rr is not None and len(rr) > 0) \
+                else u''
+            case = u'{}{}; {}'.format(
+                d["populationSizeCase"], rr, d['sourceCase'])
 
-            rrCtrl = d.get("responseRateControl", None)
-            if rrCtrl and len(rrCtrl) > 0:
-                rrCtrl = " ({})".format(rrCtrl)
+            rr = d.get('wrd_responseRateControl', None)
+            rr = u' ({})'.format(rr) \
+                if (rr is not None and len(rr) > 0) \
+                else u''
+            ctrl = u'{}{}; {}'.format(
+                d["populationSizeControl"], rr, d['sourceControl'])
 
             runs.append(tbl.new_run("Cases: ", b=True))
-            runs.append(tbl.new_run(u"{}{}; {}".format(
-                            d["populationSizeCase"],
-                            rrCase,
-                            d["sourceCase"])))
+            runs.append(tbl.new_run(case))
             runs.append(tbl.new_run("Controls: ", b=True))
-            runs.append(tbl.new_run(u"{}{}; {}".format(
-                        d["populationSizeControl"],
-                        rrCtrl,
-                        d["sourceControl"])))
+            runs.append(tbl.new_run(ctrl))
         else:
             runs.append(tbl.new_run(u"{}; {}".format(
                         d["populationSize"],

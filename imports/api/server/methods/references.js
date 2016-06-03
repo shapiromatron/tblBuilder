@@ -1,6 +1,8 @@
-import {Meteor} from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 
 import Reference from '/imports/collections/reference';
+import EpiDescriptive from '/imports/collections/epiDescriptive';
 
 
 Meteor.methods({
@@ -23,5 +25,21 @@ Meteor.methods({
     },
     getReference: function(_id){
         return Reference.findOne(_id);
+    },
+    findMatchingExtractedData: function(ref_id, tbl_id){
+        check(ref_id, String);
+        check(tbl_id, String);
+        let matches = EpiDescriptive.find(
+            {
+                referenceID: ref_id,
+                isQA: true,
+                tbl_id: {$ne: tbl_id},
+            },
+            {
+                sort: {timestampQA: -1},
+            }
+        ).fetch();
+        if(matches.length>0) return matches[0];
+        return null;
     },
 });

@@ -1,0 +1,430 @@
+<template name="ntpAnimalEvidenceForm">
+  <form id="mainForm" role="form" class="editForm">
+    <legend>NTP animal evidence
+      <button class="pull-right btn btn-default btn-xs dropdown-toggle"
+              type="button"
+              title="Expand/collapse all input form sections"
+              id="toggleAccordian">
+        {{#if allAccordiansShown}}
+          <i class="fa fa-minus-square-o"></i>
+        {{else}}
+          <i class="fa fa-plus-square-o"></i>
+        {{/if}}
+      </button>
+      {{>formLegendPulldown}}
+    </legend>
+    <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+      <!-- General information -->
+      <div>
+        <div class="panel-heading" role="tab" id="hdrGeneralInfo">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" href="#pnlGeneralInfo"
+                data-toggle="collapse" data-parent="#accordion"
+                aria-expanded="false" aria-controls="pnlGeneralInfo">
+              General information
+            </a>
+          </h4>
+        </div>
+        <div id="pnlGeneralInfo" class="panel-collapse collapse in" role="tabpanel"
+              aria-labelledby="hdrGeneralInfo" aria-expanded="false">
+          <div class="panel-body">
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> referenceSingleSelect}}
+              </div>
+              <div class="col-xs-4">
+                {{> referenceMultiSelect label="Additional references" name="additionalReferences" values=additionalReferences }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldSelectSingle name="studyDesign" value=studyDesign }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Study design -->
+      <div>
+        <div class="panel-heading" role="tab" id="hdrStudyDesign">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" href="#pnlStudyDesign"
+                data-toggle="collapse" data-parent="#accordion"
+                aria-expanded="false" aria-controls="pnlStudyDesign">
+              Study design
+            </a>
+          </h4>
+        </div>
+        <div id="pnlStudyDesign" class="panel-collapse collapse" role="tabpanel"
+              aria-labelledby="hdrStudyDesign" aria-expanded="false">
+          <div class="panel-body">
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="species" value=species }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="strain" value=strain }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldSelectSingle name="sex" value=sex }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldInputText name="ageAtStart" value=ageAtStart }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputText name="duration" value=duration }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldCheckbox name="historicalDataAvailable" value=historicalDataAvailable }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>Randomization</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="randomizationRating"  value=randomizationRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="randomizationDirection"  value=randomizationDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="randomizationRationale" value=randomizationRationale }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Concurrent controls</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="concurrentControlsRating"  value=concurrentControlsRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="concurrentControlsDirection"  value=concurrentControlsDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="concurrentControlsRationale" value=concurrentControlsRationale }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>Animal model sensitivity</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="animalModelSensitivityRating"  value=animalModelSensitivityRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="animalModelSensitivityDirection"  value=animalModelSensitivityDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="animalModelSensitivityRationale" value=animalModelSensitivityRationale }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Statistical power</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="statisticalPowerRating"  value=statisticalPowerRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="statisticalPowerDirection"  value=statisticalPowerDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="statisticalPowerRationale" value=statisticalPowerRationale }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Exposure -->
+      <div>
+        <div class="panel-heading" role="tab" id="hdrExposure">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" href="#pnlExposure"
+                data-toggle="collapse" data-parent="#accordion"
+                aria-expanded="false" aria-controls="pnlExposure">
+              Exposure
+            </a>
+          </h4>
+        </div>
+        <div id="pnlExposure" class="panel-collapse collapse" role="tabpanel"
+              aria-labelledby="hdrExposure" aria-expanded="false">
+          <div class="panel-body">
+
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="agent" value=agent }}
+                {{> fldInputTypeahead name="purity" value=purity }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="dosingRoute" value=dosingRoute }}
+                {{> fldInputTypeahead name="vehicle" value=vehicle }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldTextArea name="dosingRegimen" value=dosingRegimen }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>Chemical characterization</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="chemicalCharacterizationRating" value=chemicalCharacterizationRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="chemicalCharacterizationDirection" value=chemicalCharacterizationDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="chemicalCharacterizationRationale" value=chemicalCharacterizationRationale }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Dosing regimen</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="dosingRegimenRating" value=dosingRegimenRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="dosingRegimenDirection" value=dosingRegimenDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="dosingRegimenRationale" value=dosingRegimenRationale }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>Exposure duration sensitivity</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="exposureDurationRating" value=exposureDurationRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="exposureDurationDirection" value=exposureDurationDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="exposureDurationRationale" value=exposureDurationRationale }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Dose/response sensitivity</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="doseResponseRating" value=doseResponseRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="doseResponseDirection" value=doseResponseDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="doseResponseRationale" value=doseResponseRationale }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Outcome -->
+      <div>
+        <div class="panel-heading" role="tab" id="hdrOutcome">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" href="#pnlOutcome"
+                data-toggle="collapse" data-parent="#accordion"
+                aria-expanded="false" aria-controls="pnlOutcome">
+              Outcome
+            </a>
+          </h4>
+        </div>
+        <div id="pnlOutcome" class="panel-collapse collapse" role="tabpanel"
+              aria-labelledby="hdrOutcome" aria-expanded="false">
+          <div class="panel-body">
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>&nbsp;</h5>
+                {{> fldTextArea name="outcomeMethods" value=outcomeMethods }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Outcome methodology</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="outcomeMethodsRating" value=outcomeMethodsRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="outcomeMethodsDirection" value=outcomeMethodsDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="outcomeMethodsRationale" value=outcomeMethodsRationale }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>Group methodology consistency</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="groupConsistencyRating" value=groupConsistencyRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="groupConsistencyDirection" value=groupConsistencyDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="groupConsistencyRationale" value=groupConsistencyRationale }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Adequacy of study duration</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="durationRating" value=durationRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="durationDirection" value=durationDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="durationRationale" value=durationRationale }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Confounding -->
+      <div>
+        <div class="panel-heading" role="tab" id="hdrConfounding">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" href="#pnlConfounding"
+                data-toggle="collapse" data-parent="#accordion"
+                aria-expanded="false" aria-controls="pnlConfounding">
+              Confounding
+            </a>
+          </h4>
+        </div>
+        <div id="pnlConfounding" class="panel-collapse collapse" role="tabpanel"
+              aria-labelledby="hdrConfounding" aria-expanded="false">
+          <div class="panel-body">
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <h5>&nbsp;</h5>
+                {{> fldTextArea name="vehicleToxicity" value=vehicleToxicity }}
+                {{> fldTextArea name="animalHusbandry" value=animalHusbandry }}
+              </div>
+              <div class="col-xs-6">
+                <h5>Confounding</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="confoundingRating" value=confoundingRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="confoundingDirection" value=confoundingDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="confoundingRationale" value=confoundingRationale }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Analysis and reporting -->
+      <div>
+        <div class="panel-heading" role="tab" id="hdrAnalysisReporting">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" href="#pnlAnalysisReporting"
+                data-toggle="collapse" data-parent="#accordion"
+                aria-expanded="false" aria-controls="pnlAnalysisReporting">
+              Analysis and reporting
+            </a>
+          </h4>
+        </div>
+        <div id="pnlAnalysisReporting" class="panel-collapse collapse" role="tabpanel"
+              aria-labelledby="hdrAnalysisReporting" aria-expanded="false">
+          <div class="panel-body">
+
+            <div class="form-group row">
+              <div class="col-xs-4">
+                <h5>&nbsp;</h5>
+                {{> fldTextArea name="statisticalReporting" value=statisticalReporting }}
+              </div>
+              <div class="col-xs-4">
+                <h5>Statistical reporting</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="statisticalReportingRating" value=statisticalReportingRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="statisticalReportingDirection" value=statisticalReportingDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="statisticalReportingRationale" value=statisticalReportingRationale }}
+              </div>
+              <div class="col-xs-4">
+                <h5>Tumor combining</h5>
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="tumorCombiningRating" value=tumorCombiningRating }}
+                  </div>
+                  <div class="col-xs-6">
+                    {{> fldSelectSingle name="tumorCombiningDirection" value=tumorCombiningDirection }}
+                  </div>
+                </div>
+                {{> fldTextArea name="tumorCombiningRationale" value=tumorCombiningRationale }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Study judgment -->
+      <div>
+        <div class="panel-heading" role="tab" id="hdrStudyJudgment">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" href="#pnlStudyJudgment"
+                data-toggle="collapse" data-parent="#accordion"
+                aria-expanded="false" aria-controls="pnlStudyJudgment">
+              Study judgment
+            </a>
+          </h4>
+        </div>
+        <div id="pnlStudyJudgment" class="panel-collapse collapse" role="tabpanel"
+              aria-labelledby="hdrStudyJudgment" aria-expanded="false">
+          <div class="panel-body">
+
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldTextArea name="strengths" value=strengths }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldTextArea name="limitations" value=limitations }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldSelectSingle name="overallUtility" value=overallUtility }}
+                {{> fldTextArea name="overallUtilityRationale" value=overallUtilityRationale }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div id="errors"></div>
+    {{> qaNotice}}
+    {{> evidenceFormSubmissionDiv }}
+  </form>
+    <!-- Add input form-modals outside form scope -->
+  {{> referenceQuickAddModal}}
+</template>

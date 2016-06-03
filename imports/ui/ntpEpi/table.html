@@ -26,6 +26,10 @@
 <template name="ntpEpiDescTbl">
   <h1>{{name}} {{> ntpEpiDescOpts}}</h1>
   {{> tableTitle}}
+
+  {{#if showPlots}}
+    {{> forestPlotAxis }}
+  {{/if}}
   <table class="evidenceTable table table-compressed">
     <colgroup>
       <col width="15%">
@@ -154,7 +158,7 @@
         <tbody>
           {{#if displayEffectUnits . }}
             <tr>
-              {{> organSiteTd }}
+              {{> organSiteTd . }}
               <td colspan="4">{{effectUnits}}</td>
             </tr>
           {{/if}}
@@ -168,7 +172,7 @@
               <td>{{value.exposureCategory}}{{#if value.inTrendTest}}<sup>*</sup>{{/if}}</td>
               <td>{{value.numberExposed}}</td>
               <td>{{#if showPlots}}
-                    {{> forestPlot parent=.. index=index }}
+                    {{> forestPlot self=value parent=.. }}
                   {{ else}}
                     <span title="Effect measure: {{../effectMeasure}}">{{../riskFormatter value}}</span>
                   {{/if}}
@@ -180,6 +184,11 @@
                 <td rowspan="{{../riskEstimates.length}}" class="dragHandle dhInner"
                     style="display: none" title="Drag to re-order rows"></td>
               {{/if}}
+            </tr>
+          {{else}}
+            <tr>
+              {{> organSiteTd . }}
+              <td class="text-muted" colspan="4">No results available</td>
             </tr>
           {{/each}}
           {{#if displayTrendTest}}
