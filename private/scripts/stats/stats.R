@@ -14,6 +14,7 @@
 #
 
 library("rjson")
+library("survival")
 library("coin")
 
 getTrendTest <- function(inp){

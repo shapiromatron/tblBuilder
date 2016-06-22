@@ -145,6 +145,10 @@ var getTrendTestDataTbl = function(data){
 
 Template.animalTrendTestReport.helpers({
     getFormattedReport: function(){
+        if (this.trendTestReport[0] !== '{'){
+            return this.trendTestReport;
+        }
+
         var data = JSON.parse(this.trendTestReport || '{}'),
             trs = getTrendTestDataTbl(data),
             txt = '';
