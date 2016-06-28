@@ -43,9 +43,7 @@ let instanceMethods = {
             delete obj.vocStrengthOfAssociation;
             delete obj.vocRuleOutConfounding;
             let trs = tmpl.findAll('#variablesOfConcern > tbody > tr');
-            obj.variablesOfConcern = _.map(trs, function(row){
-                return newValues(row);
-            });
+            obj.variablesOfConcern = _.map(trs, (row) => newValues(row));
         },
 
     },

@@ -275,6 +275,9 @@ Meteor.methods({
     searchNtpAnimalUnits: function(query) {
         return extraUnitsSearch(NtpAnimalEndpointEvidence, query);
     },
+    searchNtpConfounderCovariates: function(query) {
+        return listFieldTextSearch(NtpEpiConfounder, 'covariates', query);
+    },
     searchNtpEpiCaseControlMatching: function(query) {
         return listFieldTextSearch(NtpEpiConfounder, 'caseControlMatching', query);
     },

@@ -1,9 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-import {
-    ratingRationalePopoverText,
-} from '/imports/collections/ntpEpiDescriptive/constants';
-
 
 export default new SimpleSchema({
     vocName: {
