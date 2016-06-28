@@ -127,7 +127,7 @@ Router.map(function() {
         controller: TblRouterController,
     });
 
-    this.route('ntpVariablesOfConcernMain', {
+    this.route('vocMain', {
         path: '/ntp-epidemiology/:_id/variables-of-concern',
         controller: TblRouterController,
     });

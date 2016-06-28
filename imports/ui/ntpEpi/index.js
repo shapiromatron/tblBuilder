@@ -5,4 +5,5 @@ import './nestedForm';
 import './vocFormTable';
 import './vocFormRow';
 import './ntpEpiRating';
-import './ntpVariablesOfConcern';
+import './voc';
+import './vocForm';

@@ -1,0 +1,98 @@
+<template name="vocMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+      {{> vocTables}}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>
+
+
+<template name="vocActions">
+  {{#actionBtn}}
+    {{#if userCanEdit}}
+      {{> optCreate }}
+    {{/if}}
+  {{/actionBtn}}
+</template>
+
+
+<template name="vocTables">
+  <h1>
+    Potential confounders: {{name}}
+    {{>vocActions}}
+  </h1>
+  {{> tableTitle}}
+
+  {{#if showNew}}
+    {{> vocForm isNew=true}}
+  {{else}}
+    {{#each organSites}}
+      <h1>{{this}}</h1>
+      {{> vocTable organSiteCategory=this}}
+    {{else}}
+      <p class="help-block">
+        No variables of concern have been created yet.
+      </p>
+      {{> showNewBtn }}
+    {{/each}}
+  {{/if}}
+</template>
+
+
+<template name="vocTable">
+  <table class="evidenceTable table table-compressed">
+    <thead>
+      <tr>
+        <th style="width: 25%">Reference</th>
+        <th style="width: 25%">A</th>
+        <th style="width: 25%">B</th>
+        <th style="width: 25%">C</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each getRows}}
+        {{#if isEditing}}
+          <tr>
+            <td id="editingRow" colspan="4">
+              {{> vocForm this isNew=false}}
+            </td>
+          </tr>
+        {{else}}
+          {{> vocRow}}
+        {{/if}}
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+
+<template name="vocRow">
+  <tr>
+    {{> vocRefTd}}
+    <td>add...</td>
+    <td>add...</td>
+    <td>add...</td>
+  </tr>
+</template>
+
+
+<template name="vocRefTd">
+  <td>
+    {{#if userCanEdit}}
+      <div class="rowOptions btn-group pull-right">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+          <span class="caret" title="Editing options"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#" id="show-edit">
+              <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+        </ul>
+      </div>
+    {{/if}}
+    {{>printReference id=this.description.referenceID}}
+  </td>
+</template>
+

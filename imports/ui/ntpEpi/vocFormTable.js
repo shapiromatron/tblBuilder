@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 import { Session } from 'meteor/session';
-import NtpEpiResult from '/imports/collections/ntpEpiResult';
+import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 
 import {
     initPopovers,
@@ -13,7 +13,7 @@ import './vocFormTable.html';
 
 let vocHelpers = {
     getVocSchema: function(){
-        return NtpEpiResult.variableOfConcernSchema.schema();
+        return NtpEpiConfounder.variableOfConcernSchema.schema();
     },
     isNew: function(){
         return Session.get('nestedEvidenceEditingId') === null;
