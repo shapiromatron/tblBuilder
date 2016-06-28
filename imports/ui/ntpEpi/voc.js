@@ -32,11 +32,11 @@ Template.vocTables.events({
         this.showForm = tmpl.showForm.set(!tmpl.showForm.get());
     },
 });
-Template.vocTables.helpers({
+Template.vocTables.helpers(_.extend({
     organSites(){
         return Template.instance().organSites.get();
     },
-});
+}, abstractTblHelpers));
 Template.vocTables.onCreated(function(){
     // reactively get distinct organ site categories
     let organSites = new ReactiveVar([]);
