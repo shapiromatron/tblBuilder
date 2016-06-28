@@ -160,8 +160,10 @@ let getHTMLTitleBase = function() {
         return new Sortable($el, opts);
     },
     activateInput = function(input) {
-        input.focus();
-        input.select();
+        if (input){
+            input.focus();
+            input.select();
+        }
     },
     updateValues = function(form, obj) {
         var newObj = {}, key, val;
