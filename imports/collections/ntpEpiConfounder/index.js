@@ -31,6 +31,16 @@ let instanceMethods = {
                 (this.outcomeAssessmentRationaleOverride) :
                 this.getDescription().outcomeAssessmentRationale;
         },
+        getCovariatesList: function(){
+            return this.covariates.sort().join(', ') || '-';
+        },
+        getCoexposuresList: function(){
+            return this.coexposures.sort().join(', ') || '-';
+        },
+        getVocsList: function(){
+            let names = _.pluck(this.variablesOfConcern, 'vocName');
+            return names.sort().join(', ') || '-';
+        },
     },
     classMethods = {
         variableOfConcernSchema,

@@ -46,9 +46,9 @@
     <thead>
       <tr>
         <th style="width: 25%">Reference</th>
-        <th style="width: 25%">A</th>
-        <th style="width: 25%">B</th>
-        <th style="width: 25%">C</th>
+        <th style="width: 20%">Covariates controlled</th>
+        <th style="width: 20%">Co-exposures</th>
+        <th style="width: 35%">Variables of concern</th>
       </tr>
     </thead>
     <tbody>
@@ -71,9 +71,9 @@
 <template name="vocRow">
   <tr>
     {{> vocRefTd}}
-    <td>add...</td>
-    <td>add...</td>
-    <td>add...</td>
+    <td>{{getCovariatesList}}</td>
+    <td>{{getCoexposuresList}}</td>
+    <td>{{getVocsList}}</td>
   </tr>
 </template>
 

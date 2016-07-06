@@ -100,7 +100,6 @@ export default {
         textAreaRows: 3,
         popoverText: ratingRationalePopoverText,
     },
-
     'variablesOfConcern': {
         type: [variableOfConcernSchema],
         minCount: 0,
