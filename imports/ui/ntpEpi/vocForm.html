@@ -1,74 +1,4 @@
-<template name="ntpVariablesOfConcernMain">
-  {{#if Template.subscriptionsReady}}
-    {{#contentContainer}}
-      {{> ntpVocTables}}
-    {{/contentContainer}}
-  {{else}}
-    {{> isLoading}}
-  {{/if }}
-</template>
-
-
-<template name="ntpVocActions">
-  {{#actionBtn}}
-    {{#if userCanEdit}}
-      {{> optCreate }}
-    {{/if}}
-  {{/actionBtn}}
-</template>
-
-
-<template name="ntpVocTables">
-  <h1>
-    Potential confounders: {{name}}
-    {{>ntpVocActions}}
-  </h1>
-  {{> tableTitle}}
-
-  {{#if showNew}}
-    {{> ntpVocForm isNew=true}}
-  {{else}}
-    {{#each eps}}
-      <h2>{{this}}</h2>
-      {{> ntpVocTable}}
-    {{else}}
-      <p class="help-block">
-        No variables of concern have been created yet.
-      </p>
-      {{> showNewBtn }}
-    {{/each}}
-  {{/if}}
-</template>
-
-
-<template name="ntpVocTable">
-  <h1>Potential confounders: {{name}}
-  a
-  </h1>
-  {{> tableTitle}}
-  <table class="evidenceTable table table-compressed">
-    <thead>
-      <tr>
-        {{#each getHeaders}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each getRows}}
-        <tr>
-        <td>{{>printReference id=referenceID}}: {{result.organSite}}</td>
-        {{#each variables}}
-          <td>{{this}}</td>
-        {{/each}}
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</template>
-
-
-<template name="ntpVocForm">
+<template name="vocForm">
   <form id="mainForm" role="form" class="editForm">
     <legend>Variables of Concern
       <button class="pull-right btn btn-default btn-xs dropdown-toggle"
@@ -89,35 +19,34 @@
       <!-- First row -->
       <div class="panel-heading" role="tab">
         <h4 class="panel-title">
-          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#accEffectDescription" aria-expanded="false" aria-controls="accEffectDescription">
+          <a class="collapsed" role="button"
+              data-toggle="collapse" data-parent="#accordion"
+              href="#accEffectDescription"
+              aria-expanded="false" aria-controls="accEffectDescription">
             Effect description
-            <button class="pull-right btn btn-default btn-xs dropdown-toggle"
-                    type="button"
-                    title="Expand/collapse all input form sections"
-                    id="toggleAccordian">
-              {{#if allAccordiansShown}}
-                <i class="fa fa-minus-square-o"></i>
-              {{else}}
-                <i class="fa fa-plus-square-o"></i>
-              {{/if}}
-            </button>
           </a>
         </h4>
       </div>
       <div id="accEffectDescription" class="panel-collapse collapse in" role="tabpanel">
         <div class="panel-body form-group row">
-
+          <div class="col-xs-6">
+            <label class="helpPopovers" data-toggle="popover"
+              data-content="Associated reference">Reference*</label>
+            {{> ntpEpiDescSelectList options=getParents selected=parent_id selectName="parent_id" }}
+          </div>
           <div class="col-xs-6">
             {{> fldInputTypeahead name="organSiteCategory" value=organSiteCategory }}
           </div>
-
         </div>
       </div>
 
       <!-- Third row -->
       <div class="panel-heading" role="tab">
         <h4 class="panel-title">
-          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#accConfounders" aria-expanded="false" aria-controls="accConfounders">
+          <a class="collapsed" role="button"
+              data-toggle="collapse" data-parent="#accordion"
+              href="#accConfounders"
+              aria-expanded="false" aria-controls="accConfounders">
             Potential confounders
           </a>
         </h4>
@@ -157,14 +86,16 @@
               {{> fldTextArea name="confoundingRatingRationale" value=confoundingRatingRationale }}
             </div>
           </div>
-
         </div>
       </div>
 
       <!-- Outcome override -->
       <div class="panel-heading" role="tab">
         <h4 class="panel-title">
-          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#accOutcomeAssessment" aria-expanded="false" aria-controls="accOutcomeAssessment">
+          <a class="collapsed" role="button"
+              data-toggle="collapse" data-parent="#accordion"
+              href="#accOutcomeAssessment"
+              aria-expanded="false" aria-controls="accOutcomeAssessment">
             Outcome assessment override (optional)
           </a>
         </h4>
@@ -192,15 +123,17 @@
             </div>
             {{> fldTextArea name="outcomeAssessmentRationaleOverride" value=outcomeAssessmentRationaleOverride }}
           </div>
-
         </div>
       </div>
 
       <!-- Variables of Concern -->
       <div class="panel-heading" role="tab">
         <h4 class="panel-title">
-          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#accVoc" aria-expanded="false" aria-controls="accVoc">
-            Variables of Concern
+          <a class="collapsed" role="button"
+              data-toggle="collapse" data-parent="#accordion"
+              href="#accVoc"
+              aria-expanded="false" aria-controls="accVoc">
+            Variables of concern
           </a>
         </h4>
       </div>
@@ -210,10 +143,6 @@
         </div>
       </div>
 
-
-
-
-
     </div>
     <div id="errors"></div>
     {{> qaNotice}}
@@ -221,4 +150,15 @@
   </form>
   <!-- Add input form-modals outside form scope -->
   {{> referenceQuickAddModal}}
+</template>
+
+
+<template name="ntpEpiDescSelectList">
+  <select class="form-control" name="{{selectName}}">
+    {{#each getOptions}}
+      <option value="{{this._id}}"
+        selected="{{isSelected this ../selected}}">
+          {{this.reference.name}}</option>
+    {{/each}}
+  </select>
 </template>

@@ -218,6 +218,9 @@ export const abstractFormEvents = {
         _.extend(obj, {
             tbl_id: Session.get('Tbl')._id,
         });
+        if (Collection.preSaveHook){
+            Collection.preSaveHook(tmpl, obj);
+        }
 
         if (createPreValidate) obj = createPreValidate(tmpl, obj, this);
         isValid = Collection.simpleSchema().namedContext().validate(obj);
@@ -235,12 +238,22 @@ export const abstractFormEvents = {
             Collection = tblBuilderCollections.evidenceLookup[key].collection,
             vals = updateValues(tmpl.find('#mainForm'), this),
             ref = tblBuilderCollections.evidenceLookup[key].requiredUpdateFields;
+
+        if (Collection.preSaveHook){
+            Collection.preSaveHook(tmpl, vals);
+        }
+
         for (i = 0; i < ref.length; i++) {
             fld = ref[i];
             vals[fld] = tmpl.find(`select[name="${fld}"]`).value;
         }
+
         updatePreValidate = tmpl.view.template.__helpers[' updatePreValidate'];
-        if (updatePreValidate != null) vals = updatePreValidate(tmpl, vals, this);
+
+        if (updatePreValidate != null){
+            vals = updatePreValidate(tmpl, vals, this);
+        }
+
         modifier = {$set: vals};
         isValid = Collection
             .simpleSchema()
@@ -248,7 +261,7 @@ export const abstractFormEvents = {
             .validate(modifier, {modifier: true});
         if (isValid) {
             Collection.update(this._id, {$set: vals});
-            (isCtrlClick(evt)) ? animateClick(evt.target) : Session.set('evidenceEditingId', false);
+            (isCtrlClick(evt)) ? animateClick(evt.target) : Session.set('evidenceEditingId', null);
         } else {
             errorDiv = createErrorDiv(Collection.simpleSchema().namedContext());
             $(tmpl.find('#errors')).html(errorDiv);

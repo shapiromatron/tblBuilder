@@ -17,6 +17,9 @@ import {
 
 
 export default {
+    parent_id: {
+        type: SimpleSchema.RegEx.Id,
+    },
     organSiteCategory: {
         label: 'Organ site',
         type: String,
@@ -29,7 +32,7 @@ export default {
         type: [String],
         minCount: 0,
         popoverText: 'List all covariates which were controlled by matching or adjustment in the analysis reported. Enter each covariate individually, and then press <enter> to add it to the list. If no covariates were specified, add \'not-specified\'',
-        typeaheadMethod: 'searchNtpCovariates',
+        typeaheadMethod: 'searchNtpConfounderCovariates',
     },
     otherVariables: {
         label: 'Other variables',
@@ -97,13 +100,8 @@ export default {
         textAreaRows: 3,
         popoverText: ratingRationalePopoverText,
     },
-
     'variablesOfConcern': {
         type: [variableOfConcernSchema],
         minCount: 0,
-    },
-    parent_id: {
-        type: SimpleSchema.RegEx.Id,
-        denyUpdate: true,
     },
 };

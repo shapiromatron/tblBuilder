@@ -31,6 +31,16 @@ let instanceMethods = {
                 (this.outcomeAssessmentRationaleOverride) :
                 this.getDescription().outcomeAssessmentRationale;
         },
+        getCovariatesList: function(){
+            return this.covariates.sort().join(', ') || '-';
+        },
+        getCoexposuresList: function(){
+            return this.coexposures.sort().join(', ') || '-';
+        },
+        getVocsList: function(){
+            let names = _.pluck(this.variablesOfConcern, 'vocName');
+            return names.sort().join(', ') || '-';
+        },
     },
     classMethods = {
         variableOfConcernSchema,
@@ -43,9 +53,7 @@ let instanceMethods = {
             delete obj.vocStrengthOfAssociation;
             delete obj.vocRuleOutConfounding;
             let trs = tmpl.findAll('#variablesOfConcern > tbody > tr');
-            obj.variablesOfConcern = _.map(trs, function(row){
-                return newValues(row);
-            });
+            obj.variablesOfConcern = _.map(trs, (row) => newValues(row));
         },
 
     },

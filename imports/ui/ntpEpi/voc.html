@@ -1,0 +1,133 @@
+<template name="vocMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+      {{> vocTables}}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>
+
+
+<template name="vocActions">
+  {{#actionBtn}}
+    {{> optFullScreen}}
+    {{#if userCanEdit}}
+      {{> optCreate }}
+    {{/if}}
+    <li>
+      <a id='matrixToggle' href='#'>
+        {{#if showMatrixView}}
+          <i class="fa fa-fw fa-pencil-square-o"></i> Data entry view
+        {{else}}
+          <i class="fa fa-fw fa-table"></i> Variables of concern matrix
+        {{/if}}
+      </a>
+    </li>
+  {{/actionBtn}}
+</template>
+
+
+<template name="vocTables">
+  <h1>
+    Potential confounders: {{name}}
+    {{>vocActions}}
+  </h1>
+  {{> tableTitle}}
+
+  {{#if showNew}}
+    {{> vocForm isNew=true}}
+  {{else}}
+    {{#each organSites}}
+      <h1>{{this}}</h1>
+      {{> vocTable organSiteCategory=this}}
+    {{else}}
+      <p class="help-block">
+        No variables of concern have been created yet.
+      </p>
+      {{> showNewBtn }}
+    {{/each}}
+  {{/if}}
+</template>
+
+
+<template name="vocTable">
+  <table class="evidenceTable table table-compressed">
+    <thead>
+      <tr>
+        <th style="width: 20%">Reference</th>
+        {{#if showMatrixView}}
+          {{>vocMatrixHeader headers=getMatrixHeaders}}
+        {{else}}
+          <th style="width: 22%">Covariates controlled</th>
+          <th style="width: 22%">Co-exposures</th>
+          <th style="width: 36%">Variables of concern</th>
+        {{/if}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each getRows}}
+        {{#if isEditing}}
+          <tr>
+            <td id="editingRow" colspan="20">
+              {{> vocForm this isNew=false}}
+            </td>
+          </tr>
+        {{else}}
+          {{#if showMatrixView}}
+            {{> vocMatrixRow object=this headers=getMatrixHeaders}}
+          {{else}}
+            {{> vocRow}}
+          {{/if}}
+        {{/if}}
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+
+<template name="vocMatrixHeader">
+  {{#each headers}}
+    <th style={{getThWidth}}>{{this}}</th>
+  {{/each}}
+</template>
+
+
+<template name="vocMatrixRow">
+  <tr>
+    {{> vocRefTd object}}
+    {{#each headers}}
+      <td>{{getText this}}</td>
+    {{/each}}
+  </tr>
+</template>
+
+
+<template name="vocRow">
+  <tr>
+    {{> vocRefTd}}
+    <td>{{getCovariatesList}}</td>
+    <td>{{getCoexposuresList}}</td>
+    <td>{{getVocsList}}</td>
+  </tr>
+</template>
+
+
+<template name="vocRefTd">
+  <td>
+    {{#if userCanEdit}}
+      <div class="rowOptions btn-group pull-right">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+          <span class="caret" title="Editing options"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#" id="show-edit">
+              <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+        </ul>
+      </div>
+    {{/if}}
+    {{>printReference id=this.description.referenceID}}
+  </td>
+</template>
+
