@@ -11,9 +11,19 @@
 
 <template name="vocActions">
   {{#actionBtn}}
+    {{> optFullScreen}}
     {{#if userCanEdit}}
       {{> optCreate }}
     {{/if}}
+    <li>
+      <a id='matrixToggle' href='#'>
+        {{#if showMatrixView}}
+          <i class="fa fa-fw fa-pencil-square-o"></i> Data entry view
+        {{else}}
+          <i class="fa fa-fw fa-table"></i> Variables of concern matrix
+        {{/if}}
+      </a>
+    </li>
   {{/actionBtn}}
 </template>
 
@@ -45,26 +55,51 @@
   <table class="evidenceTable table table-compressed">
     <thead>
       <tr>
-        <th style="width: 25%">Reference</th>
-        <th style="width: 20%">Covariates controlled</th>
-        <th style="width: 20%">Co-exposures</th>
-        <th style="width: 35%">Variables of concern</th>
+        <th style="width: 20%">Reference</th>
+        {{#if showMatrixView}}
+          {{>vocMatrixHeader headers=getMatrixHeaders}}
+        {{else}}
+          <th style="width: 22%">Covariates controlled</th>
+          <th style="width: 22%">Co-exposures</th>
+          <th style="width: 36%">Variables of concern</th>
+        {{/if}}
       </tr>
     </thead>
     <tbody>
       {{#each getRows}}
         {{#if isEditing}}
           <tr>
-            <td id="editingRow" colspan="4">
+            <td id="editingRow" colspan="20">
               {{> vocForm this isNew=false}}
             </td>
           </tr>
         {{else}}
-          {{> vocRow}}
+          {{#if showMatrixView}}
+            {{> vocMatrixRow object=this headers=getMatrixHeaders}}
+          {{else}}
+            {{> vocRow}}
+          {{/if}}
         {{/if}}
       {{/each}}
     </tbody>
   </table>
+</template>
+
+
+<template name="vocMatrixHeader">
+  {{#each headers}}
+    <th style={{getThWidth}}>{{this}}</th>
+  {{/each}}
+</template>
+
+
+<template name="vocMatrixRow">
+  <tr>
+    {{> vocRefTd object}}
+    {{#each headers}}
+      <td>{{getText this}}</td>
+    {{/each}}
+  </tr>
 </template>
 
 
