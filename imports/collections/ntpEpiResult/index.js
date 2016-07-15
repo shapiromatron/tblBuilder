@@ -42,6 +42,7 @@ let instanceMethods = {
             delete obj.riskHigh;
             delete obj.riskEstimated;
             delete obj.inTrendTest;
+            delete obj.showInPlot;
             let trs = tmpl.findAll('.riskEstimateTbody tr');
             obj.riskEstimates = _.map(trs, function(row){
                 return newValues(row);
