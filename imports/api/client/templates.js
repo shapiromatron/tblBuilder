@@ -220,13 +220,16 @@ export const abstractRowEvents = {
 
 
 export const abstractFormEvents = {
+    'closeForm': function(evt, tmpl){
+        setScrollPosition();
+    },
     'click #create-cancel': function(evt, tmpl) {
         Session.set('evidenceShowNew', false);
-        setScrollPosition();
+         $(tmpl.firstNode).trigger('closeForm');
     },
     'click #update-cancel': function(evt, tmpl) {
         Session.set('evidenceEditingId', null);
-        setScrollPosition();
+        $(tmpl.firstNode).trigger('closeForm');
     },
     'click #create': function(evt, tmpl) {
         var errorDiv, isValid,
@@ -247,7 +250,7 @@ export const abstractFormEvents = {
         if (isValid) {
             Collection.insert(obj);
             Session.set('evidenceShowNew', false);
-            setScrollPosition();
+            $(tmpl.firstNode).trigger('closeForm');
         } else {
             errorDiv = createErrorDiv(Collection.simpleSchema().namedContext());
             $(tmpl.find('#errors')).html(errorDiv);
@@ -283,7 +286,7 @@ export const abstractFormEvents = {
         if (isValid) {
             Collection.update(this._id, {$set: vals});
             (isCtrlClick(evt)) ? animateClick(evt.target) : Session.set('evidenceEditingId', null);
-            setScrollPosition();
+            $(tmpl.firstNode).trigger('closeForm');
         } else {
             errorDiv = createErrorDiv(Collection.simpleSchema().namedContext());
             $(tmpl.find('#errors')).html(errorDiv);
@@ -294,7 +297,7 @@ export const abstractFormEvents = {
             Collection = tblBuilderCollections.evidenceLookup[key].collection;
         Collection.remove(this._id);
         Session.set('evidenceEditingId', null);
-        setScrollPosition();
+        $(tmpl.firstNode).trigger('closeForm');
     },
     'click #setQA,#unsetQA': function(evt, tmpl) {
         var key = Session.get('evidenceType'),
