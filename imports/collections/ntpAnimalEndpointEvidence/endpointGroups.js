@@ -40,4 +40,9 @@ export default new SimpleSchema({
         optional: true,
         popoverText: 'Mean number of tumors per tumor-bearing animal.',
     },
+    showInPlot: {
+        label: 'Show in plot',
+        type: Boolean,
+        popoverText: 'Show in plot',
+    },
 });
