@@ -57,10 +57,6 @@
         {{#each endpointGroups}}
           {{> endpointGroupFormRow this}}
         {{/each}}
-      {{else}}
-        {{#if isNew}}
-          {{> endpointGroupFormRow null }}
-        {{/if}}
       {{/if}}
     </tbody>
   </table>
