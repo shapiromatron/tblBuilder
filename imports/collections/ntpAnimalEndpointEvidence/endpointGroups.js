@@ -40,6 +40,17 @@ export default new SimpleSchema({
         optional: true,
         popoverText: 'Mean number of tumors per tumor-bearing animal.',
     },
+    tumorOnsetTime: {
+        label: 'Tumor onset time',
+        type: String,
+        optional: true,
+        popoverText: 'Time (including units) for tumor onset.',
+    },
+    wgCalculated: {
+        label: 'WG calculation?',
+        type: Boolean,
+        popoverText: 'Calculations by the working-group (WG), not study-authors',
+    },
     showInPlot: {
         label: 'Show in plot',
         type: Boolean,

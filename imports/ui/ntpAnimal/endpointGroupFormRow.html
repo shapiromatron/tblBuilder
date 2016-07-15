@@ -39,6 +39,12 @@
       {{> fldInputText collSchema=getEndpointGroupSchema name="multiplicity" value=multiplicity hideLabel=true}}
     </td>
     <td>
+      {{> fldInputText collSchema=getEndpointGroupSchema name="tumorOnsetTime" value=tumorOnsetTime hideLabel=true}}
+    </td>
+    <td>
+      {{> fldCheckbox collSchema=getEndpointGroupSchema name="wgCalculated" value=wgCalculated hideLabel=true}}
+    </td>
+    <td>
       {{> fldCheckbox collSchema=getEndpointGroupSchema name="showInPlot" value=showInPlot hideLabel=true}}
     </td>
   </tr>
