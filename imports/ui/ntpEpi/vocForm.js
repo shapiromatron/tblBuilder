@@ -48,8 +48,10 @@ Template.ntpEpiDescSelectList.helpers({
         return current._id === selected;
     },
     getOptions: function(){
-        var descs = NtpEpiDescriptive.find().fetch();
-        _.each(descs, (d) => d.getReference());
-        return descs;
+        return _.chain(NtpEpiDescriptive.find().fetch())
+            .filter((d) => !d.isHidden)
+            .each((d) => d.getReference())
+            .sortBy((d) => d.reference.name)
+            .value();
     },
 });
