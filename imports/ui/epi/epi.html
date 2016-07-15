@@ -535,5 +535,10 @@ or the-first row of the riskEstimates.
     <td>
       {{> fldCheckbox name="inTrendTest" value=inTrendTest nested=true hideLabel=true }}
     </td>
+    {{# if isNTP}}
+    <td>
+      {{> fldCheckbox name="showInPlot" value=showInPlot nested=true hideLabel=true }}
+    </td>
+    {{/if }}
   </tr>
 </template>

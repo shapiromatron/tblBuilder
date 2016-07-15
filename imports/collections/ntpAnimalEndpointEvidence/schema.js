@@ -94,6 +94,13 @@ export default {
         popoverText: 'Note if metastases are reported for a tumor and note tissue sites',
         textAreaRows: 4,
     },
+    nonNeoplasticFindings: {
+        label: 'Non-neoplastic findings',
+        type: String,
+        optional: true,
+        popoverText: 'Relevant for the cancer endpoint – e.g., hyperplasia for the liver for liver tumors',
+        textAreaRows: 4,
+    },
     comments: {
         label: 'Other comments',
         type: String,

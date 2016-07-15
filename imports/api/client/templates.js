@@ -19,7 +19,21 @@ import {
 } from '/imports/api/utilities';
 
 
-let getNextSortIdx = function(currentIdx, Collection){
+Session.setDefault('windowScrollX', 0);
+Session.setDefault('windowScrollY', 0);
+
+
+let getScrollPosition = function(){
+        Session.set('windowScrollX', window.scrollX);
+        Session.set('windowScrollY', window.scrollY);
+    },
+    setScrollPosition = function(){
+        window.scrollTo(
+            Session.get('windowScrollX'),
+            Session.get('windowScrollY')
+        );
+    },
+    getNextSortIdx = function(currentIdx, Collection){
         var nextIdx = _.chain(Collection.find().fetch())
                     .pluck('sortIdx')
                     .filter(function(d){return d > currentIdx;})
@@ -58,6 +72,7 @@ let getNextSortIdx = function(currentIdx, Collection){
             key = Session.get('evidenceType'),
             NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
         $(div).empty();
+        getScrollPosition();
         Blaze.renderWithData(NestedTemplate, {parent: this}, div);
     },
     isCtrlClick = function(evt){
@@ -78,7 +93,9 @@ let getNextSortIdx = function(currentIdx, Collection){
                 Blaze.remove(tmpl.view);
                 if ((options != null) && (options.remove != null)) {
                     NestedCollection.remove(options.remove);
-                }})
+                }
+                setScrollPosition();
+            })
             .modal('hide');
     },
     saveSortOrder = function(objs){
@@ -179,6 +196,7 @@ export const abstractRowHelpers = {
 
 export const abstractRowEvents = {
     'click #show-edit': function(evt, tmpl) {
+        getScrollPosition();
         Session.set('evidenceEditingId', this._id);
         Tracker.flush();
         activateInput($('input[name=referenceID]')[0]);
@@ -202,11 +220,16 @@ export const abstractRowEvents = {
 
 
 export const abstractFormEvents = {
+    'closeForm': function(evt, tmpl){
+        setScrollPosition();
+    },
     'click #create-cancel': function(evt, tmpl) {
         Session.set('evidenceShowNew', false);
+         $(tmpl.firstNode).trigger('closeForm');
     },
     'click #update-cancel': function(evt, tmpl) {
         Session.set('evidenceEditingId', null);
+        $(tmpl.firstNode).trigger('closeForm');
     },
     'click #create': function(evt, tmpl) {
         var errorDiv, isValid,
@@ -227,6 +250,7 @@ export const abstractFormEvents = {
         if (isValid) {
             Collection.insert(obj);
             Session.set('evidenceShowNew', false);
+            $(tmpl.firstNode).trigger('closeForm');
         } else {
             errorDiv = createErrorDiv(Collection.simpleSchema().namedContext());
             $(tmpl.find('#errors')).html(errorDiv);
@@ -262,6 +286,7 @@ export const abstractFormEvents = {
         if (isValid) {
             Collection.update(this._id, {$set: vals});
             (isCtrlClick(evt)) ? animateClick(evt.target) : Session.set('evidenceEditingId', null);
+            $(tmpl.firstNode).trigger('closeForm');
         } else {
             errorDiv = createErrorDiv(Collection.simpleSchema().namedContext());
             $(tmpl.find('#errors')).html(errorDiv);
@@ -272,6 +297,7 @@ export const abstractFormEvents = {
             Collection = tblBuilderCollections.evidenceLookup[key].collection;
         Collection.remove(this._id);
         Session.set('evidenceEditingId', null);
+        $(tmpl.firstNode).trigger('closeForm');
     },
     'click #setQA,#unsetQA': function(evt, tmpl) {
         var key = Session.get('evidenceType'),
@@ -297,6 +323,7 @@ export const abstractNestedTableEvents = {
             key = Session.get('evidenceType'),
             NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
 
+        getScrollPosition();
         Session.set('nestedEvidenceEditingId', tmpl.data._id);
         return Blaze.renderWithData(NestedTemplate, {}, div);
     },

@@ -47,4 +47,9 @@ export default new SimpleSchema({
         type: Boolean,
         popoverText: 'Risk estimate included in trend-test',
     },
+    'showInPlot': {
+        label: 'Show in plot',
+        type: Boolean,
+        popoverText: 'Show in plot',
+    },
 });

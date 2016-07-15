@@ -35,6 +35,9 @@ let instanceMethods = {
             delete obj.incidencePercent;
             delete obj.incidenceSymbol;
             delete obj.multiplicity;
+            delete obj.tumorOnsetTime;
+            delete obj.wgCalculated;
+            delete obj.showInPlot;
             let trs = tmpl.findAll('.egs tr');
             obj.endpointGroups = _.map(trs, function(row){
                 return newValues(row);

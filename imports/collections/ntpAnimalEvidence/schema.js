@@ -70,6 +70,11 @@ export default {
         type: Boolean,
         popoverText: 'Is historical data for this species and strain available in this publication or another?',
     },
+    transgenicModel: {
+        label: 'Transgenic model?',
+        type: Boolean,
+        popoverText: 'Was a transgenic animal model used?',
+    },
 
     randomizationRating: {
         label: 'Bias rating',

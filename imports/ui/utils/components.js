@@ -478,9 +478,14 @@ var fldGetSchema = function(){
         }
     },
     fldHelpers = {
-        isRequired: function(){
-            if (_.isUndefined(this.schema.optional) ||
-                this.schema.forceRequiredSymbol === true)
+        showRequiredSymbol: function(){
+            // only show required symbol if field is not a select box, not
+            // a boolean, and is required in th schema
+            if ((_.isUndefined(this.schema.optional) ||
+                 this.schema.forceRequiredSymbol === true)
+                && this.schema.type !== Boolean
+                && _.isUndefined(this.schema.allowedValues)
+            )
                 return '*';
         },
         isSelected: function(current, selected) {
