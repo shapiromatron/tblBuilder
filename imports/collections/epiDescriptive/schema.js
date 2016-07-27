@@ -36,10 +36,10 @@ export default {
         popoverText: 'Country; other information (e.g., region, state, province, city) if important',
     },
     enrollmentDates: {
-        label: 'Enrollment or follow-up dates',
+        label: 'Enrollment and follow-up dates',
         type: String,
         min: 1,
-        popoverText: 'Enrollment for case-control studies, follow-up for cohort studies',
+        popoverText: 'For case-control studies, enter only enrollment date',
     },
     eligibilityCriteria: {
         label: 'Population/eligibility characteristics',
