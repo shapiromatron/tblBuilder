@@ -161,9 +161,6 @@ Meteor.methods({
     searchCovariates: function(query) {
         return listFieldTextSearch(EpiResult, 'covariates', query);
     },
-    searchCoexposures: function(query) {
-        return listFieldTextSearch(EpiDescriptive, 'coexposures', query);
-    },
     searchCountries: function(query) {
         return singleFieldTextSearch(ExposureEvidence, 'country', query);
     },

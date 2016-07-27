@@ -27,7 +27,6 @@ let instanceMethods = {
             _.extend(this, {
                 reference: Reference.findOne({_id: this.referenceID}),
                 isCaseControl: this.isCaseControl(),
-                wrd_coexposuresList: this.coexposures.join(', '),
                 wrd_notes: this.notes || '',
                 wrd_responseRateCase: getPercentOrText(this.responseRateCase),
                 wrd_responseRateControl: getPercentOrText(this.responseRateControl),
@@ -95,7 +94,7 @@ let instanceMethods = {
                     'Loss to follow-up (%)', 'Type of referent group', 'Population cases',
                     'Response rate cases', 'Source cases', 'Population controls',
                     'Response rate controls', 'Source controls', 'Exposure assessment type',
-                    'Exposure assessment notes', 'Possible co-exposures',
+                    'Exposure assessment notes',
                     'Principal strengths', 'Principal limitations', 'General notes',
 
                     'Result ID', 'Organ site', 'Effect measure',
@@ -123,7 +122,6 @@ let instanceMethods = {
                         v.responseRateControl, v.sourceControl,
                         v.exposureAssessmentType,
                         v.exposureAssessmentNotes,
-                        v.coexposures.join(', '),
                         v.strengths, v.limitations, v.notes,
                     ],
                     rows = getResultData(v.results, row);

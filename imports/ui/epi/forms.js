@@ -58,9 +58,6 @@ Template.epiDescriptiveForm.events(_.extend({
                 switch (key){
                 case 'referenceID':
                     break;
-                case 'coexposures':
-                    val.forEach((d)=>$el.trigger('addItem', d));
-                    break;
                 default:
                     if ($el) $el.val(val);
                     break;

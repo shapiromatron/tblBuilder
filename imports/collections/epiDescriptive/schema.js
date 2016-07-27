@@ -151,13 +151,6 @@ export default {
         popoverText: 'Approach used to estimate exposure, if any (quantitative measurement, JEM questionnaire, expert judgment, biomonitoring, other)',
         textAreaRows: 4,
     },
-    coexposures: {
-        label: 'Possible co-exposures',
-        type: [String],
-        optional: true,
-        popoverText: 'Possible co-exposures which may potentially confound results.',
-        typeaheadMethod: 'searchCoexposures',
-    },
     strengths: {
         label: 'Principal strengths',
         type: String,

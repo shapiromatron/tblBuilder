@@ -102,10 +102,6 @@ class EpiDescriptiveTables(DOCXReport):
         self.build_dual_field(tbl, row, "Exposure assessment notes", text=txt, colspan=4)
         row += 1
 
-        txt = d.get("wrd_coexposuresList", "")
-        self.build_dual_field(tbl, row, "Coexposures", text=txt, colspan=4)
-        row += 1
-
         covariates = []
         ccTxt = set()
         for res in d.get("results", []):
