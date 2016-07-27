@@ -152,6 +152,9 @@ Meteor.methods({
     searchEffectUnits: function(query) {
         return singleFieldTextSearch(EpiResult, 'effectUnits', query);
     },
+    searchStratum: function(query) {
+        return singleFieldTextSearch(EpiResult, 'stratum', query);
+    },
     searchEffectMeasure: function(query) {
         return singleFieldTextSearch(EpiResult, 'effectMeasure', query);
     },
