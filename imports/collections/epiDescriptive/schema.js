@@ -3,6 +3,7 @@ import {
     studyDesignOptions,
     exposureAssessmentTypeOptions,
     isCaseControl,
+    hasCohort,
 } from './constants';
 
 
@@ -13,6 +14,11 @@ var requiredCC = function() {
     },
     requiredCohort = function() {
         var isRequired = (!isCaseControl(this.field('studyDesign').value)) &&
+                (this.value === '');
+        if (isRequired) return 'required';
+    },
+    requiredContainsCohort = function() {
+        var isRequired = (hasCohort(this.field('studyDesign').value)) &&
                 (this.value === '');
         if (isRequired) return 'required';
     };
@@ -45,9 +51,9 @@ export default {
         label: 'Population/eligibility characteristics',
         type: String,
         optional: true,
-        custom: requiredCohort,
+        custom: requiredContainsCohort,
         textAreaRows: 4,
-        popoverText: 'Any additional criteria for inclusion/exclusion (e.g., age, sex, race, length of employment). In case-control studies, provide for cases and controls.',
+        popoverText: 'Any additional criteria for inclusion/exclusion (e.g., age, sex, race, length of employment). For nested case-control studies, specify the cohort.',
         forceRequiredSymbol: true,
     },
     populationDescription: {

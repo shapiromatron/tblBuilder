@@ -28,7 +28,7 @@ import './forms.html';
 var getEligibilityCriteria = function(tmpl, obj, data) {
     // two different fields with this name; one for case and one for cohort
     tmpl.findAll('textarea[name="eligibilityCriteria"]').forEach(function(fld){
-        if (fld.value.length > 0) obj.eligibilityCriteria = fld.value;
+        if ($(fld).is(':visible')) obj.eligibilityCriteria = fld.value;
     });
     return obj;
 };
@@ -92,6 +92,11 @@ var toggleCCfields = function(tmpl) {
     } else {
         $(tmpl.findAll('.isCCinput')).hide();
         $(tmpl.findAll('.isNotCCinput')).show();
+    }
+    if (EpiDescriptive.hasCohort(studyD)) {
+        $(tmpl.findAll('.cohortOnly')).show();
+    } else {
+        $(tmpl.findAll('.cohortOnly')).hide();
     }
 };
 

@@ -16,6 +16,7 @@ import {
     studyDesignOptions,
     exposureAssessmentTypeOptions,
     isCaseControl,
+    hasCohort,
 } from './constants';
 
 
@@ -56,6 +57,9 @@ let instanceMethods = {
         exposureAssessmentTypeOptions,
         isCaseControl: function(val){
             return isCaseControl(val);
+        },
+        hasCohort: function(val){
+            return hasCohort(val);
         },
         getTableEvidence: function(tbl_id){
             return EpiDescriptive

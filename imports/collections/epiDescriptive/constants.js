@@ -1,9 +1,12 @@
 import _ from 'underscore';
 
-let studyDesignOptions = [
+let ncc = 'Nested Case-Control',
+    cc = 'Case-Control',
+
+    studyDesignOptions = [
         'Cohort',
-        'Nested Case-Control',
-        'Case-Control',
+        ncc,
+        cc,
         'Ecological',
     ],
     exposureAssessmentTypeOptions = [
@@ -22,12 +25,14 @@ let studyDesignOptions = [
         'none',
     ],
     isCaseControl = function(val){
-        return _.contains(
-            ['Case-Control', 'Nested Case-Control'],
-            val
-        );
+        return _.contains([ncc, cc], val);
+    },
+    hasCohort = function(val){
+        // any study designs except case-control
+        return val != cc;
     };
 
 export { studyDesignOptions };
 export { exposureAssessmentTypeOptions };
 export { isCaseControl };
+export { hasCohort };
