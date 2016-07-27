@@ -8,21 +8,10 @@ class EpiHtmlTables(DOCXReport):
         # recreation of table-helper
         runs = []
         if d["isCaseControl"]:
-
-            rr = d.get('wrd_responseRateCase', None)
-            rr = u' ({})'.format(rr) \
-                if (rr is not None and len(rr) > 0) \
-                else u''
-            case = u'{}{}; {}'.format(
-                d["populationSizeCase"], rr, d['sourceCase'])
-
-            rr = d.get('wrd_responseRateControl', None)
-            rr = u' ({})'.format(rr) \
-                if (rr is not None and len(rr) > 0) \
-                else u''
-            ctrl = u'{}{}; {}'.format(
-                d["populationSizeControl"], rr, d['sourceControl'])
-
+            case = u'{}; {}'.format(
+                d["populationSizeCase"], d['sourceCase'])
+            ctrl = u'{}; {}'.format(
+                d["populationSizeControl"], d['sourceControl'])
             runs.append(tbl.new_run("Cases: ", b=True))
             runs.append(tbl.new_run(case))
             runs.append(tbl.new_run("Controls: ", b=True))

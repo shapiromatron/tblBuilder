@@ -47,15 +47,10 @@ Template.epiDescriptiveTbl.onRendered(function() {
 
 Template.epiDescriptiveRow.helpers(_.extend({
     getCol2: function() {
-        var html = '', rrCase, rrCtrl;
+        var html = '';
         if (this.isCaseControl()) {
-            rrCase = getPercentOrText(this.responseRateCase);
-            rrCtrl = getPercentOrText(this.responseRateControl);
-            if (rrCase.length > 0) rrCase = ` (${rrCase})`;
-            if (rrCtrl.length > 0) rrCtrl = ` (${rrCtrl})`;
-
-            html += `<strong>Cases: </strong>${this.populationSizeCase}${rrCase}; ${this.sourceCase}<br>`;
-            html += `<strong>Controls: </strong>${this.populationSizeControl}${rrCtrl}; ${this.sourceControl}`;
+            html += `<strong>Cases: </strong>${this.populationSizeCase}; ${this.sourceCase}<br>`;
+            html += `<strong>Controls: </strong>${this.populationSizeControl}; ${this.sourceControl}`;
         } else {
             html += `${this.populationSize}; ${this.eligibilityCriteria}`;
         }
