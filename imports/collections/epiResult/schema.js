@@ -12,6 +12,7 @@ export default {
         type: String,
         popoverText: 'Organ site (controlled vocabulary - select one from list)',
         allowedValues: organSiteCategories.options,
+        forceRequiredSymbol: true,
         typeaheadMethod: 'searchOrganSiteCategories',
     },
     organSite: {

@@ -26,6 +26,7 @@ export default {
         label: 'Study design',
         allowedValues: studyDesignOptions,
         type: String,
+        forceRequiredSymbol: true,
         popoverText: 'Study-design used for evaluation (Cohort, Case-Control, Nested-Case Control, etc.)',
     },
     location: {
@@ -140,6 +141,7 @@ export default {
         label: 'Exposure assessment type',
         allowedValues: exposureAssessmentTypeOptions,
         type: String,
+        forceRequiredSymbol: true,
         popoverText: 'Which method was used to estimate agent-exposure?',
     },
     exposureLevel: {
