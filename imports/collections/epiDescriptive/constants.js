@@ -8,6 +8,7 @@ let studyDesignOptions = [
     ],
     exposureAssessmentTypeOptions = [
         'JEM',
+        'biomarker',
         'questionnaire',
         'job title',
         'company records',
