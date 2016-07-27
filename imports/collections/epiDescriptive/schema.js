@@ -144,12 +144,6 @@ export default {
         forceRequiredSymbol: true,
         popoverText: 'Which method was used to estimate agent-exposure?',
     },
-    exposureLevel: {
-        label: 'Quantitative exposure level (if reported)',
-        type: String,
-        optional: true,
-        popoverText: 'Average quantitative exposure-level or range, if reported',
-    },
     exposureAssessmentNotes: {
         label: 'Exposure assessment notes',
         type: String,

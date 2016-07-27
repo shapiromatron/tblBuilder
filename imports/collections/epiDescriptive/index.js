@@ -95,7 +95,7 @@ let instanceMethods = {
                     'Loss to follow-up (%)', 'Type of referent group', 'Population cases',
                     'Response rate cases', 'Source cases', 'Population controls',
                     'Response rate controls', 'Source controls', 'Exposure assessment type',
-                    'Quantitative exposure level', 'Exposure assessment notes', 'Possible co-exposures',
+                    'Exposure assessment notes', 'Possible co-exposures',
                     'Principal strengths', 'Principal limitations', 'General notes',
 
                     'Result ID', 'Organ site', 'Effect measure',
@@ -121,7 +121,7 @@ let instanceMethods = {
                         v.populationSizeCase, v.responseRateCase,
                         v.sourceCase, v.populationSizeControl,
                         v.responseRateControl, v.sourceControl,
-                        v.exposureAssessmentType, v.exposureLevel,
+                        v.exposureAssessmentType,
                         v.exposureAssessmentNotes,
                         v.coexposures.join(', '),
                         v.strengths, v.limitations, v.notes,
