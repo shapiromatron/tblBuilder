@@ -479,14 +479,16 @@ var fldGetSchema = function(){
     },
     fldHelpers = {
         showRequiredSymbol: function(){
-            // only show required symbol if field is not a select box, not
-            // a boolean, and is required in th schema
-            if ((_.isUndefined(this.schema.optional) ||
-                 this.schema.forceRequiredSymbol === true)
-                && this.schema.type !== Boolean
-                && _.isUndefined(this.schema.allowedValues)
-            )
-                return '*';
+            let show = true;
+            if (this.schema.optional ||
+                    this.schema.type === Boolean ||
+                    this.schema.allowedValues){
+                show = false;
+            }
+            if (this.schema.forceRequiredSymbol){
+                show = true;
+            }
+            return (show)? '*': '';
         },
         isSelected: function(current, selected) {
             return current === selected;

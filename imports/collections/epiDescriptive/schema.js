@@ -3,6 +3,7 @@ import {
     studyDesignOptions,
     exposureAssessmentTypeOptions,
     isCaseControl,
+    hasCohort,
 } from './constants';
 
 
@@ -13,6 +14,11 @@ var requiredCC = function() {
     },
     requiredCohort = function() {
         var isRequired = (!isCaseControl(this.field('studyDesign').value)) &&
+                (this.value === '');
+        if (isRequired) return 'required';
+    },
+    requiredContainsCohort = function() {
+        var isRequired = (hasCohort(this.field('studyDesign').value)) &&
                 (this.value === '');
         if (isRequired) return 'required';
     };
@@ -26,6 +32,7 @@ export default {
         label: 'Study design',
         allowedValues: studyDesignOptions,
         type: String,
+        forceRequiredSymbol: true,
         popoverText: 'Study-design used for evaluation (Cohort, Case-Control, Nested-Case Control, etc.)',
     },
     location: {
@@ -35,18 +42,18 @@ export default {
         popoverText: 'Country; other information (e.g., region, state, province, city) if important',
     },
     enrollmentDates: {
-        label: 'Enrollment or follow-up dates',
+        label: 'Enrollment and follow-up dates',
         type: String,
         min: 1,
-        popoverText: 'Enrollment for case-control studies, follow-up for cohort studies',
+        popoverText: 'For case-control studies, enter only enrollment date',
     },
     eligibilityCriteria: {
         label: 'Population/eligibility characteristics',
         type: String,
         optional: true,
-        custom: requiredCohort,
+        custom: requiredContainsCohort,
         textAreaRows: 4,
-        popoverText: 'Any additional criteria for inclusion/exclusion (e.g., age, sex, race, length of employment). In case-control studies, provide for cases and controls.',
+        popoverText: 'Any additional criteria for inclusion/exclusion (e.g., age, sex, race, length of employment). For nested case-control studies, specify the cohort.',
         forceRequiredSymbol: true,
     },
     populationDescription: {
@@ -140,13 +147,8 @@ export default {
         label: 'Exposure assessment type',
         allowedValues: exposureAssessmentTypeOptions,
         type: String,
+        forceRequiredSymbol: true,
         popoverText: 'Which method was used to estimate agent-exposure?',
-    },
-    exposureLevel: {
-        label: 'Quantitative exposure level (if reported)',
-        type: String,
-        optional: true,
-        popoverText: 'Average quantitative exposure-level or range, if reported',
     },
     exposureAssessmentNotes: {
         label: 'Exposure assessment notes',
@@ -154,13 +156,6 @@ export default {
         optional: true,
         popoverText: 'Approach used to estimate exposure, if any (quantitative measurement, JEM questionnaire, expert judgment, biomonitoring, other)',
         textAreaRows: 4,
-    },
-    coexposures: {
-        label: 'Possible co-exposures',
-        type: [String],
-        optional: true,
-        popoverText: 'Possible co-exposures which may potentially confound results.',
-        typeaheadMethod: 'searchCoexposures',
     },
     strengths: {
         label: 'Principal strengths',

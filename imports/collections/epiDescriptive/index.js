@@ -16,6 +16,7 @@ import {
     studyDesignOptions,
     exposureAssessmentTypeOptions,
     isCaseControl,
+    hasCohort,
 } from './constants';
 
 
@@ -27,7 +28,6 @@ let instanceMethods = {
             _.extend(this, {
                 reference: Reference.findOne({_id: this.referenceID}),
                 isCaseControl: this.isCaseControl(),
-                wrd_coexposuresList: this.coexposures.join(', '),
                 wrd_notes: this.notes || '',
                 wrd_responseRateCase: getPercentOrText(this.responseRateCase),
                 wrd_responseRateControl: getPercentOrText(this.responseRateControl),
@@ -58,6 +58,9 @@ let instanceMethods = {
         isCaseControl: function(val){
             return isCaseControl(val);
         },
+        hasCohort: function(val){
+            return hasCohort(val);
+        },
         getTableEvidence: function(tbl_id){
             return EpiDescriptive
                 .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
@@ -72,15 +75,15 @@ let instanceMethods = {
 
                         row2.push(
                             res._id, res.organSite, res.effectMeasure,
-                            res.effectUnits, res.trendTest, covariates,
-                            res.covariatesControlledText, res.notes
+                            res.effectUnits, res.stratum, res.trendTest,
+                            covariates, res.covariatesControlledText, res.notes
                         );
 
                         _.each(res.riskEstimates, function(re){
                             let row3 = row2.slice();
                             row3.push(
                                 re.exposureCategory, re.numberExposed, re.riskEstimated,
-                                re.riskMid, re.riskLow, re.riskHigh,
+                                re.riskLow, re.riskMid, re.riskHigh,
                                 re.inTrendTest, res.riskFormatter(re)
                             );
                             rows.push(row3);
@@ -95,15 +98,15 @@ let instanceMethods = {
                     'Loss to follow-up (%)', 'Type of referent group', 'Population cases',
                     'Response rate cases', 'Source cases', 'Population controls',
                     'Response rate controls', 'Source controls', 'Exposure assessment type',
-                    'Quantitative exposure level', 'Exposure assessment notes', 'Possible co-exposures',
+                    'Exposure assessment notes',
                     'Principal strengths', 'Principal limitations', 'General notes',
 
                     'Result ID', 'Organ site', 'Effect measure',
-                    'Effect measure units', 'Trend test', 'Covariates',
-                    'Covariates notes', 'General notes',
+                    'Effect measure units', 'Stratum', 'Trend test',
+                    'Covariates', 'Covariates notes', 'General notes',
 
                     'Exposure category', 'Number exposed', 'Risks estimated?',
-                    'Risk Mid', 'Risk 5% CI', 'Risk 95% CI',
+                    'Risk 5% CI', 'Risk Mid', 'Risk 95% CI',
                     'In trend-test', 'Risk',
                 ],
                 data = [header],
@@ -121,9 +124,8 @@ let instanceMethods = {
                         v.populationSizeCase, v.responseRateCase,
                         v.sourceCase, v.populationSizeControl,
                         v.responseRateControl, v.sourceControl,
-                        v.exposureAssessmentType, v.exposureLevel,
+                        v.exposureAssessmentType,
                         v.exposureAssessmentNotes,
-                        v.coexposures.join(', '),
                         v.strengths, v.limitations, v.notes,
                     ],
                     rows = getResultData(v.results, row);
@@ -138,10 +140,10 @@ let instanceMethods = {
                 'Study design', 'Location', 'Enrollment or follow-up dates',
 
                 'Organ site', 'Effect measure',
-                'Units of effect measurement',
+                'Units of effect measurement', 'Stratum',
 
                 'Exposure category', 'Number exposed',
-                'Risk Mid', 'Risk 5% CI', 'Risk 95% CI',
+                'Risk 5% CI', 'Risk Mid', 'Risk 95% CI',
             ]);
             return rows;
         },
@@ -151,7 +153,7 @@ let instanceMethods = {
                 d.desc.reference.name, d.desc.reference.getYear(), d.desc.reference.pubmedID,
                 d.desc.studyDesign, d.desc.location,  d.desc.enrollmentDates,
                 d.res.organSite, d.res.effectMeasure,
-                d.res.effectUnits,
+                d.res.effectUnits, d.res.stratum,
                 d.exposureCategory, d.numberExposed,
                 d.riskLow, d.riskMid, d.riskHigh,
             ];

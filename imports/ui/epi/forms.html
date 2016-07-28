@@ -1,0 +1,308 @@
+<template name="epiDescriptiveForm">
+  <form id="mainForm" role="form" class="editForm">
+    <legend>Epidemiological study description{{> objectLastUpdated}}{{>formLegendPulldown}}</legend>
+    <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
+
+    <!-- First row -->
+    <div class="form-group row">
+      <div class="col-xs-3">
+        {{> referenceSingleSelect}}
+      </div>
+      <div class="col-xs-3">
+        {{> fldSelectSingle name="studyDesign" value=studyDesign }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldInputText name="location" value=location }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldInputText name="enrollmentDates" value=enrollmentDates }}
+      </div>
+    </div>
+
+    <!-- Case-control row -->
+    <div class="form-group row isCCinput">
+      <div class="col-xs-12">
+        <!-- Header labels -->
+        <div class="row">
+          <div class="col-xs-1">
+          </div>
+          <div class="col-xs-2">
+            {{>fldLabel name="populationSizeCase"}}
+          </div>
+          <div class="col-xs-2">
+            {{>fldLabel name="responseRateCase"}}
+          </div>
+          <div class="col-xs-4">
+            {{>fldLabel name="sourceCase"}}
+          </div>
+          <div class="col-xs-3 cohortOnly">
+            {{> fldLabel name="eligibilityCriteria"}}
+          </div>
+        </div>
+
+        <!-- Case-control inputs -->
+        <div class="row">
+          <div class="col-xs-1">
+            <strong>Cases</strong><br><br><br>
+            <strong>Controls</strong>
+          </div>
+          <div class="col-xs-2">
+            {{> fldInputText name="populationSizeCase" value=populationSizeCase hideLabel=true }}
+            <br>
+            {{> fldInputText name="populationSizeControl" value=populationSizeControl hideLabel=true }}
+          </div>
+          <div class="col-xs-2">
+            {{> fldInputText name="responseRateCase" value=responseRateCase hideLabel=true }}
+            <br>
+            {{> fldInputText name="responseRateControl" value=responseRateControl hideLabel=true }}
+          </div>
+          <div class="col-xs-4">
+            {{> fldTextArea name="sourceCase" value=sourceCase hideLabel=true }}
+            {{> fldTextArea name="sourceControl" value=sourceControl hideLabel=true }}
+          </div>
+          <div class="col-xs-3 cohortOnly">
+            {{> fldTextArea name="eligibilityCriteria" value=eligibilityCriteria hideLabel=true }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cohort row #1-->
+    <div class="form-group row isNotCCinput">
+      <div class="col-xs-4">
+        {{> fldTextArea name="eligibilityCriteria" value=eligibilityCriteria }}
+      </div>
+      <div class="col-xs-4">
+        {{> fldTextArea name="populationDescription" value=populationDescription }}
+      </div>
+      <div class="col-xs-4">
+        {{> fldTextArea name="outcomeDataSource" value=outcomeDataSource }}
+      </div>
+    </div>
+
+    <!-- Cohort row #2-->
+    <div class="form-group row isNotCCinput">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-xs-4">
+            {{> fldInputText name="populationSize" value=populationSize }}
+          </div>
+          <div class="col-xs-4">
+            {{> fldInputText name="lossToFollowUp" value=lossToFollowUp }}
+          </div>
+          <div class="col-xs-4">
+            {{> fldInputText name="referentGroup" value=referentGroup }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fourth row -->
+    <div class="form-group row">
+      <div class="col-xs-4">
+        {{> fldSelectSingle name="exposureAssessmentType" value=exposureAssessmentType }}
+      </div>
+      <div class="col-xs-4">
+        {{> fldTextArea name="exposureAssessmentNotes" value=exposureAssessmentNotes }}
+      </div>
+    </div>
+
+    <!-- Fifth row -->
+    <div class="form-group row">
+      <div class="col-xs-4">
+        {{> fldTextArea name="strengths" value=strengths }}
+      </div>
+      <div class="col-xs-4">
+        {{> fldTextArea name="limitations" value=limitations }}
+      </div>
+      <div class="col-xs-4">
+        {{> fldTextArea name="notes" value=notes }}
+      </div>
+    </div>
+
+    <div id="errors"></div>
+    {{> qaNotice}}
+    {{> evidenceFormSubmissionDiv }}
+  </form>
+  <!-- Add input form-modals outside form scope -->
+  {{> referenceQuickAddModal}}
+  <div id="epiResultDiv"></div>
+</template>
+
+
+<template name='epiOrganSiteCategories'>
+  <div class="btn-group pull-right">
+    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+      <i class="fa fa-eye"></i> View all sites <span class="caret" title="View all sites"></span>
+    </button>
+    <ul class="dropdown-menu organSiteUl">
+      {{#each options}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+
+<template name="epiResultForm">
+  <div class="modal fade" id="modalDiv" tabindex="-1" role="dialog"
+       data-backdrop="static" aria-labelledby="modalDiv" aria-hidden="true">
+    {{#with getObject }}   <!-- Reactive epiResult  -->
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Epidemiological results{{> objectLastUpdated}}</h4>
+        </div>
+
+        <div class="modal-body">
+          <form id="nestedModalForm" role="form" class="editForm">
+            <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.{{>formLegendPulldown}}</p>
+
+            <!-- First row -->
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="organSiteCategory" value=organSiteCategory nested=true }}
+                {{> fldInputTypeahead name="organSite" value=organSite nested=true }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="effectUnits" value=effectUnits nested=true }}
+                {{> fldInputTypeahead name="stratum" value=stratum nested=true }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true }}
+                {{> fldInputText name="trendTest" value=trendTest nested=true }}
+              </div>
+            </div>
+
+            <!-- Risk estimates -->
+            <table class="table table-condensed">
+              <colgroup>
+                <col width="10%">
+                <col width="20%">
+                <col width="12%">
+                <col width="12%">
+                <col width="12%">
+                <col width="12%">
+                <col width="11%">
+                <col width="11%">
+              </colgroup>
+              <thead>
+                {{#with getRiskEstimateSchema}}
+                <th style="vertical-align: middle;" class="text-center">
+                  <button type="button"
+                          class="btn btn-xs btn-info"
+                          id="inner-addRiskRow" title="Add row">
+                    <span class="glyphicon glyphicon-plus"></span>
+                  </button>
+                </th>
+                <th class="text-center">
+                  {{> fldLabel collSchema=this name="exposureCategory" }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel collSchema=this name="numberExposed" }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel collSchema=this name="riskMid" }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel collSchema=this name="riskLow" }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel collSchema=this name="riskHigh" }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel collSchema=this name="riskEstimated" }}
+                </th>
+                <th class="text-center">
+                  {{> fldLabel collSchema=this name="inTrendTest" }}
+                </th>
+                {{/with }}
+              </thead>
+              <tbody class="riskEstimateTbody">
+                {{#if riskEstimates}}
+                  {{#each riskEstimates}}
+                    {{> riskEstimateForm this}}
+                  {{/each}}
+                {{else}}
+                  {{> riskEstimateForm}}
+                {{/if}}
+              </tbody>
+            </table>
+
+            <!-- Third row -->
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldTextArea name="covariatesControlledText" value=covariatesControlledText nested=true }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldTextArea name="notes" value=notes nested=true }}
+              </div>
+            </div>
+
+            <div id="errors"></div>
+            {{> qaNotice}}
+            {{> nestedEvidenceFormSubmissionDiv}}
+          </form>
+        </div>  <!-- Modal body -->
+      </div>  <!-- Modal content -->
+    </div>  <!-- Modal dialog -->
+    {{/with}}  <!-- Reactive epiResult  -->
+  </div>  <!-- Modal container -->
+</template>
+
+
+<template name="riskEstimateForm">
+  <tr>
+    <td class="text-center" style="vertical-align: middle;">
+      <button type="button"
+              class="btn btn-xs btn-default"
+              id="moveUp"
+              title="Move up">
+        <span class="fa fa-long-arrow-up"></span>
+      </button>
+      <button type="button"
+              class="btn btn-xs btn-default"
+              id="moveDown"
+              title="Move down">
+        <span class="fa fa-long-arrow-down"></span>
+      </button>
+      <button type="button"
+              class="btn btn-xs btn-danger"
+              id="epiRiskEstimate-delete"
+              title="Delete row">
+        <span class="fa fa-trash"></span>
+      </button>
+    </td>
+    <td>
+      {{> fldInputText name="exposureCategory" value=exposureCategory nested=true hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputText name="numberExposed" value=numberExposed nested=true hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputFloat name="riskMid" value=riskMid nested=true hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputFloat name="riskLow" value=riskLow nested=true hideLabel=true}}
+    </td>
+    <td>
+      {{> fldInputFloat name="riskHigh" value=riskHigh nested=true hideLabel=true}}
+    </td>
+    <td>
+      {{> fldCheckbox name="riskEstimated" value=riskEstimated nested=true hideLabel=true }}
+    </td>
+    <td>
+      {{> fldCheckbox name="inTrendTest" value=inTrendTest nested=true hideLabel=true }}
+    </td>
+    {{# if isNTP}}
+    <td>
+      {{> fldCheckbox name="showInPlot" value=showInPlot nested=true hideLabel=true }}
+    </td>
+    {{/if }}
+  </tr>
+</template>

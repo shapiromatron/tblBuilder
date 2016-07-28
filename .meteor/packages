@@ -3,28 +3,28 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-standard-app-packages
+standard-app-packages@1.0.9
 mrt:filesaver@0.0.3
-accounts-base
-accounts-password
+accounts-base@1.2.9
+accounts-password@1.2.12
 sergeyt:typeahead@0.0.10
-email
-http
+email@1.1.16
+http@1.2.8
 mrt:collection-hooks@0.7.2
 mrt:sortable@0.0.4
 alanning:roles@1.2.10
-less
+less@2.7.4
 iron:router
 ian:accounts-ui-bootstrap-3
-reactive-var
+reactive-var@1.0.10
 natestrauser:animate-css
 aldeed:collection2
-ecmascript
+ecmascript@0.5.7
 peerlibrary:reactive-publish
 datariot:ganalytics
-standard-minifier-css
-standard-minifier-js
+standard-minifier-css@1.1.8
+standard-minifier-js@1.1.8
 twbs:bootstrap
-jquery
+jquery@1.11.9
 momentjs:moment
 fortawesome:fontawesome

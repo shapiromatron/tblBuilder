@@ -12,6 +12,7 @@ export default {
         type: String,
         popoverText: 'Organ site (controlled vocabulary - select one from list)',
         allowedValues: organSiteCategories.options,
+        forceRequiredSymbol: true,
         typeaheadMethod: 'searchOrganSiteCategories',
     },
     organSite: {
@@ -34,6 +35,13 @@ export default {
         optional: true,
         popoverText: 'Units, if relevant (e.g., risk per 10 μg/m3)',
         typeaheadMethod: 'searchEffectUnits',
+    },
+    stratum: {
+        label: 'Stratum (if relevant)',
+        type: String,
+        optional: true,
+        popoverText: 'e.g.: men only, women only',
+        typeaheadMethod: 'searchStratum',
     },
     trendTest: {
         label: 'Trend p-value',
