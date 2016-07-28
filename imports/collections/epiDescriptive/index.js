@@ -83,7 +83,7 @@ let instanceMethods = {
                             let row3 = row2.slice();
                             row3.push(
                                 re.exposureCategory, re.numberExposed, re.riskEstimated,
-                                re.riskMid, re.riskLow, re.riskHigh,
+                                re.riskLow, re.riskMid, re.riskHigh,
                                 re.inTrendTest, res.riskFormatter(re)
                             );
                             rows.push(row3);
@@ -106,7 +106,7 @@ let instanceMethods = {
                     'Covariates', 'Covariates notes', 'General notes',
 
                     'Exposure category', 'Number exposed', 'Risks estimated?',
-                    'Risk Mid', 'Risk 5% CI', 'Risk 95% CI',
+                    'Risk 5% CI', 'Risk Mid', 'Risk 95% CI',
                     'In trend-test', 'Risk',
                 ],
                 data = [header],
@@ -143,7 +143,7 @@ let instanceMethods = {
                 'Units of effect measurement', 'Stratum',
 
                 'Exposure category', 'Number exposed',
-                'Risk Mid', 'Risk 5% CI', 'Risk 95% CI',
+                'Risk 5% CI', 'Risk Mid', 'Risk 95% CI',
             ]);
             return rows;
         },
