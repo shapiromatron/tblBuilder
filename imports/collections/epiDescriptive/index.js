@@ -75,8 +75,8 @@ let instanceMethods = {
 
                         row2.push(
                             res._id, res.organSite, res.effectMeasure,
-                            res.effectUnits, res.trendTest, covariates,
-                            res.covariatesControlledText, res.notes
+                            res.effectUnits, res.stratum, res.trendTest,
+                            covariates, res.covariatesControlledText, res.notes
                         );
 
                         _.each(res.riskEstimates, function(re){
@@ -102,8 +102,8 @@ let instanceMethods = {
                     'Principal strengths', 'Principal limitations', 'General notes',
 
                     'Result ID', 'Organ site', 'Effect measure',
-                    'Effect measure units', 'Trend test', 'Covariates',
-                    'Covariates notes', 'General notes',
+                    'Effect measure units', 'Stratum', 'Trend test',
+                    'Covariates', 'Covariates notes', 'General notes',
 
                     'Exposure category', 'Number exposed', 'Risks estimated?',
                     'Risk Mid', 'Risk 5% CI', 'Risk 95% CI',
@@ -140,7 +140,7 @@ let instanceMethods = {
                 'Study design', 'Location', 'Enrollment or follow-up dates',
 
                 'Organ site', 'Effect measure',
-                'Units of effect measurement',
+                'Units of effect measurement', 'Stratum',
 
                 'Exposure category', 'Number exposed',
                 'Risk Mid', 'Risk 5% CI', 'Risk 95% CI',
@@ -153,7 +153,7 @@ let instanceMethods = {
                 d.desc.reference.name, d.desc.reference.getYear(), d.desc.reference.pubmedID,
                 d.desc.studyDesign, d.desc.location,  d.desc.enrollmentDates,
                 d.res.organSite, d.res.effectMeasure,
-                d.res.effectUnits,
+                d.res.effectUnits, d.res.stratum,
                 d.exposureCategory, d.numberExposed,
                 d.riskLow, d.riskMid, d.riskHigh,
             ];
