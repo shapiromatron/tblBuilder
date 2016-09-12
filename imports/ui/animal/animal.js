@@ -135,9 +135,9 @@ var getTrendTestDataTbl = function(data){
         val = parseFloat(val, 10);
         if (_.isFinite(val)){
             if(val < 0.001){
-                txt = '<0.001';
+                txt = 'P<0.001';
             } else {
-                txt = val.toFixed(3);
+                txt = 'P=' + val.toFixed(3);
             }
         }
         return txt;
@@ -165,8 +165,7 @@ Template.animalTrendTestReport.helpers({
         txt = t.toString();
 
         // add trend-test
-        txt += `\n\nTrend-test result: ${formatPairwise(data.trend.pvalue)}`;
-
+        txt += `\nPairwise p-value calculated using Fisher's exact test; ${formatPairwise(data.trend.pvalue)} by Cochran-Armitage trend-test.`;
         return txt;
     },
 });
