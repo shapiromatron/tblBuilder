@@ -154,6 +154,7 @@ let getScrollPosition = function(){
     };
 
 
+export {cloneObject};
 
 export const abstractMainHelpers = {};
 

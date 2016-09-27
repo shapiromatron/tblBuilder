@@ -12,6 +12,7 @@ import {
     abstractTblHelpers,
     abstractRowHelpers,
     abstractRowEvents,
+    cloneObject,
 } from '/imports/api/client/templates';
 
 import './voc.html';
@@ -116,14 +117,20 @@ Template.vocMatrixHeader.helpers({
 });
 
 
+let vocRowEvents = _.extend({
+    'click #clone-voc': (evt, tmpl) =>{
+        cloneObject(tmpl.data, NtpEpiConfounder);
+    },
+}, abstractRowEvents);
+
 Template.vocMatrixRow.helpers(_.extend({
     getText: function(vocName){
         let voc = _.findWhere(Template.instance().data.object.variablesOfConcern, {vocName});
         return (voc)? voc.vocRuleOutConfounding: '-';
     },
 }, abstractRowHelpers));
-Template.vocMatrixRow.events(abstractRowEvents);
+Template.vocMatrixRow.events(vocRowEvents);
 
 
 Template.vocRow.helpers(abstractRowHelpers);
-Template.vocRow.events(abstractRowEvents);
+Template.vocRow.events(vocRowEvents);
