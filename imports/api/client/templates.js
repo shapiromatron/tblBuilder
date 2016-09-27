@@ -16,6 +16,7 @@ import {
 } from '/imports/api/client/utilities';
 import {
     newValues,
+    numericSort,
 } from '/imports/api/utilities';
 
 
@@ -36,12 +37,14 @@ let getScrollPosition = function(){
     getNextSortIdx = function(currentIdx, Collection){
         var nextIdx = _.chain(Collection.find().fetch())
                     .pluck('sortIdx')
-                    .filter(function(d){return d > currentIdx;})
-                    .sort()
+                    .filter((d)=> d > currentIdx)
+                    .sort(numericSort)
                     .first()
-                    .value() || (currentIdx + 2);
+                    .value();
 
-        return d3.mean([currentIdx, nextIdx]);
+        return (nextIdx)?
+            d3.mean([currentIdx, nextIdx]):
+            Math.ceil(currentIdx) + 1;
     },
     cloneObject = function(oldObj, Collection, NestedCollection) {
         var newObj, new_parent_id, ref, newNest;

@@ -87,6 +87,9 @@ let getPercentOrText = function(txt) {
         return txt
             .replace(/&nbsp;/g, ' ')
             .replace(/<br>/g, '\n');
+    },
+    numericSort = function(a, b){
+        return a - b;
     };
 
 
@@ -96,3 +99,4 @@ export { getValue };
 export { newValues };
 export { capitalizeFirst };
 export { htmlToDocx };
+export { numericSort };
