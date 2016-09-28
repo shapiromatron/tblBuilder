@@ -157,7 +157,6 @@ let instanceMethods = {
                 d.exposureCategory, d.numberExposed,
                 d.riskLow, d.riskMid, d.riskHigh,
             ];
-
         },
         wordReportFormats: [
             {

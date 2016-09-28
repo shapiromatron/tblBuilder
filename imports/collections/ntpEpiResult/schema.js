@@ -42,7 +42,7 @@ export default {
         custom: isNumericishString,
         popoverText: 'Provide p-value for trend-test when reported',
     },
-    'riskEstimates': {
+    riskEstimates: {
         type: [riskEstimateSchema],
         minCount: 0,
     },
