@@ -6,6 +6,7 @@ import Reference from '/imports/collections/reference';
 import ExposureEvidence from '/imports/collections/exposure';
 import AnimalEvidence from '/imports/collections/animalEvidence';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
+import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
 import GenotoxEvidence from '/imports/collections/genotox';
 import MechanisticEvidence from '/imports/collections/mechanistic';
 
@@ -83,6 +84,9 @@ Meteor.methods({
     },
     epiMetaAnalysisDownload: function(json) {
         return writeXLSX('meta-analysis', EpiDescriptive.tabularMetaAnalysis(json));
+    },
+    ntpEpiEvidenceDownload: function(tbl_id) {
+        return writeXLSX('Epi evidence', NtpEpiDescriptive.tabular(tbl_id));
     },
     mechanisticEvidenceExcelDownload: function(tbl_id) {
         return writeXLSX('Mechanistic evidence', MechanisticEvidence.tabular(tbl_id));
