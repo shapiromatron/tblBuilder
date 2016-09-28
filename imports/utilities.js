@@ -99,7 +99,7 @@ let getPercentOrText = function(txt) {
             .reject((d) => _.isUndefined(d[1].label))
             .reject((d) => d[0].indexOf('$')>=0)
             .reject((d) => _.contains(omissions, d[0]))
-            .map((d) => {console.log(d[0]); return d[1].label;})
+            .map((d) => d[1].label)
             .value();
 
         if(idName){
