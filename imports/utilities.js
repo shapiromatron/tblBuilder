@@ -76,6 +76,62 @@ let getPercentOrText = function(txt) {
             str = str[0].toUpperCase() + str.slice(1);
         }
         return str;
+    },
+    tabularizeHeader = function(schema, idName, omissions){
+        /*
+        Return a header of object based on schema.
+
+        * @param {object} schema A simple-schema instance
+        * @param {string} idName Name for id field
+        * @param {string[]} omissions Simple-schema keys that should not be included
+
+        The header consists of all fields in the schema which:
+
+            1) include a label field in the schema
+            2) schema key has an $ (indicates an array field)
+            3) are not in the omissions array
+
+        In addition, the _id field is listed as the first index in the header,
+        using the idName specified.
+        */
+        let header = _.chain(schema)
+            .pairs()
+            .reject((d) => _.isUndefined(d[1].label))
+            .reject((d) => d[0].indexOf('$')>=0)
+            .reject((d) => _.contains(omissions, d[0]))
+            .map((d) => {console.log(d[0]); return d[1].label;})
+            .value();
+
+        if(idName){
+            header.unshift(idName);
+        }
+
+        return header;
+    },
+    tabularize = function(obj, schema, omissions, overrides){
+        /*
+        Return a row of data based on an object instance and schema.
+
+        * @param {object} obj An object instance
+        * @param {object} schema A simple-schema instance for this object
+        * @param {string[]} omissions Simple-schema keys that should not be included
+        * @param {object} overrides Override function for data presentation in tab
+
+        */
+        let data = _.chain(schema)
+            .pairs()
+            .reject((d) => _.isUndefined(d[1].label))
+            .reject((d) => d[0].indexOf('$')>=0)
+            .reject((d) => _.contains(omissions, d[0]))
+            .map((d) => d[0])
+            .map((k) => (overrides[k])? overrides[k](obj): obj[k])
+            .value();
+
+        if(obj._id){
+            data.unshift(obj._id);
+        }
+
+        return data;
     };
 
 
@@ -84,3 +140,5 @@ export { typeaheadSelectListGetLIs };
 export { getValue };
 export { newValues };
 export { capitalizeFirst };
+export { tabularizeHeader };
+export { tabularize };
