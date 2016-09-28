@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -14,6 +15,9 @@ import {
     abstractRowEvents,
     cloneObject,
 } from '/imports/api/client/templates';
+import {
+    returnExcelFile,
+} from '/imports/api/client/utilities';
 
 import './voc.html';
 
@@ -37,6 +41,14 @@ Template.vocActions.helpers({
 Template.vocActions.events({
     'click #matrixToggle': function(){
         Session.set('vocMatrixView', !Session.get('vocMatrixView'));
+    },
+    'click #vocExport': function(){
+        var tbl_id = Session.get('Tbl')._id,
+            fn = 'epi-voc.xlsx';
+
+        Meteor.call('ntpEpiVocDownload', tbl_id, function(err, response) {
+            returnExcelFile(response, fn);
+        });
     },
 });
 
