@@ -3,6 +3,7 @@ import { Blaze } from 'meteor/blaze';
 import { HTTP } from 'meteor/http';
 import { Session } from 'meteor/session';
 import { UI } from 'meteor/ui';
+import { saveAs } from 'filesaver.js';
 
 import _ from 'underscore';
 import d3 from 'd3';
