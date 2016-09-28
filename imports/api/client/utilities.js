@@ -89,7 +89,7 @@ let getHTMLTitleBase = function() {
             .append(ul);
     },
     getPubMedDetails = function(pubmedID, cb) {
-        var url = `http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=${pubmedID}&rettype=docsum&retmode=xml`;
+        var url = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=${pubmedID}&rettype=docsum&retmode=xml`;
 
         return HTTP.get(url, function(err, result) {
             var auth, authors, first, fullCitation, isError, journal_source,
@@ -138,7 +138,7 @@ let getHTMLTitleBase = function() {
                     }
 
                     // build full-citation, using the PubMed Summary format, found here:
-                    // http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=#{pubmedID}&rettype=docsum&retmode=text
+                    // https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=#{pubmedID}&rettype=docsum&retmode=text
                     fullCitation = `${authors.join(', ')}. ${title}. ${journal_source}. ${so}. PubMed PMID: ${pmid}.`;
                     isError = false;
                 }
