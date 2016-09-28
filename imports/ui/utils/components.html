@@ -248,22 +248,26 @@
 
 
 <template name="optExcel">
+  {{#if isInRole 'staff'}}
   <li>
     <a href="#" id="downloadExcel">
       <span class="fa fa-file-excel-o"></span> Download Excel
     </a>
   </li>
+  {{/if}}
 </template>
 
 
 <template name="optWord">
-  {{#each getReportTypes}}
-    <li>
-      <a href="#" class="wordReport" data-type="{{type}}" data-fn="{{fn}}">
-        <span class="fa fa-file-word-o"></span> {{text}}
-      </a>
-    </li>
-  {{/each}}
+  {{#if isInRole 'staff'}}
+    {{#each getReportTypes}}
+      <li>
+        <a href="#" class="wordReport" data-type="{{type}}" data-fn="{{fn}}">
+          <span class="fa fa-file-word-o"></span> {{text}}
+        </a>
+      </li>
+    {{/each}}
+  {{/if}}
 </template>
 
 

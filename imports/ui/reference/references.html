@@ -18,16 +18,20 @@
         </a>
       </li>
     {{/unless}}
-    <li>
-      <a href="{{pathFor 'referenceBatchUpload' monographAgent}}">
-        <span class="glyphicon glyphicon-open"></span> Bulk upload
-      </a>
-    </li>
-    <li>
-      <a href="#" id="reference-downloadExcel">
-        <span class="fa fa-file-excel-o"></span> Download Excel
-      </a>
-    </li>
+
+    {{#if isInRole 'staff'}}
+      <li>
+        <a href="{{pathFor 'referenceBatchUpload' monographAgent}}">
+          <span class="glyphicon glyphicon-open"></span> Bulk upload
+        </a>
+      </li>
+      <li>
+        <a href="#" id="reference-downloadExcel">
+          <span class="fa fa-file-excel-o"></span> Download Excel
+        </a>
+      </li>
+    {{/if}}
+
   {{/actionBtn}}
 </template>
 

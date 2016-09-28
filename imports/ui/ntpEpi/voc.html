@@ -24,11 +24,15 @@
         {{/if}}
       </a>
     </li>
+
+    {{#if isInRole 'staff'}}
     <li>
       <a href="#" id="vocExport">
         <span class="fa fa-file-excel-o"></span> Download Excel
       </a>
     </li>
+    {{/if}}
+
   {{/actionBtn}}
 </template>
 
