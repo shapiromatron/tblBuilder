@@ -307,7 +307,11 @@ export const abstractFormEvents = {
         var key = Session.get('evidenceType'),
             collection_name = tblBuilderCollections.evidenceLookup[key].collection_name;
         Meteor.call('adminToggleQAd', this._id, collection_name, function(err, response) {
-            if (response) toggleQA(tmpl, response.QAd);
+            if (response){
+                toggleQA(tmpl, response.QAd);
+                Session.set('evidenceEditingId', null);
+                $(tmpl.firstNode).trigger('closeForm');
+            }
         });
     },
     'click #addNestedResult': createNewNestedModal,
@@ -429,7 +433,11 @@ export const abstractNestedFormEvents = {
         var key = Session.get('evidenceType'),
             nested_collection_name = tblBuilderCollections.evidenceLookup[key].nested_collection_name;
         Meteor.call('adminToggleQAd', this._id, nested_collection_name, function(err, response) {
-            if (response) toggleQA(tmpl, response.QAd);
+            if (response){
+                toggleQA(tmpl, response.QAd);
+                Session.set('nestedEvidenceEditingId', null);
+                removeNestedFormModal(tmpl);
+            }
         });
     },
 };
