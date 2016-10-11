@@ -196,7 +196,10 @@ let getHTMLTitleBase = function() {
         return (display) ? $els.fadeIn() : $els.fadeOut();
     },
     toggleQA = function(tmpl, isQA) {
-        return tmpl.$('input,select,textarea').prop('disabled', isQA);
+        tmpl.$('input,select,textarea').prop('disabled', isQA);
+        if (isQA){
+            tmpl.$('.tt-input').css('background-color', '#eee');
+        }
     },
     userCanEdit = function(tbl) {
         var i, user, userId;
