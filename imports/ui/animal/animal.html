@@ -345,13 +345,13 @@
             <!-- First row -->
             <div class="form-group row">
               <div class="col-xs-4">
-                {{> fldInputTypeahead name="tumourSite" value=tumourSite nested=true }}
+                {{> fldInputTypeahead name="tumourSite" value=tumourSite nested=true tabindex="1"}}
               </div>
               <div class="col-xs-4">
-                {{> fldInputTypeahead name="histology" value=histology nested=true }}
+                {{> fldInputTypeahead name="histology" value=histology nested=true  tabindex="2"}}
               </div>
               <div class="col-xs-4">
-                {{> fldInputTypeahead name="units" value=units nested=true }}
+                {{> fldInputTypeahead name="units" value=units nested=true tabindex="3"}}
               </div>
             </div>
 
@@ -372,7 +372,8 @@
                     <button type="button"
                             class="btn btn-xs btn-info"
                             id="inner-addEndpointGroup"
-                            title="Add row">
+                            title="Add row"
+                            tabindex="99">
                       <span class="glyphicon glyphicon-plus"></span>
                     </button>
                   </th>
@@ -410,13 +411,13 @@
             <!-- Final row -->
             <div class="form-group row">
               <div class="col-xs-4">
-                {{> fldTextArea name="incidence_significance" value=incidence_significance nested=true }}
+                {{> fldTextArea name="incidence_significance" value=incidence_significance nested=true tabindex="200"}}
               </div>
               <div class="col-xs-4">
-                {{> fldTextArea name="multiplicity_significance" value=multiplicity_significance nested=true }}
+                {{> fldTextArea name="multiplicity_significance" value=multiplicity_significance nested=true tabindex="201"}}
               </div>
               <div class="col-xs-4">
-                {{> fldTextArea name="total_tumours_significance" value=total_tumours_significance nested=true }}
+                {{> fldTextArea name="total_tumours_significance" value=total_tumours_significance nested=true tabindex="202"}}
               </div>
             </div>
 
@@ -457,27 +458,28 @@
       <button type="button"
               class="btn btn-xs btn-danger"
               id="endpointGroup-delete"
-              title="Delete row">
+              title="Delete row"
+              tabindex="100">
         <span class="glyphicon glyphicon-trash"></span>
       </button>
     </td>
     <td>
-      {{> fldInputText name="dose" value=dose nested=true hideLabel=true}}
+      {{> fldInputText name="dose" value=dose nested=true hideLabel=true tabindex=101}}
     </td>
     <td>
-      {{> fldInputInteger name="nStart" value=nStart nested=true hideLabel=true}}
+      {{> fldInputInteger name="nStart" value=nStart nested=true hideLabel=true tabindex=102}}
     </td>
     <td>
-      {{> fldInputText name="nSurviving" value=nSurviving nested=true hideLabel=true}}
+      {{> fldInputText name="nSurviving" value=nSurviving nested=true hideLabel=true tabindex=103}}
     </td>
     <td>
-      {{> fldInputText name="incidence" value=incidence nested=true hideLabel=true}}
+      {{> fldInputText name="incidence" value=incidence nested=true hideLabel=true tabindex=104}}
     </td>
     <td>
-      {{> fldInputText name="multiplicity" value=multiplicity nested=true hideLabel=true}}
+      {{> fldInputText name="multiplicity" value=multiplicity nested=true hideLabel=true tabindex=105}}
     </td>
     <td>
-      {{> fldInputText name="totalTumours" value=totalTumours nested=true hideLabel=true}}
+      {{> fldInputText name="totalTumours" value=totalTumours nested=true hideLabel=true tabindex=106}}
     </td>
   </tr>
 </template>
