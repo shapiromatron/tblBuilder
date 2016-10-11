@@ -37,13 +37,13 @@
                    class="panel-collapse collapse in" role="tabpanel">
                 <div class="panel-body form-group row">
                   <div class="col-xs-4">
-                    {{> fldInputTypeahead name="tumourSite" value=tumourSite nested=true }}
+                    {{> fldInputTypeahead name="tumourSite" value=tumourSite nested=true tabindex=1}}
                   </div>
                   <div class="col-xs-4">
-                    {{> fldInputTypeahead name="histology" value=histology nested=true }}
+                    {{> fldInputTypeahead name="histology" value=histology nested=true tabindex=2}}
                   </div>
                   <div class="col-xs-4">
-                    {{> fldInputTypeahead name="units" value=units nested=true }}
+                    {{> fldInputTypeahead name="units" value=units nested=true tabindex=3}}
                   </div>
                 </div>
               </div>
@@ -76,31 +76,31 @@
                    class="panel-collapse collapse" role="tabpanel">
                 <div class="panel-body form-group row">
                   <div class="col-xs-3">
-                    {{> fldCheckbox name="adjustedIncidence" value=adjustedIncidence nested=true }}
+                    {{> fldCheckbox name="adjustedIncidence" value=adjustedIncidence nested=true tabindex=200}}
                     <br>
-                    {{> fldInputText name="trendTest" value=trendTest nested=true }}
+                    {{> fldInputText name="trendTest" value=trendTest nested=true tabindex=201 }}
                   </div>
                   <div class="col-xs-3">
-                    {{> fldTextArea name="significanceNotes" value=significanceNotes nested=true }}
+                    {{> fldTextArea name="significanceNotes" value=significanceNotes nested=true  tabindex=202}}
                   </div>
                   <div class="col-xs-3">
-                    {{> fldTextArea name="statisticalMethods" value=statisticalMethods nested=true }}
+                    {{> fldTextArea name="statisticalMethods" value=statisticalMethods nested=true tabindex=203}}
                   </div>
                   <div class="col-xs-3">
-                    {{> fldTextArea name="historicalControls" value=historicalControls nested=true }}
+                    {{> fldTextArea name="historicalControls" value=historicalControls nested=true tabindex=204}}
                   </div>
                 </div>
                 <div class="panel-body form-group row">
                   <div class="col-xs-4">
-                    {{> fldTextArea name="survivalNotes" value=survivalNotes nested=true }}
-                    {{> fldTextArea name="bodyWeightNotes" value=bodyWeightNotes nested=true }}
+                    {{> fldTextArea name="survivalNotes" value=survivalNotes nested=true tabindex=205}}
+                    {{> fldTextArea name="bodyWeightNotes" value=bodyWeightNotes nested=true tabindex=208}}
                   </div>
                   <div class="col-xs-4">
-                    {{> fldTextArea name="metastasis" value=metastasis nested=true }}
-                    {{> fldTextArea name="nonNeoplasticFindings" value=nonNeoplasticFindings nested=true }}
+                    {{> fldTextArea name="metastasis" value=metastasis nested=true  tabindex=206}}
+                    {{> fldTextArea name="nonNeoplasticFindings" value=nonNeoplasticFindings nested=true tabindex=209}}
                   </div>
                   <div class="col-xs-4">
-                    {{> fldTextArea name="comments" value=comments nested=true }}
+                    {{> fldTextArea name="comments" value=comments nested=true  tabindex=207}}
                   </div>
                 </div>
               </div>

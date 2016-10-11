@@ -4,48 +4,51 @@
       <button type="button"
               class="btn btn-xs btn-default"
               id="moveUp"
-              title="Move up">
+              title="Move up"
+              tabindex="100">
         <span class="fa fa-long-arrow-up"></span>
       </button>
       <button type="button"
               class="btn btn-xs btn-default"
               id="moveDown"
-              title="Move down">
+              title="Move down"
+              tabindex="101">
         <span class="fa fa-long-arrow-down"></span>
       </button>
       <button type="button"
               class="btn btn-xs btn-danger"
               id="delete"
-              title="Delete row">
+              title="Delete row"
+              tabindex="102">
         <span class="fa fa-trash"></span>
       </button>
     </td>
     <td>
-      {{> fldInputText collSchema=getEndpointGroupSchema name="dose" value=dose hideLabel=true}}
+      {{> fldInputText collSchema=getEndpointGroupSchema name="dose" value=dose hideLabel=true tabindex=103}}
     </td>
     <td>
-      {{> fldInputInteger collSchema=getEndpointGroupSchema name="nStart" value=nStart hideLabel=true}}
+      {{> fldInputInteger collSchema=getEndpointGroupSchema name="nStart" value=nStart hideLabel=true tabindex=104}}
     </td>
     <td>
-      {{> fldInputText collSchema=getEndpointGroupSchema name="incidence" value=incidence hideLabel=true}}
+      {{> fldInputText collSchema=getEndpointGroupSchema name="incidence" value=incidence hideLabel=true tabindex=105}}
     </td>
     <td>
-      {{> fldInputFloat name="incidencePercent" value=incidencePercent nested=true hideLabel=true}}
+      {{> fldInputFloat name="incidencePercent" value=incidencePercent nested=true hideLabel=true tabindex=106}}
     </td>
     <td>
-      {{> fldInputText name="incidenceSymbol" value=incidenceSymbol nested=true hideLabel=true}}
+      {{> fldInputText name="incidenceSymbol" value=incidenceSymbol nested=true hideLabel=true tabindex=107}}
     </td>
     <td>
-      {{> fldInputText collSchema=getEndpointGroupSchema name="multiplicity" value=multiplicity hideLabel=true}}
+      {{> fldInputText collSchema=getEndpointGroupSchema name="multiplicity" value=multiplicity hideLabel=true tabindex=108}}
     </td>
     <td>
-      {{> fldInputText collSchema=getEndpointGroupSchema name="tumorOnsetTime" value=tumorOnsetTime hideLabel=true}}
+      {{> fldInputText collSchema=getEndpointGroupSchema name="tumorOnsetTime" value=tumorOnsetTime hideLabel=true tabindex=109}}
     </td>
     <td>
-      {{> fldCheckbox collSchema=getEndpointGroupSchema name="wgCalculated" value=wgCalculated hideLabel=true}}
+      {{> fldCheckbox collSchema=getEndpointGroupSchema name="wgCalculated" value=wgCalculated hideLabel=true tabindex=110}}
     </td>
     <td>
-      {{> fldCheckbox collSchema=getEndpointGroupSchema name="showInPlot" value=showInPlot hideLabel=true}}
+      {{> fldCheckbox collSchema=getEndpointGroupSchema name="showInPlot" value=showInPlot hideLabel=true tabindex=111}}
     </td>
   </tr>
 </template>
