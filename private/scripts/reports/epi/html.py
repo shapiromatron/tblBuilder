@@ -30,9 +30,6 @@ class EpiHtmlTables(DOCXReport):
         if d.get("exposureAssessmentNotes"):
             runs.append(tbl.new_run(u"; " + d.get("exposureAssessmentNotes")))
 
-        if d.get("outcomeDataSource"):
-            runs.append(tbl.new_run(d.get("outcomeDataSource"), newline=False))
-
         return runs
 
     def build_tbl(self, data):
