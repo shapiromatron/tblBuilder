@@ -13,10 +13,10 @@ import {
     activateInput,
     updateValues,
     toggleQA,
+    getNextSortIdx,
 } from '/imports/api/client/utilities';
 import {
     newValues,
-    numericSort,
 } from '/imports/api/utilities';
 
 
@@ -33,18 +33,6 @@ let getScrollPosition = function(){
             Session.get('windowScrollX'),
             Session.get('windowScrollY')
         );
-    },
-    getNextSortIdx = function(currentIdx, Collection){
-        var nextIdx = _.chain(Collection.find().fetch())
-                    .pluck('sortIdx')
-                    .filter((d)=> d > currentIdx)
-                    .sort(numericSort)
-                    .first()
-                    .value();
-
-        return (nextIdx)?
-            d3.mean([currentIdx, nextIdx]):
-            Math.ceil(currentIdx) + 1;
     },
     cloneObject = function(oldObj, Collection, NestedCollection) {
         var newObj, new_parent_id, ref, newNest;

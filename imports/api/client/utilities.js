@@ -11,6 +11,7 @@ import d3 from 'd3';
 import {
     getValue,
     typeaheadSelectListGetLIs,
+    numericSort,
 } from '/imports/api/utilities';
 
 
@@ -56,6 +57,20 @@ let getHTMLTitleBase = function() {
         return buf;
     },
     moveRowCheck = function(evt) {
+    getNextSortIdx = function(currentIdx, Collection){
+        // Given the current index, get the next available index for a
+        // collection.
+        var nextIdx = _.chain(Collection.find().fetch())
+                    .pluck('sortIdx')
+                    .filter((d)=> d > currentIdx)
+                    .sort(numericSort)
+                    .first()
+                    .value();
+
+        return (nextIdx)?
+            d3.mean([currentIdx, nextIdx]):
+            Math.ceil(currentIdx) + 1;
+    },
         var data = UI.getData(evt.target),
             $el = $(evt.target),
             this_pos = $el.data('sortidx'),
@@ -240,6 +255,7 @@ let getHTMLTitleBase = function() {
 
 export { getHTMLTitleBase };
 export { getHTMLTitleTbl };
+export { getNextSortIdx };
 export { createErrorDiv };
 export { getPubMedDetails };
 export { initDraggables };
