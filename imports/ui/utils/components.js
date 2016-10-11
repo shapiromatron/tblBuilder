@@ -480,12 +480,13 @@ var fldGetSchema = function(){
     fldHelpers = {
         showRequiredSymbol: function(){
             let show = true;
-            if (this.schema.optional ||
+            if (this.schema === undefined ||
+                    this.schema.optional ||
                     this.schema.type === Boolean ||
                     this.schema.allowedValues){
                 show = false;
             }
-            if (this.schema.forceRequiredSymbol){
+            if (this.schema && this.schema.forceRequiredSymbol){
                 show = true;
             }
             return (show)? '*': '';
