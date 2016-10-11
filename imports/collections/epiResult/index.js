@@ -32,6 +32,12 @@ var instanceMethods = {
                 riskEst.exposureCategory = capitalizeFirst(riskEst.exposureCategory);
             }, this);
         },
+        printHtmlStratum(idx){
+            if (idx===0 && this.stratum){
+                return `<b>${this.stratum}:</b> `;
+            }
+            return null;
+        },
         printOrganSite: function(){
             if (this.organSite)
                 return `${this.organSiteCategory}: ${this.organSite}`;

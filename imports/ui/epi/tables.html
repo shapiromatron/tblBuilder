@@ -144,7 +144,7 @@
                   {{> organSiteTd .. }}
                 {{/unless}}
               {{/if}}
-              <td>{{value.exposureCategory}}{{#if value.inTrendTest}}<sup>*</sup>{{/if}}</td>
+              <td>{{{../printHtmlStratum index}}}{{value.exposureCategory}}{{#if value.inTrendTest}}<sup>*</sup>{{/if}}</td>
               <td>{{value.numberExposed}}</td>
               <td>{{#if showPlots}}
                     {{> forestPlot self=value parent=.. }}

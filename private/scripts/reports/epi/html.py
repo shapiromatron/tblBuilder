@@ -88,8 +88,15 @@ class EpiHtmlTables(DOCXReport):
                     tbl.new_td_txt(irows, 3, effectUnits, colspan=3)
                     additionalRows += 1
 
+                stratum = res.get("stratum", None)
                 for i, est in enumerate(res["riskEstimates"]):
-                    tbl.new_td_txt(irows+additionalRows, 3, est["exposureCategory"])
+
+                    runs = []
+                    if i == 0 and stratum and len(stratum) > 0:
+                        runs.append(tbl.new_run("{}: ".format(stratum), b=True, newline=False))
+                    runs.append(tbl.new_run(est["exposureCategory"], newline=False))
+                    tbl.new_td_run(irows+additionalRows, 3, runs)
+
                     tbl.new_td_txt(irows+additionalRows, 4, unicode(est["numberExposed"]))
                     tbl.new_td_txt(irows+additionalRows, 5, unicode(est["riskFormatted"]))
                     additionalRows += 1
