@@ -21,10 +21,16 @@ Template.moveModal.helpers({
         var tbls = Tables.find({tblType: Session.get('Tbl').tblType}).fetch();
         return _.chain(tbls)
                 .filter(userCanEdit)
+                .sortBy(function(d){return d.sortIdx;})
+                .sortBy(function(d){return d.monographAgent;})
+                .reverse()
+                .sortBy(function(d){return d.volumeNumber;})
+                .reverse()
                 .map(function(d) {
                     return `<option value='${d._id}'>${d.volumeNumber} ${d.monographAgent}: ${d.name}</option>`;
                 })
-                .value().join('');
+                .value()
+                .join('');
     },
 });
 Template.moveModal.events({
