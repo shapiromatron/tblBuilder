@@ -197,6 +197,7 @@ let getHTMLTitleBase = function() {
     },
     toggleQA = function(tmpl, isQA) {
         tmpl.$('input,select,textarea').prop('disabled', isQA);
+        tmpl.$('.showEditOnly').toggleClass('makeHidden', isQA);
         if (isQA){
             tmpl.$('.tt-input').css('background-color', '#eee');
         }
