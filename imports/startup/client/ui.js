@@ -66,6 +66,11 @@ var uiHelpers = {
     preserveWhitespaceInHtml(txt){
         if (txt) return txt.replace(/(\n)+/g, '<br>');
     },
+    showSortIdx(idx){
+        if (Session.get('showSortIndex')){
+            return `<p class='sortIndex'>${idx}</p>`;
+        }
+    },
 };
 
 _.each(uiHelpers, function(func, name){

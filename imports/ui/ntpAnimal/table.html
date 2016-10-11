@@ -111,6 +111,7 @@
         </ul>
       </div>
     {{/if}}
+    {{{showSortIdx sortIdx}}}
     {{qaMark isQA}}
     <strong>{{studyDesign}}</strong><br>
     <strong>{{species}}</strong>, {{strain}} ({{sex}})<br>
@@ -161,6 +162,7 @@
           <tr>
             <td>
               {{> ntpAnimalEndpointEvidenceActions}}
+              {{{showSortIdx sortIdx}}}
               {{qaMark isQA}}
               <strong>{{tumourSite}}: {{histology}}</strong>
               {{incidenceText}}

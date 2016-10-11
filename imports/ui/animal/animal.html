@@ -126,6 +126,7 @@
         </ul>
       </div>
     {{/if}}
+    {{{showSortIdx sortIdx}}}
     {{qaMark isQA}}
     <strong>{{studyDesign}}</strong><br>
     <strong>{{species}}</strong>, {{strain}} ({{sex}})<br>
@@ -286,6 +287,7 @@
                   </ul>
                 </div>
               {{/if}}
+              {{{showSortIdx sortIdx}}}
               {{qaMark isQA}}
               <strong>{{tumourSite}}: {{histology}}</strong><br>
               <table class="aniEvidenceTbl">
