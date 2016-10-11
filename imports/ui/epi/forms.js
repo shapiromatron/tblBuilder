@@ -133,10 +133,13 @@ Template.epiResultForm.events(_.extend({
     },
 }, abstractNestedFormEvents));
 Template.epiResultForm.onRendered(function() {
-    var epiResult = EpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
-    if (epiResult != null) toggleQA(this, epiResult.isQA);
-    $('#modalDiv').modal('toggle');
-    initPopovers(this);
+    $('#modalDiv').modal('toggle').one('shown.bs.modal', ()=>{
+        var epiResult = EpiResult.findOne({_id: Session.get('nestedEvidenceEditingId')});
+        if (epiResult != null){
+            toggleQA(this, epiResult.isQA);
+        }
+        initPopovers(this);
+    });
 });
 Template.epiResultForm.onDestroyed(function() {
     destroyPopovers(this);
