@@ -210,13 +210,14 @@ Template.animalEndpointForm.events(_.extend({
     },
 }, abstractNestedFormEvents));
 Template.animalEndpointForm.onRendered(function() {
-    var aniResult = AnimalEndpointEvidence.findOne(
-          {_id: Session.get('nestedEvidenceEditingId')});
-    if (aniResult != null) {
-        toggleQA(this, aniResult.isQA);
-    }
-    $('#modalDiv').modal('toggle');
-    initPopovers(this);
+    $('#modalDiv').modal('toggle').one('shown.bs.modal', ()=>{
+        var aniResult = AnimalEndpointEvidence.findOne(
+              {_id: Session.get('nestedEvidenceEditingId')});
+        if (aniResult != null){
+            toggleQA(this, aniResult.isQA);
+        }
+        initPopovers(this);
+    });
 });
 Template.animalEndpointForm.onDestroyed(function() {
     destroyPopovers(this);
