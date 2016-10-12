@@ -1,51 +1,20 @@
 import { Template } from 'meteor/templating';
-import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
 import GenotoxEvidence from '/imports/collections/genotox';
 
 import {
-    abstractMainHelpers,
-    abstractTblHelpers,
-    abstractRowEvents,
     abstractFormEvents,
 } from '/imports/api/client/templates';
 
 import {
-    initDraggables,
-    toggleRowVisibilty,
     toggleQA,
     initPopovers,
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
-
-Template.genotoxMain.helpers(abstractMainHelpers);
-Template.genotoxMain.onCreated(function() {
-    Session.set('evidenceType', 'genotoxEvidence');
-    Session.set('evidenceShowNew', false);
-    Session.set('evidenceShowAll', false);
-    Session.set('evidenceEditingId', null);
-    this.subscribe('genotoxEvidence', Session.get('Tbl')._id);
-});
-Template.genotoxMain.onDestroyed(function() {
-    Session.set('evidenceType', null);
-    Session.set('evidenceShowNew', false);
-    Session.set('evidenceShowAll', false);
-    Session.set('evidenceEditingId', null);
-    Session.set('sortsAndFilters', null);
-});
-
-
-Template.genotoxTbl.helpers(abstractTblHelpers);
-Template.genotoxTbl.onRendered(function() {
-    initDraggables(this.find('#sortable'), '.dhOuter', GenotoxEvidence);
-    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
-});
-
-
-Template.genotoxRow.events(abstractRowEvents);
+import './form.html';
 
 
 var toggleDataClassFields = function(tmpl) {

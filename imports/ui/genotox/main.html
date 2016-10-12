@@ -1,0 +1,9 @@
+<template name="genotoxMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+      {{> genotoxTbl}}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>

@@ -1,2 +1,3 @@
-import './genotox.html';
-import './genotox';
+import './main';
+import './form';
+import './table';
