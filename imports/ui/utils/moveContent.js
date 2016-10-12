@@ -1,3 +1,4 @@
+import {Meteor} from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
@@ -18,9 +19,11 @@ Template.moveModal.helpers({
         return `${d.volumeNumber} ${d.monographAgent}: ${d.name}`;
     },
     getOptions: function() {
-        var tbls = Tables.find({tblType: Session.get('Tbl').tblType}).fetch();
+        var tbls = Tables.find({tblType: Session.get('Tbl').tblType}).fetch(),
+            thisTblId = Session.get('Tbl')._id;
         return _.chain(tbls)
                 .filter(userCanEdit)
+                .filter(function(d){return d._id !== thisTblId;})
                 .sortBy(function(d){return d.sortIdx;})
                 .sortBy(function(d){return d.monographAgent;})
                 .reverse()
@@ -41,28 +44,34 @@ Template.moveModal.events({
             ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')],
             nesteds;
 
-        // ensure reference is associated with monographAgent
-        if (this.content.referenceID){
-            Reference
-                .findOne(this.content.referenceID)
-                .addMonographAgent(newMonographAgent);
-        }
+        Meteor.call('getMaximumTableSortIndex', ET.collection_name, tbl_id, (err, resp)=>{
+            let sortIdx = resp;
 
-        // update reference
-        ET.collection.update(
-            {'_id': content_id},
-            {$set: {'tbl_id': tbl_id, 'sortIdx': 1000}}
-        );
+            // ensure reference is associated with monographAgent
+            if (this.content.referenceID){
+                Reference
+                    .findOne(this.content.referenceID)
+                    .addMonographAgent(newMonographAgent);
+            }
 
-        // move nested collections
-        if (ET.nested_collection != null) {
-            nesteds = ET.nested_collection.find({parent_id: content_id}).fetch();
-            nesteds.forEach(function(nested){
-                ET.nested_collection.update(
-                    {'_id': nested._id},
-                    {$set: {'tbl_id': tbl_id}});
-            });
-        }
+            // update reference
+            ET.collection.update(
+                {_id: content_id},
+                {$set: {tbl_id, sortIdx: sortIdx}}
+            );
+
+            // move nested collections
+            if (ET.nested_collection != null) {
+                nesteds = ET.nested_collection.find({parent_id: content_id}).fetch();
+                nesteds.forEach(function(nested){
+                    ET.nested_collection.update(
+                        {_id: nested._id},
+                        {$set: {tbl_id}});
+                });
+            }
+        });
+
+
 
         tmpl.$(tmpl.firstNode).modal('hide');
     },

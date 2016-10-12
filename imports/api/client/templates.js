@@ -42,7 +42,9 @@ let getScrollPosition = function(){
         delete newObj._id;
 
         // increment sort-index
-        if (newObj.sortIdx) newObj.sortIdx = getNextSortIdx(newObj.sortIdx, Collection);
+        if (newObj.sortIdx){
+            newObj.sortIdx = getNextSortIdx(newObj.sortIdx, Collection);
+        }
 
         // insert, getting new parent-ID
         new_parent_id = Collection.insert(newObj);
