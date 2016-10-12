@@ -54,8 +54,8 @@ export default {
         },
         'Non-human mammalian': {
             'Genotox': {
-                'DNA damage': ['DNA adducts ', 'DNA strand breaks', 'DNA cross-links', 'DNA oxidation', 'Unscheduled DNA synthesis', 'Other'],
-                'Mutation': ['tk', 'hprt ', 'ouabain resistance', 'Other gene', 'Chromosomal damage', 'Chromosomal aberrations', 'Micronuclei', 'Sister Chromatid Exchange', 'Aneuploidy', 'Other'],
+                'DNA damage': ['DNA adducts', 'DNA strand breaks', 'DNA cross-links', 'DNA oxidation', 'Unscheduled DNA synthesis', 'Other'],
+                'Mutation': ['tk', 'hprt', 'ouabain resistance', 'Other gene', 'Chromosomal damage', 'Chromosomal aberrations', 'Micronuclei', 'Sister Chromatid Exchange', 'Aneuploidy', 'Other'],
                 'Chromosomal damage': ['Chromosomal aberrations', 'Micronuclei', 'Sister Chromatid Exchange', 'Aneuploidy', 'Other'],
                 'DNA repair': ['Other'],
                 'Cell transformation': ['Other'],
@@ -65,7 +65,7 @@ export default {
     'Animal in vivo': {
         'Genotox': {
             'DNA damage': ['DNA adducts', 'DNA strand breaks', 'DNA cross-links', 'DNA oxidation', 'Unscheduled DNA synthesis', 'Other'],
-            'Mutation': ['Mouse spot test', 'Mouse specific locus test', 'Dominant lethal test', 'Transgenic animal tests ', 'Other'],
+            'Mutation': ['Mouse spot test', 'Mouse specific locus test', 'Dominant lethal test', 'Transgenic animal tests', 'Other'],
             'Chromosomal damage': ['Chromosomal aberrations', 'Micronuclei', 'Sister Chromatid Exchange', 'Aneuploidy', 'Other'],
             'DNA repair': ['Other'],
         },
