@@ -134,10 +134,10 @@ Template.adminUserRowForm.events({
         return Session.set('adminUserEditingId', null);
     },
     'click #adminUser-create': function(evt, tmpl) {
-        var vals = getAdminUserValues(tmpl), msg;
+        var vals = getAdminUserValues(tmpl),
+            msg  = 'User created!';
         Meteor.call('adminUserCreateProfile', vals);
         Session.set('adminUserShowNew', false);
-        msg = 'User created- an email was sent to user to create password.';
         return setAdminNotification(msg, 'success');
     },
     'click #adminUser-create-cancel': function(evt, tmpl) {
