@@ -1,4 +1,3 @@
-import { Blaze } from 'meteor/blaze';
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
@@ -8,40 +7,31 @@ import _ from 'underscore';
 
 import {
     activateInput,
+    addUserMessage,
 } from '/imports/api/client/utilities';
 
 import './user.html';
 
 
-var setAdminNotification = function(message, type) {
-        var div = $('#messages')[0],
-            data = {
-                alertType: type,
-                message: message,
-            };
-        return Blaze.renderWithData(Template.dismissableAlert, data, div);
-    },
-    getAdminUserValues = function(tmpl) {
-        var obj = {
-            profile: {
-                fullName: tmpl.find('input[name="fullName"]').value,
-                affiliation: tmpl.find('input[name="affiliation"]').value,
-            },
-            emails: [{
-                address: tmpl.find('input[name="email"]').value,
-                verified: false,
-            }],
-            roles: [],
-        };
-
-        tmpl.findAll('input[type="checkbox"]').forEach(function(inp){
-            if (inp.checked) obj.roles.push(inp.name);
-        });
-
-        return obj;
+var getAdminUserValues = function(tmpl) {
+    var obj = {
+        profile: {
+            fullName: tmpl.find('input[name="fullName"]').value,
+            affiliation: tmpl.find('input[name="affiliation"]').value,
+        },
+        emails: [{
+            address: tmpl.find('input[name="email"]').value,
+            verified: false,
+        }],
+        roles: [],
     };
 
+    tmpl.findAll('input[type="checkbox"]').forEach(function(inp){
+        if (inp.checked) obj.roles.push(inp.name);
+    });
 
+    return obj;
+};
 
 
 Template.admin.helpers({
@@ -74,32 +64,30 @@ Template.adminUserRow.events({
     'click #adminUser-show-edit': function(evt, tmpl) {
         Session.set('adminUserEditingId', this._id);
         Tracker.flush();
-        return activateInput(tmpl.find('input[name=fullName]'));
+        activateInput(tmpl.find('input[name=fullName]'));
     },
     'click #adminUser-resetPassword': function(evt, tmpl) {
         var email, message;
         Meteor.call('adminUserResetPassword', this._id);
         email = this.emails[0].address;
         message = 'A password-reset email was just sent to ' + email;
-        return setAdminNotification(message, 'success');
+        addUserMessage(message, 'success');
     },
     'click #adminUser-removeUser': function(evt, tmpl) {
-        var message;
+        var message = 'User removed';
         Meteor.users.remove(this._id);
-        message = 'User removed';
-        return setAdminNotification(message, 'success');
+        addUserMessage(message, 'success');
     },
     'click #adminUser-setPassword': function(evt, tmpl) {
-        var passwd;
-        passwd = tmpl.find('input[name="password"]').value;
+        var passwd = tmpl.find('input[name="password"]').value;
         if (passwd.length < 6) {
-            return setAdminNotification('Must be at least six-characters', 'danger');
+            return addUserMessage('Must be at least six-characters', 'danger');
         }
-        return Meteor.call('adminSetPassword', this._id, passwd, function(error, result) {
-            if ((result != null) && result.success) {
-                return setAdminNotification('Password successfully changed', 'success');
+        Meteor.call('adminSetPassword', this._id, passwd, function(error, result) {
+            if ((result !== null) && result.success) {
+                addUserMessage('Password successfully changed', 'success');
             } else {
-                return setAdminNotification('An error occurred', 'danger');
+                addUserMessage('An error occurred', 'danger');
             }
         });
     },
@@ -122,19 +110,19 @@ Template.adminUserRowForm.events({
     'click #adminUser-update': function(evt, tmpl) {
         var vals = getAdminUserValues(tmpl);
         Meteor.call('adminUserEditProfile', this._id, vals);
-        return Session.set('adminUserEditingId', null);
+        Session.set('adminUserEditingId', null);
     },
     'click #adminUser-update-cancel': function(evt, tmpl) {
-        return Session.set('adminUserEditingId', null);
+        Session.set('adminUserEditingId', null);
     },
     'click #adminUser-create': function(evt, tmpl) {
         var vals = getAdminUserValues(tmpl),
             msg  = 'User created!';
         Meteor.call('adminUserCreateProfile', vals);
         Session.set('adminUserShowNew', false);
-        return setAdminNotification(msg, 'success');
+        addUserMessage(msg, 'success');
     },
     'click #adminUser-create-cancel': function(evt, tmpl) {
-        return Session.set('adminUserShowNew', false);
+        Session.set('adminUserShowNew', false);
     },
 });
