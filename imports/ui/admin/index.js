@@ -1,2 +1,2 @@
-import './admin.html';
-import './admin';
+import './main';
+import './user';

@@ -1,0 +1,14 @@
+<template name="adminNav">
+  <li><a href="{{pathFor 'adminMain'}}">Admin</a></li>
+</template>
+
+
+<template name="adminMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+      {{> admin}}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>

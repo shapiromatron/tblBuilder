@@ -1,6 +1,6 @@
-import {Meteor} from 'meteor/meteor';
-import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
 
@@ -9,6 +9,8 @@ import _ from 'underscore';
 import {
     activateInput,
 } from '/imports/api/client/utilities';
+
+import './user.html';
 
 
 var setAdminNotification = function(message, type) {
@@ -40,14 +42,6 @@ var setAdminNotification = function(message, type) {
     };
 
 
-Template.adminMain.onCreated(function() {
-    Session.set('adminUserEditingId', null);
-    Session.set('adminUserShowNew', false);
-});
-Template.adminMain.onDestroyed(function() {
-    Session.set('adminUserEditingId', null);
-    Session.set('adminUserShowNew', false);
-});
 
 
 Template.admin.helpers({
