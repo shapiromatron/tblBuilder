@@ -51,7 +51,7 @@ export default {
         label: 'Purity',
         type: String,
         min: 1,
-        popoverText: 'As reported',
+        popoverText: 'As reported; for mixtures use NR (not reported)',
         typeaheadMethod: 'searchAnimalPurity',
         placeholderText: '>99.9%, technical grade',
     },
