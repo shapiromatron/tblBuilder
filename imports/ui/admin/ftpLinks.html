@@ -1,0 +1,9 @@
+<template name="ftpLinksMain">
+    {{#if Template.subscriptionsReady}}
+        {{#contentContainer}}
+            <h1>ftpLinksMain</h1>
+        {{/contentContainer}}
+    {{else}}
+        {{> isLoading}}
+    {{/if }}
+</template>

@@ -198,6 +198,17 @@ Router.map(function() {
         path: '/admin/manage-users/',
         controller: AdminRouteController,
     });
+
+    this.route('dbSearchMain', {
+        path: '/admin/db-search/',
+        controller: AdminRouteController,
+    });
+
+    this.route('ftpLinksMain', {
+        path: '/admin/ftp-links/',
+        controller: AdminRouteController,
+    });
+
 });
 
 Router.configure({

@@ -1,0 +1,9 @@
+<template name="dbSearchMain">
+    {{#if Template.subscriptionsReady}}
+        {{#contentContainer}}
+            <h1>dbSearchMain</h1>
+        {{/contentContainer}}
+    {{else}}
+        {{> isLoading}}
+    {{/if }}
+</template>
