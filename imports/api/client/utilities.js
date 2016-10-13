@@ -265,8 +265,19 @@ let getHTMLTitleBase = function() {
                 $(tmpl.view._domrange.members).remove();
                 Blaze.remove(tmpl.view);
             }).modal('hide');
+    },
+    addUserMessage = function(message, alertType) {
+        /**
+         * Add a dismissible alert message to the top of the page. Uses
+         * twitter bootstrap alert styles.
+         *
+         * @param {string} type - bootstrap alert type (ex: success, danger)
+         * @param {html} message - HTML formatted comment
+         */
+        let messages = Session.get('messages');
+        messages.push({alertType, message});
+        Session.set('messages', messages);
     };
-
 
 export { getHTMLTitleBase };
 export { getHTMLTitleTbl };
@@ -286,3 +297,4 @@ export { userCanEdit };
 export { initPopovers };
 export { destroyPopovers };
 export { closeModal };
+export { addUserMessage };
