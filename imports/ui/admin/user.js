@@ -33,8 +33,17 @@ var getAdminUserValues = function(tmpl) {
     return obj;
 };
 
+Template.manageUsersMain.onCreated(function() {
+    Session.set('adminUserEditingId', null);
+    Session.set('adminUserShowNew', false);
+});
+Template.manageUsersMain.onDestroyed(function() {
+    Session.set('adminUserEditingId', null);
+    Session.set('adminUserShowNew', false);
+});
 
-Template.admin.helpers({
+
+Template.manageUsers.helpers({
     getUsers: function() {
         return Meteor.users.find({}, {sort: {createdAt: -1}});
     },
@@ -42,7 +51,7 @@ Template.admin.helpers({
         return Session.get('adminUserShowNew');
     },
 });
-Template.admin.events({
+Template.manageUsers.events({
     'click #adminUser-show-create': function(evt, tmpl) {
         return Session.set('adminUserShowNew', true);
     },

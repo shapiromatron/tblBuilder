@@ -193,6 +193,11 @@ Router.map(function() {
         path: '/admin/',
         controller: AdminRouteController,
     });
+
+    this.route('manageUsersMain', {
+        path: '/admin/manage-users/',
+        controller: AdminRouteController,
+    });
 });
 
 Router.configure({

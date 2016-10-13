@@ -6,7 +6,11 @@
 <template name="adminMain">
   {{#if Template.subscriptionsReady}}
     {{#contentContainer}}
-      {{> admin}}
+        <h1>Welcome, {{getAdminName}}, to the admin page.</h1>
+        <p class='help-block'>What would you like to do?</p>
+        <ul>
+            <li><a href="{{pathFor 'manageUsersMain'}}">Manger user roles</a></li>
+        </ul>
     {{/contentContainer}}
   {{else}}
     {{> isLoading}}

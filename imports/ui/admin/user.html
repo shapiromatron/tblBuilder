@@ -1,6 +1,17 @@
-<template name="admin">
+<template name="manageUsersMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+        {{> manageUsers}}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>
+
+
+<template name="manageUsers">
   <div class="row">
-    <h1>User Administration
+    <h1>User administration
       {{#actionBtn}}
         {{#unless adminUserShowNew}}
           <li>
