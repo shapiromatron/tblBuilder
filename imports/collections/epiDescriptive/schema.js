@@ -110,21 +110,6 @@ export default {
         custom: requiredCC,
         defaultValue: null,
     },
-    responseRateCase: {
-        label: 'Response rate (%)',
-        type: String,
-        optional: true,
-        defaultValue: null,
-        placeholderText: 'blank if not-reported',
-        popoverText: 'Percent of eligible participants included',
-    },
-    responseRateControl: {
-        label: 'Response rate (%)',
-        type: String,
-        optional: true,
-        defaultValue: null,
-        placeholderText: 'blank if not-reported',
-    },
     sourceCase: {
         label: 'Description and source of cases and controls',
         type: String,
