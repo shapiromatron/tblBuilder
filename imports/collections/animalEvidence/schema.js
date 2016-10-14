@@ -89,7 +89,7 @@ export default {
         label: 'Dosing regimen',
         type: String,
         min: 1,
-        popoverText: 'Dosing regimen of the agent tested (i.e., duration and frequency [Do not enter the concentrations of the agent tested here]), and (if any) information on any co-exposure or modifying factors (e.g., NDEA, TPA, Aflatoxin B1, UV) including route, concentration and dosing regimen',
+        popoverText: 'Dosing regimen of the agent tested (i.e., duration and frequency <b style="color: red;">[Do not enter the concentrations of the agent tested here]</b>), and (if any) information on any co-exposure or modifying factors (e.g., NDEA, TPA, Aflatoxin B1, UV) including route, concentration and dosing regimen',
         placeholderText: '2x/d for 103 wk; 2x/wk for 20 mo',
     },
     strengths: {

@@ -252,6 +252,7 @@ let getHTMLTitleBase = function() {
             delay: {show: 500, hide: 100},
             trigger: 'hover',
             placement: 'auto',
+            html: true,
         });
         $(tmpl.findAll('.helpPopovers')).popover(opts);
     },
