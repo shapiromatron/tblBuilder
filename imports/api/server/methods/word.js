@@ -1,5 +1,4 @@
 import {Meteor} from 'meteor/meteor';
-import PythonShell from 'python-shell';
 
 import _ from 'underscore';
 
@@ -9,16 +8,15 @@ import EpiDescriptive from '/imports/collections/epiDescriptive';
 import GenotoxEvidence from '/imports/collections/genotox';
 import MechanisticEvidence from '/imports/collections/mechanistic';
 
+import {
+    getPyShell,
+} from '/imports/api/server/utilities';
+
 
 var Future = Npm.require('fibers/future'),
     pyWordHelperStdin = function(report_type, context, fut) {
         var report,
-            options = {
-                mode: 'json',
-                scriptPath: Meteor.settings.scripts_path,
-                pythonPath: Meteor.settings.python_path,
-            },
-            shell = new PythonShell('generateReport.py', options),
+            shell = getPyShell('generateReport.py'),
             inputs = {
                 report_type: report_type,
                 context: context,
