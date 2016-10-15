@@ -222,6 +222,11 @@ let getHTMLTitleBase = function() {
         fn = fn || 'download.docx';
         return saveAs(blob, fn);
     },
+    b64toExcel = function(b64, fn) {
+        var blob = b64toBlob(b64, 'application/octet-stream');
+        fn = fn || 'download.xlsx';
+        return saveAs(blob, fn);
+    },
     toggleRowVisibilty = function(display, $els) {
         return (display) ? $els.fadeIn() : $els.fadeOut();
     },
@@ -291,6 +296,7 @@ export { updateValues };
 export { returnExcelFile };
 export { returnWordFile };
 export { b64toWord };
+export { b64toExcel };
 export { toggleRowVisibilty };
 export { typeaheadSelectListGetLIs };
 export { toggleQA };
