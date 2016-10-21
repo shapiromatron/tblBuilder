@@ -213,6 +213,12 @@ export const abstractRowEvents = {
         var ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')];
         cloneObject(this, ET.collection, ET.nested_collection);
     },
+    'click .quickEdit': function(evt, tmpl){
+        // todo - check if it's a shift-click
+        if (evt.shiftKey) {
+            toggleEdit(this._id);
+        }
+    },
 };
 
 
