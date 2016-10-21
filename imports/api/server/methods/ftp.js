@@ -14,10 +14,9 @@ let Future = Npm.require('fibers/future'),
 
         shell.on('message', function(msg){
             result = msg.xlsx;
-            console.log(msg);
         });
 
-        shell.send(JSON.stringify(data));
+        shell.send(data);
 
         shell.end(function(err) {
             if (err) {

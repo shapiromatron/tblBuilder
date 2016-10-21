@@ -69,8 +69,8 @@ def _get_ftp_data(data):
 
 
 def _get_root_url(data):
-    addr = os.path.join(data['address'], data.get('path', ''))
-    return 'ftp://{}:{}@{}'.format(data['user'], data['password'], addr)
+    return u'ftp://{}:{}@{}'.format(
+        data['user'], data['password'], data['address'])
 
 
 def _populate_workbook(wb, root_url, data):
@@ -92,7 +92,8 @@ def _populate_workbook(wb, root_url, data):
     for path, files in data:
         for fn in files:
             row += 1
-            url = u'{}/{}'.format(root_url, parser(os.path.join(path, fn)))
+            path_url = parser(os.path.join(path.decode('utf8'), fn.decode('utf8')).encode('utf8'))
+            url = root_url + path_url
             ws.write(row, 0, smart_text(path))
             ws.write(row, 1, smart_text(fn))
             ws.write(row, 2, smart_text(url))
