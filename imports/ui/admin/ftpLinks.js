@@ -7,6 +7,7 @@ import './ftpLinks.html';
 
 import {
     b64toExcel,
+    addUserMessage,
 } from '/imports/api/client/utilities';
 
 
@@ -20,8 +21,8 @@ Template.ftpForm.events({
             if (resp){
                 return b64toExcel(resp, 'ftpLinks.xlsx');
             }
-            console.error(err);
-            return alert('An error occurred.');
+            let message = `An error occured: ${err}`;
+            addUserMessage(message, 'warning');
         });
     },
 });
