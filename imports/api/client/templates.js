@@ -214,7 +214,6 @@ export const abstractRowEvents = {
         cloneObject(this, ET.collection, ET.nested_collection);
     },
     'click .quickEdit': function(evt, tmpl){
-        // todo - check if it's a shift-click
         if (evt.shiftKey) {
             toggleEdit(this._id);
         }
@@ -324,15 +323,19 @@ export const abstractNestedTableHelpers = {
 };
 
 
+let toggleInnerEdit = function(_id){
+    let div = document.getElementById('modalHolder'),
+        key = Session.get('evidenceType'),
+        NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
+
+    getScrollPosition();
+    Session.set('nestedEvidenceEditingId', _id);
+    Blaze.renderWithData(NestedTemplate, {}, div);
+};
+
 export const abstractNestedTableEvents = {
     'click #inner-show-edit': function(evt, tmpl) {
-        var div = document.getElementById('modalHolder'),
-            key = Session.get('evidenceType'),
-            NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
-
-        getScrollPosition();
-        Session.set('nestedEvidenceEditingId', tmpl.data._id);
-        return Blaze.renderWithData(NestedTemplate, {}, div);
+        toggleInnerEdit(tmpl.data._id);
     },
     'click #inner-toggle-hidden': function(evt, tmpl) {
         var key = Session.get('evidenceType'),
@@ -345,6 +348,11 @@ export const abstractNestedTableEvents = {
         var data = tmpl.view.parentView.dataVar.curValue,
             ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')];
         return cloneObject(data, ET.nested_collection);
+    },
+    'click .quickEdit': function(evt, tmpl){
+        if (evt.shiftKey) {
+            toggleInnerEdit(tmpl.data._id);
+        }
     },
 };
 
