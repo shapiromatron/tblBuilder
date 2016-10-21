@@ -5,7 +5,6 @@ import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
 
 import _ from 'underscore';
-import d3 from 'd3';
 
 import tblBuilderCollections from '/imports/collections';
 import {
@@ -188,12 +187,16 @@ export const abstractRowHelpers = {
 };
 
 
+let toggleEdit = function(_id){
+    getScrollPosition();
+    Session.set('evidenceEditingId', _id);
+    Tracker.flush();
+    activateInput($('input[name=referenceID]')[0]);
+};
+
 export const abstractRowEvents = {
     'click #show-edit': function(evt, tmpl) {
-        getScrollPosition();
-        Session.set('evidenceEditingId', this._id);
-        Tracker.flush();
-        activateInput($('input[name=referenceID]')[0]);
+        toggleEdit(this._id);
     },
     'click #toggle-hidden': function(evt, tmpl) {
         var key = Session.get('evidenceType'),
