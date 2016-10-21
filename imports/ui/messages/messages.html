@@ -1,0 +1,18 @@
+<template name="messages">
+    <div id="messages" class='container-fluid'>
+      {{#each getMessages}}
+        {{> dismissableAlert}}
+      {{/each}}
+    </div>
+</template>
+
+
+<template name="dismissableAlert">
+  <div class="alert alert-{{alertType}}" role="alert">
+      <button type="button" class="close">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+    {{{message}}}
+  </div>
+</template>

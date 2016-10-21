@@ -10,7 +10,7 @@
 
 
 <template name="selectList">
-  <select class="form-control" name="{{selectName}}">
+  <select class="form-control" name="{{selectName}}" tabindex="{{tabindex}}">
     {{#each options}}
       <option value="{{this}}" selected="{{isSelected this ../selected}}">{{this}}</option>
     {{/each}}
@@ -21,6 +21,7 @@
 <template name="typeaheadInput">
   <div>
     <input class="form-control typeahead" name={{name}} type="text"
+         tabindex="{{tabindex}}"
          placeholder="{{placeholder}}"
          autocomplete="off" spellcheck="off" value="{{value}}"
          data-limit="15"
@@ -36,6 +37,7 @@
   <div>
     <input class="form-control typeahead multiSelectList"
          name="{{name}}" type="text"
+         tabindex="{{tabindex}}"
          placeholder="Add to list by pressing <enter>"
          autocomplete="off"
          spellcheck="off"
@@ -54,7 +56,7 @@
 
 <template name="typeaheadSelectListLI">
   <li class='selectListItem' data-value="{{this}}">{{this}}
-    <a href='#' class='pull-right selectListRemove btn btn-default btn-xs' title='Remove from list'>
+    <a href='#' class='pull-right showEditOnly selectListRemove btn btn-default btn-xs' title='Remove from list'>
       <span class='glyphicon glyphicon-remove'></span></a>
   </li>
 </template>
@@ -95,16 +97,8 @@
 </template>
 
 
-<template name="dismissableAlert">
-  <div class="alert alert-{{alertType}} alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    {{{message}}}
-  </div>
-</template>
-
-
 <template name="formLegendPulldown">
-  <div class="btn-group pull-right">
+  <div class="btn-group pull-right showEditOnly">
     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
       Special characters <span class="caret" title="Special characters"></span>
     </button>
@@ -611,7 +605,7 @@
 
 <template name="fldSelectSingle">
   {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
-  <select class="form-control" name="{{name}}">
+  <select class="form-control" name="{{name}}" tabindex="{{tabindex}}">
     {{#each schema.allowedValues}}
       <option value="{{this}}" selected="{{isSelected this ../value}}">{{this}}</option>
     {{/each}}
@@ -623,6 +617,7 @@
   <div>
    {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
     <input class="form-control typeahead multiSelectList"
+         tabindex="{{tabindex}}"
          name="{{name}}"
          type="text"
          placeholder="Add to list by pressing <enter>"
@@ -646,7 +641,8 @@
   <input class="form-control" type="text"
          name='{{name}}'
          value="{{value}}"
-         placeholder="{{schema.placeholderText}}"/>
+         placeholder="{{schema.placeholderText}}"
+         tabindex="{{tabindex}}"/>
 </template>
 
 
@@ -656,7 +652,8 @@
          type="number"
          name='{{name}}'
          value="{{value}}"
-         placeholder="{{schema.placeholderText}}"/>
+         placeholder="{{schema.placeholderText}}"
+         tabindex="{{tabindex}}"/>
 </template>
 
 
@@ -666,7 +663,8 @@
          type="number" step="any"
          name='{{name}}'
          value="{{value}}"
-         placeholder="{{schema.placeholderText}}"/>
+         placeholder="{{schema.placeholderText}}"
+         tabindex="{{tabindex}}"/>
 </template>
 
 
@@ -676,7 +674,8 @@
     <input style="{margin: 0 0 0 10px}"
            type="checkbox"
            name="{{name}}"
-           checked="{{value}}"/>
+           checked="{{value}}"
+           tabindex="{{tabindex}}"/>
   </div>
 </template>
 
@@ -685,6 +684,7 @@
   <div>
     {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
     <input class="form-control typeahead" type="text"
+         tabindex="{{tabindex}}"
          name={{name}}
          placeholder="{{schema.placeholderText}}"
          autocomplete="off" spellcheck="off"
@@ -702,7 +702,8 @@
   {{#unless hideLabel}} {{> fldLabel schema=schema}} {{/unless}}
   <textarea class="form-control"
             name='{{name}}'
-            rows="{{schema.textAreaRows}}">{{value}}</textarea>
+            rows="{{schema.textAreaRows}}"
+            tabindex="{{tabindex}}">{{value}}</textarea>
 </template>
 
 

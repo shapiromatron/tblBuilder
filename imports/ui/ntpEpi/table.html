@@ -85,7 +85,7 @@
 
 
 <template name="ntpEpiDescriptiveRow">
-  <td>
+  <td class="quickEdit">
     {{#if userCanEdit}}
       <div class="rowOptions btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -114,6 +114,7 @@
         </ul>
       </div>
     {{/if}}
+    {{{showSortIdx sortIdx}}}
     {{qaMark isQA}}
     {{>printReference id=referenceID}}<br>
     {{location}}<br>

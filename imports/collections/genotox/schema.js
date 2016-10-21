@@ -55,6 +55,12 @@ export default {
         label: 'Reference',
         type: SimpleSchema.RegEx.Id,
     },
+    additionalReferences: {
+        label: 'References',
+        type: [SimpleSchema.RegEx.Id],
+        minCount: 0,
+        popoverText: 'References of earlier updates or related publications',
+    },
     dataClass: {
         label: 'Data class',
         type: String,
@@ -218,6 +224,12 @@ export default {
         type: String,
         min: 1,
         popoverText: 'As reported',
+    },
+    endpointTestAssay: {
+        label: 'Endpoint test assay',
+        type: String,
+        optional: true,
+        popoverText: 'e.g. comet',
     },
     dualResult: {
         label: 'Metabolic activation tested?',

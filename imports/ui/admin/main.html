@@ -1,0 +1,20 @@
+<template name="adminNav">
+  <li><a href="{{pathFor 'adminMain'}}">Admin</a></li>
+</template>
+
+
+<template name="adminMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+        <h1>Welcome, {{getAdminName}}, to the admin page.</h1>
+        <p class='help-block'>What would you like to do?</p>
+        <ul>
+            <li><a href="{{pathFor 'manageUsersMain'}}">Manage user roles</a></li>
+            <li><a href="{{pathFor 'dbSearchMain'}}">Search table builder by reference</a></li>
+            <li><a href="{{pathFor 'ftpLinksMain'}}">Download a list of PDFs on an FTP site</a></li>
+        </ul>
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>

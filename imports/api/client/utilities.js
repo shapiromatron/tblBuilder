@@ -11,6 +11,7 @@ import d3 from 'd3';
 import {
     getValue,
     typeaheadSelectListGetLIs,
+    numericSort,
 } from '/imports/api/utilities';
 
 
@@ -55,15 +56,44 @@ let getHTMLTitleBase = function() {
         }
         return buf;
     },
-    moveRowCheck = function(evt) {
+    getNextSortIdx = function(currentIdx, Collection){
+        // Given the current index, get the next available index for a
+        // collection.
+        var nextIdx = _.chain(Collection.find().fetch())
+                    .pluck('sortIdx')
+                    .filter((d)=> d > currentIdx)
+                    .sort(numericSort)
+                    .first()
+                    .value();
+
+        return (nextIdx)?
+            d3.mean([currentIdx, nextIdx]):
+            Math.ceil(currentIdx) + 1;
+    },
+    setSortIdxOnMove = function(evt) {
         var data = UI.getData(evt.target),
             $el = $(evt.target),
-            this_pos = $el.data('sortidx'),
-            prev_pos = $el.prev().data('sortidx') || 0,
-            next_pos = $el.next().data('sortidx') || prev_pos + 1,
-            newIdx = d3.mean([prev_pos, next_pos]);
+            currentIdx = $el.data('sortidx'),
+            prev_pos = $el.prev().data('sortidx'),
+            next_pos = $el.next().data('sortidx'),
+            newIdx;
 
-        if ((this_pos < prev_pos) || (this_pos > next_pos)) {
+        // if moved to beginning of table
+        if (prev_pos === undefined){
+            prev_pos = 0;
+        }
+
+        // if moved to end of table, get new integer values
+        if (next_pos === undefined){
+            prev_pos = Math.ceil(prev_pos);
+            next_pos = prev_pos + 2;
+        }
+
+        // calculate new index
+        newIdx = d3.mean([prev_pos, next_pos]);
+
+        // update state if new index calculated
+        if (currentIdx !== newIdx){
             this.options.Cls.update(data._id, {$set: {sortIdx: newIdx}});
             $el.data('sortidx', newIdx);
         }
@@ -155,7 +185,7 @@ let getHTMLTitleBase = function() {
         opts = opts || {};
         _.extend(opts, {
             handle: handle,
-            onUpdate: moveRowCheck,
+            onUpdate: setSortIdxOnMove,
             Cls: cls,
         });
         return new Sortable($el, opts);
@@ -192,11 +222,20 @@ let getHTMLTitleBase = function() {
         fn = fn || 'download.docx';
         return saveAs(blob, fn);
     },
+    b64toExcel = function(b64, fn) {
+        var blob = b64toBlob(b64, 'application/octet-stream');
+        fn = fn || 'download.xlsx';
+        return saveAs(blob, fn);
+    },
     toggleRowVisibilty = function(display, $els) {
         return (display) ? $els.fadeIn() : $els.fadeOut();
     },
     toggleQA = function(tmpl, isQA) {
-        return tmpl.$('input,select,textarea').prop('disabled', isQA);
+        tmpl.$('input,select,textarea').prop('disabled', isQA);
+        tmpl.$('.showEditOnly').toggleClass('makeHidden', isQA);
+        if (isQA){
+            tmpl.$('.tt-input').css('background-color', '#eee');
+        }
     },
     userCanEdit = function(tbl) {
         var i, user, userId;
@@ -218,6 +257,7 @@ let getHTMLTitleBase = function() {
             delay: {show: 500, hide: 100},
             trigger: 'hover',
             placement: 'auto',
+            html: true,
         });
         $(tmpl.findAll('.helpPopovers')).popover(opts);
     },
@@ -231,11 +271,23 @@ let getHTMLTitleBase = function() {
                 $(tmpl.view._domrange.members).remove();
                 Blaze.remove(tmpl.view);
             }).modal('hide');
+    },
+    addUserMessage = function(message, alertType) {
+        /**
+         * Add a dismissible alert message to the top of the page. Uses
+         * twitter bootstrap alert styles.
+         *
+         * @param {string} type - bootstrap alert type (ex: success, danger)
+         * @param {html} message - HTML formatted comment
+         */
+        let messages = Session.get('messages');
+        messages.push({alertType, message});
+        Session.set('messages', messages);
     };
-
 
 export { getHTMLTitleBase };
 export { getHTMLTitleTbl };
+export { getNextSortIdx };
 export { createErrorDiv };
 export { getPubMedDetails };
 export { initDraggables };
@@ -244,11 +296,12 @@ export { updateValues };
 export { returnExcelFile };
 export { returnWordFile };
 export { b64toWord };
+export { b64toExcel };
 export { toggleRowVisibilty };
-export { moveRowCheck };
 export { typeaheadSelectListGetLIs };
 export { toggleQA };
 export { userCanEdit };
 export { initPopovers };
 export { destroyPopovers };
 export { closeModal };
+export { addUserMessage };

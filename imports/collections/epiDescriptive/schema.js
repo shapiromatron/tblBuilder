@@ -28,6 +28,12 @@ export default {
         label: 'Reference',
         type: SimpleSchema.RegEx.Id,
     },
+    additionalReferences: {
+        label: 'References',
+        type: [SimpleSchema.RegEx.Id],
+        minCount: 0,
+        popoverText: 'References of earlier updates or related publications',
+    },
     studyDesign: {
         label: 'Study design',
         allowedValues: studyDesignOptions,
@@ -42,10 +48,10 @@ export default {
         popoverText: 'Country; other information (e.g., region, state, province, city) if important',
     },
     enrollmentDates: {
-        label: 'Enrollment and follow-up dates',
+        label: 'Enrollment/follow-up dates (yr)',
         type: String,
         min: 1,
-        popoverText: 'For case-control studies, enter only enrollment date',
+        popoverText: 'For cohort studies, enter years of follow-up (ex: 1994-1999). For case-control studies, enter years of enrollment (ex: 1987-1993)',
     },
     eligibilityCriteria: {
         label: 'Population/eligibility characteristics',
@@ -110,21 +116,6 @@ export default {
         custom: requiredCC,
         defaultValue: null,
     },
-    responseRateCase: {
-        label: 'Response rate (%)',
-        type: String,
-        optional: true,
-        defaultValue: null,
-        placeholderText: 'blank if not-reported',
-        popoverText: 'Percent of eligible participants included',
-    },
-    responseRateControl: {
-        label: 'Response rate (%)',
-        type: String,
-        optional: true,
-        defaultValue: null,
-        placeholderText: 'blank if not-reported',
-    },
     sourceCase: {
         label: 'Description and source of cases and controls',
         type: String,
@@ -175,7 +166,7 @@ export default {
         label: 'Comments',
         type: String,
         optional: true,
-        popoverText: 'Any other general comments related to the study',
+        popoverText: 'Other study features relevant to interpretation (e.g., response rates), or any other general comments related to the study',
         textAreaRows: 3,
     },
 };

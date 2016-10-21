@@ -1,140 +1,3 @@
-<template name="genotoxMain">
-  {{#if Template.subscriptionsReady}}
-    {{#contentContainer}}
-      {{> genotoxTbl}}
-    {{/contentContainer}}
-  {{else}}
-    {{> isLoading}}
-  {{/if }}
-</template>
-
-
-<template name="genotoxTblOpts">
-  {{#actionBtn}}
-    {{#if userCanEdit}}
-      {{#unless showNew}}
-        {{> optCreate }}
-      {{/unless}}
-      {{> optReorder }}
-    {{/if}}
-    {{> optMonoRefList }}
-    {{> optFullScreen }}
-    {{> optSortFilter}}
-    {{> optExcel }}
-    {{> optWord }}
-    {{> optShowAllRows }}
-    {{> optQaFlags }}
-  {{/actionBtn}}
-</template>
-
-
-<template name="genotoxTbl">
-  <h1>{{name}} {{> genotoxTblOpts}}</h1>
-  {{> tableTitle}}
-
-  <table class="evidenceTable table table-compressed">
-    <colgroup>
-      <col width="15%">
-      <col width="20%">
-      <col width="15%">
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
-      <col width="20%">
-    </colgroup>
-    <thead>
-      <tr>
-        <th>Reference</th>
-        <th>Test system</th>
-        <th>Endpoint test</th>
-        <th>Results</th>
-        <th>Results<br>(with metabolic activation)</th>
-        <th>Agent,<br>LED/HID dose</th>
-        <th>Comments</th>
-      </tr>
-    </thead>
-    <tbody id="sortable">
-      {{#each object_list}}
-        {{#if showRow isHidden}}
-          <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}"
-              data-id="{{_id}}"
-              data-sortIdx="{{sortIdx}}">
-            {{#if isEditing}}
-              <td id="editingRow" colspan="100">
-                {{> genotoxForm this isNew=false}}
-              </td>
-            {{else}}
-              {{> genotoxRow}}
-            {{/if}}
-          </tr>
-        {{/if}}
-      {{else}}
-        <tr>
-          <td colspan="100">No data has been entered into this table.</td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-
-  {{> showNewBtn }}
-
-  {{#if showNew}}
-    {{> genotoxForm isNew=true}}
-  {{/if}}
-</template>
-
-
-<template name='genotoxRow'>
-  <td>
-    {{#if userCanEdit}}
-      <div class="rowOptions btn-group pull-right">
-        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-          <span class="caret" title="Editing options"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li>
-            <a href="#" id="show-edit">
-              <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-          <li>
-            <a href="#" id="clone-content">
-              <span class="fa fa-copy"></span> Create a clone</a></li>
-          <li>
-            <a href="#" id="move-content">
-              <span class="fa fa-arrow-circle-right"></span> Move to a different table</a></li>
-          <li>
-              <a href="#" id="toggle-hidden">{{#if isHidden}}
-                <span class="glyphicon glyphicon-plus"></span> Show row
-                {{else}}<span class="glyphicon glyphicon-minus"></span> Hide row
-                {{/if}}</a></li>
-        </ul>
-      </div>
-    {{/if}}
-    {{qaMark isQA}}
-    {{>printReference id=referenceID}}<br>
-    {{{this.getHtmlCol1}}}
-  </td>
-  <td>
-    {{{this.getHtmlCol2}}}
-  </td>
-  <td>
-    {{{this.getHtmlCol3}}}
-  </td>
-  <td>
-    {{{this.getHtmlCol4}}}
-  </td>
-  <td>
-    {{{this.getHtmlCol5}}}
-  </td>
-  <td>
-    {{{this.getHtmlCol6}}}
-  </td>
-  <td>
-    {{{this.getHtmlCol7}}}
-  </td>
-  <td class="dragHandle dhOuter" style="display: none" title="Drag to re-order rows"></td>
-</template>
-
-
 <template name="genotoxForm">
   <form id="mainForm" role="form" class="editForm">
     <legend>Genotoxicity evidence{{> objectLastUpdated}}{{>formLegendPulldown}}</legend>
@@ -142,13 +5,16 @@
 
     <!-- First row. Reference, data-type, and agent -->
     <div class="form-group row">
-      <div class="col-xs-4">
+      <div class="col-xs-3">
         {{> referenceSingleSelect}}
       </div>
-      <div class="col-xs-4">
+      <div class="col-xs-3">
+        {{> referenceMultiSelect label="Additional references" name="additionalReferences" values=additionalReferences }}
+      </div>
+      <div class="col-xs-3">
         {{> fldSelectSingle name="dataClass" value=dataClass }}
       </div>
-      <div class="col-xs-4">
+      <div class="col-xs-3">
         {{> fldInputTypeahead name="agent" value=agent }}
       </div>
     </div>
@@ -205,16 +71,19 @@
 
     <!-- Third row. Test class. -->
     <div class="form-group row">
-      <div class="col-xs-3">
+      <div class="col-xs-2">
         {{> fldSelectSingle name="endpoint" value=endpoint }}
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-2">
         {{> fldSelectSingle name="endpointTest" value=endpointTest }}
       </div>
-      <div class="col-xs-2 ani_vivo">
+      <div class="col-xs-2">
+        {{> fldInputText name="endpointTestAssay" value=endpointTestAssay }}
+      </div>
+      <div class="col-xs-3 ani_vivo">
         {{> fldInputTypeahead name="dosingRoute" value=dosingRoute }}
       </div>
-      <div class="col-xs-3 vitro">
+      <div class="col-xs-2 vitro">
         {{> fldCheckbox name="dualResult" value=dualResult }}
       </div>
       <div class="col-xs-3 expvivo">

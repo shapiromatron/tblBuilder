@@ -97,7 +97,11 @@ var instanceMethods = {
             return txt;
         },
         getHtmlCol3: function() {
-            return this.endpoint + '/<br>' + this.endpointTest;
+            let txt = `${this.endpoint}/<br>${this.endpointTest}`;
+            if (this.endpointTestAssay){
+                txt += ` (${this.endpointTestAssay})`;
+            }
+            return txt;
         },
         getHtmlCol4: function(){
             var txt;

@@ -1,4 +1,5 @@
-import './admin';
+import './user';
+import './ftp';
 import './autocomplete';
 import './excel';
 import './references';

@@ -29,8 +29,6 @@ let instanceMethods = {
                 reference: Reference.findOne({_id: this.referenceID}),
                 isCaseControl: this.isCaseControl(),
                 wrd_notes: this.notes || '',
-                wrd_responseRateCase: getPercentOrText(this.responseRateCase),
-                wrd_responseRateControl: getPercentOrText(this.responseRateControl),
             });
 
             if (_.isUndefined(this.reference)){
@@ -96,8 +94,8 @@ let instanceMethods = {
                     'Location', 'Enrollment or follow-up dates', 'Population/eligibility characteristics',
                     'Other population descriptors', 'Outcome Data Source', 'Population size',
                     'Loss to follow-up (%)', 'Type of referent group', 'Population cases',
-                    'Response rate cases', 'Source cases', 'Population controls',
-                    'Response rate controls', 'Source controls', 'Exposure assessment type',
+                    'Source cases', 'Population controls',
+                    'Source controls', 'Exposure assessment type',
                     'Exposure assessment notes',
                     'Principal strengths', 'Principal limitations', 'General notes',
 
@@ -121,9 +119,9 @@ let instanceMethods = {
                         v.eligibilityCriteria, v.populationDescription,
                         v.outcomeDataSource, v.populationSize,
                         v.lossToFollowUp, v.referentGroup,
-                        v.populationSizeCase, v.responseRateCase,
+                        v.populationSizeCase,
                         v.sourceCase, v.populationSizeControl,
-                        v.responseRateControl, v.sourceControl,
+                        v.sourceControl,
                         v.exposureAssessmentType,
                         v.exposureAssessmentNotes,
                         v.strengths, v.limitations, v.notes,

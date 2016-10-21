@@ -1,0 +1,47 @@
+<template name="ftpLinksMain">
+    {{#if Template.subscriptionsReady}}
+        {{#contentContainer}}
+            {{>ftpForm}}
+        {{/contentContainer}}
+    {{else}}
+        {{> isLoading}}
+    {{/if }}
+</template>
+
+
+<template name="ftpForm">
+    <form>
+        <legend>Download FTP summary</legend>
+
+        <p class='help-block'>
+            This is a utility tool that returns a list of files at a particular
+            FTP address which can be entered by the users.
+        </p>
+
+        <div class='row'>
+            <div class="col-md-6 form-group">
+                <label for="exampleInputEmail1">FTP address</label>
+                <input type="text" class="form-control"
+                    id="address" name="address" value="filedepot.iarc.fr">
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="exampleInputEmail1">FTP path</label>
+                <input type="text" class="form-control"
+                    id="path" name="path" value="/">
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="exampleInputEmail1">Username</label>
+                <input type="text" class="form-control"
+                    id="user" name="user" placeholder="mono117-ro">
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control"
+                    id="password" name="password" placeholder="*******">
+            </div>
+        </div>
+
+        <button id='submit' type="button" class="btn btn-primary">
+            <i class='fa fa-download'></i> Download XLSX</button>
+    </form>
+</template>

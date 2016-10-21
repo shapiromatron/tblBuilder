@@ -60,7 +60,7 @@
 
 
 <template name='epiDescriptiveRow'>
-  <td>
+  <td class="quickEdit">
     {{#if userCanEdit}}
       <div class="rowOptions btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -89,6 +89,7 @@
         </ul>
       </div>
     {{/if}}
+    {{{showSortIdx sortIdx}}}
     {{qaMark isQA}}
     {{>printReference id=referenceID}}<br>
     {{location}}<br>
@@ -144,7 +145,7 @@
                   {{> organSiteTd .. }}
                 {{/unless}}
               {{/if}}
-              <td>{{value.exposureCategory}}{{#if value.inTrendTest}}<sup>*</sup>{{/if}}</td>
+              <td>{{{../printHtmlStratum index}}}{{value.exposureCategory}}{{#if value.inTrendTest}}<sup>*</sup>{{/if}}</td>
               <td>{{value.numberExposed}}</td>
               <td>{{#if showPlots}}
                     {{> forestPlot self=value parent=.. }}
@@ -172,7 +173,7 @@
 
 
 <template name="organSiteTd">
-  <td rowspan="{{getRowspan}}">
+  <td rowspan="{{getRowspan}}" class="quickEdit">
     {{#if userCanEdit}}
       <div class="rowOptions btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle"
@@ -193,6 +194,7 @@
         </ul>
       </div>
     {{/if}}
+    {{{showSortIdx sortIdx}}}
     {{qaMark isQA}}{{this.printOrganSite}}
   </td>
 </template>

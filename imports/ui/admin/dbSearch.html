@@ -1,0 +1,10 @@
+<template name="dbSearchMain">
+    {{#if Template.subscriptionsReady}}
+        {{#contentContainer}}
+            <h1>Database search</h1>
+            <img src="/static/construction.gif">
+        {{/contentContainer}}
+    {{else}}
+        {{> isLoading}}
+    {{/if }}
+</template>

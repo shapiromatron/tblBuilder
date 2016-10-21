@@ -9,12 +9,13 @@
         {{> referenceSingleSelect}}
       </div>
       <div class="col-xs-3">
+        {{> referenceMultiSelect label="Additional references" name="additionalReferences" values=additionalReferences }}
+      </div>
+      <div class="col-xs-3">
         {{> fldSelectSingle name="studyDesign" value=studyDesign }}
       </div>
       <div class="col-xs-3">
         {{> fldInputText name="location" value=location }}
-      </div>
-      <div class="col-xs-3">
         {{> fldInputText name="enrollmentDates" value=enrollmentDates }}
       </div>
     </div>
@@ -26,13 +27,10 @@
         <div class="row">
           <div class="col-xs-1">
           </div>
-          <div class="col-xs-2">
+          <div class="col-xs-3">
             {{>fldLabel name="populationSizeCase"}}
           </div>
-          <div class="col-xs-2">
-            {{>fldLabel name="responseRateCase"}}
-          </div>
-          <div class="col-xs-4">
+          <div class="col-xs-5">
             {{>fldLabel name="sourceCase"}}
           </div>
           <div class="col-xs-3 cohortOnly">
@@ -46,17 +44,12 @@
             <strong>Cases</strong><br><br><br>
             <strong>Controls</strong>
           </div>
-          <div class="col-xs-2">
+          <div class="col-xs-3">
             {{> fldInputText name="populationSizeCase" value=populationSizeCase hideLabel=true }}
             <br>
             {{> fldInputText name="populationSizeControl" value=populationSizeControl hideLabel=true }}
           </div>
-          <div class="col-xs-2">
-            {{> fldInputText name="responseRateCase" value=responseRateCase hideLabel=true }}
-            <br>
-            {{> fldInputText name="responseRateControl" value=responseRateControl hideLabel=true }}
-          </div>
-          <div class="col-xs-4">
+          <div class="col-xs-5">
             {{> fldTextArea name="sourceCase" value=sourceCase hideLabel=true }}
             {{> fldTextArea name="sourceControl" value=sourceControl hideLabel=true }}
           </div>
@@ -131,7 +124,7 @@
 
 
 <template name='epiOrganSiteCategories'>
-  <div class="btn-group pull-right">
+  <div class="btn-group pull-right showEditOnly">
     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
       <i class="fa fa-eye"></i> View all sites <span class="caret" title="View all sites"></span>
     </button>
@@ -163,16 +156,16 @@
             <!-- First row -->
             <div class="form-group row">
               <div class="col-xs-4">
-                {{> fldInputTypeahead name="organSiteCategory" value=organSiteCategory nested=true }}
-                {{> fldInputTypeahead name="organSite" value=organSite nested=true }}
+                {{> fldInputTypeahead name="organSiteCategory" value=organSiteCategory nested=true tabindex="1"}}
+                {{> fldInputTypeahead name="organSite" value=organSite nested=true  tabindex="2"}}
               </div>
               <div class="col-xs-4">
-                {{> fldInputTypeahead name="effectUnits" value=effectUnits nested=true }}
-                {{> fldInputTypeahead name="stratum" value=stratum nested=true }}
+                {{> fldInputTypeahead name="effectUnits" value=effectUnits nested=true  tabindex="3"}}
+                {{> fldInputTypeahead name="stratum" value=stratum nested=true  tabindex="4"}}
               </div>
               <div class="col-xs-4">
-                {{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true }}
-                {{> fldInputText name="trendTest" value=trendTest nested=true }}
+                {{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true  tabindex="5"}}
+                {{> fldInputText name="trendTest" value=trendTest nested=true  tabindex="6"}}
               </div>
             </div>
 
@@ -192,8 +185,10 @@
                 {{#with getRiskEstimateSchema}}
                 <th style="vertical-align: middle;" class="text-center">
                   <button type="button"
-                          class="btn btn-xs btn-info"
-                          id="inner-addRiskRow" title="Add row">
+                          class="btn btn-xs btn-info showEditOnly"
+                          id="inner-addRiskRow"
+                          title="Add row"
+                          tabindex="99">
                     <span class="glyphicon glyphicon-plus"></span>
                   </button>
                 </th>
@@ -234,13 +229,13 @@
             <!-- Third row -->
             <div class="form-group row">
               <div class="col-xs-4">
-                {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true }}
+                {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true tabindex="200"}}
               </div>
               <div class="col-xs-4">
-                {{> fldTextArea name="covariatesControlledText" value=covariatesControlledText nested=true }}
+                {{> fldTextArea name="covariatesControlledText" value=covariatesControlledText nested=true tabindex="201"}}
               </div>
               <div class="col-xs-4">
-                {{> fldTextArea name="notes" value=notes nested=true }}
+                {{> fldTextArea name="notes" value=notes nested=true tabindex="202"}}
               </div>
             </div>
 
@@ -260,48 +255,51 @@
   <tr>
     <td class="text-center" style="vertical-align: middle;">
       <button type="button"
-              class="btn btn-xs btn-default"
+              class="btn btn-xs btn-default showEditOnly"
               id="moveUp"
-              title="Move up">
+              title="Move up"
+              tabindex="100">
         <span class="fa fa-long-arrow-up"></span>
       </button>
       <button type="button"
-              class="btn btn-xs btn-default"
+              class="btn btn-xs btn-default showEditOnly"
               id="moveDown"
-              title="Move down">
+              title="Move down"
+              tabindex="101">
         <span class="fa fa-long-arrow-down"></span>
       </button>
       <button type="button"
-              class="btn btn-xs btn-danger"
+              class="btn btn-xs btn-danger showEditOnly"
               id="epiRiskEstimate-delete"
-              title="Delete row">
+              title="Delete row"
+              tabindex="102">
         <span class="fa fa-trash"></span>
       </button>
     </td>
     <td>
-      {{> fldInputText name="exposureCategory" value=exposureCategory nested=true hideLabel=true}}
+      {{> fldInputText name="exposureCategory" value=exposureCategory nested=true hideLabel=true tabindex="103"}}
     </td>
     <td>
-      {{> fldInputText name="numberExposed" value=numberExposed nested=true hideLabel=true}}
+      {{> fldInputText name="numberExposed" value=numberExposed nested=true hideLabel=true tabindex="104"}}
     </td>
     <td>
-      {{> fldInputFloat name="riskMid" value=riskMid nested=true hideLabel=true}}
+      {{> fldInputFloat name="riskMid" value=riskMid nested=true hideLabel=true tabindex="105"}}
     </td>
     <td>
-      {{> fldInputFloat name="riskLow" value=riskLow nested=true hideLabel=true}}
+      {{> fldInputFloat name="riskLow" value=riskLow nested=true hideLabel=true tabindex="106"}}
     </td>
     <td>
-      {{> fldInputFloat name="riskHigh" value=riskHigh nested=true hideLabel=true}}
+      {{> fldInputFloat name="riskHigh" value=riskHigh nested=true hideLabel=true tabindex="107"}}
     </td>
     <td>
-      {{> fldCheckbox name="riskEstimated" value=riskEstimated nested=true hideLabel=true }}
+      {{> fldCheckbox name="riskEstimated" value=riskEstimated nested=true hideLabel=true  tabindex="108"}}
     </td>
     <td>
-      {{> fldCheckbox name="inTrendTest" value=inTrendTest nested=true hideLabel=true }}
+      {{> fldCheckbox name="inTrendTest" value=inTrendTest nested=true hideLabel=true  tabindex="109"}}
     </td>
     {{# if isNTP}}
     <td>
-      {{> fldCheckbox name="showInPlot" value=showInPlot nested=true hideLabel=true }}
+      {{> fldCheckbox name="showInPlot" value=showInPlot nested=true hideLabel=true  tabindex="110"}}
     </td>
     {{/if }}
   </tr>

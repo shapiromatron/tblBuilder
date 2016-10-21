@@ -16,6 +16,9 @@ import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
 import NtpAnimalEndpointEvidence from '/imports/collections/ntpAnimalEndpointEvidence';
 import MechanisticEvidence from '/imports/collections/mechanistic';
 
+import {
+    getMaximumSortIndex,
+} from '/imports/api/server/utilities';
 
 var addTimestampAndUserID = function(userId, doc) {
         var now =  new Date();
@@ -28,21 +31,13 @@ var addTimestampAndUserID = function(userId, doc) {
         doc.timestampQA = null;
         doc.user_id_QA = null;
     },
-    getNewIdx = function(Cls, tbl_id) {
-        // auto-incrementing table index, starting at 1
-        var max = 0,
-            found = Cls.findOne(
-              {tbl_id: tbl_id},
-              {sort: {sortIdx: -1}}
-            );
-        if (found) max = found.sortIdx;
-        return max + 1;
-    },
     addTblContentInsertion = function(userId, doc, Cls){
         addTimestampAndUserID(userId, doc);
         addQAmarks(doc);
         doc.isHidden = false;
-        if(doc.sortIdx === undefined) doc.sortIdx = getNewIdx(Cls, doc.tbl_id);
+        if(!doc.sortIdx){
+            doc.sortIdx = getMaximumSortIndex(Cls, doc.tbl_id);
+        }
         return true;
     },
     addLastUpdated = function (userId, doc, fieldNames, modifier) {

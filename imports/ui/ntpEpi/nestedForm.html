@@ -36,15 +36,15 @@
               <div class="panel-body form-group row">
 
                 <div class="col-xs-4">
-                  {{> fldInputTypeahead name="organSiteCategory" value=organSiteCategory nested=true }}
-                  {{> fldInputTypeahead name="organSite" value=organSite nested=true }}
+                  {{> fldInputTypeahead name="organSiteCategory" value=organSiteCategory nested=true tabindex=1}}
+                  {{> fldInputTypeahead name="organSite" value=organSite nested=true  tabindex=2}}
                 </div>
                 <div class="col-xs-4">
-                  {{> fldInputTypeahead name="effectUnits" value=effectUnits nested=true }}
-                  {{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true }}
+                  {{> fldInputTypeahead name="effectUnits" value=effectUnits nested=true tabindex=3}}
+                  {{> fldInputTypeahead name="effectMeasure" value=effectMeasure nested=true tabindex=4}}
                 </div>
                 <div class="col-xs-4">
-                  {{> fldInputText name="trendTest" value=trendTest nested=true }}
+                  {{> fldInputText name="trendTest" value=trendTest nested=true  tabindex=5}}
                 </div>
 
               </div>
@@ -77,7 +77,8 @@
                     <th style="vertical-align: middle;" class="text-center">
                       <button type="button"
                               class="btn btn-xs btn-info"
-                              id="inner-addRiskRow" title="Add row">
+                              id="inner-addRiskRow" title="Add row"
+                              tabindex="99">
                         <span class="glyphicon glyphicon-plus"></span>
                       </button>
                     </th>
@@ -130,11 +131,11 @@
 
                 <div class="row">
                   <div class="col-xs-4">
-                    {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true }}
+                    {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true  tabindex=200}}
                   </div>
 
                   <div class="col-xs-8">
-                    {{> fldTextArea name="otherVariables" value=otherVariables nested=true }}
+                    {{> fldTextArea name="otherVariables" value=otherVariables nested=true  tabindex=201}}
                   </div>
                 </div>
 

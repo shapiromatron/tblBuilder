@@ -1,5 +1,6 @@
 import './nav';
 import './auth';
+import './messages';
 import './accounts';
 import './admin';
 import './utils';

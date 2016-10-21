@@ -4,6 +4,10 @@ import _ from 'underscore';
 
 import tblBuilderCollections from '/imports/collections';
 
+import {
+    getMaximumSortIndex,
+} from '/imports/api/server/utilities';
+
 
 Meteor.methods({
     saveSortOrder: function(key, ids) {
@@ -15,5 +19,9 @@ Meteor.methods({
             Collection.update(_id, {$set: {sortIdx: i+1}});
         });
         return true;
+    },
+    getMaximumTableSortIndex(cls_name, tbl_id){
+        let Cls = tblBuilderCollections.evidenceLookup[cls_name].collection;
+        return getMaximumSortIndex(Cls, tbl_id);
     },
 });

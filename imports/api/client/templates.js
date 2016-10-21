@@ -5,7 +5,6 @@ import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
 
 import _ from 'underscore';
-import d3 from 'd3';
 
 import tblBuilderCollections from '/imports/collections';
 import {
@@ -13,10 +12,10 @@ import {
     activateInput,
     updateValues,
     toggleQA,
+    getNextSortIdx,
 } from '/imports/api/client/utilities';
 import {
     newValues,
-    numericSort,
 } from '/imports/api/utilities';
 
 
@@ -34,18 +33,6 @@ let getScrollPosition = function(){
             Session.get('windowScrollY')
         );
     },
-    getNextSortIdx = function(currentIdx, Collection){
-        var nextIdx = _.chain(Collection.find().fetch())
-                    .pluck('sortIdx')
-                    .filter((d)=> d > currentIdx)
-                    .sort(numericSort)
-                    .first()
-                    .value();
-
-        return (nextIdx)?
-            d3.mean([currentIdx, nextIdx]):
-            Math.ceil(currentIdx) + 1;
-    },
     cloneObject = function(oldObj, Collection, NestedCollection) {
         var newObj, new_parent_id, ref, newNest;
 
@@ -54,7 +41,9 @@ let getScrollPosition = function(){
         delete newObj._id;
 
         // increment sort-index
-        if (newObj.sortIdx) newObj.sortIdx = getNextSortIdx(newObj.sortIdx, Collection);
+        if (newObj.sortIdx){
+            newObj.sortIdx = getNextSortIdx(newObj.sortIdx, Collection);
+        }
 
         // insert, getting new parent-ID
         new_parent_id = Collection.insert(newObj);
@@ -198,12 +187,16 @@ export const abstractRowHelpers = {
 };
 
 
+let toggleEdit = function(_id){
+    getScrollPosition();
+    Session.set('evidenceEditingId', _id);
+    Tracker.flush();
+    activateInput($('input[name=referenceID]')[0]);
+};
+
 export const abstractRowEvents = {
     'click #show-edit': function(evt, tmpl) {
-        getScrollPosition();
-        Session.set('evidenceEditingId', this._id);
-        Tracker.flush();
-        activateInput($('input[name=referenceID]')[0]);
+        toggleEdit(this._id);
     },
     'click #toggle-hidden': function(evt, tmpl) {
         var key = Session.get('evidenceType'),
@@ -219,6 +212,11 @@ export const abstractRowEvents = {
     'click #clone-content': function(evt, tmpl) {
         var ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')];
         cloneObject(this, ET.collection, ET.nested_collection);
+    },
+    'click .quickEdit': function(evt, tmpl){
+        if (evt.shiftKey) {
+            toggleEdit(this._id);
+        }
     },
 };
 
@@ -307,7 +305,11 @@ export const abstractFormEvents = {
         var key = Session.get('evidenceType'),
             collection_name = tblBuilderCollections.evidenceLookup[key].collection_name;
         Meteor.call('adminToggleQAd', this._id, collection_name, function(err, response) {
-            if (response) toggleQA(tmpl, response.QAd);
+            if (response){
+                toggleQA(tmpl, response.QAd);
+                Session.set('evidenceEditingId', null);
+                $(tmpl.firstNode).trigger('closeForm');
+            }
         });
     },
     'click #addNestedResult': createNewNestedModal,
@@ -321,15 +323,19 @@ export const abstractNestedTableHelpers = {
 };
 
 
+let toggleInnerEdit = function(_id){
+    let div = document.getElementById('modalHolder'),
+        key = Session.get('evidenceType'),
+        NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
+
+    getScrollPosition();
+    Session.set('nestedEvidenceEditingId', _id);
+    Blaze.renderWithData(NestedTemplate, {}, div);
+};
+
 export const abstractNestedTableEvents = {
     'click #inner-show-edit': function(evt, tmpl) {
-        var div = document.getElementById('modalHolder'),
-            key = Session.get('evidenceType'),
-            NestedTemplate = tblBuilderCollections.evidenceLookup[key].nested_template;
-
-        getScrollPosition();
-        Session.set('nestedEvidenceEditingId', tmpl.data._id);
-        return Blaze.renderWithData(NestedTemplate, {}, div);
+        toggleInnerEdit(tmpl.data._id);
     },
     'click #inner-toggle-hidden': function(evt, tmpl) {
         var key = Session.get('evidenceType'),
@@ -342,6 +348,11 @@ export const abstractNestedTableEvents = {
         var data = tmpl.view.parentView.dataVar.curValue,
             ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')];
         return cloneObject(data, ET.nested_collection);
+    },
+    'click .quickEdit': function(evt, tmpl){
+        if (evt.shiftKey) {
+            toggleInnerEdit(tmpl.data._id);
+        }
     },
 };
 
@@ -429,7 +440,11 @@ export const abstractNestedFormEvents = {
         var key = Session.get('evidenceType'),
             nested_collection_name = tblBuilderCollections.evidenceLookup[key].nested_collection_name;
         Meteor.call('adminToggleQAd', this._id, nested_collection_name, function(err, response) {
-            if (response) toggleQA(tmpl, response.QAd);
+            if (response){
+                toggleQA(tmpl, response.QAd);
+                Session.set('nestedEvidenceEditingId', null);
+                removeNestedFormModal(tmpl);
+            }
         });
     },
 };

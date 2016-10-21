@@ -21,16 +21,30 @@ import GenotoxEvidence from '/imports/collections/genotox';
 import MechanisticEvidence from '/imports/collections/mechanistic';
 
 
-var userCanView = function(tbl, userId) {
-    // User-can view permissions check on a table-level basis.
-    if (isStaffOrHigher(userId)) return true;
+let userCanView = function(tbl, userId) {
+        // User-can view permissions check on a table-level basis.
+        if (isStaffOrHigher(userId)) return true;
 
-    if (tbl && userId) {
-        var valid_ids = _.pluck(tbl.user_roles, 'user_id');
-        return (userId === tbl.user_id) || (valid_ids.indexOf(userId) >= 0);
-    }
-    return false;
-};
+        if (tbl && userId) {
+            var valid_ids = _.pluck(tbl.user_roles, 'user_id');
+            return (userId === tbl.user_id) || (valid_ids.indexOf(userId) >= 0);
+        }
+        return false;
+    }, getReferenceIds = function(Coll, tbl_id){
+        // return unique ids for references
+        let ref_ids1 = _.pluck(Coll
+                .find({tbl_id}, {fields: {referenceID: 1}})
+                .fetch(), 'referenceID'),
+            ref_ids2 = _.chain(Coll.find({tbl_id}, {fields: {additionalReferences: 1}}).fetch())
+              .pluck('additionalReferences')
+              .flatten()
+              .value();
+
+        return _.chain([ref_ids1, ref_ids2])
+           .flatten()
+           .uniq()
+           .value();
+    };
 
 Meteor.publish('tables', function() {
     var options = {sort: [['volumeNumber', 'desc'], ['timestamp', 'desc']]};
@@ -55,9 +69,7 @@ Meteor.publish('epiDescriptive', function(tbl_id) {
         var tbl = Tables.findOne({_id: tbl_id}),
             ref_ids;
         if (userCanView(tbl, this.userId)) {
-            ref_ids = _.pluck(EpiDescriptive
-                .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
-                .fetch(), 'referenceID');
+            ref_ids = getReferenceIds(EpiDescriptive, tbl_id);
             return [
                 EpiDescriptive.find({tbl_id: tbl_id}),
                 EpiResult.find({tbl_id: tbl_id}),
@@ -72,20 +84,9 @@ Meteor.publish('ntpEpiDescriptive', function(tbl_id) {
     this.autorun(function () {
         check(tbl_id, String);
         var tbl = Tables.findOne({_id: tbl_id}),
-            ref_ids1, ref_ids2, ref_ids;
+            ref_ids;
         if (userCanView(tbl, this.userId)) {
-            ref_ids1 = _.pluck(NtpEpiDescriptive
-                .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
-                .fetch(), 'referenceID');
-            ref_ids2 = _.chain(NtpEpiDescriptive.find(
-                {tbl_id: tbl_id}, {fields: {additionalReferences: 1}}).fetch())
-              .pluck('additionalReferences')
-              .flatten()
-              .value();
-            ref_ids = _.chain([ref_ids1, ref_ids2])
-                       .flatten()
-                       .uniq()
-                       .value();
+            ref_ids = getReferenceIds(NtpEpiDescriptive, tbl_id);
             return [
                 NtpEpiDescriptive.find({tbl_id: tbl_id}),
                 NtpEpiResult.find({tbl_id: tbl_id}),
@@ -100,20 +101,9 @@ Meteor.publish('ntpEpiConfounder', function(tbl_id) {
     this.autorun(function () {
         check(tbl_id, String);
         var tbl = Tables.findOne({_id: tbl_id}),
-            ref_ids1, ref_ids2, ref_ids;
+            ref_ids;
         if (userCanView(tbl, this.userId)) {
-            ref_ids1 = _.pluck(NtpEpiDescriptive
-                .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
-                .fetch(), 'referenceID');
-            ref_ids2 = _.chain(NtpEpiDescriptive.find(
-                {tbl_id: tbl_id}, {fields: {additionalReferences: 1}}).fetch())
-              .pluck('additionalReferences')
-              .flatten()
-              .value();
-            ref_ids = _.chain([ref_ids1, ref_ids2])
-                       .flatten()
-                       .uniq()
-                       .value();
+            ref_ids = getReferenceIds(NtpEpiDescriptive, tbl_id);
             return [
                 NtpEpiDescriptive.find({tbl_id: tbl_id}),
                 NtpEpiConfounder.find({tbl_id: tbl_id}),
@@ -156,11 +146,7 @@ Meteor.publish('mechanisticEvidence', function(tbl_id) {
         var tbl = Tables.findOne({_id: tbl_id}),
             ref_ids;
         if (userCanView(tbl, this.userId)) {
-            ref_ids = _.chain(MechanisticEvidence.find(
-                {tbl_id: tbl_id}, {fields: {references: 1}}).fetch())
-              .pluck('references')
-              .flatten()
-              .value();
+            ref_ids = getReferenceIds(MechanisticEvidence, tbl_id);
             return [
                 MechanisticEvidence.find({tbl_id: tbl_id}),
                 Reference.find({_id: {$in: ref_ids}}),
@@ -176,9 +162,7 @@ Meteor.publish('exposureEvidence', function(tbl_id) {
         var tbl = Tables.findOne({_id: tbl_id}),
             ref_ids;
         if (userCanView(tbl, this.userId)) {
-            ref_ids = _.pluck(ExposureEvidence
-                .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
-                .fetch(), 'referenceID');
+            ref_ids = getReferenceIds(ExposureEvidence, tbl_id);
             return [
                 ExposureEvidence.find({tbl_id: tbl_id}),
                 Reference.find({_id: {$in: ref_ids}}),
@@ -194,9 +178,7 @@ Meteor.publish('animalEvidence', function(tbl_id) {
         var tbl = Tables.findOne({_id: tbl_id}),
             ref_ids;
         if (userCanView(tbl, this.userId)) {
-            ref_ids = _.pluck(AnimalEvidence
-                .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
-                .fetch(), 'referenceID');
+            ref_ids = getReferenceIds(AnimalEvidence, tbl_id);
             return [
                 AnimalEvidence.find({tbl_id: tbl_id}),
                 AnimalEndpointEvidence.find({tbl_id: tbl_id}),
@@ -210,25 +192,12 @@ Meteor.publish('animalEvidence', function(tbl_id) {
 Meteor.publish('ntpAnimalEvidence', function(tbl_id) {
     this.autorun(function () {
         check(tbl_id, String);
-        var tbl = Tables.findOne({_id: tbl_id}),
-            ref_ids, ref_ids1, ref_ids2;
+        var tbl = Tables.findOne({_id: tbl_id}), ref_ids;
         if (userCanView(tbl, this.userId)) {
-            ref_ids1 = _.pluck(NtpAnimalEvidence
-                .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
-                .fetch(), 'referenceID');
-            ref_ids2 = _.chain(NtpAnimalEvidence.find(
-                {tbl_id: tbl_id}, {fields: {additionalReferences: 1}}).fetch())
-              .pluck('additionalReferences')
-              .flatten()
-              .value();
-            ref_ids = _.chain([ref_ids1, ref_ids2])
-                       .flatten()
-                       .uniq()
-                       .value();
-
+            ref_ids = getReferenceIds(NtpAnimalEvidence, tbl_id);
             return [
-                NtpAnimalEvidence.find({tbl_id: tbl_id}),
-                NtpAnimalEndpointEvidence.find({tbl_id: tbl_id}),
+                NtpAnimalEvidence.find({tbl_id}),
+                NtpAnimalEndpointEvidence.find({tbl_id}),
                 Reference.find({_id: {$in: ref_ids}}),
             ];
         }
@@ -242,9 +211,7 @@ Meteor.publish('genotoxEvidence', function(tbl_id) {
         var tbl = Tables.findOne({_id: tbl_id}),
             ref_ids;
         if (userCanView(tbl, this.userId)) {
-            ref_ids = _.pluck(GenotoxEvidence
-                .find({tbl_id: tbl_id}, {fields: {referenceID: 1}})
-                .fetch(), 'referenceID');
+            ref_ids = getReferenceIds(GenotoxEvidence, tbl_id);
             return [
                 GenotoxEvidence.find({tbl_id: tbl_id}),
                 Reference.find({_id: {$in: ref_ids}}),

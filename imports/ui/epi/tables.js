@@ -63,8 +63,9 @@ Template.epiDescriptiveRow.helpers(_.extend({
             html += '' + this.exposureAssessmentType;
         }
 
-        if (this.exposureAssessmentNotes != null) html += `; ${this.exposureAssessmentNotes}`;
-        if (this.outcomeDataSource != null) html += `<br>${this.outcomeDataSource}`;
+        if (this.exposureAssessmentNotes != null){
+            html += `; ${this.exposureAssessmentNotes}`;
+        }
 
         return html;
     },

@@ -1,12 +1,7 @@
-<template name="adminNav">
-  <li><a href="{{pathFor 'adminMain'}}">Admin</a></li>
-</template>
-
-
-<template name="adminMain">
+<template name="manageUsersMain">
   {{#if Template.subscriptionsReady}}
     {{#contentContainer}}
-      {{> admin}}
+        {{> manageUsers}}
     {{/contentContainer}}
   {{else}}
     {{> isLoading}}
@@ -14,9 +9,9 @@
 </template>
 
 
-<template name="admin">
+<template name="manageUsers">
   <div class="row">
-    <h1>User Administration
+    <h1>User administration
       {{#actionBtn}}
         {{#unless adminUserShowNew}}
           <li>
@@ -27,8 +22,6 @@
         {{/unless}}
       {{/actionBtn}}
     </h1>
-
-    <div id="messages"></div>
 
     {{#if adminUserShowNew}}
       {{> adminUserRowForm isNew=true}}

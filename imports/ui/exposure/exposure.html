@@ -85,7 +85,7 @@
 
 
 <template name='exposureRow'>
-  <td>
+  <td class="quickEdit">
     {{#if userCanEdit}}
       <div class="rowOptions btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -109,6 +109,7 @@
         </ul>
       </div>
     {{/if}}
+    {{{showSortIdx sortIdx}}}
     {{qaMark isQA}}
     {{>printReference id=referenceID}}<br>
     <span class="text-muted">{{exposureScenario}}</span><br>
@@ -157,6 +158,7 @@
     <div class="form-group row">
       <div class="col-xs-3">
         {{> referenceSingleSelect}}
+        {{> referenceMultiSelect label="Additional references" name="additionalReferences" values=additionalReferences }}
       </div>
       <div class="col-xs-3">
         {{> fldSelectSingle name="exposureScenario" value=exposureScenario }}<br>

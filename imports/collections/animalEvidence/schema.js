@@ -11,6 +11,12 @@ export default {
         label: 'Reference',
         type: SimpleSchema.RegEx.Id,
     },
+    additionalReferences: {
+        label: 'References',
+        type: [SimpleSchema.RegEx.Id],
+        minCount: 0,
+        popoverText: 'References of earlier updates or related publications',
+    },
     studyDesign: {
         label: 'Data class',
         type: String,
@@ -51,7 +57,7 @@ export default {
         label: 'Purity',
         type: String,
         min: 1,
-        popoverText: 'As reported',
+        popoverText: 'As reported; for mixtures use NR (not reported)',
         typeaheadMethod: 'searchAnimalPurity',
         placeholderText: '>99.9%, technical grade',
     },
@@ -89,7 +95,7 @@ export default {
         label: 'Dosing regimen',
         type: String,
         min: 1,
-        popoverText: 'Dosing regimen of the agent tested, and (if any) information on any co-exposure or modifying factors (e.g., NDEA, TPA, Aflatoxin B1, UV) including route, concentration and dosing regimen',
+        popoverText: 'Dosing regimen of the agent tested (i.e., duration and frequency <b style="color: red;">[Do not enter the concentrations of the agent tested here]</b>), and (if any) information on any co-exposure or modifying factors (e.g., NDEA, TPA, Aflatoxin B1, UV) including route, concentration and dosing regimen',
         placeholderText: '2x/d for 103 wk; 2x/wk for 20 mo',
     },
     strengths: {

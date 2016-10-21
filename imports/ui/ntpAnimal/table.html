@@ -82,7 +82,7 @@
 
 
 <template name="ntpAnimalEvidenceRow">
-  <td>
+  <td class="quickEdit">
     {{#if userCanEdit}}
       <div class="rowOptions btn-group pull-right">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -111,6 +111,7 @@
         </ul>
       </div>
     {{/if}}
+    {{{showSortIdx sortIdx}}}
     {{qaMark isQA}}
     <strong>{{studyDesign}}</strong><br>
     <strong>{{species}}</strong>, {{strain}} ({{sex}})<br>
@@ -159,8 +160,9 @@
         </colgroup>
         <tbody>
           <tr>
-            <td>
+            <td class="quickEdit">
               {{> ntpAnimalEndpointEvidenceActions}}
+              {{{showSortIdx sortIdx}}}
               {{qaMark isQA}}
               <strong>{{tumourSite}}: {{histology}}</strong>
               {{incidenceText}}
