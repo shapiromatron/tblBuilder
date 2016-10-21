@@ -191,15 +191,14 @@
         {{> referenceSingleSelect}}
       </div>
       <div class="col-xs-3">
-        {{> fldSelectSingle name="studyDesign" value=studyDesign }}
+        {{> referenceMultiSelect label="Additional references" name="additionalReferences" values=additionalReferences }}
       </div>
-      <div class="col-xs-2">
+      <div class="col-xs-3">
+        {{> fldSelectSingle name="studyDesign" value=studyDesign }}
         {{> fldInputTypeahead name="species" value=species }}
       </div>
-      <div class="col-xs-2">
-        {{> fldInputTypeahead name="strain" value=strain }}
-      </div>
-      <div class="col-xs-2">
+      <div class="col-xs-3">
+      {{> fldInputTypeahead name="strain" value=strain }}
         {{> fldSelectSingle name="sex" value=sex }}
       </div>
     </div>

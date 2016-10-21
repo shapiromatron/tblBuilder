@@ -9,12 +9,13 @@
         {{> referenceSingleSelect}}
       </div>
       <div class="col-xs-3">
+        {{> referenceMultiSelect label="Additional references" name="additionalReferences" values=additionalReferences }}
+      </div>
+      <div class="col-xs-3">
         {{> fldSelectSingle name="studyDesign" value=studyDesign }}
       </div>
       <div class="col-xs-3">
         {{> fldInputText name="location" value=location }}
-      </div>
-      <div class="col-xs-3">
         {{> fldInputText name="enrollmentDates" value=enrollmentDates }}
       </div>
     </div>
