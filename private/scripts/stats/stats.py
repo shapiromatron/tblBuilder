@@ -5,8 +5,7 @@ from rpy2.robjects import r, globalenv
 
 
 r_code = os.path.abspath(
-    os.path.join(
-        os.path.dirname(__file__), 'stats.R'))
+    os.path.join(os.path.dirname(__file__), 'stats.R'))
 
 
 def calculate_stats(data):

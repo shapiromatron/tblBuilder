@@ -15,12 +15,13 @@ let isStaffOrHigher = function(userId) {
             max = (found)? found.sortIdx: 0;
         return Math.ceil(max) + 1;
     },
-    getPyShell = function(scriptName){
-        return new PythonShell(scriptName, {
+    getPyShell = function(scriptName, opts){
+        opts = _.defaults(opts || {}, {
             mode: 'json',
             scriptPath: Meteor.settings.scripts_path,
             pythonPath: Meteor.settings.python_path,
         });
+        return new PythonShell(scriptName, opts);
     };
 
 

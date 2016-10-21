@@ -1,10 +1,13 @@
 import {Meteor} from 'meteor/meteor';
 import { check } from 'meteor/check';
-import PythonShell from 'python-shell';
 
 import _ from 'underscore';
 
 import AnimalEndpointEvidence from '/imports/collections/animalResult';
+
+import {
+    getPyShell,
+} from '/imports/api/server/utilities';
 
 
 var Future = Npm.require('fibers/future'),
@@ -38,12 +41,7 @@ var Future = Npm.require('fibers/future'),
     },
     runPython = function(obj, payload, fut) {
         var response,
-            options = {
-                mode: 'text',
-                scriptPath: Meteor.settings.scripts_path + '/stats',
-                pythonPath: Meteor.settings.python_path,
-            },
-            shell = new PythonShell('stats.py', options);
+            shell = getPyShell('stats/stats.py', {mode: 'text'});
 
         shell.on('message', (msg) => response = msg);
         shell.send(payload);
