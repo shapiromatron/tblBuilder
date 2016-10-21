@@ -74,7 +74,7 @@ mrt:sortable@0.0.4
 natestrauser:animate-css@3.5.1
 npm-bcrypt@0.9.1_1
 npm-mongo@2.2.10_1
-observe-sequence@1.0.12
+observe-sequence@1.0.13
 ordered-dict@1.0.8
 peerlibrary:assert@0.2.5
 peerlibrary:fiber-utils@0.6.0
