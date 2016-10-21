@@ -219,6 +219,12 @@ export default {
         min: 1,
         popoverText: 'As reported',
     },
+    endpointTestAssay: {
+        label: 'Endpoint test assay',
+        type: String,
+        optional: true,
+        popoverText: 'e.g. comet',
+    },
     dualResult: {
         label: 'Metabolic activation tested?',
         type: Boolean,

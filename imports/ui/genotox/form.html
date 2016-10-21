@@ -68,16 +68,19 @@
 
     <!-- Third row. Test class. -->
     <div class="form-group row">
-      <div class="col-xs-3">
+      <div class="col-xs-2">
         {{> fldSelectSingle name="endpoint" value=endpoint }}
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-2">
         {{> fldSelectSingle name="endpointTest" value=endpointTest }}
       </div>
-      <div class="col-xs-2 ani_vivo">
+      <div class="col-xs-2">
+        {{> fldInputText name="endpointTestAssay" value=endpointTestAssay }}
+      </div>
+      <div class="col-xs-3 ani_vivo">
         {{> fldInputTypeahead name="dosingRoute" value=dosingRoute }}
       </div>
-      <div class="col-xs-3 vitro">
+      <div class="col-xs-2 vitro">
         {{> fldCheckbox name="dualResult" value=dualResult }}
       </div>
       <div class="col-xs-3 expvivo">
