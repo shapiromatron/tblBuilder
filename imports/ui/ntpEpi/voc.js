@@ -129,20 +129,22 @@ Template.vocMatrixHeader.helpers({
 });
 
 
-let vocRowEvents = _.extend({
-    'click #clone-voc': (evt, tmpl) =>{
-        cloneObject(tmpl.data, NtpEpiConfounder);
-    },
-}, abstractRowEvents);
-
 Template.vocMatrixRow.helpers(_.extend({
     getText: function(vocName){
         let voc = _.findWhere(Template.instance().data.object.variablesOfConcern, {vocName});
         return (voc)? voc.vocRuleOutConfounding: '-';
     },
 }, abstractRowHelpers));
-Template.vocMatrixRow.events(vocRowEvents);
+Template.vocMatrixRow.events(_.extend({
+    'click #clone-voc': (evt, tmpl) => {
+        cloneObject(tmpl.data.object, NtpEpiConfounder);
+    },
+}, abstractRowEvents));
 
 
 Template.vocRow.helpers(abstractRowHelpers);
-Template.vocRow.events(vocRowEvents);
+Template.vocRow.events(_.extend({
+    'click #clone-voc': (evt, tmpl) => {
+        cloneObject(tmpl.data, NtpEpiConfounder);
+    },
+}, abstractRowEvents));
