@@ -5,6 +5,7 @@ import XLSX from 'xlsx';
 import Reference from '/imports/collections/reference';
 import ExposureEvidence from '/imports/collections/exposure';
 import AnimalEvidence from '/imports/collections/animalEvidence';
+import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
 import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
@@ -100,6 +101,9 @@ Meteor.methods({
     },
     animalEvidenceDownload: function(tbl_id) {
         return writeXLSX('Bioassay evidence', AnimalEvidence.tabular(tbl_id));
+    },
+    ntpAnimalEvidenceDownload: function(tbl_id) {
+        return writeXLSX('Bioassay evidence', NtpAnimalEvidence.tabular(tbl_id));
     },
     genotoxEvidenceDownload: function(tbl_id) {
         return writeXLSX('Genotoxicity evidence', GenotoxEvidence.tabular(tbl_id));

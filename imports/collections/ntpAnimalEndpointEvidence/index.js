@@ -10,6 +10,11 @@ import {
     newValues,
 } from '/imports/api/utilities';
 
+import {
+    tabularizeHeader,
+    tabularize,
+} from '/imports/utilities';
+
 
 let instanceMethods = {
         incidenceText: function(){
@@ -24,6 +29,21 @@ let instanceMethods = {
                 .compact()
                 .value();
             return (arr.length>0)? arr.join(', '): 'NR';
+        },
+        tabularRows: function(){
+
+            let res = tabularize(this, schema_extension,
+                                  NtpAnimalEndpointEvidence.tabularOmissions,
+                                  NtpAnimalEndpointEvidence.tabularOverrides);
+
+            let rows = this.endpointGroups.map((endpointGroup)=>{
+                let row = res.slice();  // shallow-copy
+                row.push.apply(row,
+                    tabularize(endpointGroup, endpointGroupSchema._schema, null, []));
+                return row;
+            });
+
+            return rows;
         },
     },
     classMethods = {
@@ -44,6 +64,17 @@ let instanceMethods = {
             });
         },
         endpointGroupSchema,
+        tabularOmissions: [
+            'endpointGroups',
+        ],
+        tabularOverrides: {
+        },
+        tabularHeader: function(){
+            let header = tabularizeHeader(schema_extension, 'Result ID',
+                                          NtpAnimalEndpointEvidence.tabularOmissions);
+            header.push.apply(header, tabularizeHeader(endpointGroupSchema._schema, null, []));
+            return header;
+        },
     },
     NtpAnimalEndpointEvidence = new Meteor.Collection('ntpAnimalEndpointEvidence', {
         transform: function (doc) {
