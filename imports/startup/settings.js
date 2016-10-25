@@ -11,6 +11,7 @@ SimpleSchema.extendOptions({
     typeaheadMethod: Match.Optional(String),
     placeholderText: Match.Optional(String),
     textAreaRows: Match.Optional(Match.Integer),
+    biasField: Match.Optional(Boolean),
 });
 
 _.extend(String.prototype, {

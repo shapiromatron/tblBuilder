@@ -132,6 +132,33 @@ let getPercentOrText = function(txt) {
         }
 
         return data;
+    },
+    biasWorksheetExport = function(objects, schema){
+        // get reference
+        _.each(objects, (d) => d.getReference());
+
+        // get header row, all bias fields in schema
+        let headerCols = _.chain(schema)
+            .each(function(v,k){v._name = k;})
+            .where({biasField: true})
+            .pluck('_name')
+            .value();
+
+        // add header reference details
+        headerCols.unshift.apply(headerCols, ['Reference ID', 'Reference name']);
+
+        // create reference ids
+        let nBlanks = headerCols.length - 2,
+            rows = _.map(objects, (d) => {
+                let rows = new Array(nBlanks + 1).join(' ').split('');
+                rows.unshift.apply(rows, [d.reference._id, d.reference.name]);
+                return rows;
+            });
+
+        // add header column to rows
+        rows.unshift(headerCols);
+
+        return rows;
     };
 
 
@@ -142,3 +169,4 @@ export { newValues };
 export { capitalizeFirst };
 export { tabularizeHeader };
 export { tabularize };
+export { biasWorksheetExport };

@@ -83,12 +83,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     selectionBiasDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     selectionBiasRationale: {
         label: 'Selection bias rationale',
@@ -96,6 +98,7 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     selectionDescriptionCases: {
         label: 'Selection description',
@@ -153,12 +156,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     exposureAssessmentDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     exposureAssessmentRationale: {
         label: 'Exposure assessment rationale',
@@ -166,6 +171,7 @@ export default {
         textAreaRows: 5,
         popoverText: ratingRationalePopoverText,
         optional: true,
+        biasField: true,
     },
     exposureMissingData: {
         label: 'Exposure missing data',
@@ -193,12 +199,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     outcomeAssessmentDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     outcomeAssessmentRationale: {
         label: 'Outcome assessment rationale',
@@ -206,6 +214,7 @@ export default {
         optional: true,
         textAreaRows: 3,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     // #4: Analysis/reporting
     analyticalMethods: {
@@ -220,12 +229,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     analysisDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     analysisRationale: {
         label: 'Analysis rationale',
@@ -233,18 +244,21 @@ export default {
         optional: true,
         textAreaRows: 4,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     selectiveReportingRating: {
         label: 'Selective reporting rating',
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     selectiveReportingDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     selectiveReportingRationale: {
         label: 'Selective reporting rationale',
@@ -252,6 +266,7 @@ export default {
         optional: true,
         textAreaRows: 4,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     // #5: Sensitivity
     exposureLevel: {
@@ -285,12 +300,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     sensitivityDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     sensitivityRatingRationale: {
         label: 'Sensitivity rating rationale',
@@ -298,6 +315,7 @@ export default {
         optional: true,
         textAreaRows: 4,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     // #6: Study judgment
     strengths: {
@@ -306,6 +324,7 @@ export default {
         optional: true,
         popoverText: ratingRationalePopoverText + '; note major strengths.',
         textAreaRows: 4,
+        biasField: true,
     },
     limitations: {
         label: 'Principal limitations',
@@ -313,11 +332,13 @@ export default {
         optional: true,
         popoverText: ratingRationalePopoverText + '; note major limitations.',
         textAreaRows: 4,
+        biasField: true,
     },
     overallUtility: {
         label: 'Overall utility',
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
 };

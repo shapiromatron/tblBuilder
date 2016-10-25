@@ -263,6 +263,20 @@ Template.optExcel.events({
 });
 
 
+Template.optExcelBiasWorksheet.events({
+    'click #downloadExcelBiasWorksheet': function(evt, tmpl) {
+        var tbl_id = Session.get('Tbl')._id,
+            evidenceType = Session.get('evidenceType'),
+            fn = 'bias.xlsx';
+
+        Meteor.call('downloadExcelBiasWorksheet', evidenceType, tbl_id, function(err, response) {
+            returnExcelFile(response, fn);
+        });
+    },
+});
+
+
+
 Template.selectList.helpers({
     isSelected: function(current, selected) {
         return current === selected;

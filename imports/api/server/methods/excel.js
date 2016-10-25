@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor';
 
 import XLSX from 'xlsx';
 
+import tblBuilderCollections from '/imports/collections';
 import Reference from '/imports/collections/reference';
 import ExposureEvidence from '/imports/collections/exposure';
 import AnimalEvidence from '/imports/collections/animalEvidence';
@@ -12,6 +13,9 @@ import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 import GenotoxEvidence from '/imports/collections/genotox';
 import MechanisticEvidence from '/imports/collections/mechanistic';
 
+import {
+    biasWorksheetExport,
+} from '/imports/utilities';
 
 var type = (function() {
         var classToType = {};
@@ -111,5 +115,12 @@ Meteor.methods({
     referenceExcelDownload: function(monographAgent) {
         var wsName = monographAgent + '-references';
         return writeXLSX(wsName, Reference.tabular(monographAgent));
+    },
+    downloadExcelBiasWorksheet: function(collType, tbl_id) {
+        let Coll = tblBuilderCollections.evidenceLookup[collType].collection,
+            schema = Coll.simpleSchema()._schema,
+            data = biasWorksheetExport(Coll.getTableEvidence(tbl_id), schema);
+
+        return writeXLSX('Bias', data);
     },
 });
