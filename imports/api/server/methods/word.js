@@ -3,6 +3,7 @@ import {Meteor} from 'meteor/meteor';
 import _ from 'underscore';
 
 import ExposureEvidence from '/imports/collections/exposure';
+import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
 import AnimalEvidence from '/imports/collections/animalEvidence';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import GenotoxEvidence from '/imports/collections/genotox';
@@ -45,6 +46,10 @@ var Future = Npm.require('fibers/future'),
             return EpiDescriptive.wordContextByResult([tbl_id]);
         case 'EpiHtmlTables':
             return EpiDescriptive.wordContextByDescription([tbl_id]);
+        case 'NtpAnimalHtmlTables':
+            return NtpAnimalEvidence.wordContext(tbl_id);
+        case 'NtpAnimalBias':
+            return NtpAnimalEvidence.wordContext(tbl_id);
         case 'AnimalHtmlTables':
             return AnimalEvidence.wordContext(tbl_id);
         case 'GenotoxTables':

@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor';
 
 import _ from 'underscore';
 
+import Tables from '/imports/collections/tables';
 import Reference from '/imports/collections/reference';
 import NtpAnimalEndpointEvidence from '/imports/collections/ntpAnimalEndpointEvidence';
 
@@ -91,6 +92,32 @@ let instanceMethods = {
             rows.unshift(header);
             return rows;
         },
+        wordContext: function(tbl_id) {
+            var table = Tables.findOne(tbl_id),
+                studies = NtpAnimalEvidence.getTableEvidence(tbl_id);
+
+            _.each(studies, (d)=>{
+                d.getReference();
+                d.getResults();
+            });
+
+            return {
+                table,
+                studies,
+            };
+        },
+        wordReportFormats: [
+            {
+                type: 'NtpAnimalHtmlTables',
+                fn: 'animal-evidence',
+                text: 'Download Word (html re-creation)',
+            },
+            {
+                type: 'NtpAnimalBias',
+                fn: 'animal-potential-bias',
+                text: 'Download Word (potential bias)',
+            },
+        ],
     }, sharedClassMethods),
     NtpAnimalEvidence = new Meteor.Collection('ntpAnimalEvidence', {
         transform: function (doc) {
