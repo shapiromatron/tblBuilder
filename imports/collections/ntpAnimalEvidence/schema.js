@@ -410,11 +410,11 @@ export default {
     },
     // #6: Analysis and reporting
     statisticalReporting: {
-        label: 'Statistical reporting',
+        label: 'Data and statistical reporting',
         type: String,
         optional: true,
         textAreaRows: 4,
-        popoverText: '<add>',
+        popoverText: 'Notes on methodology or reporting of data and statistical analyses.',
     },
     statisticalReportingRating: {
         label: 'Bias rating',
