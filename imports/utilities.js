@@ -133,7 +133,12 @@ let getPercentOrText = function(txt) {
 
         return data;
     },
-    biasWorksheetExport = function(objects, schema){
+    biasWorksheetExport = function(Coll, tbl_id){
+
+        let schema = schema = Coll.simpleSchema()._schema,
+            objects = Coll.getTableEvidence(tbl_id),
+            extraMetadata = Coll.worksheetLabels;
+
         // get reference
         _.each(objects, (d) => d.getReference());
 
@@ -145,13 +150,17 @@ let getPercentOrText = function(txt) {
             .value();
 
         // add header reference details
-        headerCols.unshift.apply(headerCols, ['Reference ID', 'Reference name']);
+        let extraHeaderCols = _.map(extraMetadata, (d) => schema[d].label);
+        extraHeaderCols.unshift.apply(extraHeaderCols, ['Reference ID', 'Reference name']);
+        headerCols.unshift.apply(headerCols, extraHeaderCols);
 
         // create reference ids
         let nBlanks = headerCols.length - 2,
             rows = _.map(objects, (d) => {
-                let rows = new Array(nBlanks + 1).join(' ').split('');
-                rows.unshift.apply(rows, [d.reference._id, d.reference.name]);
+                let rows = new Array(nBlanks + 1).join(' ').split(''),
+                    extraCols = _.map(extraMetadata, (fld) => d[fld]);
+                extraCols.unshift.apply(extraCols, [d.reference._id, d.reference.name]);
+                rows.unshift.apply(rows, extraCols);
                 return rows;
             });
 

@@ -118,8 +118,7 @@ Meteor.methods({
     },
     downloadExcelBiasWorksheet: function(collType, tbl_id) {
         let Coll = tblBuilderCollections.evidenceLookup[collType].collection,
-            schema = Coll.simpleSchema()._schema,
-            data = biasWorksheetExport(Coll.getTableEvidence(tbl_id), schema);
+            data = biasWorksheetExport(Coll, tbl_id);
 
         return writeXLSX('Bias', data);
     },

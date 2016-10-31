@@ -70,6 +70,11 @@ let instanceMethods = {
                 return '<not implemented>';
             },
         },
+        worksheetLabels: [
+            'species',
+            'strain',
+            'sex',
+        ],
         getTabularHeader(){
             let header = tabularizeHeader(
                 schema_extension, 'Evidence ID', NtpAnimalEvidence.tabularOmissions);

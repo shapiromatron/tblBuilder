@@ -90,6 +90,11 @@ let instanceMethods = {
                 return '<not implemented>';
             },
         },
+        worksheetLabels: [
+            'studyDesign',
+            'location',
+            'enrollmentDates',
+        ],
         getTabularHeader(){
             let header = tabularizeHeader(
                 schema_extension, 'Description ID', NtpEpiDescriptive.tabularOmissions);
