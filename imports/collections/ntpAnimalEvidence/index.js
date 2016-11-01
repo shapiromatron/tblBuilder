@@ -110,7 +110,7 @@ let instanceMethods = {
             {
                 type: 'NtpAnimalHtmlTables',
                 fn: 'animal-evidence',
-                text: 'Download Word (html re-creation)',
+                text: 'Download Word (results)',
             },
             {
                 type: 'NtpAnimalBias',
