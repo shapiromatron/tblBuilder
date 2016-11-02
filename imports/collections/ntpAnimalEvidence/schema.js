@@ -81,12 +81,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     randomizationDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     randomizationRationale: {
         label: 'Bias rationale',
@@ -94,18 +96,21 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     concurrentControlsRating: {
         label: 'Bias rating',
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     concurrentControlsDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     concurrentControlsRationale: {
         label: 'Bias rationale',
@@ -113,6 +118,7 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
 
     animalModelSensitivityRating: {
@@ -120,12 +126,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     animalModelSensitivityDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     animalModelSensitivityRationale: {
         label: 'Bias rationale',
@@ -133,18 +141,21 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     statisticalPowerRating: {
         label: 'Bias rating',
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     statisticalPowerDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     statisticalPowerRationale: {
         label: 'Bias rationale',
@@ -152,6 +163,7 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     // #3: Exposure
     agent: {
@@ -200,12 +212,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     chemicalCharacterizationDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     chemicalCharacterizationRationale: {
         label: 'Bias rationale',
@@ -213,18 +227,21 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     dosingRegimenRating: {
         label: 'Bias rating',
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     dosingRegimenDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     dosingRegimenRationale: {
         label: 'Bias rationale',
@@ -232,6 +249,7 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
 
     exposureDurationRating: {
@@ -239,12 +257,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     exposureDurationDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     exposureDurationRationale: {
         label: 'Bias rationale',
@@ -252,18 +272,21 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     doseResponseRating: {
         label: 'Bias rating',
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     doseResponseDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     doseResponseRationale: {
         label: 'Bias rationale',
@@ -271,6 +294,7 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     // #4: Outcome
     outcomeMethods: {
@@ -285,12 +309,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     outcomeMethodsDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     outcomeMethodsRationale: {
         label: 'Bias rationale',
@@ -298,6 +324,7 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
 
     groupConsistencyRating: {
@@ -305,12 +332,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     groupConsistencyDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     groupConsistencyRationale: {
         label: 'Bias rationale',
@@ -318,18 +347,21 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     durationRating: {
         label: 'Bias rating',
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     durationDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     durationRationale: {
         label: 'Bias rationale',
@@ -337,6 +369,7 @@ export default {
         optional: true,
         textAreaRows: 2,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     // #5: Confounding
     vehicleToxicity: {
@@ -358,12 +391,14 @@ export default {
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     confoundingDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     confoundingRationale: {
         label: 'Bias rationale',
@@ -371,26 +406,29 @@ export default {
         optional: true,
         textAreaRows: 3,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     // #6: Analysis and reporting
     statisticalReporting: {
-        label: 'Statistical reporting',
+        label: 'Data and statistical reporting',
         type: String,
         optional: true,
         textAreaRows: 4,
-        popoverText: '<add>',
+        popoverText: 'Notes on methodology or reporting of data and statistical analyses.',
     },
     statisticalReportingRating: {
         label: 'Bias rating',
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     statisticalReportingDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     statisticalReportingRationale: {
         label: 'Bias rationale',
@@ -398,18 +436,21 @@ export default {
         optional: true,
         textAreaRows: 3,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     tumorCombiningRating: {
         label: 'Bias rating',
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     tumorCombiningDirection:{
         label: 'Bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
+        biasField: true,
     },
     tumorCombiningRationale: {
         label: 'Bias rationale',
@@ -417,6 +458,7 @@ export default {
         optional: true,
         textAreaRows: 3,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     // #7: Study judgment
     strengths: {
@@ -425,6 +467,7 @@ export default {
         optional: true,
         popoverText: 'e.g., GLP study, multiple doses tested, high number of animals per group',
         textAreaRows: 4,
+        biasField: true,
     },
     limitations: {
         label: 'Principal limitations',
@@ -432,12 +475,14 @@ export default {
         optional: true,
         popoverText: 'e.g., inadequate duration, no controls, small number of animals per group, inadequate reporting of exposure or results, high mortality, MTD not reached',
         textAreaRows: 4,
+        biasField: true,
     },
     overallUtility: {
         label: 'Overall utility',
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
     overallUtilityRationale: {
         label: 'Overall utility rationale',
@@ -445,5 +490,6 @@ export default {
         optional: true,
         textAreaRows: 3,
         popoverText: ratingRationalePopoverText,
+        biasField: true,
     },
 };

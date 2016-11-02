@@ -132,6 +132,42 @@ let getPercentOrText = function(txt) {
         }
 
         return data;
+    },
+    biasWorksheetExport = function(Coll, tbl_id){
+
+        let schema = schema = Coll.simpleSchema()._schema,
+            objects = Coll.getTableEvidence(tbl_id),
+            extraMetadata = Coll.worksheetLabels;
+
+        // get reference
+        _.each(objects, (d) => d.getReference());
+
+        // get header row, all bias fields in schema
+        let headerCols = _.chain(schema)
+            .each(function(v,k){v._name = k;})
+            .where({biasField: true})
+            .pluck('_name')
+            .value();
+
+        // add header reference details
+        let extraHeaderCols = _.map(extraMetadata, (d) => schema[d].label);
+        extraHeaderCols.unshift.apply(extraHeaderCols, ['Reference ID', 'Reference name']);
+        headerCols.unshift.apply(headerCols, extraHeaderCols);
+
+        // create reference ids
+        let nBlanks = headerCols.length - 2,
+            rows = _.map(objects, (d) => {
+                let rows = new Array(nBlanks + 1).join(' ').split(''),
+                    extraCols = _.map(extraMetadata, (fld) => d[fld]);
+                extraCols.unshift.apply(extraCols, [d.reference._id, d.reference.name]);
+                rows.unshift.apply(rows, extraCols);
+                return rows;
+            });
+
+        // add header column to rows
+        rows.unshift(headerCols);
+
+        return rows;
     };
 
 
@@ -142,3 +178,4 @@ export { newValues };
 export { capitalizeFirst };
 export { tabularizeHeader };
 export { tabularize };
+export { biasWorksheetExport };

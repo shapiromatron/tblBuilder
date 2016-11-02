@@ -70,14 +70,14 @@ export default {
         label: 'Historical control incidence',
         type: String,
         optional: true,
-        popoverText: 'note if of the same sex and strain and ideally same time period as concurrent controls in the study',
+        popoverText: 'Note if of the same sex and strain and ideally same time period as concurrent controls in the study',
         textAreaRows: 4,
     },
     survivalNotes: {
         label: 'Survival notes',
         type: String,
         optional: true,
-        popoverText: '<add>',
+        popoverText: 'Report survival of exposed vs control animals.',
         textAreaRows: 4,
     },
     bodyWeightNotes: {
@@ -105,7 +105,7 @@ export default {
         label: 'Other comments',
         type: String,
         optional: true,
-        popoverText: '<add>',
+        popoverText: 'Notes about results not captured by other fields.',
         textAreaRows: 4,
     },
 };

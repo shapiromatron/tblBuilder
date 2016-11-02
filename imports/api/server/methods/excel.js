@@ -2,15 +2,20 @@ import {Meteor} from 'meteor/meteor';
 
 import XLSX from 'xlsx';
 
+import tblBuilderCollections from '/imports/collections';
 import Reference from '/imports/collections/reference';
 import ExposureEvidence from '/imports/collections/exposure';
 import AnimalEvidence from '/imports/collections/animalEvidence';
+import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
 import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 import GenotoxEvidence from '/imports/collections/genotox';
 import MechanisticEvidence from '/imports/collections/mechanistic';
 
+import {
+    biasWorksheetExport,
+} from '/imports/utilities';
 
 var type = (function() {
         var classToType = {};
@@ -101,11 +106,20 @@ Meteor.methods({
     animalEvidenceDownload: function(tbl_id) {
         return writeXLSX('Bioassay evidence', AnimalEvidence.tabular(tbl_id));
     },
+    ntpAnimalEvidenceDownload: function(tbl_id) {
+        return writeXLSX('Bioassay evidence', NtpAnimalEvidence.tabular(tbl_id));
+    },
     genotoxEvidenceDownload: function(tbl_id) {
         return writeXLSX('Genotoxicity evidence', GenotoxEvidence.tabular(tbl_id));
     },
     referenceExcelDownload: function(monographAgent) {
         var wsName = monographAgent + '-references';
         return writeXLSX(wsName, Reference.tabular(monographAgent));
+    },
+    downloadExcelBiasWorksheet: function(collType, tbl_id) {
+        let Coll = tblBuilderCollections.evidenceLookup[collType].collection,
+            data = biasWorksheetExport(Coll, tbl_id);
+
+        return writeXLSX('Bias', data);
     },
 });
