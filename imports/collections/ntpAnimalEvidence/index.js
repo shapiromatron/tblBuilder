@@ -72,9 +72,12 @@ let instanceMethods = {
             },
         },
         worksheetLabels: [
+            'agent',
+            'dosingRoute',
             'species',
             'strain',
             'sex',
+            'duration',
         ],
         getTabularHeader(){
             let header = tabularizeHeader(
