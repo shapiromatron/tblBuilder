@@ -139,7 +139,10 @@
         </ul>
       </div>
     {{/if}}
-    {{>printReference id=this.description.referenceID}}
+    {{>printReference id=this.description.referenceID}}<br>
+    {{this.description.location}}<br>
+    {{#if this.description.enrollmentDates}}{{this.description.enrollmentDates}}<br>{{/if}}
+    {{this.description.studyDesign}}
   </td>
 </template>
 
