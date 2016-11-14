@@ -137,7 +137,7 @@ let instanceMethods = {
                 'Reference', 'Reference year', 'Pubmed ID',
                 'Study design', 'Location', 'Enrollment or follow-up dates',
 
-                'Organ site', 'Effect measure',
+                'Organ site', 'Organ site details', 'Effect measure',
                 'Units of effect measurement', 'Stratum',
 
                 'Exposure category', 'Number exposed',
@@ -150,7 +150,7 @@ let instanceMethods = {
             return [
                 d.desc.reference.name, d.desc.reference.getYear(), d.desc.reference.pubmedID,
                 d.desc.studyDesign, d.desc.location,  d.desc.enrollmentDates,
-                d.res.organSite, d.res.effectMeasure,
+                d.res.organSiteCategory, d.res.organSite, d.res.effectMeasure,
                 d.res.effectUnits, d.res.stratum,
                 d.exposureCategory, d.numberExposed,
                 d.riskLow, d.riskMid, d.riskHigh,
