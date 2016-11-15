@@ -72,8 +72,8 @@ let instanceMethods = {
                             row2 = row.slice();
 
                         row2.push(
-                            res._id, res.organSite, res.effectMeasure,
-                            res.effectUnits, res.stratum, res.trendTest,
+                            res._id, res.organSiteCategory, res.organSite,
+                            res.effectMeasure, res.effectUnits, res.stratum, res.trendTest,
                             covariates, res.covariatesControlledText, res.notes
                         );
 
@@ -99,8 +99,8 @@ let instanceMethods = {
                     'Exposure assessment notes',
                     'Principal strengths', 'Principal limitations', 'General notes',
 
-                    'Result ID', 'Organ site', 'Effect measure',
-                    'Effect measure units', 'Stratum', 'Trend test',
+                    'Result ID', 'Organ site', 'Organ site details',
+                    'Effect measure', 'Effect measure units', 'Stratum', 'Trend test',
                     'Covariates', 'Covariates notes', 'General notes',
 
                     'Exposure category', 'Number exposed', 'Risks estimated?',
