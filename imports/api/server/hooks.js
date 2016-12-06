@@ -53,6 +53,22 @@ var addTimestampAndUserID = function(userId, doc) {
                 {multi: false}
             );
         }
+    },
+    updateAgentReference = function (userId, doc, fieldNames, modifier) {
+        // If a user renames the monographAgent table, then we need to move the
+        // references from the old agent name to the new agent name. We keep
+        // the existing reference name as well, just in case there are other
+        // tables which still have this monographAgent
+        if (_.contains(fieldNames, 'monographAgent')){
+            let oldAgent = doc.monographAgent,
+                newAgent = modifier['$set'].monographAgent;
+
+            Reference.update(
+                {monographAgent: oldAgent},
+                {$addToSet: {monographAgent: newAgent}},
+                {multi: true}
+            );
+        }
     };
 
 
@@ -105,6 +121,7 @@ Meteor.startup(function() {
         Cls.before.update(addLastUpdated);
     });
     Tables.before.update(addLastUpdated);
+    Tables.before.update(updateAgentReference);
     Reference.before.update(addLastUpdated);
 
 
