@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/shapiromatron/tblBuilder/issues"
   },
-  "homepage": "https://github.com/shapiromatron/tblBuilder#readme"
+  "homepage": "https://github.com/shapiromatron/tblBuilder#readme",
+  "devDependencies": {
+    "eslint": "^3.11.1"
+  }
 }

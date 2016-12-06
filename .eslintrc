@@ -1,4 +1,8 @@
 {
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
     "rules": {
         "indent": [
             2,
@@ -34,8 +38,7 @@
     },
     "extends": "eslint:recommended",
     "ecmaFeatures": {
-        "experimentalObjectRestSpread": true,
-        "modules": true,
+        "experimentalObjectRestSpread": true
     },
     "plugins": []
 }
