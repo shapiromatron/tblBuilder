@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
@@ -110,6 +111,15 @@ Template.tableItem.events({
     'click #tables-show-edit': function(evt, tmpl) {
         Session.set('tablesEditingId', this._id);
         Tracker.flush();
+    },
+    'click #clone': function(evt, tmpl){
+        return Meteor.call('cloneTable', this._id, function(err, response) {
+            if (response) {
+                console.log(response);
+            } else {
+                alert('An error occurred.');
+            }
+        });
     },
 });
 
