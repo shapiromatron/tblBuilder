@@ -89,7 +89,7 @@
           <h1>Volume {{volumeNumber}} {{>tableOpts canSort=true}}</h1>
           {{#each getMonographAgents this}}
             {{> agentBanner}}
-            <div class="sortables">
+            <div class="tableContainer sortables">
               {{#each getTables ../volumeNumber this }}
                 {{#if isEditing}}
                   {{> tablesForm}}
