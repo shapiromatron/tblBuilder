@@ -114,10 +114,8 @@ Template.tableItem.events({
     },
     'click #clone': function(evt, tmpl){
         return Meteor.call('cloneTable', this._id, function(err, response) {
-            if (response) {
-                console.log(response);
-            } else {
-                alert('An error occurred.');
+            if (err) {
+                console.error(err);
             }
         });
     },

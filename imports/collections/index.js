@@ -55,6 +55,7 @@ let tblBuilderCollections = {
             excel_fn: 'epi.xlsx',
             requiredUpdateFields: ['studyDesign'],
             nested_collection: NtpEpiResult,
+            other_related_collections: [NtpEpiConfounder],
         },
         ntpEpiResult: {
             collection: NtpEpiResult,
@@ -105,26 +106,27 @@ let tblBuilderCollections = {
             excel_fn: 'mechanistic.xlsx',
         },
     },
-    getCollectionByTableType(tblType){
-        switch(tblType){
-        case 'Exposure Evidence':
-            return ExposureEvidence;
-        case 'Epidemiology Evidence':
-            return EpiDescriptive;
-        case 'NTP Epidemiology Evidence':
-            return NtpEpiDescriptive;
-        case 'Animal Bioassay Evidence':
-            return AnimalEvidence;
-        case 'NTP Animal Bioassay Evidence':
-            return NtpAnimalEvidence;
-        case 'Genetic and Related Effects':
-            return GenotoxEvidence;
-        case 'Mechanistic Evidence Summary':
-            return MechanisticEvidence;
-        default:
-            throw('Unknown table type');
-        }
-    },
+};
+
+tblBuilderCollections.getEvidenceByTableType = function(tblType){
+    switch(tblType){
+    case 'Exposure Evidence':
+        return tblBuilderCollections.evidenceLookup.exposureEvidence;
+    case 'Epidemiology Evidence':
+        return tblBuilderCollections.evidenceLookup.epiDescriptive;
+    case 'NTP Epidemiology Evidence':
+        return tblBuilderCollections.evidenceLookup.ntpEpiDescriptive;
+    case 'Animal Bioassay Evidence':
+        return tblBuilderCollections.evidenceLookup.animalEvidence;
+    case 'NTP Animal Bioassay Evidence':
+        return tblBuilderCollections.evidenceLookup.ntpAnimalEvidence;
+    case 'Genetic and Related Effects':
+        return tblBuilderCollections.evidenceLookup.genotoxEvidence;
+    case 'Mechanistic Evidence Summary':
+        return tblBuilderCollections.evidenceLookup.mechanisticEvidence;
+    default:
+        throw('Unknown table type');
+    }
 };
 
 export default tblBuilderCollections;
