@@ -17,8 +17,11 @@ import {
 
 let instanceMethods = {
         getURL: function() {
-            if (Meteor.isServer) return;
-            var route = routePaths[this.tblType];
+            if (Meteor.isServer){
+                return;
+            }
+
+            let route = routePaths[this.tblType];
             if(route){
                 return Router.path(route, {_id: this._id});
             } else {

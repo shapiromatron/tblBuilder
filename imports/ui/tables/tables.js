@@ -97,15 +97,19 @@ Template.volumeTableList.helpers({
     isEditing: function() {
         return Session.equals('tablesEditingId', this._id);
     },
+});
+
+
+
+Template.tableItem.helpers({
     getStatusColorClass: function(tbl) {
         return tbl.getStatusColorClass();
     },
 });
-Template.volumeTableList.events({
+Template.tableItem.events({
     'click #tables-show-edit': function(evt, tmpl) {
         Session.set('tablesEditingId', this._id);
         Tracker.flush();
-        return activateInput(tmpl.find('input[name=volumeNumber]'));
     },
 });
 
