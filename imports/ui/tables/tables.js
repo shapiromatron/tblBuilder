@@ -7,6 +7,7 @@ import _ from 'underscore';
 
 import Tables from '/imports/collections/tables';
 import {
+    addUserMessage,
     createErrorDiv,
     initDraggables,
     activateInput,
@@ -114,8 +115,14 @@ Template.tableItem.events({
     },
     'click #clone': function(evt, tmpl){
         return Meteor.call('cloneTable', this._id, function(err, response) {
+            let msg;
             if (err) {
                 console.error(err);
+                msg = `<b>Table clone failed:</b> ${err.reason}`;
+                addUserMessage(msg, 'danger');
+            } else {
+                msg = `Table "${tmpl.data.name}" successfully cloned!`;
+                addUserMessage(msg, 'success');
             }
         });
     },
