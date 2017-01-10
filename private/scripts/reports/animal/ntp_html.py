@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 
 from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
@@ -24,7 +24,10 @@ class NtpAnimalHtmlTables(DOCXReport):
 
     @classmethod
     def get_site_rowspan(cls, results):
-        return sum([cls.get_result_rowspan(result) for result in results])
+        return sum([
+            cls.get_result_rowspan(result)
+            for result in results
+        ])
 
     @classmethod
     def get_result_rowspan(cls, result):
@@ -47,6 +50,8 @@ class NtpAnimalHtmlTables(DOCXReport):
         tbl.new_th(0, 5, 'Tumor incidence (n/N) (%)')
         tbl.new_th(0, 6, 'Survival, strengths, limitations, comments')
 
+        footnotes = OrderedDict()
+
         # write body
         row = 1
         for study in studies:
@@ -58,21 +63,22 @@ class NtpAnimalHtmlTables(DOCXReport):
             runs = [
                 tbl.new_run(study['reference']['name'], b=True),
                 tbl.new_run(u'{} {}'.format(study['species'], study['strain'])),
-                tbl.new_run(u"{} {}".format(study['sex'], study['ageAtStart'])),
+                tbl.new_run(u'{} {}'.format(study['sex'], study['ageAtStart'])),
+                tbl.new_run(u'{}'.format(study['duration'], newline=False)),
             ]
             tbl.new_td_run(row, 0, runs, rowspan=study_rowspan)
 
             # Column B
             runs = [
                 tbl.new_run(study['agent']),
-                tbl.new_run(study['purity']),
+                tbl.new_run(study['purity'], newline=False),
             ]
             tbl.new_td_run(row, 1, runs, rowspan=study_rowspan)
 
             # Column C
             runs = [
                 tbl.new_run(study['dosingRoute']),
-                tbl.new_run(study['dosingRegimen']),
+                tbl.new_run(study['dosingRegimen'], newline=False),
             ]
             tbl.new_td_run(row, 2, runs, rowspan=study_rowspan)
 
@@ -96,9 +102,22 @@ class NtpAnimalHtmlTables(DOCXReport):
                     # write groups
                     for group in result['endpointGroups']:
                         site_row += 1
+
                         dose = u'{} {}'.format(group['dose'], result['units'])
                         tbl.new_td_txt(site_row, 4, dose)
-                        tbl.new_td_txt(site_row, 5, group['incidence'])
+
+                        txt = u'{}'.format(group.get('incidence', ''))
+                        val = group.get('incidenceSymbol', None)
+                        if val:
+                            txt += val
+                        val = group.get('incidencePercent', 'None')
+                        if val:
+                            txt += u' ({}%)'.format(val)
+                        tbl.new_td_txt(site_row, 5, txt)
+
+                    notes = result.get('significanceNotes', '') or ''
+                    if notes and hash(notes) not in footnotes:
+                        footnotes[hash(notes)] = notes
 
                     # write trend test
                     txt = result.get('trendTest')
@@ -110,20 +129,24 @@ class NtpAnimalHtmlTables(DOCXReport):
                     site_row += 1
 
             # Column G
+            first_result = study['results'][0] \
+                if len(study['results']) > 0 \
+                else {}
+
             runs = [
                 tbl.new_run('Survival: ', b=True, newline=False),
-                tbl.new_run(study.get('survivalNotes', '')),
+                tbl.new_run(first_result['survivalNotes'] or ''),
                 tbl.new_run('Strengths: ', b=True, newline=False),
                 tbl.new_run(study['strengths'] or ''),
                 tbl.new_run('Limitations: ', b=True, newline=False),
                 tbl.new_run(study['limitations'] or ''),
                 tbl.new_run('Other comments: ', b=True, newline=False),
-                tbl.new_run('<how to add? result specific?>'),
+                tbl.new_run(first_result['comments'] or ''),
                 tbl.new_run(
                     'Significantly increased non-neoplastic lesions: ',
                     b=True, newline=False
                 ),
-                tbl.new_run('<how to add? result specific?>'),
+                tbl.new_run(first_result['nonNeoplasticFindings'] or ''),
 
             ]
             tbl.new_td_run(row, 6, runs, rowspan=study_rowspan)
@@ -131,9 +154,9 @@ class NtpAnimalHtmlTables(DOCXReport):
             row = site_row + 1
 
         tbl.render(self.doc)
-        self.doc.add_paragraph('* adjusted percent incidence based on Poly-3 '
-            'estimated neoplasm incidence after adjustment for intercurrent '
-            'mortality.')
+
+        self.doc.add_paragraph(u'\n'.join(footnotes.values()))
+
 
     def create_content(self):
         doc = self.doc
