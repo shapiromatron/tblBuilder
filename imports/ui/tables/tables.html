@@ -89,33 +89,12 @@
           <h1>Volume {{volumeNumber}} {{>tableOpts canSort=true}}</h1>
           {{#each getMonographAgents this}}
             {{> agentBanner}}
-            <div class="sortables">
+            <div class="tableContainer sortables">
               {{#each getTables ../volumeNumber this }}
                 {{#if isEditing}}
                   {{> tablesForm}}
                 {{else}}
-                  <div class="moveTableHolder"
-                       data-id="{{_id}}"
-                       data-sortIdx="{{sortIdx}}">
-                    <span class="moveTableHandle" style="display: none" title="Drag to re-order rows"></span>
-                    <a class="noUnderline" href="{{getURL}}">
-                      <div class="tableDiv menu-autohide">
-                        <span class="label label-default">{{tblType}}</span>
-                        {{#if canEdit}}
-                          <div class="rowOptions btn-group pull-right">
-                            <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                              <span class="caret" title="Editing options"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" id="tables-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
-                            </ul>
-                          </div>
-                        {{/if}}
-                        <br>{{name}}
-                        <span class="label pull-right statusLabel {{getStatusColorClass this}}">Status: {{status}}</span>
-                      </div>
-                    </a>
-                  </div>
+                  {{> tableItem}}
                 {{/if}}
               {{/each}}
             </div>
@@ -145,6 +124,33 @@
       </div>
     </h3>
   </div>
+</template>
+
+
+<template name="tableItem">
+  <div class="moveTableHolder"
+     data-id="{{_id}}"
+     data-sortIdx="{{sortIdx}}">
+  <span class="moveTableHandle" style="display: none" title="Drag to re-order rows"></span>
+  <a class="noUnderline" href="{{getURL}}">
+    <div class="tableDiv menu-autohide">
+      <span class="label label-default">{{tblType}}</span>
+      {{#if canEdit}}
+        <div class="rowOptions btn-group pull-right">
+          <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+            <span class="caret" title="Editing options"></span>
+          </button>
+          <ul class="dropdown-menu">
+              <li><a href="#" id="tables-show-edit"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+              <li><a href="#" id="clone"><span class="fa fa-copy"></span> Create a clone</a></li>
+          </ul>
+        </div>
+      {{/if}}
+      <br>{{name}}
+      <span class="label pull-right statusLabel {{getStatusColorClass this}}">Status: {{status}}</span>
+    </div>
+  </a>
+</div>
 </template>
 
 

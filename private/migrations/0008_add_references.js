@@ -1,4 +1,6 @@
 var addReferences = function(Coll){
+        print('Adding references to: ' + Coll);
+        print('Reviewing: ' + Coll.count() + ' objects');
         Coll.find().forEach(function(d){
             if (d.additionalReferences === undefined){
                 print('updating ' + d._id);
@@ -24,9 +26,11 @@ var addReferences = function(Coll){
 
     },
     colls = [
+        db.exposureEvidence,
+        db.ntpAnimalEvidence,
         db.animalEvidence,
+        db.ntpEpiDescriptive,
         db.epiDescriptive,
-        db.exposure,
         db.genotoxEvidence,
     ];
 

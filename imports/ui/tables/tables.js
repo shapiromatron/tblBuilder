@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
@@ -6,6 +7,7 @@ import _ from 'underscore';
 
 import Tables from '/imports/collections/tables';
 import {
+    addUserMessage,
     createErrorDiv,
     initDraggables,
     activateInput,
@@ -97,15 +99,32 @@ Template.volumeTableList.helpers({
     isEditing: function() {
         return Session.equals('tablesEditingId', this._id);
     },
+});
+
+
+
+Template.tableItem.helpers({
     getStatusColorClass: function(tbl) {
         return tbl.getStatusColorClass();
     },
 });
-Template.volumeTableList.events({
+Template.tableItem.events({
     'click #tables-show-edit': function(evt, tmpl) {
         Session.set('tablesEditingId', this._id);
         Tracker.flush();
-        return activateInput(tmpl.find('input[name=volumeNumber]'));
+    },
+    'click #clone': function(evt, tmpl){
+        return Meteor.call('cloneTable', this._id, function(err, response) {
+            let msg;
+            if (err) {
+                console.error(err);
+                msg = `<b>Table clone failed:</b> ${err.reason}`;
+                addUserMessage(msg, 'danger');
+            } else {
+                msg = `Table "${tmpl.data.name}" successfully cloned!`;
+                addUserMessage(msg, 'success');
+            }
+        });
     },
 });
 
