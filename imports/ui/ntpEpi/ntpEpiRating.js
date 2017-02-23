@@ -26,7 +26,11 @@ Template.ntpEpiRatingTable.helpers(_.extend(
     {
         results: function(){
             let results = NtpEpiResult.find().fetch();
-            results.forEach(function(d){d.getDescription();});
+            results.forEach((d)=>{
+                d.getDescription();
+                d.description.getReference();
+                d.description.getConfounders();
+            });
             return results;
         },
     }, abstractTblHelpers));
@@ -40,4 +44,13 @@ Template.ntpEpiRatingTable.onRendered(function(){
 });
 Template.ntpEpiRatingTable.onDestroyed(function(){
     this.$('.ntpEpiRatingTd').popover('destroy');
+});
+
+
+Template.ntpEpiRatingRow.helpers({
+    getOrganSite(){
+        return (this.organSite)?
+            `${this.organSiteCategory}: ${this.organSite}`:
+            this.organSiteCategory;
+    },
 });

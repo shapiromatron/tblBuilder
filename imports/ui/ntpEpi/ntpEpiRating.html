@@ -50,7 +50,7 @@
   <tr>
     <td>
       {{>printReference id=description.referenceID}}<br>
-      {{organSiteCategory}}: {{organSite}}
+      {{getOrganSite}}
     </td>
     <td class="ntpEpiRatingTd" data-toggle="popover"
         data-content="{{description.selectionBiasRationale}}">
@@ -62,7 +62,7 @@
     </td>
     <td class="ntpEpiRatingTd" data-toggle="popover"
         data-content="{{getOutcomeRatingRationale}}">
-      {{getOutcomeRating}}
+      {{description.confounders.getOutcomeRating}}
     </td>
     <td class="ntpEpiRatingTd" data-toggle="popover"
         data-content="{{description.analysisRationale}}">
@@ -77,8 +77,8 @@
       {{description.sensitivityRating}}
     </td>
     <td class="ntpEpiRatingTd" data-toggle="popover"
-        data-content="{{confoundingRatingRationale}}">
-      {{confoundingRating}}
+        data-content="{{description.confounders.confoundingRatingRationale}}">
+      {{description.confounders.confoundingRating}}
     </td>
     <td class="ntpEpiRatingTd" data-toggle="popover"
         data-content="N/A">

@@ -88,8 +88,9 @@ Meteor.publish('ntpEpiDescriptive', function(tbl_id) {
         if (userCanView(tbl, this.userId)) {
             ref_ids = getReferenceIds(NtpEpiDescriptive, tbl_id);
             return [
-                NtpEpiDescriptive.find({tbl_id: tbl_id}),
-                NtpEpiResult.find({tbl_id: tbl_id}),
+                NtpEpiDescriptive.find({tbl_id}),
+                NtpEpiConfounder.find({tbl_id}),
+                NtpEpiResult.find({tbl_id}),
                 Reference.find({_id: {$in: ref_ids}}),
             ];
         }
@@ -105,8 +106,8 @@ Meteor.publish('ntpEpiConfounder', function(tbl_id) {
         if (userCanView(tbl, this.userId)) {
             ref_ids = getReferenceIds(NtpEpiDescriptive, tbl_id);
             return [
-                NtpEpiDescriptive.find({tbl_id: tbl_id}),
-                NtpEpiConfounder.find({tbl_id: tbl_id}),
+                NtpEpiDescriptive.find({tbl_id}),
+                NtpEpiConfounder.find({tbl_id}),
                 Reference.find({_id: {$in: ref_ids}}),
             ];
         }

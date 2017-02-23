@@ -40,9 +40,16 @@ let instanceMethods = {
         },
         getConfounders: function(){
             if (_.isUndefined(this.confounders)){
-                this.confounders = NtpEpiConfounder
+                let confounders = NtpEpiConfounder
                         .find({parent_id: this._id}, {sort: {sortIdx: 1}})
                         .fetch();
+                if (confounders.length === 1){
+                    this.confounders = confounders[0];
+                } else if (confounders.length > 1) {
+                    console.log(this.reference.name, confounders);
+                    console.error('Too many confounders; randomly picking first');
+                    this.confounders = confounders[0];
+                }
             }
             return this.confounders;
         },
