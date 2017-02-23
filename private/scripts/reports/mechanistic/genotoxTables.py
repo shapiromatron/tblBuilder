@@ -39,7 +39,7 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle="ntpTbl")
 
         # write title
-        txt = "[Genetic and related effects] of {} in humans in vivo".format(self.getAgent())
+        txt = "[Genetic and related effects] of [{}] in humans in vivo".format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=8)
 
         # write header
@@ -77,7 +77,7 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle="ntpTbl")
 
         # write title
-        txt = "[Genetic and related effects] of {} in experimental animals in vivo".format(self.getAgent())
+        txt = "[Genetic and related effects] of [{}] in experimental animals in vivo".format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=9)
 
         # write header
@@ -124,7 +124,7 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle="ntpTbl")
 
         # write title
-        txt = "[Genetic and related effects] of {} in humans and other mammals in vitro".format(self.getAgent())
+        txt = "[Genetic and related effects] of [{}] in humans and other mammals in vitro".format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=9)
 
         # write header
@@ -167,7 +167,7 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle="ntpTbl")
 
         # write title
-        txt = "[Genetic and related effects] of {} in non-mammalian species in vitro".format(self.getAgent())
+        txt = "[Genetic and related effects] of [{}] in non-mammalian species in vitro".format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=9)
 
         # write header
