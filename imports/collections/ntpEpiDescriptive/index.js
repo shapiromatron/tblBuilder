@@ -38,20 +38,19 @@ let instanceMethods = {
             }
             return this.results;
         },
-        getConfounders: function(){
+        getConfounders: function(result){
             if (_.isUndefined(this.confounders)){
-                let confounders = NtpEpiConfounder
+                this.confounders = NtpEpiConfounder
                         .find({parent_id: this._id}, {sort: {sortIdx: 1}})
                         .fetch();
-                if (confounders.length === 1){
-                    this.confounders = confounders[0];
-                } else if (confounders.length > 1) {
-                    console.log(this.reference.name, confounders);
-                    console.error('Too many confounders; randomly picking first');
-                    this.confounders = confounders[0];
-                }
             }
             return this.confounders;
+        },
+        setResultConfounder: function(result){
+            result.confounder = _.findWhere(
+                this.getConfounders(),
+                {organSiteCategory: result.organSiteCategory}
+            );
         },
         isCaseControl: function(){
             return EpiDescriptive.isCaseControl(this.studyDesign);
