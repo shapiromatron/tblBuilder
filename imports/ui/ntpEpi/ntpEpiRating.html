@@ -10,7 +10,18 @@
 
 
 <template name="ntpEpiRatingTable">
-  <h1>Rating summary: {{name}}</h1>
+  <h1>Rating summary: {{name}}
+    <div class="btn-group pull-right">
+      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+        Actions <span class="caret" title="Editing options"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="#" id='downloadExcel'>
+            <i class="fa fa-fixed fa-file-excel-o"></i> Download Excel</a></li>
+      </ul>
+    </div>
+  </h1>
   {{> tableTitle}}
   <table class="evidenceTable table table-compressed">
     <colgroup>
@@ -50,7 +61,7 @@
   <tr>
     <td>
       {{>printReference id=description.referenceID}}<br>
-      {{getOrganSite}}
+      {{organSiteCategory}}
     </td>
     <td class="ntpEpiRatingTd" data-toggle="popover"
         data-content="{{description.selectionBiasRationale}}">
@@ -62,7 +73,7 @@
     </td>
     <td class="ntpEpiRatingTd" data-toggle="popover"
         data-content="{{getOutcomeRatingRationale}}">
-      {{description.confounders.getOutcomeRating}}
+      {{confounder.getOutcomeRating}}
     </td>
     <td class="ntpEpiRatingTd" data-toggle="popover"
         data-content="{{description.analysisRationale}}">
@@ -78,7 +89,7 @@
     </td>
     <td class="ntpEpiRatingTd" data-toggle="popover"
         data-content="{{description.confounders.confoundingRatingRationale}}">
-      {{description.confounders.confoundingRating}}
+      {{confounder.confoundingRating}}
     </td>
     <td class="ntpEpiRatingTd" data-toggle="popover"
         data-content="N/A">

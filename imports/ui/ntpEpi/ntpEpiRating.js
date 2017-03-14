@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
@@ -7,6 +8,11 @@ import {
     abstractMainHelpers,
     abstractTblHelpers,
 } from '/imports/api/client/templates';
+
+import {
+    returnExcelFile,
+} from '/imports/api/client/utilities';
+
 import NtpEpiResult from '/imports/collections/ntpEpiResult';
 
 import './ntpEpiRating.html';
@@ -21,17 +27,11 @@ Template.ntpEpiRatingMain.onDestroyed(function() {
     Session.set('evidenceType', null);
 });
 
-
 Template.ntpEpiRatingTable.helpers(_.extend(
     {
         results: function(){
-            let results = NtpEpiResult.find().fetch();
-            results.forEach((d)=>{
-                d.getDescription();
-                d.description.getReference();
-                d.description.getConfounders();
-            });
-            return results;
+            return NtpEpiResult.getUniqueRatingCollection(
+                NtpEpiResult.find().fetch());
         },
     }, abstractTblHelpers));
 Template.ntpEpiRatingTable.onRendered(function(){
@@ -42,15 +42,15 @@ Template.ntpEpiRatingTable.onRendered(function(){
         container: 'body',
     });
 });
+Template.ntpEpiRatingTable.events({
+    'click #downloadExcel': function(evt, tmpl){
+        var tblId = Session.get('Tbl')._id,
+            fn = 'epi-confounding-matrix.xlsx';
+        Meteor.call('ntpEpiRatingsDownload', tblId, function(err, response) {
+            returnExcelFile(response, fn);
+        });
+    },
+});
 Template.ntpEpiRatingTable.onDestroyed(function(){
     this.$('.ntpEpiRatingTd').popover('destroy');
-});
-
-
-Template.ntpEpiRatingRow.helpers({
-    getOrganSite(){
-        return (this.organSite)?
-            `${this.organSiteCategory}: ${this.organSite}`:
-            this.organSiteCategory;
-    },
 });

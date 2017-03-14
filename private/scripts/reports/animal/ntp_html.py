@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from collections import defaultdict, OrderedDict
 
 from docxUtils.reports import DOCXReport
@@ -37,18 +39,16 @@ class NtpAnimalHtmlTables(DOCXReport):
         return rows
 
     def build_tbl(self, studies):
-        colWidths = (1.3, 1.3, 1.3, 0.7, 1.0, 1.0, 2.5)
+        colWidths = (1.5, 1.5, 1, 1.5, 3.5)
         tbl = TableMaker(colWidths, numHeaders=1, firstRowCaption=False,
                          tblStyle='ntpTbl')
 
         # write header
-        tbl.new_th(0, 0, 'Reference & year, animal, study duration')
-        tbl.new_th(0, 1, 'Substance & purity')
-        tbl.new_th(0, 2, 'Dosing regimen')
-        tbl.new_th(0, 3, 'Organ site')
-        tbl.new_th(0, 4, 'Dose levels')
-        tbl.new_th(0, 5, 'Tumor incidence (n/N) (%)')
-        tbl.new_th(0, 6, 'Survival, strengths, limitations, comments')
+        tbl.new_th(0, 0, 'Reference and study design')
+        tbl.new_th(0, 1, 'Exposure')
+        tbl.new_th(0, 2, 'Dose levels')
+        tbl.new_th(0, 3, 'Tumor incidence (n/N) (%)')
+        tbl.new_th(0, 4, 'Comments')
 
         footnotes = OrderedDict()
 
@@ -62,49 +62,50 @@ class NtpAnimalHtmlTables(DOCXReport):
             # Column A
             runs = [
                 tbl.new_run(study['reference']['name'], b=True),
+                tbl.new_run('Animal:', b=True),
                 tbl.new_run(u'{} {}'.format(study['species'], study['strain'])),
                 tbl.new_run(u'{} {}'.format(study['sex'], study['ageAtStart'])),
+                tbl.new_run('Study duration:', b=True),
                 tbl.new_run(u'{}'.format(study['duration'], newline=False)),
             ]
             tbl.new_td_run(row, 0, runs, rowspan=study_rowspan)
 
             # Column B
             runs = [
+                tbl.new_run('Agent:', b=True),
                 tbl.new_run(study['agent']),
-                tbl.new_run(study['purity'], newline=False),
-            ]
-            tbl.new_td_run(row, 1, runs, rowspan=study_rowspan)
-
-            # Column C
-            runs = [
+                tbl.new_run(study['purity']),
+                tbl.new_run('Treatment:', b=True),
                 tbl.new_run(study['dosingRoute']),
                 tbl.new_run(study['dosingRegimen'], newline=False),
             ]
-            tbl.new_td_run(row, 2, runs, rowspan=study_rowspan)
+            tbl.new_td_run(row, 1, runs, rowspan=study_rowspan)
 
             site_row = row
             for results in sites.values():
 
-                # Column D
-                txt = results[0]['tumourSite']
-                tbl.new_td_txt(site_row, 3, txt,
-                               rowspan=self.get_site_rowspan(results))
-
-                # Column E & F
+                # Column C & D
                 for result in results:
 
+                    # save significance footnotes
+                    notes = result.get('significanceNotes', '') or ''
+                    if notes and hash(notes) not in footnotes:
+                        footnotes[hash(notes)] = notes
+
                     # write histology (and footnote adjustment)
-                    txt = result.get('histology', '')
+                    txt = result['tumourSite']
+                    histology = result.get('histology')
+                    if histology:
+                        txt = u'{} – {}'.format(txt, histology)
                     if result['adjustedIncidence']:
                         txt += '*'
-                    tbl.new_td_txt(site_row, 4, txt, colspan=2)
+                    tbl.new_td_txt(site_row, 2, txt, colspan=2)
+                    site_row += 1
 
                     # write groups
                     for group in result['endpointGroups']:
-                        site_row += 1
-
                         dose = u'{} {}'.format(group['dose'], result['units'])
-                        tbl.new_td_txt(site_row, 4, dose)
+                        tbl.new_td_txt(site_row, 2, dose)
 
                         txt = u'{}'.format(group.get('incidence', ''))
                         val = group.get('incidenceSymbol', None)
@@ -113,22 +114,18 @@ class NtpAnimalHtmlTables(DOCXReport):
                         val = group.get('incidencePercent', 'None')
                         if val:
                             txt += u' ({}%)'.format(val)
-                        tbl.new_td_txt(site_row, 5, txt)
+                        tbl.new_td_txt(site_row, 3, txt)
 
-                    notes = result.get('significanceNotes', '') or ''
-                    if notes and hash(notes) not in footnotes:
-                        footnotes[hash(notes)] = notes
+                        site_row += 1
 
                     # write trend test
                     txt = result.get('trendTest')
                     if txt:
-                        site_row += 1
                         txt = u'Trend p-value: {}'.format(txt)
-                        tbl.new_td_txt(site_row, 4, txt, colspan=2)
+                        tbl.new_td_txt(site_row, 2, txt, colspan=2)
+                        site_row += 1
 
-                    site_row += 1
-
-            # Column G
+            # Column E
             first_result = study['results'][0] \
                 if len(study['results']) > 0 \
                 else {}
@@ -136,27 +133,28 @@ class NtpAnimalHtmlTables(DOCXReport):
             runs = [
                 tbl.new_run('Survival: ', b=True, newline=False),
                 tbl.new_run(first_result['survivalNotes'] or ''),
-                tbl.new_run('Strengths: ', b=True, newline=False),
-                tbl.new_run(study['strengths'] or ''),
-                tbl.new_run('Limitations: ', b=True, newline=False),
-                tbl.new_run(study['limitations'] or ''),
-                tbl.new_run('Other comments: ', b=True, newline=False),
-                tbl.new_run(first_result['comments'] or ''),
+                tbl.new_run('Body weight: ', b=True, newline=False),
+                tbl.new_run(first_result['bodyWeightNotes'] or ''),
                 tbl.new_run(
-                    'Significantly increased non-neoplastic lesions: ',
+                    'Significantly increased pre-neoplastic lesions: ',
                     b=True, newline=False
                 ),
                 tbl.new_run(first_result['nonNeoplasticFindings'] or ''),
-
+                tbl.new_run(
+                    'Other comments: ',
+                    b=True, newline=False
+                ),
+                tbl.new_run('TOADD what belongs here?'),
+                tbl.new_run('Strengths and limitations: ', b=True, newline=False),
+                tbl.new_run(first_result['comments'] or ''),
             ]
-            tbl.new_td_run(row, 6, runs, rowspan=study_rowspan)
+            tbl.new_td_run(row, 4, runs, rowspan=study_rowspan)
 
-            row = site_row + 1
+            row = site_row
 
         tbl.render(self.doc)
 
         self.doc.add_paragraph(u'\n'.join(footnotes.values()))
-
 
     def create_content(self):
         doc = self.doc
