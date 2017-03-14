@@ -10,7 +10,18 @@
 
 
 <template name="ntpEpiRatingTable">
-  <h1>Rating summary: {{name}}</h1>
+  <h1>Rating summary: {{name}}
+    <div class="btn-group pull-right">
+      <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+        Actions <span class="caret" title="Editing options"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="#" id='downloadExcel'>
+            <i class="fa fa-fixed fa-file-excel-o"></i> Download Excel</a></li>
+      </ul>
+    </div>
+  </h1>
   {{> tableTitle}}
   <table class="evidenceTable table table-compressed">
     <colgroup>

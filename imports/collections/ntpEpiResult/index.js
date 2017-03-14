@@ -53,6 +53,27 @@ let instanceMethods = {
 
             return rows;
         },
+        getTabularRatingsRow(){
+            let outcomeRating, confoundingRating;
+
+            if (this.confounder){
+                outcomeRating = this.confounder.getOutcomeRating();
+                confoundingRating = this.confounder.confoundingRating;
+            }
+
+            return [
+                this.description.reference.name,
+                this.organSiteCategory,
+                this.description.selectionBiasRating,
+                this.description.exposureAssessmentRating,
+                outcomeRating,
+                this.description.analysisRating,
+                this.description.selectiveReportingRating,
+                this.description.sensitivityRating,
+                confoundingRating,
+                this.description.overallUtility,
+            ];
+        },
     },
     classMethods = {
         preSaveHook: function(tmpl, obj) {
@@ -103,6 +124,30 @@ let instanceMethods = {
                 .sortBy((d)=>d.description.reference.name)
                 .sortBy((d)=>d.organSiteCategory)
                 .value();
+        },
+        getTabularRatingsHeader(){
+            return [
+                'Reference',
+                'Organ site category',
+                'Selection bias',
+                'Exposure assessment',
+                'Outcome assessment  ',
+                'Analysis',
+                'Selective reporting',
+                'Sensitivity',
+                'Confounding',
+                'Overall',
+            ];
+        },
+        tabularRatingsMatrix(tbl_id){
+            let results = NtpEpiResult.find({tbl_id}).fetch(),
+                header = NtpEpiResult.getTabularRatingsHeader(),
+                rows = _.chain(NtpEpiResult.getUniqueRatingCollection(results))
+                    .map((d) => d.getTabularRatingsRow())
+                    .value();
+
+            rows.unshift(header);
+            return rows;
         },
     },
     NtpEpiResult = new Meteor.Collection('ntpEpiResult', {
