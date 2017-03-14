@@ -25,25 +25,8 @@ Template.ntpEpiRatingMain.onDestroyed(function() {
 Template.ntpEpiRatingTable.helpers(_.extend(
     {
         results: function(){
-            let existing = {};
-            return _.chain(NtpEpiResult.find().fetch())
-                .each((d)=>{
-                    d.getDescription();
-                    d.description.getReference();
-                    d.description.setResultConfounder(d);
-                    d._unique = `${d.description.reference.name}-${d.organSiteCategory}`;
-                })
-                .filter((d)=>{
-                    // only show first unique reference + organ site category combination
-                    if (existing[d._unique] === undefined){
-                        existing[d._unique] = true;
-                        return true;
-                    }
-                    return false;
-                })
-                .sortBy((d)=>d.description.reference.name)
-                .sortBy((d)=>d.organSiteCategory)
-                .value();
+            return NtpEpiResult.getUniqueRatingCollection(
+                NtpEpiResult.find().fetch());
         },
     }, abstractTblHelpers));
 Template.ntpEpiRatingTable.onRendered(function(){

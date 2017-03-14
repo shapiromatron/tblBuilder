@@ -83,6 +83,27 @@ let instanceMethods = {
             header.push.apply(header, tabularizeHeader(riskEstimateSchema._schema, null, []));
             return header;
         },
+        getUniqueRatingCollection(results){
+            let existing = {};
+            return _.chain(results)
+                .each((d)=>{
+                    d.getDescription();
+                    d.description.getReference();
+                    d.description.setResultConfounder(d);
+                    d._unique = `${d.description.reference.name}-${d.organSiteCategory}`;
+                })
+                .filter((d)=>{
+                    // only show first unique reference + organ site category combination
+                    if (existing[d._unique] === undefined){
+                        existing[d._unique] = true;
+                        return true;
+                    }
+                    return false;
+                })
+                .sortBy((d)=>d.description.reference.name)
+                .sortBy((d)=>d.organSiteCategory)
+                .value();
+        },
     },
     NtpEpiResult = new Meteor.Collection('ntpEpiResult', {
         transform: function (doc) {
