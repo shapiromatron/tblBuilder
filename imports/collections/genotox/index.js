@@ -47,10 +47,6 @@ var instanceMethods = {
                 }
                 ext.wrd_experimental = this.setNonMammalianExperimentText(this);
                 break;
-            case 'Mammalian and human in vitro':
-                ext.wrd_colA = (this.testSpeciesMamm === 'Human')?
-                    this.testSpeciesMamm:
-                    this.speciesMamm;
             }
 
             if (this.dualResult) {
@@ -227,14 +223,20 @@ var instanceMethods = {
                 table: resp.table,
                 nonMammalianInVitro:
                     _.filter(resp.objects, (v) => v.dataClass === 'Non-mammalian'),
-                mammalianInVitro: _.chain(resp.objects)
-                    .filter((v) => v.dataClass === 'Mammalian and human in vitro')
-                    .sortBy((v) => v.testSpeciesMamm + v.speciesMamm)
+                humanInVitro: _.chain(resp.objects)
+                    .filter((v) => v.dataClass === 'Mammalian and human in vitro' &&
+                                   v.testSpeciesMamm === 'Human')
+                    .value(),
+                nonHumanInVitro: _.chain(resp.objects)
+                    .filter((v) => v.dataClass === 'Mammalian and human in vitro' &&
+                                   v.testSpeciesMamm !== 'Human')
+                    .sortBy((v) => v.speciesMamm)
                     .value(),
                 animalInVivo:
                     _.filter(resp.objects, (v) => v.dataClass === 'Animal in vivo'),
                 humanInVivo:
                     _.filter(resp.objects, (v) => v.dataClass === 'Human in vivo'),
+
             };
         },
         wordHtmlContext: function(tbl_id){

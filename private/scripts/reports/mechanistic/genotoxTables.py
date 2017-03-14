@@ -35,20 +35,20 @@ class GenotoxTables(DOCXReport):
         return self.context["table"]["monographAgent"]
 
     def buildHumanVivoTbl(self):
-        colWidths = [0.9, 1.1, 0.8, 0.8, 1.6, 0.8, 2, 1]
+        colWidths = [0.9, 1.2, 1.2, 1.3, 1.4, 0.8, 1.4, 0.8]
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle="ntpTbl")
 
         # write title
-        txt = "[Genetic and related effects] of [{}] in humans in vivo".format(self.getAgent())
+        txt = "Table 1 [Genetic and related effects] of [{}] in humans in vivo".format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=8)
 
         # write header
-        tbl.new_th(1, 0, "Endpoint")
+        tbl.new_th(1, 0, "End-point")
         tbl.new_th(1, 1, "Test")
         tbl.new_th(1, 2, "Tissue")
         tbl.new_th(1, 3, "Cell type\n(if specified)")
         tbl.new_th(1, 4, "Description of exposed and controls")
-        tbl.new_th(1, 5, "Response/ significance  ")
+        tbl.new_th(1, 5, "Response/ significance*")
         tbl.new_th(1, 6, "Comments")
         tbl.new_th(1, 7, "Reference")
 
@@ -72,18 +72,58 @@ class GenotoxTables(DOCXReport):
         self.doc.add_paragraph(HUMAN_VIVO_FOOTNOTE)
         self.doc.add_page_break()
 
+    def buildHumanInVitro(self):
+        colWidths = [1.0, 1.2, 1.4, 0.9, 0.9, 1.0, 1.6, 1.0]
+        tbl = TableMaker(colWidths, numHeaders=2, tblStyle="ntpTbl")
+
+        # write title
+        txt = "Table 2 [Genetic and related effects] of [{}] in human cells in vitro".format(self.getAgent())
+        tbl.new_th(0, 0, txt, colspan=8)
+
+        # write header
+        tbl.new_th(1, 0, "End-point")
+        tbl.new_th(1, 1, "Test")
+        tbl.new_th(1, 2, "Tissue, cell line")
+        tbl.new_th(1, 3, "Results/\nResults without metabolic activation")
+        tbl.new_th(1, 4, "Results with metabolic activation")
+        tbl.new_th(1, 5, "Concentration (LEC or HIC)")
+        tbl.new_th(1, 6, "Comments")
+        tbl.new_th(1, 7, "Reference")
+
+        row = 2
+        for d in self.context["humanInVitro"]:
+
+            tbl.new_td_txt(row, 0, d["endpoint"])
+            tbl.new_td_txt(row, 1, d["endpointTest"])
+
+            tbl.new_td_txt(row, 2, d["tissueCellLine"])
+
+            tbl.new_td_txt(row, 3, d["wrd_resultA"])
+            tbl.new_td_txt(row, 4, d["wrd_resultB"])
+
+            txt = u"{} {}".format(d["wrd_led"], d["units"])
+            tbl.new_td_txt(row, 5, txt)
+
+            tbl.new_td_txt(row, 6, d["wrd_comments"])
+            tbl.new_td_txt(row, 7, d["reference"]["name"])
+            row += 1
+
+        tbl.render(self.doc)
+        self.doc.add_paragraph(MAMMAL_VITRO_FOOTNOTE)
+        self.doc.add_page_break()
+
     def buildAniVivoTbl(self):
         colWidths = [1.0, 1.0, 1.0, 1.0, 0.5, 0.7, 1.2, 1.6, 1]
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle="ntpTbl")
 
         # write title
-        txt = "[Genetic and related effects] of [{}] in experimental animals in vivo".format(self.getAgent())
+        txt = "Table 3 [Genetic and related effects] of [{}] in non-human mammals in vivo".format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=9)
 
         # write header
-        tbl.new_th(1, 0, "Species, strain, sex")
-        tbl.new_th(1, 1, "Endpoint")
-        tbl.new_th(1, 2, "Test")
+        tbl.new_th(1, 0, "End-point")
+        tbl.new_th(1, 1, "Test")
+        tbl.new_th(1, 2, "Species, strain, sex")
         tbl.new_th(1, 3, "Tissue")
         tbl.new_th(1, 4, "Results")
         tbl.new_th(1, 5, "Agent, dose (LED or HID)")
@@ -94,12 +134,12 @@ class GenotoxTables(DOCXReport):
         row = 2
         for d in self.context["animalInVivo"]:
 
+            tbl.new_td_txt(row, 0, d["endpoint"])
+
+            tbl.new_td_txt(row, 1, d["endpointTest"])
+
             txt = u"{} {} {}".format(d["species"], d["strain"], d["sex"])
-            tbl.new_td_txt(row, 0, txt)
-
-            tbl.new_td_txt(row, 1, d["endpoint"])
-
-            tbl.new_td_txt(row, 2, d["endpointTest"])
+            tbl.new_td_txt(row, 2, txt)
 
             tbl.new_td_txt(row, 3, d["tissueAnimal"])
 
@@ -108,7 +148,7 @@ class GenotoxTables(DOCXReport):
             txt = u"{}\nLED/HID: {} {}".format(d["agent"], d["wrd_led"], d["units"])
             tbl.new_td_txt(row, 5, txt)
 
-            txt = u"{}; {}".format(d["dosingRoute"], d["dosingDuration"])
+            txt = u"{};\n{}".format(d["dosingRoute"], d["dosingDuration"])
             tbl.new_td_txt(row, 6, txt)
 
             tbl.new_td_txt(row, 7, d["wrd_comments"])
@@ -120,42 +160,40 @@ class GenotoxTables(DOCXReport):
         self.doc.add_page_break()
 
     def buildMammInVitroTbl(self):
-        colWidths = [1.0, 1.2, 0.9, 0.9, 0.7, 0.7, 1.0, 1.6, 1]
+        colWidths = [0.9, 0.9, 2.2, 0.7, 0.7, 1.0, 1.6, 1]
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle="ntpTbl")
 
         # write title
-        txt = "[Genetic and related effects] of [{}] in humans and other mammals in vitro".format(self.getAgent())
-        tbl.new_th(0, 0, txt, colspan=9)
+        txt = "Table 4 [Genetic and related effects] of [{}] in non-human mammalians in vitro".format(self.getAgent())
+        tbl.new_th(0, 0, txt, colspan=8)
 
         # write header
-        tbl.new_th(1, 0, "Species")
-        tbl.new_th(1, 1, "Tissue, cell line")
-        tbl.new_th(1, 2, "Endpoint")
-        tbl.new_th(1, 3, "Test")
-        tbl.new_th(1, 4, "Results/\nResults without metabolic activation")
-        tbl.new_th(1, 5, "Results with metabolic activation")
-        tbl.new_th(1, 6, "Agent, concentration (LEC or HIC)")
-        tbl.new_th(1, 7, "Comments")
-        tbl.new_th(1, 8, "Reference")
+        tbl.new_th(1, 0, "End-point")
+        tbl.new_th(1, 1, "Test")
+        tbl.new_th(1, 2, "Species/tissue/cell line")
+        tbl.new_th(1, 3, "Results/\nResults without metabolic activation")
+        tbl.new_th(1, 4, "Results with metabolic activation")
+        tbl.new_th(1, 5, "Agent, concentration (LEC or HIC)")
+        tbl.new_th(1, 6, "Comments")
+        tbl.new_th(1, 7, "Reference")
 
         row = 2
-        for d in self.context["mammalianInVitro"]:
+        for d in self.context["nonHumanInVitro"]:
 
-            tbl.new_td_txt(row, 0, d["wrd_colA"])
+            tbl.new_td_txt(row, 0, d["endpoint"])
+            tbl.new_td_txt(row, 1, d["endpointTest"])
 
-            tbl.new_td_txt(row, 1, d["tissueCellLine"])
+            txt = u"{} {}".format(d["speciesMamm"], d["tissueCellLine"])
+            tbl.new_td_txt(row, 2, txt)
 
-            tbl.new_td_txt(row, 2, d["endpoint"])
-            tbl.new_td_txt(row, 3, d["endpointTest"])
-
-            tbl.new_td_txt(row, 4, d["wrd_resultA"])
-            tbl.new_td_txt(row, 5, d["wrd_resultB"])
+            tbl.new_td_txt(row, 3, d["wrd_resultA"])
+            tbl.new_td_txt(row, 4, d["wrd_resultB"])
 
             txt = u"{}, {} {}".format(d["agent"], d["wrd_led"], d["units"])
-            tbl.new_td_txt(row, 6, txt)
+            tbl.new_td_txt(row, 5, txt)
 
-            tbl.new_td_txt(row, 7, d["wrd_comments"])
-            tbl.new_td_txt(row, 8, d["reference"]["name"])
+            tbl.new_td_txt(row, 6, d["wrd_comments"])
+            tbl.new_td_txt(row, 7, d["reference"]["name"])
             row += 1
 
         tbl.render(self.doc)
@@ -167,13 +205,13 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle="ntpTbl")
 
         # write title
-        txt = "[Genetic and related effects] of [{}] in non-mammalian species in vitro".format(self.getAgent())
+        txt = "Table 5 [Genetic and related effects] of [{}] in non-mammalian species".format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=9)
 
         # write header
         tbl.new_th(1, 0, "Phylogenetic class")
         tbl.new_th(1, 1, "Test system\n(species, strain)")
-        tbl.new_th(1, 2, "Endpoint")
+        tbl.new_th(1, 2, "End-point")
         tbl.new_th(1, 3, "Test")
         tbl.new_th(1, 4, "Results/\nResults without metabolic activation")
         tbl.new_th(1, 5, "Results with metabolic activation")
@@ -202,6 +240,7 @@ class GenotoxTables(DOCXReport):
         self.setLandscape()
         self.buildHeader()
         self.buildHumanVivoTbl()
+        self.buildHumanInVitro()
         self.buildAniVivoTbl()
         self.buildMammInVitroTbl()
         self.buildNonMammInVitroTbl()
