@@ -54,24 +54,36 @@ let instanceMethods = {
             return rows;
         },
         getTabularRatingsRow(){
-            let outcomeRating, confoundingRating;
+            let outcomeRating, outcomeRatingRationale,
+                confoundingRating, confoundingRatingRationale;
 
             if (this.confounder){
                 outcomeRating = this.confounder.getOutcomeRating();
+                outcomeRatingRationale = this.confounder.getOutcomeRatingRationale();
                 confoundingRating = this.confounder.confoundingRating;
+                confoundingRatingRationale = this.confounder.confoundingRatingRationale;
             }
 
             return [
                 this.description.reference.name,
                 this.organSiteCategory,
                 this.description.selectionBiasRating,
+                this.description.selectionBiasRationale,
                 this.description.exposureAssessmentRating,
+                this.description.exposureAssessmentRationale,
                 outcomeRating,
+                outcomeRatingRationale,
                 this.description.analysisRating,
+                this.description.analysisRationale,
                 this.description.selectiveReportingRating,
+                this.description.selectiveReportingRationale,
                 this.description.sensitivityRating,
+                this.description.sensitivityRationale,
                 confoundingRating,
+                confoundingRatingRationale,
                 this.description.overallUtility,
+                this.description.strengths,
+                this.description.limitations,
             ];
         },
     },
@@ -130,13 +142,22 @@ let instanceMethods = {
                 'Reference',
                 'Organ site category',
                 'Selection bias',
+                'Selection bias rationale',
                 'Exposure assessment',
+                'Exposure assessment rationale',
                 'Outcome assessment  ',
+                'Outcome rating rationale',
                 'Analysis',
+                'Analysis rationale',
                 'Selective reporting',
+                'Selective reporting rationale',
                 'Sensitivity',
+                'Sensitivity rating rationale',
                 'Confounding',
+                'Confounding rating rationale',
                 'Overall',
+                'Strengths',
+                'Limitations',
             ];
         },
         tabularRatingsMatrix(tbl_id){

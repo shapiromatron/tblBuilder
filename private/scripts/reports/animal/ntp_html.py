@@ -104,7 +104,7 @@ class NtpAnimalHtmlTables(DOCXReport):
 
                     # write groups
                     for group in result['endpointGroups']:
-                        dose = u'{} {}'.format(group['dose'], result['units'])
+                        dose = u'{}'.format(group['dose'])
                         tbl.new_td_txt(site_row, 2, dose)
 
                         txt = u'{}'.format(group.get('incidence', ''))
@@ -140,13 +140,10 @@ class NtpAnimalHtmlTables(DOCXReport):
                     b=True, newline=False
                 ),
                 tbl.new_run(first_result['nonNeoplasticFindings'] or ''),
-                tbl.new_run(
-                    'Other comments: ',
-                    b=True, newline=False
-                ),
-                tbl.new_run('TOADD what belongs here?'),
-                tbl.new_run('Strengths and limitations: ', b=True, newline=False),
+                tbl.new_run('Other comments: ', b=True, newline=False),
                 tbl.new_run(first_result['comments'] or ''),
+                tbl.new_run('Strengths and limitations: ', b=True, newline=False),
+                tbl.new_run(study['overallUtilityRationale'] or ''),
             ]
             tbl.new_td_run(row, 4, runs, rowspan=study_rowspan)
 
