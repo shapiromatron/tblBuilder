@@ -97,8 +97,12 @@ class NtpAnimalHtmlTables(DOCXReport):
                     histology = result.get('histology')
                     if histology:
                         txt = u'{} – {}'.format(txt, histology)
+
                     if result['adjustedIncidence']:
-                        txt += '*'
+                        txt += u'ᵃ'
+                        fn = u'ᵃ Adjusted percent incidence based on Poly-3 estimated neoplasm incidence after adjustment for intercurrent mortality.'  # noqa
+                        footnotes[hash(fn)] = fn
+
                     tbl.new_td_txt(site_row, 2, txt, colspan=2)
                     site_row += 1
 
