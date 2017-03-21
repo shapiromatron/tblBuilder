@@ -78,7 +78,7 @@ let instanceMethods = {
                 this.description.selectiveReportingRating,
                 this.description.selectiveReportingRationale,
                 this.description.sensitivityRating,
-                this.description.sensitivityRationale,
+                this.description.sensitivityRatingRationale,
                 confoundingRating,
                 confoundingRatingRationale,
                 this.description.overallUtility,
