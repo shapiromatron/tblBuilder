@@ -66,10 +66,15 @@ var uiHelpers = {
     preserveWhitespaceInHtml(txt){
         if (txt) return txt.replace(/(\n)+/g, '<br>');
     },
-    showSortIdx(idx){
+    showDebugInformation(id_, idx){
+        let el = '';
         if (Session.get('showSortIndex')){
-            return `<p class='sortIndex'>${idx}</p>`;
+            el += `<p class='debugInfo'>${idx}</p>`;
         }
+        if (Session.get('showIds')){
+            el += `<p class='debugInfo'>${id_}</p>`;
+        }
+        return el;
     },
 };
 

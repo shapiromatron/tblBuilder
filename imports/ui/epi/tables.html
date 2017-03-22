@@ -89,12 +89,12 @@
         </ul>
       </div>
     {{/if}}
-    {{{showSortIdx sortIdx}}}
     {{qaMark isQA}}
     {{>printReference id=referenceID}}<br>
     {{location}}<br>
     {{enrollmentDates}}<br>
     {{studyDesign}}
+    {{{showDebugInformation _id sortIdx}}}
   </td>
   <td>{{{getCol2}}}</td>
   <td colspan="5" id="sortableInner">
@@ -194,7 +194,7 @@
         </ul>
       </div>
     {{/if}}
-    {{{showSortIdx sortIdx}}}
     {{qaMark isQA}}{{this.printOrganSite}}
+    {{{showDebugInformation _id sortIdx}}}
   </td>
 </template>

@@ -114,13 +114,13 @@
         </ul>
       </div>
     {{/if}}
-    {{{showSortIdx sortIdx}}}
     {{qaMark isQA}}
     <strong>{{studyDesign}}</strong><br>
     <strong>{{species}}</strong>, {{strain}} ({{sex}})<br>
     {{ageAtStart}}<br>
     {{duration}}<br>
     {{>printReference id=referenceID}}
+    {{{showDebugInformation _id sortIdx}}}
   </td>
   <td>
     {{dosingRoute}}<br>
@@ -165,10 +165,10 @@
           <tr>
             <td class="quickEdit">
               {{> ntpAnimalEndpointEvidenceActions}}
-              {{{showSortIdx sortIdx}}}
               {{qaMark isQA}}
               <strong>{{tumourSite}}: {{histology}}</strong>
               {{incidenceText}}
+              {{{showDebugInformation _id sortIdx}}}
             </td>
             <td>
               {{{preserveWhitespaceInHtml significanceNotes}}}

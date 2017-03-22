@@ -126,14 +126,14 @@
         </ul>
       </div>
     {{/if}}
-    {{{showSortIdx sortIdx}}}
     {{qaMark isQA}}
     <strong>{{studyDesign}}</strong><br>
     <strong>{{species}}</strong>, {{strain}} ({{sex}})<br>
     {{ageAtStart}}<br>
     {{duration}}<br>
-    {{>printReference id=referenceID}}</td>
-
+    {{>printReference id=referenceID}}
+    {{{showDebugInformation _id sortIdx}}}
+  </td>
   <td>
     {{dosingRoute}}<br>
     {{agent}}, {{purity}}<br>
@@ -286,9 +286,9 @@
                   </ul>
                 </div>
               {{/if}}
-              {{{showSortIdx sortIdx}}}
               {{qaMark isQA}}
               <strong>{{tumourSite}}: {{histology}}</strong><br>
+              {{{showDebugInformation _id sortIdx}}}
               <table class="aniEvidenceTbl">
                 <colgroup>
                   <col width="70%">
