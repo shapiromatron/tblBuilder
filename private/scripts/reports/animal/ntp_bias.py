@@ -8,8 +8,7 @@ class NtpAnimalBias(DOCXReport):
     """
 
     def add_rr_header(self, tbl, row, header):
-        tbl.new_td_txt(row, 0, header)
-        tbl.new_td_txt(row, 1, '')
+        tbl.new_th(row, 0, header, colspan=2)
 
     def add_rr_row(self, tbl, row, header, rating, rationale):
         tbl.new_td_txt(row, 0, header)
@@ -21,8 +20,9 @@ class NtpAnimalBias(DOCXReport):
                          tblStyle="ntpTbl")
 
         # Table caption
-        txt = u'Table X: {} ({}): {}: {}'.format(
+        txt = u'Table X: {} ({} {}): {}: {}'.format(
             study['reference']['name'],
+            study['sex'],
             study['species'],
             study['agent'],
             study['dosingRoute'],
@@ -60,8 +60,8 @@ class NtpAnimalBias(DOCXReport):
 
         self.add_rr_row(
             tbl, 7, 'Dosing regimen',
-            study['concurrentControlsRating'],
-            study['concurrentControlsRationale'])
+            study['dosingRegimenRating'],
+            study['dosingRegimenRationale'])
 
         # outcome section
         self.add_rr_header(tbl, 8, 'Outcome')
@@ -116,7 +116,7 @@ class NtpAnimalBias(DOCXReport):
             study['exposureDurationRationale'])
 
         self.add_rr_row(
-            tbl, 20, 'Dose response relationships',
+            tbl, 20, 'Dose/response',
             study['doseResponseRating'],
             study['doseResponseRationale'])
 
