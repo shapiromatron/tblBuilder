@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
+import {isNtp} from '/imports/utilities'
 
 var getTableTypes = function(){
-    if (Meteor.settings['public'].context === 'ntp'){
+    if (isNtp()){
         return [
             'Exposure Evidence',
             'NTP Epidemiology Evidence',
