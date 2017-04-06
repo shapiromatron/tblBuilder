@@ -47,8 +47,7 @@ class ExposureHtmlTable(DOCXReport):
             d['exposureLevel'], d['units'], d['exposureLevelDescription'])
         tbl.new_td_txt(row, 4, txt)
 
-        txt = u'{} {}'.format(d['exposureLevelRange'], d['units'])
-        tbl.new_td_txt(row, 5, txt)
+        tbl.new_td_txt(row, 5, d['exposureRangePrint'])
 
         txt = d['comments'] or u''
         tbl.new_td_txt(row, 6, txt)
