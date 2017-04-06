@@ -21,15 +21,12 @@ class ExposureHtmlTable(DOCXReport):
         self.build_table()
 
     def build_row(self, tbl, d, row):
-        txt = u'{}\n{}\n{}'.format(
-            d['reference']['name'], d['exposureScenario'], d['agent'])
+        txt = u'{}\n{}'.format(
+            d['reference']['name'], d['agent'])
         tbl.new_td_txt(row, 0, txt)
 
-        loc = u'{}\n'.format(d['location']) \
-            if d['location'] \
-            else ''
-        txt = u'{}\n{}{}'.format(
-            d['country'], loc, d['collectionDate'])
+        txt = u'{}\n{}'.format(
+            d['country'], d['collectionDate'])
         tbl.new_td_txt(row, 1, txt)
 
         occ = u'\n{}'.format(d['occupationInfo']) \
@@ -40,7 +37,12 @@ class ExposureHtmlTable(DOCXReport):
             else 'N/A'
         tbl.new_td_txt(row, 2, txt)
 
-        txt = d['samplingMatrix']
+        txt = u'{};\n{};\n{};\n{}'.format(
+            d['samplingMatrix'],
+            d['samplingApproach'],
+            d['numberMeasurements'],
+            d['measurementDuration'],
+        )
         tbl.new_td_txt(row, 3, txt)
 
         txt = u'{} {}\n{}'.format(
@@ -53,7 +55,7 @@ class ExposureHtmlTable(DOCXReport):
         tbl.new_td_txt(row, 6, txt)
 
     def build_table(self):
-        colWidths = [1.35, 0.9, 0.9, 0.9, 1.35, 0.9, 2.7]
+        colWidths = [1.3, 0.9, 0.9, 1.0, 1.30, 0.9, 2.7]
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle="ntpTbl")
 
         # write title
@@ -61,10 +63,10 @@ class ExposureHtmlTable(DOCXReport):
         tbl.new_th(0, 0, txt, colspan=7)
 
         # write header
-        tbl.new_th(1, 0, "Reference,\nagent collected,\nexposure-scenario")
+        tbl.new_th(1, 0, "Reference,\nagent")
         tbl.new_th(1, 1, "Location,\ncollection date")
         tbl.new_th(1, 2, "Occupation description")
-        tbl.new_th(1, 3, "Sampling\nmatrix")
+        tbl.new_th(1, 3, "Sampling matrix, approach,\nN, duration")
         tbl.new_th(1, 4, "Exposure level")
         tbl.new_th(1, 5, "Exposure range")
         tbl.new_th(1, 6, "Comments/additional data")
