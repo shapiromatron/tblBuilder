@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import {Meteor} from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
@@ -29,8 +30,8 @@ Meteor.methods({
         }
         return Accounts.sendResetPasswordEmail(_id);
     },
-    adminToggleQAd: function(_id, model) {
-        var collection, obj, qad, timestamp, updates;
+    adminToggleQAd: function(_id, model, modifier) {
+        var collection, obj, qad;
         if (!isStaffOrHigher(this.userId)) {
             throw new Meteor.Error(403, 'Nice try wise-guy.');
         }
@@ -40,12 +41,19 @@ Meteor.methods({
             if (obj) {
                 qad = obj.isQA;
                 if (qad) {
-                    updates = {isQA: false, timestampQA: null, user_id_QA: null};
+                    modifier.$set = _.extend(modifier.$set, {
+                        isQA: false,
+                        timestampQA: null,
+                        user_id_QA: null,
+                    });
                 } else {
-                    timestamp = new Date();
-                    updates = {isQA: true, timestampQA: timestamp, user_id_QA: this.userId};
+                    modifier.$set = _.extend(modifier.$set, {
+                        isQA: true,
+                        timestampQA: new Date(),
+                        user_id_QA: this.userId,
+                    });
                 }
-                collection.update(_id, {$set: updates});
+                collection.update(_id, modifier);
                 return {success: true, QAd: !qad};
             }
         }

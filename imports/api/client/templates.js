@@ -140,10 +140,83 @@ let getScrollPosition = function(){
         }
 
         return objs;
+    },
+    toggleEdit = function(_id){
+        getScrollPosition();
+        Session.set('evidenceEditingId', _id);
+        Tracker.flush();
+        activateInput($('input[name=referenceID]')[0]);
+    },
+    getUpdateModifier = function(tmpl, Collection, key){
+        // Get update modifier object and validate schema.
+        // Return boolean for validation success/failure and
+        // the modifier.
+        //
+        // Must be called w/ a `this` binded via call or apply.
+
+        let fld, i, updatePreValidate, modifier, errorDiv,
+            vals = updateValues(tmpl.find('#mainForm'), this),
+            ref = tblBuilderCollections.evidenceLookup[key].requiredUpdateFields;
+
+        if (Collection.preSaveHook){
+            Collection.preSaveHook(tmpl, vals);
+        }
+
+        for (i = 0; i < ref.length; i++) {
+            fld = ref[i];
+            vals[fld] = tmpl.find(`select[name="${fld}"]`).value;
+        }
+
+        updatePreValidate = tmpl.view.template.__helpers[' updatePreValidate'];
+
+        if (updatePreValidate != null){
+            vals = updatePreValidate(tmpl, vals, this);
+        }
+
+        modifier = {$set: vals};
+
+        isValid = Collection
+            .simpleSchema()
+            .namedContext()
+            .validate(modifier, {modifier: true});
+
+        return {
+            isValid,
+            modifier,
+        };
+    },
+    getNestedUpdateModifier = function(tmpl, NestedCollection){
+        // Get update modifier object and validate schema.
+        // Return boolean for validation success/failure and
+        // the modifier.
+        //
+        // Must be called w/ a `this` binded via call or apply.
+
+        let modifier, isValid,
+            vals = updateValues(tmpl.find('#nestedModalForm'), this);
+
+        NestedCollection.preSaveHook(tmpl, vals);
+
+        modifier = {$set: vals};
+
+        isValid = NestedCollection
+                .simpleSchema()
+                .namedContext()
+                .validate(modifier, {modifier: true});
+
+        return {
+            isValid,
+            modifier,
+        };
+    },
+    renderErrorDiv = function(tmpl, Collection){
+        let errorDiv = createErrorDiv(Collection.simpleSchema().namedContext());
+        $(tmpl.find('#errors')).html(errorDiv);
     };
 
 
 export {cloneObject};
+
 
 export const abstractMainHelpers = {};
 
@@ -186,13 +259,6 @@ export const abstractRowHelpers = {
     },
 };
 
-
-let toggleEdit = function(_id){
-    getScrollPosition();
-    Session.set('evidenceEditingId', _id);
-    Tracker.flush();
-    activateInput($('input[name=referenceID]')[0]);
-};
 
 export const abstractRowEvents = {
     'click #show-edit': function(evt, tmpl) {
@@ -259,39 +325,20 @@ export const abstractFormEvents = {
         }
     },
     'click #update': function(evt, tmpl) {
-        var errorDiv, fld, i, isValid, modifier, updatePreValidate,
-            key = Session.get('evidenceType'),
+        let key = Session.get('evidenceType'),
             Collection = tblBuilderCollections.evidenceLookup[key].collection,
-            vals = updateValues(tmpl.find('#mainForm'), this),
-            ref = tblBuilderCollections.evidenceLookup[key].requiredUpdateFields;
+            res = getUpdateModifier.call(this, tmpl, Collection, key);
 
-        if (Collection.preSaveHook){
-            Collection.preSaveHook(tmpl, vals);
-        }
+        if (res.isValid) {
+            Collection.update(this._id, res.modifier);
 
-        for (i = 0; i < ref.length; i++) {
-            fld = ref[i];
-            vals[fld] = tmpl.find(`select[name="${fld}"]`).value;
-        }
+            (isCtrlClick(evt)) ?
+                animateClick(evt.target) :
+                Session.set('evidenceEditingId', null);
 
-        updatePreValidate = tmpl.view.template.__helpers[' updatePreValidate'];
-
-        if (updatePreValidate != null){
-            vals = updatePreValidate(tmpl, vals, this);
-        }
-
-        modifier = {$set: vals};
-        isValid = Collection
-            .simpleSchema()
-            .namedContext()
-            .validate(modifier, {modifier: true});
-        if (isValid) {
-            Collection.update(this._id, {$set: vals});
-            (isCtrlClick(evt)) ? animateClick(evt.target) : Session.set('evidenceEditingId', null);
             $(tmpl.firstNode).trigger('closeForm');
         } else {
-            errorDiv = createErrorDiv(Collection.simpleSchema().namedContext());
-            $(tmpl.find('#errors')).html(errorDiv);
+            renderErrorDiv.call(this, tmpl, Collection);
         }
     },
     'click #delete': function(evt, tmpl) {
@@ -302,15 +349,23 @@ export const abstractFormEvents = {
         $(tmpl.firstNode).trigger('closeForm');
     },
     'click #setQA,#unsetQA': function(evt, tmpl) {
-        var key = Session.get('evidenceType'),
-            collection_name = tblBuilderCollections.evidenceLookup[key].collection_name;
-        Meteor.call('adminToggleQAd', this._id, collection_name, function(err, response) {
-            if (response){
-                toggleQA(tmpl, response.QAd);
-                Session.set('evidenceEditingId', null);
-                $(tmpl.firstNode).trigger('closeForm');
-            }
-        });
+        let errorDiv,
+            key = Session.get('evidenceType'),
+            Collection = tblBuilderCollections.evidenceLookup[key].collection,
+            collection_name = tblBuilderCollections.evidenceLookup[key].collection_name,
+            res = getUpdateModifier.call(this, tmpl, Collection, key);
+
+        if (res.isValid) {
+            Meteor.call('adminToggleQAd', this._id, collection_name, res.modifier, function(err, response) {
+                if (response){
+                    toggleQA(tmpl, response.QAd);
+                    Session.set('evidenceEditingId', null);
+                    $(tmpl.firstNode).trigger('closeForm');
+                }
+            });
+        } else {
+            renderErrorDiv.call(this, tmpl, Collection);
+        }
     },
     'click #addNestedResult': createNewNestedModal,
 };
@@ -402,30 +457,23 @@ export const abstractNestedFormEvents = {
         removeNestedFormModal(tmpl);
     },
     'click #inner-update': function(evt, tmpl) {
-        var errorDiv, modifier, isValid,
+        let errorDiv,
             key = Session.get('evidenceType'),
             NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
-            vals = updateValues(tmpl.find('#nestedModalForm'), this);
+            res = getNestedUpdateModifier.call(this, tmpl, NestedCollection);
 
-        NestedCollection.preSaveHook(tmpl, vals);
+        if (res.isValid) {
+            NestedCollection.update(this._id, res.modifier);
 
-        modifier = {$set: vals},
-        isValid = NestedCollection
-            .simpleSchema()
-            .namedContext()
-            .validate(modifier, {modifier: true});
-
-        if (isValid) {
-            NestedCollection.update(this._id, modifier);
             if (isCtrlClick(evt)){
                 animateClick(evt.target);
             } else {
                 Session.set('nestedEvidenceEditingId', null);
                 removeNestedFormModal(tmpl);
             }
+
         } else {
-            errorDiv = createErrorDiv(NestedCollection.simpleSchema().namedContext());
-            $(tmpl.find('#errors')).html(errorDiv);
+            renderErrorDiv.call(this, tmpl, NestedCollection);
         }
     },
     'click #inner-update-cancel': function(evt, tmpl) {
@@ -437,14 +485,22 @@ export const abstractNestedFormEvents = {
         removeNestedFormModal(tmpl, {'remove': this._id});
     },
     'click #setQA,#unsetQA': function(evt, tmpl) {
-        var key = Session.get('evidenceType'),
-            nested_collection_name = tblBuilderCollections.evidenceLookup[key].nested_collection_name;
-        Meteor.call('adminToggleQAd', this._id, nested_collection_name, function(err, response) {
-            if (response){
-                toggleQA(tmpl, response.QAd);
-                Session.set('nestedEvidenceEditingId', null);
-                removeNestedFormModal(tmpl);
-            }
-        });
+        let errorDiv,
+            key = Session.get('evidenceType'),
+            NestedCollection = tblBuilderCollections.evidenceLookup[key].nested_collection,
+            nested_collection_name = tblBuilderCollections.evidenceLookup[key].nested_collection_name,
+            res = getNestedUpdateModifier.call(this, tmpl, NestedCollection);
+
+        if (res.isValid) {
+            Meteor.call('adminToggleQAd', this._id, nested_collection_name, res.modifier, function(err, response) {
+                if (response){
+                    toggleQA(tmpl, response.QAd);
+                    Session.set('nestedEvidenceEditingId', null);
+                    removeNestedFormModal(tmpl);
+                }
+            });
+        } else {
+            renderErrorDiv.call(this, tmpl, NestedCollection);
+        }
     },
 };
