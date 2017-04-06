@@ -6,6 +6,10 @@ import { UI } from 'meteor/ui';
 import _ from 'underscore';
 
 import {
+    isNtp,
+} from '/imports/utilities'
+
+import {
     userCanEdit,
 } from '/imports/api/client/utilities';
 
@@ -53,7 +57,7 @@ var uiHelpers = {
         return a === b;
     },
     isNTP: function() {
-        return Meteor.settings['public'].context === 'ntp';
+        return isNtp();
     },
     getUserDescription: function() {
         return (this.profile && this.profile.fullName)

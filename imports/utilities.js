@@ -1,3 +1,4 @@
+import {Meteor} from 'meteor/meteor';
 import _ from 'underscore';
 
 
@@ -168,6 +169,9 @@ let getPercentOrText = function(txt) {
         rows.unshift(headerCols);
 
         return rows;
+    },
+    isNtp = function(){
+        return Meteor.settings.public.context === 'ntp';
     };
 
 
@@ -179,3 +183,4 @@ export { capitalizeFirst };
 export { tabularizeHeader };
 export { tabularize };
 export { biasWorksheetExport };
+export { isNtp };
