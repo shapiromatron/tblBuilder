@@ -20,6 +20,8 @@ import {
 } from '/imports/api/utilities';
 
 
+Session.setDefault('showActiveTablesOnly', true);
+
 Template.home.onCreated(function() {
     document.title = getHTMLTitleBase();
     Session.set('tablesShowNew', false);
@@ -49,7 +51,7 @@ Template.tableOpts.events({
             tmpl.sortables.forEach(function(v) { return v.destroy();});
         }
         toggleRowVisibilty(isReorder, $('.moveTableHandle'));
-    },
+    }
 });
 
 
@@ -89,9 +91,14 @@ Template.volumeTableList.helpers({
                 .value();
     },
     getTables: function(volumeNumber, monographAgent) {
-        return Tables.find(
-            {'volumeNumber': volumeNumber, 'monographAgent': monographAgent},
-            {sort: {'sortIdx': 1}}).fetch();
+        let query = {
+            volumeNumber,
+            monographAgent,
+        }
+        if(Session.get('showActiveTablesOnly')){
+            query.activeTable = true;
+        }
+        return Tables.find(query, {sort: {'sortIdx': 1}}).fetch();
     },
     showNew: function() {
         return Session.get('tablesShowNew');
@@ -106,6 +113,9 @@ Template.volumeTableList.helpers({
 Template.tableItem.helpers({
     getStatusColorClass: function(tbl) {
         return tbl.getStatusColorClass();
+    },
+    getActiveTableClass: function(){
+        return (this.activeTable)? '': 'hiddenRow';
     },
 });
 Template.tableItem.events({
@@ -151,6 +161,9 @@ Template.tablesForm.helpers({
     },
     getStatusOptions: function() {
         return _.keys(Tables.statusOptions);
+    },
+    getDeleteIcon: function(){
+        return (this.activeTable)? 'fa-trash': 'fa-undo';
     },
 });
 Template.tablesForm.events({
@@ -198,7 +211,8 @@ Template.tablesForm.events({
         return Session.set('tablesEditingId', null);
     },
     'click #tables-delete': function(evt, tmpl) {
-        Tables.remove(this._id);
+        let modifier = {$set: {activeTable: !this.activeTable}};
+        Tables.update(this._id, modifier);
         return Session.set('tablesEditingId', null);
     },
 });

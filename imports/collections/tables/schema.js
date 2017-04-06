@@ -48,4 +48,8 @@ export default {
         allowedValues: _.keys(statusOptions),
         popoverText: 'Table status',
     },
+    activeTable: {
+        type: Boolean,
+        defaultValue: true,
+    }
 };

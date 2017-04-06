@@ -33,13 +33,13 @@
         {{#unless showNew}}
           <li>
             <a href="#" id="tables-show-create">
-              <span class="glyphicon glyphicon-plus"></span> New</a></li>
+              <i class="fa fa-fw fa-plus"></i> New table</a></li>
         {{/unless}}
 
         {{#if canSort}}
         <li>
           <a href="#" id="reorderRows">
-            <span class="glyphicon glyphicon-align-justify"></span> Reorder rows</a></li>
+            <i class="fa fa-fw fa-align-justify"></i> Reorder tables</a></li>
         {{/if}}
     {{/actionBtn}}
   {{/if}}
@@ -133,7 +133,7 @@
      data-sortIdx="{{sortIdx}}">
   <span class="moveTableHandle" style="display: none" title="Drag to re-order rows"></span>
   <a class="noUnderline" href="{{getURL}}">
-    <div class="tableDiv menu-autohide">
+    <div class="tableDiv menu-autohide {{getActiveTableClass}}">
       <span class="label label-default">{{tblType}}</span>
       {{#if canEdit}}
         <div class="rowOptions btn-group pull-right">
@@ -212,7 +212,7 @@
                 class="btn btn-sm btn-danger"
                 id="tables-delete"
                 title="Delete row">
-          <span class="glyphicon glyphicon-trash"></span></button>
+          <span class="fa {{getDeleteIcon}}"></span></button>
       {{else}}
         <button type="button"
                 class="btn btn-sm btn-primary"
