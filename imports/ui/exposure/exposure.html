@@ -35,19 +35,19 @@
   <table class="evidenceTable table table-compressed">
     <colgroup>
       <col width="15%">
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
+      <col width="9%">
+      <col width="9%">
+      <col width="12%">
       <col width="15%">
       <col width="10%">
       <col width="30%">
     </colgroup>
     <thead>
       <tr>
-        <th>Reference,<br>agent collected,<br>exposure-scenario</th>
+        <th>Reference,<br>agent</th>
         <th>Location, <br>collection date</th>
         <th>Occupation description</th>
-        <th>Sampling<br>matrix</th>
+        <th>Sampling matrix, approach,<br>N, duration</th>
         <th>Exposure level</th>
         <th>Exposure range</th>
         <th>Comments/additional data</th>
@@ -111,15 +111,11 @@
     {{/if}}
     {{qaMark isQA}}
     {{>printReference id=referenceID}}<br>
-    <span class="text-muted">{{exposureScenario}}</span><br>
     {{agent}}
     {{{showDebugInformation _id sortIdx}}}
   </td>
   <td>
     {{country}}<br>
-    {{#if location}}
-      <span class="text-muted">{{location}}</span><br>
-    {{/if}}
     {{collectionDate}}
   </td>
   <td>
@@ -133,14 +129,17 @@
     {{/if}}
   </td>
   <td>
-    {{samplingMatrix}}
+    {{samplingMatrix}};<br>
+    {{samplingApproach}};<br>
+    {{numberMeasurements}};<br>
+    {{measurementDuration}}<br>
   </td>
   <td>
     {{exposureLevel}} {{units}}<br>
     <span class="text-muted">{{exposureLevelDescription}}</span>
   </td>
   <td>
-    {{exposureLevelRange}} {{units}}
+    {{getExposureRangePrint}}
   </td>
   <td>
     {{comments}}

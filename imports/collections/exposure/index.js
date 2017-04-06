@@ -23,6 +23,7 @@ let instanceMethods = {
         },
         setWordFields: function() {
             this.isOccupational = this.isOccupational();
+            this.exposureRangePrint = this.getExposureRangePrint();
         },
         getReference: function(){
             if (_.isUndefined(this.reference)){
@@ -30,6 +31,12 @@ let instanceMethods = {
             }
             return this.reference;
         },
+        getExposureRangePrint: function(){
+            // if range has a number in it, print units, otherwise don't
+            return (/\d/.test(this.exposureLevelRange))?
+                `${this.exposureLevelRange} ${this.units}`:
+                this.exposureLevelRange;
+        }
     },
     classMethods = {
         exposureScenarios,
