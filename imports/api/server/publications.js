@@ -5,6 +5,8 @@ import _ from 'underscore';
 
 import { isStaffOrHigher } from './utilities';
 
+import { isNtp } from '/imports/utilities';
+
 import Tables from '/imports/collections/tables';
 import Reference from '/imports/collections/reference';
 import ExposureEvidence from '/imports/collections/exposure';
@@ -116,8 +118,13 @@ Meteor.publish('ntpEpiConfounder', function(tbl_id) {
 });
 
 Meteor.publish('epiCollective', function(volumeNumber, monographAgent) {
-    var tbls = Tables.find({
-            tblType: 'Epidemiology Evidence',
+
+    let isNtpTable = isNtp(),
+        tblType = (isNtpTable)? 'NTP Epidemiology Evidence': 'Epidemiology Evidence',
+        ResultCollection = (isNtpTable)? NtpEpiResult: EpiResult,
+        DescriptiveCollection = (isNtpTable)? NtpEpiDescriptive: EpiDescriptive,
+        tbls = Tables.find({
+            tblType,
             volumeNumber: parseInt(volumeNumber, 10),
             monographAgent: monographAgent,
             activeTable: true,
@@ -130,12 +137,12 @@ Meteor.publish('epiCollective', function(volumeNumber, monographAgent) {
 
     if (tbls.length > 0) {
         tbl_ids = _.pluck(tbls, '_id');
-        ref_ids = _.pluck(EpiDescriptive
+        ref_ids = _.pluck(DescriptiveCollection
             .find({tbl_id: {$in: tbl_ids}}, {fields: {referenceID: 1}})
             .fetch(), 'referenceID');
         return [
-            EpiDescriptive.find({tbl_id: {$in: tbl_ids}}),
-            EpiResult.find({tbl_id: {$in: tbl_ids}}),
+            DescriptiveCollection.find({tbl_id: {$in: tbl_ids}}),
+            ResultCollection.find({tbl_id: {$in: tbl_ids}}),
             Reference.find({_id: {$in: ref_ids}}),
         ];
     }

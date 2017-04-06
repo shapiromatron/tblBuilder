@@ -117,6 +117,17 @@ let instanceMethods = {
             rows.unshift(header);
             return rows;
         },
+        tablularMetaAnalysisRow: function(d){
+            d.desc.getReference();
+            return [
+                d.desc.reference.name, d.desc.reference.getYear(), d.desc.reference.pubmedID,
+                d.desc.studyDesign, d.desc.location,  d.desc.enrollmentDates,
+                d.res.organSiteCategory, d.res.organSite, d.res.effectMeasure,
+                d.res.effectUnits, '-',
+                d.exposureCategory, d.numberExposed,
+                d.riskLow, d.riskMid, d.riskHigh,
+            ];
+        },
     },
     NtpEpiDescriptive = new Meteor.Collection('ntpEpiDescriptive', {
         transform: function (doc) {

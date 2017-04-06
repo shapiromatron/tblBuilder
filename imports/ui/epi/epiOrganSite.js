@@ -8,6 +8,8 @@ import _ from 'underscore';
 
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import EpiResult from '/imports/collections/epiResult';
+import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
+import NtpEpiResult from '/imports/collections/ntpEpiResult';
 
 import {
     abstractMainHelpers,
@@ -19,18 +21,29 @@ import {
 } from '/imports/api/client/utilities';
 
 import {
+    isNtp,
+} from '/imports/utilities';
+
+import {
     rerenderAxis
 } from '/imports/ui/epi/forestPlot';
 
 import './epiOrganSite.html';
 
 
+let getDescriptiveCollection = function(){
+        return (isNtp())? NtpEpiDescriptive: EpiDescriptive;
+    }, getResultCollection = function(){
+        return (isNtp())? NtpEpiResult: EpiResult;
+    }
+
 Template.epiOrganSiteMain.helpers(_.extend({
     showPlots: function() {
         return Session.get('epiRiskShowPlots');
     },
     getOrganSiteOptions: function() {
-        return _.chain(EpiResult.find()
+        let ResultCollection = getResultCollection();
+        return _.chain(ResultCollection.find()
                 .fetch())
                 .pluck('organSiteCategory')
                 .uniq()
@@ -41,11 +54,15 @@ Template.epiOrganSiteMain.helpers(_.extend({
     object_list: function() {
         var tmpl = Template.instance(),
             organSiteCategories = tmpl.organSiteCategories.get(),
-            results = EpiResult.find({'organSiteCategory': {$in: organSiteCategories}}).fetch(),
+            ResultCollection = getResultCollection(),
+            results = ResultCollection
+                .find({'organSiteCategory': {$in: organSiteCategories}})
+                .fetch(),
             rows = [];
 
         results.forEach(function(res) {
-            var desc = EpiDescriptive.findOne(res.parent_id);
+            let DescriptiveCollection = getDescriptiveCollection(),
+                desc = DescriptiveCollection.findOne(res.parent_id);
             res.riskEstimates.forEach(function(d, i){
                 _.extend(d, {
                     idx: i,
@@ -74,9 +91,10 @@ Template.epiOrganSiteMain.events({
         Session.set('eosEditMode', !Session.get('eosEditMode'));
     },
     'click #metaReport': function(evt, tmpl) {
-        var rows = _.chain(tmpl.eosRows)
-                    .filter(function(d){return d.display; })
-                    .map(function(d){return EpiDescriptive.tablularMetaAnalysisRow(d);})
+        let tabularGenerator = getDescriptiveCollection().tablularMetaAnalysisRow,
+            rows = _.chain(tmpl.eosRows)
+                    .filter((d) => d.display)
+                    .map((d)=> tabularGenerator(d))
                     .value(),
             fn = 'meta-analysis.xlsx';
         Meteor.call('epiMetaAnalysisDownload', rows, function(err, response) {
