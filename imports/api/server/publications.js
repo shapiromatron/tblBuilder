@@ -120,6 +120,7 @@ Meteor.publish('epiCollective', function(volumeNumber, monographAgent) {
             tblType: 'Epidemiology Evidence',
             volumeNumber: parseInt(volumeNumber, 10),
             monographAgent: monographAgent,
+            activeTable: true,
         }).fetch(),
         tbl_ids, ref_ids;
 
