@@ -1,0 +1,31 @@
+version: '2'
+
+volumes:
+  db_data: {}
+  db_backups: {}
+
+services:
+
+  node:
+    build:
+      context: .
+      dockerfile: ./compose/node/Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - "3001:3000"
+    links:
+      - mongo
+    env_file: .env
+
+  mongo:
+    build:
+      context: .
+      dockerfile: ./compose/mongo/Dockerfile
+    command:
+      - --storageEngine=wiredTiger
+    volumes:
+      - db_data:/data/db
+      - db_backups:/data/backups
+    ports:
+    - "27017:27017"
