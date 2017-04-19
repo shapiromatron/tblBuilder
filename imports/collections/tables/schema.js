@@ -51,5 +51,5 @@ export default {
     activeTable: {
         type: Boolean,
         defaultValue: true,
-    }
+    },
 };

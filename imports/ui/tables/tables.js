@@ -51,7 +51,7 @@ Template.tableOpts.events({
             tmpl.sortables.forEach(function(v) { return v.destroy();});
         }
         toggleRowVisibilty(isReorder, $('.moveTableHandle'));
-    }
+    },
 });
 
 
@@ -94,7 +94,7 @@ Template.volumeTableList.helpers({
         let query = {
             volumeNumber,
             monographAgent,
-        }
+        };
         if(Session.get('showActiveTablesOnly')){
             query.activeTable = true;
         }
@@ -170,6 +170,7 @@ Template.tablesForm.events({
     'click #tables-create': function(evt, tmpl) {
         var errorDiv, isValid, obj;
         obj = newValues(tmpl.find('#tablesForm'));
+        obj['activeTable'] = true;
         obj['user_roles'] = getUserPermissionsObject(tmpl);
         delete obj['projectManagers'];
         delete obj['teamMembers'];
