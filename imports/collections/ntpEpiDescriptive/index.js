@@ -30,6 +30,14 @@ let instanceMethods = {
             }
             return this.reference;
         },
+        getAdditionalReferences: function(){
+            if (_.isUndefined(this.additionalReferenceObjects)){
+                this.additionalReferenceObjects = Reference
+                    .find({_id: {$in: this.additionalReferences}})
+                    .fetch();
+            }
+            return this.additionalReferenceObjects;
+        },
         getResults: function(){
             if (_.isUndefined(this.results)){
                 this.results = NtpEpiResult
@@ -93,7 +101,7 @@ let instanceMethods = {
                 return d.reference.name;
             },
             additionalReferences(d){
-                return '<not implemented>';
+                return d.getAdditionalReferences().map((d) => d.name).join(', ');
             },
         },
         worksheetLabels: [
