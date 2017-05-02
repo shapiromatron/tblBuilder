@@ -139,7 +139,14 @@ export default {
         allowedValues: exposureAssessmentTypeOptions,
         type: String,
         forceRequiredSymbol: true,
-        popoverText: 'Which method was used to estimate agent-exposure?',
+        popoverText: `Which method was used to estimate agent-exposure?
+            <ul>
+                <li><b>Questionnaire:</b> standardized set of questions administered by self or interviewer</li>
+                <li><b>Records:</b> information on exposure obtained from census, employment, medical (in- and out-patient), cancer registry, birth certification and death certification records</li>
+                <li><b>Expert judgement:</b> based on questionnaire or records</li>
+                <li><b>Quantitative measurements:</b> biological, environmental, modelled sources</li>
+                <li><b>Other (please specify)</b></li>
+            </ul>`,
     },
     exposureAssessmentNotes: {
         label: 'Exposure assessment notes',
