@@ -36,8 +36,10 @@ class EpiResultTables(DOCXReport):
 
         runs = [
             popD,
-            tbl.new_run('Exposure assessment method: ', b=True, newline=False),
-            tbl.new_run(res['descriptive']['exposureAssessmentType'], newline=False)
+            tbl.new_run('Exposure assessment method: ',
+                        b=True, newline=False),
+            tbl.new_run(res['descriptive']['exposureAssessmentType'],
+                        newline=False)
         ]
 
         if res.get('organSite'):
@@ -60,7 +62,8 @@ class EpiResultTables(DOCXReport):
             runs.extend([
                 tbl.new_run('Trend-test ', newline=False),
                 tbl.new_run('P', i=True, newline=False),
-                tbl.new_run('-value: {}'.format(res['trendTest']), newline=False),
+                tbl.new_run('-value: {}'.format(res['trendTest']),
+                            newline=False),
             ])
         tbl.new_td_run(rows, 5, runs, rowspan=rowspan)
 
