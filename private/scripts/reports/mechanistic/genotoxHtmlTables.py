@@ -1,4 +1,3 @@
-from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
 
 from .genotoxTables import GenotoxTables
@@ -12,7 +11,7 @@ class GenotoxHtmlTables(GenotoxTables):
         self.buildTable()
 
     def get_template_fn(self):
-        return "base.docx"
+        return 'base.docx'
 
     def buildTable(self):
         colWidths = [1.35, 1.8, 1.35, 0.9, 0.9, 0.9, 1.8]

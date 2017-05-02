@@ -12,6 +12,7 @@ SimpleSchema.extendOptions({
     placeholderText: Match.Optional(String),
     textAreaRows: Match.Optional(Match.Integer),
     biasField: Match.Optional(Boolean),
+    labelHdr: Match.Optional(String),
 });
 
 _.extend(String.prototype, {

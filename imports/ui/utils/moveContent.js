@@ -23,7 +23,7 @@ Template.moveModal.helpers({
             thisTblId = Session.get('Tbl')._id;
         return _.chain(tbls)
                 .filter(userCanEdit)
-                .filter(function(d){return d._id !== thisTblId;})
+                .filter(function(d){return d._id !== thisTblId && d.activeTable === true;})
                 .sortBy(function(d){return d.sortIdx;})
                 .sortBy(function(d){return d.monographAgent;})
                 .reverse()
