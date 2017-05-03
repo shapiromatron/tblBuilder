@@ -1,4 +1,5 @@
-deploy
+data/*
+!data/.gitkeep
 *settings.json
 *.py[co]
 secrets.md

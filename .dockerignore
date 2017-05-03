@@ -1,3 +1,4 @@
 .git
-compose
 .meteor/local
+data
+node_modules

@@ -6,14 +6,15 @@ volumes:
 
 services:
 
-  node:
+  app:
     build:
       context: .
-      dockerfile: ./compose/node/Dockerfile
+      dockerfile: ./compose/app/Dockerfile
+    command: /run_app.sh
     depends_on:
       - mongo
     ports:
-      - "3001:3000"
+      - "3000:3000"
     links:
       - mongo
     env_file: .env
@@ -28,4 +29,4 @@ services:
       - db_data:/data/db
       - db_backups:/data/backups
     ports:
-    - "27017:27017"
+      - "27017:27017"
