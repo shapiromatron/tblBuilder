@@ -7,7 +7,7 @@ ARG json_settings
 # install base python 2.7
 # install meteor
 RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> /etc/apt/sources.list' && \
-    apt-key adv --keyserver keys.gnupg.net --recv-key 381BA480 && \
+    apt-key adv --keyserver keys.gnupg.net --recv-key 6212B7B7931C4BB16280BA1306F90DE5381BA480 && \
     apt-get update && \
     apt-get install -y python python-dev python-pip r-base r-base-dev && \
     apt-get clean && \
