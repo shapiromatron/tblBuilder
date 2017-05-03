@@ -5,3 +5,4 @@ data/*
 secrets.md
 node_modules/*
 bin/*local.sh
+dc-production-*.yml

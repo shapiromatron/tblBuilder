@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export PORT=3000
-export MONGO_URL=mongodb://mongo:27017
+export MONGO_URL=mongodb://mongo:27017/tblBuilder
 export ROOT_URL=http://localhost:3000
 export METEOR_SETTINGS=$(cat /app/settings.json)
 cd /app/production/bundle/programs/server && /usr/local/bin/npm install

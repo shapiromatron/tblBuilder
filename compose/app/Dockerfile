@@ -1,6 +1,8 @@
 FROM node:4.8.2
 # node version depends on meteor version
 
+ARG json_settings
+
 # install latest R
 # install base python 2.7
 # install meteor
@@ -21,7 +23,7 @@ WORKDIR /app/project
 
 COPY ./compose/app/entrypoint.sh /entrypoint.sh
 COPY ./compose/app/run_app.sh /run_app.sh
-COPY ./ntp.settings.json /app/settings.json
+COPY ${json_settings} /app/settings.json
 COPY ./requirements.txt /requirements.txt
 COPY . /app/project
 

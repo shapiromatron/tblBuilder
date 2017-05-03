@@ -6,18 +6,15 @@ volumes:
 
 services:
 
-  app:
+  baseapp:
     build:
       context: .
       dockerfile: ./compose/app/Dockerfile
     command: /run_app.sh
-    depends_on:
-      - mongo
+    volumes:
+      - ./data:/app/shared
     ports:
       - "3000:3000"
-    links:
-      - mongo
-    env_file: .env
 
   mongo:
     build:
@@ -26,6 +23,8 @@ services:
     command:
       - --storageEngine=wiredTiger
     volumes:
+      - ./data:/app/shared
+      - ./private/migrations:/app/migrations
       - db_data:/data/db
       - db_backups:/data/backups
     ports:
