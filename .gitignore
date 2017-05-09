@@ -1,6 +1,7 @@
-deploy
+bin/*local.sh
+data/*
+!data/.gitkeep
+.env
 *settings.json
 *.py[co]
-secrets.md
 node_modules/*
-bin/*local.sh
