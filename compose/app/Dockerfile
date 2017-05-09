@@ -23,7 +23,7 @@ WORKDIR /app/project
 
 COPY ./compose/app/entrypoint.sh /entrypoint.sh
 COPY ./compose/app/run_app.sh /run_app.sh
-COPY ${json_settings} /app/settings.json
+COPY ./settings /app/settings
 COPY ./requirements.txt /requirements.txt
 COPY . /app/project
 

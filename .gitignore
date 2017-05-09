@@ -1,3 +1,4 @@
+.env
 data/*
 !data/.gitkeep
 *settings.json
@@ -5,4 +6,3 @@ data/*
 secrets.md
 node_modules/*
 bin/*local.sh
-dc-production-*.yml

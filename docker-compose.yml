@@ -6,7 +6,7 @@ volumes:
 
 services:
 
-  baseapp:
+  app:
     build:
       context: .
       dockerfile: ./compose/app/Dockerfile
@@ -15,6 +15,7 @@ services:
       - ./data:/app/shared
     ports:
       - "3000:3000"
+    env_file: .env
 
   mongo:
     build:
