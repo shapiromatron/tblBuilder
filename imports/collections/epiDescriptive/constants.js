@@ -15,6 +15,7 @@ let ncc = 'Nested Case-Control',
         'Expert judgement',
         'Quantitative measurements',
         'Other (please specify)',
+        'None',
     ],
     isCaseControl = function(val){
         return _.contains([ncc, cc], val);

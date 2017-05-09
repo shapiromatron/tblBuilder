@@ -16,7 +16,7 @@ var crosswalks = [
         ['modelling', 'Quantitative measurements'],
         ['expert assessment', 'Expert judgement'],
         ['other (specify in exposure assessment notes)', 'Other (please specify)'],
-        ['none', 'Other (please specify)'],
+        ['none', 'None'],
     ],
     res;
 

@@ -146,6 +146,7 @@ export default {
                 <li><b>Expert judgement:</b> based on questionnaire or records</li>
                 <li><b>Quantitative measurements:</b> biological, environmental, modelled sources</li>
                 <li><b>Other (please specify)</b></li>
+                <li><b>None</b></li>
             </ul>`,
     },
     exposureAssessmentNotes: {
