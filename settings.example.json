@@ -1,0 +1,19 @@
+{
+    "mail_url": "smtp://domain:username%password@mailserver.com:587",
+    "superuser_email": "superuser@gmail.com",
+    "scripts_path": "/path/to/private/scripts",
+    "python_path": "/path/to/python",
+    "public": {
+        "contact_email": "tblBuilder@gmail.com",
+        "context": "iarc",
+        "debug": false,
+        "ga": {
+          "account": "UA-1234567-8",
+          "cookieName": "gacookie",
+          "cookieDomain": "mydomain.com",
+          "cookieExpires": 2419200,
+          "trackInterests": false,
+          "trackInPage": true
+        }
+    }
+}
