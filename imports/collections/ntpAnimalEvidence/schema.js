@@ -454,7 +454,7 @@ export default {
     },
     statisticalReportingRating: {
         label: 'Bias rating',
-        labelHdr: 'Statistical reporting bias rating',
+        labelHdr: 'Reporting and statistics bias rating',
         type: String,
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
@@ -462,7 +462,7 @@ export default {
     },
     statisticalReportingDirection:{
         label: 'Bias direction',
-        labelHdr: 'Statistical reporting bias direction',
+        labelHdr: 'Reporting and statistics bias direction',
         type: String,
         allowedValues: biasDirection,
         popoverText: biasDirectionPopoverText,
@@ -470,7 +470,7 @@ export default {
     },
     statisticalReportingRationale: {
         label: 'Bias rationale',
-        labelHdr: 'Statistical reporting bias rationale',
+        labelHdr: 'Reporting and statistics bias rationale',
         type: String,
         optional: true,
         textAreaRows: 3,
