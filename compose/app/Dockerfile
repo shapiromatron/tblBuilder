@@ -1,8 +1,6 @@
 FROM node:4.8.2
 # node version depends on meteor version
 
-ARG json_settings
-
 # install latest R
 # install base python 2.7
 # install meteor
