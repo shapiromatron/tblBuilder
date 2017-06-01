@@ -10,9 +10,11 @@ services:
     build:
       context: .
       dockerfile: ./compose/app/Dockerfile
+      args:
+        - settings_file
     command: /run_app.sh
     volumes:
-      - ./data:/app/shared
+      - ./data:/app/data
     ports:
       - "3000:3000"
     env_file: .env
@@ -24,8 +26,8 @@ services:
     command:
       - --storageEngine=wiredTiger
     volumes:
-      - ./data:/app/shared
-      - ./private/migrations:/app/migrations
+      - ./data:/app/data
+      - ./src/private/migrations:/app/migrations
       - db_data:/data/db
       - db_backups:/data/backups
     ports:

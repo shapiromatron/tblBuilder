@@ -1,36 +1,58 @@
-FROM node:4.8.2
-# node version depends on meteor version
+# Requires a path to table-builder configuration, for example:
+#
+# export settings_file=./settings/ntp.settings.json && docker-compose build app
 
-# install latest R
-# install base python 2.7
-# install meteor
+FROM node:4.8.3
+# node version dependent on meteor version
+
+EXPOSE 3000
+ARG settings_file
+
+# 1) add the R apt-source
+# 2) install python and R
+# 3) install meteor
+# 4) create repositories
 RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> /etc/apt/sources.list' && \
     apt-key adv --keyserver keys.gnupg.net --recv-key 6212B7B7931C4BB16280BA1306F90DE5381BA480 && \
+    \
     apt-get update && \
     apt-get install -y python python-dev python-pip r-base r-base-dev && \
     apt-get clean && \
-    curl https://install.meteor.com/ | sh && \
+    \
+    curl https://install.meteor.com/?release=1.4.4.3 | sh && \
     npm install forever -g && \
+    \
     mkdir -p /app/production && \
-    mkdir -p /app/logs && \
-    groupadd -r app && \
-    useradd -r -g app app
-
-EXPOSE 3000
-WORKDIR /app/project
+    mkdir -p /app/logs
 
 COPY ./compose/app/entrypoint.sh /entrypoint.sh
 COPY ./compose/app/run_app.sh /run_app.sh
-COPY ./settings /app/settings
+COPY $settings_file /app/settings.json
 COPY ./requirements.txt /requirements.txt
-COPY . /app/project
-
-RUN bash ./r_requirements.sh  && \
-    pip install -r /requirements.txt && \
-    chown -R app /app && \
+COPY ./r_requirements.sh /r_requirements.sh
+RUN groupadd -r app && \
+    useradd -m -d /home/app -g app app && \
+    chown app:app /entrypoint.sh && \
+    chown app:app /run_app.sh && \
+    chown app:app /requirements.txt && \
+    chown app:app /r_requirements.sh && \
     chmod +x /entrypoint.sh && \
     chmod +x /run_app.sh && \
-    npm install --production && \
-    meteor build /app/production --directory --allow-superuser
+    chmod +x /r_requirements.sh
+
+USER app
+RUN export "R_LIBS=/home/app/R_libs" && \
+    mkdir /home/app/R_libs && \
+    bash /r_requirements.sh && \
+    pip install --user -r /requirements.txt
+
+USER root
+COPY ./src /app/src
+RUN chown -R app /app
+
+USER app
+WORKDIR /app/src
+RUN npm install --production && \
+    meteor build /app/production --directory
 
 ENTRYPOINT ["/entrypoint.sh"]
