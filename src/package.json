@@ -1,7 +1,7 @@
 {
   "name": "tbl-builder",
   "version": "1.0.0",
-  "description": "Building evidence tables to justify decisions for human-health decisions can be cumbersome, and often times the data which are entered in these tables can be reused for subsequent analyses. However, the tables impose certain formatting conventions for consiseness in the table.",
+  "description": "Building evidence tables to justify decisions for human-health decisions can be cumbersome, and often times the data which are entered in these tables can be reused for subsequent analyses. However, the tables impose certain formatting conventions for conciseness in the table.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -19,7 +19,7 @@ RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> 
     apt-get install -y python python-dev python-pip r-base r-base-dev && \
     apt-get clean && \
     \
-    curl https://install.meteor.com/?release=1.4.4.3 | sh && \
+    curl https://install.meteor.com/?release=1.5 | sh && \
     npm install forever -g && \
     \
     mkdir -p /app/production && \
