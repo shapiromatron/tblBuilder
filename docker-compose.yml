@@ -6,17 +6,15 @@ volumes:
 
 services:
 
-  app:
+  meteor:
     build:
       context: .
-      dockerfile: ./compose/app/Dockerfile
+      dockerfile: ./compose/meteor/Dockerfile
       args:
         - settings_file
     command: /run_app.sh
     volumes:
       - ./data:/app/data
-    ports:
-      - "3000:3000"
     env_file: .env
 
   mongo:
@@ -30,5 +28,17 @@ services:
       - ./src/private/migrations:/app/migrations
       - db_data:/data/db
       - db_backups:/data/backups
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./compose/nginx/Dockerfile
+      args:
+        - configuration_file
+    depends_on:
+      - meteor
     ports:
-      - "27017:27017"
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"
+    volumes:
+      - ./public:/app/public

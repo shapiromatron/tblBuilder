@@ -25,8 +25,8 @@ RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> 
     mkdir -p /app/production && \
     mkdir -p /app/logs
 
-COPY ./compose/app/entrypoint.sh /entrypoint.sh
-COPY ./compose/app/run_app.sh /run_app.sh
+COPY ./compose/meteor/entrypoint.sh /entrypoint.sh
+COPY ./compose/meteor/run_app.sh /run_app.sh
 COPY $settings_file /app/settings.json
 COPY ./requirements.txt /requirements.txt
 COPY ./r_requirements.sh /r_requirements.sh
@@ -52,7 +52,9 @@ RUN chown -R app /app
 
 USER app
 WORKDIR /app/src
-RUN npm install --production && \
-    meteor build /app/production --directory
+RUN meteor npm install --production && \
+    meteor build /app/production --directory && \
+    cd /app/production/bundle/programs/server && \
+    /usr/local/bin/npm install
 
 ENTRYPOINT ["/entrypoint.sh"]
