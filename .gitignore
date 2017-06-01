@@ -1,7 +1,8 @@
-bin/*local.sh
-data/*
-!data/.gitkeep
 .env
 *settings.json
 *.py[co]
-node_modules/*
+
+bin/*local.sh
+data/*
+!data/.gitkeep
+src/node_modules/*

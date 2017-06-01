@@ -1,4 +1,4 @@
 .git
-.meteor/local
 data
-node_modules
+src/.meteor/local
+src/node_modules

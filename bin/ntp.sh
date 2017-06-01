@@ -15,8 +15,8 @@ tmux split-window -h
 tmux select-pane -t 0
 
 # Run commands
-tmux send-keys -t 0 "cd ~/dev/tblBuilder && MONGO_URL=mongodb://127.0.0.1:3001/meteor meteor --settings=settings/ntp.settings.json" enter
-tmux send-keys -t 1 "mongod --dbpath ~/dev/tblBuilder/.meteor/local/ntpDB --port 3001" enter
+tmux send-keys -t 0 "cd ~/dev/tblBuilder/src && MONGO_URL=mongodb://127.0.0.1:3001/meteor meteor --settings=../settings/ntp.settings.json" enter
+tmux send-keys -t 1 "mongod --dbpath ~/dev/tblBuilder/src/.meteor/local/ntpDB --port 3001" enter
 tmux send-keys -t 2 "workon deploy && cd tblBuilder && fab --list" enter
 
 # attach to shell
