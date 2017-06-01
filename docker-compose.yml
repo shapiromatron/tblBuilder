@@ -2,7 +2,6 @@ version: '2'
 
 volumes:
   db_data: {}
-  db_backups: {}
 
 services:
 
@@ -18,16 +17,13 @@ services:
     env_file: .env
 
   mongo:
-    build:
-      context: .
-      dockerfile: ./compose/mongo/Dockerfile
+    build: ./compose/mongo
     command:
       - --storageEngine=wiredTiger
     volumes:
-      - ./data:/app/data
+      - ./data/backups:/data/backups
       - ./src/private/migrations:/app/migrations
       - db_data:/data/db
-      - db_backups:/data/backups
 
   nginx:
     build:
