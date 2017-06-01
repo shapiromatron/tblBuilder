@@ -5,9 +5,6 @@
 FROM node:4.8.3
 # node version dependent on meteor version
 
-EXPOSE 3000
-ARG settings_file
-
 # 1) add the R apt-source
 # 2) install python and R
 # 3) install meteor
@@ -25,6 +22,7 @@ RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> 
     mkdir -p /app/production && \
     mkdir -p /app/logs
 
+ARG settings_file
 COPY ./compose/meteor/entrypoint.sh /entrypoint.sh
 COPY ./compose/meteor/run_app.sh /run_app.sh
 COPY $settings_file /app/settings.json
@@ -57,4 +55,5 @@ RUN meteor npm install --production && \
     cd /app/production/bundle/programs/server && \
     /usr/local/bin/npm install
 
+EXPOSE 3000
 ENTRYPOINT ["/entrypoint.sh"]

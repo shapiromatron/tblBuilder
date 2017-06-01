@@ -3,9 +3,10 @@
     "superuser_email": "superuser@gmail.com",
     "scripts_path": "/path/to/private/scripts",
     "python_path": "/path/to/python",
+    "from_email": "nobody@table-builder.com",
     "public": {
-        "contact_email": "tblBuilder@gmail.com",
-        "context": "iarc",
+        "contact_email": "nobody@table-builder.com",
+        "context": "ntp",
         "debug": false,
         "ga": {
           "account": "UA-1234567-8",
