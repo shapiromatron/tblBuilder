@@ -7,6 +7,9 @@ echo "creating backup"
 echo "---------------"
 
 FILENAME="tblBuilder-$(date +"%Y-%m-%dT%H_%M").gz"
-mongodump --archive=/data/backups/$FILENAME --gzip --db tblBuilder
+mongodump \
+    --db=tblBuilder \
+    --archive=/data/backups/$FILENAME \
+    --gzip
 
 echo "successfully created backup $FILENAME"

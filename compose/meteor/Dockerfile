@@ -2,7 +2,7 @@
 #
 # export settings_file=./settings/ntp.settings.json && docker-compose build app
 
-FROM node:4.8.3
+FROM node:4.8.4
 # node version dependent on meteor version
 
 # 1) add the R apt-source

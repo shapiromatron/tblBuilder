@@ -3,6 +3,16 @@
 *.py[co]
 
 bin/*local.sh
+src/node_modules/*
+
+# data (keep path, not contents)
 data/*
 !data/.gitkeep
-src/node_modules/*
+
+# nginx (keep path, not contents)
+compose/nginx/ssl/*
+!compose/nginx/ssl/.gitkeep
+
+# nginx (keep path, not contents)
+compose/nginx/conf/*
+!compose/nginx/conf/.gitkeep

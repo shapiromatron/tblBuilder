@@ -2,35 +2,33 @@ version: '2'
 
 volumes:
   db_data: {}
+  postgres_backup: {}
 
 services:
 
   meteor:
+    restart: always
     build:
       context: .
       dockerfile: ./compose/meteor/Dockerfile
       args:
         - settings_file
     command: /run_app.sh
-    volumes:
-      - ./data:/app/data
     env_file: .env
 
   mongo:
+    restart: always
     build: ./compose/mongo
     command:
       - --storageEngine=wiredTiger
     volumes:
-      - ./data/backups:/data/backups
+      - postgres_backup:/data/backups
       - ./src/private/migrations:/app/migrations
       - db_data:/data/db
 
   nginx:
-    build:
-      context: .
-      dockerfile: ./compose/nginx/Dockerfile
-      args:
-        - configuration_file
+    restart: always
+    build: ./compose/nginx
     depends_on:
       - meteor
     ports:

@@ -29,7 +29,7 @@ echo "-------------------------"
 
 mongorestore \
     --db tblBuilder \
+    --archive $BACKUPFILE \
     --gzip \
-    --archive=$BACKUPFILE \
     --stopOnError \
     --drop
