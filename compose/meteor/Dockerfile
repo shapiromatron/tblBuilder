@@ -18,14 +18,16 @@ RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> 
     npm install forever -g && \
     \
     mkdir -p /app/production && \
-    mkdir -p /app/logs
+    mkdir -p /app/logs && \
+    mkdir -p /app/crons
 
-ARG settings_file
 COPY ./compose/meteor/entrypoint.sh /entrypoint.sh
 COPY ./compose/meteor/run_app.sh /run_app.sh
 COPY ./settings/settings.json /app/settings.json
 COPY ./requirements.txt /requirements.txt
 COPY ./r_requirements.sh /r_requirements.sh
+COPY ./dbClean.js /app/crons/dbClean.js
+
 RUN groupadd -r app && \
     useradd -m -d /home/app -g app app && \
     chown app:app /entrypoint.sh && \
@@ -47,11 +49,14 @@ COPY ./src /app/src
 RUN chown -R app /app
 
 USER app
+
 WORKDIR /app/src
-RUN meteor npm install --production && \
+
+RUN npm install --prefix /app/crons mongodb@2.2.30 underscore@1.8.3 && \
+    meteor npm install --production && \
     meteor build /app/production --directory && \
-    cd /app/production/bundle/programs/server && \
-    /usr/local/bin/npm install
+    cd /app/production/bundle/programs/server && /usr/local/bin/npm install
 
 EXPOSE 3001
+
 ENTRYPOINT ["/entrypoint.sh"]
