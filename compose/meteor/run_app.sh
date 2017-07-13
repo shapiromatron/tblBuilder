@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export "R_LIBS=/home/app/R_libs"
-export "PORT=3000"
+export "PORT=3001"
 export "METEOR_SETTINGS=$(cat /app/settings.json)"
 export "MONGO_URL=mongodb://mongo:27017/tblBuilder"
 

@@ -1,6 +1,4 @@
 # Requires a path to table-builder configuration, for example:
-#
-# export settings_file=./settings/ntp.settings.json && docker-compose build app
 
 FROM node:4.8.4
 # node version dependent on meteor version
@@ -25,7 +23,7 @@ RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> 
 ARG settings_file
 COPY ./compose/meteor/entrypoint.sh /entrypoint.sh
 COPY ./compose/meteor/run_app.sh /run_app.sh
-COPY $settings_file /app/settings.json
+COPY ./settings/settings.json /app/settings.json
 COPY ./requirements.txt /requirements.txt
 COPY ./r_requirements.sh /r_requirements.sh
 RUN groupadd -r app && \
@@ -55,5 +53,5 @@ RUN meteor npm install --production && \
     cd /app/production/bundle/programs/server && \
     /usr/local/bin/npm install
 
-EXPOSE 3000
+EXPOSE 3001
 ENTRYPOINT ["/entrypoint.sh"]
