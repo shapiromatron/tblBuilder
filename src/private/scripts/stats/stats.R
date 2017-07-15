@@ -8,27 +8,27 @@
 # An example function-call may be:
 #
 # source("stats.R")
-# inp = '{"ns":[10,10,10],"incs":[0,0,5]}'
-# results = getStats(inp)
-# lst = fromJSON(results)
-#
+# inp <- '{"ns":[10,10,10],"incs":[0,0,5]}'
+# results <- getStats(inp)
+# lst <- fromJSON(results)
+
 
 library("rjson")
 library("survival")
 library("coin")
 
-getTrendTest <- function(inp){
+calc_trend_test <- function(inp){
 
     ns <- as.integer(inp$ns)
     incs <- as.integer(inp$incs)
-    nds <- ns-incs
+    nds <- ns - incs
 
-    factors <- factor(seq(0, length(ns)-1))
+    factors <- factor(seq(0, length(ns) - 1))
 
-    doses <-rep(factors, times=ns)
-    responses <- rep(c(0,1), c(nds[1], incs[1]))
+    doses <- rep(factors, times = ns)
+    responses <- rep(c(0, 1), c(nds[1], incs[1]))
     for (i in 2:length(ns)){
-        responses <- c(responses, rep(c(0,1), c(nds[i], incs[i])))
+        responses <- c(responses, rep(c(0, 1), c(nds[i], incs[i])))
     }
 
     ds <- data.frame(
@@ -37,38 +37,38 @@ getTrendTest <- function(inp){
     )
 
     res <- independence_test(responses~dose,
-        data=ds,
-        teststat="quad",
-        distribution=approximate(B=50000))
+        data = ds,
+        teststat = "quad",
+        distribution = approximate(B = 50000))
 
     return(list(
-       pvalue=pvalue(res, method="discrete")
+       pvalue = pvalue(res, method = "discrete")
    ))
 }
 
-getFisherTest <- function(inp){
+calc_fisher_test <- function(inp){
     ns <- as.integer(inp$ns)
     incs <- as.integer(inp$incs)
-    nds <- ns-incs
-    m <- matrix(unlist(c(nds, incs)), ncol=2)
+    nds <- ns - incs
+    m <- matrix(unlist(c(nds, incs)), ncol = 2)
 
-    pvalues = rep(NaN, length(ns))
+    pvalues <- rep(NaN, length(ns))
     for (i in 2:length(ns)){
-        dataset = matrix(c(m[1,], m[i,]), ncol=2)
+        dataset <- matrix(c(m[1, ], m[i, ]), ncol = 2)
         res <- fisher.test(dataset)
-        pvalues[i] = res$p.value
+        pvalues[i] <- res$p.value
     }
     return(list(
-       pvalues=pvalues
+       pvalues = pvalues
     ))
 }
 
-getStats <- function(json){
-    inps <- fromJSON(json)
+get_stats <- function(json){
+    inputs <- fromJSON(json)
     outputs <- list(
-       inputs = inps,
-       pairwise = getFisherTest(inps),
-       trend = getTrendTest(inps)
+       inputs = inputs,
+       pairwise = calc_fisher_test(inputs),
+       trend = calc_trend_test(inputs)
     )
     return(toJSON(outputs))
 }

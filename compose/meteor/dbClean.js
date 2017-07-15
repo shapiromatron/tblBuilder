@@ -59,11 +59,11 @@ var changes = [],
             Collection.update(
                 {_id: obj._id},
                 {$set: updates},
-                {multi: false}
-            );
+                {multi: false});
         }
     }, checkCollection = function(Collection){
         Collection.find().toArray().then(function(objs) {
+            console.log('Checking ' + Collection.collectionName + ', items: ' + objs.length)
             objs.forEach(function(obj){
                 checkObject(Collection, obj);
             });
@@ -119,6 +119,7 @@ var url = process.env.MONGO_URL;
 MongoClient.connect(url, function(err, db) {
     db.collections(function(err, collections) {
         collections.forEach(checkCollection);
+        console.log(changes);
         if(changes.length>0){
             console.log(changes);
         }

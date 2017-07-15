@@ -23,10 +23,10 @@ RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> 
 
 COPY ./compose/meteor/entrypoint.sh /entrypoint.sh
 COPY ./compose/meteor/run_app.sh /run_app.sh
+COPY ./compose/meteor/dbClean.js /app/crons/dbClean.js
 COPY ./settings/settings.json /app/settings.json
 COPY ./requirements.txt /requirements.txt
 COPY ./r_requirements.sh /r_requirements.sh
-COPY ./dbClean.js /app/crons/dbClean.js
 
 RUN groupadd -r app && \
     useradd -m -d /home/app -g app app && \
