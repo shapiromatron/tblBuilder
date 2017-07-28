@@ -5,7 +5,6 @@ FROM node:4.8.4
 # https://github.com/moby/moby/issues/6119
 COPY ./compose/meteor/entrypoint.sh /entrypoint.sh
 COPY ./compose/meteor/run_app.sh /run_app.sh
-COPY ./compose/meteor/dbClean.js /app/crons/dbClean.js
 COPY ./settings/settings.json /app/settings.json
 COPY ./requirements.txt /requirements.txt
 COPY ./r_requirements.sh /r_requirements.sh
@@ -30,6 +29,10 @@ RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> 
     groupadd -r app && \
     useradd -m -d /home/app -g app app && \
     \
+    chmod +x /entrypoint.sh && \
+    chmod +x /run_app.sh && \
+    chmod +x /r_requirements.sh && \
+    \
     chown -R app:app /app && \
     chown app:app /entrypoint.sh && \
     chown app:app /run_app.sh && \
@@ -37,14 +40,9 @@ RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> 
 
 USER app
 
-# 1) change permissions
-# 2) install R and r requirements
-# 3) install python packages
-RUN chmod +x /entrypoint.sh && \
-    chmod +x /run_app.sh && \
-    chmod +x /r_requirements.sh && \
-    \
-    export "R_LIBS=/home/app/R_libs" && \
+# 1) install R packages
+# 2) install python packages
+RUN export "R_LIBS=/home/app/R_libs" && \
     mkdir /home/app/R_libs && \
     bash /r_requirements.sh && \
     \
@@ -56,8 +54,6 @@ COPY ./src/private /app/src/private
 RUN chown -R app:app /app
 
 USER app
-WORKDIR /app/src
-
 RUN cd /app && \
     tar -xzvf src.tar.gz && \
     npm install --prefix /app/bundle/programs/server --production
