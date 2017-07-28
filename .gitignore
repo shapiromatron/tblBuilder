@@ -9,6 +9,10 @@ src/node_modules/*
 data/*
 !data/.gitkeep
 
+# meteor (keep path, not contents)
+compose/meteor/src/*
+!compose/meteor/src/.gitkeep
+
 # nginx (keep path, not contents)
 compose/nginx/ssl/*
 !compose/nginx/ssl/.gitkeep

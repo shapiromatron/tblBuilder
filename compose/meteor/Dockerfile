@@ -1,8 +1,8 @@
 FROM node:4.8.4
 # node version dependent on meteor version
 
+# (even if copied as root you still need to change)
 # https://github.com/moby/moby/issues/6119
-COPY ./compose/meteor/install_meteor.sh /install_meteor.sh
 COPY ./compose/meteor/entrypoint.sh /entrypoint.sh
 COPY ./compose/meteor/run_app.sh /run_app.sh
 COPY ./compose/meteor/dbClean.js /app/crons/dbClean.js
@@ -31,7 +31,6 @@ RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> 
     useradd -m -d /home/app -g app app && \
     \
     chown -R app:app /app && \
-    chown app:app /install_meteor.sh && \
     chown app:app /entrypoint.sh && \
     chown app:app /run_app.sh && \
     chown app:app /r_requirements.sh
@@ -41,8 +40,7 @@ USER app
 # 1) change permissions
 # 2) install R and r requirements
 # 3) install python packages
-RUN chmod +x /install_meteor.sh && \
-    chmod +x /entrypoint.sh && \
+RUN chmod +x /entrypoint.sh && \
     chmod +x /run_app.sh && \
     chmod +x /r_requirements.sh && \
     \
@@ -52,19 +50,16 @@ RUN chmod +x /install_meteor.sh && \
     \
     pip install --user -r /requirements.txt
 
-COPY ./src /app/src
 USER root
+COPY ./compose/meteor/src/src.tar.gz /app/src.tar.gz
+COPY ./src/private /app/src/private
 RUN chown -R app:app /app
 
 USER app
 WORKDIR /app/src
 
-RUN sh /install_meteor.sh && \
-    echo "export PATH=${PATH}:$HOME/.meteor" >> ~/.bashrc
-
-RUN /home/app/.meteor/meteor npm install --production && \
-    /home/app/.meteor/meteor build /app/production --directory && \
-    npm install --prefix /app/crons mongodb@2.2.30 underscore@1.8.3 && \
-    cd /app/production/bundle/programs/server && /usr/local/bin/npm install
+RUN cd /app && \
+    tar -xzvf src.tar.gz && \
+    npm install --prefix /app/bundle/programs/server --production
 
 ENTRYPOINT ["/entrypoint.sh"]

@@ -30,6 +30,6 @@ services:
     depends_on:
       - meteor
     ports:
-      - "0.0.0.0:3000:3000"
+      - "0.0.0.0:80:80"
     volumes:
       - ./public:/app/public
