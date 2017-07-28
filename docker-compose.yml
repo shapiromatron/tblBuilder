@@ -2,7 +2,7 @@ version: '2'
 
 volumes:
   db_data: {}
-  postgres_backup: {}
+  db_backups: {}
 
 services:
 
@@ -20,9 +20,9 @@ services:
     command:
       - --storageEngine=wiredTiger
     volumes:
-      - postgres_backup:/data/backups
-      - ./src/private/migrations:/app/migrations
+      - db_backups:/data/backups
       - db_data:/data/db
+      - ./src/private/migrations:/app/migrations
 
   nginx:
     restart: always
