@@ -58,7 +58,9 @@ class NtpAnimalHtmlTables(DOCXReport):
             tbl.new_run(study['reference']['name'], b=True),
             tbl.new_run('Animal:', b=True),
             tbl.new_run(u'{} {}'.format(study['species'], study['strain'])),
-            tbl.new_run(u'{} {}'.format(study['sex'], study['ageAtStart'])),
+            tbl.new_run(study['sex']),
+            tbl.new_run('Animal age at the beginning of exposure:', b=True),
+            tbl.new_run(study['ageAtStart']),
             tbl.new_run('Study duration:', b=True),
             tbl.new_run(u'{}'.format(study['duration'], newline=False)),
         ]
@@ -66,11 +68,12 @@ class NtpAnimalHtmlTables(DOCXReport):
 
         # Column B
         runs = [
-            tbl.new_run('Agent:', b=True),
+            tbl.new_run('Agent and purity:', b=True),
             tbl.new_run(study['agent']),
             tbl.new_run(study['purity']),
-            tbl.new_run('Treatment:', b=True),
+            tbl.new_run('Exposure route:', b=True),
             tbl.new_run(study['dosingRoute']),
+            tbl.new_run('Exposure concentrations, frequency, and duration:', b=True),
             tbl.new_run(study['dosingRegimen'], newline=False),
         ]
         tbl.new_td_run(row, 1, runs, rowspan=study_rowspan)
@@ -97,7 +100,10 @@ class NtpAnimalHtmlTables(DOCXReport):
                     fn = u'ᵃ Adjusted percent incidence based on Poly-3 estimated neoplasm incidence after adjustment for intercurrent mortality.'  # noqa
                     self.footnotes[hash(fn)] = fn
 
-                tbl.new_td_txt(site_row, 2, txt, colspan=2)
+                runs = [
+                    tbl.new_run(txt, b=True, newline=False),
+                ]
+                tbl.new_td_run(site_row, 2, runs, colspan=2)
                 site_row += 1
 
                 # write groups
@@ -128,18 +134,23 @@ class NtpAnimalHtmlTables(DOCXReport):
             if len(study['results']) > 0 \
             else {}
 
+        # blank runs are extra newlines as requested by report writers
         runs = [
             tbl.new_run('Survival: ', b=True, newline=False),
             tbl.new_run(first_result['survivalNotes'] or ''),
+            tbl.new_run(''),
             tbl.new_run('Body weight: ', b=True, newline=False),
             tbl.new_run(first_result['bodyWeightNotes'] or ''),
+            tbl.new_run(''),
             tbl.new_run(
                 'Significantly increased pre-neoplastic lesions: ',
                 b=True, newline=False
             ),
             tbl.new_run(first_result['nonNeoplasticFindings'] or ''),
+            tbl.new_run(''),
             tbl.new_run('Other comments: ', b=True, newline=False),
             tbl.new_run(first_result['comments'] or ''),
+            tbl.new_run(''),
             tbl.new_run('Strengths and limitations: ', b=True, newline=False),
             tbl.new_run(study['overallUtilityRationale'] or ''),
         ]
