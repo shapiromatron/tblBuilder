@@ -2,7 +2,6 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import {
     exposureScenarios,
-    resultOptions,
 } from './constants';
 
 
@@ -41,6 +40,8 @@ export default {
         popoverText: 'Other information (e.g., region, state, province, city) if important',
         placeholderText: 'e.g. Montpellier',
     },
+
+    // second row
     collectionDate: {
         label: 'Collection date',
         type: String,
@@ -63,61 +64,7 @@ export default {
         placeholderText: 'e.g. 3',
     },
 
-
     // third row
-    samplingMatrix: {
-        label: 'Ssampling matrix',
-        type: String,
-        min: 1,
-        popoverText: 'The environmental medium or other matrix (e.g., air, drinking water, food, urine, blood) in which the agent was measured',
-        typeaheadMethod: 'searchSamplingMatrices',
-        placeholderText: 'e.g. air',
-    },
-    exposureLevel: {
-        label: 'Mean or median exposure-level',
-        type: String,
-        min: 1,
-        popoverText: 'Quantitative level or NR if not reported. Geometric mean preferred if available.',
-        placeholderText: 'e.g. 12.35',
-    },
-    exposureLevelRange: {
-        label: 'Range of exposure-level',
-        type: String,
-        min: 1,
-        popoverText: 'Minimum and maximum or NR if not reported. Optionally if range not reported the standard-deviation or other measure of variability relative to the mean. (e.g., 32.3-40.2, NR, 13.2 SD, 14.7 SE)',
-        placeholderText: 'e.g. 32.3-40.2',
-    },
-    exposureUnits: {
-        label: 'Exposure units',
-        type: String,
-        min: 1,
-        popoverText: 'Measurement units (e.g. µg/m³, g/m²)',
-        placeholderText: 'e.g. µg/m³',
-        typeaheadMethod: 'searchUnits',
-    },
-
-    // fourth row
-    endpoint: {
-        label: 'Endpoint',
-        type: String,
-        min: 1,
-        popoverText: 'As reported',
-    },
-    endpointTest: {
-        label: 'Endpoint test',
-        type: String,
-        min: 1,
-        popoverText: 'As reported',
-    },
-    result: {
-        label: 'Result',
-        type: String,
-        allowedValues: resultOptions,
-        popoverText: '<strong>Working Group judgment:</strong><ul><li>+, positive</li><li>–, negative</li><li>+/–, equivocal (variable response in several experiments within an adequate study)</li><li>(+) or (–), positive/negative in a study of limited quality (specify reason in comments, e.g. only a singe dose tested; data or methods not fully reported; confounding exposures, etc.)</li></ul>',
-        forceRequiredSymbol: true,
-    },
-
-    // fifth row
     comments: {
         label: 'Comments',
         type: String,

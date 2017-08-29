@@ -10,6 +10,8 @@ import NtpAnimalEvidence from './ntpAnimalEvidence';
 import NtpAnimalEndpointEvidence from './ntpAnimalEndpointEvidence';
 import GenotoxEvidence from './genotox';
 import MechanisticEvidence from './mechanistic';
+import GenotoxHumanExposureEvidence from './genotoxHumanExposure';
+import GenotoxHumanExposureResult from './genotoxHumanExposureResult';
 
 
 let tblBuilderCollections = {
@@ -104,6 +106,19 @@ let tblBuilderCollections = {
             requiredUpdateFields: [],
             excel_method: 'mechanisticEvidenceExcelDownload',
             excel_fn: 'mechanistic.xlsx',
+        },
+        genotoxHumanExposureEvidence: {
+            collection: GenotoxHumanExposureEvidence,
+            collection_name: 'genotoxHumanExposureEvidence',
+            excel_method: 'genotoxHumanExposureEvidenceDownload',
+            excel_fn: 'genotoxHuman.xlsx',
+            nested_collection: GenotoxHumanExposureResult,
+            nested_collection_name: 'genotoxHumanExposureResult',
+            requiredUpdateFields: [],
+        },
+        genotoxHumanExposureResult: {
+            collection: GenotoxHumanExposureResult,
+            requiredUpdateFields: [],
         },
     },
 };

@@ -1,16 +1,6 @@
 let exposureScenarios = [
-        'Biological',
-        'Environmental',
-    ],
-    resultOptions = [
-        '+',
-        '(+)',
-        '+/-',
-        '(-)',
-        '-',
-        'Not tested',
-    ];
-
+    'Biological',
+    'Environmental',
+];
 
 export { exposureScenarios };
-export { resultOptions };

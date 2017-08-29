@@ -4,7 +4,6 @@ import _ from 'underscore';
 
 import Tables from '/imports/collections/tables';
 import Reference from '/imports/collections/reference';
-import GenotoxHumanExposureResult from '/imports/collections/genotoxHumanExposureResult';
 
 import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';
@@ -36,18 +35,17 @@ var instanceMethods = {
 
             _.extend(this, ext);
         },
-
-        getHtmlCol2: function() {
-            return this.cellType;
+        getHtmlCol3: function() {
+            return `${this.endpoint}/<br>${this.endpointTest}`;
+        },
+        getHtmlCol4: function(){
+            return this.result;
         },
         getHtmlCol5: function() {
             return 'NA';
         },
-        getHtmlCol6: function() {
-            return this.agent;
-        },
         getHtmlCol7: function() {
-            return this.comments || '';
+            return this.notes || '';
         },
         getReference: function(){
             if (_.isUndefined(this.reference)){
@@ -55,60 +53,30 @@ var instanceMethods = {
             }
             return this.reference;
         },
-        getResults: function(){
-            if (_.isUndefined(this.results)){
-                this.results = GenotoxHumanExposureResult
-                        .find({parent_id: this._id}, {sort: {sortIdx: 1}})
-                        .fetch();
-            }
-            return this.results;
-        },
     },
     classMethods = {
         resultOptions,
         getTableEvidence: function(tbl_id){
-            return GenotoxHumanExposureEvidence
+            return GenotoxHumanExposureResult
                 .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
                 .fetch();
         },
         tabular: function(tbl_id) {
-            let getResultData = function(results, row) {
-                    let rows = [];
-                    _.each(results, function(res){
-                        let covariates = res.covariates.join(', '),
-                            row2 = row.slice();
-
-                        row2.push(
-                            res._id, res.samplingMatrix, res.exposureLevel,
-                            res.exposureLevelRange, res.exposureUnits, res.endpoint,
-                            res.endpointTest, covariates, res.notes
-                        );
-                        rows.push(row2);
-                    });
-                    return rows;
-                },
-                qs = GenotoxHumanExposureEvidence.getTableEvidence(tbl_id),
+            let qs = GenotoxHumanExposureResult.getTableEvidence(tbl_id),
                 header = [
                     'Genotoxicity ID', 'Reference', 'Reference year', 'Pubmed ID',
-                    'Agent', 'Cell type', 'Location', 'Collection date', 'Setting',
-                    'Number of measurements', 'Comments',
-
-                    'Result ID', 'Sampling matrix', 'Exposure level',
-                    'Exposure level range', 'Exposure units', 'Exposure units', 'Endpoint',
-                    'Endpoint tests', 'Result', 'Covariates', 'General notes',
+                    'Agent', 'Cell type', 'Endpoint', 'Endpoint test',
+                    'Result', 'Comments',
                 ],
                 data;
 
             data = _.map(qs, function(d){
                 d.getReference();
-                d.getResults();
-                let row = [
-                        d._id, d.reference.name, d.reference.getYear(), d.reference.pubmedID,
-                        d.agent, d.cellType, d.location, d.collectionDate, d.setting,
-                        d.numberMeasurements, d.comments,
-                    ],
-                    rows = getResultData(d.results, row);
-                return rows;
+                return [
+                    d._id, d.reference.name, d.reference.getYear(), d.reference.pubmedID,
+                    d.agent,d.cellType, d.endpoint, d.endpointTest,
+                    d.result, d.comments,
+                ];
             });
             data.unshift(header);
             return data;
@@ -126,14 +94,14 @@ var instanceMethods = {
             },
         ],
         wordContext: function(tbl_id) {
-            let resp = GenotoxHumanExposureEvidence.wordHtmlContext(tbl_id);
+            let resp = GenotoxHumanExposureResult.wordHtmlContext(tbl_id);
             return {
                 table: resp.table,
             };
         },
         wordHtmlContext: function(tbl_id){
             var tbl = Tables.findOne(tbl_id),
-                vals = GenotoxHumanExposureEvidence.find(
+                vals = GenotoxHumanExposureResult.find(
                             {tbl_id: tbl_id, isHidden: false},
                             {sort: {sortIdx: 1}}
                         ).fetch();
@@ -169,14 +137,14 @@ var instanceMethods = {
                 collSorts.sortByReference,
         },
     },
-    GenotoxHumanExposureEvidence = new Meteor.Collection('genotoxHumanExposureEvidence', {
+    GenotoxHumanExposureResult = new Meteor.Collection('genotoxHumanExposureResult', {
         transform: function (doc) {
             return  _.extend(Object.create(instanceMethods), doc);
         },
     });
 
 
-_.extend(GenotoxHumanExposureEvidence, classMethods);
-attachTableSchema(GenotoxHumanExposureEvidence, schema_extension);
+_.extend(GenotoxHumanExposureResult, classMethods);
+attachTableSchema(GenotoxHumanExposureResult, schema_extension);
 
-export default GenotoxHumanExposureEvidence;
+export default GenotoxHumanExposureResult;
