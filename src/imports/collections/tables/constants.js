@@ -10,6 +10,7 @@ var getTableTypes = function(){
             'NTP Animal Bioassay Evidence',
             'Genetic and Related Effects',
             'Mechanistic Evidence Summary',
+            'Human Exposure',
         ];
     } else {
         return [
@@ -18,6 +19,7 @@ var getTableTypes = function(){
             'Animal Bioassay Evidence',
             'Genetic and Related Effects',
             'Mechanistic Evidence Summary',
+            'Human Exposure',
         ];
     }
 };
@@ -36,6 +38,7 @@ let typeOptions = getTableTypes(),
         'Animal Bioassay Evidence': 'animalMain',
         'NTP Animal Bioassay Evidence': 'ntpAnimalMain',
         'Genetic and Related Effects': 'genotoxMain',
+        'Human Exposure': 'genotoxHumanExposureMain',
     },
     unstartedStatuses = ['unknown', 'not started'],
     statusOptions = {

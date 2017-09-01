@@ -28,6 +28,8 @@ let tblBuilderCollections = {
         NtpAnimalEndpointEvidence,
         GenotoxEvidence,
         MechanisticEvidence,
+        GenotoxHumanExposureEvidence,
+        GenotoxHumanExposureResult,
     ],
     evidenceLookup: {
         exposureEvidence: {
@@ -139,6 +141,8 @@ tblBuilderCollections.getEvidenceByTableType = function(tblType){
         return tblBuilderCollections.evidenceLookup.genotoxEvidence;
     case 'Mechanistic Evidence Summary':
         return tblBuilderCollections.evidenceLookup.mechanisticEvidence;
+    case 'Human Exposure':
+        return tblBuilderCollections.evidenceLookup.genotoxHumanExposureEvidence;
     default:
         throw('Unknown table type');
     }

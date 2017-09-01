@@ -11,28 +11,19 @@ export default {
         label: 'Reference',
         type: SimpleSchema.RegEx.Id,
     },
+    additionalReferences: {
+        label: 'References',
+        type: [SimpleSchema.RegEx.Id],
+        minCount: 0,
+        popoverText: 'References of earlier updates or related publications',
+    },
     exposureScenario: {
         label: 'Exposure scenario',
         type: String,
         allowedValues: exposureScenarios,
         popoverText: 'Type of exposure-information collected',
     },
-    agent: {
-        label: 'Agent',
-        type: String,
-        min: 1,
-        popoverText: 'As reported',
-        placeholderText: 'Trichloroethylene',
-        typeaheadMethod: 'searchGenotoxAgents',
-    },
-    cellType: {
-        label: 'Cell type (if specified)',
-        type: String,
-        optional: true,
-        popoverText: 'As reported',
-        placeholderText: 'endothelial',
-        typeaheadMethod: 'searchGenotoxCellType',
-    },
+
     location: {
         label: 'Location information',
         type: String,
@@ -42,6 +33,22 @@ export default {
     },
 
     // second row
+    agent: {
+        label: 'Agent',
+        type: String,
+        min: 1,
+        popoverText: 'As reported',
+        placeholderText: 'Trichloroethylene',
+        typeaheadMethod: 'searchHumanExposureAgents',
+    },
+    cellType: {
+        label: 'Cell type (if specified)',
+        type: String,
+        optional: true,
+        popoverText: 'As reported',
+        placeholderText: 'endothelial',
+        typeaheadMethod: 'searchHumanExposureCellType',
+    },
     collectionDate: {
         label: 'Collection date',
         type: String,

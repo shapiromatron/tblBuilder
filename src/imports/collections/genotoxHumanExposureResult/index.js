@@ -55,6 +55,9 @@ var instanceMethods = {
         },
     },
     classMethods = {
+        preSaveHook: function(){
+
+        },
         resultOptions,
         getTableEvidence: function(tbl_id){
             return GenotoxHumanExposureResult

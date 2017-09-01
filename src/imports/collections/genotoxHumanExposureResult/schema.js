@@ -7,10 +7,6 @@ import {
 
 export default {
     // first row
-    referenceID: {
-        label: 'Reference',
-        type: SimpleSchema.RegEx.Id,
-    },
     samplingMatrix: {
         label: 'Sampling matrix',
         type: String,
@@ -66,6 +62,7 @@ export default {
         optional: true,
         popoverText: 'List all covariates which were controlled by matching or adjustment in the analysis reported. Enter each covariate individually, and then press <enter> to add it to the list. If no covariates were specified, add \'not-specified\'',
         textAreaRows: 3,
+        typeaheadMethod: 'searchHumanExposureCovariates',
     },
     notes: {
         label: 'General notes',
