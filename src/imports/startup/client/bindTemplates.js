@@ -7,3 +7,4 @@ tblBuilderCollections.evidenceLookup['epiDescriptive'].nested_template = Templat
 tblBuilderCollections.evidenceLookup['animalEvidence'].nested_template = Template.animalEndpointForm;
 tblBuilderCollections.evidenceLookup['ntpEpiDescriptive'].nested_template = Template.ntpEpiResultForm;
 tblBuilderCollections.evidenceLookup['ntpAnimalEvidence'].nested_template = Template.ntpAnimalEndpointEvidenceForm;
+tblBuilderCollections.evidenceLookup['genotoxHumanExposureEvidence'].nested_template = Template.genotoxHumanExposureResultForm;

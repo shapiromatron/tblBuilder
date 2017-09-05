@@ -157,6 +157,11 @@ Router.map(function() {
         controller: TblRouterController,
     });
 
+    this.route('genotoxHumanExposureMain', {
+        path: '/human-exposure/:_id',
+        controller: TblRouterController,
+    });
+
     this.route('referencesMain', {
         path: '/references/:monographAgent/',
         data: function() {
