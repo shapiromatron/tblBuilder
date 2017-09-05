@@ -1,0 +1,9 @@
+<template name="genotoxHumanExposureMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+      {{> genotoxHumanExposureTbl}}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>
