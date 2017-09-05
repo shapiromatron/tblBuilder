@@ -21,6 +21,8 @@ import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 import NtpEpiResult from '/imports/collections/ntpEpiResult';
 import GenotoxEvidence from '/imports/collections/genotox';
 import MechanisticEvidence from '/imports/collections/mechanistic';
+import GenotoxHumanExposureEvidence from '/imports/collections/genotoxHumanExposure';
+import GenotoxHumanExposureResult from '/imports/collections/genotoxHumanExposureResult';
 
 
 let userCanView = function(tbl, userId) {
@@ -223,6 +225,23 @@ Meteor.publish('genotoxEvidence', function(tbl_id) {
             ref_ids = getReferenceIds(GenotoxEvidence, tbl_id);
             return [
                 GenotoxEvidence.find({tbl_id: tbl_id}),
+                Reference.find({_id: {$in: ref_ids}}),
+            ];
+        }
+        return this.ready();
+    });
+});
+
+Meteor.publish('genotoxHumanExposureEvidence', function(tbl_id) {
+    this.autorun(function () {
+        check(tbl_id, String);
+        var tbl = Tables.findOne({_id: tbl_id}),
+            ref_ids;
+        if (userCanView(tbl, this.userId)) {
+            ref_ids = getReferenceIds(GenotoxHumanExposureEvidence, tbl_id);
+            return [
+                GenotoxHumanExposureEvidence.find({tbl_id}),
+                GenotoxHumanExposureResult.find({tbl_id}),
                 Reference.find({_id: {$in: ref_ids}}),
             ];
         }
