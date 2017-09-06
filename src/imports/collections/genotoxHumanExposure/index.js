@@ -71,45 +71,68 @@ var instanceMethods = {
                 .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
                 .fetch();
         },
-        tabular: function(tbl_id) {
-            let getResultData = function(results, row) {
-                    let rows = [];
-                    _.each(results, function(res){
-                        let covariates = res.covariates.join(', '),
-                            row2 = row.slice();
+        getTabularHeader(){
+            return [
+                'Genotoxicity ID',
+                'Reference',
+                'Reference year',
+                'Pubmed ID',
+                'Agent',
+                'Cell type',
+                'Location',
+                'Collection date',
+                'Setting',
+                'Number of measurements',
+                'Comments',
 
-                        row2.push(
-                            res._id, res.samplingMatrix, res.exposureLevel,
-                            res.exposureLevelRange, res.exposureUnits, res.endpoint,
-                            res.endpointTest, covariates, res.notes
-                        );
-                        rows.push(row2);
-                    });
-                    return rows;
-                },
-                qs = GenotoxHumanExposureEvidence.getTableEvidence(tbl_id),
-                header = [
-                    'Genotoxicity ID', 'Reference', 'Reference year', 'Pubmed ID',
-                    'Agent', 'Cell type', 'Location', 'Collection date', 'Setting',
-                    'Number of measurements', 'Comments',
-
-                    'Result ID', 'Sampling matrix', 'Exposure level',
-                    'Exposure level range', 'Exposure units', 'Exposure units', 'Endpoint',
-                    'Endpoint tests', 'Result', 'Covariates', 'General notes',
+                'Result ID',
+                'Sampling matrix',
+                'Exposure level',
+                'Exposure level range',
+                'Exposure units',
+                'Endpoint',
+                'Endpoint test',
+                'Result',
+                'Covariates',
+                'General notes',
+            ];
+        },
+        getTabularRow(evidence){
+            evidence.getReference();
+            evidence.getResults();
+            let row = [
+                    evidence._id, evidence.reference.name, evidence.reference.getYear(),
+                    evidence.reference.pubmed, evidence.agent, evidence.cellType,
+                    evidence.location, evidence.collectionDate, evidence.setting,
+                    evidence.numberMeasurements, evidence.comments,
                 ],
+                rows = GenotoxHumanExposureEvidence.formatResultData(evidence.results, row);
+            return rows;
+        },
+        formatResultData(results, row){
+            let rows = [];
+            _.each(results, function(res){
+                let covariates = res.covariates.join(', '),
+                    row2 = row.slice();
+                row2.push(
+                    res._id, res.samplingMatrix, res.exposureLevel,
+                    res.exposureLevelRange, res.exposureUnits, res.endpoint,
+                    res.endpointTest, res.result, covariates, res.notes
+                );
+                rows.push(row2);
+            });
+            return rows;
+        },
+        tabular: function(tbl_id) {
+            let qs = GenotoxHumanExposureEvidence.getTableEvidence(tbl_id),
+                header = GenotoxHumanExposureEvidence.getTabularHeader(),
                 data;
 
-            data = _.map(qs, function(d){
-                d.getReference();
-                d.getResults();
-                let row = [
-                        d._id, d.reference.name, d.reference.getYear(), d.reference.pubmedID,
-                        d.agent, d.cellType, d.location, d.collectionDate, d.setting,
-                        d.numberMeasurements, d.comments,
-                    ],
-                    rows = getResultData(d.results, row);
-                return rows;
-            });
+            data = _.chain(qs)
+                    .map(function(d){
+                        return GenotoxHumanExposureEvidence.getTabularRow(d);
+                    }).flatten(true)
+                    .value();
             data.unshift(header);
             return data;
         },
