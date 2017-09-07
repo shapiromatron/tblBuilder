@@ -15,6 +15,8 @@ import AnimalEndpointEvidence from '/imports/collections/animalResult';
 import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
 import NtpAnimalEndpointEvidence from '/imports/collections/ntpAnimalEndpointEvidence';
 import MechanisticEvidence from '/imports/collections/mechanistic';
+import GenotoxHumanExposureEvidence from '/imports/collections/genotoxHumanExposure';
+import GenotoxHumanExposureResult from '/imports/collections/genotoxHumanExposureResult';
 
 import {
     getMaximumSortIndex,
@@ -144,6 +146,9 @@ Meteor.startup(function() {
     });
     NtpEpiDescriptive.before.remove(function(userId, doc) {
         NtpEpiResult.remove({parent_id: doc._id});
+    });
+    GenotoxHumanExposureEvidence.before.remove(function(userId, doc) {
+        GenotoxHumanExposureResult.remove({parent_id: doc._id});
     });
 
 

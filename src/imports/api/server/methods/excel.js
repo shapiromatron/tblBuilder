@@ -13,6 +13,7 @@ import NtpEpiResult from '/imports/collections/ntpEpiResult';
 import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 import GenotoxEvidence from '/imports/collections/genotox';
 import MechanisticEvidence from '/imports/collections/mechanistic';
+import GenotoxHumanExposureEvidence from '/imports/collections/genotoxHumanExposure';
 
 import {
     biasWorksheetExport,
@@ -115,6 +116,9 @@ Meteor.methods({
     },
     genotoxEvidenceDownload: function(tbl_id) {
         return writeXLSX('Genotoxicity evidence', GenotoxEvidence.tabular(tbl_id));
+    },
+    genotoxHumanExposureEvidenceDownload: function(tbl_id) {
+        return writeXLSX('Human exposure evidence', GenotoxHumanExposureEvidence.tabular(tbl_id));
     },
     referenceExcelDownload: function(monographAgent) {
         var wsName = monographAgent + '-references';

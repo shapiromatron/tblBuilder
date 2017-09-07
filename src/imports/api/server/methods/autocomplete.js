@@ -17,6 +17,8 @@ import EpiResult from '/imports/collections/epiResult';
 import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 import NtpEpiResult from '/imports/collections/ntpEpiResult';
 import GenotoxEvidence from '/imports/collections/genotox';
+import GenotoxHumanExposureEvidence from '/imports/collections/genotoxHumanExposure';
+import GenotoxHumanExposureResult from '/imports/collections/genotoxHumanExposureResult';
 
 
 var textSearchRegex = function(str, opts){
@@ -301,5 +303,14 @@ Meteor.methods({
     },
     searchNtpCovariates: function(query) {
         return listFieldTextSearch(NtpEpiResult, 'covariates', query);
+    },
+    searchHumanExposureCovariates: function(query) {
+        return listFieldTextSearch(GenotoxHumanExposureResult, 'covariates', query);
+    },
+    searchHumanExposureAgents: function(query) {
+        return singleFieldTextSearch(GenotoxHumanExposureEvidence, 'agent', query);
+    },
+    searchHumanExposureCellType: function(query) {
+        return singleFieldTextSearch(GenotoxHumanExposureEvidence, 'cellType', query);
     },
 });

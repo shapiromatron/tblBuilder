@@ -14,3 +14,4 @@ import './exposure';
 import './genotox';
 import './mechanistic';
 import './reference';
+import './genotoxHumanExposure';
