@@ -1,11 +1,14 @@
 let resultOptions = [
-    '+',
-    '(+)',
-    '+/-',
-    '(-)',
-    '-',
-    'Not tested',
-];
+        '+',
+        '(+)',
+        '+/-',
+        '(-)',
+        '-',
+        'Not tested',
+    ], exposureScenarios = [
+        'Biological',
+        'Environmental',
+    ];
 
-
+export { exposureScenarios };
 export { resultOptions };

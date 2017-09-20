@@ -1,6 +1,7 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import {
+    exposureScenarios,
     resultOptions,
 } from './constants';
 
@@ -12,8 +13,28 @@ export default {
         type: String,
         min: 1,
         popoverText: 'The environmental medium or other matrix (e.g., air, drinking water, food, urine, blood) in which the agent was measured',
-        typeaheadMethod: 'searchSamplingMatrices',
+        typeaheadMethod: 'searchHumanSamplingMatrices',
         placeholderText: 'e.g. air',
+    },
+    exposureScenario: {
+        label: 'Exposure scenario',
+        type: String,
+        allowedValues: exposureScenarios,
+        popoverText: 'Type of exposure-information collected',
+    },
+    exposureSetting: {
+        label: 'Exposure setting',
+        type: String,
+        min: 1,
+        popoverText: 'As reported',
+        placeholderText: 'e.g. Fuel tanker drivers',
+    },
+    numberSubjects: {
+        label: 'Number of subjects',
+        type: String,
+        min: 1,
+        popoverText: 'Typically the number of samples for environmental sampling, or the number of individuals sampled if personal sampling (if >1 measurement/person, give total measurements and explain in the comment-box)',
+        placeholderText: 'e.g. 3',
     },
     exposureLevel: {
         label: 'Mean or median exposure-level',
@@ -35,7 +56,7 @@ export default {
         min: 1,
         popoverText: 'Measurement units (e.g. µg/m³, g/m²)',
         placeholderText: 'e.g. µg/m³',
-        typeaheadMethod: 'searchUnits',
+        typeaheadMethod: 'searchHumanUnits',
     },
     endpoint: {
         label: 'Endpoint',
@@ -43,8 +64,8 @@ export default {
         min: 1,
         popoverText: 'As reported',
     },
-    endpointTest: {
-        label: 'Endpoint test',
+    significance: {
+        label: 'Significance',
         type: String,
         min: 1,
         popoverText: 'As reported',

@@ -1,9 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-import {
-    exposureScenarios,
-} from './constants';
-
 
 export default {
     // first row
@@ -17,12 +13,7 @@ export default {
         minCount: 0,
         popoverText: 'References of earlier updates or related publications',
     },
-    exposureScenario: {
-        label: 'Exposure scenario',
-        type: String,
-        allowedValues: exposureScenarios,
-        popoverText: 'Type of exposure-information collected',
-    },
+
 
     location: {
         label: 'Location information',
@@ -56,20 +47,7 @@ export default {
         popoverText: 'Year(s) of data collection',
         placeholderText: 'e.g. 2009-2011',
     },
-    setting: {
-        label: 'Exposure setting',
-        type: String,
-        min: 1,
-        popoverText: 'As reported',
-        placeholderText: 'e.g. Fuel tanker drivers',
-    },
-    numberMeasurements: {
-        label: 'Number of measurements',
-        type: String,
-        min: 1,
-        popoverText: 'Typically the number of samples for environmental sampling, or the number of individuals sampled if personal sampling (if >1 measurement/person, give total measurements and explain in the comment-box)',
-        placeholderText: 'e.g. 3',
-    },
+
 
     // third row
     comments: {

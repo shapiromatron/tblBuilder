@@ -313,4 +313,10 @@ Meteor.methods({
     searchHumanExposureCellType: function(query) {
         return singleFieldTextSearch(GenotoxHumanExposureEvidence, 'cellType', query);
     },
+    searchHumanSamplingMatrices: function(query) {
+        return singleFieldTextSearch(GenotoxHumanExposureResult, 'samplingMatrix', query);
+    },
+    searchHumanUnits: function(query) {
+        return extraUnitsSearch(GenotoxHumanExposureResult, query);
+    },
 });

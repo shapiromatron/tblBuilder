@@ -13,11 +13,7 @@ import {
     htmlToDocx,
 } from '/imports/api/utilities';
 
-
 import schema_extension from './schema';
-import {
-    resultOptions,
-} from './constants';
 
 
 var instanceMethods = {
@@ -65,7 +61,6 @@ var instanceMethods = {
         },
     },
     classMethods = {
-        resultOptions,
         getTableEvidence: function(tbl_id){
             return GenotoxHumanExposureEvidence
                 .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
