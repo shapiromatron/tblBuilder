@@ -65,10 +65,12 @@ let instanceMethods = {
             return EpiDescriptive.isCaseControl(this.studyDesign);
         },
         setWordFields: function() {
+            this.getConfounders();
             _.extend(this, {
                 reference: Reference.findOne({_id: this.referenceID}),
                 isCaseControl: this.isCaseControl(),
                 wrd_notes: this.notes || '',
+                biasFields: NtpEpiDescriptive.biasFields(),
             });
         },
         tabularRows: function(){
@@ -96,6 +98,17 @@ let instanceMethods = {
         ratings,
         sortFields: {
             'Reference':    'sortReference',
+        },
+        biasFields: function(){
+            return {
+                selectionBias: ['selectionBiasRating', 'selectionBiasDirection', 'selectionBiasRationale'],
+                exposureAssessment: ['exposureAssessmentRating', 'exposureAssessmentDirection', 'exposureAssessmentRationale'],
+                outcomeAssessment: ['outcomeAssessmentRating', 'outcomeAssessmentDirection', 'outcomeAssessmentRationale'],
+                sensitivity: ['sensitivityRating', 'sensitivityDirection', 'sensitivityRatingRationale'],
+                confounding: ['confoundingRating', 'confoundingDirection', 'confoundingRatingRationale'],
+                analysis: ['analysisRating', 'analysisDirection', 'analysisRationale'],
+                selectiveReporting: ['selectiveReportingRating', 'selectiveReportingDirection', 'selectiveReportingRationale'],
+            };
         },
         sortReference:  collSorts.sortByReference,
         getTableEvidence: function(tbl_id){
@@ -146,6 +159,17 @@ let instanceMethods = {
         },
         wordContext: function(tbl_ids){
             var tables = Tables.find({_id: {$in: tbl_ids}}).fetch(),
+                allDescs = NtpEpiDescriptive.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch();
+
+            allDescs.forEach((d)=> d.setWordFields() );
+
+            return {
+                tables: tables,
+                descriptions: allDescs,
+            };
+        },
+        wordContextWithResults: function(tbl_ids){
+            var tables = Tables.find({_id: {$in: tbl_ids}}).fetch(),
                 allDescs = NtpEpiDescriptive.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch(),
                 allResults = NtpEpiResult.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch(),
                 sites = _.uniq(_.pluck(allResults, 'organSiteCategory'), false),
@@ -178,6 +202,11 @@ let instanceMethods = {
                 type: 'NtpEpiResultTables',
                 fn: 'epi-results',
                 text: 'Download Word (results)',
+            },
+            {
+                type: 'NtpEpiBiasTables',
+                fn: 'epi-bias',
+                text: 'Download Word (potential bias)',
             },
         ],
     },
