@@ -41,7 +41,7 @@ class NtpEpiBiasTables(DOCXReport):
                 rowspan = len(d['confounders'])
                 for i, cf in enumerate(d['confounders']):
                     fields = d['biasFields'][bias[0]]
-                    txt = u'{} {}\n{}'.format(cf[fields[0]], cf[fields[1]], cf[fields[2]])
+                    txt = u'{}: {} {}\n{}'.format(cf[fields[0]], cf[fields[1]], cf[fields[2]], cf[fields[3]])
                     tbl.new_td_txt(i, 1, txt, colspan=2)
             else:
                 fields = d['biasFields'][bias[0]]

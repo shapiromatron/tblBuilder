@@ -105,7 +105,7 @@ let instanceMethods = {
                 exposureAssessment: ['exposureAssessmentRating', 'exposureAssessmentDirection', 'exposureAssessmentRationale'],
                 outcomeAssessment: ['outcomeAssessmentRating', 'outcomeAssessmentDirection', 'outcomeAssessmentRationale'],
                 sensitivity: ['sensitivityRating', 'sensitivityDirection', 'sensitivityRatingRationale'],
-                confounding: ['confoundingRating', 'confoundingDirection', 'confoundingRatingRationale'],
+                confounding: ['organSiteCategory', 'confoundingRating', 'confoundingDirection', 'confoundingRatingRationale'],
                 analysis: ['analysisRating', 'analysisDirection', 'analysisRationale'],
                 selectiveReporting: ['selectiveReportingRating', 'selectiveReportingDirection', 'selectiveReportingRationale'],
             };
