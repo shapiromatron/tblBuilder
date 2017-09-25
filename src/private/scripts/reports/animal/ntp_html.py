@@ -125,8 +125,13 @@ class NtpAnimalHtmlTables(DOCXReport):
                 # write trend test
                 txt = result.get('trendTest')
                 if txt:
-                    txt = u'Trend p-value: {}'.format(txt)
-                    tbl.new_td_txt(site_row, 2, txt, colspan=2)
+                    # italicize 'P' in 'P-value'
+                    runs = [
+                        tbl.new_run('Trend ', newline=False),
+                        tbl.new_run('P', i=True, newline=False),
+                        tbl.new_run(u'-value: {}'.format(txt))
+                    ]
+                    tbl.new_td_run(site_row, 2, runs, colspan=2)
                     site_row += 1
 
         # Column E
@@ -143,7 +148,7 @@ class NtpAnimalHtmlTables(DOCXReport):
             tbl.new_run(first_result['bodyWeightNotes'] or ''),
             tbl.new_run(''),
             tbl.new_run(
-                'Significantly increased pre-neoplastic lesions: ',
+                'Significantly increased preneoplastic lesions: ',
                 b=True, newline=False
             ),
             tbl.new_run(first_result['nonNeoplasticFindings'] or ''),
