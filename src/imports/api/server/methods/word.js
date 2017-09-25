@@ -63,6 +63,8 @@ var Future = Npm.require('fibers/future'),
             return NtpEpiDescriptive.wordContextWithResults([tbl_id]);
         case 'NtpEpiBiasTables':
             return NtpEpiDescriptive.wordContext([tbl_id]);
+        case 'NtpEpiBiasRatings':
+            return NtpEpiDescriptive.wordContext([tbl_id]);
         default:
             console.log(`No context specified: ${report_type}`);
         }
