@@ -42,6 +42,13 @@ export default {
         custom: isNumericishString,
         popoverText: 'Provide p-value for trend-test when reported',
     },
+    additionalResults:{
+        label: 'Additional results',
+        type: String,
+        optional: true,
+        textAreaRows: 4,
+        popoverText: 'Add me',
+    },
     riskEstimates: {
         type: [riskEstimateSchema],
         minCount: 0,
