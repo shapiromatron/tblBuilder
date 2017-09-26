@@ -27,8 +27,8 @@ help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
 
-dev: ## Start NTP development environment
-	./bin/local.sh
+dev: ## Start development environment
+	./bin/dev.sh
 
 ntp: ## Start NTP development environment
 	./bin/ntp.sh
