@@ -141,7 +141,7 @@ tblBuilderCollections.getEvidenceByTableType = function(tblType){
         return tblBuilderCollections.evidenceLookup.genotoxEvidence;
     case 'Mechanistic Evidence Summary':
         return tblBuilderCollections.evidenceLookup.mechanisticEvidence;
-    case 'Human Exposure':
+    case 'Genotoxicity-exposed Humans':
         return tblBuilderCollections.evidenceLookup.genotoxHumanExposureEvidence;
     default:
         throw('Unknown table type');
