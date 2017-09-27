@@ -48,3 +48,7 @@ rm –rf ~/Desktop/_extracted
 ### Running the dev environment
 
 A basic dev environment using [tmux](https://github.com/tmux/tmux/wiki) is set up with the Makefile. Start the dev environment by running `make dev`.
+
+## Production notes
+
+Deploy using docker; view the `docker-compose.yml` for more details.
