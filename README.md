@@ -25,7 +25,7 @@ Then, in the root directory of the application:
 
 ### Editing the settings.json
 
-The settings.json
+Three fields are required to be modified in `./settings/settings.json`:
 
 - `scripts_path` is the absolute path to the `tblBuilder/src/private/scripts` folder.
 - `python_path` is the absolute path to Python 2.7.
