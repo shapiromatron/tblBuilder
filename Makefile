@@ -26,6 +26,10 @@ BROWSER := python -c "$$BROWSER_PYSCRIPT"
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
+
+dev: ## Start development environment
+	./bin/dev.sh
+
 ntp: ## Start NTP development environment
 	./bin/ntp.sh
 
