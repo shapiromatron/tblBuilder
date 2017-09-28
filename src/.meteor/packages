@@ -5,7 +5,7 @@
 
 standard-app-packages@1.0.9
 mrt:filesaver@0.0.3
-accounts-base@1.3.2
+accounts-base@1.3.3
 accounts-password@1.4.0
 sergeyt:typeahead@0.0.10
 email@1.2.3
@@ -22,11 +22,11 @@ aldeed:collection2
 ecmascript@0.8.2
 peerlibrary:reactive-publish
 datariot:ganalytics
-standard-minifier-css@1.3.4
-standard-minifier-js@2.1.1
+standard-minifier-css@1.3.5
+standard-minifier-js@2.1.2
 twbs:bootstrap
 jquery@1.11.10
 momentjs:moment
 fortawesome:fontawesome
 shell-server@0.2.4
-dynamic-import@0.1.1
+dynamic-import@0.1.3
