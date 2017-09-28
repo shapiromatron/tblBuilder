@@ -27,21 +27,34 @@
                 </div>
                 <div class="col-xs-4">
                   {{> fldInputText name="endpoint" value=endpoint nested=true  tabindex=5}}
-                  {{> fldInputText name="endpointTest" value=endpointTest nested=true  tabindex=6}}
+                  {{> fldInputText name="significance" value=significance nested=true  tabindex=6}}
                   {{> fldSelectSingle name="result" value=result nested=true  tabindex=7}}
-
                 </div>
               </div>
 
+
+            <!-- Second row -->
+
+              <div class="form-group row">
+                <div class="col-xs-4">
+                  {{> fldSelectSingle name="exposureScenario" value=exposureScenario nested=true tabindex=8}}
+                </div>
+                <div class="col-xs-4">
+                  {{> fldInputText name="exposureSetting" value=exposureSetting nested=true tabindex=9}}
+                </div>
+                <div class="col-xs-4">
+                  {{> fldInputText name="numberSubjects" value=numberSubjects nested=true tabindex=10}}
+                </div>
+              </div>
             <!-- Third row -->
 
               <div class="form-group row">
                   <div class="col-xs-4">
-                    {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true  tabindex=8}}
+                    {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true  tabindex=11}}
                   </div>
 
                   <div class="col-xs-8">
-                    {{> fldTextArea name="notes" value=notes nested=true  tabindex=9}}
+                    {{> fldTextArea name="notes" value=notes nested=true  tabindex=12}}
                   </div>
               </div>
 
