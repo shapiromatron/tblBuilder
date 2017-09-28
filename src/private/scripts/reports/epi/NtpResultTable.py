@@ -4,7 +4,7 @@ from docxUtils.tables import TableMaker
 
 class NtpEpiResultTables(DOCXReport):
 
-    COLUMN_WIDTHS = [1.0, 1.7, 0.75, 0.75, 1.2, 2.6]
+    COLUMN_WIDTHS = [1.0, 1.7, 1.25, 1.25, 1.2, 2.6]
 
     def _build_result(self, res):
 
