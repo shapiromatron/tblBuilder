@@ -7,7 +7,7 @@ class NtpEpiBiasTables(DOCXReport):
     """
     NTP epi potential bias report.
     """
-    COLUMN_WIDTHS = [.8, 2.2, 2.2]
+    COLUMN_WIDTHS = [2, 2.25, 2.25]
 
     def convertCamelCase(self, name):
         s1 = re.sub('(.)([A-Z][a-z]+)', r'\1 \2', name)
@@ -20,7 +20,8 @@ class NtpEpiBiasTables(DOCXReport):
         # write header
         tbl.new_th(0, 0, 'Reference')
         for i, bias in enumerate(biasNames):
-            tbl.new_th(0, i + 1, u'{} rating'.format(self.convertCamelCase(bias)))
+            tbl.new_th(0, i + 1, u'{} rating'.format(
+                self.convertCamelCase(bias)))
 
         docx_tbl = tbl.render(self.doc)
 
@@ -41,20 +42,23 @@ class NtpEpiBiasTables(DOCXReport):
                 rowspan = len(d['confounders'])
                 for i, cf in enumerate(d['confounders']):
                     fields = d['biasFields'][bias[0]]
-                    txt = u'{}: {} {}\n{}'.format(cf[fields[0]], cf[fields[1]], cf[fields[2]], cf[fields[3]])
+                    txt = u'{}: {} {}\n{}'.format(
+                        cf[fields[0]], cf[fields[1]],
+                        cf[fields[2]], cf[fields[3]])
                     tbl.new_td_txt(i, 1, txt, colspan=2)
             else:
                 fields = d['biasFields'][bias[0]]
-                txt = u'{} {}\n{}'.format(d[fields[0]], d[fields[1]], d[fields[2]])
+                txt = u'{} {}\n{}'.format(
+                    d[fields[0]], d[fields[1]], d[fields[2]])
                 tbl.new_td_txt(row, 1, txt, colspan=2)
         else:
             for i, b in enumerate(bias):
                 fields = d['biasFields'][b]
-                txt = u'{} {}\n{}'.format(d[fields[0]], d[fields[1]], d[fields[2]])
+                txt = u'{} {}\n{}'.format(
+                    d[fields[0]], d[fields[1]], d[fields[2]])
                 tbl.new_td_txt(row, i + 1, txt)
 
         tbl.new_td_txt(row, 0, d['reference']['name'], rowspan=rowspan)
-
 
         return tbl
 
@@ -70,13 +74,13 @@ class NtpEpiBiasTables(DOCXReport):
         doc.add_paragraph(d['tables'][0]['name'])
 
         for bias in [
-                ['selectionBias'],
-                ['exposureAssessment'],
-                ['outcomeAssessment'],
-                ['sensitivity'],
-                ['confounding'],
-                ['analysis', 'selectiveReporting'],
-            ]:
+            ['selectionBias'],
+            ['exposureAssessment'],
+            ['outcomeAssessment'],
+            ['sensitivity'],
+            ['confounding'],
+            ['analysis', 'selectiveReporting'],
+        ]:
             self.build_bias_table(bias, d['descriptions'])
             self.doc.add_page_break()
 
