@@ -28,10 +28,11 @@ class NtpEpiResultTables(DOCXReport):
 
         # Column B
         if res['descriptive']['isCaseControl']:
-            popD = tbl.new_run(u'{}\nCases: {}; Controls: {}'.format(
-                res['descriptive'].get('populationEligibility', ''),
-                res['descriptive'].get('populationSizeCases', ''),
-                res['descriptive'].get('populationSizeControls', '')))
+            txt = u'Cases: {}; Controls: {}'
+            populationEligibility = res['descriptive'].get('populationEligibility')
+            if populationEligibility is not None:
+                txt = u'{}\n{}'.format(populationEligibility, txt)
+            popD = tbl.new_run(txt)
         else:
             popD = tbl.new_run(u'{}\n{}'.format(
                 res['descriptive'].get('populationEligibility', ''),
@@ -51,13 +52,13 @@ class NtpEpiResultTables(DOCXReport):
         # Columns C,D
         risk_row = row
         if res.get('organSite'):
+            txt = u'{} - {}'.format(res['organSite'], res['effectMeasure'])
+            if res.get('effectUnits') is not None:
+                txt = u'{} {}'.format(txt, res['effectUnits'])
             tbl.new_td_txt(
                 risk_row,
                 2,
-                u'{} - {} {}'.format(
-                    res['organSite'],
-                    res['effectMeasure'],
-                    res['effectUnits']),
+                txt,
                 colspan=2)
             risk_row += 1
         for i, est in enumerate(res['riskEstimates']):
@@ -65,20 +66,19 @@ class NtpEpiResultTables(DOCXReport):
             tbl.new_td_txt(risk_row + i, 3, est['riskFormatted'])
 
         # Column E
-        txt = res['wrd_covariatesList']
-        runs = [
-            tbl.new_run(res['wrd_covariatesList']),
-        ]
-        tbl.new_td_run(row, 4, runs, rowspan=rowspan)
+        tbl.new_td_txt(row, 4, res['wrd_covariatesList'], rowspan=rowspan)
 
         # Column F
-        runs = [
-            tbl.new_run(res['descriptive']['wrd_notes']),
+        runs = []
+        wrd_notes = res['descriptive'].get('wrd_notes')
+        if wrd_notes is not None and wrd_notes != '':
+            runs.append(tbl.new_run(wrd_notes))
+        runs.extend([
             tbl.new_run('Strengths:', b=True),
             tbl.new_run(res['descriptive']['strengths']),
             tbl.new_run('Limitations:', b=True),
             tbl.new_run(res['descriptive']['limitations'], newline=False)
-        ]
+        ])
         tbl.new_td_run(row, 5, runs, rowspan=rowspan)
 
         return tbl
