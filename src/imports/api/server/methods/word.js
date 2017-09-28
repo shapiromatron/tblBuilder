@@ -8,6 +8,7 @@ import AnimalEvidence from '/imports/collections/animalEvidence';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import GenotoxEvidence from '/imports/collections/genotox';
 import MechanisticEvidence from '/imports/collections/mechanistic';
+import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
 
 import {
     getPyShell,
@@ -58,6 +59,10 @@ var Future = Npm.require('fibers/future'),
             return GenotoxEvidence.wordHtmlContext(tbl_id);
         case 'MechanisticEvidenceHtmlTables':
             return MechanisticEvidence.wordContext(tbl_id);
+        case 'NtpEpiResultTables':
+            return NtpEpiDescriptive.wordContextWithResults([tbl_id]);
+        case 'NtpEpiBiasTables':
+            return NtpEpiDescriptive.wordContext([tbl_id]);
         default:
             console.log(`No context specified: ${report_type}`);
         }

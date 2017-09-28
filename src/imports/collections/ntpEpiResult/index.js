@@ -8,6 +8,7 @@ import schema_extension from './schema';
 import riskEstimateSchema from './riskEstimateSchema';
 import {
     newValues,
+    capitalizeFirst,
 } from '/imports/api/utilities';
 import {
     tabularizeHeader,
@@ -22,8 +23,22 @@ let instanceMethods = {
             if (_.isFinite(obj.riskLow) && _.isFinite(obj.riskHigh)) {
                 txt += ` (${obj.riskLow}–${obj.riskHigh})`;
             }
+            if (obj.numberExposed) {
+                txt = `${txt}; ${obj.numberExposed}`;
+            }
             if (obj.riskEstimated) txt = `[${txt}]`;
             return txt;
+        },
+        setWordFields: function() {
+            _.extend(this, {
+                wrd_covariatesList: capitalizeFirst(this.covariates.join(', ')),
+                hasTrendTest: (this.trendTest) ? true : false,
+                printOrganSite: this.printOrganSite(),
+            });
+            _.each(this.riskEstimates, function(riskEst){
+                riskEst.riskFormatted = this.riskFormatter(riskEst);
+                riskEst.exposureCategory = capitalizeFirst(riskEst.exposureCategory);
+            }, this);
         },
         getDescription: function(){
             if (_.isUndefined(this.description)){

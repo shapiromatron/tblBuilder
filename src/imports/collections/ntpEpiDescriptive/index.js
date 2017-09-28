@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor';
 
 import _ from 'underscore';
 
+import Tables from '/imports/collections/tables';
 import Reference from '/imports/collections/reference';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 
@@ -63,6 +64,15 @@ let instanceMethods = {
         isCaseControl: function(){
             return EpiDescriptive.isCaseControl(this.studyDesign);
         },
+        setWordFields: function() {
+            this.getConfounders();
+            _.extend(this, {
+                reference: Reference.findOne({_id: this.referenceID}),
+                isCaseControl: this.isCaseControl(),
+                wrd_notes: this.notes || '',
+                biasFields: NtpEpiDescriptive.biasFields(),
+            });
+        },
         tabularRows: function(){
             this.getReference();
             this.getResults();
@@ -88,6 +98,17 @@ let instanceMethods = {
         ratings,
         sortFields: {
             'Reference':    'sortReference',
+        },
+        biasFields: function(){
+            return {
+                selectionBias: ['selectionBiasRating', 'selectionBiasDirection', 'selectionBiasRationale'],
+                exposureAssessment: ['exposureAssessmentRating', 'exposureAssessmentDirection', 'exposureAssessmentRationale'],
+                outcomeAssessment: ['outcomeAssessmentRating', 'outcomeAssessmentDirection', 'outcomeAssessmentRationale'],
+                sensitivity: ['sensitivityRating', 'sensitivityDirection', 'sensitivityRatingRationale'],
+                confounding: ['organSiteCategory', 'confoundingRating', 'confoundingDirection', 'confoundingRatingRationale'],
+                analysis: ['analysisRating', 'analysisDirection', 'analysisRationale'],
+                selectiveReporting: ['selectiveReportingRating', 'selectiveReportingDirection', 'selectiveReportingRationale'],
+            };
         },
         sortReference:  collSorts.sortByReference,
         getTableEvidence: function(tbl_id){
@@ -136,6 +157,58 @@ let instanceMethods = {
                 d.riskLow, d.riskMid, d.riskHigh,
             ];
         },
+        wordContext: function(tbl_ids){
+            var tables = Tables.find({_id: {$in: tbl_ids}}).fetch(),
+                allDescs = NtpEpiDescriptive.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch();
+
+            allDescs.forEach((d)=> d.setWordFields() );
+
+            return {
+                tables: tables,
+                descriptions: allDescs,
+            };
+        },
+        wordContextWithResults: function(tbl_ids){
+            var tables = Tables.find({_id: {$in: tbl_ids}}).fetch(),
+                allDescs = NtpEpiDescriptive.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch(),
+                allResults = NtpEpiResult.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch(),
+                sites = _.uniq(_.pluck(allResults, 'organSiteCategory'), false),
+                organSites;
+
+            allDescs.forEach((d)=> d.setWordFields() );
+
+            allResults = _.chain(allResults)
+                .each((d)=>{
+                    d.setWordFields();
+                    d.descriptive = _.findWhere(allDescs, {_id: d.parent_id});
+                })
+                .reject((d) => d.descriptive === undefined)
+                .value();
+
+            organSites = _.map(sites, function(site){
+                return {
+                    'organSite': site,
+                    'results': _.where(allResults, {organSiteCategory: site}),
+                };
+            });
+
+            return {
+                tables: tables,
+                'organSites': organSites,
+            };
+        },
+        wordReportFormats: [
+            {
+                type: 'NtpEpiResultTables',
+                fn: 'epi-results',
+                text: 'Download Word (results)',
+            },
+            {
+                type: 'NtpEpiBiasTables',
+                fn: 'epi-bias',
+                text: 'Download Word (potential bias)',
+            },
+        ],
     },
     NtpEpiDescriptive = new Meteor.Collection('ntpEpiDescriptive', {
         transform: function (doc) {
