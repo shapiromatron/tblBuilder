@@ -208,6 +208,11 @@ let instanceMethods = {
                 fn: 'epi-bias',
                 text: 'Download Word (potential bias)',
             },
+            {
+                type: 'NtpEpiBiasRatings',
+                fn: 'epi-bias-ratings',
+                text: 'Download Word (potential bias ratings)',
+            },
         ],
     },
     NtpEpiDescriptive = new Meteor.Collection('ntpEpiDescriptive', {
