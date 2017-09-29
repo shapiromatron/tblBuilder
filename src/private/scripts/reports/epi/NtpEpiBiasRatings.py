@@ -21,14 +21,14 @@ class NtpEpiBiasRatings(DOCXReport):
         tbl.new_th(0, 8, 'Utility')
 
         tbl.new_th(1, 0, 'Citation')
-        tbl.new_th(1, 1, 'Selection')
-        tbl.new_th(1, 2, 'Exposure')
-        tbl.new_th(1, 3, 'Outcome')
-        tbl.new_th(1, 4, 'Confounding methods')
-        tbl.new_th(1, 5, 'Adequacy of analysis')
-        tbl.new_th(1, 6, 'Selective reporting')
-        tbl.new_th(1, 7, 'Sensitivity')
-        tbl.new_th(1, 8, 'Integration')
+        tbl.new_th(1, 1, 'Selection', vertical=True, height=0.5)
+        tbl.new_th(1, 2, 'Exposure', vertical=True)
+        tbl.new_th(1, 3, 'Outcome', vertical=True)
+        tbl.new_th(1, 4, 'Confounding methods', vertical=True)
+        tbl.new_th(1, 5, 'Adequacy of analysis', vertical=True)
+        tbl.new_th(1, 6, 'Selective reporting', vertical=True)
+        tbl.new_th(1, 7, 'Sensitivity', vertical=True)
+        tbl.new_th(1, 8, 'Integration', vertical=True)
 
         # write data rows
         for i, d in enumerate(data['descriptions']):
