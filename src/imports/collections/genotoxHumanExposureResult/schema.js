@@ -50,7 +50,7 @@ export default {
         popoverText: 'Minimum and maximum or NR if not reported. Optionally if range not reported the standard-deviation or other measure of variability relative to the mean. (e.g., 32.3-40.2, NR, 13.2 SD, 14.7 SE)',
         placeholderText: 'e.g. 32.3-40.2',
     },
-    exposureUnits: {
+    units: {
         label: 'Exposure units',
         type: String,
         min: 1,
