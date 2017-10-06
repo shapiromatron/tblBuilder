@@ -151,11 +151,8 @@ class EpiDescriptiveTables(DOCXReport):
         p.style = 'Title'
         doc.add_paragraph(d['tables'][0]['name'])
 
-        # build table for each organ-site
-        for desc in sorted(
-            d['descriptions'],
-            key=lambda d: (d['isCaseControl'], d['reference']['name'])
-        ):
+        # build table study description
+        for desc in d['descriptions']:
             self.build_desc_tbl(desc)
             self.doc.add_page_break()
 

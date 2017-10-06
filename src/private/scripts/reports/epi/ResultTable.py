@@ -102,8 +102,6 @@ class EpiResultTables(DOCXReport):
             docx_tbl_inner = inner_tbl.render(self.doc)
             docx_tbl._cells.extend(docx_tbl_inner._cells)
 
-        tbl.render(self.doc)
-
     def create_content(self):
         doc = self.doc
         d = self.context

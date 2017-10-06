@@ -197,8 +197,14 @@ let instanceMethods = {
         },
         wordContextByResult: function(tbl_ids){
             var tbls = Tables.find({_id: {$in: tbl_ids}}).fetch(),
-                allDescs = EpiDescriptive.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch(),
-                allResults = EpiResult.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch(),
+                allDescs = EpiDescriptive.find(
+                        {tbl_id: {$in: tbl_ids}, isHidden: false},
+                        {sort: {sortIdx: 1}}
+                    ).fetch(),
+                allResults = EpiResult.find(
+                        {tbl_id: {$in: tbl_ids}, isHidden: false},
+                        {sort: {sortIdx: 1}}
+                    ).fetch(),
                 sites = _.uniq(_.pluck(allResults, 'organSiteCategory'), false),
                 organSites;
 
@@ -210,6 +216,7 @@ let instanceMethods = {
                     d.descriptive = _.findWhere(allDescs, {_id: d.parent_id});
                 })
                 .reject((d) => d.descriptive === undefined)
+                .sortBy((d) => d.descriptive.sortIdx * 100 + d.sortIdx)
                 .value();
 
             organSites = _.map(sites, function(site){

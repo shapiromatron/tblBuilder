@@ -81,7 +81,7 @@ class EpiHtmlTables(DOCXReport):
 
                 runs = []
                 if i == 0 and stratum and len(stratum) > 0:
-                    runs.append(tbl.new_run('{}: '.format(stratum),
+                    runs.append(tbl.new_run(u'{}: '.format(stratum),
                                             b=True, newline=False))
                 runs.append(tbl.new_run(est['exposureCategory'], newline=False))
                 tbl.new_td_run(irows+additionalRows, 3, runs)
