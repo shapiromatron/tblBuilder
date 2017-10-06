@@ -137,11 +137,11 @@ tblBuilderCollections.getEvidenceByTableType = function(tblType){
         return tblBuilderCollections.evidenceLookup.animalEvidence;
     case 'NTP Animal Bioassay Evidence':
         return tblBuilderCollections.evidenceLookup.ntpAnimalEvidence;
-    case 'Genetic and Related Effects':
+    case 'Genotoxicity-other':
         return tblBuilderCollections.evidenceLookup.genotoxEvidence;
     case 'Mechanistic Evidence Summary':
         return tblBuilderCollections.evidenceLookup.mechanisticEvidence;
-    case 'Human Exposure':
+    case 'Genotoxicity-exposed Humans':
         return tblBuilderCollections.evidenceLookup.genotoxHumanExposureEvidence;
     default:
         throw('Unknown table type');

@@ -2,7 +2,6 @@ let dataClass = [
         'Non-mammalian',
         'Mammalian and human in vitro',
         'Animal in vivo',
-        'Human in vivo',
     ],
     phylogeneticClasses = [
         'Acellular systems',

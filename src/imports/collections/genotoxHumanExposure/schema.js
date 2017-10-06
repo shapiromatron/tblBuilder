@@ -1,9 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-import {
-    exposureScenarios,
-} from './constants';
-
 
 export default {
     // first row
@@ -17,37 +13,12 @@ export default {
         minCount: 0,
         popoverText: 'References of earlier updates or related publications',
     },
-    exposureScenario: {
-        label: 'Exposure scenario',
-        type: String,
-        allowedValues: exposureScenarios,
-        popoverText: 'Type of exposure-information collected',
-    },
-
     location: {
         label: 'Location information',
         type: String,
         optional: true,
         popoverText: 'Other information (e.g., region, state, province, city) if important',
         placeholderText: 'e.g. Montpellier',
-    },
-
-    // second row
-    agent: {
-        label: 'Agent',
-        type: String,
-        min: 1,
-        popoverText: 'As reported',
-        placeholderText: 'Trichloroethylene',
-        typeaheadMethod: 'searchHumanExposureAgents',
-    },
-    cellType: {
-        label: 'Cell type (if specified)',
-        type: String,
-        optional: true,
-        popoverText: 'As reported',
-        placeholderText: 'endothelial',
-        typeaheadMethod: 'searchHumanExposureCellType',
     },
     collectionDate: {
         label: 'Collection date',
@@ -56,22 +27,16 @@ export default {
         popoverText: 'Year(s) of data collection',
         placeholderText: 'e.g. 2009-2011',
     },
-    setting: {
-        label: 'Exposure setting',
+
+    // second row
+    agent: {
+        label: 'Agent',
         type: String,
         min: 1,
         popoverText: 'As reported',
-        placeholderText: 'e.g. Fuel tanker drivers',
+        placeholderText: 'e.g., Trichloroethylene',
+        typeaheadMethod: 'searchHumanExposureAgents',
     },
-    numberMeasurements: {
-        label: 'Number of measurements',
-        type: String,
-        min: 1,
-        popoverText: 'Typically the number of samples for environmental sampling, or the number of individuals sampled if personal sampling (if >1 measurement/person, give total measurements and explain in the comment-box)',
-        placeholderText: 'e.g. 3',
-    },
-
-    // third row
     comments: {
         label: 'Comments',
         type: String,

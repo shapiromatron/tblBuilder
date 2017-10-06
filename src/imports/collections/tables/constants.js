@@ -8,18 +8,18 @@ var getTableTypes = function(){
             'Exposure Evidence',
             'NTP Epidemiology Evidence',
             'NTP Animal Bioassay Evidence',
-            'Genetic and Related Effects',
+            'Genotoxicity-other',
             'Mechanistic Evidence Summary',
-            'Human Exposure',
+            'Genotoxicity-exposed Humans',
         ];
     } else {
         return [
             'Exposure Evidence',
             'Epidemiology Evidence',
             'Animal Bioassay Evidence',
-            'Genetic and Related Effects',
+            'Genotoxicity-other',
             'Mechanistic Evidence Summary',
-            'Human Exposure',
+            'Genotoxicity-exposed Humans',
         ];
     }
 };
@@ -37,8 +37,8 @@ let typeOptions = getTableTypes(),
         'Exposure Evidence': 'exposureMain',
         'Animal Bioassay Evidence': 'animalMain',
         'NTP Animal Bioassay Evidence': 'ntpAnimalMain',
-        'Genetic and Related Effects': 'genotoxMain',
-        'Human Exposure': 'genotoxHumanExposureMain',
+        'Genotoxicity-other': 'genotoxMain',
+        'Genotoxicity-exposed Humans': 'genotoxHumanExposureMain',
     },
     unstartedStatuses = ['unknown', 'not started'],
     statusOptions = {

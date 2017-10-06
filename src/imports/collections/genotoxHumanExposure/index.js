@@ -13,11 +13,7 @@ import {
     htmlToDocx,
 } from '/imports/api/utilities';
 
-
 import schema_extension from './schema';
-import {
-    resultOptions,
-} from './constants';
 
 
 var instanceMethods = {
@@ -65,7 +61,6 @@ var instanceMethods = {
         },
     },
     classMethods = {
-        resultOptions,
         getTableEvidence: function(tbl_id){
             return GenotoxHumanExposureEvidence
                 .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
@@ -73,40 +68,27 @@ var instanceMethods = {
         },
         getTabularHeader(){
             return [
-                'Genotoxicity ID',
-                'Reference',
-                'Reference year',
-                'Pubmed ID',
-                'Agent',
-                'Cell type',
-                'Location',
-                'Collection date',
-                'Setting',
-                'Number of measurements',
-                'Comments',
+                // description
+                'Genotoxicity ID', 'Reference', 'Reference year', 'Pubmed ID', 'Location', 'Collection date',
+                'Agent', 'Comments',
 
-                'Result ID',
-                'Sampling matrix',
-                'Exposure level',
-                'Exposure level range',
-                'Exposure units',
-                'Endpoint',
-                'Endpoint test',
-                'Result',
-                'Covariates',
-                'General notes',
+                // results
+                'Result ID', 'Exposure scenario', 'Exposure setting', 'Number of measurements',
+                'Sampling matrix', 'Endpoint', 'Cell type',
+                'Exposure level', 'Exposure level range', 'Exposure units',
+                'Result', 'Significance',
+                'Covariates', 'Result notes',
             ];
         },
-        getTabularRow(evidence){
-            evidence.getReference();
-            evidence.getResults();
+        getTabularRow(d){
+            d.getReference();
+            d.getResults();
             let row = [
-                    evidence._id, evidence.reference.name, evidence.reference.getYear(),
-                    evidence.reference.pubmed, evidence.agent, evidence.cellType,
-                    evidence.location, evidence.collectionDate, evidence.setting,
-                    evidence.numberMeasurements, evidence.comments,
+                    d._id, d.reference.name, d.reference.getYear(),
+                    d.reference.pubmed, d.location, d.collectionDate,
+                    d.agent,  d.comments,
                 ],
-                rows = GenotoxHumanExposureEvidence.formatResultData(evidence.results, row);
+                rows = GenotoxHumanExposureEvidence.formatResultData(d.results, row);
             return rows;
         },
         formatResultData(results, row){
@@ -115,9 +97,11 @@ var instanceMethods = {
                 let covariates = res.covariates.join(', '),
                     row2 = row.slice();
                 row2.push(
-                    res._id, res.samplingMatrix, res.exposureLevel,
-                    res.exposureLevelRange, res.exposureUnits, res.endpoint,
-                    res.endpointTest, res.result, covariates, res.notes
+                    res._id, res.exposureScenario, res.exposureSetting, res.numberSubjects,
+                    res.samplingMatrix, res.endpoint, res.cellType,
+                    res.exposureLevel, res.exposureLevelRange, res.units,
+                    res.result, res.significance,
+                    covariates, res.notes
                 );
                 rows.push(row2);
             });
@@ -136,60 +120,8 @@ var instanceMethods = {
             data.unshift(header);
             return data;
         },
-        wordReportFormats: [
-            {
-                'type': 'GenotoxHumanExposureTables',
-                'fn': 'genotoxicity',
-                'text': 'Download Word (by data-class)',
-            },
-            {
-                'type': 'GenotoxHumanExposureHtmlTables',
-                'fn': 'genotoxicity',
-                'text': 'Download Word (HTML re-creation)',
-            },
-        ],
-        wordContext: function(tbl_id) {
-            let resp = GenotoxHumanExposureEvidence.wordHtmlContext(tbl_id);
-            return {
-                table: resp.table,
-            };
-        },
-        wordHtmlContext: function(tbl_id){
-            var tbl = Tables.findOne(tbl_id),
-                vals = GenotoxHumanExposureEvidence.find(
-                            {tbl_id: tbl_id, isHidden: false},
-                            {sort: {sortIdx: 1}}
-                        ).fetch();
-
-            vals.forEach(function(val){
-                val.reference = Reference.findOne({_id: val.referenceID});
-                val.setWordFields();
-            });
-
-            return {
-                table: tbl,
-                objects: vals,
-            };
-        },
         sortFields: {
-            'Exposure scenario':
-                _.partial(collSorts.sortByTextField, 'exposureScenario'),
-            'Agent':
-                _.partial(collSorts.sortByTextField, 'agent'),
-            'Cell type (human in-vivo)':
-                _.partial(collSorts.sortByTextField, 'cellType'),
-            'Location':
-                _.partial(collSorts.sortByTextField, 'location'),
-            'Collection date':
-                _.partial(collSorts.sortByTextField, 'collectionDate'),
-            'Exposure setting':
-                _.partial(collSorts.sortByTextField, 'setting'),
-            'Endpoint':
-                _.partial(collSorts.sortByTextField, 'endpoint'),
-            'Endpoint test':
-                _.partial(collSorts.sortByTextField, 'endpointTest'),
-            'Reference':
-                collSorts.sortByReference,
+            'Reference': collSorts.sortByReference,
         },
     },
     GenotoxHumanExposureEvidence = new Meteor.Collection('genotoxHumanExposureEvidence', {

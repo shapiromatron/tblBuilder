@@ -23,26 +23,26 @@
 
   <table class="evidenceTable table table-compressed">
     <colgroup>
-      <col width="10%">
-      <col width="10%">
-      <col width="06%">
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
-      <col width="06%">
-      <col width="10%">
+      <col width="9%">
+      <col width="9%">
+      <col width="9%">
+      <col width="9%">
+      <col width="9%">
+      <col width="9%">
+      <col width="9%">
+      <col width="7%">
+      <col width="9%">
       <col width="21%">
     </colgroup>
     <thead>
       <tr>
         <th>Reference, agent</th>
         <th>Location, date</th>
-        <th>Number of measurements</th>
         <th>Setting, scenario</th>
         <th>Sampling Matrix</th>
+        <th>Number of subjects</th>
         <th>Mean, range, units</th>
-        <th>Endpoint & test</th>
+        <th>Endpoint & significance</th>
         <th>Result</th>
         <th>Covariates controlled</th>
         <th>Comments</th>
@@ -118,15 +118,7 @@
       {{location}}<br>
       {{collectionDate}}
   </td>
-  <td>
-      {{numberMeasurements}}<br>
-      {{collectionDate}}
-  </td>
-  <td>
-      {{setting}}<br>
-      {{exposureScenario}}
-  </td>
-  <td colspan="5" id="sortableInner">
+  <td colspan="7" id="sortableInner">
     {{#each getChildren}}
       {{> genotoxHumanExposureResultTbl}}
     {{else}}
@@ -152,11 +144,13 @@
         data-sortIdx="{{sortIdx}}">
       <table class="table table-condensed nestedTbl">
         <colgroup>
-          <col width="21.7%">
-          <col width="21.7%">
-          <col width="21.7%">
-          <col width="13.2%">
-          <col width="21.7%">
+          <col width="15%">
+          <col width="15%">
+          <col width="15%">
+          <col width="15%">
+          <col width="15%">
+          <col width="12%">
+          <col width="15%">
         </colgroup>
         <tbody>
             <tr>
@@ -181,11 +175,19 @@
                         </ul>
                       </div>
                   {{/if}}
+                  {{exposureSetting}}<br>
+                  {{exposureScenario}}
+              </td>
+              <td>
                   {{samplingMatrix}}
               </td>
-              <td>{{exposureLevel}}<br>
+              <td>
+                  {{numberSubjects}}
+              </td>
+              <td>
+                  {{exposureLevel}}<br>
                   {{exposureLevelRange}}<br>
-                  {{exposureUnits}}</td>
+                  {{units}}</td>
               <td>{{endpoint}}<br>
                   {{endpointTest}}
               </td>

@@ -118,7 +118,7 @@ Meteor.methods({
         return writeXLSX('Genotoxicity evidence', GenotoxEvidence.tabular(tbl_id));
     },
     genotoxHumanExposureEvidenceDownload: function(tbl_id) {
-        return writeXLSX('Human exposure evidence', GenotoxHumanExposureEvidence.tabular(tbl_id));
+        return writeXLSX('Genotoxicity-exposed Humans evidence', GenotoxHumanExposureEvidence.tabular(tbl_id));
     },
     referenceExcelDownload: function(monographAgent) {
         var wsName = monographAgent + '-references';
