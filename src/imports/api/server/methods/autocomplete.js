@@ -304,19 +304,25 @@ Meteor.methods({
     searchNtpCovariates: function(query) {
         return listFieldTextSearch(NtpEpiResult, 'covariates', query);
     },
-    searchHumanExposureCovariates: function(query) {
-        return listFieldTextSearch(GenotoxHumanExposureResult, 'covariates', query);
-    },
     searchHumanExposureAgents: function(query) {
         return singleFieldTextSearch(GenotoxHumanExposureEvidence, 'agent', query);
     },
+    searchHumanExposureSettings: function(query) {
+        return singleFieldTextSearch(GenotoxHumanExposureResult, 'exposureSetting', query);
+    },
+    searchHumanExposureEndpoints: function(query) {
+        return singleFieldTextSearch(GenotoxHumanExposureResult, 'endpoint', query);
+    },
     searchHumanExposureCellType: function(query) {
-        return singleFieldTextSearch(GenotoxHumanExposureEvidence, 'cellType', query);
+        return singleFieldTextSearch(GenotoxHumanExposureResult, 'cellType', query);
     },
     searchHumanSamplingMatrices: function(query) {
         return singleFieldTextSearch(GenotoxHumanExposureResult, 'samplingMatrix', query);
     },
     searchHumanUnits: function(query) {
         return extraUnitsSearch(GenotoxHumanExposureResult, query);
+    },
+    searchHumanExposureCovariates: function(query) {
+        return listFieldTextSearch(GenotoxHumanExposureResult, 'covariates', query);
     },
 });

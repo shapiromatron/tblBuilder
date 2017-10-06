@@ -15,49 +15,63 @@
             <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.{{>formLegendPulldown}}</p>
 
             <!-- First row -->
-
-              <div class="form-group row">
-                <div class="col-xs-4">
-                  {{> fldInputTypeahead name="samplingMatrix" value=samplingMatrix nested=true tabindex=1}}
-                  {{> fldInputText name="exposureLevel" value=exposureLevel nested=true  tabindex=2}}
-                </div>
-                <div class="col-xs-4">
-                  {{> fldInputText name="exposureLevelRange" value=exposureLevelRange nested=true tabindex=3}}
-                  {{> fldInputTypeahead name="units" value=units nested=true tabindex=4}}
-                </div>
-                <div class="col-xs-4">
-                  {{> fldInputText name="endpoint" value=endpoint nested=true  tabindex=5}}
-                  {{> fldInputText name="significance" value=significance nested=true  tabindex=6}}
-                  {{> fldSelectSingle name="result" value=result nested=true  tabindex=7}}
-                </div>
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldSelectSingle name="exposureScenario" value=exposureScenario nested=true tabindex=1 }}
               </div>
-
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="exposureSetting" value=exposureSetting nested=true tabindex=2 }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputText name="numberSubjects" value=numberSubjects nested=true tabindex=3 }}
+              </div>
+            </div>
 
             <!-- Second row -->
-
-              <div class="form-group row">
-                <div class="col-xs-4">
-                  {{> fldSelectSingle name="exposureScenario" value=exposureScenario nested=true tabindex=8}}
-                </div>
-                <div class="col-xs-4">
-                  {{> fldInputText name="exposureSetting" value=exposureSetting nested=true tabindex=9}}
-                </div>
-                <div class="col-xs-4">
-                  {{> fldInputText name="numberSubjects" value=numberSubjects nested=true tabindex=10}}
-                </div>
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="samplingMatrix" value=samplingMatrix nested=true tabindex=4 }}
               </div>
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="endpoint" value=endpoint nested=true tabindex=5 }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="cellType" value=cellType nested=true tabindex=6 }}
+              </div>
+            </div>
+
             <!-- Third row -->
-
-              <div class="form-group row">
-                  <div class="col-xs-4">
-                    {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true  tabindex=11}}
-                  </div>
-
-                  <div class="col-xs-8">
-                    {{> fldTextArea name="notes" value=notes nested=true  tabindex=12}}
-                  </div>
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldInputText name="exposureLevel" value=exposureLevel nested=true  tabindex=7 }}
               </div>
+              <div class="col-xs-4">
+                {{> fldInputText name="exposureLevelRange" value=exposureLevelRange nested=true tabindex=8 }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputTypeahead name="units" value=units nested=true tabindex=9 }}
+              </div>
+            </div>
 
+            <!-- Fourth row -->
+            <div class="form-group row">
+              <div class="col-xs-4">
+                {{> fldSelectSingle name="result" value=result nested=true  tabindex=10 }}
+              </div>
+              <div class="col-xs-4">
+                {{> fldInputText name="significance" value=significance nested=true  tabindex=11 }}
+              </div>
+            </div>
+
+            <!-- Fifth row -->
+            <div class="form-group row">
+                <div class="col-xs-4">
+                  {{> fldTypeaheadSelectMultiple name="covariates" values=covariates nested=true  tabindex=12 }}
+                </div>
+                <div class="col-xs-8">
+                  {{> fldTextArea name="notes" value=notes nested=true  tabindex=13 }}
+                </div>
+            </div>
 
             <div id="errors"></div>
             {{> qaNotice}}

@@ -39,7 +39,7 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle='ntpTbl')
 
         # write title
-        txt = 'Table 1 [Genotoxicity-other] of [{}] in '\
+        txt = 'Table 1 [Genotoxicity and related effects] of [{}] in '\
               'humans in vivo'.format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=8)
 
@@ -78,7 +78,7 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle='ntpTbl')
 
         # write title
-        txt = 'Table 2 [Genotoxicity-other] of [{}] in '\
+        txt = 'Table 2 [Genotoxicity and related effects] of [{}] in '\
               'human cells in vitro'.format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=8)
 
@@ -119,7 +119,7 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle='ntpTbl')
 
         # write title
-        txt = 'Table 3 [Genotoxicity-other] of [{}] in non-human '\
+        txt = 'Table 3 [Genotoxicity and related effects] of [{}] in non-human '\
               'mammals in vivo'.format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=9)
 
@@ -168,7 +168,7 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle='ntpTbl')
 
         # write title
-        txt = 'Table 4 [Genotoxicity-other] of [{}] in non-human '\
+        txt = 'Table 4 [Genotoxicity and related effects] of [{}] in non-human '\
               'mammalians in vitro'.format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=8)
 
@@ -210,7 +210,7 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle='ntpTbl')
 
         # write title
-        txt = 'Table 5 [Genotoxicity-other] of [{}] in non-mammalian '\
+        txt = 'Table 5 [Genotoxicity and related effects] of [{}] in non-mammalian '\
               'species'.format(self.getAgent())
         tbl.new_th(0, 0, txt, colspan=9)
 

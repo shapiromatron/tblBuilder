@@ -13,32 +13,12 @@ export default {
         minCount: 0,
         popoverText: 'References of earlier updates or related publications',
     },
-
-
     location: {
         label: 'Location information',
         type: String,
         optional: true,
         popoverText: 'Other information (e.g., region, state, province, city) if important',
         placeholderText: 'e.g. Montpellier',
-    },
-
-    // second row
-    agent: {
-        label: 'Agent',
-        type: String,
-        min: 1,
-        popoverText: 'As reported',
-        placeholderText: 'Trichloroethylene',
-        typeaheadMethod: 'searchHumanExposureAgents',
-    },
-    cellType: {
-        label: 'Cell type (if specified)',
-        type: String,
-        optional: true,
-        popoverText: 'As reported',
-        placeholderText: 'endothelial',
-        typeaheadMethod: 'searchHumanExposureCellType',
     },
     collectionDate: {
         label: 'Collection date',
@@ -48,8 +28,15 @@ export default {
         placeholderText: 'e.g. 2009-2011',
     },
 
-
-    // third row
+    // second row
+    agent: {
+        label: 'Agent',
+        type: String,
+        min: 1,
+        popoverText: 'As reported',
+        placeholderText: 'e.g., Trichloroethylene',
+        typeaheadMethod: 'searchHumanExposureAgents',
+    },
     comments: {
         label: 'Comments',
         type: String,
