@@ -1,0 +1,74 @@
+<template name="exposureForm">
+  <form id="mainForm" role="form" class="editForm">
+    <legend>Exposure evidence{{> objectLastUpdated}}{{>formLegendPulldown}}</legend>
+    <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
+
+    <!-- First row -->
+    <div class="form-group row">
+      <div class="col-xs-3">
+        {{> referenceSingleSelect}}<br>
+        {{> referenceMultiSelect label="Additional references" name="additionalReferences" values=additionalReferences }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldSelectSingle name="exposureScenario" value=exposureScenario }}<br>
+        {{> fldInputText name="collectionDate" value=collectionDate }}
+      </div>
+      <div class="col-xs-3 isOcc">
+        {{> fldInputText name="occupation" value=occupation }}<br>
+        {{> fldInputText name="occupationInfo" value=occupationInfo }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldInputTypeahead name="country" value=country }}<br>
+        {{> fldInputText name="location" value=location }}
+      </div>
+    </div>
+
+    <!-- Second row -->
+    <div class="form-group row">
+      <div class="col-xs-3">
+        <br>{{> fldInputTypeahead name="agent" value=agent }}
+      </div>
+      <div class="col-xs-3">
+        <br>{{> fldInputTypeahead name="samplingMatrix" value=samplingMatrix }}
+      </div>
+      <div class="col-xs-2">
+        <br>{{> fldSelectSingle name="samplingApproach" value=samplingApproach }}
+      </div>
+      <div class="col-xs-2">
+        {{> fldInputText name="numberMeasurements" value=numberMeasurements }}
+      </div>
+      <div class="col-xs-2">
+        <br>{{> fldInputText name="measurementDuration" value=measurementDuration }}
+      </div>
+    </div>
+
+    <!-- Third row -->
+    <div class="form-group row">
+      <div class="col-xs-3">
+        {{> fldInputText name="exposureLevel" value=exposureLevel }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldSelectSingle name="exposureLevelDescription" value=exposureLevelDescription }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldInputText name="exposureLevelRange" value=exposureLevelRange }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldInputTypeahead name="units" value=units }}
+      </div>
+    </div>
+
+    <!-- Fourth row -->
+    <div class="form-group row">
+      <div class="col-xs-12">
+        {{> fldTextArea name="comments" value=comments }}
+      </div>
+    </div>
+
+    <div id="errors"></div>
+    {{> qaNotice}}
+    {{> evidenceFormSubmissionDiv }}
+  </form>
+  <!-- Add input form-modals outside form scope -->
+  {{> referenceQuickAddModal}}
+</template>
