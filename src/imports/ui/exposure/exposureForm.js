@@ -14,6 +14,8 @@ import {
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
+import './exposureForm.html';
+
 
 var toggleOccFields = function(tmpl) {
     var selector = tmpl.find('select[name="exposureScenario"]'),

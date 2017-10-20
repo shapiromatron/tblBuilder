@@ -13,6 +13,8 @@ import {
     toggleRowVisibilty,
 } from '/imports/api/client/utilities';
 
+import './exposureTable.html';
+
 
 Template.exposureTbl.helpers(abstractTblHelpers);
 Template.exposureTbl.onRendered(function() {

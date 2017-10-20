@@ -5,6 +5,8 @@ import {
     abstractMainHelpers,
 } from '/imports/api/client/templates';
 
+import './main.html';
+
 
 Template.exposureMain.helpers(abstractMainHelpers);
 Template.exposureMain.onCreated(function() {
