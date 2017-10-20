@@ -77,6 +77,6 @@ export default {
         min: 1,
         popoverText: 'Measurement units (e.g. µg/m³, g/m²)',
         placeholderText: 'e.g. µg/m³',
-        typeaheadMethod: 'searchUnits',
+        typeaheadMethod: 'searchExposureUnits',
     },
 };

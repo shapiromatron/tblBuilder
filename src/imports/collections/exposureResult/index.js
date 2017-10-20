@@ -25,6 +25,8 @@ let instanceMethods = {
         },
     },
     classMethods = {
+        preSaveHook: function(tmpl, obj) {
+        },
     },
     ExposureResult = new Meteor.Collection('exposureResult', {
         transform: function (doc) {
