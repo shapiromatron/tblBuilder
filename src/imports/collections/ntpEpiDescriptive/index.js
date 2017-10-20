@@ -159,7 +159,10 @@ let instanceMethods = {
         },
         wordContext: function(tbl_ids){
             var tables = Tables.find({_id: {$in: tbl_ids}}).fetch(),
-                allDescs = NtpEpiDescriptive.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch();
+                allDescs = NtpEpiDescriptive.find(
+                    {tbl_id: {$in: tbl_ids}, isHidden: false},
+                    {sort: {sortIdx: 1}}
+                ).fetch();
 
             allDescs.forEach((d)=> d.setWordFields() );
 
@@ -170,8 +173,14 @@ let instanceMethods = {
         },
         wordContextWithResults: function(tbl_ids){
             var tables = Tables.find({_id: {$in: tbl_ids}}).fetch(),
-                allDescs = NtpEpiDescriptive.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch(),
-                allResults = NtpEpiResult.find({tbl_id: {$in: tbl_ids}, isHidden: false}).fetch(),
+                allDescs = NtpEpiDescriptive.find(
+                    {tbl_id: {$in: tbl_ids}, isHidden: false},
+                    {sort: {sortIdx: 1}}
+                ).fetch(),
+                allResults = NtpEpiResult.find(
+                   {tbl_id: {$in: tbl_ids}, isHidden: false},
+                   {sort: {sortIdx: 1}}
+                ).fetch(),
                 sites = _.uniq(_.pluck(allResults, 'organSiteCategory'), false),
                 organSites;
 
