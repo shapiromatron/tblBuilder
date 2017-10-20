@@ -57,14 +57,22 @@ Template.tableOpts.events({
 
 Template.volumesList.helpers({
     getMonographs: function() {
-        var opts = {fields: {'volumeNumber': 1}, sort: {'volumeNumber': -1}};
-        return _.chain(Tables.find({}, opts).fetch())
+        let query = {},
+            opts = {fields: {'volumeNumber': 1}, sort: {'volumeNumber': -1}};
+        if(Session.get('showActiveTablesOnly')){
+            query.activeTable = true;
+        }
+        return _.chain(Tables.find(query, opts).fetch())
                 .pluck('volumeNumber')
                 .uniq()
                 .value();
     },
     getMonographAgents: function(volumeNumber){
-        return _.chain(Tables.find({volumeNumber: volumeNumber}).fetch())
+        let query = {volumeNumber: volumeNumber};
+        if(Session.get('showActiveTablesOnly')){
+            query.activeTable = true;
+        }
+        return _.chain(Tables.find(query).fetch())
                 .pluck('monographAgent')
                 .sort()
                 .uniq(true)
@@ -82,9 +90,12 @@ Template.volumeTableList.onCreated(function() {
 });
 Template.volumeTableList.helpers({
     getMonographAgents: function() {
-        var tbls = Tables.find(
-            {'volumeNumber': this.volumeNumber},
-            {sort: {'monographAgent': 1}}).fetch();
+        let query = {volumeNumber: this.volumeNumber},
+            opts = {sort: {'monographAgent': 1}};
+        if(Session.get('showActiveTablesOnly')){
+            query.activeTable = true;
+        }
+        var tbls = Tables.find(query, opts).fetch();
         return _.chain(tbls)
                 .pluck('monographAgent')
                 .uniq()
