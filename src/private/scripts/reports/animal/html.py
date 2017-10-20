@@ -13,7 +13,7 @@ class AnimalHtmlTables(DOCXReport):
         tbl = TableMaker(self.COLUMN_WIDTHS, numHeaders=0,
                          firstRowCaption=False, tblStyle='ntpTbl')
         rowspan = 0
-        for ep in d['endpoints']:
+        for ep in d['results']:
             rowspan += 1
             if len(ep['wrd_incidents']) > 0 or \
                     len(ep['wrd_incidence_significance']) > 0:
@@ -46,7 +46,7 @@ class AnimalHtmlTables(DOCXReport):
 
         # Columns C, D
         irows = rows
-        for ep in d['endpoints']:
+        for ep in d['results']:
 
             txt = u'{}: {}'.format(ep['tumourSite'], ep['histology'])
             runs = [tbl.new_run(txt, b=True, newline=False)]

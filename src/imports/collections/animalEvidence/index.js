@@ -84,29 +84,26 @@ let sharedClassMethods = {
 
 let instanceMethods = {
         setWordFields: function() {
-            var endpoints = AnimalEndpointEvidence
-                    .find({parent_id: this._id, isHidden: false}).fetch(),
-                firstE = (endpoints.length > 0) ? endpoints[0] : null;
+            let first = (this.results.length > 0)?this.results[0]: null;
 
-            endpoints.forEach(function(eps){
-                _.extend(eps, {
-                    wrd_incidents: AnimalEvidence.getIncidents(eps.endpointGroups),
-                    wrd_multiplicities: AnimalEvidence.getMultiplicities(eps.endpointGroups),
-                    wrd_total_tumours: AnimalEvidence.getTotalTumours(eps.endpointGroups),
-                    wrd_incidence_significance: eps.incidence_significance || '',
-                    wrd_multiplicity_significance: eps.multiplicity_significance || '',
-                    wrd_total_tumours_significance: eps.total_tumours_significance || '',
+            this.results.forEach(function(ep){
+                _.extend(ep, {
+                    wrd_incidents: AnimalEvidence.getIncidents(ep.endpointGroups),
+                    wrd_multiplicities: AnimalEvidence.getMultiplicities(ep.endpointGroups),
+                    wrd_total_tumours: AnimalEvidence.getTotalTumours(ep.endpointGroups),
+                    wrd_incidence_significance: ep.incidence_significance || '',
+                    wrd_multiplicity_significance: ep.multiplicity_significance || '',
+                    wrd_total_tumours_significance: ep.total_tumours_significance || '',
                 });
             });
 
             _.extend(this, {
-                endpoints: endpoints,
                 wrd_strengths: this.strengths.join(', ') || 'None',
                 wrd_limitations: this.limitations.join(', ') || 'None',
                 wrd_comments: this.comments || 'None',
-                wrd_doses: AnimalEvidence.getDoses(firstE),
-                wrd_nStarts: AnimalEvidence.getNStarts(firstE),
-                wrd_nSurvivings: AnimalEvidence.getNSurvivings(firstE),
+                wrd_doses: AnimalEvidence.getDoses(first),
+                wrd_nStarts: AnimalEvidence.getNStarts(first),
+                wrd_nSurvivings: AnimalEvidence.getNSurvivings(first),
             });
         },
         getReference: function(){
@@ -266,6 +263,7 @@ let instanceMethods = {
 
             evidences.forEach(function(el){
                 el.reference = Reference.findOne({_id: el.referenceID});
+                el.getResults();
                 el.setWordFields();
             });
 
