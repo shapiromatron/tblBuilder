@@ -4,6 +4,7 @@ import _ from 'underscore';
 
 import Tables from '/imports/collections/tables';
 import Reference from '/imports/collections/reference';
+import ExposureResult from '/imports/collections/exposureResult';
 
 import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';
@@ -23,7 +24,7 @@ let instanceMethods = {
         },
         setWordFields: function() {
             this.isOccupational = this.isOccupational();
-            this.exposureRangePrint = this.getExposureRangePrint();
+            this.results.forEach((d) => d.setWordFields());
         },
         getReference: function(){
             if (_.isUndefined(this.reference)){
@@ -31,12 +32,14 @@ let instanceMethods = {
             }
             return this.reference;
         },
-        getExposureRangePrint: function(){
-            // if range has a number in it, print units, otherwise don't
-            return (/\d/.test(this.exposureLevelRange))?
-                `${this.exposureLevelRange} ${this.units}`:
-                this.exposureLevelRange;
-        }
+        getResults: function(){
+            if (_.isUndefined(this.results)){
+                this.results = ExposureResult
+                        .find({parent_id: this._id}, {sort: {sortIdx: 1}})
+                        .fetch();
+            }
+            return this.results;
+        },
     },
     classMethods = {
         exposureScenarios,
@@ -121,13 +124,10 @@ let instanceMethods = {
         },
         sortFields: {
             'Reference':            collSorts.sortByReference,
-            'Agent':                _.partial(collSorts.sortByTextField, 'agent'),
             'Exposure scenario':    _.partial(collSorts.sortByFieldOrder, exposureScenarios, 'exposureScenario'),
             'Industry/occupation':  _.partial(collSorts.sortByTextField, 'occupation'),
             'Country':              _.partial(collSorts.sortByTextField, 'country'),
             'Collection date':      _.partial(collSorts.sortByTextField, 'collectionDate'),
-            'Sampling approach':    _.partial(collSorts.sortByFieldOrder, samplingApproaches, 'samplingApproach'),
-            'Matrix':               _.partial(collSorts.sortByTextField, 'samplingMatrix'),
         },
     },
     ExposureEvidence = new Meteor.Collection('exposureEvidence', {
