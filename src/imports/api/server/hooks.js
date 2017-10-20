@@ -6,6 +6,8 @@ import { Roles } from 'meteor/alanning:roles';
 import tblBuilderCollections from '/imports/collections';
 import Tables from '/imports/collections/tables';
 import Reference from '/imports/collections/reference';
+import ExposureEvidence from '/imports/collections/exposure';
+import ExposureResult from '/imports/collections/exposureResult';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import EpiResult from '/imports/collections/epiResult';
 import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
@@ -135,6 +137,9 @@ Meteor.startup(function() {
     });
 
     // delete children if parent is deleted
+    ExposureEvidence.before.remove(function(userId, doc) {
+        ExposureResult.remove({parent_id: doc._id});
+    });
     AnimalEvidence.before.remove(function(userId, doc) {
         AnimalEndpointEvidence.remove({parent_id: doc._id});
     });
