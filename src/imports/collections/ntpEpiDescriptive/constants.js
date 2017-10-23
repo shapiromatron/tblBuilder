@@ -7,6 +7,7 @@ let studyDesignOptions = [
     exposureAssessmentTypeOptions = [
         '<add>',
         'JEM',
+        'interview',
         'questionnaire',
         'job title',
         'company records',
