@@ -216,6 +216,14 @@ export default {
         popoverText: ratingRationalePopoverText,
         biasField: true,
     },
+    confidenceInEvidence: {
+        label: 'Confidence in evidence',
+        type: String,
+        optional: true,
+        textAreaRows: 3,
+        popoverText: 'For each outcome (type of cancer), please rate the confidence of the evidence (evidence, some evidence, null, inconclusive, other) based on guidance handbook and/or protocol; please include the cancer type in your description',
+        biasField: false,
+    },
     // #4: Analysis/reporting
     analyticalMethods: {
         label: 'Analytical methods',
