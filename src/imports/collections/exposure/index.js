@@ -4,6 +4,7 @@ import _ from 'underscore';
 
 import Tables from '/imports/collections/tables';
 import Reference from '/imports/collections/reference';
+import ExposureResult from '/imports/collections/exposureResult';
 
 import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';
@@ -23,7 +24,7 @@ let instanceMethods = {
         },
         setWordFields: function() {
             this.isOccupational = this.isOccupational();
-            this.exposureRangePrint = this.getExposureRangePrint();
+            this.results.forEach((d) => d.setWordFields());
         },
         getReference: function(){
             if (_.isUndefined(this.reference)){
@@ -31,12 +32,14 @@ let instanceMethods = {
             }
             return this.reference;
         },
-        getExposureRangePrint: function(){
-            // if range has a number in it, print units, otherwise don't
-            return (/\d/.test(this.exposureLevelRange))?
-                `${this.exposureLevelRange} ${this.units}`:
-                this.exposureLevelRange;
-        }
+        getResults: function(){
+            if (_.isUndefined(this.results)){
+                this.results = ExposureResult
+                        .find({parent_id: this._id}, {sort: {sortIdx: 1}})
+                        .fetch();
+            }
+            return this.results;
+        },
     },
     classMethods = {
         exposureScenarios,
@@ -51,34 +54,45 @@ let instanceMethods = {
                 .fetch();
         },
         tabular: function(tbl_id) {
-            let qs = ExposureEvidence.getTableEvidence(tbl_id),
+
+            let getResultData = function(results, row) {
+                    return results.map(function(d){
+                        let row2 = row.slice();  // shallow-copy
+                        row2.push(
+                            d._id,
+                            d.agent, d.samplingMatrix, d.samplingApproach, d.numberMeasurements, d.measurementDuration,
+                            d.exposureLevel, d.exposureLevelDescription, d.exposureLevelRange, d.units
+                        );
+                        return row2;
+                    });
+                },
                 header = [
-                    'Exposure ID', 'Reference', 'Reference year', 'Pubmed ID', 'Exposure scenario',
-                    'Collection date', 'Occupation', 'Occupational information',
-                    'Country', 'Location', 'Agent', 'Sampling Matrix', 'Sampling Approach',
-                    'Number of measurements', 'Measurement duration', 'Exposure level',
-                    'Exposure level description', 'Exposure level range', 'Units',
+                    'Exposure ID', 'Reference', 'Reference year', 'Pubmed ID',
+                    'Country', 'Location',
+                    'Collection date', 'Exposure scenario', 'Occupation', 'Occupational information',
                     'Comments',
+
+                    'Result ID',
+                    'Agent', 'Sampling Matrix', 'Sampling Approach', 'Number of measurements', 'Measurement duration',
+                    'Exposure level', 'Exposure level description', 'Exposure level range', 'Units',
                 ],
-                rows;
+                data = [header],
+                qs = ExposureEvidence.getTableEvidence(tbl_id);
 
-            rows = _.map(qs, function(v){
-                v.getReference();
-                return [
-                    v._id, v.reference.name, v.reference.getYear(), v.reference.pubmedID,
-                    v.exposureScenario, v.collectionDate,
-                    v.occupation, v.occupationInfo,
-                    v.country, v.location,
-                    v.agent, v.samplingMatrix,
-                    v.samplingApproach, v.numberMeasurements,
-                    v.measurementDuration, v.exposureLevel,
-                    v.exposureLevelDescription,
-                    v.exposureLevelRange, v.units, v.comments,
-                ];
+            qs.forEach(function(d){
+                d.getReference();
+                d.getResults();
+                let row = [
+                        d._id, d.reference.name, d.reference.getYear(), d.reference.pubmedID,
+                        d.country, d.location,
+                        d.collectionDate, d.exposureScenario, d.occupation, d.occupationInfo,
+                        d.comments,
+                    ],
+                    rows = getResultData(d.results, row);
+
+                data.push.apply(data, rows);
             });
-
-            rows.unshift(header);
-            return rows;
+            return data;
         },
         wordReportFormats: [
             {
@@ -94,18 +108,17 @@ let instanceMethods = {
         ],
         wordHtmlContext(tbl_id){
             var table = Tables.findOne(tbl_id),
-                exposures = ExposureEvidence.find(
-                        {tbl_id: tbl_id, isHidden: false}, {sort: {sortIdx: 1}}
-                    ).fetch();
+                qs = ExposureEvidence.getTableEvidence(tbl_id);
 
-            exposures.forEach(function(exp){
-                exp.getReference();
-                exp.setWordFields();
+            qs.forEach(function(d){
+                d.getReference();
+                d.getResults();
+                d.setWordFields();
             });
 
             return {
                 table,
-                exposures,
+                exposures: qs,
             };
         },
         wordContext(tbl_id){
@@ -121,13 +134,10 @@ let instanceMethods = {
         },
         sortFields: {
             'Reference':            collSorts.sortByReference,
-            'Agent':                _.partial(collSorts.sortByTextField, 'agent'),
             'Exposure scenario':    _.partial(collSorts.sortByFieldOrder, exposureScenarios, 'exposureScenario'),
             'Industry/occupation':  _.partial(collSorts.sortByTextField, 'occupation'),
             'Country':              _.partial(collSorts.sortByTextField, 'country'),
             'Collection date':      _.partial(collSorts.sortByTextField, 'collectionDate'),
-            'Sampling approach':    _.partial(collSorts.sortByFieldOrder, samplingApproaches, 'samplingApproach'),
-            'Matrix':               _.partial(collSorts.sortByTextField, 'samplingMatrix'),
         },
     },
     ExposureEvidence = new Meteor.Collection('exposureEvidence', {

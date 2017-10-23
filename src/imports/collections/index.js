@@ -1,4 +1,5 @@
 import ExposureEvidence from './exposure';
+import ExposureResult from './exposureResult';
 import EpiDescriptive from './epiDescriptive';
 import EpiResult from './epiResult';
 import NtpEpiDescriptive from './ntpEpiDescriptive';
@@ -17,6 +18,7 @@ import GenotoxHumanExposureResult from './genotoxHumanExposureResult';
 let tblBuilderCollections = {
     evidenceTypes: [
         ExposureEvidence,
+        ExposureResult,
         EpiDescriptive,
         EpiResult,
         NtpEpiDescriptive,
@@ -37,7 +39,13 @@ let tblBuilderCollections = {
             collection_name: 'exposureEvidence',
             excel_method: 'exposureEvidenceDownload',
             excel_fn: 'exposure.xlsx',
+            nested_collection: ExposureResult,
+            nested_collection_name: 'exposureResult',
             requiredUpdateFields: ['exposureScenario'],
+        },
+        exposureResult: {
+            collection: ExposureResult,
+            requiredUpdateFields: [],
         },
         epiDescriptive: {
             collection: EpiDescriptive,

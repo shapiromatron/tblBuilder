@@ -10,6 +10,7 @@ import { isNtp } from '/imports/utilities';
 import Tables from '/imports/collections/tables';
 import Reference from '/imports/collections/reference';
 import ExposureEvidence from '/imports/collections/exposure';
+import ExposureResult from '/imports/collections/exposureResult';
 import AnimalEvidence from '/imports/collections/animalEvidence';
 import AnimalEndpointEvidence from '/imports/collections/animalResult';
 import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
@@ -176,6 +177,7 @@ Meteor.publish('exposureEvidence', function(tbl_id) {
             ref_ids = getReferenceIds(ExposureEvidence, tbl_id);
             return [
                 ExposureEvidence.find({tbl_id: tbl_id}),
+                ExposureResult.find({tbl_id: tbl_id}),
                 Reference.find({_id: {$in: ref_ids}}),
             ];
         }

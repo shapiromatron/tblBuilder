@@ -1,51 +1,20 @@
 import { Template } from 'meteor/templating';
-import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
 import ExposureEvidence from '/imports/collections/exposure';
 
 import {
-    abstractMainHelpers,
-    abstractTblHelpers,
-    abstractRowEvents,
     abstractFormEvents,
 } from '/imports/api/client/templates';
 
 import {
-    initDraggables,
-    toggleRowVisibilty,
     toggleQA,
     initPopovers,
     destroyPopovers,
 } from '/imports/api/client/utilities';
 
-
-Template.exposureMain.helpers(abstractMainHelpers);
-Template.exposureMain.onCreated(function() {
-    Session.set('evidenceType', 'exposureEvidence');
-    Session.set('evidenceShowNew', false);
-    Session.set('evidenceShowAll', false);
-    Session.set('evidenceEditingId', null);
-    this.subscribe('exposureEvidence', Session.get('Tbl')._id);
-});
-Template.exposureMain.onDestroyed(function() {
-    Session.set('evidenceType', null);
-    Session.set('evidenceShowNew', false);
-    Session.set('evidenceShowAll', false);
-    Session.set('evidenceEditingId', null);
-    Session.set('sortsAndFilters', null);
-});
-
-
-Template.exposureTbl.helpers(abstractTblHelpers);
-Template.exposureTbl.onRendered(function() {
-    initDraggables(this.find('#sortable'), '.dhOuter', ExposureEvidence);
-    toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
-});
-
-
-Template.exposureRow.events(abstractRowEvents);
+import './exposureForm.html';
 
 
 var toggleOccFields = function(tmpl) {

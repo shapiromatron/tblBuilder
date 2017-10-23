@@ -8,11 +8,11 @@ import organSiteCategories from '/imports/collections/epiResult/organSiteCategor
 import Tables from '/imports/collections/tables';
 import Reference from '/imports/collections/reference';
 import ExposureEvidence from '/imports/collections/exposure';
+import ExposureResult from '/imports/collections/exposureResult';
 import AnimalEvidence from '/imports/collections/animalEvidence';
 import AnimalEndpointEvidence from '/imports/collections/animalResult';
 import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
 import NtpAnimalEndpointEvidence from '/imports/collections/ntpAnimalEndpointEvidence';
-import EpiDescriptive from '/imports/collections/epiDescriptive';
 import EpiResult from '/imports/collections/epiResult';
 import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 import NtpEpiResult from '/imports/collections/ntpEpiResult';
@@ -170,13 +170,13 @@ Meteor.methods({
         return singleFieldTextSearch(ExposureEvidence, 'country', query);
     },
     searchAgents: function(query) {
-        return singleFieldTextSearch(ExposureEvidence, 'agent', query);
+        return singleFieldTextSearch(ExposureResult, 'agent', query);
     },
     searchSamplingMatrices: function(query) {
-        return singleFieldTextSearch(ExposureEvidence, 'samplingMatrix', query);
+        return singleFieldTextSearch(ExposureResult, 'samplingMatrix', query);
     },
-    searchUnits: function(query) {
-        return extraUnitsSearch(ExposureEvidence, query);
+    searchExposureUnits: function(query) {
+        return extraUnitsSearch(ExposureResult, query);
     },
     searchGenotoxAgents: function(query) {
         return singleFieldTextSearch(GenotoxEvidence, 'agent', query);

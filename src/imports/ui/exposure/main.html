@@ -1,0 +1,27 @@
+<template name="exposureMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+      {{> exposureTbl}}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>
+
+<template name="exposureTblOpts">
+  {{#actionBtn}}
+    {{#if userCanEdit}}
+      {{#unless showNew}}
+        {{> optCreate }}
+      {{/unless}}
+      {{> optReorder }}
+    {{/if}}
+    {{> optMonoRefList }}
+    {{> optFullScreen }}
+    {{> optSortFilter}}
+    {{> optExcel }}
+    {{> optWord }}
+    {{> optShowAllRows }}
+    {{> optQaFlags }}
+  {{/actionBtn}}
+</template>

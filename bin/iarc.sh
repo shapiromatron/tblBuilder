@@ -17,7 +17,7 @@ tmux select-pane -t 0
 # Run commands
 tmux send-keys -t 0 "cd ~/dev/tblBuilder/src && MONGO_URL=mongodb://127.0.0.1:3001/meteor meteor --settings=../settings/iarc.settings.json" enter
 tmux send-keys -t 1 "mongod --dbpath ~/dev/tblBuilder/src/.meteor/local/iarcDB --port 3001" enter
-tmux send-keys -t 2 "workon deploy && cd tblBuilder && fab --list" enter
+tmux send-keys -t 2 "cd ~/dev/tblBuilder/src" enter
 
 # attach to shell
 tmux select-pane -t 0

@@ -1,0 +1,51 @@
+<template name="exposureForm">
+  <form id="mainForm" role="form" class="editForm">
+    <legend>Exposure evidence{{> objectLastUpdated}}{{>formLegendPulldown}}</legend>
+    <p class="help-block">Hover-over field labels for more descriptive text. Fields marked with an asterisk (<b>*</b>) are required.</p>
+
+    <!-- First row -->
+    <div class="form-group row">
+      <div class="col-xs-3">
+        {{> referenceSingleSelect}}
+      </div>
+      <div class="col-xs-3">
+        {{> referenceMultiSelect label="Additional references" name="additionalReferences" values=additionalReferences }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldInputTypeahead name="country" value=country }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldInputText name="location" value=location }}
+      </div>
+    </div>
+
+    <!-- Second row -->
+    <div class="form-group row">
+      <div class="col-xs-3">
+        {{> fldInputText name="collectionDate" value=collectionDate }}
+      </div>
+      <div class="col-xs-3">
+        {{> fldSelectSingle name="exposureScenario" value=exposureScenario }}
+      </div>
+      <div class="col-xs-3 isOcc">
+        {{> fldInputText name="occupation" value=occupation }}
+      </div>
+      <div class="col-xs-3 isOcc">
+        {{> fldInputText name="occupationInfo" value=occupationInfo }}
+      </div>
+    </div>
+
+    <!-- Third row -->
+    <div class="form-group row">
+      <div class="col-xs-12">
+        {{> fldTextArea name="comments" value=comments }}
+      </div>
+    </div>
+
+    <div id="errors"></div>
+    {{> qaNotice}}
+    {{> evidenceFormSubmissionDiv }}
+  </form>
+  <!-- Add input form-modals outside form scope -->
+  {{> referenceQuickAddModal}}
+</template>

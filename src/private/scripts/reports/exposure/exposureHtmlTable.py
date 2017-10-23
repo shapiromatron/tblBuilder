@@ -25,16 +25,16 @@ class ExposureHtmlTable(DOCXReport):
     def build_row(self, d):
 
         row = 0
+        rowspan = max(len(d['results']), 1)
         tbl = TableMaker(self.COLUMN_WIDTHS, numHeaders=0,
                          firstRowCaption=False, tblStyle='ntpTbl')
 
-        txt = u'{}\n{}'.format(
-            d['reference']['name'], d['agent'])
-        tbl.new_td_txt(row, 0, txt)
+        txt = d['reference']['name']
+        tbl.new_td_txt(row, 0, txt, rowspan=rowspan)
 
         txt = u'{}\n{}'.format(
             d['country'], d['collectionDate'])
-        tbl.new_td_txt(row, 1, txt)
+        tbl.new_td_txt(row, 1, txt, rowspan=rowspan)
 
         occ = u'\n{}'.format(d['occupationInfo']) \
             if d['occupationInfo'] \
@@ -42,24 +42,34 @@ class ExposureHtmlTable(DOCXReport):
         txt = u'{}{}'.format(d['occupation'], occ) \
             if d['isOccupational'] \
             else 'N/A'
-        tbl.new_td_txt(row, 2, txt)
+        tbl.new_td_txt(row, 2, txt, rowspan=rowspan)
 
-        txt = u'{};\n{};\n{};\n{}'.format(
-            d['samplingMatrix'],
-            d['samplingApproach'],
-            d['numberMeasurements'],
-            d['measurementDuration'],
-        )
-        tbl.new_td_txt(row, 3, txt)
+        if len(d['results']) == 0:
+            tbl.new_td_txt(row, 3, '-')
+            tbl.new_td_txt(row, 4, '-')
+            tbl.new_td_txt(row, 5, '-')
+        else:
+            for i, d2 in enumerate(d['results']):
+                txt = u'{};\n{};\n{};\n{}'.format(
+                    d2['samplingMatrix'],
+                    d2['samplingApproach'],
+                    d2['numberMeasurements'],
+                    d2['measurementDuration'],
+                )
+                tbl.new_td_txt(i, 3, txt)
 
-        txt = u'{} {}\n{}'.format(
-            d['exposureLevel'], d['units'], d['exposureLevelDescription'])
-        tbl.new_td_txt(row, 4, txt)
+                txt = u'{}\n{} {}\n{}'.format(
+                    d2['agent'],
+                    d2['exposureLevel'],
+                    d2['units'],
+                    d2['exposureLevelDescription'])
+                tbl.new_td_txt(i, 4, txt)
 
-        tbl.new_td_txt(row, 5, d['exposureRangePrint'])
+                txt = d2['exposureRangePrint']
+                tbl.new_td_txt(i, 5, txt)
 
         txt = d['comments'] or u''
-        tbl.new_td_txt(row, 6, txt)
+        tbl.new_td_txt(row, 6, txt, rowspan=rowspan)
 
         return tbl
 
@@ -71,11 +81,11 @@ class ExposureHtmlTable(DOCXReport):
         tbl.new_th(0, 0, txt, colspan=7)
 
         # write header
-        tbl.new_th(1, 0, 'Reference,\nagent')
+        tbl.new_th(1, 0, 'Reference')
         tbl.new_th(1, 1, 'Location,\ncollection date')
         tbl.new_th(1, 2, 'Occupation description')
         tbl.new_th(1, 3, 'Sampling matrix, approach,\nN, duration')
-        tbl.new_th(1, 4, 'Exposure level')
+        tbl.new_th(1, 4, 'Agent,\nexposure level')
         tbl.new_th(1, 5, 'Exposure range')
         tbl.new_th(1, 6, 'Comments/additional data')
 
