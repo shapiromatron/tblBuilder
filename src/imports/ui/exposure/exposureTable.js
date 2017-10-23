@@ -2,10 +2,14 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
 import ExposureEvidence from '/imports/collections/exposure';
+import ExposureResult from '/imports/collections/exposureResult';
 
 import {
     abstractTblHelpers,
+    abstractRowHelpers,
     abstractRowEvents,
+    abstractNestedTableHelpers,
+    abstractNestedTableEvents,
 } from '/imports/api/client/templates';
 
 import {
@@ -22,5 +26,12 @@ Template.exposureTbl.onRendered(function() {
     toggleRowVisibilty(Session.get('reorderRows'), $('.dragHandle'));
 });
 
-
+Template.exposureRow.helpers(abstractRowHelpers);
 Template.exposureRow.events(abstractRowEvents);
+Template.exposureRow.onRendered(function() {
+    initDraggables(this.find('#sortableInner'), '.dhInner', ExposureResult);
+    toggleRowVisibilty(Session.get('reorderRows'), this.$('.dragHandle'));
+});
+
+Template.exposureEndpointTbl.helpers(abstractNestedTableHelpers);
+Template.exposureEndpointTbl.events(abstractNestedTableEvents);
