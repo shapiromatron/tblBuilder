@@ -1,3 +1,8 @@
+/*
+Move the result data from exposureEvidence collection
+to exposureResult collection.
+*/
+
 var results = [];
 
 db.exposureEvidence.find().forEach(function(exp){
