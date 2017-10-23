@@ -54,34 +54,45 @@ let instanceMethods = {
                 .fetch();
         },
         tabular: function(tbl_id) {
-            let qs = ExposureEvidence.getTableEvidence(tbl_id),
+
+            let getResultData = function(results, row) {
+                    return results.map(function(d){
+                        let row2 = row.slice();  // shallow-copy
+                        row2.push(
+                            d._id,
+                            d.agent, d.samplingMatrix, d.samplingApproach, d.numberMeasurements, d.measurementDuration,
+                            d.exposureLevel, d.exposureLevelDescription, d.exposureLevelRange, d.units
+                        );
+                        return row2;
+                    });
+                },
                 header = [
-                    'Exposure ID', 'Reference', 'Reference year', 'Pubmed ID', 'Exposure scenario',
-                    'Collection date', 'Occupation', 'Occupational information',
-                    'Country', 'Location', 'Agent', 'Sampling Matrix', 'Sampling Approach',
-                    'Number of measurements', 'Measurement duration', 'Exposure level',
-                    'Exposure level description', 'Exposure level range', 'Units',
+                    'Exposure ID', 'Reference', 'Reference year', 'Pubmed ID',
+                    'Country', 'Location',
+                    'Collection date', 'Exposure scenario', 'Occupation', 'Occupational information',
                     'Comments',
+
+                    'Result ID',
+                    'Agent', 'Sampling Matrix', 'Sampling Approach', 'Number of measurements', 'Measurement duration',
+                    'Exposure level', 'Exposure level description', 'Exposure level range', 'Units',
                 ],
-                rows;
+                data = [header],
+                qs = ExposureEvidence.getTableEvidence(tbl_id);
 
-            rows = _.map(qs, function(v){
-                v.getReference();
-                return [
-                    v._id, v.reference.name, v.reference.getYear(), v.reference.pubmedID,
-                    v.exposureScenario, v.collectionDate,
-                    v.occupation, v.occupationInfo,
-                    v.country, v.location,
-                    v.agent, v.samplingMatrix,
-                    v.samplingApproach, v.numberMeasurements,
-                    v.measurementDuration, v.exposureLevel,
-                    v.exposureLevelDescription,
-                    v.exposureLevelRange, v.units, v.comments,
-                ];
+            qs.forEach(function(d, i){
+                d.getReference();
+                d.getResults();
+                let row = [
+                        d._id, d.reference.name, d.reference.getYear(), d.reference.pubmedID,
+                        d.country, d.location,
+                        d.collectionDate, d.exposureScenario, d.occupation, d.occupationInfo,
+                        d.comments,
+                    ],
+                    rows = getResultData(d.results, row);
+
+                data.push.apply(data, rows);
             });
-
-            rows.unshift(header);
-            return rows;
+            return data;
         },
         wordReportFormats: [
             {
