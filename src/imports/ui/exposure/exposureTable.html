@@ -14,11 +14,11 @@
     </colgroup>
     <thead>
       <tr>
-        <th>Reference,<br>agent</th>
+        <th>Reference</th>
         <th>Location, <br>collection date</th>
         <th>Occupation description</th>
         <th>Sampling matrix, approach,<br>N, duration</th>
-        <th>Exposure level</th>
+        <th>Agent, <br>exposure level</th>
         <th>Exposure range</th>
         <th>Comments/additional data</th>
       </tr>
@@ -166,6 +166,7 @@
               {{{showDebugInformation _id sortIdx}}}
             </td>
             <td>
+              {{agent}}<br>
               {{exposureLevel}} {{units}}<br>
               <span class="text-muted">{{exposureLevelDescription}}</span>
             </td>
