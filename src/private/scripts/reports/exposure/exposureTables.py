@@ -15,38 +15,44 @@ class ExposureTables(DOCXReport):
         # write header
         tbl.new_th(1, 0, 'Industry, country, year')
         tbl.new_th(1, 1, 'Job/process')
-        tbl.new_th(1, 2, 'Mean')
+        tbl.new_th(1, 2, 'Mean, agent')
         tbl.new_th(1, 3, 'Range')
         tbl.new_th(1, 4, 'Comments/\nadditional data')
         tbl.new_th(1, 5, 'References')
 
         row = 2
-        for d in exposures:
-            runs = [
-                tbl.new_run(d['occupation'], newline=True, b=True),
-                tbl.new_run(u'{}, {}'.format(
-                        d['location'] or 'Not-reported',
-                        d['collectionDate']
-                    ), newline=False)
-            ]
-            tbl.new_td_run(row, 0, runs)
+        for exp in exposures:
+            for res in exp['results']:
+                runs = [
+                    tbl.new_run(exp['occupation'], newline=True, b=True),
+                    tbl.new_run(u'{}, {}'.format(
+                            exp['location'] or 'Not-reported',
+                            exp['collectionDate']
+                        ), newline=False)
+                ]
+                tbl.new_td_run(row, 0, runs)
 
-            tbl.new_td_txt(row, 1, d['occupationInfo'] or '')
+                txt = exp['occupationInfo'] or ''
+                tbl.new_td_txt(row, 1, txt)
 
-            txt = u'{} {} ({}, {})'.format(
-                d['exposureLevel'],
-                d['units'],
-                d['exposureLevelDescription'],
-                d['agent']
-            )
-            tbl.new_td_txt(row, 2, txt)
+                txt = u'{} {} ({}), {}'.format(
+                    res['exposureLevel'],
+                    res['units'],
+                    res['exposureLevelDescription'],
+                    res['agent']
+                )
+                tbl.new_td_txt(row, 2, txt)
 
-            txt = u'{} {}'.format(d['exposureLevelRange'], d['units'])
-            tbl.new_td_txt(row, 3, txt)
+                txt = res['exposureRangePrint']
+                tbl.new_td_txt(row, 3, txt)
 
-            tbl.new_td_txt(row, 4, d['comments'] or '')
-            tbl.new_td_txt(row, 5, d['reference']['name'])
-            row += 1
+                txt = exp['comments'] or ''
+                tbl.new_td_txt(row, 4, txt)
+
+                txt = exp['reference']['name']
+                tbl.new_td_txt(row, 5, txt)
+
+                row += 1
 
         tbl.render(self.doc)
         self.doc.add_page_break()
@@ -60,42 +66,44 @@ class ExposureTables(DOCXReport):
 
         # write header
         tbl.new_th(1, 0, 'Region, country (city)')
-        tbl.new_th(1, 1, 'Mean')
+        tbl.new_th(1, 1, 'Mean, agent')
         tbl.new_th(1, 2, 'Range')
         tbl.new_th(1, 3, 'Comments/\nadditional data')
         tbl.new_th(1, 4, 'References')
 
         row = 2
-        for d in exposures:
-            runs = [
-                tbl.new_run(d['country'], newline=True, b=True),
-                tbl.new_run(u'{}, {}'.format(
-                        d['location'] or 'Not-reported',
-                        d['collectionDate']
-                    ), newline=False)
-            ]
-            tbl.new_td_run(row, 0, runs)
+        for exp in exposures:
+            for res in exp['results']:
+                runs = [
+                    tbl.new_run(exp['country'], newline=True, b=True),
+                    tbl.new_run(u'{}, {}'.format(
+                            exp['location'] or 'Not-reported',
+                            exp['collectionDate']
+                        ), newline=False)
+                ]
+                tbl.new_td_run(row, 0, runs)
 
-            txt = u'{} {} ({}, {})'.format(
-                d['exposureLevel'],
-                d['units'],
-                d['exposureLevelDescription'],
-                d['agent']
-            )
-            tbl.new_td_txt(row, 1, txt)
+                txt = u'{} {} ({}), {}'.format(
+                    res['exposureLevel'],
+                    res['units'],
+                    res['exposureLevelDescription'],
+                    res['agent']
+                )
+                tbl.new_td_txt(row, 1, txt)
 
-            txt = u'{} {}'.format(d['exposureLevelRange'], d['units'])
-            tbl.new_td_txt(row, 2, txt)
+                txt = res['exposureRangePrint']
+                tbl.new_td_txt(row, 2, txt)
 
-            tbl.new_td_txt(row, 3, d['comments'] or '')
-            tbl.new_td_txt(row, 4, d['reference']['name'])
-            row += 1
+                txt = exp['comments'] or ''
+                tbl.new_td_txt(row, 3, txt)
+
+                txt = exp['reference']['name']
+                tbl.new_td_txt(row, 4, txt)
+
+                row += 1
 
         tbl.render(self.doc)
         self.doc.add_page_break()
-
-    def buildMixedTable(self, exposures):
-        pass
 
     def create_content(self):
         self.setLandscape()
