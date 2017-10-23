@@ -79,7 +79,7 @@ let instanceMethods = {
                 data = [header],
                 qs = ExposureEvidence.getTableEvidence(tbl_id);
 
-            qs.forEach(function(d, i){
+            qs.forEach(function(d){
                 d.getReference();
                 d.getResults();
                 let row = [
@@ -108,18 +108,17 @@ let instanceMethods = {
         ],
         wordHtmlContext(tbl_id){
             var table = Tables.findOne(tbl_id),
-                exposures = ExposureEvidence.find(
-                        {tbl_id: tbl_id, isHidden: false}, {sort: {sortIdx: 1}}
-                    ).fetch();
+                qs = ExposureEvidence.getTableEvidence(tbl_id);
 
-            exposures.forEach(function(exp){
-                exp.getReference();
-                exp.setWordFields();
+            qs.forEach(function(d){
+                d.getReference();
+                d.getResults();
+                d.setWordFields();
             });
 
             return {
                 table,
-                exposures,
+                exposures: qs,
             };
         },
         wordContext(tbl_id){
