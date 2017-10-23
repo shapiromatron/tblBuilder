@@ -43,11 +43,11 @@ export default {
         popoverText: 'Provide p-value for trend-test when reported',
     },
     additionalResults:{
-        label: 'Additional results would only be entered once for each organ site, for each study',
+        label: 'Additional results',
         type: String,
         optional: true,
         textAreaRows: 4,
-        popoverText: 'Add me',
+        popoverText: 'Additional results would only be entered once for each organ site, for each study',
     },
     riskEstimates: {
         type: [riskEstimateSchema],

@@ -77,7 +77,11 @@ class NtpEpiResultTables(DOCXReport):
             tbl.new_run('Strengths:', b=True),
             tbl.new_run(res['descriptive']['strengths']),
             tbl.new_run('Limitations:', b=True),
-            tbl.new_run(res['descriptive']['limitations'], newline=False)
+            tbl.new_run(res['descriptive']['limitations']),
+            tbl.new_run('Additional results:', b=True),
+            tbl.new_run(res['additionalResults']),
+            tbl.new_run('Confidence in evidence:', b=True),
+            tbl.new_run(res['descriptive']['confidenceInEvidence'], newline=False),
         ])
         tbl.new_td_run(row, 5, runs, rowspan=rowspan)
 
