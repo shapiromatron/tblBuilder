@@ -41,8 +41,6 @@ var Future = Npm.require('fibers/future'),
             return ExposureEvidence.wordContext(tbl_id);
         case 'ExposureHtmlTable':
             return ExposureEvidence.wordHtmlContext(tbl_id);
-        case 'EpiDescriptiveTables':
-            return EpiDescriptive.wordContextByDescription([tbl_id]);
         case 'EpiResultTables':
             return EpiDescriptive.wordContextByResult([tbl_id]);
         case 'EpiHtmlTables':
