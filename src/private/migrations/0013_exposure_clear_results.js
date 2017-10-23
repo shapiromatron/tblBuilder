@@ -19,3 +19,4 @@ db.exposureEvidence.find().forEach(function(exp){
         }
     );
 });
+print('Cleanup complete');

@@ -6,7 +6,14 @@ to exposureResult collection.
 var results = [];
 
 db.exposureEvidence.find().forEach(function(exp){
+
+    // set the _id equal to other ID since if we let the db do it, it doesn't
+    // use a string-based ID, and we know that the ids being generated are
+    // unique for this collection since they were unique for the other collection.
+
     results.push({
+        _id: exp._id,
+
         parent_id: exp._id,
         tbl_id: exp.tbl_id,
         sortIdx: 1,
@@ -36,3 +43,5 @@ db.exposureEvidence.find().forEach(function(exp){
 
 db.exposureResult.drop();
 db.exposureResult.insert(results);
+print('Created ' + results.length + ' exposure results');
+
