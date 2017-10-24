@@ -157,11 +157,6 @@ let instanceMethods = {
         },
         wordReportFormats: [
             {
-                'type': 'EpiDescriptiveTables',
-                'fn': 'epi-descriptive',
-                'text': 'Download Word (population description)',
-            },
-            {
                 'type': 'EpiResultTables',
                 'fn': 'epi-results',
                 'text': 'Download Word (results description)',
