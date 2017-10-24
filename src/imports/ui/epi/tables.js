@@ -3,8 +3,6 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
-import { getPercentOrText } from '/imports/api/utilities';
-
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import EpiResult from '/imports/collections/epiResult';
 
@@ -25,16 +23,6 @@ import './tables.html';
 
 
 Template.epiDescriptiveTbl.helpers(_.extend({
-    getReportTypes: function() {
-        var reports = [
-            {
-                type: 'EpiHtmlTblRecreation',
-                fn: 'epi-results',
-                text: 'Download Word: HTML table recreation',
-            },
-        ];
-        return reports;
-    },
     showPlots: function() {
         return Session.get('epiRiskShowPlots');
     },

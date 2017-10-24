@@ -154,7 +154,7 @@ let getScrollPosition = function(){
         //
         // Must be called w/ a `this` binded via call or apply.
 
-        let fld, i, updatePreValidate, modifier, errorDiv,
+        let fld, i, updatePreValidate, modifier, isValid,
             vals = updateValues(tmpl.find('#mainForm'), this),
             ref = tblBuilderCollections.evidenceLookup[key].requiredUpdateFields;
 

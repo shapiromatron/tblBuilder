@@ -6,7 +6,7 @@ import {
 } from '/imports/api/client/templates';
 
 
-import './epi.html';
+import './main.html';
 
 
 Template.epiMain.helpers(abstractMainHelpers);
