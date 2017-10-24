@@ -160,3 +160,13 @@ Template.riskEstimateForm.events({
         tr.insertAfter(tr.next());
     },
 });
+
+
+Template.epiExposureAssessmentForm.events(abstractFormEvents);
+Template.epiExposureAssessmentForm.onRendered(function() {
+    toggleQA(this, this.data.isQA);
+    initPopovers(this);
+});
+Template.epiExposureAssessmentForm.onDestroyed(function() {
+    destroyPopovers(this);
+});

@@ -1,6 +1,7 @@
 <template name="epiMain">
   {{#if Template.subscriptionsReady}}
     {{#contentContainer}}
+      {{> epiExposureAssessmentTbl}}
       {{> epiDescriptiveTbl}}
     {{/contentContainer}}
   {{else}}

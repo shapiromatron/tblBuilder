@@ -63,6 +63,14 @@ let instanceMethods = {
                 .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
                 .fetch();
         },
+        getExposureAssessmentEvidence: function(tbl_id){
+            return EpiDescriptive
+                .find({
+                    tbl_id,
+                    extractExposureDetails: true,
+                }, {sort: {sortIdx: 1}})
+                .fetch();
+        },
         tabular: function(tbl_id) {
             let getResultData = function(results, row) {
                     let rows = [];
