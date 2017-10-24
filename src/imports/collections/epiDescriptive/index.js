@@ -181,6 +181,11 @@ let instanceMethods = {
                 'fn': 'epi',
                 'text': 'Download Word (HTML re-creation)',
             },
+            {
+                'type': 'EpiExposureAssessmentTables',
+                'fn': 'epi-exposure',
+                'text': 'Download Word (exposure assessment)',
+            },
         ],
         wordContextByDescription: function(tbl_ids){
             var tables = Tables.find({_id: {$in: tbl_ids}}).fetch(),
@@ -201,9 +206,17 @@ let instanceMethods = {
             });
 
             return {
-                'tables': tables,
+                tables,
                 'descriptions': allDescs,
             };
+        },
+        wordContextByDescriptionExposureOnly: function(tbl_ids){
+            let obj = EpiDescriptive.wordContextByDescription(tbl_ids);
+
+            obj.descriptions = obj.descriptions
+                .filter((d) => d.extractExposureDetails === true);
+
+            return obj;
         },
         wordContextByResult: function(tbl_ids){
             var tbls = Tables.find({_id: {$in: tbl_ids}}).fetch(),
