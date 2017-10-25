@@ -457,7 +457,7 @@ Template.objectLastUpdated.helpers({
 });
 
 
-Template.evidenceFormSubmissionDiv.helpers({
+let evidenceFormHelpers = {
     isNew: function(){
         return _.isUndefined(this._id);
     },
@@ -469,7 +469,10 @@ Template.evidenceFormSubmissionDiv.helpers({
             coll = tblBuilderCollections.evidenceLookup[key].nested_collection;
         return (!_.isUndefined(coll));
     },
-});
+};
+
+Template.evidenceFormSubmissionDiv.helpers(evidenceFormHelpers);
+Template.evidenceSubmissionDivSaveOnly.helpers(evidenceFormHelpers);
 
 
 Template.nestedEvidenceFormSubmissionDiv.helpers({

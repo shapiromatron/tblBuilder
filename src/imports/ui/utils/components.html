@@ -407,6 +407,21 @@
 </template>
 
 
+<template name="evidenceSubmissionDivSaveOnly">
+  <div class="well well-sm pager">
+    <button type="button"
+                class="btn btn-sm btn-primary"
+                id="update"
+                title="Save changes">
+                <span class="glyphicon glyphicon-ok"></span> Save</button>
+    <button type="button"
+            class="btn btn-sm btn-default"
+            id="update-cancel"
+            title="Cancel changes">Cancel</button>
+  </div>
+</template>
+
+
 <template name="nestedEvidenceFormSubmissionDiv">
   <div class="well well-sm pager">
     {{#if isNew }}
