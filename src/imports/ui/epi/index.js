@@ -1,4 +1,4 @@
-import './epi';
+import './main';
 import './tables';
 import './forms';
 import './epiOrganSite';

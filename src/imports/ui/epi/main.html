@@ -1,0 +1,67 @@
+<template name="epiMain">
+  {{#if Template.subscriptionsReady}}
+    {{#contentContainer}}
+      {{#if epiShowDescriptive }}
+        {{> epiDescriptiveTbl }}
+      {{else}}
+        {{> epiExposureAssessmentTbl }}
+      {{/if }}
+    {{/contentContainer}}
+  {{else}}
+    {{> isLoading}}
+  {{/if }}
+</template>
+
+
+<template name="optToggleEpiView">
+<li>
+  <a href="#" id="epiViewToggle">
+    {{#if epiShowDescriptive}}
+      <span class="fa fa-fixed fa-heart"></span> View exposure details
+    {{else}}
+      <span class="fa fa-fixed fa-heartbeat"></span> View study descriptions
+    {{/if}}
+  </a>
+</li>
+</template>
+
+
+<template name="epiDescriptiveTblOpts">
+  {{#actionBtn}}
+      {{#if userCanEdit}}
+          {{#unless showNew}}
+              {{> optCreate }}
+          {{/unless}}
+          {{> optReorder }}
+      {{/if}}
+      {{> optToggleEpiView}}
+      {{> optMonoRefList}}
+      {{> optFullScreen}}
+      {{> optSortFilter}}
+      {{> optExcel }}
+      {{> optWord }}
+      {{> optRiskPlot}}
+      {{> optShowAllRows}}
+      {{> optQaFlags}}
+  {{/actionBtn}}
+</template>
+
+<template name="epiExposureAssessmentTblOpts">
+  {{#actionBtn}}
+      {{#if userCanEdit}}
+          {{#unless showNew}}
+              {{> optCreate isDisabled=true }}
+          {{/unless}}
+          {{> optReorder isDisabled=true }}
+      {{/if}}
+      {{> optToggleEpiView}}
+      {{> optMonoRefList}}
+      {{> optFullScreen}}
+      {{> optSortFilter isDisabled=true }}
+      {{> optExcel }}
+      {{> optWord }}
+      {{> optRiskPlot isDisabled=true }}
+      {{> optShowAllRows}}
+      {{> optQaFlags}}
+  {{/actionBtn}}
+</template>

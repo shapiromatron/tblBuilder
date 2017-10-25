@@ -59,6 +59,9 @@ Template.optRiskPlot.helpers({
 });
 Template.optRiskPlot.events({
     'click #epiRiskShowPlots': function(evt, tmpl) {
+        if(this.isDisabled){
+            return;
+        }
         evt.preventDefault();
         Session.set('epiRiskShowPlots', !Session.get('epiRiskShowPlots'));
     },
@@ -93,6 +96,9 @@ Template.optQaFlags.events({
 
 Template.optSortFilter.events({
     'click #sortFilter': function(evt, tmpl){
+        if(this.isDisabled){
+            return;
+        }
         var div = document.getElementById('modalHolder');
         $(div).empty();
         Blaze.renderWithData(Template.sortFilterModal, {}, div);
@@ -199,6 +205,9 @@ Template.sfFilterTR.helpers({
 
 Template.optCreate.events({
     'click #show-create': function(evt, tmpl) {
+        if(this.isDisabled){
+            return;
+        }
         Session.set('evidenceShowNew', true);
         Tracker.flush();
         activateInput($('input[name=referenceID]'));
@@ -222,6 +231,9 @@ Template.showNewBtn.events({
 
 Template.optReorder.events({
     'click #reorderRows': function(evt, tmpl) {
+        if(this.isDisabled){
+            return;
+        }
         var val = (!Session.get('reorderRows'));
         Session.set('reorderRows', val);
         toggleRowVisibilty(val, $('.dragHandle'));
@@ -445,7 +457,7 @@ Template.objectLastUpdated.helpers({
 });
 
 
-Template.evidenceFormSubmissionDiv.helpers({
+let evidenceFormHelpers = {
     isNew: function(){
         return _.isUndefined(this._id);
     },
@@ -457,7 +469,10 @@ Template.evidenceFormSubmissionDiv.helpers({
             coll = tblBuilderCollections.evidenceLookup[key].nested_collection;
         return (!_.isUndefined(coll));
     },
-});
+};
+
+Template.evidenceFormSubmissionDiv.helpers(evidenceFormHelpers);
+Template.evidenceSubmissionDivSaveOnly.helpers(evidenceFormHelpers);
 
 
 Template.nestedEvidenceFormSubmissionDiv.helpers({

@@ -63,6 +63,14 @@ let instanceMethods = {
                 .find({tbl_id: tbl_id}, {sort: {sortIdx: 1}})
                 .fetch();
         },
+        getExposureAssessmentEvidence: function(tbl_id){
+            return EpiDescriptive
+                .find({
+                    tbl_id,
+                    extractExposureDetails: true,
+                }, {sort: {sortIdx: 1}})
+                .fetch();
+        },
         tabular: function(tbl_id) {
             let getResultData = function(results, row) {
                     let rows = [];
@@ -94,8 +102,12 @@ let instanceMethods = {
                     'Other population descriptors', 'Outcome Data Source', 'Population size',
                     'Loss to follow-up (%)', 'Type of referent group', 'Population cases',
                     'Source cases', 'Population controls',
-                    'Source controls', 'Exposure assessment type',
-                    'Exposure assessment notes',
+                    'Source controls',
+
+                    'Exposure assessment type', 'Exposure assessment notes',
+                    'Extract exposure fields', 'Exposure population details',
+                    'Exposure assessment strengths', 'Exposure assessment limitations', 'Exposure assessment comments',
+
                     'Principal strengths', 'Principal limitations', 'General notes',
 
                     'Result ID', 'Organ site', 'Organ site details',
@@ -121,8 +133,11 @@ let instanceMethods = {
                         v.populationSizeCase,
                         v.sourceCase, v.populationSizeControl,
                         v.sourceControl,
-                        v.exposureAssessmentType,
-                        v.exposureAssessmentNotes,
+
+                        v.exposureAssessmentType, v.exposureAssessmentNotes,
+                        v.extractExposureDetails, v.exposureAssessmentPopulationDetails,
+                        v.exposureAssessmentStrengths, v.exposureAssessmentLimitations, v.exposureAssessmentComments,
+
                         v.strengths, v.limitations, v.notes,
                     ],
                     rows = getResultData(v.results, row);
@@ -166,6 +181,11 @@ let instanceMethods = {
                 'fn': 'epi',
                 'text': 'Download Word (HTML re-creation)',
             },
+            {
+                'type': 'EpiExposureAssessmentTables',
+                'fn': 'epi-exposure',
+                'text': 'Download Word (exposure assessment)',
+            },
         ],
         wordContextByDescription: function(tbl_ids){
             var tables = Tables.find({_id: {$in: tbl_ids}}).fetch(),
@@ -186,9 +206,17 @@ let instanceMethods = {
             });
 
             return {
-                'tables': tables,
+                tables,
                 'descriptions': allDescs,
             };
+        },
+        wordContextByDescriptionExposureOnly: function(tbl_ids){
+            let obj = EpiDescriptive.wordContextByDescription(tbl_ids);
+
+            obj.descriptions = obj.descriptions
+                .filter((d) => d.extractExposureDetails === true);
+
+            return obj;
         },
         wordContextByResult: function(tbl_ids){
             var tbls = Tables.find({_id: {$in: tbl_ids}}).fetch(),

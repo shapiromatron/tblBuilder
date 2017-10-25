@@ -3,8 +3,6 @@ import { Session } from 'meteor/session';
 
 import _ from 'underscore';
 
-import { getPercentOrText } from '/imports/api/utilities';
-
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import EpiResult from '/imports/collections/epiResult';
 
@@ -25,16 +23,6 @@ import './tables.html';
 
 
 Template.epiDescriptiveTbl.helpers(_.extend({
-    getReportTypes: function() {
-        var reports = [
-            {
-                type: 'EpiHtmlTblRecreation',
-                fn: 'epi-results',
-                text: 'Download Word: HTML table recreation',
-            },
-        ];
-        return reports;
-    },
     showPlots: function() {
         return Session.get('epiRiskShowPlots');
     },
@@ -96,5 +84,18 @@ Template.organSiteTd.helpers({
         var rows = this.riskEstimates.length;
         if (this.effectUnits != null) rows += 1;
         return rows;
+    },
+});
+
+
+Template.epiExposureAssessmentTbl.helpers(_.extend(abstractTblHelpers, {
+    object_list: function() {
+        let tbl_id = Session.get('Tbl')._id;
+        return EpiDescriptive.getExposureAssessmentEvidence(tbl_id);
+    },
+}));
+Template.epiExposureAssessmentTbl.events({
+    'click #show-edit': function(evt, tmpl) {
+        Session.set('evidenceEditingId', this._id);
     },
 });

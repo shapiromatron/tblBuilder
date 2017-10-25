@@ -177,4 +177,48 @@ export default {
         popoverText: 'Other study features relevant to interpretation (e.g., response rates), or any other general comments related to the study',
         textAreaRows: 3,
     },
+
+    // exposure-assessment details #1/2
+    extractExposureDetails: {
+        label: 'Extract exposure details',
+        type: Boolean,
+        optional: true,
+        defaultValue: false,
+        popoverText: 'ADD',
+    },
+    exposureAssessmentPopulationDetails: {
+        label: 'Population details',
+        type: String,
+        optional: true,
+        defaultValue: '',
+        popoverText: 'ADD',
+        textAreaRows: 3,
+    },
+
+    // exposure-assessment details #3
+    exposureAssessmentStrengths: {
+        label: 'Strengths',
+        type: String,
+        optional: true,
+        defaultValue: '',
+        popoverText: 'ADD',
+        textAreaRows: 3,
+    },
+    exposureAssessmentLimitations: {
+        label: 'Limitations',
+        type: String,
+        optional: true,
+        defaultValue: '',
+        popoverText: 'ADD',
+        textAreaRows: 3,
+    },
+    exposureAssessmentComments: {
+        label: 'Comments',
+        type: String,
+        optional: true,
+        defaultValue: '',
+        popoverText: 'ADD',
+        textAreaRows: 3,
+    },
+
 };

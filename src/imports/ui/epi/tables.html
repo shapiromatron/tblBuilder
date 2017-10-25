@@ -198,3 +198,70 @@
     {{{showDebugInformation _id sortIdx}}}
   </td>
 </template>
+
+
+<template name="epiExposureAssessmentTbl">
+  <h1>{{name}} {{>epiExposureAssessmentTblOpts}}</h1>
+  {{> tableTitle}}
+
+  <table class="evidenceTable table table-compressed">
+    <colgroup>
+      <col width="10%">
+      <col width="18%">
+      <col width="18%">
+      <col width="18%">
+      <col width="18%">
+      <col width="18%">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Exposure assessment method</th>
+        <th>Description</th>
+        <th>Strengths</th>
+        <th>Limitations</th>
+        <th>Reference</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each object_list}}
+        {{#if showRow isHidden}}
+          <tr class="menu-autohide {{#if isHidden}}hiddenRow{{/if}}">
+            {{#if isEditing}}
+              <td id="editingRow" colspan="100">
+                {{> epiExposureAssessmentForm this isNew=false}}
+              </td>
+            {{else}}
+              <td>
+                {{#if userCanEdit}}
+                  <div class="rowOptions btn-group pull-right">
+                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                      <span class="caret" title="Editing options"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a href="#" id="show-edit">
+                          <span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                    </ul>
+                  </div>
+                {{/if}}
+                {{qaMark isQA}}
+                {{exposureAssessmentType}}
+                {{{showDebugInformation _id sortIdx}}}
+              </td>
+              <td>{{exposureAssessmentPopulationDetails}}<br/>{{exposureAssessmentNotes}}</td>
+              <td>{{exposureAssessmentStrengths}}</td>
+              <td>{{exposureAssessmentLimitations}}</td>
+              <td>{{>printReference id=referenceID}}<br></td>
+              <td>{{exposureAssessmentComments}}</td>
+            {{/if}}
+          </tr>
+        {{/if}}
+      {{else}}
+        <tr>
+          <td colspan="5">No epidemiology study-descriptions have been selected for a more detailed exposure extraction.</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>
