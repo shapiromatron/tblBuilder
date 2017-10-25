@@ -55,7 +55,7 @@ RUN chown -R app:app /app
 
 USER app
 RUN cd /app && \
-    tar -xzvf src.tar.gz && \
+    bsdtar -xzvf src.tar.gz && \
     npm install --prefix /app/bundle/programs/server --production
 
 ENTRYPOINT ["/entrypoint.sh"]
