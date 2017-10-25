@@ -42,6 +42,13 @@ export default {
         custom: isNumericishString,
         popoverText: 'Provide p-value for trend-test when reported',
     },
+    additionalResults:{
+        label: 'Additional results',
+        type: String,
+        optional: true,
+        textAreaRows: 4,
+        popoverText: 'Additional results would only be entered once for each organ site, for each study',
+    },
     riskEstimates: {
         type: [riskEstimateSchema],
         minCount: 0,
