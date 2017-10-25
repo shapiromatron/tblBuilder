@@ -2,4 +2,4 @@
 
 echo "listing available backups"
 echo "-------------------------"
-ls /data/backups
+ls /data/backups -lh
