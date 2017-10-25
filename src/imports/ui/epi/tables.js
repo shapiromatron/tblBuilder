@@ -87,13 +87,16 @@ Template.organSiteTd.helpers({
     },
 });
 
+// override object list method:
+let epiExposureAssessmentTblHelpers = _.extend(
+    {}, abstractTblHelpers, {
+        object_list: function() {
+            let tbl_id = Session.get('Tbl')._id;
+            return EpiDescriptive.getExposureAssessmentEvidence(tbl_id);
+        },
+    });
 
-Template.epiExposureAssessmentTbl.helpers(_.extend(abstractTblHelpers, {
-    object_list: function() {
-        let tbl_id = Session.get('Tbl')._id;
-        return EpiDescriptive.getExposureAssessmentEvidence(tbl_id);
-    },
-}));
+Template.epiExposureAssessmentTbl.helpers(epiExposureAssessmentTblHelpers);
 Template.epiExposureAssessmentTbl.events({
     'click #show-edit': function(evt, tmpl) {
         Session.set('evidenceEditingId', this._id);
