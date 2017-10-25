@@ -1,22 +1,24 @@
+var res;
+
 db.ntpEpiResult.find().forEach(function(d){
     if (d.additionalResults === null || d.additionalResults === undefined){
-        print('updating ' + d._id);
-        db.ntpEpiResult.update(
+        res = db.ntpEpiResult.update(
             {_id: d._id},
             {$set: {additionalResults: ''}},
             {multi: false}
         );
+        print(res);
     }
 });
 
 db.ntpEpiDescriptive.find().forEach(function(d){
     if (d.additionalResults === null || d.additionalResults === undefined){
-        print('updating ' + d._id);
-        db.ntpEpiDescriptive.update(
+        res = db.ntpEpiDescriptive.update(
             {_id: d._id},
             {$set: {confidenceInEvidence: ''}},
             {multi: false}
         );
+        print(res);
     }
 });
 

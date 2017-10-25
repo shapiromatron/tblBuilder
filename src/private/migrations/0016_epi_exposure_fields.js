@@ -1,5 +1,5 @@
 db.epiDescriptive.find().forEach(function(d){
-    db.epiDescriptive.update(
+    var res = db.epiDescriptive.update(
         {_id: d._id},
         {$set: {
             extractExposureDetails: false,
@@ -10,6 +10,7 @@ db.epiDescriptive.find().forEach(function(d){
         }},
         {multi: false}
     );
+    print(res);
 });
 
 print('Added exposure fields to ' + db.epiDescriptive.count() + ' epiDescriptive');

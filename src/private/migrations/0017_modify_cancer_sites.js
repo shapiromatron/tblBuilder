@@ -1,11 +1,15 @@
 /*
 Change organSiteCategory "NHL (T-cell)" to "NHL (T-cell lymphoma)".
 */
-db.epiResult.updateMany(
+var res;
+res = db.epiResult.updateMany(
     {organSiteCategory: 'NHL (T-cell)'},
     {$set: {organSiteCategory: 'NHL (T-cell lymphoma)'}}
 );
-db.ntpEpiResult.updateMany(
+print(res.acknowledged, res.matchedCount);
+
+res = db.ntpEpiResult.updateMany(
     {organSiteCategory: 'NHL (T-cell)'},
     {$set: {organSiteCategory: 'NHL (T-cell lymphoma)'}}
 );
+print(res.acknowledged, res.matchedCount);
