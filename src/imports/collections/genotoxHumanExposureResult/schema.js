@@ -23,8 +23,7 @@ export default {
         label: 'Exposure setting',
         type: String,
         min: 1,
-        popoverText: 'As reported',
-        placeholderText: 'e.g. Fuel tanker drivers',
+        popoverText: 'Industry, occupation, etc.',
         typeaheadMethod: 'searchHumanExposureSettings',
     },
     numberSubjects: {
@@ -40,23 +39,24 @@ export default {
         label: 'Sampling matrix',
         type: String,
         min: 1,
-        popoverText: 'The environmental medium or other matrix (e.g., air, drinking water, food, urine, blood) in which the agent was measured',
+        popoverText: 'Blood, urine, etc.',
         typeaheadMethod: 'searchHumanSamplingMatrices',
-        placeholderText: 'e.g. air',
+        placeholderText: 'e.g., blood',
     },
     endpoint: {
         label: 'Endpoint',
         type: String,
         min: 1,
-        popoverText: 'As reported',
+        popoverText: 'Micronuclei, chromosomal aberrations, DNA strand breaks, etc.',
         typeaheadMethod: 'searchHumanExposureEndpoints',
+        placeholderText: 'e.g., Micronuclei',
     },
     cellType: {
         label: 'Cell type (if specified)',
         type: String,
         optional: true,
         popoverText: 'As reported',
-        placeholderText: 'e.g. endothelial',
+        placeholderText: 'e.g., Peripheral lymphocytes, buccal cells',
         typeaheadMethod: 'searchHumanExposureCellType',
     },
 
@@ -96,7 +96,8 @@ export default {
         label: 'Significance',
         type: String,
         min: 1,
-        popoverText: 'As reported',
+        popoverText: 'p-value, if reported, otherwise significance level',
+        placeholderText: 'e.g., P=0.03',
     },
 
     // fifth row
