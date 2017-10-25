@@ -201,6 +201,9 @@
 
 
 <template name="epiExposureAssessmentTbl">
+  <h1>{{name}} {{>epiExposureAssessmentTblOpts}}</h1>
+  {{> tableTitle}}
+
   <table class="evidenceTable table table-compressed">
     <colgroup>
       <col width="10%">
@@ -256,7 +259,7 @@
         {{/if}}
       {{else}}
         <tr>
-          <td colspan="5">No data are available.</td>
+          <td colspan="5">No epidemiology study-descriptions have been selected for a more detailed exposure extraction.</td>
         </tr>
       {{/each}}
     </tbody>

@@ -186,17 +186,17 @@
 
 
 <template name="optRiskPlot">
-  <li>
+  <li class="{{#if isDisabled}}disabled{{/if}}">
     <a href="#" id="epiRiskShowPlots">
       {{#if showPlots}}
-        <span class="glyphicon glyphicon-eye-close"></span> Hide risk plots
+        <span class="fa fa-eye-slash"></span> Hide risk plots
       {{else}}
-        <span class="glyphicon glyphicon-eye-open"></span> Show risk plots
+        <span class="fa fa-eye"></span> Show risk plots
       {{/if}}
     </a>
   </li>
   {{#if showPlots}}
-    <li>
+    <li class="{{#if isDisabled}}disabled{{/if}}">
       <a href="#" id="showForestAxisModal">
         <span class="fa fa-wrench"></span> Change axis settings
       </a>
@@ -224,18 +224,18 @@
 
 
 <template name="optReorder">
-  <li>
+  <li class="{{#if isDisabled}}disabled{{/if}}">
     <a href="#" id="reorderRows">
-      <span class="glyphicon glyphicon-align-justify"></span> Reorder rows
+      <span class="fa fa-align-justify"></span> Reorder rows
     </a>
   </li>
 </template>
 
 
 <template name="optCreate">
-  <li>
+  <li class="{{#if isDisabled}}disabled{{/if}}">
     <a href="#" id="show-create">
-      <span class="glyphicon glyphicon-plus"></span> Create new row
+      <span class="fa fa-plus"></span> Create new row
     </a>
   </li>
 </template>
@@ -277,7 +277,7 @@
 
 
 <template name="optSortFilter">
-  <li>
+  <li class="{{#if isDisabled}}disabled{{/if}}">
     <a href="#" id="sortFilter">
       <span class="fa fa-sort"></span>
       <span class="fa fa-filter"></span> Sort and filter
