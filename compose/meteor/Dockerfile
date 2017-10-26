@@ -14,7 +14,7 @@ COPY ./r_requirements.sh /r_requirements.sh
 # 3) create paths and users
 # 4) change executable permissions
 RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> /etc/apt/sources.list' && \
-    apt-key adv --keyserver keys.gnupg.net --recv-key 6212B7B7931C4BB16280BA1306F90DE5381BA480 && \
+    apt-key adv --keyserver hkp://keys.gnupg.net:80 --recv-key 6212B7B7931C4BB16280BA1306F90DE5381BA480 && \
     \
     apt-get update && \
     apt-get install -y python python-dev python-pip r-base r-base-dev bsdtar && \
