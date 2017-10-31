@@ -181,7 +181,7 @@ let instanceMethods = {
                 descriptions: allDescs,
             };
         },
-        wordContextByOrgansite: function(tbl_ids){
+        wordContextByOrganSite: function(tbl_ids){
             var tables = Tables.find({_id: {$in: tbl_ids}}).fetch(),
                 allDescs = NtpEpiDescriptive.find(
                     {tbl_id: {$in: tbl_ids}, isHidden: false},
