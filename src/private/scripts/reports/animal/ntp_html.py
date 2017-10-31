@@ -156,9 +156,8 @@ class NtpAnimalHtmlTables(DOCXReport):
             tbl.new_run('Other comments: ', b=True, newline=False),
             tbl.new_run(first_result['comments'] or ''),
             tbl.new_run(''),
-            tbl.new_run('Overall utility [', b=True, newline=False),
-            tbl.new_run(study['overallUtility'] or '', b=True, newline=False),
-            tbl.new_run(']: ', b=True, newline=False),
+            tbl.new_run('Overall utility [{}]'.format(study['overallUtility']),
+                        b=True, newline=False),
             tbl.new_run(study['overallUtilityRationale'] or ''),
         ]
         tbl.new_td_run(row, 4, runs, rowspan=study_rowspan)
