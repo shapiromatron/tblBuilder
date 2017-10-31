@@ -24,6 +24,7 @@ export default {
         type: String,
         min: 1,
         popoverText: 'Industry, occupation, etc.',
+        placeholderText: 'e.g. Fuel tanker drivers',
         typeaheadMethod: 'searchHumanExposureSettings',
     },
     numberSubjects: {
