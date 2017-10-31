@@ -6,88 +6,104 @@ class NtpEpiResultTables(DOCXReport):
 
     COLUMN_WIDTHS = [1.0, 1.7, 1.25, 1.25, 1.2, 2.6]
 
-    def _build_result(self, res):
+    @classmethod
+    def get_desc_rowspan(cls, results):
+        return sum([
+            cls.get_result_rowspan(res)
+            for res in results
+        ])
 
+    @classmethod
+    def get_result_rowspan(cls, result):
+        rows = len(result['riskEstimates'])
+        if result.get('organSite'):
+            rows += 1
+        return rows
+
+    def _build_description(self, desc, site):
+        results = desc['organSiteResults'][site]
         row = 0
         tbl = TableMaker(self.COLUMN_WIDTHS, numHeaders=0,
                          firstRowCaption=False, tblStyle='ntpTbl')
 
-        rowspan = len(res['riskEstimates'])
-        if res.get('organSite'):
-            rowspan += 1
-
+        rowspan = self.get_desc_rowspan(results)
         # Column A
         runs = [
-            tbl.new_run(res['descriptive']['reference']['name']),
-            tbl.new_run(res['descriptive']['studyDesign']),
-            tbl.new_run(res['descriptive']['location']),
+            tbl.new_run(desc['reference']['name']),
+            tbl.new_run(desc['studyDesign']),
+            tbl.new_run(desc['location']),
             tbl.new_run('Enrollment or follow-up:', b=True),
-            tbl.new_run(res['descriptive']['enrollmentDates'])
+            tbl.new_run(desc['enrollmentDates'])
         ]
         tbl.new_td_run(row, 0, runs, rowspan=rowspan)
 
         # Column B
-        if res['descriptive']['isCaseControl']:
-            txt = u'Cases: {}; Controls: {}'
-            populationEligibility = res['descriptive'].get('populationEligibility')
+        if desc['isCaseControl']:
+            txt = u'Cases: {}; Controls: {}'.format(
+                desc.get('populationSizeCases', ''),
+                desc.get('populationSizeControls', ''))
+            populationEligibility = desc.get('populationEligibility')
             if populationEligibility is not None:
                 txt = u'{}\n{}'.format(populationEligibility, txt)
             popD = tbl.new_run(txt)
         else:
             popD = tbl.new_run(u'{}\n{}'.format(
-                res['descriptive'].get('populationEligibility', ''),
-                res['descriptive'].get('cohortPopulationSize', '')))
+                desc.get('populationEligibility', ''),
+                desc.get('cohortPopulationSize', '')))
 
         runs = [
             tbl.new_run('Population:', b=True),
             popD,
             tbl.new_run('Exposure assessment method: ',
                         b=True, newline=False),
-            tbl.new_run(res['descriptive']['exposureAssessmentType'],
+            tbl.new_run(desc['exposureAssessmentType'],
                         newline=False)
         ]
 
         tbl.new_td_run(row, 1, runs, rowspan=rowspan)
 
-        # Columns C,D
-        risk_row = row
-        if res.get('organSite'):
-            txt = u'{} - {}'.format(res['organSite'], res['effectMeasure'])
-            if res.get('effectUnits') is not None:
-                txt = u'{} {}'.format(txt, res['effectUnits'])
-            tbl.new_td_txt(
-                risk_row,
-                2,
-                txt,
-                colspan=2)
-            risk_row += 1
-        for i, est in enumerate(res['riskEstimates']):
-            tbl.new_td_txt(risk_row + i, 2, est['exposureCategory'])
-            tbl.new_td_txt(risk_row + i, 3, est['riskFormatted'])
+        result_row = row
+        for res in results:
+            # Columns C,D
+            result_rowspan = self.get_result_rowspan(res)
+            risk_row = result_row
+            if res.get('organSite'):
+                txt = u'{} - {}'.format(res['organSite'], res['effectMeasure'])
+                if res.get('effectUnits') is not None:
+                    txt = u'{} {}'.format(txt, res['effectUnits'])
+                run = [tbl.new_run(txt, b=True)]
+                tbl.new_td_run(result_row, 2, run, colspan=2)
+                risk_row += 1
+            for i, est in enumerate(res['riskEstimates']):
+                tbl.new_td_txt(risk_row + i, 2, est['exposureCategory'])
+                tbl.new_td_txt(risk_row + i, 3, est['riskFormatted'])
 
-        # Column E
-        tbl.new_td_txt(row, 4, res['wrd_covariatesList'], rowspan=rowspan)
+            # Column E
+            tbl.new_td_txt(result_row, 4, res['wrd_covariatesList'], rowspan=result_rowspan)
+
+            # update result_row
+            result_row = result_row + result_rowspan
 
         # Column F
         runs = []
-        wrd_notes = res['descriptive'].get('wrd_notes')
+        wrd_notes = desc.get('wrd_notes')
         if wrd_notes is not None and wrd_notes != '':
             runs.append(tbl.new_run(wrd_notes))
         runs.extend([
             tbl.new_run('Strengths:', b=True),
-            tbl.new_run(res['descriptive']['strengths']),
+            tbl.new_run(desc['strengths']),
             tbl.new_run('Limitations:', b=True),
-            tbl.new_run(res['descriptive']['limitations']),
+            tbl.new_run(desc['limitations']),
             tbl.new_run('Additional results:', b=True),
-            tbl.new_run(res['additionalResults']),
+            tbl.new_run('\n'.join([res['additionalResults'] for res in results if res['additionalResults'] is not u''])),
             tbl.new_run('Confidence in evidence:', b=True),
-            tbl.new_run(res['descriptive']['confidenceInEvidence'], newline=False),
+            tbl.new_run(desc['confidenceInEvidence'], newline=False),
         ])
         tbl.new_td_run(row, 5, runs, rowspan=rowspan)
 
         return tbl
 
-    def build_res_tbl(self, caption, results):
+    def build_desc_tbl(self, caption, descriptions, site):
         tbl = TableMaker(self.COLUMN_WIDTHS, numHeaders=2, tblStyle='ntpTbl')
 
         # write title
@@ -104,8 +120,8 @@ class NtpEpiResultTables(DOCXReport):
         docx_tbl = tbl.render(self.doc)
 
         # write additional rows
-        for res in results:
-            inner_tbl = self._build_result(res)
+        for desc in descriptions:
+            inner_tbl = self._build_description(desc, site)
             docx_tbl_inner = inner_tbl.render(self.doc)
             docx_tbl._cells.extend(docx_tbl_inner._cells)
 
@@ -127,7 +143,7 @@ class NtpEpiResultTables(DOCXReport):
         # build table for each organ-site
         for organSite in sorted(d['organSites'], key=lambda v: v['organSite']):
             txt = u'Table X: {}'.format(organSite['organSite'])
-            self.build_res_tbl(txt, organSite['results'])
+            self.build_desc_tbl(txt, organSite['descriptions'], organSite['organSite'])
             self.doc.add_page_break()
 
     def get_template_fn(self):

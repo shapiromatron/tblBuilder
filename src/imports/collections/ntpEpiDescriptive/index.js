@@ -47,6 +47,16 @@ let instanceMethods = {
             }
             return this.results;
         },
+        getOrganSiteResults: function(organSite, results){
+            if (_.isUndefined(this.organSiteResults)){
+                this.organSiteResults = {};
+            }
+            if (_.isUndefined(this.organSiteResults[organSite])){
+                this.organSiteResults[organSite] = _.where(results,
+                        {parent_id: this._id, organSiteCategory: organSite}) || null;
+            }
+            return this.organSiteResults[organSite];
+        },
         getConfounders: function(result){
             if (_.isUndefined(this.confounders)){
                 this.confounders = NtpEpiConfounder
@@ -171,7 +181,7 @@ let instanceMethods = {
                 descriptions: allDescs,
             };
         },
-        wordContextWithResults: function(tbl_ids){
+        wordContextByOrganSite: function(tbl_ids){
             var tables = Tables.find({_id: {$in: tbl_ids}}).fetch(),
                 allDescs = NtpEpiDescriptive.find(
                     {tbl_id: {$in: tbl_ids}, isHidden: false},
@@ -184,20 +194,17 @@ let instanceMethods = {
                 sites = _.uniq(_.pluck(allResults, 'organSiteCategory'), false),
                 organSites;
 
-            allDescs.forEach((d)=> d.setWordFields() );
+            allResults.map((r) => r.setWordFields());
 
-            allResults = _.chain(allResults)
-                .each((d)=>{
-                    d.setWordFields();
-                    d.descriptive = _.findWhere(allDescs, {_id: d.parent_id});
-                })
-                .reject((d) => d.descriptive === undefined)
-                .value();
+            allDescs.map((d) => {
+                sites.map((site) => d.getOrganSiteResults(site, allResults));
+                d.setWordFields();
+            });
 
-            organSites = _.map(sites, function(site){
+            organSites = sites.map((site) => {
                 return {
                     'organSite': site,
-                    'results': _.where(allResults, {organSiteCategory: site}),
+                    'descriptions': allDescs.filter((d) => d.organSiteResults[site].length !== 0),
                 };
             });
 

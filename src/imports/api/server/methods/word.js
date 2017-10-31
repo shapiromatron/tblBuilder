@@ -60,7 +60,7 @@ var Future = Npm.require('fibers/future'),
         case 'MechanisticEvidenceHtmlTables':
             return MechanisticEvidence.wordContext(tbl_id);
         case 'NtpEpiResultTables':
-            return NtpEpiDescriptive.wordContextWithResults([tbl_id]);
+            return NtpEpiDescriptive.wordContextByOrganSite([tbl_id]);
         case 'NtpEpiBiasTables':
             return NtpEpiDescriptive.wordContext([tbl_id]);
         case 'NtpEpiBiasRatings':
