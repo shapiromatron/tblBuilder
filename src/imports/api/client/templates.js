@@ -33,8 +33,10 @@ let getScrollPosition = function(){
             Session.get('windowScrollY')
         );
     },
-    cloneObject = function(oldObj, Collection, NestedCollection) {
-        var newObj, new_parent_id, ref, newNest;
+    cloneObject = function(oldObj, CollectionMetadata) {
+        let newObj, new_parent_id,
+            Collection = CollectionMetadata.collection,
+            child_collections = [];
 
         // clone object
         newObj = _.extend({}, oldObj);
@@ -48,16 +50,27 @@ let getScrollPosition = function(){
         // insert, getting new parent-ID
         new_parent_id = Collection.insert(newObj);
 
-        // clone nested collection, if exists
-        if (NestedCollection != null) {
-            ref = NestedCollection.find({parent_id: oldObj._id}).fetch();
+        // find all child collections
+        if (CollectionMetadata.nested_collection){
+            child_collections.push(CollectionMetadata.nested_collection);
+        }
+        if (CollectionMetadata.other_related_collections &&
+            CollectionMetadata.other_related_collections.length > 0){
+            child_collections.push.apply(
+                child_collections,
+                CollectionMetadata.other_related_collections);
+        }
+
+        // clone all content in child collections
+        child_collections.forEach((ChildCollection)=>{
+            let ref = ChildCollection.find({parent_id: oldObj._id}).fetch();
             _.each(ref, function(oldNest){
-                newNest = _.extend({}, oldNest);
+                let newNest = _.extend({}, oldNest);
                 delete newNest._id;
                 newNest.parent_id = new_parent_id;
-                return NestedCollection.insert(newNest);
+                ChildCollection.insert(newNest);
             });
-        }
+        });
     },
     createNewNestedModal = function(evt, tmpl) {
         var div = document.getElementById('modalHolder'),
@@ -278,7 +291,7 @@ export const abstractRowEvents = {
     },
     'click #clone-content': function(evt, tmpl) {
         var ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')];
-        cloneObject(this, ET.collection, ET.nested_collection);
+        cloneObject(this, ET);
     },
     'click .quickEdit': function(evt, tmpl){
         if (evt.shiftKey) {
@@ -402,8 +415,8 @@ export const abstractNestedTableEvents = {
     },
     'click #clone-nested-content': function(evt, tmpl) {
         var data = tmpl.view.parentView.dataVar.curValue,
-            ET = tblBuilderCollections.evidenceLookup[Session.get('evidenceType')];
-        return cloneObject(data, ET.nested_collection);
+            ET = tblBuilderCollections.evidenceLookup[Session.get('nestedEvidenceType')];
+        return cloneObject(data, ET);
     },
     'click .quickEdit': function(evt, tmpl){
         if (evt.shiftKey) {

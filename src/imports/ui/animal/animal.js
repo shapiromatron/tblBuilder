@@ -32,6 +32,7 @@ import {
 Template.animalMain.helpers(abstractMainHelpers);
 Template.animalMain.onCreated(function() {
     Session.set('evidenceType', 'animalEvidence');
+    Session.set('nestedEvidenceType', 'animalEndpointEvidence');
     Session.set('evidenceShowNew', false);
     Session.set('evidenceShowAll', false);
     Session.set('evidenceEditingId', null);
@@ -40,6 +41,7 @@ Template.animalMain.onCreated(function() {
 });
 Template.animalMain.onDestroyed(function() {
     Session.set('evidenceType', null);
+    Session.set('nestedEvidenceType', null);
     Session.set('evidenceShowNew', false);
     Session.set('evidenceShowAll', false);
     Session.set('evidenceEditingId', null);

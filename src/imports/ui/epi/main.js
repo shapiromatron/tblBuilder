@@ -18,6 +18,7 @@ let sharedHelpers = {
 Template.epiMain.helpers(_.extend(sharedHelpers, abstractMainHelpers));
 Template.epiMain.onCreated(function() {
     Session.set('evidenceType', 'epiDescriptive');
+    Session.set('nestedEvidenceType', 'epiResult');
     Session.set('evidenceShowNew', false);
     Session.set('evidenceShowAll', false);
     Session.set('evidenceEditingId', null);
@@ -27,6 +28,7 @@ Template.epiMain.onCreated(function() {
 });
 Template.epiMain.onDestroyed(function() {
     Session.set('evidenceType', null);
+    Session.set('nestedEvidenceType', null);
     Session.set('evidenceShowNew', false);
     Session.set('evidenceShowAll', false);
     Session.set('evidenceEditingId', null);

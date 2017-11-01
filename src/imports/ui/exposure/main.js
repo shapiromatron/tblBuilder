@@ -11,6 +11,7 @@ import './main.html';
 Template.exposureMain.helpers(abstractMainHelpers);
 Template.exposureMain.onCreated(function() {
     Session.set('evidenceType', 'exposureEvidence');
+    Session.set('nestedEvidenceType', 'exposureResult');
     Session.set('evidenceShowNew', false);
     Session.set('evidenceShowAll', false);
     Session.set('evidenceEditingId', null);
@@ -18,6 +19,7 @@ Template.exposureMain.onCreated(function() {
 });
 Template.exposureMain.onDestroyed(function() {
     Session.set('evidenceType', null);
+    Session.set('nestedEvidenceType', null);
     Session.set('evidenceShowNew', false);
     Session.set('evidenceShowAll', false);
     Session.set('evidenceEditingId', null);

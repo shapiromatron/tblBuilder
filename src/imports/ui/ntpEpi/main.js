@@ -11,6 +11,7 @@ import './main.html';
 Template.ntpEpiMain.helpers(abstractMainHelpers);
 Template.ntpEpiMain.onCreated(function() {
     Session.set('evidenceType', 'ntpEpiDescriptive');
+    Session.set('nestedEvidenceType', 'ntpEpiResult');
     Session.set('evidenceShowNew', false);
     Session.set('evidenceShowAll', false);
     Session.set('evidenceEditingId', null);
@@ -19,6 +20,7 @@ Template.ntpEpiMain.onCreated(function() {
 });
 Template.ntpEpiMain.onDestroyed(function() {
     Session.set('evidenceType', null);
+    Session.set('nestedEvidenceType', null);
     Session.set('evidenceShowNew', false);
     Session.set('evidenceShowAll', false);
     Session.set('evidenceEditingId', null);

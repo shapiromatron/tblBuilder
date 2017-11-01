@@ -21,10 +21,12 @@ import './ntpEpiRating.html';
 Template.ntpEpiRatingMain.helpers(abstractMainHelpers);
 Template.ntpEpiRatingMain.onCreated(function() {
     Session.set('evidenceType', 'ntpEpiDescriptive');
+    Session.set('nestedEvidenceType', 'ntpEpiResult');
     this.subscribe('ntpEpiDescriptive', Session.get('Tbl')._id);
 });
 Template.ntpEpiRatingMain.onDestroyed(function() {
     Session.set('evidenceType', null);
+    Session.set('nestedEvidenceType', null);
 });
 
 Template.ntpEpiRatingTable.helpers(_.extend(

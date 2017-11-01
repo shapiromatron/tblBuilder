@@ -11,6 +11,7 @@ import './main.html';
 Template.ntpAnimalMain.helpers(abstractMainHelpers);
 Template.ntpAnimalMain.onCreated(function() {
     Session.set('evidenceType', 'ntpAnimalEvidence');
+    Session.set('nestedEvidenceType', 'ntpAnimalEndpointEvidence');
     Session.set('evidenceShowNew', false);
     Session.set('evidenceShowAll', false);
     Session.set('evidenceEditingId', null);
@@ -19,6 +20,7 @@ Template.ntpAnimalMain.onCreated(function() {
 });
 Template.ntpAnimalMain.onDestroyed(function() {
     Session.set('evidenceType', null);
+    Session.set('nestedEvidenceType', null);
     Session.set('evidenceShowNew', false);
     Session.set('evidenceShowAll', false);
     Session.set('evidenceEditingId', null);

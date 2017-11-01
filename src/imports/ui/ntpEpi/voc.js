@@ -6,6 +6,7 @@ import { Tracker } from 'meteor/tracker';
 
 import _ from 'underscore';
 
+import tblBuilderCollections from '/imports/collections';
 import NtpEpiConfounder from '/imports/collections/ntpEpiConfounder';
 
 import {
@@ -137,7 +138,8 @@ Template.vocMatrixRow.helpers(_.extend({
 }, abstractRowHelpers));
 Template.vocMatrixRow.events(_.extend({
     'click #clone-voc': (evt, tmpl) => {
-        cloneObject(tmpl.data.object, NtpEpiConfounder);
+        let ET = tblBuilderCollections.evidenceLookup['ntpEpiConfounder'];
+        cloneObject(tmpl.data.object, ET);
     },
 }, abstractRowEvents));
 
@@ -145,6 +147,7 @@ Template.vocMatrixRow.events(_.extend({
 Template.vocRow.helpers(abstractRowHelpers);
 Template.vocRow.events(_.extend({
     'click #clone-voc': (evt, tmpl) => {
-        cloneObject(tmpl.data, NtpEpiConfounder);
+        let ET = tblBuilderCollections.evidenceLookup['ntpEpiConfounder'];
+        cloneObject(tmpl.data, ET);
     },
 }, abstractRowEvents));
