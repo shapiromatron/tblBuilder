@@ -104,6 +104,11 @@ Router.map(function() {
         controller: GARouter,
     });
 
+    this.route('Http404', {
+        path: '/404/',
+        controller: GARouter,
+    });
+
     this.route('volumeTableList', {
         path: '/volume/:volumeNumber',
         data: function() {
