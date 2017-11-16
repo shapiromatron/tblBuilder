@@ -170,6 +170,12 @@ let getPercentOrText = function(txt) {
 
         return rows;
     },
+    biasWorksheetSummary = function(Coll, tbl_id){
+        let schema = schema = Coll.simpleSchema()._schema,
+            objects = Coll.getTableEvidence(tbl_id),
+        // get reference
+        _.each(objects, (d) => d.getReference());
+    },
     isNtp = function(){
         return Meteor.settings.public.context === 'ntp';
     };
@@ -183,4 +189,5 @@ export { capitalizeFirst };
 export { tabularizeHeader };
 export { tabularize };
 export { biasWorksheetExport };
+export { biasWorksheetSummary };
 export { isNtp };

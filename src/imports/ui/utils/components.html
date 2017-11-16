@@ -263,6 +263,17 @@
 </template>
 
 
+<template name="optExcelBiasSummary">
+  {{#if isInRole 'staff'}}
+  <li>
+    <a href="#" id="downloadExcelBiasSummary">
+      <span class="fa fa-file-excel-o"></span> Download Excel bias summary
+    </a>
+  </li>
+  {{/if}}
+</template>
+
+
 <template name="optWord">
   {{#if isInRole 'staff'}}
     {{#each getReportTypes}}
