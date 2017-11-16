@@ -1,6 +1,6 @@
 import {Meteor} from 'meteor/meteor';
 
-import XLSX from 'xlsx';
+import XLSX from 'xlsx-style';
 
 import tblBuilderCollections from '/imports/collections';
 import Reference from '/imports/collections/reference';
