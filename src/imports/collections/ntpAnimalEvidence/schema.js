@@ -35,6 +35,7 @@ export default {
         popoverText: 'As reported',
         typeaheadMethod: 'searchNtpAnimalSpecies',
         placeholderText: 'Mouse, Rat, Hamster',
+        biasSummary: 'Reference',
     },
     strain: {
         label: 'Strain',
@@ -50,6 +51,7 @@ export default {
         type: String,
         allowedValues: sexes,
         popoverText: 'As reported',
+        biasSummary: 'Reference',
     },
     ageAtStart: {
         label: 'Age at start',
@@ -83,6 +85,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Study Design',
     },
     randomizationDirection:{
         label: 'Bias direction',
@@ -108,6 +111,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Study Design',
     },
     concurrentControlsDirection:{
         label: 'Bias direction',
@@ -134,6 +138,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Study Design',
     },
     animalModelSensitivityDirection:{
         label: 'Bias direction',
@@ -159,6 +164,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Study Design',
     },
     statisticalPowerDirection:{
         label: 'Bias direction',
@@ -226,6 +232,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Exposure',
     },
     chemicalCharacterizationDirection:{
         label: 'Bias direction',
@@ -251,6 +258,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Exposure',
     },
     dosingRegimenDirection:{
         label: 'Bias direction',
@@ -277,6 +285,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Exposure',
     },
     exposureDurationDirection:{
         label: 'Bias direction',
@@ -302,6 +311,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Exposure',
     },
     doseResponseDirection:{
         label: 'Bias direction',
@@ -335,6 +345,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Outcome',
     },
     outcomeMethodsDirection:{
         label: 'Bias direction',
@@ -361,6 +372,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Outcome',
     },
     groupConsistencyDirection:{
         label: 'Bias direction',
@@ -386,6 +398,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Outcome',
     },
     durationDirection:{
         label: 'Bias direction',
@@ -426,6 +439,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Confounding',
     },
     confoundingDirection:{
         label: 'Bias direction',
@@ -459,6 +473,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Analysis and reporting',
     },
     statisticalReportingDirection:{
         label: 'Bias direction',
@@ -484,6 +499,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Analysis and reporting',
     },
     tumorCombiningDirection:{
         label: 'Bias direction',
@@ -525,6 +541,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Study judgement',
     },
     overallUtilityRationale: {
         label: 'Overall utility rationale',
