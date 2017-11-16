@@ -172,9 +172,50 @@ let getPercentOrText = function(txt) {
     },
     biasWorksheetSummary = function(Coll, tbl_id){
         let schema = schema = Coll.simpleSchema()._schema,
+            colors = Coll.biasColors,
             objects = Coll.getTableEvidence(tbl_id),
+            dataKeys = _.chain(schema)
+                .each((v, k) => v._name = k)
+                .filter((d) => d.biasSummary)
+                .groupBy('biasSummary')
+                .map((v, k) => {
+                    let labels = v.map((obj) => ({label: obj.labelHdr || obj.label, key: obj._name}));
+                    labels.unshift({label: k, section: true, style: {font: {bold: true}}});
+                    return labels;
+                })
+                .flatten()
+                .value(),
+            headerRow = dataKeys.map((k) => ({value: k.label, style: k.style}));
+
         // get reference
         _.each(objects, (d) => d.getReference());
+
+        let rows = objects.map((d) => {
+            let row = _.map(dataKeys, (heading) => {
+                return heading.section ?
+                {} :
+                {
+                    value: d[heading.key],
+                    style: {
+                        // font: {bold: true},
+                        fill: {fgColor: {rgb: colors(d[heading.key])}},
+                        border: {
+                            top: { style: 'thin' },
+                            bottom: { style: 'thin' },
+                            right: { style: 'thin' },
+                            left: { style: 'thin' },
+                        },
+                        alignment: { vertical: 'center', horizontal: 'center'},
+                    },
+                };
+            });
+            row[0] = {value: d.reference.name, style: {alignment: { textRotation: 45}}};
+            return row;
+        });
+
+        rows.unshift(headerRow);
+
+        return _.zip.apply(_, rows);
     },
     isNtp = function(){
         return Meteor.settings.public.context === 'ntp';

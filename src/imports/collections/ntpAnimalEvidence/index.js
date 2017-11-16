@@ -129,6 +129,15 @@ let instanceMethods = {
                 text: 'Download Word (potential bias)',
             },
         ],
+        biasColors: function(rating){
+            let defaultColor = 'FFFFFFFF',
+                colors = {
+                    '+': 'FFCAE4C5',
+                    '++': 'FF7BBA6F',
+                    '+++': 'FF417237',
+                };
+            return colors[rating] || defaultColor;
+        },
     }, sharedClassMethods),
     NtpAnimalEvidence = new Meteor.Collection('ntpAnimalEvidence', {
         transform: function (doc) {
