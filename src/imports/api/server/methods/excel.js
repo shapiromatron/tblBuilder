@@ -107,8 +107,14 @@ let biasWorksheetExport = function(Coll, tbl_id){
         });
 
         rows.unshift(headerRow);
+        let data = _.zip.apply(_, rows);
 
-        return _.zip.apply(_, rows);
+        return {
+            data,
+            ws_args: {
+                '!cols': [{wpx: 275}],
+            },
+        };
     },
     type = (function() {
         var classToType = {};
@@ -231,11 +237,7 @@ Meteor.methods({
     },
     downloadExcelBiasSummary: function(collType, tbl_id) {
         let Coll = tblBuilderCollections.evidenceLookup[collType].collection,
-            data = biasWorksheetSummary(Coll, tbl_id),
-            ws_args = {
-                '!cols': [{wpx: 275}, undefined, {wpx: 500}],
-                '!merges': [{s:{c:0, r:2}, e:{c:1, r:6}}],
-            };
-        return writeXLSX('Bias summary', data, ws_args);
+            res = biasWorksheetSummary(Coll, tbl_id);
+        return writeXLSX('Bias summary', res.data, res.ws_args);
     },
 });
