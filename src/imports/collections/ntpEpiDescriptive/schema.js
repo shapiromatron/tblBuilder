@@ -84,6 +84,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Population',
     },
     selectionBiasDirection:{
         label: 'Bias direction',
@@ -157,6 +158,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Exposure',
     },
     exposureAssessmentDirection:{
         label: 'Bias direction',
@@ -200,6 +202,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Exposure',
     },
     outcomeAssessmentDirection:{
         label: 'Bias direction',
@@ -238,6 +241,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Analysis',
     },
     analysisDirection:{
         label: 'Bias direction',
@@ -260,6 +264,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Analysis',
     },
     selectiveReportingDirection:{
         label: 'Bias direction',
@@ -309,6 +314,7 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Sensitivity',
     },
     sensitivityDirection:{
         label: 'Bias direction',
@@ -348,5 +354,6 @@ export default {
         allowedValues: ratings,
         popoverText: ratingRationalePopoverText,
         biasField: true,
+        biasSummary: 'Study judgement',
     },
 };
