@@ -134,89 +134,6 @@ let getPercentOrText = function(txt) {
 
         return data;
     },
-    biasWorksheetExport = function(Coll, tbl_id){
-
-        let schema = schema = Coll.simpleSchema()._schema,
-            objects = Coll.getTableEvidence(tbl_id),
-            extraMetadata = Coll.worksheetLabels;
-
-        // get reference
-        _.each(objects, (d) => d.getReference());
-
-        // get header row, all bias fields in schema
-        let headerCols = _.chain(schema)
-            .each(function(v,k){v._name = k;})
-            .where({biasField: true})
-            .pluck('_name')
-            .value();
-
-        // add header reference details
-        let extraHeaderCols = _.map(extraMetadata, (d) => schema[d].label);
-        extraHeaderCols.unshift.apply(extraHeaderCols, ['Reference ID', 'Reference name']);
-        headerCols.unshift.apply(headerCols, extraHeaderCols);
-
-        // create reference ids
-        let nBlanks = headerCols.length - 2,
-            rows = _.map(objects, (d) => {
-                let rows = new Array(nBlanks + 1).join(' ').split(''),
-                    extraCols = _.map(extraMetadata, (fld) => d[fld]);
-                extraCols.unshift.apply(extraCols, [d.reference._id, d.reference.name]);
-                rows.unshift.apply(rows, extraCols);
-                return rows;
-            });
-
-        // add header column to rows
-        rows.unshift(headerCols);
-
-        return rows;
-    },
-    biasWorksheetSummary = function(Coll, tbl_id){
-        let schema = schema = Coll.simpleSchema()._schema,
-            colors = Coll.biasColors,
-            objects = Coll.getTableEvidence(tbl_id),
-            dataKeys = _.chain(schema)
-                .each((v, k) => v._name = k)
-                .filter((d) => d.biasSummary)
-                .groupBy('biasSummary')
-                .map((v, k) => {
-                    let labels = v.map((obj) => ({label: obj.labelHdr || obj.label, key: obj._name}));
-                    labels.unshift({label: k, section: true, style: {font: {bold: true}}});
-                    return labels;
-                })
-                .flatten()
-                .value(),
-            headerRow = dataKeys.map((k) => ({value: k.label, style: k.style}));
-
-        // get reference
-        _.each(objects, (d) => d.getReference());
-
-        let rows = objects.map((d) => {
-            let row = _.map(dataKeys, (heading) => {
-                return heading.section ?
-                {} :
-                {
-                    value: d[heading.key],
-                    style: {
-                        // font: {bold: true},
-                        fill: {fgColor: {rgb: colors(d[heading.key])}},
-                        border: {
-                            top: { style: 'thin' },
-                            bottom: { style: 'thin' },
-                            right: { style: 'thin' },
-                            left: { style: 'thin' },
-                        },
-                        alignment: { vertical: 'center', horizontal: 'center'},
-                    },
-                };
-            });
-            row[0] = {value: d.reference.name, style: {alignment: { textRotation: 45}}};
-            return row;
-        });
-
-        rows.unshift(headerRow);
-
-        return _.zip.apply(_, rows);
-    },
     isNtp = function(){
         return Meteor.settings.public.context === 'ntp';
     };
@@ -229,6 +146,4 @@ export { newValues };
 export { capitalizeFirst };
 export { tabularizeHeader };
 export { tabularize };
-export { biasWorksheetExport };
-export { biasWorksheetSummary };
 export { isNtp };

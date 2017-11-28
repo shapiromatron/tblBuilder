@@ -292,7 +292,7 @@ Template.optExcelBiasSummary.events({
     'click #downloadExcelBiasSummary': function(evt, tmpl) {
         var tbl_id = Session.get('Tbl')._id,
             evidenceType = Session.get('evidenceType'),
-            fn = 'bias.xlsx';
+            fn = 'bias-summary.xlsx';
 
         Meteor.call('downloadExcelBiasSummary', evidenceType, tbl_id, function(err, response) {
             returnExcelFile(response, fn);

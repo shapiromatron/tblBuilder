@@ -129,12 +129,21 @@ let instanceMethods = {
                 text: 'Download Word (potential bias)',
             },
         ],
-        biasColors: function(rating){
+        biasBgColors: function(rating){
             let defaultColor = 'FFFFFFFF',
                 colors = {
                     '+': 'FFCAE4C5',
                     '++': 'FF7BBA6F',
                     '+++': 'FF417237',
+                };
+            return colors[rating] || defaultColor;
+        },
+        biasTextColors: function(rating){
+            let defaultColor = '00000000',
+                colors = {
+                    '+': '00000000',
+                    '++': '00000000',
+                    '+++': 'FFFFFFFF',
                 };
             return colors[rating] || defaultColor;
         },
