@@ -36,9 +36,9 @@ class NtpEpiResultTables(DOCXReport):
         runs = [
             tbl.new_run(desc['reference']['name']),
             tbl.new_run(desc['studyDesign']),
-            tbl.new_run(desc['location']),
+            tbl.new_run(to_string(desc, 'location')),
             tbl.new_run('Enrollment or follow-up:', b=True),
-            tbl.new_run(desc['enrollmentDates'])
+            tbl.new_run(to_string(desc, 'enrollmentDates'))
         ]
         tbl.new_td_run(row, 0, runs, rowspan=rowspan)
 
@@ -98,7 +98,8 @@ class NtpEpiResultTables(DOCXReport):
 
         additional_results = '\n'.join([
             res['additionalResults'] for res in results
-            if (res['additionalResults'] is not None and
+            if ('additionalResults' in res and
+                res['additionalResults'] is not None and
                 res['additionalResults'] is not u'')
             ])
         if additional_results is '':
