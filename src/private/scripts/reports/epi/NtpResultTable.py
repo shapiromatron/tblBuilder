@@ -2,6 +2,11 @@ from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
 
 
+def to_string(d, el, default=''):
+    # return value or default if None type
+    return d[el] if el in d and d[el] is not None else default
+
+
 class NtpEpiResultTables(DOCXReport):
 
     COLUMN_WIDTHS = [1.0, 1.7, 1.25, 1.25, 1.2, 2.6]
@@ -79,7 +84,8 @@ class NtpEpiResultTables(DOCXReport):
                 tbl.new_td_txt(risk_row + i, 3, est['riskFormatted'])
 
             # Column E
-            tbl.new_td_txt(result_row, 4, res['wrd_covariatesList'], rowspan=result_rowspan)
+            tbl.new_td_txt(result_row, 4, res['wrd_covariatesList'],
+                           rowspan=result_rowspan)
 
             # update result_row
             result_row = result_row + result_rowspan
@@ -89,13 +95,22 @@ class NtpEpiResultTables(DOCXReport):
         wrd_notes = desc.get('wrd_notes')
         if wrd_notes is not None and wrd_notes != '':
             runs.append(tbl.new_run(wrd_notes))
+
+        additional_results = '\n'.join([
+            res['additionalResults'] for res in results
+            if (res['additionalResults'] is not None and
+                res['additionalResults'] is not u'')
+            ])
+        if additional_results is '':
+            additional_results = '-'
+
         runs.extend([
             tbl.new_run('Strengths:', b=True),
-            tbl.new_run(desc['strengths']),
+            tbl.new_run(to_string(desc, 'strengths')),
             tbl.new_run('Limitations:', b=True),
-            tbl.new_run(desc['limitations']),
+            tbl.new_run(to_string(desc, 'limitations')),
             tbl.new_run('Additional results:', b=True),
-            tbl.new_run('\n'.join([res['additionalResults'] for res in results if res['additionalResults'] is not u''])),
+            tbl.new_run(additional_results),
             tbl.new_run('Confidence in evidence:', b=True),
             tbl.new_run(desc['confidenceInEvidence'], newline=False),
         ])
