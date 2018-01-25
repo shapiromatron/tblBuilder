@@ -1,4 +1,4 @@
-FROM node:4.8.4
+FROM node:8.9.3
 # node version dependent on meteor version
 
 # (even if copied as root you still need to change)
