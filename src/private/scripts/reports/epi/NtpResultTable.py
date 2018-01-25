@@ -126,7 +126,7 @@ class NtpEpiResultTables(DOCXReport):
 
         runs.extend([
             tbl.new_run('Exposure information:', b=True),
-            tbl.new_run(to_string(desc, 'exposedCasesOrPower')),
+            tbl.new_run(to_string(desc, 'exposureLevel')),
             tbl.new_run('Strengths:', b=True),
             tbl.new_run(to_string(desc, 'strengths')),
             tbl.new_run('Limitations:', b=True),
