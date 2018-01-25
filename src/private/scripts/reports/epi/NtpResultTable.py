@@ -83,7 +83,7 @@ class NtpEpiResultTables(DOCXReport):
                 if res.get('effectUnits') is not None:
                     txt += u' {}'.format(res['effectUnits'])
 
-                run = [tbl.new_run(txt, b=True)]
+                run = [tbl.new_run(txt, b=True, newline=False)]
                 tbl.new_td_run(risk_row, 2, run, colspan=2)
                 risk_row += 1
 
