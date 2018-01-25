@@ -231,6 +231,9 @@ let getHTMLTitleBase = function() {
         return (display) ? $els.fadeIn() : $els.fadeOut();
     },
     toggleQA = function(tmpl, isQA) {
+        // isQA can have three states: true/false/undefined. Undefined may
+        // exist when creating a new object. Therefore we set to a bool below.
+        isQA = (isQA === true);
         tmpl.$('input,select,textarea').prop('disabled', isQA);
         tmpl.$('.showEditOnly').toggleClass('makeHidden', isQA);
         if (isQA){

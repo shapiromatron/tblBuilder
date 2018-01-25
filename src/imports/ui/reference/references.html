@@ -195,7 +195,7 @@
 <template name="referenceSingleSelectSelected">
   {{#if referenceID}}
     <p class='selectListItem' data-id="{{referenceID}}">{{>printReference reference=reference id=referenceID}}
-      <a href='#' class='pull-right selectListRemove btn btn-default btn-xs' title='Remove this reference'>
+      <a href='#' class='pull-right selectListRemove btn btn-default btn-xs showEditOnly' title='Remove this reference'>
         <span class='glyphicon glyphicon-remove'></span>
       </a>
     </p>
@@ -216,7 +216,7 @@
     <label class="helpPopovers" data-toggle="popover"
            data-content="Select one or more references (begin typing and list will populate)">
       {{label}}</label>
-    <a class="btn btn-xs btn-default pull-right" data-toggle="modal"
+    <a class="btn btn-xs btn-default pull-right showEditOnly" data-toggle="modal"
        data-target="#referenceQuickAdd" title="Quick-add new reference" href="#">
       <span class="glyphicon glyphicon-plus-sign"></span></a><br>
     <input class="form-control typeahead referenceMultiSelect" name="{{name}}" type="text"
