@@ -21,7 +21,7 @@ class NtpEpiResultTables(DOCXReport):
     @classmethod
     def get_result_rowspan(cls, result):
         rows = len(result['riskEstimates'])
-        if result.get('organSite'):
+        if result.get('organSite') or result.get('effectMeasure'):
             rows += 1
         return rows
 
@@ -72,12 +72,18 @@ class NtpEpiResultTables(DOCXReport):
             # Columns C,D
             result_rowspan = self.get_result_rowspan(res)
             risk_row = result_row
-            if res.get('organSite'):
-                txt = u'{} - {}'.format(res['organSite'], res['effectMeasure'])
+            if res.get('organSite') or res.get('effectMeasure'):
+                txt = unicode(res['organSite']) if res.get('organSite') else u''
+                if res.get('effectMeasure'):
+                    txt += u': ' if len(txt) > 0 else u''
+                    txt += res['effectMeasure']
+
                 if res.get('effectUnits') is not None:
-                    txt = u'{} {}'.format(txt, res['effectUnits'])
+                    txt += u' {}'.format(res['effectUnits'])
+
                 run = [tbl.new_run(txt, b=True)]
-                tbl.new_td_run(result_row, 2, run, colspan=2)
+                tbl.new_td_run(risk_row, 2, run, colspan=2)
+                risk_row += 1
                 risk_row += 1
             for i, est in enumerate(res['riskEstimates']):
                 tbl.new_td_txt(risk_row + i, 2, est['exposureCategory'])
