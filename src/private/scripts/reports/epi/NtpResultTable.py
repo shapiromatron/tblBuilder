@@ -23,6 +23,8 @@ class NtpEpiResultTables(DOCXReport):
         rows = len(result['riskEstimates'])
         if result.get('organSite') or result.get('effectMeasure'):
             rows += 1
+        if result.get('trendTest'):
+            rows += 1
         return rows
 
     def _build_description(self, desc, site):
@@ -84,10 +86,21 @@ class NtpEpiResultTables(DOCXReport):
                 run = [tbl.new_run(txt, b=True)]
                 tbl.new_td_run(risk_row, 2, run, colspan=2)
                 risk_row += 1
+
+            for est in res['riskEstimates']:
+                tbl.new_td_txt(risk_row, 2, est['exposureCategory'])
+                tbl.new_td_txt(risk_row, 3, est['riskFormatted'])
                 risk_row += 1
-            for i, est in enumerate(res['riskEstimates']):
-                tbl.new_td_txt(risk_row + i, 2, est['exposureCategory'])
-                tbl.new_td_txt(risk_row + i, 3, est['riskFormatted'])
+
+            if res.get('trendTest'):
+                run = [
+                    tbl.new_run('Trend-test ', newline=False),
+                    tbl.new_run('p', i=True, newline=False),
+                    tbl.new_run('-value: ', newline=False),
+                    tbl.new_run(res['trendTest'], newline=False)
+                ]
+                tbl.new_td_run(risk_row, 2, run, colspan=2)
+                risk_row += 1
 
             # Column E
             tbl.new_td_txt(result_row, 4, res['wrd_covariatesList'],
@@ -112,6 +125,8 @@ class NtpEpiResultTables(DOCXReport):
             additional_results = '-'
 
         runs.extend([
+            tbl.new_run('Exposure information:', b=True),
+            tbl.new_run(to_string(desc, 'exposedCasesOrPower')),
             tbl.new_run('Strengths:', b=True),
             tbl.new_run(to_string(desc, 'strengths')),
             tbl.new_run('Limitations:', b=True),
