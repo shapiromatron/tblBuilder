@@ -19,7 +19,7 @@ import GenotoxHumanExposureEvidence from '/imports/collections/genotoxHumanExpos
 
 let biasWorksheetExport = function(Coll, tbl_id){
 
-        let schema = schema = Coll.simpleSchema()._schema,
+        let schema = Coll.simpleSchema()._schema,
             objects = Coll.getTableEvidence(tbl_id),
             extraMetadata = Coll.worksheetLabels;
 
@@ -54,7 +54,7 @@ let biasWorksheetExport = function(Coll, tbl_id){
         return rows;
     },
     biasWorksheetSummary = function(Coll, tbl_id){
-        let schema = schema = Coll.simpleSchema()._schema,
+        let schema = Coll.simpleSchema()._schema,
             bgColors = Coll.biasBgColors,
             textColors = Coll.biasTextColors,
             objects = Coll.getTableEvidence(tbl_id),
@@ -238,6 +238,7 @@ Meteor.methods({
     downloadExcelBiasSummary: function(collType, tbl_id) {
         let Coll = tblBuilderCollections.evidenceLookup[collType].collection,
             res = biasWorksheetSummary(Coll, tbl_id);
+
         return writeXLSX('Bias summary', res.data, res.ws_args);
     },
 });
