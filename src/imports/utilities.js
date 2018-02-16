@@ -136,6 +136,9 @@ let getPercentOrText = function(txt) {
     },
     isNtp = function(){
         return Meteor.settings.public.context === 'ntp';
+    },
+    appFlavor = function(){
+        return Meteor.settings.public.context;
     };
 
 
@@ -147,3 +150,4 @@ export { capitalizeFirst };
 export { tabularizeHeader };
 export { tabularize };
 export { isNtp };
+export { appFlavor };

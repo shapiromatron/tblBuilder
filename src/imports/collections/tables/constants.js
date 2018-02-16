@@ -1,18 +1,20 @@
-import { Meteor } from 'meteor/meteor';
+import {appFlavor} from '/imports/utilities';
 
-import {isNtp} from '/imports/utilities'
 
 var getTableTypes = function(){
-    if (isNtp()){
+    switch(appFlavor()){
+    case 'demo':
         return [
             'Exposure Evidence',
             'NTP Epidemiology Evidence',
+            'Epidemiology Evidence',
             'NTP Animal Bioassay Evidence',
+            'Animal Bioassay Evidence',
             'Genotoxicity-other',
             'Mechanistic Evidence Summary',
             'Genotoxicity-exposed Humans',
         ];
-    } else {
+    case 'iarc':
         return [
             'Exposure Evidence',
             'Epidemiology Evidence',
@@ -21,6 +23,17 @@ var getTableTypes = function(){
             'Mechanistic Evidence Summary',
             'Genotoxicity-exposed Humans',
         ];
+    case 'ntp':
+        return [
+            'Exposure Evidence',
+            'NTP Epidemiology Evidence',
+            'NTP Animal Bioassay Evidence',
+            'Genotoxicity-other',
+            'Mechanistic Evidence Summary',
+            'Genotoxicity-exposed Humans',
+        ];
+    default:
+        throw 'Unknown app flavor';
     }
 };
 
