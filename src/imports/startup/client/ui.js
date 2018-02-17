@@ -6,10 +6,6 @@ import { UI } from 'meteor/ui';
 import _ from 'underscore';
 
 import {
-    isNtp,
-} from '/imports/utilities'
-
-import {
     userCanEdit,
 } from '/imports/api/client/utilities';
 
@@ -57,9 +53,6 @@ var uiHelpers = {
     },
     equals: function(a, b) {
         return a === b;
-    },
-    isNTP: function() {
-        return isNtp();
     },
     getUserDescription: function() {
         return (this.profile && this.profile.fullName)

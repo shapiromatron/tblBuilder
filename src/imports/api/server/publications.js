@@ -5,8 +5,6 @@ import _ from 'underscore';
 
 import { isStaffOrHigher } from './utilities';
 
-import { isNtp } from '/imports/utilities';
-
 import Tables from '/imports/collections/tables';
 import Reference from '/imports/collections/reference';
 import ExposureEvidence from '/imports/collections/exposure';
@@ -120,19 +118,16 @@ Meteor.publish('ntpEpiConfounder', function(tbl_id) {
     });
 });
 
+
 Meteor.publish('epiCollective', function(volumeNumber, monographAgent) {
 
-    let isNtpTable = isNtp(),
-        tblType = (isNtpTable)? 'NTP Epidemiology Evidence': 'Epidemiology Evidence',
-        ResultCollection = (isNtpTable)? NtpEpiResult: EpiResult,
-        DescriptiveCollection = (isNtpTable)? NtpEpiDescriptive: EpiDescriptive,
-        tbls = Tables.find({
-            tblType,
+    let tbls = Tables.find({
+            tblType: {$in: ['NTP Epidemiology Evidence', 'Epidemiology Evidence']},
             volumeNumber: parseInt(volumeNumber, 10),
             monographAgent: monographAgent,
             activeTable: true,
         }).fetch(),
-        tbl_ids, ref_ids;
+        tbl_ids, ref_ids, ref_ids1, ref_ids2;
 
     tbls = _.filter(tbls, function(tbl){
         return userCanView(tbl, this.userId);
@@ -140,12 +135,19 @@ Meteor.publish('epiCollective', function(volumeNumber, monographAgent) {
 
     if (tbls.length > 0) {
         tbl_ids = _.pluck(tbls, '_id');
-        ref_ids = _.pluck(DescriptiveCollection
+        ref_ids1 = _.pluck(NtpEpiDescriptive
             .find({tbl_id: {$in: tbl_ids}}, {fields: {referenceID: 1}})
-            .fetch(), 'referenceID');
+            .fetch(), 'referenceID'),
+        ref_ids2 =  _.pluck(EpiDescriptive
+            .find({tbl_id: {$in: tbl_ids}}, {fields: {referenceID: 1}})
+            .fetch(), 'referenceID'),
+        ref_ids = ref_ids1.concat(ref_ids2);
+
         return [
-            DescriptiveCollection.find({tbl_id: {$in: tbl_ids}}),
-            ResultCollection.find({tbl_id: {$in: tbl_ids}}),
+            NtpEpiDescriptive.find({tbl_id: {$in: tbl_ids}}),
+            EpiDescriptive.find({tbl_id: {$in: tbl_ids}}),
+            NtpEpiResult.find({tbl_id: {$in: tbl_ids}}),
+            EpiResult.find({tbl_id: {$in: tbl_ids}}),
             Reference.find({_id: {$in: ref_ids}}),
         ];
     }
