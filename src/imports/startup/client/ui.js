@@ -42,8 +42,10 @@ var uiHelpers = {
                (Meteor.settings['public'].contact_email != null);
     },
     contactEmail: function() {
-        var email = Meteor.settings['public'].contact_email;
-        return `${email}?subject=[IARC Table Builder]`;
+        var email = Meteor.settings.public.contact_email,
+            flavor = Meteor.settings.public.context.toUpperCase();
+
+        return `${email}?subject=[${flavor} Table Builder]`;
     },
     commaList: function(lst) {
         return lst.join(', ');

@@ -11,17 +11,88 @@
 
 <template name="notLoggedIn">
   <div class="row">
-    <div class="col-md-offset-3 col-md-6">
-      <h1>Welcome to table builder!</h1>
-      <p>This application is designed for monograph sections to collaborate on
-         assembling key evidence which will be useful in the development of the
-         IARC monographs. If a user is given permission to edit the data for a
-         specific assessment, after logging-in, key evidence tables will be
-         available.</p>
+      {{#if equals appFlavor 'iarc' }}
+        {{> iarcIntro}}
+      {{/if }}
 
-      {{# if hasContactEmail}}
-        <p>For technical help, please <a href="mailto:{{contactEmail}}">contact us</a>.</p>
-      {{/if}}
+      {{#if equals appFlavor 'ntp' }}
+        {{> ntpIntro}}
+      {{/if }}
+
+      {{#if equals appFlavor 'demo' }}
+        {{> demoIntro}}
+      {{/if }}
+  </div>
+</template>
+
+<template name='iarcIntro'>
+  <div class="col-md-offset-1 col-md-7">
+    <h1>Welcome to IARC table builder!</h1>
+    <p>
+        The <a href="http://monographs.iarc.fr/">IARC Monographs</a>, prepared by expert working groups for the WHO International Agency for Research on Cancer (IARC), identify environmental factors that can increase the risk of human cancer. These include chemicals, complex mixtures, occupational exposures, physical agents, biological agents, and lifestyle factors. National health agencies can use this information as scientific support for their actions to prevent exposure to potential carcinogens.
+    </p>
+    <p>
+        This web-application is designed to assist the interdisciplinary working group in writing the monographs. Specifically, as the name suggests, it's primary goal is to produce evidence tables from peer-reviewed literature. However, in addition to generating summary tables for reporting, it also enables interactive exploration which can be helpful in determining how to draw conclusions on the data as monographs are being developed.
+    </p>
+    <p>
+        To begin, you'll need to sign-in. Without authenticating, you won't be able to view or edit any content on the site. For help, please <a href="mailto:{{contactEmail}}">contact us</a>.
+    </p>
+  </div>
+</template>
+
+<template name='ntpIntro'>
+  <div class="col-md-offset-1 col-md-7">
+    <h1>Welcome to NTP table builder!</h1>
+    <p>
+        The <a href="https://ntp.niehs.nih.gov/pubhealth/roc/index.html">Report on Carcinogens</a> (RoC) is a congressionally mandated, science-based, public health report that identifies agents, substances, mixtures, or exposures (collectively called "substances") in our environment that pose a hazard to people residing in the United States. The National Toxicology Program (NTP) prepares the report on behalf of the Secretary, Health and Human Services.
+    </p>
+    <p>
+        This web-application is designed to assist the interdisciplinary working group in writing these reports. Specifically, as the name suggests, it's primary goal is to produce evidence tables from peer-reviewed literature. However, in addition to generating summary tables for reporting, it also enables interactive exploration which can be helpful in determining how to draw conclusions on the data as reports are being developed.
+    </p>
+    <p>
+        To begin, you'll need to sign-in. Without authenticating, you won't be able to view or edit any content on the site. For help, please <a href="mailto:{{contactEmail}}">contact us</a>.
+    </p>
+  </div>
+</template>
+
+
+<template name='demoIntro'>
+  <div class='col-md-12'>
+    <h1>Welcome to DEMO table builder!</h1>
+  </div>
+
+  <div class="col-md-7">
+    <p>
+        The <a href="http://monographs.iarc.fr/">IARC Monographs</a>, prepared by expert working groups for the WHO International Agency for Research on Cancer (IARC), identify environmental factors that can increase the risk of human cancer. These include chemicals, complex mixtures, occupational exposures, physical agents, biological agents, and lifestyle factors. National health agencies can use this information as scientific support for their actions to prevent exposure to potential carcinogens.
+    </p>
+    <p>
+        The <a href="https://ntp.niehs.nih.gov/pubhealth/roc/index.html">Report on Carcinogens</a> (RoC) is a congressionally mandated, science-based, public health report that identifies agents, substances, mixtures, or exposures (collectively called "substances") in our environment that pose a hazard to people residing in the United States. The National Toxicology Program (NTP) prepares the report on behalf of the Secretary, Health and Human Services.
+    </p>
+    <p>
+        This web-application is designed to assist the interdisciplinary working group in writing these reports. Specifically, as the name suggests, it's primary goal is to produce evidence tables from peer-reviewed literature. However, in addition to generating summary tables for reporting, it also enables interactive exploration which can be helpful in determining how to draw conclusions on the data as reports are being developed.
+    </p>
+    <p>
+        To begin, you'll need to sign-in. Without authenticating, you won't be able to view or edit any content on the site. For help, please <a href="mailto:{{contactEmail}}">contact us</a>.
+    </p>
+  </div>
+  <div class='col-md-5'>
+    <div class='alert alert-info'>
+      <p><b>This is a demo!</b></p>
+      <p>This website is a demonstration of the table-builder software; it's not designed for use on a real assessment. For more details on the website, please review Shapiro et al. 2018 <i>(submitted)</i>.</p>
+      <p><b>Data is reset on the website every 7 days.</b></p>
+      <p>However, you're free to login to the software to take it for a spin. Once logged-in, you can view tables, explore data, and download reports for data which his been extracted. You could also view the data extraction forms for the various evidence types.</p>
+      <br>
+      <p><u>Login as a <b>team-member</b>:</u></p>
+      <ul>
+        <li><b>Email:</b> <code>demo@table-builder.com</code></li>
+        <li><b>Password:</b> <code>mcdemo</code></li>
+      </ul>
+      <br>
+      <p><u>Login as a <b>staff-member</b>:</u></p>
+      <ul>
+        <li><b>Email:</b> <code>staff@table-builder.com</code></li>
+        <li><b>Password:</b> <code>mcstaff</code></li>
+      </ul>
     </div>
   </div>
 </template>
@@ -70,7 +141,7 @@
                 <p class="agentList">{{getMonographAgents this}}</p></a></li>
           {{else}}
             <li>You don't have access to any evidence tables.
-                You must be `staff` to create a new evidence table.</li>
+                You must have <code>staff</code> access to create new tables.</li>
           {{/each}}
         </ul>
       </div>

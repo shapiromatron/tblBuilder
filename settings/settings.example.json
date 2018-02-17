@@ -6,7 +6,7 @@
     "from_email": "nobody@table-builder.com",
     "public": {
         "contact_email": "nobody@table-builder.com",
-        "context": "ntp",
+        "context": "ntp", // ["ntp", "iarc", or "demo"]
         "debug": false,
         "ga": {
           "account": "UA-1234567-8",
