@@ -16,35 +16,35 @@ import {
 } from '/imports/api/client/templates';
 
 import {
+    appFlavor,
+} from '/imports/utilities';
+
+import {
     returnExcelFile,
     getHTMLTitleBase,
 } from '/imports/api/client/utilities';
 
 import {
-    isNtp,
-} from '/imports/utilities';
-
-import {
-    rerenderAxis
+    rerenderAxis,
 } from '/imports/ui/epi/forestPlot';
 
 import './epiOrganSite.html';
 
 
-let getDescriptiveCollection = function(){
-        return (isNtp())? NtpEpiDescriptive: EpiDescriptive;
-    }, getResultCollection = function(){
-        return (isNtp())? NtpEpiResult: EpiResult;
-    }
+let getAllDescriptions = function(){
+        return NtpEpiDescriptive.find().fetch()
+            .concat(EpiDescriptive.find().fetch());
+    }, getAllResults = function(){
+        return NtpEpiResult.find().fetch()
+            .concat(EpiResult.find().fetch());
+    };
 
 Template.epiOrganSiteMain.helpers(_.extend({
     showPlots: function() {
         return Session.get('epiRiskShowPlots');
     },
     getOrganSiteOptions: function() {
-        let ResultCollection = getResultCollection();
-        return _.chain(ResultCollection.find()
-                .fetch())
+        return _.chain(getAllResults())
                 .pluck('organSiteCategory')
                 .uniq()
                 .sort()
@@ -52,17 +52,17 @@ Template.epiOrganSiteMain.helpers(_.extend({
                 .value();
     },
     object_list: function() {
-        var tmpl = Template.instance(),
+        let tmpl = Template.instance(),
             organSiteCategories = tmpl.organSiteCategories.get(),
-            ResultCollection = getResultCollection(),
-            results = ResultCollection
-                .find({'organSiteCategory': {$in: organSiteCategories}})
-                .fetch(),
+            results = _.filter(getAllResults(), (el)=>{
+                return _.contains(organSiteCategories, el.organSiteCategory);
+            }),
+            descriptions = _.indexBy(getAllDescriptions(), '_id'),
             rows = [];
 
+
         results.forEach(function(res) {
-            let DescriptiveCollection = getDescriptiveCollection(),
-                desc = DescriptiveCollection.findOne(res.parent_id);
+            let desc = descriptions[res.parent_id];
             res.riskEstimates.forEach(function(d, i){
                 _.extend(d, {
                     idx: i,
@@ -91,7 +91,10 @@ Template.epiOrganSiteMain.events({
         Session.set('eosEditMode', !Session.get('eosEditMode'));
     },
     'click #metaReport': function(evt, tmpl) {
-        let tabularGenerator = getDescriptiveCollection().tablularMetaAnalysisRow,
+
+        let tabularGenerator = (appFlavor() === 'ntp')?
+                NtpEpiDescriptive.tablularMetaAnalysisRow:
+                EpiDescriptive.tablularMetaAnalysisRow,
             rows = _.chain(tmpl.eosRows)
                     .filter((d) => d.display)
                     .map((d)=> tabularGenerator(d))

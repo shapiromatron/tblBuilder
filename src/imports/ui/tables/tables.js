@@ -18,6 +18,9 @@ import {
 import {
     newValues,
 } from '/imports/api/utilities';
+import {
+    appFlavor,
+} from '/imports/utilities';
 
 
 Session.setDefault('showActiveTablesOnly', true);
@@ -32,6 +35,13 @@ Template.home.onDestroyed(function() {
     Session.set('tablesShowNew', false);
     Session.set('tablesEditingId', null);
     Session.set('reorderRows', false);
+});
+
+
+Template.notLoggedIn.helpers({
+    appFlavor: function() {
+        return appFlavor();
+    },
 });
 
 

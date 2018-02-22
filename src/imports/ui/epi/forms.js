@@ -145,7 +145,11 @@ Template.epiResultForm.onDestroyed(function() {
     destroyPopovers(this);
 });
 
-
+Template.riskEstimateForm.helpers({
+    isNTP: function(){
+        return Session.get('Tbl').tblType === 'NTP Epidemiology Evidence';
+    },
+});
 Template.riskEstimateForm.events({
     'click #epiRiskEstimate-delete': function(evt, tmpl) {
         Blaze.remove(tmpl.view);

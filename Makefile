@@ -30,6 +30,9 @@ help:
 dev: ## Start development environment
 	./bin/dev.sh
 
+demo: ## Start DEMO development environment
+	./bin/demo.sh
+
 ntp: ## Start NTP development environment
 	./bin/ntp.sh
 

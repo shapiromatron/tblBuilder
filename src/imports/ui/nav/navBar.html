@@ -9,13 +9,13 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="{{pathFor 'home'}}" title="Return to home">
-          <img id="navbar-brand-logo" src="/static/favicon.ico?v=1" height="45px"> {{getTitle}} Table Builder {{getTitleDebug}}</a>
+          <img id="navbar-brand-logo" src="/static/favicon.ico" height="45px"> {{getTitle}} Table Builder {{getTitleDebug}}</a>
       </div>
 
       <div id="iarc-login-options" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
           {{# if hasContactEmail}}
-            <li><a href="mailto:{{contactEmail}}">Contact Us</a></li>
+            <li><a href="mailto:{{contactEmail}}">Contact us</a></li>
           {{/if}}
           {{#if isInRole 'staff'}}
             {{> adminNav}}

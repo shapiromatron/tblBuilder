@@ -6,10 +6,6 @@ import { UI } from 'meteor/ui';
 import _ from 'underscore';
 
 import {
-    isNtp,
-} from '/imports/utilities'
-
-import {
     userCanEdit,
 } from '/imports/api/client/utilities';
 
@@ -42,8 +38,10 @@ var uiHelpers = {
                (Meteor.settings['public'].contact_email != null);
     },
     contactEmail: function() {
-        var email = Meteor.settings['public'].contact_email;
-        return `${email}?subject=[IARC Table Builder]`;
+        var email = Meteor.settings.public.contact_email,
+            flavor = Meteor.settings.public.context.toUpperCase();
+
+        return `${email}?subject=[${flavor} Table Builder]`;
     },
     commaList: function(lst) {
         return lst.join(', ');
@@ -55,9 +53,6 @@ var uiHelpers = {
     },
     equals: function(a, b) {
         return a === b;
-    },
-    isNTP: function() {
-        return isNtp();
     },
     getUserDescription: function() {
         return (this.profile && this.profile.fullName)
