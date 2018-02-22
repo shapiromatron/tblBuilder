@@ -1,4 +1,4 @@
-FROM mongo:3.2.15
+FROM mongo:3.4.13
 
 # add backup scripts
 ADD backup.sh /usr/local/bin/backup
