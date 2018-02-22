@@ -11,7 +11,6 @@ var getTableTypes = function(){
             'NTP Animal Bioassay Evidence',
             'Animal Bioassay Evidence',
             'Genotoxicity-other',
-            'Mechanistic Evidence Summary',
             'Genotoxicity-exposed Humans',
         ];
     case 'iarc':
@@ -20,7 +19,6 @@ var getTableTypes = function(){
             'Epidemiology Evidence',
             'Animal Bioassay Evidence',
             'Genotoxicity-other',
-            'Mechanistic Evidence Summary',
             'Genotoxicity-exposed Humans',
         ];
     case 'ntp':
@@ -29,7 +27,6 @@ var getTableTypes = function(){
             'NTP Epidemiology Evidence',
             'NTP Animal Bioassay Evidence',
             'Genotoxicity-other',
-            'Mechanistic Evidence Summary',
             'Genotoxicity-exposed Humans',
         ];
     default:
