@@ -7,6 +7,7 @@ import NtpAnimalEvidence from '/imports/collections/ntpAnimalEvidence';
 import AnimalEvidence from '/imports/collections/animalEvidence';
 import EpiDescriptive from '/imports/collections/epiDescriptive';
 import GenotoxEvidence from '/imports/collections/genotox';
+import GenotoxHumanExposureEvidence from '/imports/collections/genotoxHumanExposure';
 import MechanisticEvidence from '/imports/collections/mechanistic';
 import NtpEpiDescriptive from '/imports/collections/ntpEpiDescriptive';
 
@@ -53,6 +54,8 @@ var Future = Npm.require('fibers/future'),
             return NtpAnimalEvidence.wordContext(tbl_id);
         case 'AnimalHtmlTables':
             return AnimalEvidence.wordContext(tbl_id);
+        case 'GenotoxHumanHtml':
+            return GenotoxHumanExposureEvidence.wordContext(tbl_id);
         case 'GenotoxTables':
             return GenotoxEvidence.wordContext(tbl_id);
         case 'GenotoxHtmlTables':
