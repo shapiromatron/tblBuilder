@@ -38,7 +38,7 @@ class NtpEpiBiasRatings(DOCXReport):
             tbl.new_td_txt(r, 2, d['exposureAssessmentRating'])
             tbl.new_td_txt(r, 3, d['outcomeAssessmentRating'])
             confounders = [
-                '{}: {}'.format(conf['organSiteCategory'], conf['confoundingRating'])
+                f'{conf["organSiteCategory"]}: {conf["confoundingRating"]}'
                 for conf in d['confounders']
             ]
             tbl.new_td_txt(r, 4, '\n'.join(confounders))
@@ -53,10 +53,8 @@ class NtpEpiBiasRatings(DOCXReport):
         doc = self.doc
         d = self.context
 
-        txt = '{} {}: bias rating tables'.format(
-            d['tables'][0]['volumeNumber'],
-            d['tables'][0]['monographAgent'],
-        )
+        txt = (f'{d["tables"][0]["volumeNumber"]} {d["tables"][0]["monographAgent"]}:'
+               ' bias rating tables')
         doc.add_heading(txt, level=1)
         doc.add_paragraph(d['tables'][0]['name'])
         tbl = self._build_table(d)

@@ -1,3 +1,4 @@
+from textwrap import dedent
 from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
 
@@ -29,26 +30,28 @@ class AnimalHtmlTables(DOCXReport):
         runs = [
             tbl.new_run(d['studyDesign'], b=True),
             tbl.new_run(d['species'], b=True, newline=False),
-            tbl.new_run(', {} {}'.format(d['strain'], d['sex'])),
-            tbl.new_run(d['ageAtStart']),
+            tbl.new_run(f', {d["strain"]} {d["sex"]}'),
             tbl.new_run(d['duration']),
             tbl.new_run(d['reference']['name'], newline=False),
         ]
         tbl.new_td_run(rows, 0, runs, rowspan=rowspan)
 
         # Column B
-        txt = '{}\n{}, {}\n{}\n{}\n{}\n{}\n{}'.format(
-           d['dosingRoute'], d['agent'], d['purity'], d['vehicle'],
-           d['wrd_doses'], d['dosingRegimen'], d['wrd_nStarts'],
-           d['wrd_nSurvivings'],
-        )
+        txt = dedent(f'''\
+            {d["dosingRoute"]}
+            {d["agent"]}, {d["purity"]}
+            {d["vehicle"]}
+            {d["wrd_doses"]}
+            {d["dosingRegimen"]}
+            {d["wrd_nStarts"]}
+            {d["wrd_nSurvivings"]}''')
         tbl.new_td_txt(rows, 1, txt, rowspan=rowspan)
 
         # Columns C, D
         irows = rows
         for ep in d['results']:
 
-            txt = '{}: {}'.format(ep['tumourSite'], ep['histology'])
+            txt = f'{ep["tumourSite"]}: {ep["histology"]}'
             runs = [tbl.new_run(txt, b=True, newline=False)]
             tbl.new_td_run(irows, 2, runs, colspan=2)
             irows += 1
@@ -108,10 +111,7 @@ class AnimalHtmlTables(DOCXReport):
 
         self.setLandscape()
 
-        txt = '{} {}: Animal evidence'.format(
-            d['table']['volumeNumber'],
-            d['table']['monographAgent'],
-        )
+        txt = f'{d["table"]["volumeNumber"]} {d["table"]["monographAgent"]}: Animal evidence'
         doc.add_heading(txt, level=1)
         doc.add_paragraph(d['table']['name'])
         self.build_tbl(d)

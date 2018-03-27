@@ -1,3 +1,5 @@
+from textwrap import dedent
+
 from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
 
@@ -15,24 +17,23 @@ class EpiResultTables(DOCXReport):
         rowspan = len(res['riskEstimates'])
 
         # Column A
-        txt = '{}\n{}\n{}\n{}'.format(
-            res['descriptive']['reference']['name'],
-            res['descriptive']['studyDesign'],
-            res['descriptive']['location'],
-            res['descriptive']['enrollmentDates']
-        )
+        txt = dedent(f'''\
+            {res["descriptive"]["reference"]["name"]}
+            {res["descriptive"]["studyDesign"]}
+            {res["descriptive"]["location"]}
+            {res["descriptive"]["enrollmentDates"]}''')
         tbl.new_td_txt(rows, 0, txt, rowspan=rowspan)
 
         # Column B
         if res['descriptive']['isCaseControl']:
-            popD = tbl.new_run('{}\nCases: {}; Controls: {}'.format(
-                res['descriptive'].get('eligibilityCriteria', ''),
-                res['descriptive'].get('populationSizeCase', ''),
-                res['descriptive'].get('populationSizeControl', '')))
+            popD = tbl.new_run(dedent(f'''\
+                {res["descriptive"].get("eligibilityCriteria", "")}
+                Cases: {res["descriptive"].get("populationSizeCase", "")};\
+                Controls: {res["descriptive"].get("populationSizeControl", "")}'''))
         else:
-            popD = tbl.new_run('{}\n{}'.format(
-                res['descriptive'].get('eligibilityCriteria', ''),
-                res['descriptive'].get('populationSize', '')))
+            popD = tbl.new_run(dedent(f'''\
+                {res["descriptive"].get("eligibilityCriteria", "")}
+                {res["descriptive"].get("populationSize", "")}'''))
 
         runs = [
             popD,
@@ -50,8 +51,8 @@ class EpiResultTables(DOCXReport):
         # Columns C,D,E
         for i, est in enumerate(res['riskEstimates']):
             tbl.new_td_txt(rows + i, 2, est['exposureCategory'])
-            tbl.new_td_txt(rows + i, 3, '{}'.format(est['numberExposed']))
-            tbl.new_td_txt(rows + i, 4, '{}'.format(est['riskFormatted']))
+            tbl.new_td_txt(rows + i, 3, est['numberExposed'])
+            tbl.new_td_txt(rows + i, 4, est['riskFormatted'])
 
         # Column F
         txt = res['wrd_covariatesList']
@@ -62,8 +63,7 @@ class EpiResultTables(DOCXReport):
             runs.extend([
                 tbl.new_run('Trend-test ', newline=False),
                 tbl.new_run('P', i=True, newline=False),
-                tbl.new_run('-value: {}'.format(res['trendTest']),
-                            newline=False),
+                tbl.new_run(f'-value: {res["trendTest"]}', newline=False),
             ])
         tbl.new_td_run(rows, 5, runs, rowspan=rowspan)
 
@@ -109,9 +109,8 @@ class EpiResultTables(DOCXReport):
         self.setLandscape()
 
         # title
-        txt = '{} {}: Results by organ-site'.format(
-            d['tables'][0]['volumeNumber'],
-            d['tables'][0]['monographAgent'])
+        txt = (f'{d["tables"][0]["volumeNumber"]} {d["tables"][0]["monographAgent"]}:'
+               ' Results by organ-site')
         p = doc.paragraphs[0]
         p.text = txt
         p.style = 'Title'
@@ -119,7 +118,7 @@ class EpiResultTables(DOCXReport):
 
         # build table for each organ-site
         for organSite in sorted(d['organSites'], key=lambda v: v['organSite']):
-            txt = 'Table X: {}'.format(organSite['organSite'])
+            txt = f'Table X: {organSite["organSite"]}'
             self.build_res_tbl(txt, organSite['results'])
             self.doc.add_page_break()
 

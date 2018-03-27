@@ -22,6 +22,7 @@ import os
 import sys
 import json
 import base64
+from textwrap import dedent
 
 import reports
 
@@ -32,7 +33,7 @@ def generate_report(root_path, report_type, context):
     try:
         Reporter = getattr(reports, report_type)
     except AttributeError:
-        raise ValueError("Report name not found: {}".format(report_type))
+        raise ValueError(f"Report name not found: {report_type}")
 
     report = Reporter(root_path, context)
     docx = report.build_report()
@@ -44,11 +45,15 @@ def run_command_line(report_type, fn):
     outfn = fn + '.docx'
     with open(fn, 'r') as f:
         context = json.loads(f.read())
-    sys.stdout.write('Generating report {}\n'.format(outfn))
+    sys.stdout.write(dedent(f'''\
+        Generating report {report_type}
+        '''))
     docx = generate_report(ROOT_PATH, report_type, context)
     with open(outfn, 'wb') as f:
         f.write(docx.getvalue())
-    sys.stdout.write('Writing output to {}\n'.format(outfn))
+    sys.stdout.write(dedent(f'''\
+        Writing output to {report_type}
+        '''))
 
 
 def run_from_stdin():

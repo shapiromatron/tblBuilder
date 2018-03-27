@@ -1,3 +1,4 @@
+from textwrap import dedent
 from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
 
@@ -46,17 +47,18 @@ class NtpEpiResultTables(DOCXReport):
 
         # Column B
         if desc['isCaseControl']:
-            txt = 'Cases: {}; Controls: {}'.format(
-                desc.get('populationSizeCases', ''),
-                desc.get('populationSizeControls', ''))
+            txt = (f'Cases: {desc.get("populationSizeCases", "")};'
+                   f' Controls: {desc.get("populationSizeControls", "")}')
             populationEligibility = desc.get('populationEligibility')
             if populationEligibility is not None:
-                txt = '{}\n{}'.format(populationEligibility, txt)
+                txt = dedent(f'''\
+                    {populationEligibility}
+                    {txt}''')
             popD = tbl.new_run(txt)
         else:
-            popD = tbl.new_run('{}\n{}'.format(
-                desc.get('populationEligibility', ''),
-                desc.get('cohortPopulationSize', '')))
+            popD = tbl.new_run(dedent(f'''\
+                {desc.get("populationEligibility", "")}
+                {desc.get("cohortPopulationSize", "")}'''))
 
         runs = [
             tbl.new_run('Population:', b=True),
@@ -81,7 +83,7 @@ class NtpEpiResultTables(DOCXReport):
                     txt += res['effectMeasure']
 
                 if res.get('effectUnits') is not None:
-                    txt += ' {}'.format(res['effectUnits'])
+                    txt += f' {res["effectUnits"]}'
 
                 run = [tbl.new_run(txt, b=True, newline=False)]
                 tbl.new_td_run(risk_row, 2, run, colspan=2)
@@ -103,8 +105,7 @@ class NtpEpiResultTables(DOCXReport):
                 risk_row += 1
 
             # Column E
-            tbl.new_td_txt(result_row, 4, res['wrd_covariatesList'],
-                           rowspan=result_rowspan)
+            tbl.new_td_txt(result_row, 4, res['wrd_covariatesList'], rowspan=result_rowspan)
 
             # update result_row
             result_row = result_row + result_rowspan
@@ -169,9 +170,8 @@ class NtpEpiResultTables(DOCXReport):
         self.setLandscape()
 
         # title
-        txt = '{} {}: Results by organ-site'.format(
-            d['tables'][0]['volumeNumber'],
-            d['tables'][0]['monographAgent'])
+        txt = (f'{d["tables"][0]["volumeNumber"]} {d["tables"][0]["monographAgent"]}:'
+               ' Results by organ-site')
         p = doc.paragraphs[0]
         p.text = txt
         p.style = 'Title'
@@ -179,7 +179,7 @@ class NtpEpiResultTables(DOCXReport):
 
         # build table for each organ-site
         for organSite in sorted(d['organSites'], key=lambda v: v['organSite']):
-            txt = 'Table X: {}'.format(organSite['organSite'])
+            txt = f'Table X: {organSite["organSite"]}'
             self.build_desc_tbl(txt, organSite['descriptions'], organSite['organSite'])
             self.doc.add_page_break()
 

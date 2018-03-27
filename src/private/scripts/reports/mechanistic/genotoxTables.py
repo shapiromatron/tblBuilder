@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from textwrap import dedent
 
 from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
@@ -22,10 +23,8 @@ class GenotoxTables(DOCXReport):
     def buildHeader(self):
         doc = self.doc
         d = self.context
-        txt = '{} {}: Genotoxicity evidence summary'.format(
-            d['table']['volumeNumber'],
-            d['table']['monographAgent'],
-        )
+        txt = (f'{d["table"]["volumeNumber"]} {d["table"]["monographAgent"]}:'
+               ' Genotoxicity evidence summary')
         p = doc.paragraphs[0]
         p.text = txt
         p.style = 'Title'
@@ -39,8 +38,7 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle='ntpTbl')
 
         # write title
-        txt = 'Table 1 [Genotoxicity and related effects] of [{}] in '\
-              'humans in vivo'.format(self.getAgent())
+        txt = f'Table 1 [Genotoxicity and related effects] of [{self.getAgent()}] in humans in vivo'
         tbl.new_th(0, 0, txt, colspan=8)
 
         # write header
@@ -62,7 +60,7 @@ class GenotoxTables(DOCXReport):
             tbl.new_td_txt(row, 3, d['cellType'])
             tbl.new_td_txt(row, 4, d['exposureDescription'])
 
-            txt = '{} {}'.format(d['result'], d['wrd_significance'])
+            txt = f'{d["result"]} {d["wrd_significance"]}'
             tbl.new_td_txt(row, 5, txt)
 
             tbl.new_td_txt(row, 6, d['wrd_comments'])
@@ -78,8 +76,8 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle='ntpTbl')
 
         # write title
-        txt = 'Table 2 [Genotoxicity and related effects] of [{}] in '\
-              'human cells in vitro'.format(self.getAgent())
+        txt = (f'Table 2 [Genotoxicity and related effects] of [{self.getAgent()}] in '
+               'human cells in vitro')
         tbl.new_th(0, 0, txt, colspan=8)
 
         # write header
@@ -103,7 +101,7 @@ class GenotoxTables(DOCXReport):
             tbl.new_td_txt(row, 3, d['wrd_resultA'])
             tbl.new_td_txt(row, 4, d['wrd_resultB'])
 
-            txt = '{} {}'.format(d['wrd_led'], d['units'])
+            txt = f'{d["wrd_led"]} {d["units"]}'
             tbl.new_td_txt(row, 5, txt)
 
             tbl.new_td_txt(row, 6, d['wrd_comments'])
@@ -119,8 +117,8 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle='ntpTbl')
 
         # write title
-        txt = 'Table 3 [Genotoxicity and related effects] of [{}] in non-human '\
-              'mammals in vivo'.format(self.getAgent())
+        txt = (f'Table 3 [Genotoxicity and related effects] of [{self.getAgent()}] in non-human '
+               'mammals in vivo')
         tbl.new_th(0, 0, txt, colspan=9)
 
         # write header
@@ -141,18 +139,21 @@ class GenotoxTables(DOCXReport):
 
             tbl.new_td_txt(row, 1, d['endpointTest'])
 
-            txt = '{} {} {}'.format(d['species'], d['strain'], d['sex'])
+            txt = f'{d["species"]} {d["strain"]} { d["sex"]}'
             tbl.new_td_txt(row, 2, txt)
 
             tbl.new_td_txt(row, 3, d['tissueAnimal'])
 
             tbl.new_td_txt(row, 4, d['result'])
 
-            txt = '{}\nLED/HID: {} {}'.format(
-                d['agent'], d['wrd_led'], d['units'])
+            txt = dedent(f'''\
+                {d["agent"]}
+                LED/HID: {d["wrd_led"]} {d["units"]}''')
             tbl.new_td_txt(row, 5, txt)
 
-            txt = '{};\n{}'.format(d['dosingRoute'], d['dosingDuration'])
+            txt = dedent(f'''\
+                {d["dosingRoute"]};
+                {d["dosingDuration"]}''')
             tbl.new_td_txt(row, 6, txt)
 
             tbl.new_td_txt(row, 7, d['wrd_comments'])
@@ -168,8 +169,8 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle='ntpTbl')
 
         # write title
-        txt = 'Table 4 [Genotoxicity and related effects] of [{}] in non-human '\
-              'mammalians in vitro'.format(self.getAgent())
+        txt = (f'Table 4 [Genotoxicity and related effects] of [{self.getAgent()}] in non-human '
+               'mammalians in vitro')
         tbl.new_th(0, 0, txt, colspan=8)
 
         # write header
@@ -188,13 +189,13 @@ class GenotoxTables(DOCXReport):
             tbl.new_td_txt(row, 0, d['endpoint'])
             tbl.new_td_txt(row, 1, d['endpointTest'])
 
-            txt = '{} {}'.format(d['speciesMamm'], d['tissueCellLine'])
+            txt = f'{d["speciesMamm"]} {d["tissueCellLine"]}'
             tbl.new_td_txt(row, 2, txt)
 
             tbl.new_td_txt(row, 3, d['wrd_resultA'])
             tbl.new_td_txt(row, 4, d['wrd_resultB'])
 
-            txt = '{}, {} {}'.format(d['agent'], d['wrd_led'], d['units'])
+            txt = f'{d["agent"]}, {d["wrd_led"]} {d["units"]}'
             tbl.new_td_txt(row, 5, txt)
 
             tbl.new_td_txt(row, 6, d['wrd_comments'])
@@ -210,8 +211,8 @@ class GenotoxTables(DOCXReport):
         tbl = TableMaker(colWidths, numHeaders=2, tblStyle='ntpTbl')
 
         # write title
-        txt = 'Table 5 [Genotoxicity and related effects] of [{}] in non-mammalian '\
-              'species'.format(self.getAgent())
+        txt = (f'Table 5 [Genotoxicity and related effects] of [{self.getAgent()}] in non-mammalian'
+               ' species')
         tbl.new_th(0, 0, txt, colspan=9)
 
         # write header

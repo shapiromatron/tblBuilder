@@ -25,22 +25,16 @@ class ExposureTables(DOCXReport):
             for res in exp['results']:
                 runs = [
                     tbl.new_run(exp['occupation'], newline=True, b=True),
-                    tbl.new_run('{}, {}'.format(
-                            exp['location'] or 'Not-reported',
-                            exp['collectionDate']
-                        ), newline=False)
+                    tbl.new_run(f'{exp["location"] or "Not-reported"}, {exp["collectionDate"]}',
+                                newline=False)
                 ]
                 tbl.new_td_run(row, 0, runs)
 
                 txt = exp['occupationInfo'] or ''
                 tbl.new_td_txt(row, 1, txt)
 
-                txt = '{} {} ({}), {}'.format(
-                    res['exposureLevel'],
-                    res['units'],
-                    res['exposureLevelDescription'],
-                    res['agent']
-                )
+                txt = (f'{res["exposureLevel"]} {res["units"]} ({res["exposureLevelDescription"]}),'
+                       f' {res["agent"]}')
                 tbl.new_td_txt(row, 2, txt)
 
                 txt = res['exposureRangePrint']
@@ -76,19 +70,13 @@ class ExposureTables(DOCXReport):
             for res in exp['results']:
                 runs = [
                     tbl.new_run(exp['country'], newline=True, b=True),
-                    tbl.new_run('{}, {}'.format(
-                            exp['location'] or 'Not-reported',
-                            exp['collectionDate']
-                        ), newline=False)
+                    tbl.new_run(f'{exp["location"] or "Not-reported"}, {exp["collectionDate"]}',
+                                newline=False)
                 ]
                 tbl.new_td_run(row, 0, runs)
 
-                txt = '{} {} ({}), {}'.format(
-                    res['exposureLevel'],
-                    res['units'],
-                    res['exposureLevelDescription'],
-                    res['agent']
-                )
+                txt = (f'{res["exposureLevel"]} {res["units"]} ({res["exposureLevelDescription"]}),'
+                       f' {res["agent"]}')
                 tbl.new_td_txt(row, 1, txt)
 
                 txt = res['exposureRangePrint']
@@ -110,10 +98,7 @@ class ExposureTables(DOCXReport):
         doc = self.doc
         d = self.context
 
-        txt = '{} {}: Exposure evidence'.format(
-            d['table']['volumeNumber'],
-            d['table']['monographAgent']
-        )
+        txt = f'{d["table"]["volumeNumber"]} {d["table"]["monographAgent"]}: Exposure evidence'
         p = doc.paragraphs[0]
         p.text = txt
         p.style = 'Title'

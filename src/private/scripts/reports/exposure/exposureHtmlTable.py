@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from textwrap import dedent
+
 from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
 
@@ -10,10 +12,7 @@ class ExposureHtmlTable(DOCXReport):
         doc = self.doc
         d = self.context
 
-        txt = '{} {}: Exposure evidence'.format(
-            d['table']['volumeNumber'],
-            d['table']['monographAgent']
-        )
+        txt = f'{d["table"]["volumeNumber"]} {d["table"]["monographAgent"]}: Exposure evidence'
         p = doc.paragraphs[0]
         p.text = txt
         p.style = 'Title'
@@ -32,14 +31,16 @@ class ExposureHtmlTable(DOCXReport):
         txt = d['reference']['name']
         tbl.new_td_txt(row, 0, txt, rowspan=rowspan)
 
-        txt = '{}\n{}'.format(
-            d['country'], d['collectionDate'])
+        txt = dedent(f'''\
+            {d["country"]}
+            {d["collectionDate"]}''')
         tbl.new_td_txt(row, 1, txt, rowspan=rowspan)
 
-        occ = '\n{}'.format(d['occupationInfo']) \
+        occ = dedent(f'''
+                {d["occupationInfo"]}''') \
             if d['occupationInfo'] \
             else ''
-        txt = '{}{}'.format(d['occupation'], occ) \
+        txt = f'{d["occupation"]}{occ}' \
             if d['isOccupational'] \
             else 'N/A'
         tbl.new_td_txt(row, 2, txt, rowspan=rowspan)
@@ -50,19 +51,17 @@ class ExposureHtmlTable(DOCXReport):
             tbl.new_td_txt(row, 5, '-')
         else:
             for i, d2 in enumerate(d['results']):
-                txt = '{};\n{};\n{};\n{}'.format(
-                    d2['samplingMatrix'],
-                    d2['samplingApproach'],
-                    d2['numberMeasurements'],
-                    d2['measurementDuration'],
-                )
+                txt = dedent(f'''\
+                    {d2["samplingMatrix"]};
+                    {d2["samplingApproach"]};
+                    {d2["numberMeasurements"]};
+                    {d2["measurementDuration"]}''')
                 tbl.new_td_txt(i, 3, txt)
 
-                txt = '{}\n{} {}\n{}'.format(
-                    d2['agent'],
-                    d2['exposureLevel'],
-                    d2['units'],
-                    d2['exposureLevelDescription'])
+                txt = dedent(f'''\
+                    {d2["agent"]}
+                    {d2["exposureLevel"]} {d2["units"]}
+                    {d2["exposureLevelDescription"]}''')
                 tbl.new_td_txt(i, 4, txt)
 
                 txt = d2['exposureRangePrint']

@@ -57,12 +57,12 @@ class NtpAnimalHtmlTables(DOCXReport):
         runs = [
             tbl.new_run(study['reference']['name'], b=True),
             tbl.new_run('Animal:', b=True),
-            tbl.new_run('{} {}'.format(study['species'], study['strain'])),
+            tbl.new_run(f'{study["species"]} {study["strain"]}'),
             tbl.new_run(study['sex']),
             tbl.new_run('Animal age at the beginning of exposure:', b=True),
             tbl.new_run(study['ageAtStart']),
             tbl.new_run('Study duration:', b=True),
-            tbl.new_run('{}'.format(study['duration'], newline=False)),
+            tbl.new_run(study['duration'], newline=False),
         ]
         tbl.new_td_run(row, 0, runs, rowspan=study_rowspan)
 
@@ -93,7 +93,7 @@ class NtpAnimalHtmlTables(DOCXReport):
                 txt = result['tumourSite']
                 histology = result.get('histology')
                 if histology:
-                    txt = '{} – {}'.format(txt, histology)
+                    txt = f'{txt} – {histology}'
 
                 if result['adjustedIncidence']:
                     txt += 'ᵃ'
@@ -108,16 +108,16 @@ class NtpAnimalHtmlTables(DOCXReport):
 
                 # write groups
                 for group in result['endpointGroups']:
-                    dose = '{}'.format(group['dose'])
+                    dose = group['dose']
                     tbl.new_td_txt(site_row, 2, dose)
 
-                    txt = '{}'.format(group.get('incidence', ''))
+                    txt = group.get('incidence', '')
                     val = group.get('incidenceSymbol', None)
                     if val:
                         txt += val
                     val = group.get('incidencePercent', 'None')
                     if val:
-                        txt += ' ({}%)'.format(val)
+                        txt += f' ({val}%)'
                     tbl.new_td_txt(site_row, 3, txt)
 
                     site_row += 1
@@ -129,7 +129,7 @@ class NtpAnimalHtmlTables(DOCXReport):
                     runs = [
                         tbl.new_run('Trend ', newline=False),
                         tbl.new_run('P', i=True, newline=False),
-                        tbl.new_run('-value: {}'.format(txt))
+                        tbl.new_run(f'-value: {txt}')
                     ]
                     tbl.new_td_run(site_row, 2, runs, colspan=2)
                     site_row += 1
@@ -156,7 +156,7 @@ class NtpAnimalHtmlTables(DOCXReport):
             tbl.new_run('Other comments: ', b=True, newline=False),
             tbl.new_run(first_result['comments'] or ''),
             tbl.new_run(''),
-            tbl.new_run('Overall utility: [{}] '.format(study['overallUtility']),
+            tbl.new_run(f'Overall utility: [{study["overallUtility"]}] ',
                         b=True, newline=False),
             tbl.new_run(study['overallUtilityRationale'] or ''),
         ]
@@ -191,10 +191,7 @@ class NtpAnimalHtmlTables(DOCXReport):
 
         self.setLandscape()
 
-        txt = '{} {}: Animal evidence'.format(
-            d['table']['volumeNumber'],
-            d['table']['monographAgent'],
-        )
+        txt = f'{d["table"]["volumeNumber"]} {d["table"]["monographAgent"]}: Animal evidence'
         doc.add_heading(txt, level=1)
         doc.add_paragraph(d['table']['name'])
 

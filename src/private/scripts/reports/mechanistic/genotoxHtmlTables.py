@@ -1,3 +1,5 @@
+from textwrap import dedent
+
 from docxUtils.tables import TableMaker
 
 from .genotoxTables import GenotoxTables
@@ -31,10 +33,9 @@ class GenotoxHtmlTables(GenotoxTables):
         for d in self.context['objects']:
             row += 1
 
-            txt = '{}\n{}'.format(
-                d['reference']['name'],
-                d['dataClass']
-            )
+            txt = dedent(f'''\
+                {d['reference']['name']}
+                {d['dataClass']}''')
             tbl.new_td_txt(row, 0, txt)
 
             txt = d['col2']
