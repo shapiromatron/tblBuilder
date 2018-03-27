@@ -20,7 +20,7 @@ class NtpEpiBiasTables(DOCXReport):
         # write header
         tbl.new_th(0, 0, 'Reference')
         for i, bias in enumerate(biasNames):
-            tbl.new_th(0, i + 1, u'{} rating'.format(
+            tbl.new_th(0, i + 1, '{} rating'.format(
                 self.convertCamelCase(bias)))
 
         docx_tbl = tbl.render(self.doc)
@@ -42,19 +42,19 @@ class NtpEpiBiasTables(DOCXReport):
                 rowspan = len(d['confounders'])
                 for i, cf in enumerate(d['confounders']):
                     fields = d['biasFields'][bias[0]]
-                    txt = u'{}: {} {}\n{}'.format(
+                    txt = '{}: {} {}\n{}'.format(
                         cf[fields[0]], cf[fields[1]],
                         cf[fields[2]], cf[fields[3]])
                     tbl.new_td_txt(i, 1, txt, colspan=2)
             else:
                 fields = d['biasFields'][bias[0]]
-                txt = u'{} {}\n{}'.format(
+                txt = '{} {}\n{}'.format(
                     d[fields[0]], d[fields[1]], d[fields[2]])
                 tbl.new_td_txt(row, 1, txt, colspan=2)
         else:
             for i, b in enumerate(bias):
                 fields = d['biasFields'][b]
-                txt = u'{} {}\n{}'.format(
+                txt = '{} {}\n{}'.format(
                     d[fields[0]], d[fields[1]], d[fields[2]])
                 tbl.new_td_txt(row, i + 1, txt)
 
@@ -66,7 +66,7 @@ class NtpEpiBiasTables(DOCXReport):
         doc = self.doc
         d = self.context
 
-        txt = u'{} {}: potential bias'.format(
+        txt = '{} {}: potential bias'.format(
             d['tables'][0]['volumeNumber'],
             d['tables'][0]['monographAgent'],
         )

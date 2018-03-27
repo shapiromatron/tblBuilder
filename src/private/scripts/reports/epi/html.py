@@ -8,16 +8,16 @@ class EpiHtmlTables(DOCXReport):
         # recreation of table-helper
         runs = []
         if d['isCaseControl']:
-            case = u'{}; {}'.format(
+            case = '{}; {}'.format(
                 d['populationSizeCase'], d['sourceCase'])
-            ctrl = u'{}; {}'.format(
+            ctrl = '{}; {}'.format(
                 d['populationSizeControl'], d['sourceControl'])
             runs.append(tbl.new_run('Cases: ', b=True))
             runs.append(tbl.new_run(case))
             runs.append(tbl.new_run('Controls: ', b=True))
             runs.append(tbl.new_run(ctrl))
         else:
-            runs.append(tbl.new_run(u'{}; {}'.format(
+            runs.append(tbl.new_run('{}; {}'.format(
                         d['populationSize'],
                         d['eligibilityCriteria'])))
 
@@ -28,7 +28,7 @@ class EpiHtmlTables(DOCXReport):
             runs.append(tbl.new_run(d['exposureAssessmentType'], newline=False))
 
         if d.get('exposureAssessmentNotes'):
-            runs.append(tbl.new_run(u'; ' + d.get('exposureAssessmentNotes')))
+            runs.append(tbl.new_run('; ' + d.get('exposureAssessmentNotes')))
 
         return runs
 
@@ -81,19 +81,19 @@ class EpiHtmlTables(DOCXReport):
 
                 runs = []
                 if i == 0 and stratum and len(stratum) > 0:
-                    runs.append(tbl.new_run(u'{}: '.format(stratum),
+                    runs.append(tbl.new_run('{}: '.format(stratum),
                                             b=True, newline=False))
                 runs.append(tbl.new_run(est['exposureCategory'], newline=False))
                 tbl.new_td_run(irows+additionalRows, 3, runs)
 
                 tbl.new_td_txt(irows+additionalRows, 4,
-                               u'{}'.format(est['numberExposed']))
+                               '{}'.format(est['numberExposed']))
                 tbl.new_td_txt(irows+additionalRows, 5,
-                               u'{}'.format(est['riskFormatted']))
+                               '{}'.format(est['riskFormatted']))
                 additionalRows += 1
 
             if res['hasTrendTest']:
-                txt = u'Trend-test p-value: {}'.format(res['trendTest'])
+                txt = 'Trend-test p-value: {}'.format(res['trendTest'])
                 tbl.new_td_txt(irows+additionalRows, 3, txt, colspan=3)
                 additionalRows += 1
 
@@ -138,7 +138,7 @@ class EpiHtmlTables(DOCXReport):
         self.setLandscape()
 
         # title
-        txt = u'{} {}'.format(
+        txt = '{} {}'.format(
             d['tables'][0]['volumeNumber'],
             d['tables'][0]['monographAgent']
         )

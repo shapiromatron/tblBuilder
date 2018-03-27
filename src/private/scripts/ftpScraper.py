@@ -1,7 +1,7 @@
 from io import BytesIO
 import json
 import os
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import six
 import sys
 
@@ -69,7 +69,7 @@ def _get_ftp_data(data):
 
 
 def _get_root_url(data):
-    return u'ftp://{}:{}@{}'.format(
+    return 'ftp://{}:{}@{}'.format(
         data['user'], data['password'], data['address'])
 
 
@@ -77,13 +77,13 @@ def _populate_workbook(wb, root_url, data):
     ws = wb.add_worksheet()
 
     # write header rows
-    ws.write(0, 0, u'Folder')
-    ws.write(0, 1, u'Filename')
-    ws.write(0, 2, u'URL')
+    ws.write(0, 0, 'Folder')
+    ws.write(0, 1, 'Filename')
+    ws.write(0, 2, 'URL')
 
     # python2/3 shim
     try:
-        parser = urllib.quote
+        parser = urllib.parse.quote
     except AttributeError:
         parser = urllib.parse.quote
 
@@ -128,4 +128,4 @@ def _generate_xlsx(data):
 if __name__ == "__main__":
     for data in sys.stdin:
         b64 = _generate_xlsx(json.loads(data))
-        print(json.dumps({'xlsx': b64}))
+        print((json.dumps({'xlsx': b64})))

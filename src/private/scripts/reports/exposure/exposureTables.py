@@ -25,7 +25,7 @@ class ExposureTables(DOCXReport):
             for res in exp['results']:
                 runs = [
                     tbl.new_run(exp['occupation'], newline=True, b=True),
-                    tbl.new_run(u'{}, {}'.format(
+                    tbl.new_run('{}, {}'.format(
                             exp['location'] or 'Not-reported',
                             exp['collectionDate']
                         ), newline=False)
@@ -35,7 +35,7 @@ class ExposureTables(DOCXReport):
                 txt = exp['occupationInfo'] or ''
                 tbl.new_td_txt(row, 1, txt)
 
-                txt = u'{} {} ({}), {}'.format(
+                txt = '{} {} ({}), {}'.format(
                     res['exposureLevel'],
                     res['units'],
                     res['exposureLevelDescription'],
@@ -76,14 +76,14 @@ class ExposureTables(DOCXReport):
             for res in exp['results']:
                 runs = [
                     tbl.new_run(exp['country'], newline=True, b=True),
-                    tbl.new_run(u'{}, {}'.format(
+                    tbl.new_run('{}, {}'.format(
                             exp['location'] or 'Not-reported',
                             exp['collectionDate']
                         ), newline=False)
                 ]
                 tbl.new_td_run(row, 0, runs)
 
-                txt = u'{} {} ({}), {}'.format(
+                txt = '{} {} ({}), {}'.format(
                     res['exposureLevel'],
                     res['units'],
                     res['exposureLevelDescription'],

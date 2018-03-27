@@ -24,7 +24,7 @@ class NtpAnimalHtmlTables(DOCXReport):
     def get_study_rowspan(cls, sites):
         rows = sum([
             cls.get_site_rowspan(results)
-            for results in sites.values()
+            for results in list(sites.values())
         ])
         return max(1, rows)
 
@@ -57,12 +57,12 @@ class NtpAnimalHtmlTables(DOCXReport):
         runs = [
             tbl.new_run(study['reference']['name'], b=True),
             tbl.new_run('Animal:', b=True),
-            tbl.new_run(u'{} {}'.format(study['species'], study['strain'])),
+            tbl.new_run('{} {}'.format(study['species'], study['strain'])),
             tbl.new_run(study['sex']),
             tbl.new_run('Animal age at the beginning of exposure:', b=True),
             tbl.new_run(study['ageAtStart']),
             tbl.new_run('Study duration:', b=True),
-            tbl.new_run(u'{}'.format(study['duration'], newline=False)),
+            tbl.new_run('{}'.format(study['duration'], newline=False)),
         ]
         tbl.new_td_run(row, 0, runs, rowspan=study_rowspan)
 
@@ -79,7 +79,7 @@ class NtpAnimalHtmlTables(DOCXReport):
         tbl.new_td_run(row, 1, runs, rowspan=study_rowspan)
 
         site_row = row
-        for results in sites.values():
+        for results in list(sites.values()):
 
             # Column C & D
             for result in results:
@@ -93,11 +93,11 @@ class NtpAnimalHtmlTables(DOCXReport):
                 txt = result['tumourSite']
                 histology = result.get('histology')
                 if histology:
-                    txt = u'{} – {}'.format(txt, histology)
+                    txt = '{} – {}'.format(txt, histology)
 
                 if result['adjustedIncidence']:
-                    txt += u'ᵃ'
-                    fn = u'ᵃ Adjusted percent incidence based on Poly-3 estimated neoplasm incidence after adjustment for intercurrent mortality.'  # noqa
+                    txt += 'ᵃ'
+                    fn = 'ᵃ Adjusted percent incidence based on Poly-3 estimated neoplasm incidence after adjustment for intercurrent mortality.'  # noqa
                     self.footnotes[hash(fn)] = fn
 
                 runs = [
@@ -108,16 +108,16 @@ class NtpAnimalHtmlTables(DOCXReport):
 
                 # write groups
                 for group in result['endpointGroups']:
-                    dose = u'{}'.format(group['dose'])
+                    dose = '{}'.format(group['dose'])
                     tbl.new_td_txt(site_row, 2, dose)
 
-                    txt = u'{}'.format(group.get('incidence', ''))
+                    txt = '{}'.format(group.get('incidence', ''))
                     val = group.get('incidenceSymbol', None)
                     if val:
                         txt += val
                     val = group.get('incidencePercent', 'None')
                     if val:
-                        txt += u' ({}%)'.format(val)
+                        txt += ' ({}%)'.format(val)
                     tbl.new_td_txt(site_row, 3, txt)
 
                     site_row += 1
@@ -129,7 +129,7 @@ class NtpAnimalHtmlTables(DOCXReport):
                     runs = [
                         tbl.new_run('Trend ', newline=False),
                         tbl.new_run('P', i=True, newline=False),
-                        tbl.new_run(u'-value: {}'.format(txt))
+                        tbl.new_run('-value: {}'.format(txt))
                     ]
                     tbl.new_td_run(site_row, 2, runs, colspan=2)
                     site_row += 1
@@ -183,7 +183,7 @@ class NtpAnimalHtmlTables(DOCXReport):
             docx_tbl_inner = inner_tbl.render(self.doc)
             docx_tbl._cells.extend(docx_tbl_inner._cells)
 
-        self.doc.add_paragraph(u'\n'.join(self.footnotes.values()))
+        self.doc.add_paragraph('\n'.join(list(self.footnotes.values())))
 
     def create_content(self):
         doc = self.doc
@@ -191,7 +191,7 @@ class NtpAnimalHtmlTables(DOCXReport):
 
         self.setLandscape()
 
-        txt = u'{} {}: Animal evidence'.format(
+        txt = '{} {}: Animal evidence'.format(
             d['table']['volumeNumber'],
             d['table']['monographAgent'],
         )

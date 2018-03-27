@@ -4,17 +4,17 @@ from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
 
 
-HUMAN_VIVO_FOOTNOTE = u'''+, positive
+HUMAN_VIVO_FOOTNOTE = '''+, positive
 –, negative
 +/–, equivocal (variable response in several experiments within an adequate study)
 * Significance is indicated using asterisks
 (+) or (–), positive/negative in a study of limited quality (specify reason in comments, e.g. only a single dose tested; data or methods not fully reported; confounding exposures, etc.)'''  # noqa
 
-ANIMAL_VIVO_FOOTNOTE = u'HID, highest ineffective dose; LED, lowest effective dose (units as reported); NT, not tested'  # noqa
+ANIMAL_VIVO_FOOTNOTE = 'HID, highest ineffective dose; LED, lowest effective dose (units as reported); NT, not tested'  # noqa
 
-MAMMAL_VITRO_FOOTNOTE = u'HIC, highest ineffective concentration; LEC, lowest effective concentration, NT, not tested'  # noqa
+MAMMAL_VITRO_FOOTNOTE = 'HIC, highest ineffective concentration; LEC, lowest effective concentration, NT, not tested'  # noqa
 
-NONMAMMAL_VITRO_FOOTNOTE = u'HIC, highest ineffective concentration; LEC, lowest effective concentration, NA, not applicable; NT, not tested'  # noqa
+NONMAMMAL_VITRO_FOOTNOTE = 'HIC, highest ineffective concentration; LEC, lowest effective concentration, NA, not applicable; NT, not tested'  # noqa
 
 
 class GenotoxTables(DOCXReport):
@@ -22,7 +22,7 @@ class GenotoxTables(DOCXReport):
     def buildHeader(self):
         doc = self.doc
         d = self.context
-        txt = u'{} {}: Genotoxicity evidence summary'.format(
+        txt = '{} {}: Genotoxicity evidence summary'.format(
             d['table']['volumeNumber'],
             d['table']['monographAgent'],
         )
@@ -62,7 +62,7 @@ class GenotoxTables(DOCXReport):
             tbl.new_td_txt(row, 3, d['cellType'])
             tbl.new_td_txt(row, 4, d['exposureDescription'])
 
-            txt = u'{} {}'.format(d['result'], d['wrd_significance'])
+            txt = '{} {}'.format(d['result'], d['wrd_significance'])
             tbl.new_td_txt(row, 5, txt)
 
             tbl.new_td_txt(row, 6, d['wrd_comments'])
@@ -103,7 +103,7 @@ class GenotoxTables(DOCXReport):
             tbl.new_td_txt(row, 3, d['wrd_resultA'])
             tbl.new_td_txt(row, 4, d['wrd_resultB'])
 
-            txt = u'{} {}'.format(d['wrd_led'], d['units'])
+            txt = '{} {}'.format(d['wrd_led'], d['units'])
             tbl.new_td_txt(row, 5, txt)
 
             tbl.new_td_txt(row, 6, d['wrd_comments'])
@@ -141,18 +141,18 @@ class GenotoxTables(DOCXReport):
 
             tbl.new_td_txt(row, 1, d['endpointTest'])
 
-            txt = u'{} {} {}'.format(d['species'], d['strain'], d['sex'])
+            txt = '{} {} {}'.format(d['species'], d['strain'], d['sex'])
             tbl.new_td_txt(row, 2, txt)
 
             tbl.new_td_txt(row, 3, d['tissueAnimal'])
 
             tbl.new_td_txt(row, 4, d['result'])
 
-            txt = u'{}\nLED/HID: {} {}'.format(
+            txt = '{}\nLED/HID: {} {}'.format(
                 d['agent'], d['wrd_led'], d['units'])
             tbl.new_td_txt(row, 5, txt)
 
-            txt = u'{};\n{}'.format(d['dosingRoute'], d['dosingDuration'])
+            txt = '{};\n{}'.format(d['dosingRoute'], d['dosingDuration'])
             tbl.new_td_txt(row, 6, txt)
 
             tbl.new_td_txt(row, 7, d['wrd_comments'])
@@ -188,13 +188,13 @@ class GenotoxTables(DOCXReport):
             tbl.new_td_txt(row, 0, d['endpoint'])
             tbl.new_td_txt(row, 1, d['endpointTest'])
 
-            txt = u'{} {}'.format(d['speciesMamm'], d['tissueCellLine'])
+            txt = '{} {}'.format(d['speciesMamm'], d['tissueCellLine'])
             tbl.new_td_txt(row, 2, txt)
 
             tbl.new_td_txt(row, 3, d['wrd_resultA'])
             tbl.new_td_txt(row, 4, d['wrd_resultB'])
 
-            txt = u'{}, {} {}'.format(d['agent'], d['wrd_led'], d['units'])
+            txt = '{}, {} {}'.format(d['agent'], d['wrd_led'], d['units'])
             tbl.new_td_txt(row, 5, txt)
 
             tbl.new_td_txt(row, 6, d['wrd_comments'])

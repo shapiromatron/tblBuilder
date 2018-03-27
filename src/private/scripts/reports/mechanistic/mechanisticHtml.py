@@ -6,13 +6,13 @@ class MechanisticEvidenceHtmlTables(DOCXReport):
     def write_node(self, node, lvl):
         p = self.doc.add_paragraph('\t'*lvl)
         if 'hasSubheading' in node and node['hasSubheading'] is True:
-            run = p.add_run(node['subheading'] + u': ')
+            run = p.add_run(node['subheading'] + ': ')
             run.bold = True
 
         p.add_run(node['text'])
 
         if len(node['references']) > 0:
-            run = p.add_run(u' ' + node['references'])
+            run = p.add_run(' ' + node['references'])
             run.italic = True
 
         for child in node['children']:
@@ -29,7 +29,7 @@ class MechanisticEvidenceHtmlTables(DOCXReport):
         doc = self.doc
         d = self.context
 
-        txt = u'{} {}: Mechanistic evidence summary'.format(
+        txt = '{} {}: Mechanistic evidence summary'.format(
             d['table']['volumeNumber'],
             d['table']['monographAgent'],
         )

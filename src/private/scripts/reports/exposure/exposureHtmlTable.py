@@ -32,14 +32,14 @@ class ExposureHtmlTable(DOCXReport):
         txt = d['reference']['name']
         tbl.new_td_txt(row, 0, txt, rowspan=rowspan)
 
-        txt = u'{}\n{}'.format(
+        txt = '{}\n{}'.format(
             d['country'], d['collectionDate'])
         tbl.new_td_txt(row, 1, txt, rowspan=rowspan)
 
-        occ = u'\n{}'.format(d['occupationInfo']) \
+        occ = '\n{}'.format(d['occupationInfo']) \
             if d['occupationInfo'] \
             else ''
-        txt = u'{}{}'.format(d['occupation'], occ) \
+        txt = '{}{}'.format(d['occupation'], occ) \
             if d['isOccupational'] \
             else 'N/A'
         tbl.new_td_txt(row, 2, txt, rowspan=rowspan)
@@ -50,7 +50,7 @@ class ExposureHtmlTable(DOCXReport):
             tbl.new_td_txt(row, 5, '-')
         else:
             for i, d2 in enumerate(d['results']):
-                txt = u'{};\n{};\n{};\n{}'.format(
+                txt = '{};\n{};\n{};\n{}'.format(
                     d2['samplingMatrix'],
                     d2['samplingApproach'],
                     d2['numberMeasurements'],
@@ -58,7 +58,7 @@ class ExposureHtmlTable(DOCXReport):
                 )
                 tbl.new_td_txt(i, 3, txt)
 
-                txt = u'{}\n{} {}\n{}'.format(
+                txt = '{}\n{} {}\n{}'.format(
                     d2['agent'],
                     d2['exposureLevel'],
                     d2['units'],
@@ -68,7 +68,7 @@ class ExposureHtmlTable(DOCXReport):
                 txt = d2['exposureRangePrint']
                 tbl.new_td_txt(i, 5, txt)
 
-        txt = d['comments'] or u''
+        txt = d['comments'] or ''
         tbl.new_td_txt(row, 6, txt, rowspan=rowspan)
 
         return tbl

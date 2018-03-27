@@ -33,4 +33,4 @@ def test_calculate_stats():
 if __name__ == "__main__":
     # pass data to and from R as json-strings; no need to dump/load
     for data in sys.stdin:
-        print(calculate_stats(data))
+        print((calculate_stats(data)))

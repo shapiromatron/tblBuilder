@@ -15,7 +15,7 @@ class EpiResultTables(DOCXReport):
         rowspan = len(res['riskEstimates'])
 
         # Column A
-        txt = u'{}\n{}\n{}\n{}'.format(
+        txt = '{}\n{}\n{}\n{}'.format(
             res['descriptive']['reference']['name'],
             res['descriptive']['studyDesign'],
             res['descriptive']['location'],
@@ -25,12 +25,12 @@ class EpiResultTables(DOCXReport):
 
         # Column B
         if res['descriptive']['isCaseControl']:
-            popD = tbl.new_run(u'{}\nCases: {}; Controls: {}'.format(
+            popD = tbl.new_run('{}\nCases: {}; Controls: {}'.format(
                 res['descriptive'].get('eligibilityCriteria', ''),
                 res['descriptive'].get('populationSizeCase', ''),
                 res['descriptive'].get('populationSizeControl', '')))
         else:
-            popD = tbl.new_run(u'{}\n{}'.format(
+            popD = tbl.new_run('{}\n{}'.format(
                 res['descriptive'].get('eligibilityCriteria', ''),
                 res['descriptive'].get('populationSize', '')))
 
@@ -50,8 +50,8 @@ class EpiResultTables(DOCXReport):
         # Columns C,D,E
         for i, est in enumerate(res['riskEstimates']):
             tbl.new_td_txt(rows + i, 2, est['exposureCategory'])
-            tbl.new_td_txt(rows + i, 3, u'{}'.format(est['numberExposed']))
-            tbl.new_td_txt(rows + i, 4, u'{}'.format(est['riskFormatted']))
+            tbl.new_td_txt(rows + i, 3, '{}'.format(est['numberExposed']))
+            tbl.new_td_txt(rows + i, 4, '{}'.format(est['riskFormatted']))
 
         # Column F
         txt = res['wrd_covariatesList']
@@ -119,7 +119,7 @@ class EpiResultTables(DOCXReport):
 
         # build table for each organ-site
         for organSite in sorted(d['organSites'], key=lambda v: v['organSite']):
-            txt = u'Table X: {}'.format(organSite['organSite'])
+            txt = 'Table X: {}'.format(organSite['organSite'])
             self.build_res_tbl(txt, organSite['results'])
             self.doc.add_page_break()
 

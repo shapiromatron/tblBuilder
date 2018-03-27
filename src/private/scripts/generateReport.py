@@ -57,7 +57,7 @@ def run_from_stdin():
         context = payload.get("context")
         docx = generate_report(ROOT_PATH, report_type, context)
         b64 = docx.read().encode('base64')
-        print(json.dumps({"report": b64}))
+        print((json.dumps({"report": b64})))
 
 
 if __name__ == "__main__":

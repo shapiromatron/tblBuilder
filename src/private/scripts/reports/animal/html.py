@@ -29,7 +29,7 @@ class AnimalHtmlTables(DOCXReport):
         runs = [
             tbl.new_run(d['studyDesign'], b=True),
             tbl.new_run(d['species'], b=True, newline=False),
-            tbl.new_run(u', {} {}'.format(d['strain'], d['sex'])),
+            tbl.new_run(', {} {}'.format(d['strain'], d['sex'])),
             tbl.new_run(d['ageAtStart']),
             tbl.new_run(d['duration']),
             tbl.new_run(d['reference']['name'], newline=False),
@@ -37,7 +37,7 @@ class AnimalHtmlTables(DOCXReport):
         tbl.new_td_run(rows, 0, runs, rowspan=rowspan)
 
         # Column B
-        txt = u'{}\n{}, {}\n{}\n{}\n{}\n{}\n{}'.format(
+        txt = '{}\n{}, {}\n{}\n{}\n{}\n{}\n{}'.format(
            d['dosingRoute'], d['agent'], d['purity'], d['vehicle'],
            d['wrd_doses'], d['dosingRegimen'], d['wrd_nStarts'],
            d['wrd_nSurvivings'],
@@ -48,7 +48,7 @@ class AnimalHtmlTables(DOCXReport):
         irows = rows
         for ep in d['results']:
 
-            txt = u'{}: {}'.format(ep['tumourSite'], ep['histology'])
+            txt = '{}: {}'.format(ep['tumourSite'], ep['histology'])
             runs = [tbl.new_run(txt, b=True, newline=False)]
             tbl.new_td_run(irows, 2, runs, colspan=2)
             irows += 1
@@ -107,7 +107,7 @@ class AnimalHtmlTables(DOCXReport):
 
         self.setLandscape()
 
-        txt = u'{} {}: Animal evidence'.format(
+        txt = '{} {}: Animal evidence'.format(
             d['table']['volumeNumber'],
             d['table']['monographAgent'],
         )

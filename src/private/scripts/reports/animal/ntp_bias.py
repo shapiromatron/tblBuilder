@@ -12,7 +12,7 @@ class NtpAnimalBias(DOCXReport):
 
     def add_rr_row(self, tbl, row, header, rating, rationale):
         tbl.new_td_txt(row, 0, header)
-        tbl.new_td_txt(row, 1, u'{}\n{}'.format(rating, rationale))
+        tbl.new_td_txt(row, 1, '{}\n{}'.format(rating, rationale))
 
     def build_tbl(self, study):
         colWidths = (2, 4.5)
@@ -20,7 +20,7 @@ class NtpAnimalBias(DOCXReport):
                          tblStyle='ntpTbl')
 
         # Table caption
-        txt = u'Table X: {} ({} {}): {}: {}'.format(
+        txt = 'Table X: {} ({} {}): {}: {}'.format(
             study['reference']['name'],
             study['sex'],
             study['species'],
@@ -126,7 +126,7 @@ class NtpAnimalBias(DOCXReport):
         tbl.render(self.doc)
 
         # overall utility
-        txt = u' {}. {}'.format(
+        txt = ' {}. {}'.format(
             study['overallUtility'],
             study['overallUtilityRationale']
         )
@@ -140,7 +140,7 @@ class NtpAnimalBias(DOCXReport):
         doc = self.doc
         d = self.context
 
-        txt = u'{} {}: potential bias'.format(
+        txt = '{} {}: potential bias'.format(
             d['table']['volumeNumber'],
             d['table']['monographAgent'],
         )

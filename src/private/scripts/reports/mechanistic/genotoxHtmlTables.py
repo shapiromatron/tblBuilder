@@ -31,7 +31,7 @@ class GenotoxHtmlTables(GenotoxTables):
         for d in self.context['objects']:
             row += 1
 
-            txt = u'{}\n{}'.format(
+            txt = '{}\n{}'.format(
                 d['reference']['name'],
                 d['dataClass']
             )

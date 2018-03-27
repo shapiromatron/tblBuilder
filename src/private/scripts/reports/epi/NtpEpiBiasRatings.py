@@ -38,10 +38,10 @@ class NtpEpiBiasRatings(DOCXReport):
             tbl.new_td_txt(r, 2, d['exposureAssessmentRating'])
             tbl.new_td_txt(r, 3, d['outcomeAssessmentRating'])
             confounders = [
-                u'{}: {}'.format(conf['organSiteCategory'], conf['confoundingRating'])
+                '{}: {}'.format(conf['organSiteCategory'], conf['confoundingRating'])
                 for conf in d['confounders']
             ]
-            tbl.new_td_txt(r, 4, u'\n'.join(confounders))
+            tbl.new_td_txt(r, 4, '\n'.join(confounders))
             tbl.new_td_txt(r, 5, d['analysisRating'])
             tbl.new_td_txt(r, 6, d['selectiveReportingRating'])
             tbl.new_td_txt(r, 7, d['sensitivityRating'])
@@ -53,7 +53,7 @@ class NtpEpiBiasRatings(DOCXReport):
         doc = self.doc
         d = self.context
 
-        txt = u'{} {}: bias rating tables'.format(
+        txt = '{} {}: bias rating tables'.format(
             d['tables'][0]['volumeNumber'],
             d['tables'][0]['monographAgent'],
         )
