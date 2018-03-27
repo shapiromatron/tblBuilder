@@ -17,7 +17,7 @@
     "d3": "^3.5.17",
     "filesaver.js": "^0.2.0",
     "meteor-node-stubs": "^0.2.6",
-    "python-shell": "^0.4.0",
+    "python-shell": "^0.5.0",
     "underscore": "^1.8.3",
     "xlsx-style": "^0.8.13"
   },
