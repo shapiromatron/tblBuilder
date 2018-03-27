@@ -1,7 +1,7 @@
 from io import BytesIO
 import json
 import os
-import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 import six
 import sys
 
@@ -81,11 +81,7 @@ def _populate_workbook(wb, root_url, data):
     ws.write(0, 1, 'Filename')
     ws.write(0, 2, 'URL')
 
-    # python2/3 shim
-    try:
-        parser = urllib.parse.quote
-    except AttributeError:
-        parser = urllib.parse.quote
+    parser = urllib.parse.quote
 
     # write data rows
     row = 0

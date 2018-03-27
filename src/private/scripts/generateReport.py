@@ -21,6 +21,7 @@ The output file will return via:
 import os
 import sys
 import json
+import base64
 
 import reports
 
@@ -56,7 +57,7 @@ def run_from_stdin():
         report_type = payload.get("report_type")
         context = payload.get("context")
         docx = generate_report(ROOT_PATH, report_type, context)
-        b64 = docx.read().encode('base64')
+        b64 = base64.encodestring(docx.read()).decode('utf-8')
         print((json.dumps({"report": b64})))
 
 

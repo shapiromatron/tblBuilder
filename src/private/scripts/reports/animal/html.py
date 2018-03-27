@@ -90,7 +90,8 @@ class AnimalHtmlTables(DOCXReport):
 
         # write header
         tbl.new_th(0, 0, 'Study design\nSpecies, strain (sex)\nAge at start\nDuration\nReference')
-        tbl.new_th(0, 1, 'Route\nAgent tested, purity\nVehicle\nDose(s)\n# animals at start\n# surviving animals')
+        tbl.new_th(0, 1, 'Route\nAgent tested, purity\nVehicle\nDose(s)\n'
+                         '# animals at start\n# surviving animals')
         tbl.new_th(0, 2, 'Results')
         tbl.new_th(0, 3, 'Significance')
         tbl.new_th(0, 4, 'Comments')
