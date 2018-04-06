@@ -1,2 +1,2 @@
-from exposureTables import *  # noqa
-from exposureHtmlTable import *  # noqa
+from .exposureTables import *  # noqa
+from .exposureHtmlTable import *  # noqa

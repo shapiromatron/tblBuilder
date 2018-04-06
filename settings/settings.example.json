@@ -2,11 +2,11 @@
     "mail_url": "smtp://domain:username%password@mailserver.com:587",
     "superuser_email": "superuser@gmail.com",
     "scripts_path": "/repo/path/src/private/scripts",
-    "python_path": "/path/to/python2.7",
+    "python_path": "/path/to/python3",
     "from_email": "nobody@table-builder.com",
     "public": {
         "contact_email": "nobody@table-builder.com",
-        "context": "ntp", // ["ntp", "iarc", or "demo"]
+        "context": "ntp",
         "debug": false,
         "ga": {
           "account": "UA-1234567-8",

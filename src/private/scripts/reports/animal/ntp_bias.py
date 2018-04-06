@@ -1,3 +1,4 @@
+from textwrap import dedent
 from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
 
@@ -12,7 +13,9 @@ class NtpAnimalBias(DOCXReport):
 
     def add_rr_row(self, tbl, row, header, rating, rationale):
         tbl.new_td_txt(row, 0, header)
-        tbl.new_td_txt(row, 1, u'{}\n{}'.format(rating, rationale))
+        tbl.new_td_txt(row, 1, dedent(f'''\
+            {rating}
+            {rationale}'''))
 
     def build_tbl(self, study):
         colWidths = (2, 4.5)
@@ -20,13 +23,8 @@ class NtpAnimalBias(DOCXReport):
                          tblStyle='ntpTbl')
 
         # Table caption
-        txt = u'Table X: {} ({} {}): {}: {}'.format(
-            study['reference']['name'],
-            study['sex'],
-            study['species'],
-            study['agent'],
-            study['dosingRoute'],
-        )
+        txt = (f'Table X: {study["reference"]["name"]} ({study["sex"]} '
+               f'{study["species"]}): {study["agent"]}: {study["dosingRoute"]}')
         self.doc.add_heading(txt, level=2)
 
         # write header
@@ -126,10 +124,7 @@ class NtpAnimalBias(DOCXReport):
         tbl.render(self.doc)
 
         # overall utility
-        txt = u' {}. {}'.format(
-            study['overallUtility'],
-            study['overallUtilityRationale']
-        )
+        txt = f' {study["overallUtility"]}. {study["overallUtilityRationale"]}'
         p = self.doc.add_paragraph('')
         p.add_run('Overall utility: ').bold = True
         p.add_run(txt)
@@ -140,10 +135,7 @@ class NtpAnimalBias(DOCXReport):
         doc = self.doc
         d = self.context
 
-        txt = u'{} {}: potential bias'.format(
-            d['table']['volumeNumber'],
-            d['table']['monographAgent'],
-        )
+        txt = f'{d["table"]["volumeNumber"]} {d["table"]["monographAgent"]}: potential bias'
         doc.add_heading(txt, level=1)
         doc.add_paragraph(d['table']['name'])
 

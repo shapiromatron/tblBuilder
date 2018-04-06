@@ -61,9 +61,8 @@ class EpiExposureAssessmentTables(DOCXReport):
         self.setLandscape()
 
         # title
-        txt = '{} {}: Exposure assessment in key epidemiologic studies'.format(
-            d['tables'][0]['volumeNumber'],
-            d['tables'][0]['monographAgent'])
+        txt = (f'{d["tables"][0]["volumeNumber"]} {d["tables"][0]["monographAgent"]}:'
+               ' Exposure assessment in key epidemiologic studies')
         p = doc.paragraphs[0]
         p.text = txt
         p.style = 'Title'

@@ -1,4 +1,6 @@
 import re
+from textwrap import dedent
+
 from docxUtils.reports import DOCXReport
 from docxUtils.tables import TableMaker
 
@@ -20,8 +22,7 @@ class NtpEpiBiasTables(DOCXReport):
         # write header
         tbl.new_th(0, 0, 'Reference')
         for i, bias in enumerate(biasNames):
-            tbl.new_th(0, i + 1, u'{} rating'.format(
-                self.convertCamelCase(bias)))
+            tbl.new_th(0, i + 1, f'{self.convertCamelCase(bias)} rating')
 
         docx_tbl = tbl.render(self.doc)
 
@@ -42,20 +43,22 @@ class NtpEpiBiasTables(DOCXReport):
                 rowspan = len(d['confounders'])
                 for i, cf in enumerate(d['confounders']):
                     fields = d['biasFields'][bias[0]]
-                    txt = u'{}: {} {}\n{}'.format(
-                        cf[fields[0]], cf[fields[1]],
-                        cf[fields[2]], cf[fields[3]])
+                    txt = dedent(f'''\
+                        {cf[fields[0]]}: {cf[fields[1]]} {cf[fields[2]]}
+                        {cf[fields[3]]}''')
                     tbl.new_td_txt(i, 1, txt, colspan=2)
             else:
                 fields = d['biasFields'][bias[0]]
-                txt = u'{} {}\n{}'.format(
-                    d[fields[0]], d[fields[1]], d[fields[2]])
+                txt = dedent(f'''\
+                    {d[fields[0]]} {d[fields[1]]}
+                    {d[fields[2]]}''')
                 tbl.new_td_txt(row, 1, txt, colspan=2)
         else:
             for i, b in enumerate(bias):
                 fields = d['biasFields'][b]
-                txt = u'{} {}\n{}'.format(
-                    d[fields[0]], d[fields[1]], d[fields[2]])
+                txt = dedent(f'''\
+                    {d[fields[0]]} {d[fields[1]]}
+                    {d[fields[2]]}''')
                 tbl.new_td_txt(row, i + 1, txt)
 
         tbl.new_td_txt(row, 0, d['reference']['name'], rowspan=rowspan)
@@ -66,10 +69,7 @@ class NtpEpiBiasTables(DOCXReport):
         doc = self.doc
         d = self.context
 
-        txt = u'{} {}: potential bias'.format(
-            d['tables'][0]['volumeNumber'],
-            d['tables'][0]['monographAgent'],
-        )
+        txt = f'{d["tables"][0]["volumeNumber"]} {d["tables"][0]["monographAgent"]}: potential bias'
         doc.add_heading(txt, level=1)
         doc.add_paragraph(d['tables'][0]['name'])
 

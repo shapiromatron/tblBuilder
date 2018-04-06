@@ -82,7 +82,7 @@ var instanceMethods = {
                 txt = `${d.speciesMamm}<br>${d.tissueCellLine}`;
                 break;
             case 'Animal in vivo':
-                txt = `${d.species}&nbsp${d.strain}&nbsp${d.sex}<br>${d.tissueAnimal}`;
+                txt = `${d.species}&nbsp;${d.strain}&nbsp;${d.sex}<br>${d.tissueAnimal}`;
                 break;
             case 'Human in vivo':
                 txt = `${d.tissueHuman}, ${d.cellType}<br>${d.exposureDescription}`;

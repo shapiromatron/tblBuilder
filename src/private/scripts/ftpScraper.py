@@ -1,7 +1,7 @@
 from io import BytesIO
 import json
 import os
-import urllib
+import urllib.parse
 import six
 import sys
 
@@ -69,23 +69,18 @@ def _get_ftp_data(data):
 
 
 def _get_root_url(data):
-    return u'ftp://{}:{}@{}'.format(
-        data['user'], data['password'], data['address'])
+    return f'ftp://{data["user"]}:{data["password"]}@{data["address"]}'
 
 
 def _populate_workbook(wb, root_url, data):
     ws = wb.add_worksheet()
 
     # write header rows
-    ws.write(0, 0, u'Folder')
-    ws.write(0, 1, u'Filename')
-    ws.write(0, 2, u'URL')
+    ws.write(0, 0, 'Folder')
+    ws.write(0, 1, 'Filename')
+    ws.write(0, 2, 'URL')
 
-    # python2/3 shim
-    try:
-        parser = urllib.quote
-    except AttributeError:
-        parser = urllib.parse.quote
+    parser = urllib.parse.quote
 
     # write data rows
     row = 0
@@ -101,7 +96,7 @@ def _populate_workbook(wb, root_url, data):
     # setup header and autofilter
     bold = wb.add_format({'bold': True})
     ws.set_row(0, None, bold)
-    ws.autofilter('A1:C{}'.format(row + 1))
+    ws.autofilter(f'A1:C{row + 1}')
 
     # set widths
     ws.set_column('A:A', 30)

@@ -1,5 +1,5 @@
-FROM node:8.9.3
 # node version dependent on meteor version
+FROM node:8.9.4
 
 # (even if copied as root you still need to change)
 # https://github.com/moby/moby/issues/6119
@@ -9,18 +9,31 @@ COPY ./settings/settings.json /app/settings.json
 COPY ./requirements.txt /requirements.txt
 COPY ./r_requirements.sh /r_requirements.sh
 
-# 1) add the R apt-source
-# 2) install python and R
-# 3) create paths and users
-# 4) change executable permissions
-RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> /etc/apt/sources.list' && \
-    apt-key adv --keyserver hkp://keys.gnupg.net:80 --recv-key 6212B7B7931C4BB16280BA1306F90DE5381BA480 && \
+# add rstudio debian install for R (requires version >3.3)
+# https://cran.r-project.org/bin/linux/debian/
+# install R from apt-get
+# install python 3.6 from source :/
+RUN \
+    sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> /etc/apt/sources.list' && \
+    apt-key adv --keyserver keys.gnupg.net --recv-key '6212B7B7931C4BB16280BA1306F90DE5381BA480' && \
     \
     apt-get update && \
-    apt-get install -y python python-dev python-pip r-base r-base-dev bsdtar && \
+    apt-get install -y wget bsdtar r-base r-base-dev && \
     apt-get clean && \
     \
-    npm install forever -g && \
+    wget https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tgz && \
+    tar zxf Python-3.6.5.tgz && \
+    cd ./Python-3.6.5 && \
+    ./configure && \
+    make && \
+    make altinstall && \
+    cd .. && \
+    rm Python-3.6.5.tgz && \
+    rm -rf ./Python-3.6.5
+
+# create paths and users
+# change executable permissions
+RUN npm install forever -g && \
     \
     mkdir -p /app/production && \
     mkdir -p /app/logs && \
@@ -46,7 +59,7 @@ RUN export "R_LIBS=/home/app/R_libs" && \
     mkdir /home/app/R_libs && \
     bash /r_requirements.sh && \
     \
-    pip install --user -r /requirements.txt
+    /usr/local/bin/pip3.6 install --user -r /requirements.txt
 
 USER root
 COPY ./compose/meteor/src/src.tar.gz /app/src.tar.gz
