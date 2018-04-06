@@ -28,7 +28,7 @@ class EpiResultTables(DOCXReport):
         if res['descriptive']['isCaseControl']:
             popD = tbl.new_run(dedent(f'''\
                 {res["descriptive"].get("eligibilityCriteria", "")}
-                Cases: {res["descriptive"].get("populationSizeCase", "")};\
+                Cases: {res["descriptive"].get("populationSizeCase", "")}
                 Controls: {res["descriptive"].get("populationSizeControl", "")}'''))
         else:
             popD = tbl.new_run(dedent(f'''\

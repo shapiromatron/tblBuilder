@@ -123,4 +123,4 @@ def _generate_xlsx(data):
 if __name__ == "__main__":
     for data in sys.stdin:
         b64 = _generate_xlsx(json.loads(data))
-        print((json.dumps({'xlsx': b64})))
+        print(json.dumps({'xlsx': b64}))
