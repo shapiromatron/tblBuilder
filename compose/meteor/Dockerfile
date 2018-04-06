@@ -12,7 +12,7 @@ COPY ./r_requirements.sh /r_requirements.sh
 # set locale to utf8: https://github.com/docker-library/docs/pull/703/files
 RUN \
     sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> /etc/apt/sources.list' && \
-    apt-key adv --keyserver keys.gnupg.net --recv-key '6212B7B7931C4BB16280BA1306F90DE5381BA480' && \
+    apt-key adv --keyserver keys.gnupg.net:80 --recv-key '6212B7B7931C4BB16280BA1306F90DE5381BA480' && \
     \
     apt-get update && \
     apt-get install -y locales && \
