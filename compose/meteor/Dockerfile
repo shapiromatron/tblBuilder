@@ -1,5 +1,5 @@
 # node version dependent on meteor version
-FROM node:8.9.3
+FROM node:8.9.4
 
 # (even if copied as root you still need to change)
 # https://github.com/moby/moby/issues/6119
