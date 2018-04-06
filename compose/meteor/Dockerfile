@@ -9,16 +9,27 @@ COPY ./settings/settings.json /app/settings.json
 COPY ./requirements.txt /requirements.txt
 COPY ./r_requirements.sh /r_requirements.sh
 
-# add rstudio debian install for R (requires version >3.3)
-# https://cran.r-project.org/bin/linux/debian/
-# install R from apt-get
-# install python 3.6 from source :/
+# set locale to utf8: https://github.com/docker-library/docs/pull/703/files
 RUN \
     sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> /etc/apt/sources.list' && \
     apt-key adv --keyserver keys.gnupg.net --recv-key '6212B7B7931C4BB16280BA1306F90DE5381BA480' && \
     \
     apt-get update && \
-    apt-get install -y wget bsdtar r-base r-base-dev && \
+    apt-get install -y locales && \
+    \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
+    export LC_ALL=en_US.UTF-8 && \
+    export LANG=en_US.UTF-8 && \
+    export LANGUAGE=en_US.UTF-8
+
+ENV LANG en_US.utf8
+ENV LC_ALL en_US.UTF-8
+
+# add rstudio debian install for R (requires version >3.3)
+# https://cran.r-project.org/bin/linux/debian/
+# install R from apt-get
+# install python 3.6 from source :/
+RUN apt-get install -y wget bsdtar r-base r-base-dev && \
     apt-get clean && \
     \
     wget https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tgz && \
