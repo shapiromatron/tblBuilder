@@ -5,6 +5,7 @@ FROM node:8.9.4
 # https://github.com/moby/moby/issues/6119
 COPY ./compose/meteor/entrypoint.sh /entrypoint.sh
 COPY ./compose/meteor/run_app.sh /run_app.sh
+COPY ./compose/meteor/r-cran.pgp /r-cran.pgp
 COPY ./settings/settings.json /app/settings.json
 COPY ./requirements.txt /requirements.txt
 COPY ./r_requirements.sh /r_requirements.sh
@@ -12,7 +13,7 @@ COPY ./r_requirements.sh /r_requirements.sh
 # set locale to utf8: https://github.com/docker-library/docs/pull/703/files
 RUN \
     sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> /etc/apt/sources.list' && \
-    apt-key adv --keyserver keys.gnupg.net:80 --recv-key '6212B7B7931C4BB16280BA1306F90DE5381BA480' && \
+    apt-key add /r-cran.pgp && \
     \
     apt-get update && \
     apt-get install -y locales && \
