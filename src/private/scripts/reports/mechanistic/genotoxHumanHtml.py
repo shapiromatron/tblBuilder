@@ -19,43 +19,56 @@ class GenotoxHumanHtml(DOCXReport):
         doc.add_paragraph(d['table']['name'])
 
     def buildTable(self):
-        colWidths = [1, 1, 1, 1, 1, 1, 1]
+        colWidths = [1, 1, 1, 1, 1, 1, 1, 1, 1]
         tbl = TableMaker(colWidths, numHeaders=1,
                          tblStyle='ntpTbl', firstRowCaption=False)
 
         # write header
         tbl.new_th(0, 0, 'Reference')
-        tbl.new_th(0, 1, '-')
-        tbl.new_th(0, 2, '-')
-        tbl.new_th(0, 3, '-')
-        tbl.new_th(0, 4, '-')
-        tbl.new_th(0, 5, '-')
-        tbl.new_th(0, 6, '-')
+        tbl.new_th(0, 1, 'Number of subjects')
+        tbl.new_th(0, 2, 'Mean or median exposure level,\nunits')
+        tbl.new_th(0, 3, 'Range of exposure level,\nunits')
+        tbl.new_th(0, 4, 'Endpoint')
+        tbl.new_th(0, 5, 'Result')
+        tbl.new_th(0, 6, 'Significance')
+        tbl.new_th(0, 7, 'Covariates controlled')
+        tbl.new_th(0, 8, 'Comments')
 
-        row = 0
-        for d in self.context['objects']:
-            row += 1
+        row = 1
+        for ref in self.context['objects']:
 
-            txt = d['reference']['name']
+            txt = ref['reference']['name']
             tbl.new_td_txt(row, 0, txt)
 
-            txt = '-'
-            tbl.new_td_txt(row, 1, txt)
+            for result in ref['results']:
 
-            txt = '-'
-            tbl.new_td_txt(row, 2, txt)
+                txt = result.get('numberSubjects', '')
+                tbl.new_td_txt(row, 1, txt)
 
-            txt = '-'
-            tbl.new_td_txt(row, 3, txt)
+                units = result.get('units', '')
 
-            txt = '-'
-            tbl.new_td_txt(row, 4, txt)
+                txt = f"{result.get('exposureLevel', '')}\n{units}"
+                tbl.new_td_txt(row, 2, txt)
 
-            txt = '-'
-            tbl.new_td_txt(row, 5, txt)
+                txt = f"{result.get('exposureLevelRange', '')}\n{units}"
+                tbl.new_td_txt(row, 3, txt)
 
-            txt = '-'
-            tbl.new_td_txt(row, 6, txt)
+                txt = result.get('endpoint', '')
+                tbl.new_td_txt(row, 4, txt)
+
+                txt = result.get('result', '')
+                tbl.new_td_txt(row, 5, txt)
+
+                txt = result.get('significance', '')
+                tbl.new_td_txt(row, 6, txt)
+
+                txt = result.get('covariates', '')
+                tbl.new_td_txt(row, 7, txt)
+
+                txt = result.get('notes', '')
+                tbl.new_td_txt(row, 8, txt)
+
+                row += 1
 
         tbl.render(self.doc)
 
