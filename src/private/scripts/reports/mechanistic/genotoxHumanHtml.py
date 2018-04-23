@@ -37,15 +37,17 @@ class GenotoxHumanHtml(DOCXReport):
         row = 1
         for ref in self.context['objects']:
 
-            txt = f"{ref['reference']['name']},\n{ref['agent']}"
-            tbl.new_td_txt(row, 0, txt)
+            rowspan = len(ref['results'])
 
-            txt = f"{ref['location']},\n{ref['collectionDate']}"
-            tbl.new_td_txt(row, 1, txt)
+            txt = f"{ref['reference']['name']}\n{ref['agent']}"
+            tbl.new_td_txt(row, 0, txt, rowspan=rowspan)
+
+            txt = f"{ref['location']}\n{ref['collectionDate']}"
+            tbl.new_td_txt(row, 1, txt, rowspan=rowspan)
 
             for result in ref['results']:
 
-                txt = f"{result['exposureSetting']},\n{result['exposureScenario']}"
+                txt = f"{result['exposureSetting']}\n{result['exposureScenario']}"
                 tbl.new_td_txt(row, 2, txt)
 
                 txt = result['samplingMatrix']
@@ -54,7 +56,7 @@ class GenotoxHumanHtml(DOCXReport):
                 txt = result['numberSubjects']
                 tbl.new_td_txt(row, 4, txt)
 
-                txt = f"{result['exposureLevel']},\n{result['exposureLevelRange']},\n{result['units']}"
+                txt = f"{result['exposureLevel']}\n{result['exposureLevelRange']}\n{result['units']}"
                 tbl.new_td_txt(row, 5, txt)
 
                 txt = f"{result['endpoint']}\n{result['significancePrint']}"
