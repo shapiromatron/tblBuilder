@@ -9,42 +9,10 @@ import GenotoxHumanExposureResult from '/imports/collections/genotoxHumanExposur
 import collSorts from '../sorts';
 import { attachTableSchema } from '../schemas';
 
-import {
-    htmlToDocx,
-} from '/imports/api/utilities';
-
 import schema_extension from './schema';
 
 
-var instanceMethods = {
-        setWordFields: function() {
-            var ext = {
-                wrd_comments: this.comments || '',
-                col2: htmlToDocx(this.getHtmlCol2()),
-                col3: htmlToDocx(this.getHtmlCol3()),
-                col4: htmlToDocx(this.getHtmlCol4()),
-                col5: htmlToDocx(this.getHtmlCol5()),
-                col6: htmlToDocx(this.getHtmlCol6()),
-                col7: htmlToDocx(this.getHtmlCol7()),
-                wrd_resultA: this.result,
-                wrd_resultB: 'NA',
-            };
-
-            _.extend(this, ext);
-        },
-
-        getHtmlCol2: function() {
-            return this.cellType;
-        },
-        getHtmlCol5: function() {
-            return 'NA';
-        },
-        getHtmlCol6: function() {
-            return this.agent;
-        },
-        getHtmlCol7: function() {
-            return this.comments || '';
-        },
+let instanceMethods = {
         getReference: function(){
             if (_.isUndefined(this.reference)){
                 this.reference = Reference.findOne(this.referenceID);
@@ -57,6 +25,11 @@ var instanceMethods = {
                         .find({parent_id: this._id}, {sort: {sortIdx: 1}})
                         .fetch();
             }
+
+            this.results.forEach(d => {
+                d.getSignificancePrint();
+            });
+
             return this.results;
         },
     },
@@ -122,6 +95,30 @@ var instanceMethods = {
         },
         sortFields: {
             'Reference': collSorts.sortByReference,
+        },
+        wordReportFormats: [
+            {
+                'type': 'GenotoxHumanHtml',
+                'fn': 'genotoxicity',
+                'text': 'Download Word',
+            },
+        ],
+        wordContext: function(tbl_id){
+            var tbl = Tables.findOne(tbl_id),
+                rows = GenotoxHumanExposureEvidence.find(
+                    {tbl_id: tbl_id, isHidden: false},
+                    {sort: {sortIdx: 1}}
+                ).fetch();
+
+            rows.forEach((d) => {
+                d.getReference();
+                d.getResults();
+            });
+
+            return {
+                table: tbl,
+                objects: rows,
+            };
         },
     },
     GenotoxHumanExposureEvidence = new Meteor.Collection('genotoxHumanExposureEvidence', {
