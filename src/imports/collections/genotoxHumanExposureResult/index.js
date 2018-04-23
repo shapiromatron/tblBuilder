@@ -12,6 +12,14 @@ import {
 
 
 var instanceMethods = {
+        getSignificancePrint(){
+            // print value in parenthesis if 0.0001 type pattern, else nothing
+            if (_.isUndefined(this.significancePrint)){
+                this.significancePrint = (this.significance && /(0\.\d+)+/.test(this.significance))?
+                    `(${this.significance})`: '';
+            }
+            return this.significancePrint;
+        },
     },
     classMethods = {
         preSaveHook: function(){},

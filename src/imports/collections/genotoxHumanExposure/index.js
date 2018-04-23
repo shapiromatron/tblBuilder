@@ -25,6 +25,11 @@ let instanceMethods = {
                         .find({parent_id: this._id}, {sort: {sortIdx: 1}})
                         .fetch();
             }
+
+            this.results.forEach(d => {
+                d.getSignificancePrint();
+            });
+
             return this.results;
         },
     },

@@ -57,7 +57,7 @@ class GenotoxHumanHtml(DOCXReport):
                 txt = f"{result['exposureLevel']},\n{result['exposureLevelRange']},\n{result['units']}"
                 tbl.new_td_txt(row, 5, txt)
 
-                txt = f"{result['endpoint']},\n{result['significance']}"
+                txt = f"{result['endpoint']}\n{result['significancePrint']}"
                 tbl.new_td_txt(row, 6, txt)
 
                 txt = result['result']
