@@ -135,7 +135,7 @@ class NtpEpiResultTables(DOCXReport):
             tbl.new_run('Additional results:', b=True),
             tbl.new_run(additional_results),
             tbl.new_run('Confidence in evidence:', b=True),
-            tbl.new_run(desc['confidenceInEvidence'], newline=False),
+            tbl.new_run(to_string(desc, 'confidenceInEvidence'), newline=False),
         ])
         tbl.new_td_run(row, 5, runs, rowspan=rowspan)
 
