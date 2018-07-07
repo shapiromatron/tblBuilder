@@ -10,7 +10,7 @@ import xlsxwriter
 
 
 # from https://docs.djangoproject.com/en/1.10/_modules/django/utils/encoding/
-def smart_text(s, encoding='utf-8', strings_only=False, errors='strict'):
+def smart_text(s, encoding="utf-8", strings_only=False, errors="strict"):
     """
     Returns a text object representing 's' -- unicode on Python 2 and str on
     Python 3. Treats bytestrings using the 'encoding' codec.
@@ -21,7 +21,7 @@ def smart_text(s, encoding='utf-8', strings_only=False, errors='strict'):
 
 
 # from https://docs.djangoproject.com/en/1.10/_modules/django/utils/encoding/
-def force_text(s, encoding='utf-8', strings_only=False, errors='strict'):
+def force_text(s, encoding="utf-8", strings_only=False, errors="strict"):
     """
     Similar to smart_text, except that lazy instances are resolved to
     strings, rather than kept as lazy objects.
@@ -38,7 +38,7 @@ def force_text(s, encoding='utf-8', strings_only=False, errors='strict'):
                     s = six.text_type(s, encoding, errors)
                 else:
                     s = six.text_type(s)
-            elif hasattr(s, '__unicode__'):
+            elif hasattr(s, "__unicode__"):
                 s = six.text_type(s)
             else:
                 s = six.text_type(bytes(s), encoding, errors)
@@ -53,16 +53,16 @@ def force_text(s, encoding='utf-8', strings_only=False, errors='strict'):
         # working unicode method. Try to handle this without raising a
         # further exception by individually forcing the exception args
         # to unicode.
-        s = ' '.join(force_text(arg, encoding, strings_only, errors)
-                     for arg in s)
+        s = " ".join(force_text(arg, encoding, strings_only, errors) for arg in s)
     return s
 
 
 def _get_ftp_data(data):
     outputs = []
     conn = FTPHost.connect(
-        data['address'], user=data['user'], password=data['password'])
-    for (dirname, subdirs, files) in conn.walk(data.get('path', '/')):
+        data["address"], user=data["user"], password=data["password"]
+    )
+    for (dirname, subdirs, files) in conn.walk(data.get("path", "/")):
         outputs.append((dirname, files))
     conn.try_quit()
     return outputs
@@ -76,9 +76,9 @@ def _populate_workbook(wb, root_url, data):
     ws = wb.add_worksheet()
 
     # write header rows
-    ws.write(0, 0, 'Folder')
-    ws.write(0, 1, 'Filename')
-    ws.write(0, 2, 'URL')
+    ws.write(0, 0, "Folder")
+    ws.write(0, 1, "Filename")
+    ws.write(0, 2, "URL")
 
     parser = urllib.parse.quote
 
@@ -87,27 +87,29 @@ def _populate_workbook(wb, root_url, data):
     for path, files in data:
         for fn in files:
             row += 1
-            path_url = parser(os.path.join(path.decode('utf8'), fn.decode('utf8')).encode('utf8'))
+            path_url = parser(
+                os.path.join(path.decode("utf8"), fn.decode("utf8")).encode("utf8")
+            )
             url = root_url + path_url
             ws.write(row, 0, smart_text(path))
             ws.write(row, 1, smart_text(fn))
             ws.write(row, 2, smart_text(url))
 
     # setup header and autofilter
-    bold = wb.add_format({'bold': True})
+    bold = wb.add_format({"bold": True})
     ws.set_row(0, None, bold)
-    ws.autofilter(f'A1:C{row + 1}')
+    ws.autofilter(f"A1:C{row + 1}")
 
     # set widths
-    ws.set_column('A:A', 30)
-    ws.set_column('B:B', 65)
-    ws.set_column('C:C', 100)
+    ws.set_column("A:A", 30)
+    ws.set_column("B:B", 65)
+    ws.set_column("C:C", 100)
 
 
 def _generate_xlsx(data):
     # create workbook
     output = BytesIO()
-    wb = xlsxwriter.Workbook(output, {'constant_memory': True})
+    wb = xlsxwriter.Workbook(output, {"constant_memory": True})
 
     # add stuff to workbook
     ftp_data = _get_ftp_data(data)
@@ -117,10 +119,10 @@ def _generate_xlsx(data):
     # return base64 encoded workbook
     wb.close()
     output.seek(0)
-    return output.read().encode('base64')
+    return output.read().encode("base64")
 
 
 if __name__ == "__main__":
     for data in sys.stdin:
         b64 = _generate_xlsx(json.loads(data))
-        print(json.dumps({'xlsx': b64}))
+        print(json.dumps({"xlsx": b64}))

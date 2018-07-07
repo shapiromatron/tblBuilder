@@ -42,18 +42,26 @@ def generate_report(root_path, report_type, context):
 
 def run_command_line(report_type, fn):
     fn = os.path.expanduser(fn)
-    outfn = fn + '.docx'
-    with open(fn, 'r') as f:
+    outfn = fn + ".docx"
+    with open(fn, "r") as f:
         context = json.loads(f.read())
-    sys.stdout.write(dedent(f'''\
+    sys.stdout.write(
+        dedent(
+            f"""\
         Generating report {report_type}
-        '''))
+        """
+        )
+    )
     docx = generate_report(ROOT_PATH, report_type, context)
-    with open(outfn, 'wb') as f:
+    with open(outfn, "wb") as f:
         f.write(docx.getvalue())
-    sys.stdout.write(dedent(f'''\
+    sys.stdout.write(
+        dedent(
+            f"""\
         Writing output to {report_type}
-        '''))
+        """
+        )
+    )
 
 
 def run_from_stdin():
@@ -62,14 +70,14 @@ def run_from_stdin():
         report_type = payload.get("report_type")
         context = payload.get("context")
         docx = generate_report(ROOT_PATH, report_type, context)
-        b64 = base64.encodestring(docx.read()).decode('utf-8')
+        b64 = base64.encodestring(docx.read()).decode("utf-8")
         print(json.dumps({"report": b64}))
 
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         if len(sys.argv) != 3:
-            raise ValueError('2 inputs required: 1) class and 2) JSON path')
+            raise ValueError("2 inputs required: 1) class and 2) JSON path")
         run_command_line(sys.argv[1], sys.argv[2])
     else:
         run_from_stdin()
