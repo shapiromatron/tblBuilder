@@ -19,7 +19,7 @@
     "filesaver.js": "^0.2.0",
     "meteor-node-stubs": "^0.2.11",
     "python-shell": "^0.5.0",
-    "underscore": "^1.8.3",
+    "underscore": "^1.9.1",
     "xlsx-style": "^0.8.13"
   },
   "author": "Andy Shapiro",
