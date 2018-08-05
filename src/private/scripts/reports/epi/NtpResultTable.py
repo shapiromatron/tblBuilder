@@ -49,11 +49,11 @@ class NtpEpiResultTables(DOCXReport):
                 f'Cases: {desc.get("populationSizeCases", "")};'
                 f' Controls: {desc.get("populationSizeControls", "")}'
             )
-            populationEligibility = desc.get("populationEligibility")
-            if populationEligibility is not None:
+            descriptors = desc.get("otherPopulationDescriptors")
+            if descriptors is not None:
                 txt = dedent(
                     f"""\
-                    {populationEligibility}
+                    {descriptors}
                     {txt}"""
                 )
             popD = tbl.new_run(txt)
@@ -61,7 +61,7 @@ class NtpEpiResultTables(DOCXReport):
             popD = tbl.new_run(
                 dedent(
                     f"""\
-                {desc.get("populationEligibility", "")}
+                {desc.get("otherPopulationDescriptors", "")}
                 {desc.get("cohortPopulationSize", "")}"""
                 )
             )
