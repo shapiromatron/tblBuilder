@@ -38,6 +38,7 @@ class AnimalHtmlTables(DOCXReport):
             tbl.new_run(d["studyDesign"], b=True),
             tbl.new_run(d["species"], b=True, newline=False),
             tbl.new_run(f', {d["strain"]} {d["sex"]}'),
+            tbl.new_run(d["ageAtStart"]),
             tbl.new_run(d["duration"]),
             tbl.new_run(d["reference"]["name"], newline=False),
         ]
