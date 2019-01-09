@@ -25,6 +25,17 @@
   </div>
 </template>
 
+<template name='paperDetails'>
+<p>
+  <b>Want more details? Read our paper:</b>
+</p>
+<p style="padding-left: 5rem;">
+  Shapiro AJ, Antoni S, Guyton KZ, Lunn RM, Loomis D, Rusyn I, Jahnke GD, Schwingl PJ, Mehta SS, Addington J, Guha N.
+  Software Tools to Facilitate Systematic Review Used for Cancer Hazard Identification. Environ Health Perspect. 2018
+  Oct;126(10):104501. DOI: <a href="https://doi.org/10.1289/EHP4224">10.1289/EHP4224</a>
+</p>
+</template>
+
 <template name='iarcIntro'>
   <div class="col-md-offset-1 col-md-7">
     <h1>Welcome to IARC table builder!</h1>
@@ -34,6 +45,7 @@
     <p>
         This web-application is designed to assist the interdisciplinary working group in writing the monographs. Specifically, as the name suggests, it's primary goal is to produce evidence tables from peer-reviewed literature. However, in addition to generating summary tables for reporting, it also enables interactive exploration which can be helpful in determining how to draw conclusions on the data as monographs are being developed.
     </p>
+    {{> paperDetails}}
     <p>
         To begin, you'll need to sign-in. Without authenticating, you won't be able to view or edit any content on the site. For help, please <a href="mailto:{{contactEmail}}">contact us</a>.
     </p>
@@ -49,6 +61,7 @@
     <p>
         This web-application is designed to assist the interdisciplinary working group in writing these reports. Specifically, as the name suggests, it's primary goal is to produce evidence tables from peer-reviewed literature. However, in addition to generating summary tables for reporting, it also enables interactive exploration which can be helpful in determining how to draw conclusions on the data as reports are being developed.
     </p>
+    {{> paperDetails}}
     <p>
         To begin, you'll need to sign-in. Without authenticating, you won't be able to view or edit any content on the site. For help, please <a href="mailto:{{contactEmail}}">contact us</a>.
     </p>
@@ -71,6 +84,7 @@
     <p>
         This web-application is designed to assist the interdisciplinary working group in writing these reports. Specifically, as the name suggests, it's primary goal is to produce evidence tables from peer-reviewed literature. However, in addition to generating summary tables for reporting, it also enables interactive exploration which can be helpful in determining how to draw conclusions on the data as reports are being developed.
     </p>
+    {{> paperDetails}}
     <p>
         To begin, you'll need to sign-in. Without authenticating, you won't be able to view or edit any content on the site. For help, please <a href="mailto:{{contactEmail}}">contact us</a>.
     </p>
@@ -78,7 +92,7 @@
   <div class='col-md-5'>
     <div class='alert alert-info'>
       <p><b>This is a demo!</b></p>
-      <p>This website is a demonstration of the table-builder software; it's not designed for use on a real assessment. For more details on the website, please review Shapiro et al. 2018 <i>(submitted)</i>. If you want to use for your own work, you'll need to setup your own copy of Table Builder; we can help!</p>
+      <p>This website is a demonstration of the table-builder software; it's not designed for use on a real assessment. For more details on the website, please see <a href="https://doi.org/10.1289/EHP4224">Shapiro et al. 2018</a>. If you want to use for your own work, you'll need to setup your own copy of Table Builder; we can help!</p>
       <p><b>Data are reset on the website every 7 days.</b></p>
       <p>However, you're free to login to the software to take it for a spin. Once logged-in, you can view tables, explore data, and download reports for data which his been extracted. You could also view the data extraction forms for the various evidence types.</p>
       <br>
