@@ -12,7 +12,7 @@ Global installation requirements:
 
 1. install [meteor](http://docs.meteor.com)
 2. install [mongodb](https://docs.mongodb.com/manual/installation/)
-3. insatll [python](https://www.python.org/) 3.6 or higher
+3. install [python](https://www.python.org/) 3.6 or higher
 
 In the root directory of the application:
 
