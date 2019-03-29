@@ -11,12 +11,18 @@ COPY ./requirements.txt /requirements.txt
 COPY ./r_requirements.sh /r_requirements.sh
 
 # set locale to utf8: https://github.com/docker-library/docs/pull/703/files
+# added [check-valid-until=no] & Acquire::Check-Valid-Until "false"; https://unix.stackexchange.com/questions/508724/failed-to-fetch-jessie-backports-repository
+# Needs work to bring it up-to-date
 RUN \
-    sh -c 'echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> /etc/apt/sources.list' && \
+    echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list && \
+    sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list && \
+    apt-get -o Acquire::Check-Valid-Until=false update && \
+    \
+    sh -c 'echo "deb [check-valid-until=no] http://cran.rstudio.com/bin/linux/debian jessie-cran3/" >> /etc/apt/sources.list' && \
     apt-key add /r-cran.pgp && \
     \
-    apt-get update && \
-    apt-get install -y locales && \
+    apt-get -o Acquire::Check-Valid-Until=false update && \
+    apt-get -o Acquire::Check-Valid-Until=false install -y locales && \
     \
     localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
     export LC_ALL=en_US.UTF-8 && \
