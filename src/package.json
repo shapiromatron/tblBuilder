@@ -29,6 +29,6 @@
   },
   "homepage": "https://github.com/shapiromatron/tblBuilder#readme",
   "devDependencies": {
-    "eslint": "^3.11.1"
+    "eslint": "^8.35.0"
   }
 }
