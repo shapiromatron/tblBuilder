@@ -1,5 +1,5 @@
 ftptool==0.7.1
-lxml==4.2.1
+lxml==4.9.1
 python-docx==0.8.6
 git+https://github.com/shapiromatron/docxUtils.git@0.0.2
 rpy2==2.9.2
